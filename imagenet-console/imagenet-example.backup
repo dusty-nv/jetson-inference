@@ -1,0 +1,154 @@
+/*
+ * inference-101
+ */
+
+#include "caffeToGIE.h"
+#include "cudaMappedMemory.h"
+#include "loadImage.h"
+
+#include <sstream>
+
+
+// stuff we know about the network and the caffe input/output blobs
+static const int MAX_BATCH_SIZE = 1;
+
+const char* INPUT_BLOB_NAME  = "data";
+const char* OUTPUT_BLOB_NAME = "prob";
+
+const char* modelPath = "bvlc_googlenet.caffemodel"; 	//"bvlc_alexnet.caffemodel";
+const char* protoPath = "googlenet.prototxt";			//"alexnet.prototxt";
+
+
+// main entry point
+int main( int argc, char** argv )
+{
+	printf("imagenet-console\n  args (%i):  ", argc);
+	
+	for( int i=0; i < argc; i++ )
+		printf("%i [%s]  ", i, argv[i]);
+		
+	printf("\n\n");
+	
+	
+	// parse the caffe model and the mean file
+	std::stringstream gieModelStream;
+	gieModelStream.seekg(0, gieModelStream.beg);
+	
+	if( !caffeToGIEModel(protoPath, modelPath, std::vector< std::string > { OUTPUT_BLOB_NAME }, 
+						 MAX_BATCH_SIZE, gieModelStream) )
+	{
+		printf("failed to load %s %s\n", protoPath, modelPath);
+		return 0;
+	}
+	
+	printf(LOG_GIE "imagenet loaded\n");
+	
+	
+	// create runtime inference engine
+	nvinfer1::IRuntime* infer = createInferRuntime(gLogger);
+	
+	if( !infer )
+	{
+		printf(LOG_GIE "failed to create InferRuntime\n");
+		return 0;
+	}
+	
+	nvinfer1::ICudaEngine* engine = infer->deserializeCudaEngine(gieModelStream);
+
+	if( !engine )
+	{
+		printf(LOG_GIE "failed to create CUDA engine\n");
+		return 0;
+	}
+	
+	nvinfer1::IExecutionContext* context = engine->createExecutionContext();
+	
+	if( !context )
+	{
+		printf(LOG_GIE "failed to create execution context\n");
+		return 0;
+	}
+
+	printf(LOG_GIE "CUDA engine context initialized with %u bindings\n", engine->getNbBindings());
+	
+	
+	// locate the input/output network bindings
+	const int inputIndex  = engine->getBindingIndex(INPUT_BLOB_NAME);
+	const int outputIndex = engine->getBindingIndex(OUTPUT_BLOB_NAME);
+
+	printf(LOG_GIE "imagenet input  binding index:  %i\n", inputIndex);
+	printf(LOG_GIE "imagenet output binding index:  %i\n", outputIndex);
+	
+	const nvinfer1::Dims3 inputDims  = engine->getBindingDimensions(inputIndex);
+	const nvinfer1::Dims3 outputDims = engine->getBindingDimensions(outputIndex);
+	
+	const size_t inputSize  = inputDims.w * inputDims.h * inputDims.c * sizeof(float);
+	const size_t outputSize = outputDims.w * outputDims.h * outputDims.c * sizeof(float);
+
+	printf(LOG_GIE "imagenet input  dims (w=%u h=%u c=%u) size=%zu\n", inputDims.w, inputDims.h, inputDims.c, inputSize);
+	printf(LOG_GIE "imagenet output dims (w=%u h=%u c=%u) size=%zu\n", outputDims.w, outputDims.h, outputDims.c, outputSize);
+	
+	
+	// load image from file on disk
+	float3* imgCPU    = NULL;
+	float3* imgCUDA   = NULL;
+	int     imgWidth  = inputDims.w;
+	int     imgHeight = inputDims.h;
+		
+	if( argc >= 2 )
+	{
+		const char* imgFilename = argv[1];
+		
+		if( !loadImageBGR(imgFilename, &imgCPU, &imgCUDA, &imgWidth, &imgHeight, make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f)) )
+		{
+			printf("failed to load image '%s'\n", imgFilename);
+			return 0;
+		}
+	}
+	
+	
+	// allocate output memory to hold the image classes
+	float* outputCPU  = NULL;
+	float* outputCUDA = NULL; 
+	
+	if( !cudaAllocMapped((void**)&outputCPU, (void**)&outputCUDA, outputSize) )
+	{
+		printf("failed to alloc CUDA mapped memory for %u output classes\n", outputDims.c);
+		return false;
+	}
+	
+	
+	// process with GIE
+	void* inferenceBuffers[] = { imgCUDA, outputCUDA };
+	
+	context->execute(1, inferenceBuffers);
+	
+	CUDA(cudaDeviceSynchronize());
+	
+	// determine the maximum class
+	int classIndex = -1;
+	float classMax = -1.0f;
+	
+	for( size_t n=0; n < outputDims.c; n++ )
+	{
+		const float value = outputCPU[n];
+		
+		if( value >= 0.01f )
+			printf("class %04zu - %f\n", n, value);
+	
+		if( value > classMax )
+		{
+			classIndex = n;
+			classMax   = value;
+		}
+	}
+	
+	printf("\nmaximum class:  %i   (%f)\n", classIndex, classMax);
+	
+	
+	
+	printf("\nshutting down...\n");
+	engine->destroy();
+	infer->destroy();
+	return 0;
+}
