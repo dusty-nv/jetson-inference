@@ -214,3 +214,63 @@ $ ./sample_mnist
 ````
 The MNIST sample randomly selects an image of a numeral 0-9, which is then classified with the MNIST network using GIE.  In this example, the network correctly recognized the image as #8.
 
+
+## Compiling the code
+Provided along with this tutorial are examples of running Googlenet/Alexnet on live camera feed, for object recognition.
+
+#### 1. Cloning the repo
+To obtain the repository, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed locally:
+
+``` bash
+sudo apt-get install git cmake
+```
+
+Then clone the jetson-inference repo:
+``` bash
+git clone http://github.org/dusty-nv/jetson-inference
+```
+
+#### 2. Configuring build
+
+When cmake is run, a special pre-installation script (CMakePreBuild.sh) is run and will automatically install any dependencies.
+
+``` bash
+mkdir build
+cd build
+cmake ../
+```
+
+#### 3. Compiling
+
+Make sure you are still in the jetson-inference/build directory, created above in step #2.
+
+``` bash
+cd jetson-inference/build			# omit if pwd is already /build from above
+make
+```
+
+The package will be built to either armhf or aarch64, with the following directory structure:
+
+```
+|-build
+   \aarch64		    (64-bit)
+      \bin			where the sample binaries are built to
+      \include		where the headers reside
+      \lib			where the libraries are build to
+   \armhf           (32-bit)
+      \bin			where the sample binaries are built to
+      \include		where the headers reside
+      \lib			where the libraries are build to
+```
+
+binaries residing in aarch64/bin, headers in aarch64/include, and libraries in aarch64/lib.
+
+#### 4. Running the demo
+
+``` bash
+cd jetson-inference/build/aarch64/bin
+./imagenet-camera googlenet           # to run using googlenet
+./imagenet-camera alexnet             # to run using alexnet
+```
+
+
