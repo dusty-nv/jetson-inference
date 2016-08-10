@@ -1,5 +1,5 @@
 ![Alt text](https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/d69007abfc5e6a6c31e2fcfa3295aa42)
-<hr/> 
+# jetson-inference
 Welcome to NVIDIA's deep learning inference workshop and end-to-end object recognition library for Jetson TX1.
 
 ### Table of Contents
