@@ -267,10 +267,20 @@ binaries residing in aarch64/bin, headers in aarch64/include, and libraries in a
 
 #### 4. Running the demo
 
+The realtime image recognition demo is located in /aarch64/bin and is called imagenet-camera.
+It runs on live camera stream and depending on user arguments, loads googlenet or alexnet with GPU Inference Engine: 
 ``` bash
-cd jetson-inference/build/aarch64/bin
-./imagenet-camera googlenet           # to run using googlenet
-./imagenet-camera alexnet             # to run using alexnet
+$ cd jetson-inference/build/aarch64/bin
+
+$ ./imagenet-camera googlenet           # to run using googlenet
+$ ./imagenet-camera alexnet             # to run using alexnet
 ```
 
+The frames per second (FPS), classified object name from the video, and confidence of the classified object are printed to the openGL window title bar.  By default the application can recognize up to 1000 different types of objects.  
+
+Googlenet and Alexnet are trained on the ILSVRC12 ImageNet database, which contains 1000 classes of objects - the labels of which you can find in data/networks/ilsvrc12_synset_words.txt
+
+<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/399176be3f3ab2d9bfade84e0afe2abd"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/399176be3f3ab2d9bfade84e0afe2abd" width="800"></a>
+<br  />
+<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/93071639e44913b6f23c23db2a077da3"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/93071639e44913b6f23c23db2a077da3" width="800"></a>
 
