@@ -1,4 +1,7 @@
-
+/*
+ * http://github.com/dusty-nv/jetson-inference
+ */
+ 
 #include "cudaUtility.h"
 
 
