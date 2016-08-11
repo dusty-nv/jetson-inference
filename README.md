@@ -12,6 +12,7 @@ Welcome to NVIDIA's deep learning inference workshop and end-to-end object recog
 * [Building nvcaffe](#building-nvcaffe)
 * [Installing GPU Inference Engine](#installing-gpu-inference-engine)
 * [Compiling from Source](#compiling-from-source)
+* [Running the Recognition Demo](#running-the-recognition-demo)
 
 > **note**:  this branch of the tutorial is verified against 
 >        JetPack 2.2 / L4T R24.1 aarch64.
@@ -247,7 +248,7 @@ cd jetson-inference/build			# omit if pwd is already /build from above
 make
 ```
 
-The package will be built to either armhf or aarch64, with the following directory structure:
+Depending on architecture, the package will be built to either armhf or aarch64, with the following directory structure:
 
 ```
 |-build
@@ -263,7 +264,7 @@ The package will be built to either armhf or aarch64, with the following directo
 
 binaries residing in aarch64/bin, headers in aarch64/include, and libraries in aarch64/lib.
 
-#### 4. Running the demo
+## Running the Recognition Demo
 
 The realtime image recognition demo is located in /aarch64/bin and is called imagenet-camera.
 It runs on live camera stream and depending on user arguments, loads googlenet or alexnet with GPU Inference Engine: 
