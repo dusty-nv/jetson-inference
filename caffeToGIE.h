@@ -1,5 +1,5 @@
 /*
- * inference-101
+ * http://github.com/dusty-nv/jetson-inference
  */
 
 #ifndef __GIE_CAFFE_H
