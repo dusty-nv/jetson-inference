@@ -1,6 +1,8 @@
 ![Alt text](https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/841b9209217f74e5992b8d332c612126)
 # Deploying Deep Learning
-Welcome to NVIDIA's deep learning inference workshop and end-to-end object recognition library for Jetson TX1.
+Welcome to NVIDIA's deep learning inference workshop and end-to-end realtime object recognition library for Jetson TX1.
+
+During this tutorial, you'll learn to deploy efficient neural networks using NVIDIA's [GPU Inference Engine](https://developer.nvidia.com/gpu-inference-engine) and stream from live camera feed.
 
 ### Table of Contents
 
