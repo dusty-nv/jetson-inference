@@ -65,11 +65,13 @@ file(GLOB inferenceIncludes *.h camera/*.h cuda/*.h display/*.h)
 cuda_add_library(jetson-inference SHARED ${inferenceSources})
 target_link_libraries(jetson-inference nvcaffe_parser nvinfer Qt4::QtGui GL GLEW gstreamer-1.0 gstapp-1.0)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
 
+
 # transfer all headers to the include directory
 foreach(include ${inferenceIncludes})
 	message("-- Copying ${include}")
 	configure_file(${include} ${PROJECT_INCLUDE_DIR} COPYONLY)
 endforeach()
+
 
 # copy network data
 file(GLOB networkData ${PROJECT_SOURCE_DIR}/data/networks/* ${PROJECT_SOURCE_DIR}/data/images/*)
@@ -79,9 +81,11 @@ foreach(include ${networkData})
 	configure_file(${include} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
 endforeach()
 
+
 # build samples & tools
 add_subdirectory(imagenet-console)
 add_subdirectory(imagenet-camera)
+
 add_subdirectory(camera/gst-camera)
 add_subdirectory(camera/v4l2-console)
 add_subdirectory(camera/v4l2-display)
