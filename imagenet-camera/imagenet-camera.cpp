@@ -34,7 +34,7 @@ int main( int argc, char** argv )
 	for( int i=0; i < argc; i++ )
 		printf("%i [%s]  ", i, argv[i]);
 		
-	printf("\n");
+	printf("\n\n");
 	
 
 	/*
