@@ -1,11 +1,11 @@
 /*
- * inference-101
+ * http://github.com/dusty-nv/jetson-inference
  */
 
 #ifndef __GIE_LOGGER_H
 #define __GIE_LOGGER_H
 
-#include "Infer.h"
+#include "NvInfer.h"
 #include <stdio.h>
 
 

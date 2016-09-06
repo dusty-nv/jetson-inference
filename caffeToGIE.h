@@ -6,8 +6,8 @@
 #define __GIE_CAFFE_H
 
 
-#include "Infer.h"
-#include "caffeParser.h"
+#include "NvInfer.h"
+#include "NvCaffeParser.h"
 #include "logGIE.h"
 
 
@@ -25,9 +25,9 @@ bool caffeToGIEModel(const std::string& deployFile,				// name for caffe prototx
 	nvinfer1::INetworkDefinition* network = builder->createNetwork();
 
 	// parse the caffe model to populate the network, then set the outputs
-	nvcaffeparser1::CaffeParser* parser = new nvcaffeparser1::CaffeParser;
+	nvcaffeparser1::ICaffeParser* parser = nvcaffeparser1::createCaffeParser();
 
-	const bool useFp16 = builder->plaformHasFastFp16();
+	const bool useFp16 = builder->platformHasFastFp16();	// getHalf2Mode();
 	printf(LOG_GIE "platform %s FP16 support.\n", useFp16 ? "has" : "does not have");
 	printf(LOG_GIE "loading %s %s\n", deployFile.c_str(), modelFile.c_str());
 	
@@ -72,7 +72,7 @@ bool caffeToGIEModel(const std::string& deployFile,				// name for caffe prototx
 
 	// we don't need the network any more, and we can destroy the parser
 	network->destroy();
-	delete parser;
+	parser->destroy(); //delete parser;
 
 	// serialize the engine, then close everything down
 	engine->serialize(gieModelStream);

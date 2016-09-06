@@ -17,7 +17,8 @@ During this tutorial, you'll learn to deploy efficient neural networks using NVI
 * [Running the Recognition Demo](#running-the-recognition-demo)
 
 > **note**:  this branch of the tutorial is verified against 
->        JetPack 2.2 / L4T R24.1 aarch64.
+>        JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS)
+>    See [JetPack 2.2 / L4T R24.1 aarch64 (Ubuntu 14.04 LTS)](http://github.com/dusty-nv/jetson-inference/tree/L4T-R24.1) branch
 
 ### Introduction
 

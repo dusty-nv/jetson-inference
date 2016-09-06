@@ -23,7 +23,7 @@ if( ${BUILD_DEPS} )
 endif()
 
 
-# Qt4 is used to load images (installed by ubuntu-desktop)
+# Qt is used to load images (installed by ubuntu-desktop)
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
@@ -35,7 +35,7 @@ find_package(CUDA)
 set(
 	CUDA_NVCC_FLAGS
 	${CUDA_NVCC_FLAGS}; 
-    -std=c++11 -O3 -gencode arch=compute_53,code=sm_53
+    -O3 -gencode arch=compute_53,code=sm_53
 )
 
 
@@ -56,7 +56,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 
 # build C/C++ interface
 include_directories(${PROJECT_INCLUDE_DIR} ${GIE_PATH}/include)
-include_directories(/usr/include/gstreamer-1.0 /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/aarch64-linux-gnu/glib-2.0/include/)
+include_directories(/usr/include/gstreamer-1.0 /usr/lib/aarch64-linux-gnu/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/aarch64-linux-gnu/glib-2.0/include/)
 link_directories(${GIE_PATH}/lib)
 
 file(GLOB inferenceSources *.cpp *.cu camera/*.cpp cuda/*.cu display/*.cpp)
