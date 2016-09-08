@@ -32,7 +32,7 @@ public:
 	/**
 	 * Destory
 	 */
-	~imageNet();
+	virtual ~imageNet();
 	
 	/**
 	 * Determine the maximum likelihood image class.

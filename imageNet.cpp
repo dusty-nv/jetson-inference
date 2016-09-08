@@ -6,8 +6,6 @@
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
 
-#include <sstream>
-
 
 // stuff we know about the network and the caffe input/output blobs
 static const int MAX_BATCH_SIZE = 1;
@@ -20,19 +18,6 @@ const char* OUTPUT_BLOB_NAME = "prob";
 // constructor
 imageNet::imageNet()
 {
-	/*mEngine  = NULL;
-	mInfer   = NULL;
-	mContext = NULL;
-	
-	mWidth     = 0;
-	mHeight    = 0;
-	mInputSize = 0;
-	mInputCPU  = NULL;
-	mInputCUDA = NULL;
-	
-	mOutputSize    = 0;
-	mOutputCPU     = NULL;
-	mOutputCUDA    = NULL;*/
 	mOutputClasses = 0;
 }
 
