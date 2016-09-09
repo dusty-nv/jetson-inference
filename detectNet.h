@@ -43,6 +43,8 @@ protected:
 
 	// constructor
 	detectNet();
+	
+	float mCoverageThreshold;
 };
 
 

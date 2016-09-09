@@ -25,17 +25,7 @@ imageNet::imageNet()
 // destructor
 imageNet::~imageNet()
 {
-	if( mEngine != NULL )
-	{
-		mEngine->destroy();
-		mEngine = NULL;
-	}
-		
-	if( mInfer != NULL )
-	{
-		mInfer->destroy();
-		mInfer = NULL;
-	}
+
 }
 
 

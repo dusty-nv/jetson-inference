@@ -11,7 +11,7 @@
 // constructor
 detectNet::detectNet()
 {
-
+	mCoverageThreshold = 0.5f;
 }
 
 
@@ -39,7 +39,10 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 	return net;
 }
 
-					
+
+cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value );
+	
+	
 // Detect
 int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* confidence )
 {
@@ -49,6 +52,53 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* conf
 		return -1;
 	}
 
+	
+	// downsample and convert to band-sequential BGR
+	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
+									make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f))) )
+	{
+		printf("detectNet::Classify() -- cudaPreImageNet failed\n");
+		return -1;
+	}
+	
+	// process with GIE
+	void* inferenceBuffers[] = { mInputCUDA, mOutputCUDA };
+	
+	mContext->execute(1, inferenceBuffers);
+
+	//
+	float* net_rects = mOutputCPU;
+	
+	const float cell_width  = /*width*/ mInputDims.w / mOutputDims.w;
+	const float cell_height = /*height*/ mInputDims.h / mOutputDims.h;
+	
+	const float scale_x = float(width) / float(mInputDims.w);
+	const float scale_y = float(height) / float(mInputDims.h);
+	
+	printf("cell width %f  height %f\n", cell_width, cell_height);
+	printf("scale x %f  y %f\n", scale_x, scale_y);
+	
+	for( uint32_t y=0; y < mOutputDims.h; y++ )
+	{
+		for( uint32_t x=0; x < mOutputDims.w; x++)
+		{
+			const float coverage = 0.51f; //net_cvg[y * mOutputDims.w + x];
+			
+			if( coverage > mCoverageThreshold )
+			{
+				const float mx = x * cell_width;
+				const float my = y * cell_height;
+				
+				const float x1 = (net_rects[0 * (mOutputDims.h*mOutputDims.w) + y * mOutputDims.w + x] + mx) * scale_x;
+				const float y1 = (net_rects[1 * (mOutputDims.h*mOutputDims.w) + y * mOutputDims.w + x] + my) * scale_y;
+				const float x2 = (net_rects[2 * (mOutputDims.h*mOutputDims.w) + y * mOutputDims.w + x] + mx) * scale_x;
+				const float y2 = (net_rects[3 * (mOutputDims.h*mOutputDims.w) + y * mOutputDims.w + x] + my) * scale_y;
+				
+				printf("rect x=%u y=%u   %f %f   %f %f\n", x, y, x1, x2, y1, y2);
+			}
+		}
+	}
+	
 	return 0;
 }
 
