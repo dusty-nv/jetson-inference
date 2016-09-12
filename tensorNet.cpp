@@ -23,13 +23,7 @@ tensorNet::tensorNet()
 	mInputCPU  = NULL;
 	mInputCUDA = NULL;
 	
-	mOutputSize    = 0;
-	mOutputClasses = 0;
-	mOutputCPU     = NULL;
-	mOutputCUDA    = NULL;
-	
 	memset(&mInputDims, 0, sizeof(nvinfer1::Dims3));
-	memset(&mOutputDims, 0, sizeof(nvinfer1::Dims3));
 }
 
 
@@ -126,6 +120,16 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 // LoadNetwork
 bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, const char* mean_path, const char* input_blob, const char* output_blob)
 {
+	std::vector<std::string> outputs;
+	outputs.push_back(output_blob);
+	
+	return LoadNetwork(prototxt_path, model_path, mean_path, input_blob, outputs);
+}
+
+				  
+// LoadNetwork
+bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, const char* mean_path, const char* input_blob, const std::vector<std::string>& output_blobs)
+{
 	if( !prototxt_path || !model_path )
 		return false;
 	
@@ -135,7 +139,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	std::stringstream gieModelStream;
 	gieModelStream.seekg(0, gieModelStream.beg);
 
-	if( !ProfileModel(prototxt_path, model_path, std::vector< std::string > { output_blob }, MAX_BATCH_SIZE, gieModelStream) )
+	if( !ProfileModel(prototxt_path, model_path, output_blobs, MAX_BATCH_SIZE, gieModelStream) )
 	{
 		printf("failed to load %s\n", model_path);
 		return 0;
@@ -180,23 +184,16 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	
 	
 	/*
-	 * determine dimensions of network bindings
+	 * determine dimensions of network input bindings
 	 */
-	const int inputIndex  = engine->getBindingIndex(input_blob);
-	const int outputIndex = engine->getBindingIndex(output_blob);
-
+	const int inputIndex = engine->getBindingIndex(input_blob);
+	
 	printf(LOG_GIE "%s input  binding index:  %i\n", model_path, inputIndex);
-	printf(LOG_GIE "%s output binding index:  %i\n", model_path, outputIndex);
 	
 	nvinfer1::Dims3 inputDims  = engine->getBindingDimensions(inputIndex);
-	nvinfer1::Dims3 outputDims = engine->getBindingDimensions(outputIndex);
-	
 	size_t inputSize  = inputDims.c * inputDims.h * inputDims.w * sizeof(float);
-	size_t outputSize = outputDims.c * outputDims.h * outputDims.w * sizeof(float);
 	
 	printf(LOG_GIE "%s input  dims (c=%u h=%u w=%u) size=%zu\n", model_path, inputDims.c, inputDims.h, inputDims.w, inputSize);
-	printf(LOG_GIE "%s output dims (c=%u h=%u w=%u) size=%zu\n", model_path, outputDims.c, outputDims.h, outputDims.w, outputSize);
-	
 	
 	/*
 	 * allocate memory to hold the input image
@@ -210,26 +207,50 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	mInputSize   = inputSize;
 	mWidth       = inputDims.w;
 	mHeight      = inputDims.h;
-
 	
 	/*
-	 * allocate output memory to hold the image classes
+	 * setup network output buffers
 	 */
-	if( !cudaAllocMapped((void**)&mOutputCPU, (void**)&mOutputCUDA, outputSize) )
+	const int numOutputs = output_blobs.size();
+	
+	for( int n=0; n < numOutputs; n++ )
 	{
-		printf("failed to alloc CUDA mapped memory for %u output classes\n", outputDims.c);
-		return false;
+		const int outputIndex = engine->getBindingIndex(output_blobs[n].c_str());
+		printf(LOG_GIE "%s output %i %s  binding index:  %i\n", model_path, n, output_blobs[n].c_str(), outputIndex);
+		nvinfer1::Dims3 outputDims = engine->getBindingDimensions(outputIndex);
+		size_t outputSize = outputDims.c * outputDims.h * outputDims.w * sizeof(float);
+		printf(LOG_GIE "%s output %i %s  dims (c=%u h=%u w=%u) size=%zu\n", model_path, n, output_blobs[n].c_str(), outputDims.c, outputDims.h, outputDims.w, outputSize);
+	
+		// allocate output memory 
+		void* outputCPU  = NULL;
+		void* outputCUDA = NULL;
+		
+		if( !cudaAllocMapped((void**)&outputCPU, (void**)&outputCUDA, outputSize) )
+		{
+			printf("failed to alloc CUDA mapped memory for %u output classes\n", outputDims.c);
+			return false;
+		}
+	
+		printf("a\n");
+	
+		outputLayer l;
+		
+		l.CPU  = (float*)outputCPU;
+		l.CUDA = (float*)outputCUDA;
+		l.size = outputSize;
+		l.dims = outputDims;
+		l.name = output_blobs[n]; printf("f\n");
+		
+		mOutputs.push_back(l); printf("a2\n");
 	}
 	
-	mOutputSize     = outputSize;
-	mOutputDims     = outputDims;
+
 	mInputDims      = inputDims;
 	mPrototxtPath   = prototxt_path;
 	mModelPath      = model_path;
 	mMeanPath       = mean_path;
 	mInputBlobName  = input_blob;
-	mOutputBlobName = output_blob;
-	
+
 	printf("%s initialized.\n", mModelPath.c_str());
 	return true;
 }

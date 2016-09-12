@@ -7,6 +7,10 @@
 #include "cudaResize.h"
 
 
+#define OUTPUT_CVG  0
+#define OUTPUT_BBOX 1
+
+
 
 // constructor
 detectNet::detectNet()
@@ -23,14 +27,18 @@ detectNet::~detectNet()
 
 
 // Create
-detectNet* detectNet::Create( const char* prototxt, const char* model, const char* mean_binary, const char* input_blob, const char* output_blob )
+detectNet* detectNet::Create( const char* prototxt, const char* model, const char* mean_binary, const char* input_blob, const char* coverage_blob, const char* bbox_blob )
 {
 	detectNet* net = new detectNet();
 	
 	if( !net )
 		return NULL;
 	
-	if( !net->LoadNetwork(prototxt, model, mean_binary, input_blob, output_blob) )
+	std::vector<std::string> output_blobs;
+	output_blobs.push_back(coverage_blob);
+	output_blobs.push_back(bbox_blob);
+	
+	if( !net->LoadNetwork(prototxt, model, mean_binary, input_blob, output_blobs) )
 	{
 		printf("detectNet -- failed to initialize.\n");
 		return NULL;
@@ -62,15 +70,19 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* conf
 	}
 	
 	// process with GIE
-	void* inferenceBuffers[] = { mInputCUDA, mOutputCUDA };
+	void* inferenceBuffers[] = { mInputCUDA, mOutputs[OUTPUT_CVG].CUDA, mOutputs[OUTPUT_BBOX].CUDA };
 	
 	mContext->execute(1, inferenceBuffers);
 
 	//
-	float* net_rects = mOutputCPU;
+	float* net_rects = mOutputs[OUTPUT_BBOX].CPU;
 	
-	const float cell_width  = /*width*/ mInputDims.w / mOutputDims.w;
-	const float cell_height = /*height*/ mInputDims.h / mOutputDims.h;
+	const int ow  = mOutputs[OUTPUT_BBOX].dims.w;
+	const int oh  = mOutputs[OUTPUT_BBOX].dims.h;
+	const int owh = ow * oh;
+	
+	const float cell_width  = /*width*/ mInputDims.w / ow;
+	const float cell_height = /*height*/ mInputDims.h / oh;
 	
 	const float scale_x = float(width) / float(mInputDims.w);
 	const float scale_y = float(height) / float(mInputDims.h);
@@ -78,9 +90,9 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* conf
 	printf("cell width %f  height %f\n", cell_width, cell_height);
 	printf("scale x %f  y %f\n", scale_x, scale_y);
 	
-	for( uint32_t y=0; y < mOutputDims.h; y++ )
+	for( uint32_t y=0; y < oh; y++ )
 	{
-		for( uint32_t x=0; x < mOutputDims.w; x++)
+		for( uint32_t x=0; x < ow; x++)
 		{
 			const float coverage = 0.51f; //net_cvg[y * mOutputDims.w + x];
 			
@@ -89,10 +101,10 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* conf
 				const float mx = x * cell_width;
 				const float my = y * cell_height;
 				
-				const float x1 = (net_rects[0 * (mOutputDims.h*mOutputDims.w) + y * mOutputDims.w + x] + mx) * scale_x;
-				const float y1 = (net_rects[1 * (mOutputDims.h*mOutputDims.w) + y * mOutputDims.w + x] + my) * scale_y;
-				const float x2 = (net_rects[2 * (mOutputDims.h*mOutputDims.w) + y * mOutputDims.w + x] + mx) * scale_x;
-				const float y2 = (net_rects[3 * (mOutputDims.h*mOutputDims.w) + y * mOutputDims.w + x] + my) * scale_y;
+				const float x1 = (net_rects[0 * owh + y * ow + x] + mx) * scale_x;
+				const float y1 = (net_rects[1 * owh + y * ow + x] + my) * scale_y;
+				const float x2 = (net_rects[2 * owh + y * ow + x] + mx) * scale_x;
+				const float y2 = (net_rects[3 * owh + y * ow + x] + my) * scale_y;
 				
 				printf("rect x=%u y=%u   %f %f   %f %f\n", x, y, x1, x2, y1, y2);
 			}

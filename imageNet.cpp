@@ -114,7 +114,7 @@ bool imageNet::init( imageNet::NetworkType networkType )
 	/*
 	 * load synset classnames
 	 */
-	mOutputClasses = mOutputDims.c;
+	mOutputClasses = mOutputs[0].dims.c;
 	
 	if( !loadClassInfo("ilsvrc12_synset_words.txt") || mClassSynset.size() != mOutputClasses || mClassDesc.size() != mOutputClasses )
 	{
@@ -150,7 +150,7 @@ int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* con
 	}
 	
 	// process with GIE
-	void* inferenceBuffers[] = { mInputCUDA, mOutputCUDA };
+	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
 	
 	mContext->execute(1, inferenceBuffers);
 	
@@ -162,7 +162,7 @@ int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* con
 	
 	for( size_t n=0; n < mOutputClasses; n++ )
 	{
-		const float value = mOutputCPU[n];
+		const float value = mOutputs[0].CPU[n];
 		
 		if( value >= 0.01f )
 			printf("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());

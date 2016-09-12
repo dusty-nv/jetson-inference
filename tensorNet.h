@@ -34,12 +34,21 @@ protected:
 	/**
 	 * Load a new network instance
 	 * @param prototxt File path to the deployable network prototxt
-	 * @param model File path to the caffemodel (NULL if none)
-	 * @param mean File path to the mean value binary proto
+	 * @param model File path to the caffemodel 
+	 * @param mean File path to the mean value binary proto (NULL if none)
 	 */
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean=NULL,
 					  const char* input_blob="data", const char* output_blob="prob");
 
+	/**
+	 * Load a new network instance with multiple output layers
+	 * @param prototxt File path to the deployable network prototxt
+	 * @param model File path to the caffemodel 
+	 * @param mean File path to the mean value binary proto (NULL if none)
+	 */
+	bool LoadNetwork( const char* prototxt, const char* model, const char* mean,
+					  const char* input_blob, const std::vector<std::string>& output_blobs);
+					  
 	/**
 	 * Create and output an optimized network model
 	 * @note this function is automatically used by LoadNetwork, but also can 
@@ -77,8 +86,7 @@ protected:
 	std::string mModelPath;
 	std::string mMeanPath;
 	std::string mInputBlobName;
-	std::string mOutputBlobName;
-	
+
 	nvinfer1::IRuntime* mInfer;
 	nvinfer1::ICudaEngine* mEngine;
 	nvinfer1::IExecutionContext* mContext;
@@ -90,12 +98,17 @@ protected:
 	float*   mInputCUDA;
 	
 	nvinfer1::Dims3 mInputDims;
-	nvinfer1::Dims3 mOutputDims;
 	
-	uint32_t mOutputSize;
-	uint32_t mOutputClasses;
-	float*   mOutputCPU;
-	float*   mOutputCUDA;
+	struct outputLayer
+	{
+		std::string name;
+		nvinfer1::Dims3 dims;
+		uint32_t size;
+		float* CPU;
+		float* CUDA;
+	};
+	
+	std::vector<outputLayer> mOutputs;
 };
 
 #endif

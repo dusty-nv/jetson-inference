@@ -17,12 +17,15 @@ class detectNet : public tensorNet
 public:
 	/**
 	 * Load a new network instance
-	 * @param prototxt File path to the deployable network prototxt
-	 * @param model File path to the caffemodel
+	 * @param prototxt_path File path to the deployable network prototxt
+	 * @param model_path File path to the caffemodel
 	 * @param mean_binary File path to the mean value binary proto
+	 * @param input Name of the input layer blob.
+	 * @param coverage Name of the output coverage classifier layer blob, which contains the confidence values for each bbox.
+	 * @param bboxes Name of the output bounding box layer blob, which contains a grid of rectangles in the image.
 	 */
-	static detectNet* Create( const char* prototxt, const char* model, const char* mean_binary,
-							  const char* input_blob="data", const char* output_blob="bboxes" );
+	static detectNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
+							  const char* input="data", const char* coverage="coverage", const char* bboxes="bboxes" );
 	
 	/**
 	 * Destory
