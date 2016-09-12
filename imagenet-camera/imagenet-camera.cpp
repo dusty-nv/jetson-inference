@@ -82,14 +82,18 @@ int main( int argc, char** argv )
 	 * create openGL window
 	 */
 	glDisplay* display = glDisplay::Create();
+	glTexture* texture = NULL;
 	
-	if( !display )
+	if( !display ) {
 		printf("\nimagenet-camera:  failed to create openGL display\n");
+	}
+	else
+	{
+		texture = glTexture::Create(camera->GetWidth(), camera->GetHeight(), GL_RGBA32F_ARB/*GL_RGBA8*/);
 
-	glTexture* texture = glTexture::Create(camera->GetWidth(), camera->GetHeight(), GL_RGBA32F_ARB/*GL_RGBA8*/);
-
-	if( !texture )
-		printf("imagenet-camera:  failed to create openGL texture\n");
+		if( !texture )
+			printf("imagenet-camera:  failed to create openGL texture\n");
+	}
 	
 	
 
