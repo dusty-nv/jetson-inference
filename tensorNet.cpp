@@ -231,17 +231,15 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 			return false;
 		}
 	
-		printf("a\n");
-	
 		outputLayer l;
 		
 		l.CPU  = (float*)outputCPU;
 		l.CUDA = (float*)outputCUDA;
 		l.size = outputSize;
 		l.dims = outputDims;
-		l.name = output_blobs[n]; printf("f\n");
+		l.name = output_blobs[n];
 		
-		mOutputs.push_back(l); printf("a2\n");
+		mOutputs.push_back(l);
 	}
 	
 
