@@ -6,8 +6,6 @@
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
 
-#include <sstream>
-
 
 // stuff we know about the network and the caffe input/output blobs
 static const int MAX_BATCH_SIZE = 1;
@@ -17,41 +15,21 @@ const char* OUTPUT_BLOB_NAME = "prob";
 
 
 
+// constructor
 imageNet::imageNet()
 {
-	mEngine  = NULL;
-	mInfer   = NULL;
-	mContext = NULL;
-	
-	mWidth     = 0;
-	mHeight    = 0;
-	mInputSize = 0;
-	mInputCPU  = NULL;
-	mInputCUDA = NULL;
-	
-	mOutputSize    = 0;
 	mOutputClasses = 0;
-	mOutputCPU     = NULL;
-	mOutputCUDA    = NULL;
 }
 
 
+// destructor
 imageNet::~imageNet()
 {
-	if( mEngine != NULL )
-	{
-		mEngine->destroy();
-		mEngine = NULL;
-	}
-		
-	if( mInfer != NULL )
-	{
-		mInfer->destroy();
-		mInfer = NULL;
-	}
+
 }
 
 
+// Create
 imageNet* imageNet::Create( imageNet::NetworkType networkType )
 {
 	imageNet* net = new imageNet();
@@ -124,98 +102,19 @@ bool imageNet::init( imageNet::NetworkType networkType )
 	/*
 	 * load and parse googlenet network definition and model file
 	 */
-	std::stringstream gieModelStream;
-	gieModelStream.seekg(0, gieModelStream.beg);
+	if( !tensorNet::LoadNetwork( proto_file[networkType], model_file[networkType], NULL, INPUT_BLOB_NAME, OUTPUT_BLOB_NAME ) )
+	{
+		printf("failed to load %s\n", model_file[networkType]);
+		return false;
+	}
+
 	mNetworkType = networkType;
-
-	if( !caffeToGIEModel(proto_file[networkType], model_file[networkType], std::vector< std::string > { OUTPUT_BLOB_NAME }, MAX_BATCH_SIZE, gieModelStream) )
-	{
-		printf("failed to load %s\n", GetNetworkName());
-		return 0;
-	}
-
 	printf(LOG_GIE "%s loaded\n", GetNetworkName());
-	
 
-	
 	/*
-	 * create runtime inference engine execution context
+	 * load synset classnames
 	 */
-	nvinfer1::IRuntime* infer = createInferRuntime(gLogger);
-	
-	if( !infer )
-	{
-		printf(LOG_GIE "failed to create InferRuntime\n");
-		return 0;
-	}
-	
-	nvinfer1::ICudaEngine* engine = infer->deserializeCudaEngine(gieModelStream);
-
-	if( !engine )
-	{
-		printf(LOG_GIE "failed to create CUDA engine\n");
-		return 0;
-	}
-	
-	nvinfer1::IExecutionContext* context = engine->createExecutionContext();
-	
-	if( !context )
-	{
-		printf(LOG_GIE "failed to create execution context\n");
-		return 0;
-	}
-
-	printf(LOG_GIE "CUDA engine context initialized with %u bindings\n", engine->getNbBindings());
-	
-	mInfer   = infer;
-	mEngine  = engine;
-	mContext = context;
-	
-	
-	/*
-	 * determine dimensions of network bindings
-	 */
-	const int inputIndex  = engine->getBindingIndex(INPUT_BLOB_NAME);
-	const int outputIndex = engine->getBindingIndex(OUTPUT_BLOB_NAME);
-
-	printf(LOG_GIE "%s input  binding index:  %i\n", GetNetworkName(), inputIndex);
-	printf(LOG_GIE "%s output binding index:  %i\n", GetNetworkName(), outputIndex);
-	
-	nvinfer1::Dims3 inputDims  = engine->getBindingDimensions(inputIndex);
-	nvinfer1::Dims3 outputDims = engine->getBindingDimensions(outputIndex);
-	
-	size_t inputSize  = inputDims.c * inputDims.h * inputDims.w * sizeof(float);
-	size_t outputSize = outputDims.c * outputDims.h * outputDims.w * sizeof(float);
-	
-	printf(LOG_GIE "%s input  dims (c=%u h=%u w=%u) size=%zu\n", GetNetworkName(), inputDims.c, inputDims.h, inputDims.w, inputSize);
-	printf(LOG_GIE "%s output dims (c=%u h=%u w=%u) size=%zu\n", GetNetworkName(), outputDims.c, outputDims.h, outputDims.w, outputSize);
-	
-	
-	/*
-	 * allocate memory to hold the input image
-	 */
-	if( !cudaAllocMapped((void**)&mInputCPU, (void**)&mInputCUDA, inputSize) )
-	{
-		printf("failed to alloc CUDA mapped memory for imageNet input, %zu bytes\n", inputSize);
-		return false;
-	}
-	
-	mInputSize   = inputSize;
-	mWidth       = inputDims.w;
-	mHeight      = inputDims.h;
-
-	
-	/*
-	 * allocate output memory to hold the image classes
-	 */
-	if( !cudaAllocMapped((void**)&mOutputCPU, (void**)&mOutputCUDA, outputSize) )
-	{
-		printf("failed to alloc CUDA mapped memory for %u output classes\n", outputDims.c);
-		return false;
-	}
-	
-	mOutputSize    = outputSize;
-	mOutputClasses = outputDims.c;
+	mOutputClasses = mOutputs[0].dims.c;
 	
 	if( !loadClassInfo("ilsvrc12_synset_words.txt") || mClassSynset.size() != mOutputClasses || mClassDesc.size() != mOutputClasses )
 	{
@@ -251,7 +150,7 @@ int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* con
 	}
 	
 	// process with GIE
-	void* inferenceBuffers[] = { mInputCUDA, mOutputCUDA };
+	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
 	
 	mContext->execute(1, inferenceBuffers);
 	
@@ -263,7 +162,7 @@ int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* con
 	
 	for( size_t n=0; n < mOutputClasses; n++ )
 	{
-		const float value = mOutputCPU[n];
+		const float value = mOutputs[0].CPU[n];
 		
 		if( value >= 0.01f )
 			printf("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());

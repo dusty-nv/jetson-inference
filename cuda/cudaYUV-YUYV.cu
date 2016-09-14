@@ -1,9 +1,8 @@
 /*
- * inference-101
+ * http://github.com/dusty-nv/jetson-inference
  */
 
 #include "cudaYUV.h"
-
 
 
 inline __device__ __host__ float clamp(float f, float a, float b)

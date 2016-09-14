@@ -6,13 +6,13 @@
 #define __IMAGE_NET_H__
 
 
-#include "caffeToGIE.h"
+#include "tensorNet.h"
 
 
 /**
  * Image recognition with GoogLeNet/Alexnet, using GIE.
  */
-class imageNet
+class imageNet : public tensorNet
 {
 public:
 	/**
@@ -32,7 +32,7 @@ public:
 	/**
 	 * Destory
 	 */
-	~imageNet();
+	virtual ~imageNet();
 	
 	/**
 	 * Determine the maximum likelihood image class.
@@ -75,20 +75,7 @@ protected:
 	bool init( NetworkType networkType );
 	bool loadClassInfo( const char* filename );
 	
-	nvinfer1::IRuntime* mInfer;
-	nvinfer1::ICudaEngine* mEngine;
-	nvinfer1::IExecutionContext* mContext;
-	
-	uint32_t mWidth;
-	uint32_t mHeight;
-	uint32_t mInputSize;
-	float*   mInputCPU;
-	float*   mInputCUDA;
-	
-	uint32_t mOutputSize;
 	uint32_t mOutputClasses;
-	float*   mOutputCPU;
-	float*   mOutputCUDA;
 	
 	std::vector<std::string> mClassSynset;	// 1000 class ID's (ie n01580077, n04325704)
 	std::vector<std::string> mClassDesc;
