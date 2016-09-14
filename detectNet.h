@@ -10,7 +10,7 @@
 
 
 /**
- * Object recognition and localization networks with GIE support.
+ * Object recognition and localization networks with TensorRT support.
  */
 class detectNet : public tensorNet
 {

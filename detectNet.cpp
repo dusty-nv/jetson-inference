@@ -49,6 +49,31 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 
 
 cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value );
+
+inline static bool rectOverlap(const float4& r1, const float4& r2)
+{
+    return ! ( r2.x > r1.z  
+        || r2.z < r1.x
+        || r2.y > r1.w
+        || r2.w < r1.y
+        );
+}
+
+static void mergeRect( std::vector<float4>& rects, const float4& rect )
+{
+	const uint32_t num_rects = rects.size();
+	
+	bool intersects = false;
+	
+	for( uint32_t r=0; r < num_rects; r++ )
+	{
+		if( rectOverlap(rect, rects[r]) )
+			intersects = true;
+	} 
+	
+	if( !intersects )
+		rects.push_back(rect);
+}
 	
 	
 // Detect
@@ -74,7 +99,8 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* conf
 	
 	mContext->execute(1, inferenceBuffers);
 
-	//
+	// cluster detection bboxes
+	float* net_cvg   = mOutputs[OUTPUT_CVG].CPU;
 	float* net_rects = mOutputs[OUTPUT_BBOX].CPU;
 	
 	const int ow  = mOutputs[OUTPUT_BBOX].dims.w;
@@ -90,23 +116,28 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* conf
 	printf("cell width %f  height %f\n", cell_width, cell_height);
 	printf("scale x %f  y %f\n", scale_x, scale_y);
 	
+	std::vector<float4> rects;
+	rects.reserve(owh);
+	
 	for( uint32_t y=0; y < oh; y++ )
 	{
 		for( uint32_t x=0; x < ow; x++)
 		{
-			const float coverage = 0.51f; //net_cvg[y * mOutputDims.w + x];
+			const float coverage = net_cvg[y * ow + x];
 			
 			if( coverage > mCoverageThreshold )
 			{
 				const float mx = x * cell_width;
 				const float my = y * cell_height;
 				
-				const float x1 = (net_rects[0 * owh + y * ow + x] + mx) * scale_x;
-				const float y1 = (net_rects[1 * owh + y * ow + x] + my) * scale_y;
-				const float x2 = (net_rects[2 * owh + y * ow + x] + mx) * scale_x;
-				const float y2 = (net_rects[3 * owh + y * ow + x] + my) * scale_y;
+				const float x1 = (net_rects[0 * owh + y * ow + x] + mx) * scale_x;		// left
+				const float y1 = (net_rects[1 * owh + y * ow + x] + my) * scale_y;		// top
+				const float x2 = (net_rects[2 * owh + y * ow + x] + mx) * scale_x;		// right
+				const float y2 = (net_rects[3 * owh + y * ow + x] + my) * scale_y;		// bottom
 				
-				printf("rect x=%u y=%u   %f %f   %f %f\n", x, y, x1, x2, y1, y2);
+				printf("rect x=%u y=%u  cvg=%f  %f %f   %f %f\n", x, y, coverage, x1, x2, y1, y2);
+				
+				mergeRect( rects, make_float4(x1, y1, x2, y2) );
 			}
 		}
 	}

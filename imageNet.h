@@ -10,7 +10,7 @@
 
 
 /**
- * Image recognition with GoogLeNet/Alexnet, using GIE.
+ * Image recognition with GoogLeNet/Alexnet, using TensorRT.
  */
 class imageNet : public tensorNet
 {

@@ -13,7 +13,7 @@
 
 
 /**
- * Abstract class for loading a tensor network with GIE.
+ * Abstract class for loading a tensor network with TensorRT.
  * For example implementations, @see imageNet and @see detectNet
  */
 class tensorNet
