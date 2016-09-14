@@ -246,9 +246,11 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	mInputDims      = inputDims;
 	mPrototxtPath   = prototxt_path;
 	mModelPath      = model_path;
-	mMeanPath       = mean_path;
 	mInputBlobName  = input_blob;
-
+		
+	if( mean_path != NULL )
+		mMeanPath = mean_path;
+	
 	printf("%s initialized.\n", mModelPath.c_str());
 	return true;
 }
