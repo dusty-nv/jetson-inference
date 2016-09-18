@@ -16,7 +16,7 @@ const char* OUTPUT_BLOB_NAME = "prob";
 
 
 // constructor
-imageNet::imageNet()
+imageNet::imageNet() : tensorNet()
 {
 	mOutputClasses = 0;
 }

@@ -13,7 +13,7 @@
 
 
 // constructor
-detectNet::detectNet()
+detectNet::detectNet() : tensorNet()
 {
 	mCoverageThreshold = 0.5f;
 }
