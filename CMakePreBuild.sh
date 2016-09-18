@@ -9,7 +9,7 @@ echo "[Pre-build]  build root directory:       $BUILD_ROOT"
 
 
 # break on errors
-set -e
+#set -e
 
 
 # install packages
