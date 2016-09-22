@@ -5,6 +5,7 @@
 #include "detectNet.h"
 #include "loadImage.h"
 
+#include "cudaMappedMemory.h"
 
 
 // main entry point
@@ -29,11 +30,27 @@ int main( int argc, char** argv )
 	
 
 	// create detectNet
-	detectNet* net = detectNet::Create("/home/ubuntu/ped-100/deploy.prototxt", "/home/ubuntu/ped-100/snapshot_iter_70800.caffemodel", "/home/ubuntu/ped-100/mean.binaryproto" );
+	detectNet* net = detectNet::Create("ped-100/deploy.prototxt", "ped-100/snapshot_iter_70800.caffemodel", "ped-100/mean.binaryproto" );	// 32040
 	
 	if( !net )
 	{
 		printf("detectnet-console:   failed to initialize detectNet\n");
+		return 0;
+	}
+	
+	// alloc memory for bounding box & confidence value output arrays
+	const uint32_t maxBoxes = net->GetMaxBoundingBoxes();		printf("maximum bounding boxes:  %u\n", maxBoxes);
+	const uint32_t classes  = net->GetNumClasses();
+	
+	float* bbCPU  = NULL;
+	float* bbCUDA = NULL;
+	float* confCPU  = NULL;
+	float* confCUDA = NULL;
+	
+	if( !cudaAllocMapped((void**)&bbCPU, (void**)&bbCUDA, maxBoxes * sizeof(float4)) ||
+	    !cudaAllocMapped((void**)&confCPU, (void**)&confCUDA, maxBoxes * classes * sizeof(float)) )
+	{
+		printf("detectnet-console:  failed to alloc output memory\n");
 		return 0;
 	}
 	
@@ -48,16 +65,15 @@ int main( int argc, char** argv )
 		printf("failed to load image '%s'\n", imgFilename);
 		return 0;
 	}
-
-	float confidence = 0.0f;
 	
 	// classify image
-	const int img_class = net->Detect(imgCUDA, imgWidth, imgHeight, &confidence);
+	int numBoundingBoxes = maxBoxes;
+	const bool status = net->DetectRGBA(imgCUDA, imgWidth, imgHeight, bbCPU, &numBoundingBoxes, confCPU);
 	
-	if( img_class < 0 )
-		printf("detectnet-console:  failed to classify '%s'  (result=%i)\n", imgFilename, img_class);
-	else
-		printf("detectnet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, "pedestrian");
+	if( !status )
+		printf("detectnet-console:  failed to classify '%s'\n", imgFilename);
+	//else
+		//printf("detectnet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, "pedestrian");
 	
 	
 	printf("\nshutting down...\n");

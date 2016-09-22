@@ -50,7 +50,13 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 
 cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value );
 
-inline static bool rectOverlap(const float4& r1, const float4& r2)
+
+
+struct float6 { float x; float y; float z; float w; float v; float u; };
+static inline float6 make_float6( float x, float y, float z, float w, float v, float u ) { float6 f; f.x = x; f.y = y; f.z = z; f.w = w; f.v = v; f.u = u; return f; }
+
+
+inline static bool rectOverlap(const float6& r1, const float6& r2)
 {
     return ! ( r2.x > r1.z  
         || r2.z < r1.x
@@ -59,7 +65,7 @@ inline static bool rectOverlap(const float4& r1, const float4& r2)
         );
 }
 
-static void mergeRect( std::vector<float4>& rects, const float4& rect )
+static void mergeRect( std::vector<float6>& rects, const float6& rect )
 {
 	const uint32_t num_rects = rects.size();
 	
@@ -67,8 +73,15 @@ static void mergeRect( std::vector<float4>& rects, const float4& rect )
 	
 	for( uint32_t r=0; r < num_rects; r++ )
 	{
-		if( rectOverlap(rect, rects[r]) )
-			intersects = true;
+		if( rectOverlap(rects[r], rect) )
+		{
+			intersects = true;   printf("found overlap\n");
+			
+			//if( rects[r].x > rect.x ) 
+			
+			break;
+		}
+			
 	} 
 	
 	if( !intersects )
@@ -77,12 +90,12 @@ static void mergeRect( std::vector<float4>& rects, const float4& rect )
 	
 	
 // Detect
-int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* confidence )
+bool detectNet::DetectRGBA( float* rgba, uint32_t width, uint32_t height, float* boundingBoxes, int* numBoxes, float* confidence )
 {
-	if( !rgba || width == 0 || height == 0 )
+	if( !rgba || width == 0 || height == 0 || !boundingBoxes || !numBoxes || *numBoxes < 1 )
 	{
 		printf("detectNet::Detect( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
-		return -1;
+		return false;
 	}
 
 	
@@ -91,7 +104,7 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* conf
 									make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f))) )
 	{
 		printf("detectNet::Classify() -- cudaPreImageNet failed\n");
-		return -1;
+		return false;
 	}
 	
 	// process with GIE
@@ -103,9 +116,10 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* conf
 	float* net_cvg   = mOutputs[OUTPUT_CVG].CPU;
 	float* net_rects = mOutputs[OUTPUT_BBOX].CPU;
 	
-	const int ow  = mOutputs[OUTPUT_BBOX].dims.w;
-	const int oh  = mOutputs[OUTPUT_BBOX].dims.h;
-	const int owh = ow * oh;
+	const int ow  = mOutputs[OUTPUT_BBOX].dims.w;		// number of columns in bbox grid in X dimension
+	const int oh  = mOutputs[OUTPUT_BBOX].dims.h;		// number of rows in bbox grid in Y dimension
+	const int owh = ow * oh;							// total number of bbox in grid
+	const int cls = GetNumClasses();					// number of object classes in coverage map
 	
 	const float cell_width  = /*width*/ mInputDims.w / ow;
 	const float cell_height = /*height*/ mInputDims.h / oh;
@@ -116,32 +130,69 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* conf
 	printf("cell width %f  height %f\n", cell_width, cell_height);
 	printf("scale x %f  y %f\n", scale_x, scale_y);
 	
-	std::vector<float4> rects;
-	rects.reserve(owh);
+	std::vector< std::vector<float6> > rects;
+	rects.resize(cls);
 	
-	for( uint32_t y=0; y < oh; y++ )
+	for( uint32_t z=0; z < cls; z++ )
 	{
-		for( uint32_t x=0; x < ow; x++)
+		rects[z].reserve(owh);
+		
+		for( uint32_t y=0; y < oh; y++ )
 		{
-			const float coverage = net_cvg[y * ow + x];
-			
-			if( coverage > mCoverageThreshold )
+			for( uint32_t x=0; x < ow; x++)
 			{
-				const float mx = x * cell_width;
-				const float my = y * cell_height;
+				const float coverage = net_cvg[z * owh + y * ow + x];
 				
-				const float x1 = (net_rects[0 * owh + y * ow + x] + mx) * scale_x;		// left
-				const float y1 = (net_rects[1 * owh + y * ow + x] + my) * scale_y;		// top
-				const float x2 = (net_rects[2 * owh + y * ow + x] + mx) * scale_x;		// right
-				const float y2 = (net_rects[3 * owh + y * ow + x] + my) * scale_y;		// bottom
-				
-				printf("rect x=%u y=%u  cvg=%f  %f %f   %f %f\n", x, y, coverage, x1, x2, y1, y2);
-				
-				mergeRect( rects, make_float4(x1, y1, x2, y2) );
+				if( coverage > mCoverageThreshold )
+				{
+					const float mx = x * cell_width;
+					const float my = y * cell_height;
+					
+					const float x1 = (net_rects[0 * owh + y * ow + x] + mx) * scale_x;		// left
+					const float y1 = (net_rects[1 * owh + y * ow + x] + my) * scale_y;		// top
+					const float x2 = (net_rects[2 * owh + y * ow + x] + mx) * scale_x;		// right
+					const float y2 = (net_rects[3 * owh + y * ow + x] + my) * scale_y;		// bottom
+					
+					printf("rect x=%u y=%u  cvg=%f  %f %f   %f %f\n", x, y, coverage, x1, x2, y1, y2);
+					
+					mergeRect( rects[z], make_float6(x1, y1, x2, y2, coverage, z) );
+				}
 			}
 		}
 	}
 	
-	return 0;
+	printf("done clustering rects\n");
+	
+	const uint32_t numMax = *numBoxes;
+	int n = 0;
+	
+	for( uint32_t z = 0; z < cls; z++ )
+	{
+		printf("z = %u\n", z);
+		
+		const uint32_t numBox = rects[z].size();
+		
+		for( uint32_t b = 0; b < numBox && n < numMax; b++ )
+		{
+			printf("b = %u\n", b );
+			const float6 r = rects[z][b];
+			
+			boundingBoxes[n * 4 + 0] = r.x;
+			boundingBoxes[n * 4 + 1] = r.y;
+			boundingBoxes[n * 4 + 2] = r.z;
+			boundingBoxes[n * 4 + 3] = r.w;
+			
+			if( confidence != NULL )
+			{
+				confidence[n * 2 + 0] = r.v;
+				confidence[n * 2 + 1] = r.u;
+			}
+			
+			n++;
+		}
+	}
+	
+	*numBoxes = n;
+	return true;
 }
 

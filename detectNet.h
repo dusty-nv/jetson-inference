@@ -33,14 +33,34 @@ public:
 	virtual ~detectNet();
 	
 	/**
-	 * Detect object locations in the image.
+	 * Detect object locations in the RGBA image.
 	 * @param rgba float4 input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
-	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns Index of the maximum class, or -1 on error.
+	 * @param numBoxes pointer to a single integer containing the maximum number of boxes available in boundingBoxes.
+	 *                 upon successful return, will be set to the number of bounding boxes detected in the image.
+	 * @param boundingBoxes pointer to array of bounding boxes.
+	 * @param confidence optional pointer to 2D float array filled with confidence value for each bounding box and object class. 
+	 * @returns True if the image was processed without error, false if an error was encountered.
 	 */
-	int Detect( float* rgba, uint32_t width, uint32_t height, float* confidence=NULL );
+	bool DetectRGBA( float* input, uint32_t width, uint32_t height, float* boundingBoxes, int* numBoxes, float* confidence=NULL );
+	
+	/**
+	 * Draw bounding boxes in the RGBA image.
+	 */
+	bool DrawBoxesRGBA( float* input, float* output, uint32_t width, uint32_t height, const float* boundingBoxes, const int numBoxes, float* colors=NULL );
+	
+	/**
+	 * Retrieve the number of object classes supported in the detector
+	 */
+	inline uint32_t GetNumClasses() const			{ return mOutputs[0].dims.c; }
+	
+	/**
+	 * Retrieve the maximum number of bounding boxes the network supports.
+	 * Knowing this is useful for allocating the buffers to store the output bounding boxes.
+	 */
+	inline uint32_t GetMaxBoundingBoxes() const		{ return mOutputs[1].dims.w * mOutputs[1].dims.h * mOutputs[1].dims.c; }
+	
 
 protected:
 
