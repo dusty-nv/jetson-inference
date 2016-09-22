@@ -30,7 +30,8 @@ int main( int argc, char** argv )
 	
 
 	// create detectNet
-	detectNet* net = detectNet::Create("ped-100/deploy.prototxt", "ped-100/snapshot_iter_70800.caffemodel", "ped-100/mean.binaryproto" );	// 32040
+	//detectNet* net = detectNet::Create("ped-100/deploy.prototxt", "ped-100/snapshot_iter_70800.caffemodel", "ped-100/mean.binaryproto" );
+	detectNet* net = detectNet::Create("multiped-90/deploy.prototxt", "multiped-90/snapshot_iter_32040.caffemodel", "multiped-90/mean.binaryproto" );
 	
 	if( !net )
 	{
@@ -68,9 +69,8 @@ int main( int argc, char** argv )
 	
 	// classify image
 	int numBoundingBoxes = maxBoxes;
-	const bool status = net->DetectRGBA(imgCUDA, imgWidth, imgHeight, bbCPU, &numBoundingBoxes, confCPU);
 	
-	if( !status )
+	if( !net->DetectRGBA(imgCUDA, imgWidth, imgHeight, bbCPU, &numBoundingBoxes, confCPU) )
 		printf("detectnet-console:  failed to classify '%s'\n", imgFilename);
 	//else
 		//printf("detectnet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, "pedestrian");

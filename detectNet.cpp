@@ -184,8 +184,8 @@ bool detectNet::DetectRGBA( float* rgba, uint32_t width, uint32_t height, float*
 			
 			if( confidence != NULL )
 			{
-				confidence[n * 2 + 0] = r.v;
-				confidence[n * 2 + 1] = r.u;
+				confidence[n * 2 + 0] = r.v;	// coverage
+				confidence[n * 2 + 1] = r.u;	// class ID
 			}
 			
 			n++;

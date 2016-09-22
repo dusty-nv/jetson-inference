@@ -40,7 +40,7 @@ public:
 	 * @param numBoxes pointer to a single integer containing the maximum number of boxes available in boundingBoxes.
 	 *                 upon successful return, will be set to the number of bounding boxes detected in the image.
 	 * @param boundingBoxes pointer to array of bounding boxes.
-	 * @param confidence optional pointer to 2D float array filled with confidence value for each bounding box and object class. 
+	 * @param confidence optional pointer to float2 array filled with a (confidence, class) pair for each bounding box (numBoxes) 
 	 * @returns True if the image was processed without error, false if an error was encountered.
 	 */
 	bool DetectRGBA( float* input, uint32_t width, uint32_t height, float* boundingBoxes, int* numBoxes, float* confidence=NULL );

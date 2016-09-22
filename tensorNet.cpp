@@ -6,6 +6,9 @@
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
 
+#include <iostream>
+#include <fstream>
+
 
 static const int MAX_BATCH_SIZE = 1;
 
@@ -139,11 +142,36 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	std::stringstream gieModelStream;
 	gieModelStream.seekg(0, gieModelStream.beg);
 
-	if( !ProfileModel(prototxt_path, model_path, output_blobs, MAX_BATCH_SIZE, gieModelStream) )
-	{
-		printf("failed to load %s\n", model_path);
-		return 0;
+	char cache_path[512];
+	sprintf(cache_path, "%s.tensorcache", model_path);
+	printf(LOG_GIE "attempting to open cache file %s\n", cache_path);
+	
+	std::ifstream cache( cache_path );
+
+    if( !cache )
+    {
+		printf(LOG_GIE "cache file not found, profiling network model\n");
+		
+		if( !ProfileModel(prototxt_path, model_path, output_blobs, MAX_BATCH_SIZE, gieModelStream) )
+		{
+			printf("failed to load %s\n", model_path);
+			return 0;
+		}
+		
+		printf(LOG_GIE "network profiling complete, writing cache to %s\n", cache_path);
+		std::ofstream outFile;
+		outFile.open(cache_path);
+		outFile << gieModelStream.rdbuf();
+		outFile.close();
+		gieModelStream.seekg(0, gieModelStream.beg);
+		printf(LOG_GIE "completed writing cache to %s\n", cache_path);
 	}
+	else
+	{
+		printf(LOG_GIE "loading network profile from cache... %s\n", cache_path);
+        gieModelStream << cache.rdbuf();
+        cache.close();
+    }
 
 	printf(LOG_GIE "%s loaded\n", model_path);
 	
