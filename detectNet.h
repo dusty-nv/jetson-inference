@@ -34,7 +34,7 @@ public:
 	
 	/**
 	 * Detect object locations in the RGBA image.
-	 * @param rgba float4 input image in CUDA device memory.
+	 * @param rgba float4 RGBA input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param numBoxes pointer to a single integer containing the maximum number of boxes available in boundingBoxes.
@@ -43,12 +43,14 @@ public:
 	 * @param confidence optional pointer to float2 array filled with a (confidence, class) pair for each bounding box (numBoxes) 
 	 * @returns True if the image was processed without error, false if an error was encountered.
 	 */
-	bool DetectRGBA( float* input, uint32_t width, uint32_t height, float* boundingBoxes, int* numBoxes, float* confidence=NULL );
+	bool Detect( float* rgba, uint32_t width, uint32_t height, float* boundingBoxes, int* numBoxes, float* confidence=NULL );
 	
 	/**
 	 * Draw bounding boxes in the RGBA image.
+	 * @param input float4 RGBA input image in CUDA device memory.
+	 * @param output float4 RGBA output image in CUDA device memory.
 	 */
-	bool DrawBoxesRGBA( float* input, float* output, uint32_t width, uint32_t height, const float* boundingBoxes, const int numBoxes, float* colors=NULL );
+	bool DrawBoxes( float* input, float* output, uint32_t width, uint32_t height, const float* boundingBoxes, const int numBoxes, const float color[4] );
 	
 	/**
 	 * Retrieve the number of object classes supported in the detector

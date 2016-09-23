@@ -70,7 +70,7 @@ int main( int argc, char** argv )
 	// classify image
 	int numBoundingBoxes = maxBoxes;
 	
-	if( !net->DetectRGBA(imgCUDA, imgWidth, imgHeight, bbCPU, &numBoundingBoxes, confCPU) )
+	if( !net->Detect(imgCUDA, imgWidth, imgHeight, bbCPU, &numBoundingBoxes, confCPU) )
 		printf("detectnet-console:  failed to classify '%s'\n", imgFilename);
 	//else
 		//printf("detectnet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, "pedestrian");

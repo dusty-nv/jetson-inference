@@ -87,10 +87,10 @@ static void mergeRect( std::vector<float6>& rects, const float6& rect )
 	if( !intersects )
 		rects.push_back(rect);
 }
-	
-	
+
+
 // Detect
-bool detectNet::DetectRGBA( float* rgba, uint32_t width, uint32_t height, float* boundingBoxes, int* numBoxes, float* confidence )
+bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* boundingBoxes, int* numBoxes, float* confidence )
 {
 	if( !rgba || width == 0 || height == 0 || !boundingBoxes || !numBoxes || *numBoxes < 1 )
 	{
@@ -196,3 +196,16 @@ bool detectNet::DetectRGBA( float* rgba, uint32_t width, uint32_t height, float*
 	return true;
 }
 
+
+
+
+// DrawBoxes
+bool detectNet::DrawBoxes( float* input, float* output, uint32_t width, uint32_t height, const float* boundingBoxes, const int numBoxes, const float color[4] )
+{
+	if( !input || !output || width == 0 || height == 0 || !boundingBoxes || numBoxes < 1 )
+		return false;
+	
+	return true;
+}
+	
+	
