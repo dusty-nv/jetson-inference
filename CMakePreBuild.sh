@@ -30,5 +30,11 @@ mv bvlc_alexnet.caffemodel ../data/networks
 wget http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel
 mv bvlc_googlenet.caffemodel ../data/networks
 
+wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOMzVRODNuSHlvbms' -O ped-100.tar.gz
+tar -xzvf ped-100.tar.gz -C ../data/networks
+https://drive.google.com/open?id=0BwYxpotGWRNORDM0VW5XTzNMS0k
+
+wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNORDM0VW5XTzNMS0k' -O multiped-90.tar.gz
+tar -xzvf multiped-90.tar.gz -C ../data/networks
 
 echo "[Pre-build]  Finished CMakePreBuild script"

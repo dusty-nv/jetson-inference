@@ -10,7 +10,7 @@
 #include <fstream>
 
 
-static const int MAX_BATCH_SIZE = 1;
+static const int MAX_BATCH_SIZE = 2;
 
 
 // constructor

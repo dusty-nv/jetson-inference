@@ -2,11 +2,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(jetson-inference)
 
-
-# setup GIE
-set(GIE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../GIE" CACHE FILEPATH "Path to GPU Inference Engine")
+# setup tensorRT flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")	# -std=gnu++11
-
 set(BUILD_DEPS "YES" CACHE BOOL "If YES, will install dependencies into sandbox.  Automatically reset to NO after dependencies are installed.")
 
 
@@ -57,7 +54,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 # build C/C++ interface
 include_directories(${PROJECT_INCLUDE_DIR} ${GIE_PATH}/include)
 include_directories(/usr/include/gstreamer-1.0 /usr/lib/aarch64-linux-gnu/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/aarch64-linux-gnu/glib-2.0/include/)
-link_directories(${GIE_PATH}/lib)
 
 file(GLOB inferenceSources *.cpp *.cu camera/*.cpp cuda/*.cu display/*.cpp)
 file(GLOB inferenceIncludes *.h camera/*.h cuda/*.h display/*.h)
@@ -78,7 +74,8 @@ file(GLOB networkData ${PROJECT_SOURCE_DIR}/data/networks/* ${PROJECT_SOURCE_DIR
 
 foreach(include ${networkData})
 	message("-- Copying ${include}")
-	configure_file(${include} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
+	file(COPY ${include} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+	#configure_file(${include} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
 endforeach()
 
 
