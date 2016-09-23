@@ -8,12 +8,48 @@
 #include <QImage>
 
 
+
+bool saveImageRGBA( const char* filename, float4* cpu, int width, int height, float max_pixel )
+{
+	if( !filename || !cpu || !width || !height )
+	{
+		printf("saveImageRGBA - invalid parameter\n");
+		return false;
+	}
+	
+	const float scale = 255.0f / max_pixel;
+	QImage img(width, height, QImage::Format_RGB32);
+
+	for( int y=0; y < height; y++ )
+	{
+		for( int x=0; x < width; x++ )
+		{
+			const float4 px = cpu[y * width + x];
+			//printf("%03u %03u   %f\n", x, y, normPx);
+			img.setPixel(x, y, qRgb(px.x * scale, px.y * scale, px.z * scale));
+		}
+	}
+
+
+	/*
+	 * save file
+	 */
+	if( !img.save(filename/*, "PNG", 100*/) )
+	{
+		printf("failed to save %ix%i output image to %s\n", width, height, filename);
+		return false;
+	}
+	
+	return true;
+}
+
+
 // loadImageRGBA
 bool loadImageRGBA( const char* filename, float4** cpu, float4** gpu, int* width, int* height )
 {
 	if( !filename || !cpu || !gpu || !width || !height )
 	{
-		printf("loadImageRGB - invalid parameter\n");
+		printf("loadImageRGBA - invalid parameter\n");
 		return false;
 	}
 	

@@ -30,8 +30,8 @@ int main( int argc, char** argv )
 	
 
 	// create detectNet
-	//detectNet* net = detectNet::Create("ped-100/deploy.prototxt", "ped-100/snapshot_iter_70800.caffemodel", "ped-100/mean.binaryproto" );
-	detectNet* net = detectNet::Create("multiped-90/deploy.prototxt", "multiped-90/snapshot_iter_32040.caffemodel", "multiped-90/mean.binaryproto" );
+	detectNet* net = detectNet::Create("ped-100/deploy.prototxt", "ped-100/snapshot_iter_70800.caffemodel", "ped-100/mean.binaryproto" );
+	//detectNet* net = detectNet::Create("multiped-90/deploy.prototxt", "multiped-90/snapshot_iter_32040.caffemodel", "multiped-90/mean.binaryproto" );
 	
 	if( !net )
 	{
@@ -43,8 +43,8 @@ int main( int argc, char** argv )
 	const uint32_t maxBoxes = net->GetMaxBoundingBoxes();		printf("maximum bounding boxes:  %u\n", maxBoxes);
 	const uint32_t classes  = net->GetNumClasses();
 	
-	float* bbCPU  = NULL;
-	float* bbCUDA = NULL;
+	float* bbCPU    = NULL;
+	float* bbCUDA   = NULL;
 	float* confCPU  = NULL;
 	float* confCUDA = NULL;
 	
@@ -72,9 +72,43 @@ int main( int argc, char** argv )
 	
 	if( !net->Detect(imgCUDA, imgWidth, imgHeight, bbCPU, &numBoundingBoxes, confCPU) )
 		printf("detectnet-console:  failed to classify '%s'\n", imgFilename);
-	//else
-		//printf("detectnet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, "pedestrian");
-	
+	else if( argc > 2 )		// if the user supplied an output filename
+	{
+		// perform output bounding box overlay
+		printf("%i bounding boxes detected\n", numBoundingBoxes);
+		
+		int lastClass = 0;
+		int lastStart = 0;
+		
+		for( int n=0; n < numBoundingBoxes; n++ )
+		{
+			const int nc = confCPU[n*2+1];
+			float* bb = bbCPU + (n * 4);
+			
+			printf("bounding box %i   (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
+			
+			if( nc != lastClass || n == (numBoundingBoxes - 1) )
+			{
+				if( !net->DrawBoxes(imgCUDA, imgCUDA, imgWidth, imgHeight, bbCUDA + (lastStart * 4), (n - lastStart) + 1, lastClass) )
+					printf("detectnet-console:  failed to draw boxes\n");
+					
+				lastClass = nc;
+				lastStart = n;
+			}
+		}
+		
+		CUDA(cudaThreadSynchronize());
+		
+		// save image to disk
+		printf("detectnet-console:  writing %ix%i image to '%s'\n", imgWidth, imgHeight, argv[2]);
+		
+		if( !saveImageRGBA(argv[2], (float4*)imgCPU, imgWidth, imgHeight, 255.0f) )
+			printf("detectnet-console:  failed saving %ix%i image to '%s'\n", imgWidth, imgHeight, argv[2]);
+		else	
+			printf("detectnet-console:  successfully wrote %ix%i image to '%s'\n", imgWidth, imgHeight, argv[2]);
+		
+	}
+	//printf("detectnet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, "pedestrian");
 	
 	printf("\nshutting down...\n");
 	CUDA(cudaFreeHost(imgCPU));

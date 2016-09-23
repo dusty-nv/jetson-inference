@@ -50,26 +50,32 @@ public:
 	 * @param input float4 RGBA input image in CUDA device memory.
 	 * @param output float4 RGBA output image in CUDA device memory.
 	 */
-	bool DrawBoxes( float* input, float* output, uint32_t width, uint32_t height, const float* boundingBoxes, const int numBoxes, const float color[4] );
-	
-	/**
-	 * Retrieve the number of object classes supported in the detector
-	 */
-	inline uint32_t GetNumClasses() const			{ return mOutputs[0].dims.c; }
+	bool DrawBoxes( float* input, float* output, uint32_t width, uint32_t height, const float* boundingBoxes, int numBoxes, int classIndex=0 );
 	
 	/**
 	 * Retrieve the maximum number of bounding boxes the network supports.
 	 * Knowing this is useful for allocating the buffers to store the output bounding boxes.
 	 */
 	inline uint32_t GetMaxBoundingBoxes() const		{ return mOutputs[1].dims.w * mOutputs[1].dims.h * mOutputs[1].dims.c; }
-	
+		
+	/**
+	 * Retrieve the number of object classes supported in the detector
+	 */
+	inline uint32_t GetNumClasses() const			{ return mOutputs[0].dims.c; }
 
+	/**
+	 * Set the visualization color of a particular class of object.
+	 */
+	void SetClassColor( uint32_t classIndex, float r, float g, float b, float a=1.0f );
+	
+	
 protected:
 
 	// constructor
 	detectNet();
 	
-	float mCoverageThreshold;
+	float  mCoverageThreshold;
+	float* mClassColors[2];
 };
 
 

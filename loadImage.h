@@ -23,6 +23,12 @@ bool loadImageRGBA( const char* filename, float4** cpu, float4** gpu, int* width
 
 
 /**
+ * Save an image to disk
+ */
+bool saveImageRGBA( const char* filename, float4* cpu, int width, int height, float max_pixel=1.0f );
+
+
+/**
  * Load a color image from disk into CUDA memory.
  * This function loads the image into shared CPU/GPU memory, using the functions from cudaMappedMemory.h
  *
@@ -46,8 +52,6 @@ bool loadImageRGB( const char* filename, float3** cpu, float3** gpu, int* width,
  * @param height Variable containing height in pixels of the image.
  */
 bool loadImageBGR( const char* filename, float3** cpu, float3** gpu, int* width, int* height, const float3& mean=make_float3(0,0,0) );
-
-
 
 
 

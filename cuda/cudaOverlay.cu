@@ -5,6 +5,10 @@
 #include "cudaOverlay.h"
 
 
+static inline __device__ __host__ bool eq_less( float a, float b, float epsilon )
+{
+	return (a > (b - epsilon) && a < (b + epsilon)) ? true : false;
+}
 
 template<typename T>
 __global__ void gpuRectOutlines( T* input, T* output, int width, int height,
@@ -19,14 +23,29 @@ __global__ void gpuRectOutlines( T* input, T* output, int width, int height,
 	const T px_in = input[ y * width + x ];
 	T px_out = px_in;
 	
+	const float fx = x;
+	const float fy = y;
+	
+	const float thick = 10.0f;
+	const float alpha = color.w / 255.0f;
+	const float ialph = 1.0f - alpha;
+	
 	for( int nr=0; nr < numRects; nr++ )
 	{
 		const float4 r = rects[nr];
 		
-		if( (x >= r.x && x <= r.z && (y == r.y || y == r.w)) ||
-			(y >= r.y && y <= r.w && (x == r.x || x == r.z)) )
+		//printf("%i %i %i  %f %f %f %f\n", numRects, x, y, r.x, r.y, r.z, r.w);
+		
+		if( fy >= r.y && fy <= r.w /*&& (eq_less(fx, r.x, ep) || eq_less(fx, r.z, ep))*/ )
 		{
-			px_out = color;
+			if( fx >= r.x && fx <= r.z /*&& (eq_less(fy, r.y, ep) || eq_less(fy, r.w, ep))*/ )
+			{
+				//printf("cuda rect %i %i\n", x, y);
+
+				px_out.x = alpha * color.x + ialph * px_out.x;
+				px_out.y = alpha * color.y + ialph * px_out.y;
+				px_out.z = alpha * color.z + ialph * px_out.z;
+			}
 		}
 	}
 	
