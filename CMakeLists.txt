@@ -84,6 +84,7 @@ add_subdirectory(imagenet-console)
 add_subdirectory(imagenet-camera)
 
 add_subdirectory(detectnet-console)
+add_subdirectory(detectnet-camera)
 
 add_subdirectory(camera/gst-camera)
 add_subdirectory(camera/v4l2-console)

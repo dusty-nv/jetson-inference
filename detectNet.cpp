@@ -13,6 +13,15 @@
 #define OUTPUT_BBOX 1
 
 
+detectNet* detectNet::Create( NetworkType networkType )
+{
+	if( networkType == PEDNET_MULTI )
+		return Create("multiped-500/deploy.prototxt", "multiped-500/snapshot_iter_178000.caffemodel", "multiped-500/mean.binaryproto" );
+	else /*if( networkTYpe == PEDNET )*/
+		return Create("ped-100/deploy.prototxt", "ped-100/snapshot_iter_70800.caffemodel", "ped-100/mean.binaryproto" );
+}
+
+	
 void detectNet::SetClassColor( uint32_t classIndex, float r, float g, float b, float a )
 {
 	if( classIndex >= GetNumClasses() || !mClassColors[0] )

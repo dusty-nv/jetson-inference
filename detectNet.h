@@ -16,6 +16,20 @@ class detectNet : public tensorNet
 {
 public:
 	/**
+	 * Network choice enumeration.
+	 */
+	enum NetworkType
+	{
+		PEDNET = 0,
+		PEDNET_MULTI
+	};
+
+	/**
+	 * Load a new network instance
+	 */
+	static detectNet* Create( NetworkType networkType=PEDNET_MULTI );
+	
+	/**
 	 * Load a new network instance
 	 * @param prototxt_path File path to the deployable network prototxt
 	 * @param model_path File path to the caffemodel

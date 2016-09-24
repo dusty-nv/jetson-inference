@@ -75,7 +75,6 @@ int main( int argc, char** argv )
 		printf("detectnet-console:  failed to classify '%s'\n", imgFilename);
 	else if( argc > 2 )		// if the user supplied an output filename
 	{
-		// perform output bounding box overlay
 		printf("%i bounding boxes detected\n", numBoundingBoxes);
 		
 		int lastClass = 0;
