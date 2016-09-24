@@ -30,6 +30,17 @@ public:
 	static imageNet* Create( NetworkType networkType=GOOGLENET );
 	
 	/**
+	 * Load a new network instance
+	 * @param prototxt_path File path to the deployable network prototxt
+	 * @param model_path File path to the caffemodel
+	 * @param mean_binary File path to the mean value binary proto
+	 * @param class_info File path to list of class name labels
+	 * @param input Name of the input layer blob.
+	 */
+	static imageNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
+							 const char* class_labels, const char* input="data", const char* output="prob" );
+	
+	/**
 	 * Destory
 	 */
 	virtual ~imageNet();
@@ -73,6 +84,7 @@ protected:
 	imageNet();
 	
 	bool init( NetworkType networkType );
+	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output);
 	bool loadClassInfo( const char* filename );
 	
 	uint32_t mOutputClasses;

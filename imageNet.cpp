@@ -47,6 +47,52 @@ imageNet* imageNet::Create( imageNet::NetworkType networkType )
 }
 
 
+imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
+							const char* class_path, const char* input, const char* output )
+{
+	imageNet* net = new imageNet();
+	
+	if( !net )
+		return NULL;
+	
+	if( !net->init(prototxt_path, model_path, mean_binary, class_path, input, output) )
+	{
+		printf("imageNet -- failed to initialize.\n");
+		return NULL;
+	}
+	
+	return net;
+}
+	
+bool imageNet::init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output)
+{
+	/*
+	 * load and parse googlenet network definition and model file
+	 */
+	if( !tensorNet::LoadNetwork( prototxt_path, model_path, mean_binary, input, output ) )
+	{
+		printf("failed to load %s\n", model_path);
+		return false;
+	}
+
+	printf(LOG_GIE "%s loaded\n", model_path);
+
+	/*
+	 * load synset classnames
+	 */
+	mOutputClasses = mOutputs[0].dims.c;
+	
+	if( !loadClassInfo(class_path) || mClassSynset.size() != mOutputClasses || mClassDesc.size() != mOutputClasses )
+	{
+		printf("imageNet -- failed to load synset class descriptions  (%zu / %zu of %u)\n", mClassSynset.size(), mClassDesc.size(), mOutputClasses);
+		return false;
+	}
+	
+	printf("%s initialized.\n", model_path);
+	return true;
+}
+							 
+
 // loadClassInfo
 bool imageNet::loadClassInfo( const char* filename )
 {
