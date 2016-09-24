@@ -12,6 +12,7 @@
 #include <unistd.h>
 
 #include "cudaNormalize.h"
+#include "cudaFont.h"
 #include "imageNet.h"
 
 
@@ -96,6 +97,11 @@ int main( int argc, char** argv )
 	}
 	
 	
+	/*
+	 * create font
+	 */
+	cudaFont* font = cudaFont::Create();
+	
 
 	/*
 	 * start streaming
@@ -138,10 +144,20 @@ int main( int argc, char** argv )
 		{
 			printf("imagenet-camera:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
 
+			if( font != NULL )
+			{
+				char str[256];
+				sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
+				
+				font->RenderOverlay((float4*)imgRGBA, (float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
+								    str, 10, 10, make_float4(255.0f, 255.0f, 255.0f, 255.0f));
+			}
+			
 			if( display != NULL )
 			{
 				char str[256];
-				sprintf(str, "GIE build %x | %s | %04.1f FPS | %05.2f%% %s", NV_GIE_VERSION, net->GetNetworkName(), display->GetFPS(), confidence * 100.0f, net->GetClassDesc(img_class));
+				sprintf(str, "GIE build %x | %s | %04.1f FPS", NV_GIE_VERSION, net->GetNetworkName(), display->GetFPS());
+				//sprintf(str, "GIE build %x | %s | %04.1f FPS | %05.2f%% %s", NV_GIE_VERSION, net->GetNetworkName(), display->GetFPS(), confidence * 100.0f, net->GetClassDesc(img_class));
 				display->SetTitle(str);	
 			}	
 		}	
