@@ -31,7 +31,14 @@ public:
 	 * Draw font overlay onto image
 	 */
 	bool RenderOverlay( float4* input, float4* output, uint32_t width, uint32_t height, 
-						const std::vector< std::pair< std::string, int2 > >& text );
+						const char* str, int x, int y, const float4& color=make_float4(0, 0, 0, 255));
+						
+	/**
+	 * Draw font overlay onto image
+	 */
+	bool RenderOverlay( float4* input, float4* output, uint32_t width, uint32_t height, 
+						const std::vector< std::pair< std::string, int2 > >& text,
+						const float4& color=make_float4(0.0f, 0.0f, 0.0f, 255.0f));
 	
 protected:
 	cudaFont();

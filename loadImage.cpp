@@ -88,7 +88,8 @@ bool loadImageRGBA( const char* filename, float4** cpu, float4** gpu, int* width
 			const QRgb rgb  = qImg.pixel(x,y);
 			const float4 px = make_float4(float(qRed(rgb)), 
 										  float(qGreen(rgb)), 
-										  float(qBlue(rgb)), 1.0f);
+										  float(qBlue(rgb)),
+										  float(qAlpha(rgb)));
 			
 			cpuPtr[y*imgWidth+x] = px;
 		}

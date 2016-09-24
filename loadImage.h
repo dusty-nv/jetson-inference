@@ -25,7 +25,7 @@ bool loadImageRGBA( const char* filename, float4** cpu, float4** gpu, int* width
 /**
  * Save an image to disk
  */
-bool saveImageRGBA( const char* filename, float4* cpu, int width, int height, float max_pixel=1.0f );
+bool saveImageRGBA( const char* filename, float4* cpu, int width, int height, float max_pixel=255.0f );
 
 
 /**
