@@ -29,7 +29,7 @@ void detectNet::SetClassColor( uint32_t classIndex, float r, float g, float b, f
 // constructor
 detectNet::detectNet() : tensorNet()
 {
-	mCoverageThreshold = 0.25f;
+	mCoverageThreshold = 0.4f;
 	
 	mClassColors[0] = NULL;	// cpu ptr
 	mClassColors[1] = NULL; // gpu ptr
@@ -73,14 +73,14 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 			net->mClassColors[0][n*4+0] = 0.0f;	// r
 			net->mClassColors[0][n*4+1] = 200.0f;	// g
 			net->mClassColors[0][n*4+2] = 255.0f;	// b
-			net->mClassColors[0][n*4+3] = 160.0f;	// r
+			net->mClassColors[0][n*4+3] = 100.0f;	// a
 		}
 		else
 		{
-			net->mClassColors[0][n*4+0] = 255.0f;	// r
-			net->mClassColors[0][n*4+1] = 200.0f;	// g
-			net->mClassColors[0][n*4+2] = 0.0f;	// b
-			net->mClassColors[0][n*4+3] = 160.0f;	// r
+			net->mClassColors[0][n*4+0] = 0.0f;	// r
+			net->mClassColors[0][n*4+1] = 255.0f;	// g
+			net->mClassColors[0][n*4+2] = 175.0f;	// b
+			net->mClassColors[0][n*4+3] = 100.0f;	// a
 		}
 	}
 	

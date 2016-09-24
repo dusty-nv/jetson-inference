@@ -30,8 +30,9 @@ int main( int argc, char** argv )
 	
 
 	// create detectNet
-	detectNet* net = detectNet::Create("ped-100/deploy.prototxt", "ped-100/snapshot_iter_70800.caffemodel", "ped-100/mean.binaryproto" );
+	//detectNet* net = detectNet::Create("ped-100/deploy.prototxt", "ped-100/snapshot_iter_70800.caffemodel", "ped-100/mean.binaryproto" );
 	//detectNet* net = detectNet::Create("multiped-90/deploy.prototxt", "multiped-90/snapshot_iter_32040.caffemodel", "multiped-90/mean.binaryproto" );
+	detectNet* net = detectNet::Create("multiped-500/deploy.prototxt", "multiped-500/snapshot_iter_178000.caffemodel", "multiped-500/mean.binaryproto" );
 	
 	if( !net )
 	{
