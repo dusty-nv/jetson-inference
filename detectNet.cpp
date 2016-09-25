@@ -12,13 +12,15 @@
 #define OUTPUT_CVG  0
 #define OUTPUT_BBOX 1
 
+//#define DEBUG_CLUSTERING
 
-detectNet* detectNet::Create( NetworkType networkType )
+
+detectNet* detectNet::Create( NetworkType networkType, float threshold  )
 {
 	if( networkType == PEDNET_MULTI )
-		return Create("multiped-500/deploy.prototxt", "multiped-500/snapshot_iter_178000.caffemodel", "multiped-500/mean.binaryproto" );
+		return Create("multiped-500/deploy.prototxt", "multiped-500/snapshot_iter_178000.caffemodel", "multiped-500/mean.binaryproto", threshold );
 	else /*if( networkTYpe == PEDNET )*/
-		return Create("ped-100/deploy.prototxt", "ped-100/snapshot_iter_70800.caffemodel", "ped-100/mean.binaryproto" );
+		return Create("ped-100/deploy.prototxt", "ped-100/snapshot_iter_70800.caffemodel", "ped-100/mean.binaryproto", threshold );
 }
 
 	
@@ -38,7 +40,7 @@ void detectNet::SetClassColor( uint32_t classIndex, float r, float g, float b, f
 // constructor
 detectNet::detectNet() : tensorNet()
 {
-	mCoverageThreshold = 0.4f;
+	mCoverageThreshold = 0.5f;
 	
 	mClassColors[0] = NULL;	// cpu ptr
 	mClassColors[1] = NULL; // gpu ptr
@@ -53,7 +55,7 @@ detectNet::~detectNet()
 
 
 // Create
-detectNet* detectNet::Create( const char* prototxt, const char* model, const char* mean_binary, const char* input_blob, const char* coverage_blob, const char* bbox_blob )
+detectNet* detectNet::Create( const char* prototxt, const char* model, const char* mean_binary, float threshold, const char* input_blob, const char* coverage_blob, const char* bbox_blob )
 {
 	detectNet* net = new detectNet();
 	
@@ -93,6 +95,7 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 		}
 	}
 	
+	net->SetThreshold(threshold);
 	return net;
 }
 
@@ -124,8 +127,12 @@ static void mergeRect( std::vector<float6>& rects, const float6& rect )
 	{
 		if( rectOverlap(rects[r], rect) )
 		{
-			intersects = true;   printf("found overlap\n");
-			
+			intersects = true;   
+
+#ifdef DEBUG_CLUSTERING
+			printf("found overlap\n");		
+#endif
+
 			if( rect.x < rects[r].x ) 	rects[r].x = rect.x;
 			if( rect.y < rects[r].y ) 	rects[r].y = rect.y;
 			if( rect.z > rects[r].z )	rects[r].z = rect.z;
@@ -162,7 +169,12 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 	// process with GIE
 	void* inferenceBuffers[] = { mInputCUDA, mOutputs[OUTPUT_CVG].CUDA, mOutputs[OUTPUT_BBOX].CUDA };
 	
-	mContext->execute(1, inferenceBuffers);
+	if( !mContext->execute(1, inferenceBuffers) )
+	{
+		printf(LOG_GIE "detectNet::Classify() -- failed to execute tensorRT context\n");
+		*numBoxes = 0;
+		return false;
+	}
 
 	// cluster detection bboxes
 	float* net_cvg   = mOutputs[OUTPUT_CVG].CPU;
@@ -178,12 +190,14 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 	
 	const float scale_x = float(width) / float(mInputDims.w);
 	const float scale_y = float(height) / float(mInputDims.h);
-	
+
+#ifdef DEBUG_CLUSTERING	
 	printf("input width %i height %i\n", (int)mInputDims.w, (int)mInputDims.h);
 	printf("cells x %i  y %i\n", ow, oh);
 	printf("cell width %f  height %f\n", cell_width, cell_height);
 	printf("scale x %f  y %f\n", scale_x, scale_y);
-	
+#endif
+#if 1
 	std::vector< std::vector<float6> > rects;
 	rects.resize(cls);
 	
@@ -203,30 +217,21 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 					const float mx = x * cell_width;
 					const float my = y * cell_height;
 					
-					/*const float x1 = mx * scale_x;
-					const float y1 = my * scale_y;
-					const float x2 = (x + 1) * cell_width * scale_x;
-					const float y2 = (y + 1) * cell_height * scale_y;*/
-					
-					/*const float x1 = net_rects[0 * owh + y * ow + x] + mx;
-					const float y1 = net_rects[1 * owh + y * ow + x] + my;
-					const float x2 = net_rects[2 * owh + y * ow + x] + mx;	
-					const float y2 = net_rects[3 * owh + y * ow + x] + my;*/
-					
 					const float x1 = (net_rects[0 * owh + y * ow + x] + mx) * scale_x;	// left
 					const float y1 = (net_rects[1 * owh + y * ow + x] + my) * scale_y;	// top
 					const float x2 = (net_rects[2 * owh + y * ow + x] + mx) * scale_x;	// right
 					const float y2 = (net_rects[3 * owh + y * ow + x] + my) * scale_y;	// bottom 
 					
+				#ifdef DEBUG_CLUSTERING
 					printf("rect x=%u y=%u  cvg=%f  %f %f   %f %f \n", x, y, coverage, x1, x2, y1, y2);
-					
+				#endif					
 					mergeRect( rects[z], make_float6(x1, y1, x2, y2, coverage, z) );
 				}
 			}
 		}
 	}
 	
-	printf("done clustering rects\n");
+	//printf("done clustering rects\n");
 	
 	// condense the multiple class lists down to 1 list of detections
 	const uint32_t numMax = *numBoxes;
@@ -234,13 +239,10 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 	
 	for( uint32_t z = 0; z < cls; z++ )
 	{
-		printf("z = %u\n", z);
-		
 		const uint32_t numBox = rects[z].size();
 		
 		for( uint32_t b = 0; b < numBox && n < numMax; b++ )
 		{
-			printf("b = %u\n", b );
 			const float6 r = rects[z][b];
 			
 			boundingBoxes[n * 4 + 0] = r.x;
@@ -259,6 +261,9 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 	}
 	
 	*numBoxes = n;
+#else
+	*numBoxes = 0;
+#endif
 	return true;
 }
 

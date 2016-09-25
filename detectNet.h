@@ -26,20 +26,23 @@ public:
 
 	/**
 	 * Load a new network instance
+	 * @param networkType type of pre-supported network to load
+	 * @param threshold default minimum threshold for detection
 	 */
-	static detectNet* Create( NetworkType networkType=PEDNET_MULTI );
+	static detectNet* Create( NetworkType networkType=PEDNET_MULTI, float threshold=0.5f );
 	
 	/**
-	 * Load a new network instance
+	 * Load a custom network instance
 	 * @param prototxt_path File path to the deployable network prototxt
 	 * @param model_path File path to the caffemodel
 	 * @param mean_binary File path to the mean value binary proto
+	 * @param threshold default minimum threshold for detection
 	 * @param input Name of the input layer blob.
 	 * @param coverage Name of the output coverage classifier layer blob, which contains the confidence values for each bbox.
 	 * @param bboxes Name of the output bounding box layer blob, which contains a grid of rectangles in the image.
 	 */
-	static detectNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
-							  const char* input="data", const char* coverage="coverage", const char* bboxes="bboxes" );
+	static detectNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary, float threshold=0.5f,
+						 const char* input="data", const char* coverage="coverage", const char* bboxes="bboxes" );
 	
 	/**
 	 * Destory
@@ -66,6 +69,17 @@ public:
 	 */
 	bool DrawBoxes( float* input, float* output, uint32_t width, uint32_t height, const float* boundingBoxes, int numBoxes, int classIndex=0 );
 	
+	/**
+	 * Retrieve the minimum threshold for detection.
+	 * TODO:  change this to per-class in the future
+	 */
+	inline float GetThreshold() const				{ return mCoverageThreshold; }
+
+	/**
+	 * Set the minimum threshold for detection.
+	 */
+	inline void SetThreshold( float threshold ) 		{ mCoverageThreshold = threshold; }
+
 	/**
 	 * Retrieve the maximum number of bounding boxes the network supports.
 	 * Knowing this is useful for allocating the buffers to store the output bounding boxes.

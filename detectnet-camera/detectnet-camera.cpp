@@ -80,6 +80,10 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
+
+	/*
+	 * allocate memory for output bounding boxes and class confidence
+	 */
 	const uint32_t maxBoxes = net->GetMaxBoundingBoxes();		printf("maximum bounding boxes:  %u\n", maxBoxes);
 	const uint32_t classes  = net->GetNumClasses();
 	
@@ -145,19 +149,17 @@ int main( int argc, char** argv )
 		// get the latest frame
 		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
 			printf("\ndetectnet-camera:  failed to capture frame\n");
-		//else
-		//	printf("detectnet-camera:  recieved new frame  CPU=0x%p  GPU=0x%p\n", imgCPU, imgCUDA);
-		
+
 		// convert from YUV to RGBA
 		void* imgRGBA = NULL;
 		
 		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
 			printf("detectnet-camera:  failed to convert from NV12 to RGBA\n");
 
-		// classify image
+		// classify image with detectNet
 		int numBoundingBoxes = maxBoxes;
 	
-		if( net->Detect((float*)imgCUDA, camera->GetWidth(), camera->GetHeight(), bbCPU, &numBoundingBoxes, confCPU))
+		if( net->Detect((float*)imgRGBA, camera->GetWidth(), camera->GetHeight(), bbCPU, &numBoundingBoxes, confCPU))
 		{
 			printf("%i bounding boxes detected\n", numBoundingBoxes);
 		
@@ -173,7 +175,7 @@ int main( int argc, char** argv )
 				
 				if( nc != lastClass || n == (numBoundingBoxes - 1) )
 				{
-					if( !net->DrawBoxes((float*)imgCUDA, (float*)imgCUDA, camera->GetWidth(), camera->GetHeight(), 
+					if( !net->DrawBoxes((float*)imgRGBA, (float*)imgRGBA, camera->GetWidth(), camera->GetHeight(), 
 						                        bbCUDA + (lastStart * 4), (n - lastStart) + 1, lastClass) )
 						printf("detectnet-console:  failed to draw boxes\n");
 						

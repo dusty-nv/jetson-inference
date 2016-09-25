@@ -94,7 +94,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	builder->setMaxBatchSize(maxBatchSize);
 	builder->setMaxWorkspaceSize(16 << 20);
 
-	// set up the network for paired-fp16 format, only on DriveCX
+	// set up the network for paired-fp16 format
 	if(useFp16)
 		builder->setHalf2Mode(true);
 

@@ -150,7 +150,7 @@ int main( int argc, char** argv )
 				sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
 				
 				font->RenderOverlay((float4*)imgRGBA, (float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
-								    str, 10, 10, make_float4(255.0f, 255.0f, 255.0f, 255.0f));
+								    str, 0, 0, make_float4(255.0f, 255.0f, 255.0f, 255.0f));
 			}
 			
 			if( display != NULL )
