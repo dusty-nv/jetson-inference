@@ -36,4 +36,7 @@ tar -xzvf ped-100.tar.gz -C ../data/networks
 wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOUmtGdGIyYjlEbTA' -O multiped-500.tar.gz
 tar -xzvf multiped-500.tar.gz -C ../data/networks
 
+wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOWXpOQ0JCQ3AxSTA' -O facenet-120.tar.gz
+tar -xzvf facenet-120.tar.gz -C ../data/networks
+
 echo "[Pre-build]  Finished CMakePreBuild script"

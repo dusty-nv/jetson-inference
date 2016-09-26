@@ -45,9 +45,14 @@ int main( int argc, char** argv )
 	 */
 	detectNet::NetworkType networkType = detectNet::PEDNET_MULTI;
 
-	if( argc > 1 && strcmp(argv[1], "ped-100") == 0 )
-		networkType = detectNet::PEDNET;
-		
+	if( argc > 1 )
+	{
+		if( strcmp(argv[1], "ped-100") == 0 )
+			networkType = detectNet::PEDNET;
+		else if( strcmp(argv[1], "facenet-120") == 0 || strcmp(argv[1], "face-120") == 0 )
+			networkType = detectNet::FACENET;
+	}
+	
 	if( signal(SIGINT, sig_handler) == SIG_ERR )
 		printf("\ncan't catch SIGINT\n");
 

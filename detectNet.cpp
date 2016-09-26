@@ -19,6 +19,8 @@ detectNet* detectNet::Create( NetworkType networkType, float threshold  )
 {
 	if( networkType == PEDNET_MULTI )
 		return Create("multiped-500/deploy.prototxt", "multiped-500/snapshot_iter_178000.caffemodel", "multiped-500/mean.binaryproto", threshold );
+	else if( networkType == FACENET )
+		return Create("facenet-120/deploy.prototxt", "facenet-120/snapshot_iter_24000.caffemodel", NULL, threshold );
 	else /*if( networkTYpe == PEDNET )*/
 		return Create("ped-100/deploy.prototxt", "ped-100/snapshot_iter_70800.caffemodel", "ped-100/mean.binaryproto", threshold );
 }
@@ -79,7 +81,7 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 	
 	for( uint32_t n=0; n < numClasses; n++ )
 	{
-		if( n != 1 )
+		if( n != 0 )
 		{
 			net->mClassColors[0][n*4+0] = 0.0f;	// r
 			net->mClassColors[0][n*4+1] = 200.0f;	// g
