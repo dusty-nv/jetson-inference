@@ -14,6 +14,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 * [Classifying Images with ImageNet](#classifying-images-with-imagenet)
 * [Running the Recognition Camera Demo](#running-the-live-recognition-camera-demo)
 * [Locating Object Coordinates with DetectNet](#locating-object-coordinates-with-detectNet)
+* [Running the Live Detection Camera Demo](#running-the-live-detection-camera-demo)
 * [Auxiliary Documentation](docs/aux-contents.md)
     * [Building nvcaffe](docs/building-nvcaffe.md)
 	* [Other Examples](docs/other-examples.md)
@@ -116,12 +117,15 @@ Then, classify an example image with the `imagenet-console` program.  `imagenet-
 $ ./imagenet-console orange_0.jpg output_0.jpg
 ```
 output_0.jpg
+
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/8c63ed0975b4c89a4134c320d4e47931"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/8c63ed0975b4c89a4134c320d4e47931" width="600"></a>
 
 ``` bash
 $ ./imagenet-console granny_smith_1.jpg output_1.jpg
 ```
-output_1.jpg <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/b6aea9d50490fbe261420ab940de0efd"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/b6aea9d50490fbe261420ab940de0efd" width="600"></a>
+output_1.jpg 
+
+<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/b6aea9d50490fbe261420ab940de0efd"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/b6aea9d50490fbe261420ab940de0efd" width="600"></a>
 
 
 Popular training databases with various annotations and labels include [ImageNet](image-net.org), [MS COCO](mscoco.org), and [Google Images](images.google.com) among others.
@@ -155,6 +159,7 @@ $ ./detectnet-console peds-007.png output-7.png
 ```
 
 output-7.png
+
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/eb1066d317406abb66be939e23150ccc"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/eb1066d317406abb66be939e23150ccc" width="700"></a>
 
 To change the network that `detectnet-console` uses, modify [`detectnet-console.cpp`](detectnet-console.cpp) (beginning line 33):
@@ -170,6 +175,7 @@ When using the multiped-500 model (`PEDNET_MULTI`), for images containing luggag
 $ ./detectnet-console peds-008.png output-8.png
 ```
 output-8.png
+
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84" width="700"></a>
 
 ## Running the Live Detection Camera Demo
