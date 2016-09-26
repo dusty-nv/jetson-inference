@@ -149,7 +149,7 @@ The [`detectNet`](detectNet.h) object accepts as input the 2D image, and outputs
 
 1. **ped-100**  (single-class pedestrian detector)
 2. **multiped-500**   (multi-class pedestrian + baggage detector)
-3. **facenet-120**  (single-class facial detector)
+3. **facenet-120**  (single-class facial recognition detector)
 
 To process test images with [`detectNet`](detectNet.h) and TensorRT, use the [`detectnet-console`](detectnet-console/detectnet-console.cpp) program.  [`detectnet-console`](detectnet-console/detectnet-console.cpp) accepts command-line arguments representing the path to the input image and path to the output image (with the bounding box overlays rendered).  Some test images are included with the repo:
 
