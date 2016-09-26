@@ -95,7 +95,7 @@ public:
 	/**
 	 * Set the visualization color of a particular class of object.
 	 */
-	void SetClassColor( uint32_t classIndex, float r, float g, float b, float a=1.0f );
+	void SetClassColor( uint32_t classIndex, float r, float g, float b, float a=255.0f );
 	
 	
 protected:

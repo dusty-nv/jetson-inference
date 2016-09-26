@@ -24,13 +24,6 @@ public:
 	 */
 	virtual ~tensorNet();
 	
-protected:
-
-	/**
-	 * Constructor.
-	 */
-	tensorNet();
-	
 	/**
 	 * Load a new network instance
 	 * @param prototxt File path to the deployable network prototxt
@@ -38,7 +31,7 @@ protected:
 	 * @param mean File path to the mean value binary proto (NULL if none)
 	 */
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean=NULL,
-					  const char* input_blob="data", const char* output_blob="prob");
+				   const char* input_blob="data", const char* output_blob="prob");
 
 	/**
 	 * Load a new network instance with multiple output layers
@@ -47,8 +40,20 @@ protected:
 	 * @param mean File path to the mean value binary proto (NULL if none)
 	 */
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean,
-					  const char* input_blob, const std::vector<std::string>& output_blobs);
-					  
+				   const char* input_blob, const std::vector<std::string>& output_blobs);
+			
+	/**
+ 	 * Query for half-precision FP16 support.
+	 */
+	inline bool HasFP16() const		{ return mEnableFP16; }
+	
+protected:
+
+	/**
+	 * Constructor.
+	 */
+	tensorNet();
+			  
 	/**
 	 * Create and output an optimized network model
 	 * @note this function is automatically used by LoadNetwork, but also can 
@@ -60,9 +65,9 @@ protected:
 	 * @param modelStream output model stream
 	 */
 	bool ProfileModel( const std::string& deployFile, const std::string& modelFile,
-					   const std::vector<std::string>& outputs,
-					   uint32_t maxBatchSize, std::ostream& modelStream);
-							
+				    const std::vector<std::string>& outputs,
+				    uint32_t maxBatchSize, std::ostream& modelStream);
+				
 	/**
 	 * Prefix used for tagging printed log output
 	 */
@@ -96,6 +101,7 @@ protected:
 	uint32_t mInputSize;
 	float*   mInputCPU;
 	float*   mInputCUDA;
+	bool	    mEnableFP16;
 	
 	nvinfer1::Dims3 mInputDims;
 	

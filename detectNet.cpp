@@ -81,7 +81,7 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 	
 	for( uint32_t n=0; n < numClasses; n++ )
 	{
-		if( n != 0 )
+		if( n != 1 )
 		{
 			net->mClassColors[0][n*4+0] = 0.0f;	// r
 			net->mClassColors[0][n*4+1] = 200.0f;	// g

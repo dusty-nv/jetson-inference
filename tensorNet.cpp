@@ -20,12 +20,13 @@ tensorNet::tensorNet()
 	mInfer   = NULL;
 	mContext = NULL;
 	
-	mWidth     = 0;
-	mHeight    = 0;
-	mInputSize = 0;
-	mInputCPU  = NULL;
-	mInputCUDA = NULL;
-	
+	mWidth      = 0;
+	mHeight     = 0;
+	mInputSize  = 0;
+	mInputCPU   = NULL;
+	mInputCUDA  = NULL;
+	mEnableFP16 = false;
+
 	memset(&mInputDims, 0, sizeof(nvinfer1::Dims3));
 }
 
@@ -59,16 +60,16 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	nvinfer1::INetworkDefinition* network = builder->createNetwork();
 
 	builder->setMinFindIterations(3);	// allow time for TX1 GPU to spin up
-    builder->setAverageFindIterations(2);
+     builder->setAverageFindIterations(2);
 
 	// parse the caffe model to populate the network, then set the outputs
 	nvcaffeparser1::ICaffeParser* parser = nvcaffeparser1::createCaffeParser();
 
-	const bool useFp16 = builder->platformHasFastFp16();	// getHalf2Mode();
-	printf(LOG_GIE "platform %s FP16 support.\n", useFp16 ? "has" : "does not have");
+	mEnableFP16 = builder->platformHasFastFp16();
+	printf(LOG_GIE "platform %s FP16 support.\n", mEnableFP16 ? "has" : "does not have");
 	printf(LOG_GIE "loading %s %s\n", deployFile.c_str(), modelFile.c_str());
 	
-	nvinfer1::DataType modelDataType = useFp16 ? nvinfer1::DataType::kHALF : nvinfer1::DataType::kFLOAT; // create a 16-bit model if it's natively supported
+	nvinfer1::DataType modelDataType = mEnableFP16 ? nvinfer1::DataType::kHALF : nvinfer1::DataType::kFLOAT; // create a 16-bit model if it's natively supported
 	const nvcaffeparser1::IBlobNameToTensor *blobNameToTensor =
 		parser->parse(deployFile.c_str(),		// caffe deploy file
 					  modelFile.c_str(),		// caffe model file
@@ -95,7 +96,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	builder->setMaxWorkspaceSize(16 << 20);
 
 	// set up the network for paired-fp16 format
-	if(useFp16)
+	if(mEnableFP16)
 		builder->setHalf2Mode(true);
 
 	printf(LOG_GIE "building CUDA engine\n");
@@ -137,7 +138,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		return false;
 	
 	/*
-	 * load and parse network definition and model file
+	 * attempt to load network from cache before profiling with tensorRT
 	 */
 	std::stringstream gieModelStream;
 	gieModelStream.seekg(0, gieModelStream.beg);
@@ -148,16 +149,16 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	
 	std::ifstream cache( cache_path );
 
-    if( !cache )
-    {
+	if( !cache )
+	{
 		printf(LOG_GIE "cache file not found, profiling network model\n");
-		
+	
 		if( !ProfileModel(prototxt_path, model_path, output_blobs, MAX_BATCH_SIZE, gieModelStream) )
 		{
 			printf("failed to load %s\n", model_path);
 			return 0;
 		}
-		
+	
 		printf(LOG_GIE "network profiling complete, writing cache to %s\n", cache_path);
 		std::ofstream outFile;
 		outFile.open(cache_path);
@@ -169,9 +170,19 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	else
 	{
 		printf(LOG_GIE "loading network profile from cache... %s\n", cache_path);
-        gieModelStream << cache.rdbuf();
-        cache.close();
-    }
+		gieModelStream << cache.rdbuf();
+		cache.close();
+
+		// test for half FP16 support
+		nvinfer1::IBuilder* builder = createInferBuilder(gLogger);
+		
+		if( builder != NULL )
+		{
+			mEnableFP16 = builder->platformHasFastFp16();
+			printf(LOG_GIE "platform %s FP16 support.\n", mEnableFP16 ? "has" : "does not have");
+			builder->destroy();	
+		}
+	}
 
 	printf(LOG_GIE "%s loaded\n", model_path);
 	

@@ -148,7 +148,7 @@ int main( int argc, char** argv )
 			{
 				char str[256];
 				sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
-				
+	
 				font->RenderOverlay((float4*)imgRGBA, (float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
 								    str, 0, 0, make_float4(255.0f, 255.0f, 255.0f, 255.0f));
 			}
@@ -156,7 +156,7 @@ int main( int argc, char** argv )
 			if( display != NULL )
 			{
 				char str[256];
-				sprintf(str, "GIE build %x | %s | %04.1f FPS", NV_GIE_VERSION, net->GetNetworkName(), display->GetFPS());
+				sprintf(str, "GIE build %x | %s | %s | %04.1f FPS", NV_GIE_VERSION, net->GetNetworkName(), net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
 				//sprintf(str, "GIE build %x | %s | %04.1f FPS | %05.2f%% %s", NV_GIE_VERSION, net->GetNetworkName(), display->GetFPS(), confidence * 100.0f, net->GetClassDesc(img_class));
 				display->SetTitle(str);	
 			}	
