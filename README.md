@@ -8,14 +8,14 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 
 ### Table of Contents
 
-* [What's Deep Learning?](#whats-deep-learning)
-* [Getting TensorRT](#getting-tensorrt)
-* [Building from Source](#building-from-source)
-* [Classifying Images with ImageNet](#classifying-images-with-imagenet)
-* [Running the Recognition Camera Demo](#running-the-live-recognition-camera-demo)
-* [Locating Object Coordinates with DetectNet](#locating-object-coordinates-with-detectNet)
-* [Running the Live Detection Camera Demo](#running-the-live-detection-camera-demo)
-* [Auxiliary Documentation](docs/aux-contents.md)
+1. [What's Deep Learning?](#whats-deep-learning)
+2. [Getting TensorRT](#getting-tensorrt)
+3. [Building from Source](#building-from-source)
+4. [Classifying Images with ImageNet](#classifying-images-with-imagenet)
+5. [Running the Recognition Camera Demo](#running-the-live-recognition-camera-demo)
+6. [Locating Object Coordinates with DetectNet](#locating-object-coordinates-with-detectNet)
+7. [Running the Live Detection Camera Demo](#running-the-live-detection-camera-demo)
+8. [Auxiliary Documentation](docs/aux-contents.md)
     * [Building nvcaffe](docs/building-nvcaffe.md)
 	* [Other Examples](docs/other-examples.md)
 
