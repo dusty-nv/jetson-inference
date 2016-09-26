@@ -111,7 +111,7 @@ After building, first make sure your terminal is located in the aarch64/bin dire
 $ cd jetson-inference/build/aarch64/bin
 ```
 
-Then, classify an example image with the `imagenet-console` program.  [`imagenet-console`](imagenet-console/imagenet-console.cpp) accepts 2 command-line arguments:  the path to the input image and path to the output image (with the class overlay printed).
+Then, classify an example image with the [`imagenet-console`](imagenet-console/imagenet-console.cpp) program.  [`imagenet-console`](imagenet-console/imagenet-console.cpp) accepts 2 command-line arguments:  the path to the input image and path to the output image (with the class overlay printed).
 
 ``` bash
 $ ./imagenet-console orange_0.jpg output_0.jpg
@@ -150,7 +150,7 @@ The [`detectNet`](detectNet.h) object accepts as input the 2D image, and outputs
 2. **multiped-500**   (multi-class pedestrian + baggage detector)
 3. **facenet-120**  (single-class facial detector)
 
-To process test images with [`detectNet`](detectNet.h) and TensorRT, use the `detectnet-console` program.  [`detectnet-console`](detectnet-console/detectnet-console.cpp) accepts command-line arguments representing the path to the input image and path to the output image (with the bounding box overlays rendered).  Some test images are included with the repo:
+To process test images with [`detectNet`](detectNet.h) and TensorRT, use the [`detectnet-console`](detectnet-console/detectnet-console.cpp) program.  [`detectnet-console`](detectnet-console/detectnet-console.cpp) accepts command-line arguments representing the path to the input image and path to the output image (with the bounding box overlays rendered).  Some test images are included with the repo:
 
 ``` bash
 $ ./detectnet-console peds-007.png output-7.png
@@ -158,7 +158,7 @@ $ ./detectnet-console peds-007.png output-7.png
 
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/eb1066d317406abb66be939e23150ccc"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/eb1066d317406abb66be939e23150ccc" width="900"></a>
 
-To change the network that `detectnet-console` uses, modify [`detectnet-console.cpp`](detectnet-console/detectnet-console.cpp) (beginning line 33):
+To change the network that [`detectnet-console`](detectnet-console/detectnet-console.cpp) uses, modify [`detectnet-console.cpp`](detectnet-console/detectnet-console.cpp) (beginning line 33):
 ``` c
 detectNet* net = detectNet::Create( detectNet::PEDNET_MULTI );	 // uncomment to enable one of these 
 //detectNet* net = detectNet::Create( detectNet::PEDNET );
