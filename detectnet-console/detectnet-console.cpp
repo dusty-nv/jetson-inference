@@ -30,7 +30,9 @@ int main( int argc, char** argv )
 	
 
 	// create detectNet
-	detectNet* net = detectNet::Create( detectNet::FACENET );
+	detectNet* net = detectNet::Create( detectNet::PEDNET_MULTI ); // uncomment to enable one of these 
+  //detectNet* net = detectNet::Create( detectNet::PEDNET );
+  //detectNet* net = detectNet::Create( detectNet::FACENET );
   //detectNet* net = detectNet::Create("multiped-500/deploy.prototxt", "multiped-500/snapshot_iter_178000.caffemodel", "multiped-500/mean.binaryproto" );
 	
 	if( !net )
