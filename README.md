@@ -12,9 +12,9 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 2. [Getting TensorRT](#getting-tensorrt)
 3. [Building from Source](#building-from-source)
 4. [Classifying Images with ImageNet](#classifying-images-with-imagenet)
-5. [Running the Recognition Camera Demo](#running-the-live-recognition-camera-demo)
+5. [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
 6. [Locating Object Coordinates with DetectNet](#locating-object-coordinates-with-detectNet)
-7. [Running the Live Detection Camera Demo](#running-the-live-detection-camera-demo)
+7. [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
 8. [Auxiliary Documentation](docs/aux-contents.md)
     * [Building nvcaffe](docs/building-nvcaffe.md)
 	* [Other Examples](docs/other-examples.md)
@@ -128,7 +128,7 @@ $ ./imagenet-console granny_smith_1.jpg output_1.jpg
 
 Popular training databases with various annotations and labels include [ImageNet](image-net.org), [MS COCO](mscoco.org), and [Google Images](images.google.com) among others.
   
-## Running the Live Recognition Camera Demo
+## Running the Live Camera Recognition Demo
 
 Similar to the last example, the realtime image recognition demo is located in /aarch64/bin and is called [`imagenet-camera`](imagenet-camera/imagenet-camera.cpp).
 It runs on live camera stream and depending on user arguments, loads googlenet or alexnet with TensorRT. 
@@ -173,7 +173,7 @@ $ ./detectnet-console peds-008.png output-8.png
 
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84" width="900"></a>
 
-## Running the Live Detection Camera Demo
+## Running the Live Camera Detection Demo
 
 Similar to the previous example, [`detectnet-camera`](detectnet-camera/detectnet-camera.cpp) runs the object detection networks on live video feed from the Jetson onboard camera.  Launch it from command line along with the type of desired network:
 
