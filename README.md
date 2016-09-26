@@ -116,14 +116,12 @@ Then, classify an example image with the `imagenet-console` program.  `imagenet-
 ``` bash
 $ ./imagenet-console orange_0.jpg output_0.jpg
 ```
-output_0.jpg
 
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/8c63ed0975b4c89a4134c320d4e47931"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/8c63ed0975b4c89a4134c320d4e47931" width="700"></a>
 
 ``` bash
 $ ./imagenet-console granny_smith_1.jpg output_1.jpg
 ```
-output_1.jpg 
 
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/b6aea9d50490fbe261420ab940de0efd"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/b6aea9d50490fbe261420ab940de0efd" width="700"></a>
 
@@ -158,9 +156,7 @@ To process test images with [`detectNet`](detectNet.h) and TensorRT, use the `de
 $ ./detectnet-console peds-007.png output-7.png
 ```
 
-output-7.png
-
-<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/eb1066d317406abb66be939e23150ccc"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/eb1066d317406abb66be939e23150ccc" width="800"></a>
+<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/eb1066d317406abb66be939e23150ccc"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/eb1066d317406abb66be939e23150ccc" width="900"></a>
 
 To change the network that `detectnet-console` uses, modify [`detectnet-console.cpp`](detectnet-console.cpp) (beginning line 33):
 ``` c
@@ -174,9 +170,8 @@ When using the multiped-500 model (`PEDNET_MULTI`), for images containing luggag
 ``` bash
 $ ./detectnet-console peds-008.png output-8.png
 ```
-output-8.png
 
-<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84" width="800"></a>
+<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84" width="900"></a>
 
 ## Running the Live Detection Camera Demo
 
