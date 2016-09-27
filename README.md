@@ -19,10 +19,10 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 9. [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
 10. [Re-training DetectNet with DIGITS](#re-training-detectnet-with-digits)
 
+
 > **note**:  this [branch](http://github.com/dusty-nv/jetson-inference) is verified against 
 >        JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS)
-
->  Other branches: [JetPack 2.2 / L4T R24.1 aarch64 (Ubuntu 14.04 LTS)](http://github.com/dusty-nv/jetson-inference/tree/L4T-R24.1) 
+>  Other branches available: [JetPack 2.2 / L4T R24.1 aarch64 (Ubuntu 14.04 LTS)](http://github.com/dusty-nv/jetson-inference/tree/L4T-R24.1) 
 
 
 ## What's Deep Learning?
