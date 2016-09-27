@@ -10,7 +10,7 @@
 
 
 /**
- * Image recognition with GoogLeNet/Alexnet, using TensorRT.
+ * Image recognition with GoogleNet/Alexnet or custom models, using TensorRT.
  */
 class imageNet : public tensorNet
 {
@@ -41,7 +41,7 @@ public:
 							 const char* class_labels, const char* input="data", const char* output="prob" );
 	
 	/**
-	 * Destory
+	 * Destroy
 	 */
 	virtual ~imageNet();
 	

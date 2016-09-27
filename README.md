@@ -36,11 +36,13 @@ New to deep neural networks (DNNs) and machine learning?  Take this [introductor
 
 <a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/7aca8779d265a860d5133cdc8c6c6b76" width="800"></a>
 
-Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md)** training your own DNNs and implementing advanced AI.
+Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md)** creating DNN models from training datasets and deploying them with high performance.
+
 
 <a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/5720072a6941032685ea18c4e4068a23" width="700"></a>
 
-NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of advanced AI.  
+NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of implementing advanced AI and perception. 
+
 To get started, see the DIGITS [Getting Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md) guide and then the next section of the tutorial, [Getting TensorRT](#getting-tensorrt).
 
 ## Getting TensorRT
@@ -113,6 +115,50 @@ binaries residing in aarch64/bin, headers in aarch64/include, and libraries in a
 ## Digging Into the Code
 
 For reference, see the available vision primitives, including [`imageNet`](imageNet.h) for image recognition and [`detectNet`](detectNet.h) for object localization.
+
+``` c++
+/**
+ * Image recognition with GoogleNet/Alexnet or custom models, using TensorRT.
+ */
+class imageNet : public tensorNet
+{
+public:
+	/**
+	 * Network choice enumeration.
+	 */
+	enum NetworkType
+	{
+		ALEXNET,
+		GOOGLENET
+	};
+
+	/**
+	 * Load a new network instance
+	 */
+	static imageNet* Create( NetworkType networkType=GOOGLENET );
+	
+	/**
+	 * Load a new network instance
+	 * @param prototxt_path File path to the deployable network prototxt
+	 * @param model_path File path to the caffemodel
+	 * @param mean_binary File path to the mean value binary proto
+	 * @param class_info File path to list of class name labels
+	 * @param input Name of the input layer blob.
+	 */
+	static imageNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
+							 const char* class_labels, const char* input="data", const char* output="prob" );
+
+	/**
+	 * Determine the maximum likelihood image class.
+	 * @param rgba float4 input image in CUDA device memory.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
+	 * @param confidence optional pointer to float filled with confidence value.
+	 * @returns Index of the maximum class, or -1 on error.
+	 */
+	int Classify( float* rgba, uint32_t width, uint32_t height, float* confidence=NULL );
+};
+```
 
 Both inherit from the shared [`tensorNet`](tensorNet.h) object which contains common TensorRT code.
 
@@ -221,10 +267,14 @@ $ ./detectnet-camera                     # by default, program will run using mu
 
 ## Re-training DetectNet with DIGITS
 
-For a guide to training custom DetectNets, see the **[Object Detection](https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection)** example included in DIGITS version 4.
+For a step-by-step guide to training custom DetectNets, see the **[Object Detection](https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection)** example included in DIGITS version 4.
+
+<a href="https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/0c1a5ee3ab9c4629ac61cbbe9aae3e10" width="500"></a>
 
 
 ## Extra Resources
+
+In this area, links and resources for deep learning developers are listed:
 
 * [Appendix](docs/aux-contents.md)
 	* [NVIDIA Deep Learning Institute](https://developer.nvidia.com/deep-learning-institute)
