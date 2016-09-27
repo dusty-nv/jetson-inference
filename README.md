@@ -267,10 +267,11 @@ $ ./detectnet-camera                     # by default, program will run using mu
 
 ## Re-training DetectNet with DIGITS
 
-For a step-by-step guide to training custom DetectNets, see the **[Object Detection](https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection)** example included in DIGITS version 4.
+For a step-by-step guide to training custom DetectNets, see the **[Object Detection](https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection)** example included in DIGITS version 4:
 
 <a href="https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/0c1a5ee3ab9c4629ac61cbbe9aae3e10" width="500"></a>
 
+The DIGITS guide above uses the [KITTI](http://www.cvlibs.net/datasets/kitti/) dataset, however [MS COCO](http://mscoco.org) also has bounding data available for a variety of objects.
 
 ## Extra Resources
 
