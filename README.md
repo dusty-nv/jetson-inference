@@ -6,16 +6,20 @@ Included in this repo are resources for efficiently deploying neural networks us
 
 Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`detectNet`](detectNet.h) for object localization, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.
 
-### Table of Contents
+### **Ten Steps to Deep Learning**
 
 1. [What's Deep Learning?](#whats-deep-learning)
 2. [Getting TensorRT](#getting-tensorrt)
 3. [Building from Source](#building-from-source)
 4. [Classifying Images with ImageNet](#classifying-images-with-imagenet)
 5. [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
-6. [Locating Object Coordinates with DetectNet](#locating-object-coordinates-with-detectNet)
-7. [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
-8. [Auxiliary Documentation](docs/aux-contents.md)
+6. [Re-training the Network with Customized Data](#re-training-the-network-with-customized-data)
+7. [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
+8. [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
+9. [Re-training DetectNet with DIGITS](#re-training-detectnet-with-digits)
+8. [Extra Resources](docs/aux-contents.md)
+	* [NVIDIA Deep Learning Institute](https://developer.nvidia.com/deep-learning-institute)
+	* [Introductory QwikLabs](https://developer.nvidia.com/deep-learning-courses)
     * [Building nvcaffe](docs/building-nvcaffe.md)
 	* [Other Examples](docs/other-examples.md)
 
@@ -29,9 +33,11 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 
 New to deep neural networks (DNNs) and machine learning?  Take this [introductory primer](docs/deep-learning.md) on training and inference.
 
-<a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/5720072a6941032685ea18c4e4068a23" width="800"></a>
+Everyone can create and deploy DNNs using NVIDIA's deep learning tools available:
 
-NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field.
+<a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/5720072a6941032685ea18c4e4068a23" width="700"></a>
+
+NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of advanced AI.
 
 ## Getting TensorRT
 
@@ -125,9 +131,8 @@ $ ./imagenet-console granny_smith_1.jpg output_1.jpg
 
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/b6aea9d50490fbe261420ab940de0efd"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/b6aea9d50490fbe261420ab940de0efd" width="700"></a>
 
+Next, we will use [imageNet](imageNet.h) to classify a live video feed from the Jetson onboard camera.
 
-Popular training databases with various annotations and labels include [ImageNet](image-net.org), [MS COCO](mscoco.org), and [Google Images](images.google.com) among others.
-  
 ## Running the Live Camera Recognition Demo
 
 Similar to the last example, the realtime image recognition demo is located in /aarch64/bin and is called [`imagenet-camera`](imagenet-camera/imagenet-camera.cpp).
@@ -142,7 +147,23 @@ The frames per second (FPS), classified object name from the video, and confiden
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/399176be3f3ab2d9bfade84e0afe2abd"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/399176be3f3ab2d9bfade84e0afe2abd" width="800"></a>
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/93071639e44913b6f23c23db2a077da3"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/93071639e44913b6f23c23db2a077da3" width="800"></a>
 
-## Locating Object Coordinates with DetectNet
+## Re-training the Network with Customized Data
+
+The existing GoogleNet and AlexNet models that are downloaded by the repo are pre-trained on [1000 classes of objects](data/networks/ilsvrc12_synset_words.txt).
+
+What if you require a new object class to be added to the network, or otherwise require a different organization of the classes?  
+Using [NVIDIA DIGITS](http://github.com/NVIDIA/DIGITS), networks can be fine-tuned or re-trained from a pre-exisiting network model.
+After installing DIGITS on a PC or in the cloud (such as an AWS instance), see the **[Image Folder Specification](https://github.com/NVIDIA/DIGITS/blob/master/docs/ImageFolderFormat.md)** to learn how to organize the data for your particular application.
+Popular training databases with various annotations and labels include [ImageNet](image-net.org), [MS COCO](mscoco.org), and [Google Images](images.google.com) among others.
+See here for a crawler script that will download the 1000 original classes, including as many of the original images that are still available online.
+
+Then, while creating the new network model in DIGITS, copy the [GoogleNet prototxt](data/networks/googlenet.prototxt) and specify the existing GoogleNet caffemodel as the DIGITS **Pretrained Model**:
+
+<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/610745a8bafae4a5686d45901f5cc6f3 "><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/610745a8bafae4a5686d45901f5cc6f3 " width="800"></a>
+
+The network training should now converge faster than if it were trained from scratch.  After the desired accuracy has been reached, copy the new model checkpoint back over to your Jetson and proceed as before, but now with the added classes available for recognition.
+
+## Locating Object Coordinates using DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability to highlight is detecting multiple objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
 
 The [`detectNet`](detectNet.h) object accepts as input the 2D image, and outputs a list of coordinates of the detected bounding boxes.  Three example detection network models are are automatically downloaded during the repo [source configuration](#configuring):
@@ -188,3 +209,6 @@ $ ./detectnet-camera                     # by default, program will run using mu
 > **note**:  to achieve maximum performance while running detectnet, increase the Jetson TX1 clock limits by running the script:
 >  `sudo ~/jetson_clocks.sh`
 
+## Re-training DetectNet with DIGITS
+
+For a guide to training custom DetectNets, see the **[Object Detection](https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection)** example included in DIGITS version 4.
