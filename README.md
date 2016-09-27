@@ -110,6 +110,12 @@ Depending on architecture, the package will be built to either armhf or aarch64,
 
 binaries residing in aarch64/bin, headers in aarch64/include, and libraries in aarch64/lib.
 
+## Digging Into the Code
+
+For reference, see the available vision primitives, including [`imageNet`](imageNet.h) for image recognition and [`detectNet`](detectNet.h) for object localization.
+
+Both inherit from the shared [`tensorNet`](tensorNet.h) object which contains common TensorRT code.
+
 ## Classifying Images with ImageNet
 There are multiple types of deep learning networks available, including recognition, detection/localization, and soon segmentation.  The first deep learning capability to highlight is **image recognition** using an 'imageNet' that's been trained to identify similar objects.
 
