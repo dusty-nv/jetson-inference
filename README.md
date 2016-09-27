@@ -11,13 +11,14 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 1. [What's Deep Learning?](#whats-deep-learning)
 2. [Getting TensorRT](#getting-tensorrt)
 3. [Building from Source](#building-from-source)
-4. [Classifying Images with ImageNet](#classifying-images-with-imagenet)
-5. [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
-6. [Re-training the Network with Customized Data](#re-training-the-network-with-customized-data)
-7. [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
-8. [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
-9. [Re-training DetectNet with DIGITS](#re-training-detectnet-with-digits)
-8. [Extra Resources](docs/aux-contents.md)
+4. [Digging Into the Code](#digging-into-the-code)
+5. [Classifying Images with ImageNet](#classifying-images-with-imagenet)
+6. [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
+7. [Re-training the Network with Customized Data](#re-training-the-network-with-customized-data)
+8. [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
+9. [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
+10. [Re-training DetectNet with DIGITS](#re-training-detectnet-with-digits)
+* [Extra Resources](#extra-resources)
 	* [NVIDIA Deep Learning Institute](https://developer.nvidia.com/deep-learning-institute)
 	* [Introductory QwikLabs](https://developer.nvidia.com/deep-learning-courses)
     * [Building nvcaffe](docs/building-nvcaffe.md)
@@ -33,11 +34,14 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 
 New to deep neural networks (DNNs) and machine learning?  Take this [introductory primer](docs/deep-learning.md) on training and inference.
 
-Everyone can create and deploy DNNs using NVIDIA's deep learning tools available:
+<a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/7aca8779d265a860d5133cdc8c6c6b76" width="800"></a>
+
+Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md)** training your own DNNs and implementing advanced AI.
 
 <a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/5720072a6941032685ea18c4e4068a23" width="700"></a>
 
-NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of advanced AI.
+NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of advanced AI.  
+To get started, see the DIGITS [Getting Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md) guide and then the next section of the tutorial, [Getting TensorRT](#getting-tensorrt).
 
 ## Getting TensorRT
 
@@ -212,3 +216,12 @@ $ ./detectnet-camera                     # by default, program will run using mu
 ## Re-training DetectNet with DIGITS
 
 For a guide to training custom DetectNets, see the **[Object Detection](https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection)** example included in DIGITS version 4.
+
+
+## Extra Resources
+
+* [Appendix](docs/aux-contents.md)
+	* [NVIDIA Deep Learning Institute](https://developer.nvidia.com/deep-learning-institute)
+	* [Introductory QwikLabs](https://developer.nvidia.com/deep-learning-courses)
+    * [Building nvcaffe](docs/building-nvcaffe.md)
+	* [Other Examples](docs/other-examples.md)
