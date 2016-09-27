@@ -18,11 +18,6 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 8. [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
 9. [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
 10. [Re-training DetectNet with DIGITS](#re-training-detectnet-with-digits)
-* [Extra Resources](#extra-resources)
-	* [NVIDIA Deep Learning Institute](https://developer.nvidia.com/deep-learning-institute)
-	* [Introductory QwikLabs](https://developer.nvidia.com/deep-learning-courses)
-    * [Building nvcaffe](docs/building-nvcaffe.md)
-	* [Other Examples](docs/other-examples.md)
 
 > **note**:  this [branch](http://github.com/dusty-nv/jetson-inference) is verified against 
 >        JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS)
@@ -278,7 +273,6 @@ The DIGITS guide above uses the [KITTI](http://www.cvlibs.net/datasets/kitti/) d
 In this area, links and resources for deep learning developers are listed:
 
 * [Appendix](docs/aux-contents.md)
-	* [NVIDIA Deep Learning Institute](https://developer.nvidia.com/deep-learning-institute)
-	* [Introductory QwikLabs](https://developer.nvidia.com/deep-learning-courses)
+	* [NVIDIA Deep Learning Institute](https://developer.nvidia.com/deep-learning-institute) — [Introductory QwikLabs](https://developer.nvidia.com/deep-learning-courses)
     * [Building nvcaffe](docs/building-nvcaffe.md)
 	* [Other Examples](docs/other-examples.md)
