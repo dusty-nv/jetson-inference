@@ -1,6 +1,6 @@
 ![Abaco stripe](https://www.abaco.com/sites/default/files/default_images/product-strip.jpg)
 
-# Abaco Systems TX1 enable Small Form Factor solutions
+# Abaco Systems TX1 enabled Small Form Factor solutions
 ## Deep Learning for Military Applications
 This is a branch of the NVIDIA's deep learning inference workshop and end-to-end realtime object recognition library for Jetson TX1. Please reffer to the main branch for details and tips on setting up this demonstartion.
 
@@ -27,7 +27,7 @@ Please be patient whilst we build our DIGITS server to retrain the network and w
 
 - [x] [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp) updated to use webcam
 - [ ] [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) updated to use webcam
-- [ ] parametrize requested USB resolution (Dafault fixed at 1280 x 720)
+- [ ] parametrize requested USB resolution (Default fixed at 1280 x 720)
 - [ ] update training data (military images)
 - [ ] update GUI to run in window and toggle to fullscreen (fill screen)
 
