@@ -11,7 +11,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 1. [What's Deep Learning?](#whats-deep-learning)
 2. [Get JetPack 2.3 / TensorRT](#getting-tensorrt)
 3. [Building from Source](#building-from-source)
-4. [Dig Into the Code](#digging-into-the-code)
+4. [Digging Into the Code](#digging-into-the-code)
 5. [Classify Images with ImageNet](#classifying-images-with-imagenet)
 6. [Run the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
 7. [Re-train the Network with Customized Data](#re-training-the-network-with-customized-data)
@@ -211,8 +211,7 @@ After installing DIGITS on a PC or in the cloud (such as an AWS instance), see t
 
 Popular training databases with various annotations and labels include [ImageNet](image-net.org), [MS COCO](mscoco.org), and [Google Images](images.google.com) among others.
 
-See [here](wget http://www.deepdetect.com/dd/datasets/imagenet/ilsvrc12_urls.txt.gz
-gzip -d ilsvrc12_urls.txt.gz) under the `Downloading the dataset` section to obtain a crawler script that will download the 1000 original classes, including as many of the original images that are still available online.
+See [here](http://www.deepdetect.com/tutorials/train-imagenet/) under the `Downloading the dataset` section to obtain a crawler script that will download the 1000 original classes, including as many of the original images that are still available online.
 
 > note: be considerate running the crawler script from a corporate network, they may flag the activity.
 > It will probably take overnight on a decent connection to download the 1000 ILSVRC12 classes (100GB) from ImageNet (1.2TB)
