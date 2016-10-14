@@ -26,7 +26,7 @@ The aim of this project is to create a network trained on images that come from 
 Please be patient whilst we build our DIGITS server to retrain the network and watch this space.
 
 - [x] [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp) updated to use webcam
-- [ ] [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) updated to use webcamera
+- [ ] [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) updated to use webcam
 - [ ] parametrize requested USB resolution (Dafault fixed at 1280 x 720)
 - [ ] update training data (military images)
 - [ ] update GUI to run in window and toggle to fullscreen (fill screen)
@@ -82,5 +82,7 @@ For jetson 64bit builds the architecte will be aarch64, with the following direc
 
 ## Links
 * [Abaco Systems](http://abaco.com)
+* [eLinux TX1](http://elinux.org/Jetson_TX1)
+* [Nvidia devtalk](https://devtalk.nvidia.com/default/board/164/)
 
 ![Abaco Systems Logo](http://www.marketwire.com/library/MwGo/2016/6/27/11G104398/abaco%20final-135550592.jpg)
