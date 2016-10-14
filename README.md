@@ -17,3 +17,5 @@ Modified pipelines can be supplied to the create function to support cameras usi
 
 ## Goals
 The aim of this project is to create a network trained on images that come from military applications such at Air / Sea / Land. Updating the network to work with this updated network for demonstration and as an example to a defence audiance. 
+
+Please be patient whilst we build our DIGITS server to retrain the network and watch this space.
