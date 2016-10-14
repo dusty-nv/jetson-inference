@@ -19,3 +19,51 @@ Modified pipelines can be supplied to the create function to support cameras usi
 The aim of this project is to create a network trained on images that come from military applications such at Air / Sea / Land. Updating the network to work with this updated network for demonstration and as an example to a defence audiance. 
 
 Please be patient whilst we build our DIGITS server to retrain the network and watch this space.
+
+## Building from Source
+Provided along with this repo are TensorRT-enabled examples of running Googlenet/Alexnet on live camera feed for image recognition, and pedestrian detection networks with localization capabilities (i.e. that provide bounding boxes). 
+
+The latest source can be obtained from [GitHub](http://github.com/ross-abaco/jetson-inference) and compiled onboard Jetson TX1.
+
+> **note**:  this [branch](http://github.com/ross-abaco/jetson-inference) is verified against 
+>        JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS)
+      
+#### 1. Cloning the repo
+To obtain the repository, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed locally:
+
+``` bash
+sudo apt-get install git cmake
+```
+
+Then clone the jetson-inference repo:
+``` bash
+git clone http://github.orgross-abaco/jetson-inference
+```
+
+#### 2. Configuring
+
+When cmake is run, a special pre-installation script (CMakePreBuild.sh) is run and will automatically install any dependencies.
+
+``` bash
+mkdir build
+cd build
+cmake ../
+```
+
+#### 3. Compiling
+
+Make sure you are still in the jetson-inference/build directory, created above in step #2.
+
+``` bash
+cd jetson-inference/build			# omit if pwd is already /build from above
+make
+```
+
+For jetson 64bit builds the architecte will be aarch64, with the following directory structure:
+
+```
+|-build
+   \aarch64		    (64-bit)
+      \bin			where the sample binaries are built to
+      \include		where the headers reside
+      \lib			where the libraries are build to
