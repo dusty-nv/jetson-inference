@@ -21,9 +21,11 @@ class gstCamera
 {
 public:
 	static gstCamera* Create();
+	static gstCamera* Create(std::string pipeline);
 	~gstCamera();
 
 	bool Open();
+
 	void Close();
 	
 	// Capture YUV (NV12)
@@ -44,8 +46,8 @@ private:
 
 	gstCamera();
 	
-	bool init();
-	bool buildLaunchStr();
+	bool init(std::string pipeline);
+	bool buildLaunchStr(std::string pipeline);
 	void checkMsgBus();
 	void checkBuffer();
 	
@@ -59,7 +61,8 @@ private:
 	uint32_t mHeight;
 	uint32_t mDepth;
 	uint32_t mSize;
-	
+
+ 	static bool mOnboardCamera;
 	static const uint32_t NUM_RINGBUFFERS = 4;
 	
 	void* mRingbufferCPU[NUM_RINGBUFFERS];

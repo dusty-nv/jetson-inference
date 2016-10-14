@@ -2,7 +2,14 @@
  * http://github.com/dusty-nv/jetson-inference
  */
 
+#define V4L_CAMERA 0
+#define GST_V4L_SRC 1
+
+#if V4L_CAMERA
+#include "v4l2Camera.h"
+#else
 #include "gstCamera.h"
+#endif
 
 #include "glDisplay.h"
 #include "glTexture.h"
@@ -53,7 +60,27 @@ int main( int argc, char** argv )
 	/*
 	 * create the camera device
 	 */
+#if V4L_CAMERA
+	v4l2Camera* camera = v4l2Camera::Create("/dev/video0");
+#else
+
+#if GST_V4L_SRC
+	int width     = 1280;
+	int height    = 720;
+        std::ostringstream pipeline;
+	pipeline << "v4l2src device=/dev/video0 ! ";
+        pipeline << "video/x-raw, width=(int)" << width << ", height=(int)" << height << ", "; 
+        pipeline << "format=RGB ! videoconvert ! video/x-raw, format=RGB ! videoconvert !";
+	pipeline << "appsink name=mysink";
+
+        static  std::string pip = pipeline.str();
+
+	gstCamera* camera = gstCamera::Create(pip);
+#else
 	gstCamera* camera = gstCamera::Create();
+#endif
+
+#endif
 	
 	if( !camera )
 	{
@@ -124,18 +151,29 @@ int main( int argc, char** argv )
 	{
 		void* imgCPU  = NULL;
 		void* imgCUDA = NULL;
-		
-		// get the latest frame
-		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
-			printf("\nimagenet-camera:  failed to capture frame\n");
-		//else
-		//	printf("imagenet-camera:  recieved new frame  CPU=0x%p  GPU=0x%p\n", imgCPU, imgCUDA);
-		
 		// convert from YUV to RGBA
 		void* imgRGBA = NULL;
 		
+		// get the latest frame
+#if V4L_CAMERA
+                cudaMalloc(&imgRGBA,  camera->GetWidth() *  camera->GetHeight() * sizeof(float4));
+
+                imgCPU = camera->Capture();
+		if (imgCPU)
+                    memcpy(imgRGBA, camera->Capture(), camera->GetWidth() *  camera->GetHeight() * sizeof(float4));
+                else
+                    printf("imagenet-camera: V4l2 did not get buffer 0x%x!!\n", imgCPU);
+#else
+		if( !camera->Capture(&imgCUDA, &imgCPU, 1000) )
+			printf("\nimagenet-camera:  failed to capture frame\n");
+#endif
+		//else
+		//	printf("imagenet-camera:  recieved new frame  CPU=0x%p  GPU=0x%p\n", imgCPU, imgCUDA);
+		
+		
 		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
 			printf("imagenet-camera:  failed to convert from NV12 to RGBA\n");
+
 
 		// classify image
 		const int img_class = net->Classify((float*)imgRGBA, camera->GetWidth(), camera->GetHeight(), &confidence);

@@ -17,8 +17,21 @@
 
 #include "cudaMappedMemory.h"
 #include "cudaYUV.h"
+#include "cudaRGB.h"
+#include </usr/local/cuda-8.0/samples/common/inc/helper_math.h>
 
+/*
+uint32_t gstCamera::mWidth  = 0;
+uint32_t gstCamera::mHeight = 0;
+uint32_t gstCamera::mDepth  = 0;
+uint32_t gstCamera::mSize   = 0;
+*/
+bool gstCamera::mOnboardCamera = false;
 
+#define HEIGHT 720
+#define WIDTH 1280
+#define DEPTH 12
+#define SIZE HEIGHT * WIDET * DEPTH / 8
 
 
 // constructor
@@ -28,12 +41,12 @@ gstCamera::gstCamera()
 	mBus        = NULL;
 	mPipeline   = NULL;	
 	mRGBA       = NULL;
-
-	mWidth  = 0;
-	mHeight = 0;
-	mDepth  = 0;
-	mSize   = 0;
 	
+	mWidth     = 1280;
+	mHeight    = 720;
+	mDepth     = 12;
+	mSize      = (mWidth * mHeight * mDepth) / 8;
+
 	mWaitEvent  = new QWaitCondition();
 	mWaitMutex  = new QMutex();
 	mRingMutex  = new QMutex();
@@ -58,10 +71,10 @@ gstCamera::~gstCamera()
 
 // ConvertRGBA
 bool gstCamera::ConvertRGBA( void* input, void** output )
-{
+{	
 	if( !input || !output )
 		return false;
-	
+
 	if( !mRGBA )
 	{
 		if( CUDA_FAILED(cudaMalloc(&mRGBA, mWidth * mHeight * sizeof(float4))) )
@@ -71,8 +84,19 @@ bool gstCamera::ConvertRGBA( void* input, void** output )
 		}
 	}
 	
-	if( CUDA_FAILED(cudaNV12ToRGBAf((uint8_t*)input, (float4*)mRGBA, mWidth, mHeight)) )
-		return false;
+	if (mOnboardCamera)
+	{
+		// nvcamera is NV12
+		if( CUDA_FAILED(cudaNV12ToRGBAf((uint8_t*)input, (float4*)mRGBA, mWidth, mHeight)) )
+			return false;
+	}
+	else
+	{
+		// USB webcam is RGB
+		if( CUDA_FAILED(cudaRGBToRGBAf((uint8_t*)input, (float4*)mRGBA, mWidth, mHeight)) )
+			return false;
+	}
+
 	
 	*output = mRGBA;
 	return true;
@@ -222,7 +246,7 @@ void gstCamera::checkBuffer()
 	mDepth  = (gstSize * 8) / (width * height);
 	mSize   = gstSize;
 	
-	//printf(LOG_GSTREAMER "gstreamer camera recieved %ix%i frame (%u bytes, %u bpp)\n", width, height, gstSize, mDepth);
+	printf(LOG_GSTREAMER "gstreamer camera recieved %ix%i frame (%u bytes, %u bpp)\n", width, height, gstSize, mDepth);
 	
 	// make sure ringbuffer is allocated
 	if( !mRingbufferCPU[0] )
@@ -257,32 +281,33 @@ void gstCamera::checkBuffer()
 
 
 // buildLaunchStr
-bool gstCamera::buildLaunchStr()
+bool gstCamera::buildLaunchStr(std::string pipeline)
 {
-	// gst-launch-1.0 nvcamerasrc fpsRange="30.0 30.0" ! 'video/x-raw(memory:NVMM), width=(int)1920, height=(int)1080, format=(string)I420, framerate=(fraction)30/1' ! \
-	// nvvidconv flip-method=2 ! 'video/x-raw(memory:NVMM), format=(string)I420' ! fakesink silent=false -v
-	std::ostringstream ss;
-	
-//#define CAPS_STR "video/x-raw(memory:NVMM), width=(int)2592, height=(int)1944, format=(string)I420, framerate=(fraction)30/1"
-//#define CAPS_STR "video/x-raw(memory:NVMM), width=(int)1920, height=(int)1080, format=(string)I420, framerate=(fraction)30/1"
-	mWidth     = 1280;
-	mHeight    = 720;
-	mDepth     = 12;
-	mSize      = (mWidth * mHeight * mDepth) / 8;
-	
-	ss << "nvcamerasrc fpsRange=\"30.0 30.0\" ! video/x-raw(memory:NVMM), width=(int)" << mWidth << ", height=(int)" << mHeight << ", format=(string)NV12 ! nvvidconv flip-method=2 ! "; //'video/x-raw(memory:NVMM), width=(int)1920, height=(int)1080, format=(string)I420, framerate=(fraction)30/1' ! ";
-	ss << "video/x-raw ! appsink name=mysink";
-	
-	mLaunchStr = ss.str();
+	mLaunchStr = pipeline;
 
 	printf(LOG_GSTREAMER "gstreamer decoder pipeline string:\n");
-	printf("%s\n", mLaunchStr.c_str());
+	printf(">>>>>>>>>>>>>>>>>>>>> %s\n", mLaunchStr.c_str());
 	return true;
 }
 
 
-// Create
+// Create - defaaults to onboard camera on jetson TX1
 gstCamera* gstCamera::Create()
+{
+	std::ostringstream ss;
+
+	ss << "nvcamerasrc fpsRange=\"30.0 30.0\" ! video/x-raw(memory:NVMM), width=(int)" 
+		<< WIDTH 
+		<< ", height=(int)" 
+		<< HEIGHT 
+		<< ", format=(string)NV12 ! nvvidconv flip-method=2 ! "; 
+	ss << "video/x-raw ! appsink name=mysink";
+        mOnboardCamera = true;
+        return Create(ss.str());
+}
+
+// Create
+gstCamera* gstCamera::Create(std::string pipeline)
 {
 	if( !gstreamerInit() )
 	{
@@ -295,7 +320,7 @@ gstCamera* gstCamera::Create()
 	if( !cam )
 		return NULL;
 	
-	if( !cam->init() )
+	if( !cam->init(pipeline) )
 	{
 		printf(LOG_GSTREAMER "failed to init gstCamera\n");
 		return NULL;
@@ -305,13 +330,12 @@ gstCamera* gstCamera::Create()
 }
 
 
-// init
-bool gstCamera::init()
+bool gstCamera::init(std::string pipestr)
 {
 	GError* err = NULL;
 
 	// build pipeline string
-	if( !buildLaunchStr() )
+	if( !buildLaunchStr(pipestr) )
 	{
 		printf(LOG_GSTREAMER "gstreamer decoder failed to build pipeline string\n");
 		return false;
