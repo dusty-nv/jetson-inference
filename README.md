@@ -15,6 +15,8 @@ Modified pipelines can be supplied to the create function to support cameras usi
 
     video/x-raw, width=(int)640, height=(int)480, format=RGB ! videoconvert ! video/x-raw, format=RGB ! videoconvert ! appsink name=mysink
 
+> **note** : Set GST_V4L_SCR to 0 to revert to the Jetson TX1 evaluation on board CSI camera.
+
 ## Goals
 The aim of this project is to create a network trained on images that come from military applications such at Air / Sea / Land. Updating the network to work with this updated network for demonstration and as an example to a defence audiance. 
 
