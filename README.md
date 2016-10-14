@@ -20,6 +20,12 @@ The aim of this project is to create a network trained on images that come from 
 
 Please be patient whilst we build our DIGITS server to retrain the network and watch this space.
 
+- [x] imagenet-camera updated to use webcam
+- [ ] detectnet-camera updated to use webcamera
+- [ ] parametrize requested USB resolution (Dafault fixed at 1280 x 720)
+- [ ] update training data (military images)
+- [ ] update GUI to run in window and toggle to fullscreen (fill screen)
+
 ## Building from Source
 Provided along with this repo are TensorRT-enabled examples of running Googlenet/Alexnet on live camera feed for image recognition, and pedestrian detection networks with localization capabilities (i.e. that provide bounding boxes). 
 
