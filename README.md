@@ -9,15 +9,15 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 ### **Ten Steps to Deep Learning**
 
 1. [What's Deep Learning?](#whats-deep-learning)
-2. [Getting TensorRT](#getting-tensorrt)
+2. [Get JetPack 2.3 / TensorRT](#getting-tensorrt)
 3. [Building from Source](#building-from-source)
-4. [Digging Into the Code](#digging-into-the-code)
-5. [Classifying Images with ImageNet](#classifying-images-with-imagenet)
-6. [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
-7. [Re-training the Network with Customized Data](#re-training-the-network-with-customized-data)
-8. [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
-9. [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
-10. [Re-training DetectNet with DIGITS](#re-training-detectnet-with-digits)
+4. [Dig Into the Code](#digging-into-the-code)
+5. [Classify Images with ImageNet](#classifying-images-with-imagenet)
+6. [Run the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
+7. [Re-train the Network with Customized Data](#re-training-the-network-with-customized-data)
+8. [Locate Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
+9. [Run the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
+10. [Re-train DetectNet with DIGITS](#re-training-detectnet-with-digits)
 
 <br />
 
@@ -205,10 +205,17 @@ The frames per second (FPS), classified object name from the video, and confiden
 The existing GoogleNet and AlexNet models that are downloaded by the repo are pre-trained on [1000 classes of objects](data/networks/ilsvrc12_synset_words.txt).
 
 What if you require a new object class to be added to the network, or otherwise require a different organization of the classes?  
+
 Using [NVIDIA DIGITS](http://github.com/NVIDIA/DIGITS), networks can be fine-tuned or re-trained from a pre-exisiting network model.
 After installing DIGITS on a PC or in the cloud (such as an AWS instance), see the **[Image Folder Specification](https://github.com/NVIDIA/DIGITS/blob/master/docs/ImageFolderFormat.md)** to learn how to organize the data for your particular application.
+
 Popular training databases with various annotations and labels include [ImageNet](image-net.org), [MS COCO](mscoco.org), and [Google Images](images.google.com) among others.
-See here for a crawler script that will download the 1000 original classes, including as many of the original images that are still available online.
+
+See [here](wget http://www.deepdetect.com/dd/datasets/imagenet/ilsvrc12_urls.txt.gz
+gzip -d ilsvrc12_urls.txt.gz) under the `Downloading the dataset` section to obtain a crawler script that will download the 1000 original classes, including as many of the original images that are still available online.
+
+> note: be considerate running the crawler script from a corporate network, they may flag the activity.
+> It will probably take overnight on a decent connection to download the 1000 ILSVRC12 classes (100GB) from ImageNet (1.2TB)
 
 Then, while creating the new network model in DIGITS, copy the [GoogleNet prototxt](data/networks/googlenet.prototxt) and specify the existing GoogleNet caffemodel as the DIGITS **Pretrained Model**:
 
