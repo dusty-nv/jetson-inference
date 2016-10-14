@@ -20,8 +20,8 @@ The aim of this project is to create a network trained on images that come from 
 
 Please be patient whilst we build our DIGITS server to retrain the network and watch this space.
 
-- [x] imagenet-camera updated to use webcam
-- [ ] detectnet-camera updated to use webcamera
+- [x] [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp) updated to use webcam
+- [ ] [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) updated to use webcamera
 - [ ] parametrize requested USB resolution (Dafault fixed at 1280 x 720)
 - [ ] update training data (military images)
 - [ ] update GUI to run in window and toggle to fullscreen (fill screen)
