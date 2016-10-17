@@ -84,5 +84,8 @@ For jetson 64bit builds the architecte will be aarch64, with the following direc
 * [Abaco Systems](http://abaco.com)
 * [eLinux TX1](http://elinux.org/Jetson_TX1)
 * [Nvidia devtalk](https://devtalk.nvidia.com/default/board/164/)
+* [Abaco Systems MC10K1 - Tegra TK1 Mini COM Express module](https://www.abaco.com/products/mcom10-k1-mini-com-express)
+* [Abaco Systems GRA113 - Maxwel GPGPU 3U VPX](https://www.abaco.com/products/gra113-graphics-board)
+
 
 ![Abaco Systems Logo](http://www.marketwire.com/library/MwGo/2016/6/27/11G104398/abaco%20final-135550592.jpg)
