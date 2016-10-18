@@ -1,4 +1,4 @@
-![Abaco stripe](https://www.abaco.com/sites/default/files/default_images/product-strip.jpg)
+![Abaco stripe](abaco/abaco-banner.png)
 
 # Abaco Systems TX1 enabled Small Form Factor solutions
 ## Deep Learning for Military Applications
