@@ -22,6 +22,7 @@ public:
 	 * Create a new maximized openGL display window.
 	 */
 	static glDisplay* Create();
+	static glDisplay* Create(int width, int height);
 
 	/**
 	 * Destroy window
@@ -62,6 +63,7 @@ protected:
 	glDisplay();
 		
 	bool initWindow();
+	bool initWindow(int width, int height);
 	bool initGL();
 
 	static const int screenIdx = 0;

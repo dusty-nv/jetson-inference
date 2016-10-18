@@ -64,6 +64,40 @@ glDisplay* glDisplay::Create()
 	return vp;
 }
 
+glDisplay* glDisplay::Create(int width, int height)
+{
+	glDisplay* vp = new glDisplay();
+	
+	if( !vp )
+		return NULL;
+		
+	if( !vp->initWindow(width, height) )
+	{
+		printf("[OpenGL]  failed to create X11 Window.\n");
+		delete vp;
+		return NULL;
+	}
+	
+	if( !vp->initGL() )
+	{
+		printf("[OpenGL]  failed to initialize OpenGL.\n");
+		delete vp;
+		return NULL;
+	}
+	
+	GLenum err = glewInit();
+	
+	if (GLEW_OK != err)
+	{
+		printf("[OpenGL]  GLEW Error: %s\n", glewGetErrorString(err));
+		delete vp;
+		return NULL;
+	}
+
+	printf("[OpenGL]  glDisplay display window initialized\n");
+	return vp;
+}
+
 
 // initWindow
 bool glDisplay::initWindow()
@@ -88,7 +122,38 @@ bool glDisplay::initWindow()
 	const int screenIdx   = DefaultScreen(mDisplayX);
 	const int screenWidth = DisplayWidth(mDisplayX, screenIdx);
 	const int screenHeight = DisplayHeight(mDisplayX, screenIdx);
-	
+
+	return initWindow(screenWidth, screenHeight);
+}
+
+bool glDisplay::initWindow(int width, int height)
+{
+	if( !mDisplayX )
+		mDisplayX = XOpenDisplay(0);
+
+	if( !mDisplayX )
+	{
+		printf( "[OpenGL]  failed to open X11 server connection." );
+		return false;
+	}
+
+		
+	if( !mDisplayX )
+	{
+		printf( "InitWindow() - no X11 server connection." );
+		return false;
+	}
+
+	// retrieve screen info
+	const int screenIdx   = DefaultScreen(mDisplayX);
+#if 0
+	const int screenWidth = DisplayWidth(mDisplayX, screenIdx);
+	const int screenHeight = DisplayHeight(mDisplayX, screenIdx);
+#else
+	const int screenWidth = width;
+	const int screenHeight = height;
+#endif
+
 	printf("default X screen %i:   %i x %i\n", screenIdx, screenWidth, screenHeight);
 	
 	Screen* screen = XScreenOfDisplay(mDisplayX, screenIdx);

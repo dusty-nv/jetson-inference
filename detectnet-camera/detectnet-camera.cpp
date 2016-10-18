@@ -2,7 +2,14 @@
  * http://github.com/dusty-nv/jetson-inference
  */
 
+#define V4L_CAMERA 0
+#define GST_V4L_SRC 1
+
+#if V4L_CAMERA
+#include "v4l2Camera.h"
+#else
 #include "gstCamera.h"
+#endif
 
 #include "glDisplay.h"
 #include "glTexture.h"
@@ -60,7 +67,21 @@ int main( int argc, char** argv )
 	/*
 	 * create the camera device
 	 */
+#if GST_V4L_SRC
+	int width     = 1280;
+	int height    = 720;
+        std::ostringstream pipeline;
+	pipeline << "v4l2src device=/dev/video0 ! ";
+        pipeline << "video/x-raw, width=(int)" << width << ", height=(int)" << height << ", "; 
+        pipeline << "format=RGB ! ";
+	pipeline << "appsink name=mysink";
+
+        static  std::string pip = pipeline.str();
+
+	gstCamera* camera = gstCamera::Create(pip);
+#else
 	gstCamera* camera = gstCamera::Create();
+#endif
 	
 	if( !camera )
 	{
@@ -108,7 +129,7 @@ int main( int argc, char** argv )
 	/*
 	 * create openGL window
 	 */
-	glDisplay* display = glDisplay::Create();
+	glDisplay* display = glDisplay::Create(camera->GetWidth(), camera->GetHeight());
 	glTexture* texture = NULL;
 	
 	if( !display ) {
@@ -159,7 +180,11 @@ int main( int argc, char** argv )
 		void* imgRGBA = NULL;
 		
 		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
-			printf("detectnet-camera:  failed to convert from NV12 to RGBA\n");
+#if GST_V4L_SRC
+			printf("detectnet-camera:  failed to convert from NV12 to RGBAf\n");
+#else
+			printf("detectnet-camera:  failed to convert from RGB to RGBAf\n");
+#endif
 
 		// classify image with detectNet
 		int numBoundingBoxes = maxBoxes;
@@ -201,7 +226,7 @@ int main( int argc, char** argv )
 			if( display != NULL )
 			{
 				char str[256];
-				sprintf(str, "GIE build %x | %s | %04.1f FPS", NV_GIE_VERSION, net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
+				sprintf(str, "TensorRT build %x | %s | %04.1f FPS", NV_GIE_VERSION, net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
 				//sprintf(str, "GIE build %x | %s | %04.1f FPS | %05.2f%% %s", NV_GIE_VERSION, net->GetNetworkName(), display->GetFPS(), confidence * 100.0f, net->GetClassDesc(img_class));
 				display->SetTitle(str);	
 			}	
@@ -231,7 +256,7 @@ int main( int argc, char** argv )
 				}
 
 				// draw the texture
-				texture->Render(100,100);		
+				texture->Render(0,0);		
 			}
 
 			display->EndRender();

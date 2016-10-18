@@ -70,7 +70,7 @@ int main( int argc, char** argv )
         std::ostringstream pipeline;
 	pipeline << "v4l2src device=/dev/video0 ! ";
         pipeline << "video/x-raw, width=(int)" << width << ", height=(int)" << height << ", "; 
-        pipeline << "format=RGB ! videoconvert ! video/x-raw, format=RGB ! videoconvert !";
+        pipeline << "format=RGB ! ";
 	pipeline << "appsink name=mysink";
 
         static  std::string pip = pipeline.str();
@@ -109,7 +109,7 @@ int main( int argc, char** argv )
 	/*
 	 * create openGL window
 	 */
-	glDisplay* display = glDisplay::Create();
+	glDisplay* display = glDisplay::Create(camera->GetWidth(), camera->GetHeight());
 	glTexture* texture = NULL;
 	
 	if( !display ) {
@@ -172,8 +172,11 @@ int main( int argc, char** argv )
 		
 		
 		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
-			printf("imagenet-camera:  failed to convert from NV12 to RGBA\n");
-
+#if GST_V4L_SRC
+			printf("detectnet-camera:  failed to convert from NV12 to RGBAf\n");
+#else
+			printf("detectnet-camera:  failed to convert from RGB to RGBAf\n");
+#endif
 
 		// classify image
 		const int img_class = net->Classify((float*)imgRGBA, camera->GetWidth(), camera->GetHeight(), &confidence);
@@ -224,7 +227,7 @@ int main( int argc, char** argv )
 				}
 
 				// draw the texture
-				texture->Render(100,100);		
+				texture->Render(0,0);		
 			}
 
 			display->EndRender();
