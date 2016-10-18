@@ -17,7 +17,7 @@ Modified pipelines can be supplied to the create function to support cameras usi
 
 Logitech C920 HD USB webcam:
 
-![Logitech C920 Webcamera](https://files.pccasegear.com/UserFiles/960-000770bb.jpg)
+![Logitech C920 Webcamera](abaco/WebcamC920.jpg)
 > **note** : Set GST_V4L_SCR to 0 to revert to the Jetson TX1 evaluation on board CSI camera.
 
 ## Goals
