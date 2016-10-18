@@ -26,10 +26,15 @@ The aim of this project is to create a network trained on images that come from 
 Please be patient whilst we build our DIGITS server to retrain the network and watch this space.
 
 - [x] [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp) updated to use webcam
-- [ ] [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) updated to use webcam
+- [x] [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) updated to use webcam
 - [ ] parametrize requested USB resolution (Default fixed at 1280 x 720)
 - [ ] update training data (military images)
 - [ ] update GUI to run in window and toggle to fullscreen (fill screen)
+- [ ] add RTP video streaming source for YUV encoded video streams. Injest progressive GVA (Generic Vehicle Architecture) compliant video sources.
+
+![Tank Classified](abaco/Tank_Example.png)
+![Warplane Classified](abaco/Warplane_Example.png)
+
 
 ## Building from Source
 Provided along with this repo are TensorRT-enabled examples of running Googlenet/Alexnet on live camera feed for image recognition, and pedestrian detection networks with localization capabilities (i.e. that provide bounding boxes). 
