@@ -286,7 +286,7 @@ bool gstCamera::buildLaunchStr(std::string pipeline)
 	mLaunchStr = pipeline;
 
 	printf(LOG_GSTREAMER "gstreamer decoder pipeline string:\n");
-	printf(">>>>>>>>>>>>>>>>>>>>> %s\n", mLaunchStr.c_str());
+	printf("%s\n", mLaunchStr.c_str());
 	return true;
 }
 
