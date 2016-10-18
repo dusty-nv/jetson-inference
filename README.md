@@ -93,4 +93,4 @@ For jetson 64bit builds the architecte will be aarch64, with the following direc
 * [Abaco Systems GRA113 - Maxwel GPGPU 3U VPX](https://www.abaco.com/products/gra113-graphics-board)
 
 
-![Abaco Systems Logo](http://www.marketwire.com/library/MwGo/2016/6/27/11G104398/abaco%20final-135550592.jpg)
+![Abaco stripe](https://www.abaco.com/sites/default/files/default_images/product-strip.jpg)
