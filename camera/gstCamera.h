@@ -63,7 +63,8 @@ private:
 	uint32_t mSize;
 
  	static bool mOnboardCamera;
-	static const uint32_t NUM_RINGBUFFERS = 4;
+	static const uint32_t NUM_RINGBUFFERS = 16;
+
 	
 	void* mRingbufferCPU[NUM_RINGBUFFERS];
 	void* mRingbufferGPU[NUM_RINGBUFFERS];
