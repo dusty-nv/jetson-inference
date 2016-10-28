@@ -92,7 +92,6 @@ add_subdirectory(camera/v4l2-display)
 
 # install header files
 foreach(include ${inferenceIncludes})
-    message("test ${include}")
     install(FILES "${include}" DESTINATION include/jetson-inference)
 endforeach()
 # install the shared library
