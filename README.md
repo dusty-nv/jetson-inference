@@ -1,4 +1,4 @@
-![Abaco stripe](abaco/abaco-banner.png)
+![Abaco stripe](abaco/Abaco_background-1000x275.png)
 
 # Abaco Systems TX1 enabled Small Form Factor solutions
 ## Deep Learning for Military Applications
@@ -93,4 +93,4 @@ For jetson 64bit builds the architecte will be aarch64, with the following direc
 * [Abaco Systems GRA113 - Maxwel GPGPU 3U VPX](https://www.abaco.com/products/gra113-graphics-board)
 
 
-![Abaco stripe](https://www.abaco.com/sites/default/files/default_images/product-strip.jpg)
+![Abaco stripe](abaco/Abaco Footer1000x100.png)
