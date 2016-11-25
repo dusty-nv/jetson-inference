@@ -28,12 +28,12 @@ void sig_handler(int signo)
 
 int main( int argc, char** argv )
 {
-	printf("gst-camera\n  args (%i):  ", argc);
+	debug_print("gst-camera\n  args (%i):  ", argc);
 
 	for( int i=0; i < argc; i++ )
 		printf("%i [%s]  ", i, argv[i]);
 		
-	printf("\n");
+	debug_print("\n");
 	
 		
 	if( signal(SIGINT, sig_handler) == SIG_ERR )
@@ -50,10 +50,10 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
-	printf("\ngst-camera:  successfully initialized video device\n");
-	printf("    width:  %u\n", camera->GetWidth());
-	printf("   height:  %u\n", camera->GetHeight());
-	printf("    depth:  %u (bpp)\n", camera->GetPixelDepth());
+	debug_print("\ngst-camera:  successfully initialized video device\n");
+	debug_print("    width:  %u\n", camera->GetWidth());
+	debug_print("   height:  %u\n", camera->GetHeight());
+	debug_print("    depth:  %u (bpp)\n", camera->GetPixelDepth());
 	
 
 
@@ -92,7 +92,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
-	printf("\ngst-camera:  camera open for streaming\n");
+	debug_print("\ngst-camera:  camera open for streaming\n");
 	
 	
 	while( !signal_recieved )
@@ -104,7 +104,7 @@ int main( int argc, char** argv )
 		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
 			printf("\ngst-camera:  failed to capture frame\n");
 		else
-			printf("gst-camera:  recieved new frame  CPU=0x%p  GPU=0x%p\n", imgCPU, imgCUDA);
+			debug_print("gst-camera:  recieved new frame  CPU=0x%p  GPU=0x%p\n", imgCPU, imgCUDA);
 		
 		// convert from YUV to RGBA
 		void* imgRGBA = NULL;
@@ -143,7 +143,7 @@ int main( int argc, char** argv )
 		}
 	}
 	
-	printf("\ngst-camera:  un-initializing video device\n");
+	debug_print("\ngst-camera:  un-initializing video device\n");
 	
 	
 	/*
@@ -161,7 +161,7 @@ int main( int argc, char** argv )
 		display = NULL;
 	}
 	
-	printf("gst-camera:  video device has been un-initialized.\n");
-	printf("gst-camera:  this concludes the test of the video device.\n");
+	debug_print("gst-camera:  video device has been un-initialized.\n");
+	debug_print("gst-camera:  this concludes the test of the video device.\n");
 	return 0;
 }

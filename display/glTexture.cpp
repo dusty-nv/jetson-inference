@@ -4,9 +4,7 @@
 
 #include "glUtility.h"
 #include "glTexture.h"
-
 #include "cudaMappedMemory.h"
-
 
 //-----------------------------------------------------------------------------------
 inline uint32_t glTextureLayout( uint32_t format )
@@ -167,7 +165,7 @@ glTexture::~glTexture()
 	
 
 // Create
-glTexture* glTexture::Create( uint32_t width, uint32_t height, uint32_t format, void* data )
+glTexture* glTexture::Create( uint32_t width, uint32_t height, uint32_t format, void* data)
 {
 	glTexture* tex = new glTexture();
 	
@@ -179,7 +177,11 @@ glTexture* glTexture::Create( uint32_t width, uint32_t height, uint32_t format, 
 	
 	return tex;
 }
-		
+
+void glTexture::Render( SDL_Renderer *renderer ) 
+{
+    mRenderer = renderer; 
+}
 		
 // Alloc
 bool glTexture::init( uint32_t width, uint32_t height, uint32_t format, void* data )
@@ -202,7 +204,7 @@ bool glTexture::init( uint32_t width, uint32_t height, uint32_t format, void* da
 	GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
 	GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
 
-	printf("[OpenGL]   creating %ux%u texture\n", width, height);
+	debug_print("[OpenGL] creating %ux%u texture\n", width, height);
 	
 	// allocate texture
 	GL_VERIFYN(glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, glTextureLayout(format), glTextureType(format), data));
@@ -223,6 +225,25 @@ bool glTexture::init( uint32_t width, uint32_t height, uint32_t format, void* da
 	mHeight = height;
 	mFormat = format;
 	mSize   = size;
+// printf(">> %s:%d\n",__FUNCTION__,__LINE__);
+
+#if USE_SDL
+    SDL_Init( SDL_INIT_EVERYTHING );
+    if (TTF_Init()==-1){
+        fprintf(stderr, "error: TTF init error\n");
+        exit(EXIT_FAILURE);
+    }
+
+    mFont18 = TTF_OpenFont("Roboto-Regular.ttf", 18);
+    mFont28 = TTF_OpenFont("Roboto-Regular.ttf", 28);
+    mFont36 = TTF_OpenFont("Roboto-Regular.ttf", 36);
+    if (mFont28 == NULL) {
+        fprintf(stderr, "error: font not found\n");
+        exit(EXIT_FAILURE);
+    }
+
+    LoadGLTextures();
+#endif
 	return true;
 }
 
@@ -273,8 +294,8 @@ void glTexture::Unmap()
 	GL(glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, 0));
 	GL(glBindTexture(GL_TEXTURE_2D, 0));
 	GL(glDisable(GL_TEXTURE_2D));
-}
 
+}
 
 // Upload
 bool glTexture::UploadCPU( void* data )
@@ -285,13 +306,6 @@ bool glTexture::UploadCPU( void* data )
 	GL(glBindTexture(GL_TEXTURE_2D, mID));
 	GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0));
 	GL(glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, mDMA));
-
-	//GL(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
-	//GL(glPixelStorei(GL_UNPACK_ROW_LENGTH, img->GetWidth()));
-	//GL(glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, img->GetHeight()));
-
-	// hint to driver to double-buffer
-	// glBufferDataARB(GL_PIXEL_UNPACK_BUFFER_ARB, mImage->GetSize(), NULL, GL_STREAM_DRAW_ARB);	
 
 	// map PBO
 	GLubyte* ptr = (GLubyte*)glMapBufferARB(GL_PIXEL_UNPACK_BUFFER_ARB, GL_WRITE_ONLY_ARB);
@@ -306,43 +320,142 @@ bool glTexture::UploadCPU( void* data )
 
 	GL(glUnmapBufferARB(GL_PIXEL_UNPACK_BUFFER_ARB)); 
 
-	//GL(glEnable(GL_TEXTURE_2D));
-	//GL(glBindTexture(GL_TEXTURE_2D, mID));
-	//GL(glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, mDMA));
 	GL(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, mWidth, mHeight, glTextureLayout(mFormat), glTextureType(mFormat), NULL));
 	
 	GL(glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, 0));
 	GL(glBindTexture(GL_TEXTURE_2D, 0));
 	GL(glDisable(GL_TEXTURE_2D));
 
-	/*if( !mInteropHost || !mInteropDevice )
-	{
-		if( !cudaAllocMapped(&mInteropHost, &mInteropDevice, mSize) )
-			return false;
-	}
-	
-	memcpy(mInteropHost, data, mSize);
-	
-	void* devGL = MapCUDA();
-	
-	if( !devGL )
-		return false;
-		
-	CUDA(cudaMemcpy(devGL, mInteropDevice, mSize, cudaMemcpyDeviceToDevice));
-	Unmap();*/
-
 	return true;
 }
 
-	
+#if USE_SDL
+/*
+  // Prints out "Hello World" at location (5,10) at font size 12!
+  SDL_Color color = {255, 0, 0, 0}; // Red
+  RenderText("Hello World", color, 5, 10, 12); 
+*/
+
+void glTexture::RenderText(char * message, SDL_Color color, int x, int y, int size) 
+{
+  SDL_Surface * sFont;
+  glDisable(GL_DEPTH_TEST);
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  GLuint texture;
+  glGenTextures(1, &texture);
+  glBindTexture(GL_TEXTURE_2D, texture);
+
+  switch (size)
+  {
+  case 18:
+      sFont = TTF_RenderText_Blended(mFont18, message, color);
+      break;
+  case 28:
+      sFont = TTF_RenderText_Blended(mFont28, message, color);
+      break;
+  case 36:
+  default:
+      sFont = TTF_RenderText_Blended(mFont36, message, color);
+  }
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sFont->w, sFont->h, 0, GL_BGRA, GL_UNSIGNED_BYTE, sFont->pixels);
+
+  glBegin(GL_QUADS);
+  {
+    glColor3f(color.r*2.55, color.g*2.55, color.b*2.55);
+    glTexCoord2f(0,0); glVertex2f(x, y);
+    glTexCoord2f(1,0); glVertex2f(x + sFont->w, y);
+    glTexCoord2f(1,1); glVertex2f(x + sFont->w, y + sFont->h);
+    glTexCoord2f(0,1); glVertex2f(x, y + sFont->h);
+  }
+  glEnd();
+
+  glDisable(GL_BLEND);
+  glDisable(GL_TEXTURE_2D);
+  glEnable(GL_DEPTH_TEST);
+
+  glDeleteTextures(1, &texture);
+  SDL_FreeSurface(sFont);
+}
+
+
+//#include <SDL.h>
+int glTexture::LoadGLTextures(void)
+{
+    int status = false;
+    float h,w;
+ 	// generate texture objects
+
+    /* Create storage space for the texture */
+    SDL_Surface *TextureImage[1]; 
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    /* Load The Bitmap, Check For Errors, If Bitmap's Not Found Quit */
+    if ( ( TextureImage[0] = SDL_LoadBMP( "abaco.bmp" ) ) )
+    {
+        printf("Loaded texture abaco256.bmp\n");
+        SDL_SetColorKey(TextureImage[0], SDL_TRUE, SDL_MapRGB(TextureImage[0]->format,255,255,255));
+//        SDL_BlitSurface(TextureImage[0], NULL, TextureImage[1], NULL);
+
+	    /* Set the status to true */
+	    status = true;
+
+	    /* Create The Texture */
+        mTexture[0] = SDL_CreateTextureFromSurface(NULL ,TextureImage[0]);
+
+	    /* Typical Texture Generation Using Data From The Bitmap */
+        SDL_GL_BindTexture(mTexture[0], &w, &h);
+
+	    /* Generate The Texture */
+	    glTexImage2D( GL_TEXTURE_2D, 0, 3, TextureImage[0]->w,
+			  TextureImage[0]->h, 0, GL_BGR,
+    		  GL_UNSIGNED_BYTE, TextureImage[0]->pixels );
+		glGetError();
+
+	    /* Linear Filtering */
+	    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+	    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+    } else
+        printf("Unable to open BMP file\n");
+ 
+    /* Free up any memory we may have used */
+    if ( TextureImage[0] )
+	    SDL_FreeSurface( TextureImage[0] );
+
+    return status;
+}
+#endif
+
+void glTexture::Box(int x, int y, int xx, int yy)
+{	
+	GL(glEnable(GL_TEXTURE_2D));
+     
+    // grey box behnd text
+    glBegin(GL_QUADS); 
+        glColor3f(.96, .41, .13);
+	    glVertex2d(x, y);
+	    glVertex2d(xx, y);	
+	    glVertex2d(xx, yy);
+	    glVertex2d(x, yy);
+    glEnd(); 
+}
+
 // Render
 void glTexture::Render( const float4& rect )
 {
+    float h,w;
+
+#if 1
 	GL(glEnable(GL_TEXTURE_2D));
-	GL(glBindTexture(GL_TEXTURE_2D, mID));
-
+    glBindTexture(GL_TEXTURE_2D, mID);
 	glBegin(GL_QUADS);
-
 		glColor4f(1.0f,1.0f,1.0f,1.0f);
 
 		glTexCoord2f(0.0f, 0.0f); 
@@ -356,13 +469,43 @@ void glTexture::Render( const float4& rect )
 
 		glTexCoord2f(0.0f, 1.0f); 
 		glVertex2d(rect.x, rect.w);
-
 	glEnd();
+	glBindTexture(GL_TEXTURE_2D, 0);
+#endif
 
-	GL(glBindTexture(GL_TEXTURE_2D, 0));
+#if USE_SDL 
+#if 0
+    // Render logo in bottom Right corner
+    {
+        int offset=50;
+        int width=198;  // Todo : Auto detect image size
+        int height=113;
+
+        // Draw logo
+    	GL(glEnable(GL_TEXTURE_2D));
+        SDL_GL_BindTexture(mTexture[0], &w, &h);
+#if 1
+        glBegin(GL_QUADS); 
+		    glTexCoord2f(0.0f, 0.0f); 
+		    glVertex2d(rect.z - offset - width, rect.w - offset- height);
+
+		    glTexCoord2f(1.0f, 0.0f); 
+		    glVertex2d(rect.z - offset, rect.w - offset - height);	
+
+		    glTexCoord2f(1.0f, 1.0f); 
+		    glVertex2d(rect.z - offset, rect.w - offset);
+
+		    glTexCoord2f(0.0f, 1.0f); 
+		    glVertex2d(rect.z - offset - width, rect.w - offset);
+
+#endif
+        glEnd(); 
+        SDL_GL_UnbindTexture(mTexture[0]);
+
+    }
+#endif
+#endif
 }
-
-
 
 void glTexture::Render( float x, float y )
 {

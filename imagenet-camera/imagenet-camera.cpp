@@ -1,9 +1,15 @@
 /*
- * http://github.com/dusty-nv/jetson-inference
+ * http://github.com/ross-abaco/jetson-inference
+ *
+ * sudo apt-get install libsdl2-dev
  */
 
 #define V4L_CAMERA 0
 #define GST_V4L_SRC 1
+#define SDL_DISPLAY 1
+#define ABACO 1
+
+#include "debug.h"
 
 #if V4L_CAMERA
 #include "v4l2Camera.h"
@@ -11,12 +17,21 @@
 #include "gstCamera.h"
 #endif
 
+#if SDL_DISPLAY
+#include "sdlDisplay.h"
+#include "glTexture.h"
+#define glDisplay sdlDisplay
+#else
 #include "glDisplay.h"
 #include "glTexture.h"
+#endif
 
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+#include <stdio.h>
 
 #include "cudaNormalize.h"
 #include "cudaFont.h"
@@ -29,7 +44,7 @@ void sig_handler(int signo)
 {
 	if( signo == SIGINT )
 	{
-		printf("received SIGINT\n");
+		debug_print("received SIGINT\n");
 		signal_recieved = true;
 	}
 }
@@ -37,13 +52,14 @@ void sig_handler(int signo)
 
 int main( int argc, char** argv )
 {
-	printf("imagenet-camera\n  args (%i):  ", argc);
+    char str[256];
+
+	debug_print("imagenet-camera\n  args (%i):  ", argc);
 
 	for( int i=0; i < argc; i++ )
 		printf("%i [%s]  ", i, argv[i]);
 		
 	printf("\n\n");
-	
 
 	/*
 	 * parse network type from CLI arguments
@@ -54,7 +70,7 @@ int main( int argc, char** argv )
 		networkType = imageNet::ALEXNET;
 		
 	if( signal(SIGINT, sig_handler) == SIG_ERR )
-		printf("\ncan't catch SIGINT\n");
+		debug_print("\ncan't catch SIGINT\n");
 
 
 	/*
@@ -84,14 +100,14 @@ int main( int argc, char** argv )
 	
 	if( !camera )
 	{
-		printf("\nimagenet-camera:  failed to initialize video device\n");
+		debug_print("\nimagenet-camera:  failed to initialize video device\n");
 		return 0;
 	}
 	
-	printf("\nimagenet-camera:  successfully initialized video device\n");
-	printf("    width:  %u\n", camera->GetWidth());
-	printf("   height:  %u\n", camera->GetHeight());
-	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
+	debug_print("\nimagenet-camera:  successfully initialized video device\n");
+	debug_print("    width:  %u\n", camera->GetWidth());
+	debug_print("   height:  %u\n", camera->GetHeight());
+	debug_print("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
 	
 
 	/*
@@ -109,6 +125,7 @@ int main( int argc, char** argv )
 	/*
 	 * create openGL window
 	 */
+
 	glDisplay* display = glDisplay::Create(camera->GetWidth(), camera->GetHeight());
 	glTexture* texture = NULL;
 	
@@ -118,12 +135,11 @@ int main( int argc, char** argv )
 	else
 	{
 		texture = glTexture::Create(camera->GetWidth(), camera->GetHeight(), GL_RGBA32F_ARB/*GL_RGBA8*/);
-
+        texture->Render(display->mRenderer);
 		if( !texture )
 			printf("imagenet-camera:  failed to create openGL texture\n");
 	}
-	
-	
+		
 	/*
 	 * create font
 	 */
@@ -139,7 +155,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
-	printf("\nimagenet-camera:  camera open for streaming\n");
+	debug_print("\nimagenet-camera:  camera open for streaming\n");
 	
 	
 	/*
@@ -147,7 +163,8 @@ int main( int argc, char** argv )
 	 */
 	float confidence = 0.0f;
 	
-	while( !signal_recieved )
+//	while( ( !signal_recieved) || (!display->Quit() ) )
+	while( !display->Quit() )
 	{
 		void* imgCPU  = NULL;
 		void* imgCUDA = NULL;
@@ -156,21 +173,18 @@ int main( int argc, char** argv )
 		
 		// get the latest frame
 #if V4L_CAMERA
-                cudaMalloc(&imgRGBA,  camera->GetWidth() *  camera->GetHeight() * sizeof(float4));
+        cudaMalloc(&imgRGBA,  camera->GetWidth() *  camera->GetHeight() * sizeof(float4));
 
-                imgCPU = camera->Capture();
+        imgCPU = camera->Capture();
 		if (imgCPU)
-                    memcpy(imgRGBA, camera->Capture(), camera->GetWidth() *  camera->GetHeight() * sizeof(float4));
-                else
-                    printf("imagenet-camera: V4l2 did not get buffer 0x%x!!\n", imgCPU);
+            memcpy(imgRGBA, camera->Capture(), camera->GetWidth() *  camera->GetHeight() * sizeof(float4));
+        else
+            printf("imagenet-camera: V4l2 did not get buffer 0x%x!!\n", imgCPU);
 #else
 		if( !camera->Capture(&imgCUDA, &imgCPU, 1000) )
 			printf("\nimagenet-camera:  failed to capture frame\n");
 #endif
-		//else
-		//	printf("imagenet-camera:  recieved new frame  CPU=0x%p  GPU=0x%p\n", imgCPU, imgCUDA);
-		
-		
+	
 		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
 #if GST_V4L_SRC
 			printf("detectnet-camera:  failed to convert from NV12 to RGBAf\n");
@@ -183,33 +197,32 @@ int main( int argc, char** argv )
 	
 		if( img_class >= 0 )
 		{
-			printf("imagenet-camera:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
-
+			debug_print("imagenet-camera:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
 			if( font != NULL )
 			{
-				char str[256];
 				sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
-	
+#if !USE_SDL
 				font->RenderOverlay((float4*)imgRGBA, (float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
 								    str, 0, 0, make_float4(255.0f, 255.0f, 255.0f, 255.0f));
+#endif
 			}
-			
+
 			if( display != NULL )
 			{
-				char str[256];
-				sprintf(str, "TensorRT build %x | %s | %s | %04.1f FPS", NV_GIE_VERSION, net->GetNetworkName(), net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
-				//sprintf(str, "TensorRT build %x | %s | %04.1f FPS | %05.2f%% %s", NV_GIE_VERSION, net->GetNetworkName(), display->GetFPS(), confidence * 100.0f, net->GetClassDesc(img_class));
-				display->SetTitle(str);	
+				char banner[256];
+				sprintf(banner, "TensorRT build %x | %s | %s | %04.1f FPS", NV_GIE_VERSION, net->GetNetworkName(), net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
+				display->SetTitle(banner);	
 			}	
-		}	
-
+		}
 
 		// update display
 		if( display != NULL )
 		{
 			display->UserEvents();
 			display->BeginRender();
-
+            texture->Box(0, camera->GetHeight()-40, camera->GetWidth(), camera->GetHeight());
+            texture->Box(0, 0, camera->GetWidth(), 65);
+#if 1
 			if( texture != NULL )
 			{
 				// rescale image pixel intensities for display
@@ -229,14 +242,30 @@ int main( int argc, char** argv )
 				// draw the texture
 				texture->Render(0,0);		
 			}
-
-			display->EndRender();
+#endif
+#if ABACO
+            SDL_Color white = {255, 255, 255, 0}; // Green
+            texture->RenderText(str, white, 15, 5, 24); 
+#endif
+#if ABACO
+            SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
+            SDL_Color black = {40, 40, 40, 0}; // Abaco orange
+            texture->RenderText("WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18); 
+            texture->RenderText("YOU SUCCEED.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18); 
+            texture->RenderText("abaco.com", white, 15, camera->GetHeight()-40, 28); 
+#endif
+		    display->EndRender();
 		}
 	}
 	
-	printf("\nimagenet-camera:  un-initializing video device\n");
+	debug_print("\nimagenet-camera:  un-initializing video device\n");
 	
-	
+    if( net != NULL )
+	{
+		delete net;
+		net = NULL;
+	}
+
 	/*
 	 * shutdown the camera device
 	 */
@@ -252,8 +281,9 @@ int main( int argc, char** argv )
 		display = NULL;
 	}
 	
-	printf("imagenet-camera:  video device has been un-initialized.\n");
-	printf("imagenet-camera:  this concludes the test of the video device.\n");
+	debug_print("imagenet-camera:  video device has been un-initialized.\n");
+	debug_print("imagenet-camera:  this concludes the test of the video device.\n");\
+    printf("Done./n");
 	return 0;
 }
 

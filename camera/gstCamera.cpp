@@ -2,6 +2,7 @@
  * inference-101
  */
 
+#include "debug.h"
 #include "gstCamera.h"
 #include "gstUtility.h"
 
@@ -106,14 +107,14 @@ bool gstCamera::ConvertRGBA( void* input, void** output )
 // onEOS
 void gstCamera::onEOS(_GstAppSink* sink, void* user_data)
 {
-	printf(LOG_GSTREAMER "gstreamer decoder onEOS\n");
+	debug_print(LOG_GSTREAMER "gstreamer decoder onEOS\n");
 }
 
 
 // onPreroll
 GstFlowReturn gstCamera::onPreroll(_GstAppSink* sink, void* user_data)
 {
-	printf(LOG_GSTREAMER "gstreamer decoder onPreroll\n");
+	debug_print(LOG_GSTREAMER "gstreamer decoder onPreroll\n");
 	return GST_FLOW_OK;
 }
 
@@ -246,7 +247,7 @@ void gstCamera::checkBuffer()
 	mDepth  = (gstSize * 8) / (width * height);
 	mSize   = gstSize;
 	
-	printf(LOG_GSTREAMER "gstreamer camera recieved %ix%i frame (%u bytes, %u bpp)\n", width, height, gstSize, mDepth);
+	debug_print(LOG_GSTREAMER "gstreamer camera recieved %ix%i frame (%u bytes, %u bpp)\n", width, height, gstSize, mDepth);
 	
 	// make sure ringbuffer is allocated
 	if( !mRingbufferCPU[0] )
@@ -257,7 +258,7 @@ void gstCamera::checkBuffer()
 				printf(LOG_CUDA "gstreamer camera -- failed to allocate ringbuffer %u  (size=%u)\n", n, gstSize);
 		}
 		
-		printf(LOG_CUDA "gstreamer camera -- allocated %u ringbuffers, %u bytes each\n", NUM_RINGBUFFERS, gstSize);
+		debug_print(LOG_CUDA "gstreamer camera -- allocated %u ringbuffers, %u bytes each\n", NUM_RINGBUFFERS, gstSize);
 	}
 	
 	// copy to next ringbuffer
@@ -285,8 +286,8 @@ bool gstCamera::buildLaunchStr(std::string pipeline)
 {
 	mLaunchStr = pipeline;
 
-	printf(LOG_GSTREAMER "gstreamer decoder pipeline string:\n");
-	printf("%s\n", mLaunchStr.c_str());
+	debug_print(LOG_GSTREAMER "gstreamer decoder pipeline string:\n");
+	debug_print("%s\n", mLaunchStr.c_str());
 	return true;
 }
 
@@ -402,7 +403,7 @@ bool gstCamera::init(std::string pipestr)
 bool gstCamera::Open()
 {
 	// transition pipline to STATE_PLAYING
-	printf(LOG_GSTREAMER "gstreamer transitioning pipeline to GST_STATE_PLAYING\n");
+	debug_print(LOG_GSTREAMER "gstreamer transitioning pipeline to GST_STATE_PLAYING\n");
 	
 	const GstStateChangeReturn result = gst_element_set_state(mPipeline, GST_STATE_PLAYING);
 
@@ -439,7 +440,7 @@ bool gstCamera::Open()
 void gstCamera::Close()
 {
 	// stop pipeline
-	printf(LOG_GSTREAMER "gstreamer transitioning pipeline to GST_STATE_NULL\n");
+	debug_print(LOG_GSTREAMER "gstreamer transitioning pipeline to GST_STATE_NULL\n");
 
 	const GstStateChangeReturn result = gst_element_set_state(mPipeline, GST_STATE_NULL);
 

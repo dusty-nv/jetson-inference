@@ -5,10 +5,15 @@
 #ifndef __GL_TEXTURE_H__
 #define __GL_TEXTURE_H__
 
-
 #include "cudaUtility.h"
 #include "cuda_gl_interop.h"
 
+#define USE_SDL 1
+#if USE_SDL
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_ttf.h>
+#endif
 
 /**
  * OpenGL texture
@@ -16,7 +21,7 @@
 class glTexture
 {
 public:
-	static glTexture* Create( uint32_t width, uint32_t height, uint32_t format, void* data=NULL );
+	static glTexture* Create( uint32_t width, uint32_t height, uint32_t format, void* data=NULL);
 	~glTexture();
 	
 	void Render( float x, float y );
@@ -33,6 +38,11 @@ public:
 	void  Unmap();
 	
 	bool UploadCPU( void* data );
+#if USE_SDL
+    void Render( SDL_Renderer *renderer );
+    void RenderText(char * message, SDL_Color color, int x, int y, int size);
+    void Box(int x, int y, int xx, int yy);
+#endif
 	
 private:
 	glTexture();
@@ -44,6 +54,17 @@ private:
 	uint32_t mHeight;
 	uint32_t mFormat;
 	uint32_t mSize;
+
+#if USE_SDL
+    int LoadGLTextures(void);
+    SDL_Texture *mTexture[5];
+    SDL_Texture *mTextureFont;
+    SDL_Rect mRect;
+    SDL_Renderer *mRenderer;    
+    TTF_Font *mFont18;
+    TTF_Font *mFont28;
+    TTF_Font *mFont36;
+#endif
 	
 	cudaGraphicsResource* mInteropCUDA;
 	void* mInteropHost;

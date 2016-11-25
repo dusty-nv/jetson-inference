@@ -10,15 +10,13 @@
 #include <GL/glx.h>
 
 #include <stdio.h>
-
+#include "debug.h"
 
 /**
  * LOG_GL printf prefix.
  * @ingroup renderGL
  */
 #define LOG_GL   			"[openGL] "
-
-
 
 #define GL(x)				{ x; glCheckError( #x, __FILE__, __LINE__ ); }
 #define GL_VERIFY(x)		{ x; if(glCheckError( #x, __FILE__, __LINE__ )) return false; }
@@ -94,7 +92,7 @@ inline bool glCheckError(const char* msg)
 		  default:						 e = "unknown error";
 	}
 
-	printf(LOG_GL "%s    (error %i - %s)\n", msg, (uint)err, e);
+	debug_print(LOG_GL "%s    (error %i - %s)\n", msg, (uint)err, e);
 	return true;
 }
 

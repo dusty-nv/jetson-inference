@@ -5,7 +5,6 @@
 #ifndef __GL_VIEWPORT_H__
 #define __GL_VIEWPORT_H__
 
-
 #include "glUtility.h"
 #include "glTexture.h"
 

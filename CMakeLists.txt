@@ -35,7 +35,6 @@ set(
     -O3 -gencode arch=compute_53,code=sm_53
 )
 
-
 # setup project output paths
 set(PROJECT_OUTPUT_DIR  ${PROJECT_BINARY_DIR}/${CMAKE_SYSTEM_PROCESSOR})
 set(PROJECT_INCLUDE_DIR ${PROJECT_OUTPUT_DIR}/include)

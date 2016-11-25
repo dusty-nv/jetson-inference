@@ -1,11 +1,26 @@
 /*
  * inference-101
  */
- 
 #include "glDisplay.h"
+#include <X11/Xatom.h>
+#include <X11/Xlib.h>
 
+int X_error_handler(Display *d, XErrorEvent *e)
+{
+        char msg[80];
+        printf("[X11 Error]11111\n");
+        XGetErrorText(d, e->error_code, msg, sizeof(msg));
 
- 
+        printf("[Error %d] (%s): request %d.%d\n",
+                        e->error_code, msg, e->request_code, 
+                        e->minor_code);
+}
+
+int X_error2_handler(Display *d)
+{
+        printf("[X11 Error]\n");
+}
+
 // Constructor
 glDisplay::glDisplay()
 {
@@ -60,7 +75,7 @@ glDisplay* glDisplay::Create()
 		return NULL;
 	}
 
-	printf("[OpenGL]  glDisplay display window initialized\n");
+	debug_print("[OpenGL]  glDisplay display window initialized\n");
 	return vp;
 }
 
@@ -94,7 +109,7 @@ glDisplay* glDisplay::Create(int width, int height)
 		return NULL;
 	}
 
-	printf("[OpenGL]  glDisplay display window initialized\n");
+	debug_print("[OpenGL]  glDisplay display window initialized\n");
 	return vp;
 }
 
@@ -126,6 +141,22 @@ bool glDisplay::initWindow()
 	return initWindow(screenWidth, screenHeight);
 }
 
+void listAtoms(Display *d, Window w)
+{
+    int num = 0;
+    char* an;
+    Atom* list;
+    list = XListProperties(d, w, &num);
+    printf("Return %d\n", num);
+
+    for (int i=0;i<num;i++)
+    {
+  	an = XGetAtomName(d, list[i]);
+	printf("ATOM %s\n", an);
+    }
+}
+
+
 bool glDisplay::initWindow(int width, int height)
 {
 	if( !mDisplayX )
@@ -154,7 +185,7 @@ bool glDisplay::initWindow(int width, int height)
 	const int screenHeight = height;
 #endif
 
-	printf("default X screen %i:   %i x %i\n", screenIdx, screenWidth, screenHeight);
+	debug_print("default X screen %i:   %i x %i\n", screenIdx, screenWidth, screenHeight);
 	
 	Screen* screen = XScreenOfDisplay(mDisplayX, screenIdx);
 
@@ -203,16 +234,14 @@ bool glDisplay::initWindow(int width, int height)
 	winAttr.background_pixmap = None;
 	winAttr.border_pixel = 0;
 	winAttr.event_mask = StructureNotifyMask|KeyPressMask|KeyReleaseMask|PointerMotionMask|ButtonPressMask|ButtonReleaseMask;
-
 	
 	// create window
 	Window win = XCreateWindow(mDisplayX, winRoot, 0, 0, screenWidth, screenHeight, 0,
 							   visual->depth, InputOutput, visual->visual, CWBorderPixel|CWColormap|CWEventMask, &winAttr);
-
 	if( !win )
 		return false;
 
-	XStoreName(mDisplayX, win, "NVIDIA Jetson TX1 | L4T R24.1 aarch64 | Ubuntu 14.04 LTS");
+	XStoreName(mDisplayX, win, "NVIDIA Jetson TX1 | L4T R24.2 aarch64 | Ubuntu 16.04 LTS");
 	XMapWindow(mDisplayX, win);
 
 	// cleanup
@@ -223,6 +252,11 @@ bool glDisplay::initWindow(int width, int height)
 	mHeight  = screenHeight;
 	
 	XFree(fbConfig);
+        listAtoms(mDisplayX, win);
+
+	// set Error Handler
+	XSetErrorHandler(X_error_handler);
+	XSetIOErrorHandler(X_error2_handler);
 	return true;
 }
 
@@ -346,13 +380,30 @@ void glDisplay::onEvent( uint msg, int a, int b )
 		}
 		case KEY_STATE:
 		{
-			//mKeys[a] = b;
+			//printf("*********** state %d, %d, %d, - %c\n", msg, a, b, b);		
+			//mKeys[a] = a;
+			if (a == 41)
+			{
+				int retval = 0;
+				Atom wm_state = XInternAtom(mDisplayX, "_NET_WM_STATE", true);
+				Atom wm_fullscreen = XInternAtom(mDisplayX, "_NET_WM_STATE_FULLSCREEN", true);
+				if (wm_fullscreen == None) printf("Atom fail for _NET_WM_STATE\n");
+				if (wm_fullscreen == None) printf("Atom fail for _NET_WM_STATE_FULLSCREEN\n");
+				printf("*** Toggle full screen\n");
+				XChangeProperty(mDisplayX, mWindowX, wm_state, XA_ATOM, 32, PropModeReplace, (unsigned char *)&wm_fullscreen, 1 );
+
+
+      			}		
 			break;
 		}
 		case KEY_CHAR:
 		{
-			//mKeyText = a;
+			//mKeyText = a;	
 			break;
+		}
+		default :
+		{
+				printf("***********event %d\n", msg);		
 		}
 	}
 
