@@ -49,7 +49,7 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	if( !net )
 		return NULL;
 	
-	net->EnableProfiler();	
+	//net->EnableProfiler();	
 	net->EnableDebug();
 	//net->DisableFP16();		// debug;
 
@@ -108,14 +108,15 @@ bool segNet::loadClassColors( const char* filename )
 		
 		if( len > 0 )
 		{
-			printf("segNet -- class %i  colors %s\n", idx, str);
+			if( str[len-1] == '\n' )
+				str[len-1] = 0;
 
 			int r = 255;
 			int g = 255;
 			int b = 255;
 
 			sscanf(str, "%i %i %i", &r, &g, &b);
-			printf("segNet -- colors %i %i %i\n", r, g, b);
+			printf("segNet -- class %02i  color %i %i %i\n", idx, r, g, b);
 			SetClassColor(idx, r, g, b);
 			idx++; 
 		}
@@ -154,7 +155,10 @@ bool segNet::loadClassLabels( const char* filename )
 		
 		if( len > 0 )
 		{
-			printf("segNet -- class %zu  label '%s'\n", mClassLabels.size(), str);
+			if( str[len-1] == '\n' )
+				str[len-1] = 0;
+
+			printf("segNet -- class %02zu  label '%s'\n", mClassLabels.size(), str);
 			mClassLabels.push_back(str);
 		}
 	}

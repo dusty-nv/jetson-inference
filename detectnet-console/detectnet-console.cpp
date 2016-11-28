@@ -8,6 +8,16 @@
 #include "cudaMappedMemory.h"
 
 
+#include <sys/time.h>
+
+
+uint64_t current_timestamp() {
+    struct timeval te; 
+    gettimeofday(&te, NULL); // get current time
+    return te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
+}
+
+
 // main entry point
 int main( int argc, char** argv )
 {
@@ -40,6 +50,8 @@ int main( int argc, char** argv )
 		printf("detectnet-console:   failed to initialize detectNet\n");
 		return 0;
 	}
+
+	net->EnableProfiler();
 	
 	// alloc memory for bounding box & confidence value output arrays
 	const uint32_t maxBoxes = net->GetMaxBoundingBoxes();		printf("maximum bounding boxes:  %u\n", maxBoxes);
@@ -72,7 +84,13 @@ int main( int argc, char** argv )
 	// classify image
 	int numBoundingBoxes = maxBoxes;
 	
-	if( !net->Detect(imgCUDA, imgWidth, imgHeight, bbCPU, &numBoundingBoxes, confCPU) )
+	printf("detectnet-console:  beginning processing network (%zu)\n", current_timestamp());
+
+	const bool result = net->Detect(imgCUDA, imgWidth, imgHeight, bbCPU, &numBoundingBoxes, confCPU);
+
+	printf("detectnet-console:  finished processing network  (%zu)\n", current_timestamp());
+
+	if( !result )
 		printf("detectnet-console:  failed to classify '%s'\n", imgFilename);
 	else if( argc > 2 )		// if the user supplied an output filename
 	{

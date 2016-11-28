@@ -55,6 +55,9 @@ tensorNet::~tensorNet()
 void tensorNet::EnableProfiler()
 {
 	mEnableProfiler = true;
+
+	if( mContext != NULL )
+		mContext->setProfiler(&gProfiler);
 }
 
 
@@ -251,7 +254,10 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	}
 
 	if( mEnableDebug )
+	{
+		printf(LOG_GIE "enabling context debug sync.\n");
 		context->setDebugSync(true);
+	}
 
 	if( mEnableProfiler )
 		context->setProfiler(&gProfiler);

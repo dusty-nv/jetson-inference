@@ -63,6 +63,8 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 	
 	if( !net )
 		return NULL;
+
+	//net->EnableDebug();
 	
 	std::vector<std::string> output_blobs;
 	output_blobs.push_back(coverage_blob);
