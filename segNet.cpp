@@ -49,6 +49,10 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	if( !net )
 		return NULL;
 	
+	net->EnableProfiler();	
+	net->EnableDebug();
+	//net->DisableFP16();		// debug;
+
 	// load network
 	std::vector<std::string> output_blobs;
 	output_blobs.push_back(output_blob);
@@ -195,6 +199,7 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 		return false;
 	}
 
+	printf("segnet network width %u height %u\n", mWidth, mHeight);
 	
 	// downsample and convert to band-sequential BGR
 	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight)) )

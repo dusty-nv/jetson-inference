@@ -44,7 +44,7 @@ public:
 	 */
 	static segNet* Create( const char* prototxt_path, const char* model_path, 
 					   const char* class_labels, const char* class_colors=NULL,
-					   const char* input="data", const char* output="upscore_21classes" );
+					   const char* input="data", const char* output="score_fr_21classes" );
 	
 	/**
 	 * Destroy
@@ -54,7 +54,7 @@ public:
 	/**
 	 * Produce the segmentation overlay alpha blended on top of the original image.
 	 * @param input float4 input image in CUDA device memory, RGBA colorspace with values 0-255.
-	 * @param output float4 output image in CUDA device memory
+	 * @param output float4 output image in CUDA device memory, RGBA colorspace with values 0-255.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param alpha alpha blending value indicating transparency of the overlay.

@@ -43,9 +43,25 @@ public:
 				   const char* input_blob, const std::vector<std::string>& output_blobs);
 
 	/**
+	 * Manually enable layer profiling times.	
+	 */
+	void EnableProfiler();
+
+	/**
+	 * Manually enable debug messages and synchronization.
+	 */
+	void EnableDebug();
+
+	/**
+	 * Manually disable FP16 for debugging purposes.
+	 */
+	void DisableFP16();
+
+	/**
  	 * Query for half-precision FP16 support.
 	 */
 	inline bool HasFP16() const		{ return mEnableFP16; }
+
 	
 protected:
 
@@ -80,12 +96,25 @@ protected:
 	{
 		void log( Severity severity, const char* msg ) override
 		{
-			//if( severity != Severity::kINFO )
+			if( severity != Severity::kINFO /*|| mEnableDebug*/ )
 				printf(LOG_GIE "%s\n", msg);
 		}
 	} gLogger;
 
-	
+	/**
+	 * Profiler interface for measuring layer timings
+	 */
+	class Profiler : public nvinfer1::IProfiler
+	{
+		virtual void reportLayerTime(const char* layerName, float ms)
+		{
+			printf(LOG_GIE "layer %s - %f ms\n", layerName, ms);
+		}
+	} gProfiler;
+
+
+protected:
+
 	/* Member Variables */
 	std::string mPrototxtPath;
 	std::string mModelPath;
@@ -101,7 +130,10 @@ protected:
 	uint32_t mInputSize;
 	float*   mInputCPU;
 	float*   mInputCUDA;
+	bool	    mEnableProfiler;
+	bool     mEnableDebug;
 	bool	    mEnableFP16;
+	bool     mOverride16;
 	
 	nvinfer1::Dims3 mInputDims;
 	
