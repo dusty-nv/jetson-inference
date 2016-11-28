@@ -102,7 +102,7 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 }
 
 
-cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value );
+cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value );
 
 
 
@@ -161,10 +161,10 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 
 	
 	// downsample and convert to band-sequential BGR
-	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
-									make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f))) )
+	if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
+								  make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f))) )
 	{
-		printf("detectNet::Classify() -- cudaPreImageNet failed\n");
+		printf("detectNet::Classify() -- cudaPreImageNetMean failed\n");
 		return false;
 	}
 	

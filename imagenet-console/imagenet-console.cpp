@@ -32,7 +32,7 @@ int main( int argc, char** argv )
 
 	// create imageNet
 	imageNet* net = imageNet::Create();
-	
+
 	if( !net )
 	{
 		printf("imagenet-console:   failed to initialize imageNet\n");

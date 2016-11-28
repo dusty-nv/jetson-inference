@@ -59,6 +59,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	nvinfer1::IBuilder* builder = createInferBuilder(gLogger);
 	nvinfer1::INetworkDefinition* network = builder->createNetwork();
 
+	builder->setDebugSync(true);
 	builder->setMinFindIterations(3);	// allow time for TX1 GPU to spin up
      builder->setAverageFindIterations(2);
 
@@ -66,6 +67,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	nvcaffeparser1::ICaffeParser* parser = nvcaffeparser1::createCaffeParser();
 
 	mEnableFP16 = builder->platformHasFastFp16();
+	//mEnableFP16 = false;
 	printf(LOG_GIE "platform %s FP16 support.\n", mEnableFP16 ? "has" : "does not have");
 	printf(LOG_GIE "loading %s %s\n", deployFile.c_str(), modelFile.c_str());
 	
@@ -86,8 +88,16 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	const size_t num_outputs = outputs.size();
 	
 	for( size_t n=0; n < num_outputs; n++ )
-		network->markOutput(*blobNameToTensor->find(outputs[n].c_str()));
+	{
+		nvinfer1::ITensor* tensor = blobNameToTensor->find(outputs[n].c_str());
+	
+		if( !tensor )
+			printf("failed to retrieve tensor for output '%s'\n", outputs[n].c_str());
+		else
+			printf("retrieved output tensor '%s'\n", tensor->getName());
 
+		network->markOutput(*tensor);
+	}
 
 	// Build the engine
 	printf(LOG_GIE "configuring CUDA engine\n");
@@ -107,6 +117,8 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		printf(LOG_GIE "failed to build CUDA engine\n");
 		return false;
 	}
+
+	printf(LOG_GIE "completed building CUDA engine\n");
 
 	// we don't need the network any more, and we can destroy the parser
 	network->destroy();

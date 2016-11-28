@@ -41,7 +41,7 @@ public:
 	 */
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean,
 				   const char* input_blob, const std::vector<std::string>& output_blobs);
-			
+
 	/**
  	 * Query for half-precision FP16 support.
 	 */
@@ -80,7 +80,7 @@ protected:
 	{
 		void log( Severity severity, const char* msg ) override
 		{
-			if( severity != Severity::kINFO )
+			//if( severity != Severity::kINFO )
 				printf(LOG_GIE "%s\n", msg);
 		}
 	} gLogger;
