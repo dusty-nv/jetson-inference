@@ -35,6 +35,7 @@ Please be patient whilst we build our DIGITS server to retrain the network and w
 - [ ] add RTP video streaming source for YUV encoded video streams. Injest progressive GVA (Generic Vehicle Architecture) compliant video sources.
 
 ![Mug Classified](abaco/Inferance-Screenshot01.png)
+![Mug and Mouse Classified](abaco/Inferance-Screenshot02.png)
 
 ## Building from Source
 Provided along with this repo are TensorRT-enabled examples of running Googlenet/Alexnet on live camera feed for image recognition, and pedestrian detection networks with localization capabilities (i.e. that provide bounding boxes). 
@@ -86,6 +87,10 @@ For jetson 64bit builds the architecte will be aarch64, with the following direc
 ```
 ## Runtime
 The font file and binary images used can be found in /data and should be copied into the working directort. TODO: point the binary at the data directory.
+
+* q = Quit application
+* f = Toggle fullscreen
+
 ## Links
 * [Abaco Systems](http://abaco.com)
 * [eLinux TX1](http://elinux.org/Jetson_TX1)
