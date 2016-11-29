@@ -84,7 +84,8 @@ For jetson 64bit builds the architecte will be aarch64, with the following direc
       \include		where the headers reside
       \lib			where the libraries are build to
 ```
-
+## Runtime
+The font file and binary images used can be found in /data and should be copied into the working directort. TODO: point the binary at the data directory.
 ## Links
 * [Abaco Systems](http://abaco.com)
 * [eLinux TX1](http://elinux.org/Jetson_TX1)
