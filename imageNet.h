@@ -5,9 +5,19 @@
 #ifndef __IMAGE_NET_H__
 #define __IMAGE_NET_H__
 
+struct objs
+{
+    int number;
+    float confidence;
+};
+
+struct items
+{
+    int count;
+    objs index[100];
+};
 
 #include "tensorNet.h"
-
 
 /**
  * Image recognition with GoogleNet/Alexnet or custom models, using TensorRT.
@@ -64,6 +74,8 @@ public:
 	 * Retrieve the description of a particular class.
 	 */
 	inline const char* GetClassDesc( uint32_t index )	const		{ return mClassDesc[index].c_str(); }
+	float GetClassConf( int index )	const		{ mOutputs[0].CPU[index]; }
+
 	
 	/**
 	 * Retrieve the class synset category of a particular class.
@@ -80,6 +92,7 @@ public:
 	 */
 	inline const char* GetNetworkName() const					{ return (mNetworkType == GOOGLENET ? "googlenet" : "alexnet"); }
 
+    items mItems;
 protected:
 	imageNet();
 	

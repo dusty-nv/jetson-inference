@@ -53,6 +53,18 @@ void sig_handler(int signo)
 int main( int argc, char** argv )
 {
     char str[256];
+    char tmp[200][200];
+
+    int logo;
+    unsigned int frame = 0;
+    int itemCount = 0;
+
+
+#if ABACO
+    SDL_Color white = {255, 255, 255, 0}; // WWhite
+    SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
+    SDL_Color black = {40, 40, 40, 0}; // Black
+#endif
 
 	debug_print("imagenet-camera\n  args (%i):  ", argc);
 
@@ -145,6 +157,11 @@ int main( int argc, char** argv )
 	 */
 	cudaFont* font = cudaFont::Create();
 	
+	/*
+	 * load logo
+	 */
+    logo = texture->ImageLoad("abaco.bmp");
+
 
 	/*
 	 * start streaming
@@ -220,9 +237,12 @@ int main( int argc, char** argv )
 		{
 			display->UserEvents();
 			display->BeginRender();
+            texture->Image(320, 0, logo);
             texture->Box(0, camera->GetHeight()-40, camera->GetWidth(), camera->GetHeight());
             texture->Box(0, 0, camera->GetWidth(), 65);
-#if 1
+            // Objs
+     //       texture->Box(camera->GetWidth()-380, camera->GetHeight()-100, camera->GetWidth()-50, camera->GetHeight()-600);
+
 			if( texture != NULL )
 			{
 				// rescale image pixel intensities for display
@@ -242,14 +262,48 @@ int main( int argc, char** argv )
 				// draw the texture
 				texture->Render(0,0);		
 			}
-#endif
+
+            // Update confidence/s less frequently
+            if (frame++ % 50 == 0)
+            {
+                for (itemCount=0;itemCount<net->mItems.count;itemCount++)
+                {
+                    sprintf((char*)&tmp[itemCount][0], "%05.2f%% %s", net->mItems.index[itemCount].confidence * 100.0f, net->GetClassDesc(net->mItems.index[itemCount].number));
+                }
+                // Bubble sort the list
+                {
+                    bool swap = true;
+                    while (swap)
+                    {
+                        swap = false;
+                        for (int ii=0;ii<itemCount-1;ii++)
+                        {
+                            if (net->mItems.index[ii].confidence < net->mItems.index[ii+1].confidence)
+                            {
+                            
+                                float tmpf;
+                                char tmps[200];
+
+                                tmpf = net->mItems.index[ii].confidence;
+                                net->mItems.index[ii].confidence = net->mItems.index[ii+1].confidence; 
+                                net->mItems.index[ii+1].confidence = tmpf; 
+                                  
+                                strcpy(tmps, &tmp[ii][0]);
+                                strcpy(&tmp[ii][0], &tmp[ii+1][0]);
+                                strcpy(&tmp[ii+1][0], tmps);
+                                swap=true;
+                            }
+                        }
+                    }
+                }
+            }
+            // Render the text
+            for (int ii=0;ii<itemCount;ii++)
+            {
+              texture->RenderText((char*)&tmp[ii][0], white, 50, 100+(ii*22), 18);
+            }
 #if ABACO
-            SDL_Color white = {255, 255, 255, 0}; // Green
             texture->RenderText(str, white, 15, 5, 24); 
-#endif
-#if ABACO
-            SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
-            SDL_Color black = {40, 40, 40, 0}; // Abaco orange
             texture->RenderText("WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18); 
             texture->RenderText("YOU SUCCEED.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18); 
             texture->RenderText("abaco.com", white, 15, camera->GetHeight()-40, 28); 

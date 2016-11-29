@@ -2,6 +2,7 @@
  * http://github.com/dusty-nv/jetson-inference
  */
  
+#include "debug.h"
 #include "imageNet.h"
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
@@ -75,7 +76,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 		return false;
 	}
 
-	printf(LOG_GIE "%s loaded\n", model_path);
+	debug_print(LOG_GIE "%s loaded\n", model_path);
 
 	/*
 	 * load synset classnames
@@ -88,7 +89,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 		return false;
 	}
 	
-	printf("%s initialized.\n", model_path);
+	debug_print("%s initialized.\n", model_path);
 	return true;
 }
 							 
@@ -130,7 +131,7 @@ bool imageNet::loadClassInfo( const char* filename )
 	
 	fclose(f);
 	
-	printf("imageNet -- loaded %zu class info entries\n", mClassSynset.size());
+	debug_print("imageNet -- loaded %zu class info entries\n", mClassSynset.size());
 	
 	if( mClassSynset.size() == 0 )
 		return false;
@@ -168,7 +169,7 @@ bool imageNet::init( imageNet::NetworkType networkType )
 		return false;
 	}
 	
-	printf("%s initialized.\n", GetNetworkName());
+	debug_print("%s initialized.\n", GetNetworkName());
 	return true;
 }
 
@@ -180,12 +181,13 @@ cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeigh
 // Classify
 int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* confidence )
 {
-	if( !rgba || width == 0 || height == 0 )
+    mItems.count = 0;		
+	
+    if( !rgba || width == 0 || height == 0 )
 	{
 		printf("imageNet::Classify( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
 		return -1;
 	}
-
 	
 	// downsample and convert to band-sequential BGR
 	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
@@ -211,9 +213,13 @@ int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* con
 		const float value = mOutputs[0].CPU[n];
 		
 		if( value >= 0.01f )
-			printf("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
-	
-		if( value > classMax )
+        {
+		  	debug_print("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
+            mItems.index[mItems.count].number = n;
+            mItems.index[mItems.count++].confidence = value;
+        }
+		
+        if( value > classMax )
 		{
 			classIndex = n;
 			classMax   = value;
