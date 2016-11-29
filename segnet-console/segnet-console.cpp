@@ -49,9 +49,20 @@ int main( int argc, char** argv )
 	if( argc > 3 )
 		modelName = argv[3];	
 
+	segNet::NetworkType type = segNet::SEGNET_CUSTOM;
+
+	if( strcasecmp(modelName, "fcn-alexnet-cityscapes") == 0 )
+		type = segNet::FCN_ALEXNET_CITYSCAPES_21;
+	else if( strcasecmp(modelName, "fcn-alexnet-pascal-voc") == 0 )
+		type = segNet::FCN_ALEXNET_PASCAL_VOC;
+	else if( strcasecmp(modelName, "fcn-alexnet-synthia-cvpr16") == 0 )
+		type = segNet::FCN_ALEXNET_SYNTHIA_CVPR16;
+	else if( strcasecmp(modelName, "fcn-alexnet-synthia-summer") == 0 )
+		type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER;
+
 
 	// create segnet
-	segNet* net = segNet::Create();
+	segNet* net = segNet::Create(type);
 
 	if( !net )
 	{
@@ -86,7 +97,9 @@ int main( int argc, char** argv )
 	printf("segnet-console:  beginning processing overlay (%zu)\n", current_timestamp());
 
 	// process image overlay
-	if( !net->Overlay(imgCUDA, outCUDA, imgWidth, imgHeight) )
+	const float alpha = 100.0f;
+
+	if( !net->Overlay(imgCUDA, outCUDA, imgWidth, imgHeight, alpha) )
 	{
 		printf("segnet-console:  failed to process segmentation overlay.\n");
 		return 0;

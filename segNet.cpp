@@ -10,6 +10,7 @@
 
 
 
+// Create
 segNet* segNet::Create( NetworkType networkType )
 {
 	if( networkType == FCN_ALEXNET_PASCAL_VOC )
@@ -51,7 +52,7 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	
 	//net->EnableProfiler();	
 	net->EnableDebug();
-	net->DisableFP16();		// debug;
+	//net->DisableFP16();		// debug;
 
 	// load network
 	std::vector<std::string> output_blobs;
@@ -124,7 +125,7 @@ bool segNet::loadClassColors( const char* filename )
 	
 	fclose(f);
 	
-	printf("segNet -- loaded %i class labels\n", idx);
+	printf("segNet -- loaded %i class colors\n", idx);
 	
 	if( idx == 0 )
 		return false;
@@ -189,13 +190,33 @@ void segNet::SetClassColor( uint32_t classIndex, float r, float g, float b, floa
 }
 
 
+
+// FindClassID
+int segNet::FindClassID( const char* label_name )
+{
+	if( !label_name )
+		return -1;
+
+	const uint32_t numLabels = mClassLabels.size();
+
+	for( uint32_t n=0; n < numLabels; n++ )
+	{
+		if( strcasecmp(label_name, mClassLabels[n].c_str()) == 0 )
+			return n;
+	}
+
+	return -1;
+}
+
+
+
 // declaration from imageNet.cu
 cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight );
 
 
 
 // Overlay
-bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t height, float alpha )
+bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t height, float alpha, const char* ignore_class )
 {
 	if( !rgba || width == 0 || height == 0 || !output )
 	{
@@ -205,12 +226,14 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 
 	printf("segnet network width %u height %u\n", mWidth, mHeight);
 	
+
 	// downsample and convert to band-sequential BGR
 	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight)) )
 	{
 		printf("segNet::Overlay() -- cudaPreImageNet failed\n");
 		return false;
 	}
+
 	
 	// process with GIE
 	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
@@ -221,6 +244,8 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 		return false;
 	}
 
+
+	// retrieve scores
 	float* scores = mOutputs[0].CPU;
 
 	const int s_w = mOutputs[0].dims.w;
@@ -230,9 +255,15 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 	const float s_x = float(width) / float(s_w);
 	const float s_y = float(height) / float(s_h);
 	
+
+	// if desired, find the ID of the class to ignore (typically void)
+	const int ignoreID = FindClassID(ignore_class);
+	
 	printf(LOG_GIE "segNet::Overlay -- s_w %i  s_h %i  s_c %i  s_x %f  s_y %f\n", s_w, s_h, s_c, s_x, s_y);
+	printf(LOG_GIE "segNet::Overlay -- ignoring class '%s' id=%i\n", ignore_class, ignoreID);
 
 
+	// overlay pixels onto original
 	for( uint32_t y=0; y < s_h; y++ )
 	{
 		for( uint32_t x=0; x < s_w; x++ )
@@ -261,26 +292,31 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 				}
 			}
 
-			printf("%02u %u  class %i  %f  %s  class %i  %f  %s  class %i  %f  %s\n", x, y, 
+			/*printf("%02u %u  class %i  %f  %s  class %i  %f  %s  class %i  %f  %s\n", x, y, 
 				   c_max[0], p_max[0], (c_max[0] >= 0 && c_max[0] < GetNumClasses()) ? GetClassLabel(c_max[0]) : " ", 
 				   c_max[1], p_max[1], (c_max[1] >= 0 && c_max[1] < GetNumClasses()) ? GetClassLabel(c_max[1]) : " ",
 				   c_max[2], p_max[2], (c_max[2] >= 0 && c_max[2] < GetNumClasses()) ? GetClassLabel(c_max[2]) : " ");
-				   
+			*/
+	   
 			const int oy = y * s_y;
 			const int ox = x * s_x;
 			
-			float* c_color = GetClassColor(c_max[0] == 0 ? c_max[1] : c_max[0]);
+			float* c_color = GetClassColor(c_max[0] == ignoreID ? c_max[1] : c_max[0]);
 			
 			for( int yy=oy; yy < oy + s_y; yy++ )
 			{
 				for( int xx=ox; xx < ox + s_x; xx++ )
 				{
-					float* px = output + (((yy * width) + xx) * 4);
+					float* px_in  = rgba +   (((yy * width * 4) + xx * 4));
+					float* px_out = output + (((yy * width * 4) + xx * 4));
 					
-					px[0] = c_color[0];
-					px[1] = c_color[1];
-					px[2] = c_color[2];
-					px[3] = c_color[3];
+					const float alph = /*c_color[3]*/ alpha / 255.0f;
+					const float inva = 1.0f - alph;
+
+					px_out[0] = alph * c_color[0] + inva * px_in[0];
+					px_out[1] = alph * c_color[1] + inva * px_in[1];
+					px_out[2] = alph * c_color[2] + inva * px_in[2];
+					px_out[3] = 255.0f;
 				}
 			}
 		}

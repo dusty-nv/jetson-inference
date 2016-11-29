@@ -44,7 +44,7 @@ public:
 	 */
 	static segNet* Create( const char* prototxt_path, const char* model_path, 
 					   const char* class_labels, const char* class_colors=NULL,
-					   const char* input="data", const char* output="upscore_21classes"/*"score_fr_21classes"*/ );
+					   const char* input="data", const char* output=/*"upscore_21classes"*/"score_fr_21classes" );
 	
 	/**
 	 * Destroy
@@ -58,9 +58,15 @@ public:
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param alpha alpha blending value indicating transparency of the overlay.
+	 * @param ignore_class label name of class to ignore in the classification (or NULL to process all).
 	 * @returns true on success, false on error.
 	 */
-	bool Overlay( float* input, float* output, uint32_t width, uint32_t height, float alpha=255.0f );
+	bool Overlay( float* input, float* output, uint32_t width, uint32_t height, float alpha=255.0f, const char* ignore_class="void" );
+	
+	/**
+	 * Find the ID of a particular class (by label name).
+	 */
+	int FindClassID( const char* label_name );
 
 	/**
 	 * Retrieve the number of object classes supported in the detector
@@ -70,13 +76,13 @@ public:
 	/**
 	 * Retrieve the description of a particular class.
 	 */
-	inline const char* GetClassLabel( uint32_t index )	const	{ return mClassLabels[index].c_str(); }
+	inline const char* GetClassLabel( uint32_t id )	const		{ return mClassLabels[id].c_str(); }
 	
 	/**
 	 * Retrieve the class synset category of a particular class.
 	 */
-	inline float* GetClassColor( uint32_t index ) const			{ return mClassColors[0] + (index*4); }
-	
+	inline float* GetClassColor( uint32_t id ) const				{ return mClassColors[0] + (id*4); }
+
 	/**
 	 * Set the visualization color of a particular class of object.
 	 */

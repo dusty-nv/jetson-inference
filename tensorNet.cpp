@@ -118,9 +118,9 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		nvinfer1::ITensor* tensor = blobNameToTensor->find(outputs[n].c_str());
 	
 		if( !tensor )
-			printf("failed to retrieve tensor for output '%s'\n", outputs[n].c_str());
+			printf(LOG_GIE "failed to retrieve tensor for output '%s'\n", outputs[n].c_str());
 		else
-			printf("retrieved output tensor '%s'\n", tensor->getName());
+			printf(LOG_GIE "retrieved output tensor '%s'\n", tensor->getName());
 
 		network->markOutput(*tensor);
 	}
