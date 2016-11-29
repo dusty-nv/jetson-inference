@@ -6,6 +6,7 @@
 #include "glTexture.h"
 #include "cudaMappedMemory.h"
 
+#define BIN_ROOT "../../../data/"
 //-----------------------------------------------------------------------------------
 inline uint32_t glTextureLayout( uint32_t format )
 {
@@ -150,7 +151,8 @@ glTexture::glTexture()
 	mHeight = 0;
 	mFormat = 0;
 	mSize   = 0;
-	
+    mImageCount = 0;
+
 	mInteropCUDA   = NULL;
 	mInteropHost   = NULL;
 	mInteropDevice = NULL;
@@ -234,15 +236,13 @@ bool glTexture::init( uint32_t width, uint32_t height, uint32_t format, void* da
         exit(EXIT_FAILURE);
     }
 
-    mFont18 = TTF_OpenFont("Roboto-Regular.ttf", 18);
-    mFont28 = TTF_OpenFont("Roboto-Regular.ttf", 28);
-    mFont36 = TTF_OpenFont("Roboto-Regular.ttf", 36);
+    mFont18 = TTF_OpenFont(BIN_ROOT "Roboto-Regular.ttf", 18);
+    mFont28 = TTF_OpenFont(BIN_ROOT "Roboto-Regular.ttf", 28);
+    mFont36 = TTF_OpenFont(BIN_ROOT "Roboto-Regular.ttf", 36);
     if (mFont28 == NULL) {
         fprintf(stderr, "error: font not found\n");
         exit(EXIT_FAILURE);
     }
-
-    LoadGLTextures();
 #endif
 	return true;
 }
@@ -382,41 +382,37 @@ void glTexture::RenderText(char * message, SDL_Color color, int x, int y, int si
   SDL_FreeSurface(sFont);
 }
 
-
-//#include <SDL.h>
-int glTexture::LoadGLTextures(void)
+int glTexture::ImageLoad(char * file)
 {
     int status = false;
     float h,w;
+    char filename[300];
  	// generate texture objects
 
     /* Create storage space for the texture */
-    SDL_Surface *TextureImage[1]; 
+    SDL_Surface *TextureImage; 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    sprintf(filename, "%s%s", BIN_ROOT, file);
 
     /* Load The Bitmap, Check For Errors, If Bitmap's Not Found Quit */
-    if ( ( TextureImage[0] = SDL_LoadBMP( "abaco.bmp" ) ) )
+    if ( ( TextureImage = SDL_LoadBMP( filename ) ) )
     {
-        printf("Loaded texture abaco256.bmp\n");
-        SDL_SetColorKey(TextureImage[0], SDL_TRUE, SDL_MapRGB(TextureImage[0]->format,255,255,255));
-//        SDL_BlitSurface(TextureImage[0], NULL, TextureImage[1], NULL);
+        printf("Loaded texture abaco.bmp\n");
 
 	    /* Set the status to true */
 	    status = true;
 
 	    /* Create The Texture */
-        mTexture[0] = SDL_CreateTextureFromSurface(NULL ,TextureImage[0]);
+        glGenTextures(1, &mTextureIds[mImageCount]);
 
 	    /* Typical Texture Generation Using Data From The Bitmap */
-        SDL_GL_BindTexture(mTexture[0], &w, &h);
+        glBindTexture(GL_TEXTURE_2D, mTextureIds[mImageCount]);
 
 	    /* Generate The Texture */
-	    glTexImage2D( GL_TEXTURE_2D, 0, 3, TextureImage[0]->w,
-			  TextureImage[0]->h, 0, GL_BGR,
-    		  GL_UNSIGNED_BYTE, TextureImage[0]->pixels );
-		glGetError();
+	    glTexImage2D( GL_TEXTURE_2D, 0, 3, TextureImage->w, TextureImage->h, 0, GL_BGR, GL_UNSIGNED_BYTE, TextureImage->pixels );
 
 	    /* Linear Filtering */
 	    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
@@ -426,16 +422,18 @@ int glTexture::LoadGLTextures(void)
         printf("Unable to open BMP file\n");
  
     /* Free up any memory we may have used */
-    if ( TextureImage[0] )
-	    SDL_FreeSurface( TextureImage[0] );
+    if ( TextureImage )
+	    SDL_FreeSurface( TextureImage );
 
-    return status;
+    glDisable(GL_BLEND);
+    
+    return mImageCount++;
 }
 #endif
 
 void glTexture::Box(int x, int y, int xx, int yy)
 {	
-	GL(glEnable(GL_TEXTURE_2D));
+	glEnable(GL_TEXTURE_2D);
      
     // grey box behnd text
     glBegin(GL_QUADS); 
@@ -447,12 +445,44 @@ void glTexture::Box(int x, int y, int xx, int yy)
     glEnd(); 
 }
 
+#if USE_SDL 
+void glTexture::Image(int x, int y, int id)
+// Render logo in bottom Right corner
+{ 
+    float h,w;
+#if 1
+    int offset=50;
+    int width=87;  // Todo : Auto detect image size
+    int height=40;
+
+    // Draw logo
+	glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, mTextureIds[id]);
+
+#if 1
+    glBegin(GL_QUADS); 
+	    glTexCoord2f(0.0f, 0.0f); 
+	    glVertex2d((mWidth / 2) - (width/2), mHeight - height);
+
+	    glTexCoord2f(1.0f, 0.0f); 
+	    glVertex2d((mWidth / 2) + (width/2), mHeight - height);	
+
+	    glTexCoord2f(1.0f, 1.0f); 
+	    glVertex2d((mWidth / 2) + (width/2), mHeight);
+
+	    glTexCoord2f(0.0f, 1.0f); 
+	    glVertex2d((mWidth / 2) - (width/2), mHeight);
+    glEnd(); 
+#endif
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+#endif
+
 // Render
 void glTexture::Render( const float4& rect )
 {
     float h,w;
 
-#if 1
 	GL(glEnable(GL_TEXTURE_2D));
     glBindTexture(GL_TEXTURE_2D, mID);
 	glBegin(GL_QUADS);
@@ -471,39 +501,6 @@ void glTexture::Render( const float4& rect )
 		glVertex2d(rect.x, rect.w);
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, 0);
-#endif
-
-#if USE_SDL 
-#if 0
-    // Render logo in bottom Right corner
-    {
-        int offset=50;
-        int width=198;  // Todo : Auto detect image size
-        int height=113;
-
-        // Draw logo
-    	GL(glEnable(GL_TEXTURE_2D));
-        SDL_GL_BindTexture(mTexture[0], &w, &h);
-#if 1
-        glBegin(GL_QUADS); 
-		    glTexCoord2f(0.0f, 0.0f); 
-		    glVertex2d(rect.z - offset - width, rect.w - offset- height);
-
-		    glTexCoord2f(1.0f, 0.0f); 
-		    glVertex2d(rect.z - offset, rect.w - offset - height);	
-
-		    glTexCoord2f(1.0f, 1.0f); 
-		    glVertex2d(rect.z - offset, rect.w - offset);
-
-		    glTexCoord2f(0.0f, 1.0f); 
-		    glVertex2d(rect.z - offset - width, rect.w - offset);
-
-#endif
-        glEnd(); 
-        SDL_GL_UnbindTexture(mTexture[0]);
-
-    }
-#endif
 #endif
 }
 

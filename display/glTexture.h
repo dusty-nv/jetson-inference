@@ -15,6 +15,7 @@
 #include <SDL2/SDL_ttf.h>
 #endif
 
+#define MAX_IMAGES 200
 /**
  * OpenGL texture
  */
@@ -42,6 +43,8 @@ public:
     void Render( SDL_Renderer *renderer );
     void RenderText(char * message, SDL_Color color, int x, int y, int size);
     void Box(int x, int y, int xx, int yy);
+    int ImageLoad(char * file);
+    void Image(int x, int y, int id);
 #endif
 	
 private:
@@ -56,8 +59,8 @@ private:
 	uint32_t mSize;
 
 #if USE_SDL
-    int LoadGLTextures(void);
-    SDL_Texture *mTexture[5];
+    GLuint mTextureIds[MAX_IMAGES];
+    int mImageCount;
     SDL_Texture *mTextureFont;
     SDL_Rect mRect;
     SDL_Renderer *mRenderer;    
