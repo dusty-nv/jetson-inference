@@ -51,7 +51,7 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 		return NULL;
 	
 	//net->EnableProfiler();	
-	net->EnableDebug();
+	//net->EnableDebug();
 	//net->DisableFP16();		// debug;
 
 	// load network

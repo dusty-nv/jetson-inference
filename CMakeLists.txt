@@ -79,6 +79,10 @@ foreach(include ${networkData})
 endforeach()
 
 
+# copy tools
+file(COPY "tools/segnet-batch.sh" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
+
 # build samples & tools
 add_subdirectory(imagenet-console)
 add_subdirectory(imagenet-camera)
