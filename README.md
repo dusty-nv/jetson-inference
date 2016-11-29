@@ -1,6 +1,6 @@
 ![Abaco stripe](abaco/Abaco_background-1000x275.png)
 
-# Abaco Systems TX1 enabled Small Form Factor solutions
+# Abaco Systems TX1 enabled Small Form Factor solutions   
 ## Deep Learning for Military Applications
 This is a branch of the NVIDIA's deep learning inference workshop and end-to-end realtime object recognition library for Jetson TX1. Please reffer to the main branch for details and tips on setting up this demonstartion.
 
