@@ -115,10 +115,11 @@ bool segNet::loadClassColors( const char* filename )
 			int r = 255;
 			int g = 255;
 			int b = 255;
+			int a = 255;
 
-			sscanf(str, "%i %i %i", &r, &g, &b);
-			printf("segNet -- class %02i  color %i %i %i\n", idx, r, g, b);
-			SetClassColor(idx, r, g, b);
+			sscanf(str, "%i %i %i %i", &r, &g, &b, &a);
+			printf("segNet -- class %02i  color %i %i %i %i\n", idx, r, g, b, a);
+			SetClassColor(idx, r, g, b, a);
 			idx++; 
 		}
 	}
@@ -190,6 +191,18 @@ void segNet::SetClassColor( uint32_t classIndex, float r, float g, float b, floa
 }
 
 
+// SetGlobalAlpha
+void segNet::SetGlobalAlpha( float alpha, bool explicit_exempt )
+{
+	const uint32_t numClasses = GetNumClasses();
+
+	for( uint32_t n=0; n < numClasses; n++ )
+	{
+		if( !explicit_exempt || mClassColors[0][n*4+3] == 255 )
+			mClassColors[0][n*4+3] = alpha;
+	}
+}
+
 
 // FindClassID
 int segNet::FindClassID( const char* label_name )
@@ -216,7 +229,7 @@ cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeigh
 
 
 // Overlay
-bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t height, float alpha, const char* ignore_class )
+bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t height, const char* ignore_class )
 {
 	if( !rgba || width == 0 || height == 0 || !output )
 	{
@@ -310,7 +323,7 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 					float* px_in  = rgba +   (((yy * width * 4) + xx * 4));
 					float* px_out = output + (((yy * width * 4) + xx * 4));
 					
-					const float alph = /*c_color[3]*/ alpha / 255.0f;
+					const float alph = c_color[3] / 255.0f;
 					const float inva = 1.0f - alph;
 
 					px_out[0] = alph * c_color[0] + inva * px_in[0];

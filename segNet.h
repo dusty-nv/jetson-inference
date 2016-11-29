@@ -61,7 +61,7 @@ public:
 	 * @param ignore_class label name of class to ignore in the classification (or NULL to process all).
 	 * @returns true on success, false on error.
 	 */
-	bool Overlay( float* input, float* output, uint32_t width, uint32_t height, float alpha=255.0f, const char* ignore_class="void" );
+	bool Overlay( float* input, float* output, uint32_t width, uint32_t height, const char* ignore_class="void" );
 	
 	/**
 	 * Find the ID of a particular class (by label name).
@@ -88,6 +88,12 @@ public:
 	 */
 	void SetClassColor( uint32_t classIndex, float r, float g, float b, float a=255.0f );
 	
+	/**
+ 	 * Set a global alpha value for all classes (between 0-255),
+	 * (optionally except for those that have been explicitly set).
+	 */
+	void SetGlobalAlpha( float alpha, bool explicit_exempt=true );
+
 	/**
 	 * Retrieve the network type (alexnet or googlenet)
 	 */

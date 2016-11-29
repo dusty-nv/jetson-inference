@@ -97,9 +97,9 @@ int main( int argc, char** argv )
 	printf("segnet-console:  beginning processing overlay (%zu)\n", current_timestamp());
 
 	// process image overlay
-	const float alpha = 100.0f;
+	net->SetGlobalAlpha(120);
 
-	if( !net->Overlay(imgCUDA, outCUDA, imgWidth, imgHeight, alpha) )
+	if( !net->Overlay(imgCUDA, outCUDA, imgWidth, imgHeight) )
 	{
 		printf("segnet-console:  failed to process segmentation overlay.\n");
 		return 0;
