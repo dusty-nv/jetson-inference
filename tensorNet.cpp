@@ -216,7 +216,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		
 		if( builder != NULL )
 		{
-			mEnableFP16 = builder->platformHasFastFp16();
+			mEnableFP16 = !mOverride16 && builder->platformHasFastFp16();
 			printf(LOG_GIE "platform %s FP16 support.\n", mEnableFP16 ? "has" : "does not have");
 			builder->destroy();	
 		}

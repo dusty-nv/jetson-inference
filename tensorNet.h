@@ -130,9 +130,9 @@ protected:
 	uint32_t mInputSize;
 	float*   mInputCPU;
 	float*   mInputCUDA;
-	bool	    mEnableProfiler;
+	bool	 mEnableProfiler;
 	bool     mEnableDebug;
-	bool	    mEnableFP16;
+	bool	 mEnableFP16;
 	bool     mOverride16;
 	
 	nvinfer1::Dims3 mInputDims;

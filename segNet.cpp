@@ -51,7 +51,7 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	
 	//net->EnableProfiler();	
 	net->EnableDebug();
-	//net->DisableFP16();		// debug;
+	net->DisableFP16();		// debug;
 
 	// load network
 	std::vector<std::string> output_blobs;
@@ -219,6 +219,71 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 	{
 		printf(LOG_GIE "segNet::Overlay() -- failed to execute tensorRT context\n");
 		return false;
+	}
+
+	float* scores = mOutputs[0].CPU;
+
+	const int s_w = mOutputs[0].dims.w;
+	const int s_h = mOutputs[0].dims.h;
+	const int s_c = mOutputs[0].dims.c;
+		
+	const float s_x = float(width) / float(s_w);
+	const float s_y = float(height) / float(s_h);
+	
+	printf(LOG_GIE "segNet::Overlay -- s_w %i  s_h %i  s_c %i  s_x %f  s_y %f\n", s_w, s_h, s_c, s_x, s_y);
+
+
+	for( uint32_t y=0; y < s_h; y++ )
+	{
+		for( uint32_t x=0; x < s_w; x++ )
+		{
+			float p_max[3] = {-100000.0f, -100000.0f, -100000.0f };
+			int   c_max[3] = { -1, -1, -1 };
+
+			for( uint32_t c=0; c < s_c; c++ )	// classes
+			{
+				const float p = scores[c * s_w * s_h + y * s_w + x];
+
+				if( c_max[0] < 0 || p > p_max[0] )
+				{
+					p_max[0] = p;
+					c_max[0] = c;
+				}
+				else if( c_max[1] < 0 || p > p_max[1] )
+				{
+					p_max[1] = p;
+					c_max[1] = c;
+				}
+				else if( c_max[2] < 0 || p > p_max[2] )
+				{
+					p_max[2] = p;
+					c_max[2] = c;
+				}
+			}
+
+			printf("%02u %u  class %i  %f  %s  class %i  %f  %s  class %i  %f  %s\n", x, y, 
+				   c_max[0], p_max[0], (c_max[0] >= 0 && c_max[0] < GetNumClasses()) ? GetClassLabel(c_max[0]) : " ", 
+				   c_max[1], p_max[1], (c_max[1] >= 0 && c_max[1] < GetNumClasses()) ? GetClassLabel(c_max[1]) : " ",
+				   c_max[2], p_max[2], (c_max[2] >= 0 && c_max[2] < GetNumClasses()) ? GetClassLabel(c_max[2]) : " ");
+				   
+			const int oy = y * s_y;
+			const int ox = x * s_x;
+			
+			float* c_color = GetClassColor(c_max[0] == 0 ? c_max[1] : c_max[0]);
+			
+			for( int yy=oy; yy < oy + s_y; yy++ )
+			{
+				for( int xx=ox; xx < ox + s_x; xx++ )
+				{
+					float* px = output + (((yy * width) + xx) * 4);
+					
+					px[0] = c_color[0];
+					px[1] = c_color[1];
+					px[2] = c_color[2];
+					px[3] = c_color[3];
+				}
+			}
+		}
 	}
 
 	return true;

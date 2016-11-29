@@ -95,7 +95,7 @@ int main( int argc, char** argv )
 	printf("segnet-console:  finished processing overlay  (%zu)\n", current_timestamp());
 
 	// save output image
-	if( !saveImageRGBA(outFilename, (float4*)imgCPU, imgWidth, imgHeight) )
+	if( !saveImageRGBA(outFilename, (float4*)outCPU, imgWidth, imgHeight) )
 		printf("segnet-console:  failed to save output image to '%s'\n", outFilename);
 	else
 		printf("segnet-console:  completed saving '%s'\n", outFilename);

@@ -44,7 +44,7 @@ public:
 	 */
 	static segNet* Create( const char* prototxt_path, const char* model_path, 
 					   const char* class_labels, const char* class_colors=NULL,
-					   const char* input="data", const char* output="score_fr_21classes" );
+					   const char* input="data", const char* output="upscore_21classes"/*"score_fr_21classes"*/ );
 	
 	/**
 	 * Destroy
