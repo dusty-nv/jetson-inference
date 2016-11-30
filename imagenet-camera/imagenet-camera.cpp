@@ -16,6 +16,10 @@
 #include "imageNet.h"
 
 
+#define DEFAULT_CAMERA -1	// -1 for onboard camera, or change to index of V4L2 camera (>=0)	
+		
+		
+		
 bool signal_recieved = false;
 
 void sig_handler(int signo)
@@ -53,7 +57,7 @@ int main( int argc, char** argv )
 	/*
 	 * create the camera device
 	 */
-	gstCamera* camera = gstCamera::Create();
+	gstCamera* camera = gstCamera::Create(DEFAULT_CAMERA);
 	
 	if( !camera )
 	{
