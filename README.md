@@ -4,7 +4,7 @@ Welcome to NVIDIA's deep learning inference workshop and end-to-end realtime obj
 
 Included in this repo are resources for efficiently deploying neural networks using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.  
 
-Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`detectNet`](detectNet.h) for object localization, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  The actions to understand and apply these are represented as ten easy-to-follow steps.
+Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  The actions to understand and apply these are represented as ten easy-to-follow steps.
 
 ### **Ten Steps to Deep Learning**
 
@@ -21,11 +21,18 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 
 <br />
 
+**Recommended System Requirements**
+
+Training GPU:  Maxwell or Pascal-based TITAN-X, Tesla M40, P40 or AWS P2 instance.  Ubuntu 14.04 x86_64 or Ubuntu 16.04 x86_64 with SSD storage.
+
+Deployment:  [Jetson TX1 Developer Kit](http://www.nvidia.com/object/embedded-systems.html) with [JetPack 2.3](https://developer.nvidia.com/embedded/jetpack) or newer (Ubuntu 16.04 aarch64).
+
 > **note**:  this [branch](http://github.com/dusty-nv/jetson-inference) is verified against 
 >        JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS)
 
 >  Other branches available: [JetPack 2.2 / L4T R24.1 aarch64 (Ubuntu 14.04 LTS)](http://github.com/dusty-nv/jetson-inference/tree/L4T-R24.1) 
 
+Prior-generation training GPUs may be also used to complete the DIGITS training sessions with increased training time or limited datasets.  The TensorRT samples from the repo are intended for deployment on embedded Jetson TX1 module, however when cuDNN and TensorRT have been installed on the host side, the TensorRT samples in the repo can be compiled for PC.
 
 ## What's Deep Learning?
 
