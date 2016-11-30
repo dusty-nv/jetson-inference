@@ -46,22 +46,22 @@ tar -xzvf facenet-120.tar.gz -C ../data/networks
 
 
 # Segmentation Nets (202MB each - uncomment to download)
-#wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOSkJKR2VPalp1WEE' -O FCN-Alexnet-PASCAL-VOC.tar.gz
+#wget --no-check-certificate 'https://nvidia.box.com/shared/static/xj20b6qopfwkkpqm12ffiuaekk6bs8op.gz' -O FCN-Alexnet-PASCAL-VOC.tar.gz
 #tar -xzvf FCN-Alexnet-PASCAL-VOC.tar.gz -C ../data/networks
 
-#wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOVFpIY1JHZzBZcUE' -O FCN-Alexnet-SYNTHIA-CVPR16.tar.gz
+#wget --no-check-certificate 'https://nvidia.box.com/shared/static/u5ey2ws0nbtzyqyftkuqazx1honw6wry.gz' -O FCN-Alexnet-SYNTHIA-CVPR16.tar.gz
 #tar -xzvf FCN-Alexnet-SYNTHIA-CVPR16.tar.gz -C ../data/networks
 
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOZEtfYVVHLW9FSUU' -O FCN-Alexnet-SYNTHIA-Summer-HD.tar.gz
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/ydgmqgdhbvul6q9avoc9flxr3fdoa8pw.gz' -O FCN-Alexnet-SYNTHIA-Summer-HD.tar.gz
 tar -xzvf FCN-Alexnet-SYNTHIA-Summer-HD.tar.gz -C ../data/networks
 
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOZEJVSS1QR1Joemc' -O FCN-Alexnet-SYNTHIA-Summer-SD.tar.gz
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/vbk5ofu1x2hwp9luanbg4o0vrfub3a7j.gz' -O FCN-Alexnet-SYNTHIA-Summer-SD.tar.gz
 tar -xzvf FCN-Alexnet-SYNTHIA-Summer-SD.tar.gz -C ../data/networks
 
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOb3MtX0s1RENlTFE' -O FCN-Alexnet-Cityscapes-HD.tar.gz
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/mh121fvmveemujut7d8c9cbmglq18vz3.gz' -O FCN-Alexnet-Cityscapes-HD.tar.gz
 tar -xzvf FCN-Alexnet-Cityscapes-HD.tar.gz -C ../data/networks
 
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOSFllN2RYS0VLeHM' -O FCN-Alexnet-Cityscapes-SD.tar.gz
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/pa5d338t9ntca5chfbymnur53aykhall.gz' -O FCN-Alexnet-Cityscapes-SD.tar.gz
 tar -xzvf FCN-Alexnet-Cityscapes-SD.tar.gz -C ../data/networks
 
 
