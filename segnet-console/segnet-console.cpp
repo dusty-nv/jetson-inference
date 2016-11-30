@@ -44,21 +44,25 @@ int main( int argc, char** argv )
 	
 	const char* imgFilename = argv[1];
 	const char* outFilename = argv[2];
-	const char* modelName   = "fcn-alexnet-cityscapes";
+	const char* modelName   = "fcn-alexnet-cityscapes-sd";
 
 	if( argc > 3 )
 		modelName = argv[3];	
 
 	segNet::NetworkType type = segNet::SEGNET_CUSTOM;
 
-	if( strcasecmp(modelName, "fcn-alexnet-cityscapes") == 0 )
-		type = segNet::FCN_ALEXNET_CITYSCAPES_21;
+	if( strcasecmp(modelName, "fcn-alexnet-cityscapes-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes") == 0 )
+		type = segNet::FCN_ALEXNET_CITYSCAPES_SD;
+	else if( strcasecmp(modelName, "fcn-alexnet-cityscapes-hd") == 0 )
+		type = segNet::FCN_ALEXNET_CITYSCAPES_HD;
 	else if( strcasecmp(modelName, "fcn-alexnet-pascal-voc") == 0 )
 		type = segNet::FCN_ALEXNET_PASCAL_VOC;
 	else if( strcasecmp(modelName, "fcn-alexnet-synthia-cvpr16") == 0 )
 		type = segNet::FCN_ALEXNET_SYNTHIA_CVPR16;
-	else if( strcasecmp(modelName, "fcn-alexnet-synthia-summer") == 0 )
-		type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER;
+	else if( strcasecmp(modelName, "fcn-alexnet-synthia-summer-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-synthia-summer") == 0)
+		type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_SD;
+	else if( strcasecmp(modelName, "fcn-alexnet-synthia-summer-hd") == 0 )
+		type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_HD;
 
 
 	// create segnet

@@ -52,11 +52,17 @@ tar -xzvf facenet-120.tar.gz -C ../data/networks
 #wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOVFpIY1JHZzBZcUE' -O FCN-Alexnet-SYNTHIA-CVPR16.tar.gz
 #tar -xzvf FCN-Alexnet-SYNTHIA-CVPR16.tar.gz -C ../data/networks
 
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOZEtfYVVHLW9FSUU' -O FCN-Alexnet-SYNTHIA-Summer.tar.gz
+wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOZEtfYVVHLW9FSUU' -O FCN-Alexnet-SYNTHIA-Summer-HD.tar.gz
 tar -xzvf FCN-Alexnet-SYNTHIA-Summer-HD.tar.gz -C ../data/networks
+
+wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOZEJVSS1QR1Joemc' -O FCN-Alexnet-SYNTHIA-Summer-SD.tar.gz
+tar -xzvf FCN-Alexnet-SYNTHIA-Summer-SD.tar.gz -C ../data/networks
 
 wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOb3MtX0s1RENlTFE' -O FCN-Alexnet-Cityscapes-HD.tar.gz
 tar -xzvf FCN-Alexnet-Cityscapes-HD.tar.gz -C ../data/networks
+
+wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOSFllN2RYS0VLeHM' -O FCN-Alexnet-Cityscapes-SD.tar.gz
+tar -xzvf FCN-Alexnet-Cityscapes-SD.tar.gz -C ../data/networks
 
 
 echo "[Pre-build]  Finished CMakePreBuild script"

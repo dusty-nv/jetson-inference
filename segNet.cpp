@@ -17,10 +17,14 @@ segNet* segNet::Create( NetworkType networkType )
 		return Create("FCN-Alexnet-PASCAL-VOC/deploy.prototxt", "FCN-Alexnet-PASCAL-VOC/snapshot_iter_146400.caffemodel", "FCN-Alexnet-PASCAL-VOC/pascal-voc-classes.txt", NULL );
 	else if( networkType == FCN_ALEXNET_SYNTHIA_CVPR16 )
 		return Create("FCN-Alexnet-SYNTHIA-CVPR16/deploy.prototxt", "FCN-Alexnet-SYNTHIA-CVPR16/snapshot_iter_1206700.caffemodel", "FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-labels.txt", "FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-train-colors.txt" );
-	else if( networkType == FCN_ALEXNET_SYNTHIA_SUMMER )
-		return Create("FCN-Alexnet-SYNTHIA-Summer/deploy.prototxt", "FCN-Alexnet-SYNTHIA-Summer/snapshot_iter_529956.caffemodel", "FCN-Alexnet-SYNTHIA-Summer/synthia-seq-labels.txt", "FCN-Alexnet-SYNTHIA-Summer/synthia-seq-train-colors.txt" );	
-	else if( networkType == FCN_ALEXNET_CITYSCAPES_21 )
-		return Create("FCN-Alexnet-Cityscapes-21/deploy.prototxt", "FCN-Alexnet-Cityscapes-21/snapshot_iter_114865.caffemodel", "FCN-Alexnet-Cityscapes-21/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-21/cityscapes-training-colors.txt" );	
+	else if( networkType == FCN_ALEXNET_SYNTHIA_SUMMER_HD )
+		return Create("FCN-Alexnet-SYNTHIA-Summer-HD/deploy.prototxt", "FCN-Alexnet-SYNTHIA-Summer-HD/snapshot_iter_902888.caffemodel", "FCN-Alexnet-SYNTHIA-Summer-HD/synthia-seq-labels.txt", "FCN-Alexnet-SYNTHIA-Summer-HD/synthia-seq-train-colors.txt" );	
+	else if( networkType == FCN_ALEXNET_SYNTHIA_SUMMER_SD )
+		return Create("FCN-Alexnet-SYNTHIA-Summer-SD/deploy.prototxt", "FCN-Alexnet-SYNTHIA-Summer-SD/snapshot_iter_431816.caffemodel", "FCN-Alexnet-SYNTHIA-Summer-SD/synthia-seq-labels.txt", "FCN-Alexnet-SYNTHIA-Summer-SD/synthia-seq-train-colors.txt" );		
+	else if( networkType == FCN_ALEXNET_CITYSCAPES_HD )
+		return Create("FCN-Alexnet-Cityscapes-HD/deploy.prototxt", "FCN-Alexnet-Cityscapes-HD/snapshot_iter_367568.caffemodel", "FCN-Alexnet-Cityscapes-HD/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-HD/cityscapes-deploy-colors.txt" );	
+	else if( networkType == FCN_ALEXNET_CITYSCAPES_SD )
+		return Create("FCN-Alexnet-Cityscapes-SD/deploy.prototxt", "FCN-Alexnet-Cityscapes-SD/snapshot_iter_114860.caffemodel", "FCN-Alexnet-Cityscapes-SD/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-SD/cityscapes-deploy-colors.txt" );		
 	else
 		return NULL;
 }
@@ -51,8 +55,8 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 		return NULL;
 	
 	//net->EnableProfiler();	
-	//net->EnableDebug();
-	//net->DisableFP16();		// debug;
+	net->EnableDebug();
+	net->DisableFP16();		// debug;
 
 	// load network
 	std::vector<std::string> output_blobs;

@@ -22,8 +22,10 @@ public:
 	{
 		FCN_ALEXNET_PASCAL_VOC,		/**< FCN-Alexnet trained on Pascal VOC dataset. */
 		FCN_ALEXNET_SYNTHIA_CVPR16,	/**< FCN-Alexnet trained on SYNTHIA CVPR16 dataset. */
-		FCN_ALEXNET_SYNTHIA_SUMMER,	/**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. */
-		FCN_ALEXNET_CITYSCAPES_21,	/**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. */
+		FCN_ALEXNET_SYNTHIA_SUMMER_HD,/**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. */
+		FCN_ALEXNET_SYNTHIA_SUMMER_SD,/**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. */
+		FCN_ALEXNET_CITYSCAPES_HD,	/**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. */
+		FCN_ALEXNET_CITYSCAPES_SD,	/**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. */
 		/* add new models here */
 		SEGNET_CUSTOM
 	};
@@ -31,7 +33,7 @@ public:
 	/**
 	 * Load a new network instance
 	 */
-	static segNet* Create( NetworkType networkType=FCN_ALEXNET_CITYSCAPES_21 );
+	static segNet* Create( NetworkType networkType=FCN_ALEXNET_CITYSCAPES_SD );
 	
 	/**
 	 * Load a new network instance
@@ -44,7 +46,7 @@ public:
 	 */
 	static segNet* Create( const char* prototxt_path, const char* model_path, 
 					   const char* class_labels, const char* class_colors=NULL,
-					   const char* input="data", const char* output=/*"upscore_21classes"*/"score_fr_21classes" );
+					   const char* input="data", const char* output="upscore_21classes"/*"score_fr_21classes"*/ );
 	
 	/**
 	 * Destroy
