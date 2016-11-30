@@ -55,8 +55,8 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 		return NULL;
 	
 	//net->EnableProfiler();	
-	net->EnableDebug();
-	net->DisableFP16();		// debug;
+	//net->EnableDebug();
+	//net->DisableFP16();		// debug;
 
 	// load network
 	std::vector<std::string> output_blobs;
@@ -261,7 +261,9 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 		return false;
 	}
 
+	PROFILER_REPORT();	// report total time, when profiling enabled
 
+	
 	// retrieve scores
 	float* scores = mOutputs[0].CPU;
 

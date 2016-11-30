@@ -179,6 +179,8 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 		*numBoxes = 0;
 		return false;
 	}
+	
+	PROFILER_REPORT();
 
 	// cluster detection bboxes
 	float* net_cvg   = mOutputs[OUTPUT_CVG].CPU;

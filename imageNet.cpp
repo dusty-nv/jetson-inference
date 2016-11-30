@@ -195,12 +195,15 @@ int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* con
 		return -1;
 	}
 	
+	
 	// process with GIE
 	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
 	
 	mContext->execute(1, inferenceBuffers);
 	
 	//CUDA(cudaDeviceSynchronize());
+	PROFILER_REPORT();
+	
 	
 	// determine the maximum class
 	int classIndex = -1;

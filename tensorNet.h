@@ -106,12 +106,23 @@ protected:
 	 */
 	class Profiler : public nvinfer1::IProfiler
 	{
+	public:
+		Profiler() : timingAccumulator(0.0f)	{ }
+		
 		virtual void reportLayerTime(const char* layerName, float ms)
 		{
 			printf(LOG_GIE "layer %s - %f ms\n", layerName, ms);
+			timingAccumulator += ms;
 		}
+		
+		float timingAccumulator;
+		
 	} gProfiler;
 
+	/**
+	 * When profiling is enabled, end a profiling section and report timing statistics.
+	 */
+	inline void PROFILER_REPORT()		{ if(mEnableProfiler) { printf(LOG_GIE "layer network time - %f ms\n", gProfiler.timingAccumulator); gProfiler.timingAccumulator = 0.0f; } }
 
 protected:
 
