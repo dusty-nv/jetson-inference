@@ -296,5 +296,7 @@ In this area, links and resources for deep learning developers are listed:
 
 * [Appendix](docs/aux-contents.md)
 	* [NVIDIA Deep Learning Institute](https://developer.nvidia.com/deep-learning-institute) — [Introductory QwikLabs](https://developer.nvidia.com/deep-learning-courses)
-    * [Building nvcaffe](docs/building-nvcaffe.md)
+     * [Building nvcaffe](docs/building-nvcaffe.md)
 	* [Other Examples](docs/other-examples.md)
+	* [ros_deep_learning](http://www.github.com/dusty-nv/ros_deep_learning) - TensorRT inference ROS nodes
+

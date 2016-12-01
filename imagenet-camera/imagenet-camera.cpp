@@ -16,7 +16,7 @@
 #include "imageNet.h"
 
 
-#define DEFAULT_CAMERA -1	// -1 for onboard camera, or change to index of V4L2 camera (>=0)	
+#define DEFAULT_CAMERA -1	// -1 for onboard camera, or change to index of /dev/video V4L2 camera (>=0)	
 		
 		
 		
