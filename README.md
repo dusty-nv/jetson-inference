@@ -2,7 +2,7 @@
 # Deploying Deep Learning
 Welcome to NVIDIA's guide to deploying inference and our embedded deep vision runtime library for **[Jetson TX1](http://www.nvidia.com/object/embedded-systems.html)**.
 
-Included in this repo are resources for efficiently deploying production neural networks into the field using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.
+Included in this repo are resources for efficiently deploying neural networks into the field using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.
 
 Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  The actions to understand and apply these are represented as ten easy-to-follow steps.
 
