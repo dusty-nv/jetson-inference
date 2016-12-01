@@ -80,10 +80,11 @@ private:
 	QMutex* mWaitMutex;
 	QMutex* mRingMutex;
 	
+	uint32_t mLatestRGBA;
 	uint32_t mLatestRingbuffer;
 	bool     mLatestRetrieved;
 	
-	void* mRGBA;
+	void* mRGBA[NUM_RINGBUFFERS];
 	int   mV4L2Device;	// -1 for onboard, >=0 for V4L2 device
 	
 	inline bool onboardCamera() const		{ return (mV4L2Device < 0); }

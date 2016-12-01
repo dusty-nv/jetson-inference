@@ -18,7 +18,7 @@
 #include "detectNet.h"
 
 
-#define DEFAULT_CAMERA -1	// -1 for onboard camera, or change to index of V4L2 camera (>=0)	
+#define DEFAULT_CAMERA 0	// -1 for onboard camera, or change to index of V4L2 camera (>=0)	
 		
 
 bool signal_recieved = false;
@@ -46,7 +46,7 @@ int main( int argc, char** argv )
 	/*
 	 * parse network type from CLI arguments
 	 */
-	detectNet::NetworkType networkType = detectNet::FACENET;  /*detectNet::PEDNET_MULTI*/
+	detectNet::NetworkType networkType = detectNet::PEDNET_MULTI;
 
 	if( argc > 1 )
 	{
@@ -191,6 +191,8 @@ int main( int argc, char** argv )
 						
 					lastClass = nc;
 					lastStart = n;
+
+					CUDA(cudaDeviceSynchronize());
 				}
 			}
 		

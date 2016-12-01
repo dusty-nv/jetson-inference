@@ -1,8 +1,8 @@
 ![Alt text](https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/841b9209217f74e5992b8d332c612126)
 # Deploying Deep Learning
-Welcome to NVIDIA's deep learning inference workshop and end-to-end realtime object recognition library for **[Jetson TX1](http://www.nvidia.com/object/embedded-systems.html)**.
+Welcome to NVIDIA's guide to deploying inference and runtime deep vision library for **[Jetson TX1](http://www.nvidia.com/object/embedded-systems.html)**.
 
-Included in this repo are resources for efficiently deploying neural networks using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.
+Included in this repo are resources for efficiently deploying production neural networks into the field using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.
 
 Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  The actions to understand and apply these are represented as ten easy-to-follow steps.
 
@@ -271,10 +271,10 @@ $ ./detectnet-console peds-008.png output-8.png
 Similar to the previous example, [`detectnet-camera`](detectnet-camera/detectnet-camera.cpp) runs the object detection networks on live video feed from the Jetson onboard camera.  Launch it from command line along with the type of desired network:
 
 ``` bash
-$ ./detectnet-camera facenet        # run using facial recognition network
 $ ./detectnet-camera multiped       # run using multi-class pedestrian/luggage detector
 $ ./detectnet-camera ped-100        # run using original single-class pedestrian detector
-$ ./detectnet-camera                # by default, program will run using facenet
+$ ./detectnet-camera facenet        # run using facial recognition network
+$ ./detectnet-camera                # by default, program will run using multiped
 ```
 
 > **note**:  to achieve maximum performance while running detectnet, increase the Jetson TX1 clock limits by running the script:

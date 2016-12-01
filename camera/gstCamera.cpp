@@ -27,7 +27,6 @@ gstCamera::gstCamera()
 	mAppSink    = NULL;
 	mBus        = NULL;
 	mPipeline   = NULL;	
-	mRGBA       = NULL;
 	mV4L2Device = -1;
 	
 	mWidth  = 0;
@@ -39,6 +38,7 @@ gstCamera::gstCamera()
 	mWaitMutex  = new QMutex();
 	mRingMutex  = new QMutex();
 	
+	mLatestRGBA       = 0;
 	mLatestRingbuffer = 0;
 	mLatestRetrieved  = false;
 	
@@ -46,6 +46,7 @@ gstCamera::gstCamera()
 	{
 		mRingbufferCPU[n] = NULL;
 		mRingbufferGPU[n] = NULL;
+		mRGBA[n]          = NULL;
 	}
 }
 
@@ -63,29 +64,35 @@ bool gstCamera::ConvertRGBA( void* input, void** output )
 	if( !input || !output )
 		return false;
 	
-	if( !mRGBA )
+	if( !mRGBA[0] )
 	{
-		if( CUDA_FAILED(cudaMalloc(&mRGBA, mWidth * mHeight * sizeof(float4))) )
+		for( uint32_t n=0; n < NUM_RINGBUFFERS; n++ )
 		{
-			printf(LOG_CUDA "gstCamera -- failed to allocate memory for %ux%u RGBA texture\n", mWidth, mHeight);
-			return false;
+			if( CUDA_FAILED(cudaMalloc(&mRGBA[n], mWidth * mHeight * sizeof(float4))) )
+			{
+				printf(LOG_CUDA "gstCamera -- failed to allocate memory for %ux%u RGBA texture\n", mWidth, mHeight);
+				return false;
+			}
 		}
+		
+		printf(LOG_CUDA "gstreamer camera -- allocated %u RGBA ringbuffers\n", NUM_RINGBUFFERS);
 	}
 	
 	if( onboardCamera() )
 	{
 		// onboard camera is NV12
-		if( CUDA_FAILED(cudaNV12ToRGBAf((uint8_t*)input, (float4*)mRGBA, mWidth, mHeight)) )
+		if( CUDA_FAILED(cudaNV12ToRGBAf((uint8_t*)input, (float4*)mRGBA[mLatestRGBA], mWidth, mHeight)) )
 			return false;
 	}
 	else
 	{
 		// USB webcam is RGB
-		if( CUDA_FAILED(cudaRGBToRGBAf((uchar3*)input, (float4*)mRGBA, mWidth, mHeight)) )
+		if( CUDA_FAILED(cudaRGBToRGBAf((uchar3*)input, (float4*)mRGBA[mLatestRGBA], mWidth, mHeight)) )
 			return false;
 	}
 	
-	*output = mRGBA;
+	*output     = mRGBA[mLatestRGBA];
+	mLatestRGBA = (mLatestRGBA + 1) % NUM_RINGBUFFERS;
 	return true;
 }
 
