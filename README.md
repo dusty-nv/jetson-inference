@@ -27,9 +27,9 @@ Training GPU:  Maxwell or Pascal-based TITAN-X, Tesla M40, P40 or AWS P2 instanc
 
 Deployment:    &nbsp;&nbsp;Jetson TX1 Developer Kit with JetPack 2.3 or newer (Ubuntu 16.04 aarch64).
 
-> **note**:  this [branch](http://github.com/dusty-nv/jetson-inference) is verified against 
->        JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS) <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JetPack 2.3.1 / L4T R24.2.1 aarch64 (Ubuntu 16.04 LTS)
+> **note**:  this [branch](http://github.com/dusty-nv/jetson-inference) is verified against the following BSP versions for Jetson TX1: <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> JetPack 2.3 &nbsp;&nbsp;/ L4T R24.2 aarch64 (Ubuntu 16.04 LTS) <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> JetPack 2.3.1 / L4T R24.2.1 &nbsp;&nbsp; aarch64 (Ubuntu 16.04 LTS)
 
 >  Other branches available: [JetPack 2.2 / L4T R24.1 aarch64 (Ubuntu 14.04 LTS)](http://github.com/dusty-nv/jetson-inference/tree/L4T-R24.1) 
 
