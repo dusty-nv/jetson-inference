@@ -46,13 +46,15 @@ int main( int argc, char** argv )
 	/*
 	 * parse network type from CLI arguments
 	 */
-	detectNet::NetworkType networkType = detectNet::PEDNET_MULTI;
+	detectNet::NetworkType networkType = detectNet::FACENET;  /*detectNet::PEDNET_MULTI*/
 
 	if( argc > 1 )
 	{
-		if( strcmp(argv[1], "ped-100") == 0 )
+		if( strcmp(argv[1], "multiped") == 0 || strcmp(argv[1], "pednet") == 0 || strcmp(argv[1], "multiped-500") == 0 )
+			networkType = detectNet::PEDNET_MULTI;
+		else if( strcmp(argv[1], "ped-100") == 0 )
 			networkType = detectNet::PEDNET;
-		else if( strcmp(argv[1], "facenet-120") == 0 || strcmp(argv[1], "face-120") == 0 )
+		else if( strcmp(argv[1], "facenet") == 0 || strcmp(argv[1], "facenet-120") == 0 || strcmp(argv[1], "face-120") == 0 )
 			networkType = detectNet::FACENET;
 	}
 	

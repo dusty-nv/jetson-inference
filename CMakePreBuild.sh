@@ -29,8 +29,9 @@ sudo ln -s /usr/lib/aarch64-linux-gnu/tegra/libGL.so /usr/lib/aarch64-linux-gnu/
 #wget http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel
 #mv bvlc_alexnet.caffemodel ../data/networks
 
-# GoogleNet
-wget http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel
+# GoogleNet (bvlc site was behaving slowly, so enabled mirror on nvidia.box.com instead)
+#wget http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/at8b1105ww1c5h7p30j5ko8qfnxrs0eg.caffemodel' -O bvlc_googlenet.caffemodel
 mv bvlc_googlenet.caffemodel ../data/networks
 
 
