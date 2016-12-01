@@ -23,13 +23,13 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 **Recommended System Requirements**
 
 Training GPU:  Maxwell or Pascal-based TITAN-X, Tesla M40, P40 or AWS P2 instance.  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ubuntu 14.04 x86_64 or Ubuntu 16.04 x86_64 (see [AWS AMI](https://aws.amazon.com/marketplace/pp/B01LZN28VD)).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ubuntu 14.04 x86_64 or Ubuntu 16.04 x86_64 (see DIGITS [AWS AMI](https://aws.amazon.com/marketplace/pp/B01LZN28VD) image).
 
 Deployment:    &nbsp;&nbsp;Jetson TX1 Developer Kit with JetPack 2.3 or newer (Ubuntu 16.04 aarch64).
 
 > **note**:  this [branch](http://github.com/dusty-nv/jetson-inference) is verified against 
 >        JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS) <br/>
->        JetPack 2.3.1 / L4T R24.2.1 aarch64 (Ubuntu 16.04 LTS)
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JetPack 2.3.1 / L4T R24.2.1 aarch64 (Ubuntu 16.04 LTS)
 
 >  Other branches available: [JetPack 2.2 / L4T R24.1 aarch64 (Ubuntu 14.04 LTS)](http://github.com/dusty-nv/jetson-inference/tree/L4T-R24.1) 
 
