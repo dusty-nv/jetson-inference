@@ -28,8 +28,8 @@ Training GPU:  Maxwell or Pascal-based TITAN-X, Tesla M40, P40 or AWS P2 instanc
 Deployment:    &nbsp;&nbsp;Jetson TX1 Developer Kit with JetPack 2.3 or newer (Ubuntu 16.04 aarch64).
 
 > **note**:  this [branch](http://github.com/dusty-nv/jetson-inference) is verified against the following BSP versions for Jetson TX1: <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS) <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> JetPack 2.3.1 / L4T R24.2.1 aarch64 (Ubuntu 16.04 LTS)
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS) <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> JetPack 2.3.1 / L4T R24.2.1 aarch64 (Ubuntu 16.04 LTS)
 
 >  Other branches available: [JetPack 2.2 / L4T R24.1 aarch64 (Ubuntu 14.04 LTS)](http://github.com/dusty-nv/jetson-inference/tree/L4T-R24.1) 
 
@@ -207,7 +207,7 @@ $ ./imagenet-camera alexnet             # to run using alexnet
 
 The frames per second (FPS), classified object name from the video, and confidence of the classified object are printed to the openGL window title bar.  By default the application can recognize up to 1000 different types of objects, since Googlenet and Alexnet are trained on the ILSVRC12 ImageNet database which contains 1000 classes of objects.  The mapping of names for the 1000 types of objects, you can find included in the repo under [data/networks/ilsvrc12_synset_words.txt](http://github.com/dusty-nv/jetson-inference/blob/master/data/networks/ilsvrc12_synset_words.txt)
 
-> **note**:  by default, the Jetson's onboard CSI camera will be used.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera.  It was also tested with a Logitech C920.  
+> **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera.  The model it's tested with is Logitech C920. 
 
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/399176be3f3ab2d9bfade84e0afe2abd"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/399176be3f3ab2d9bfade84e0afe2abd" width="800"></a>
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/93071639e44913b6f23c23db2a077da3"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/93071639e44913b6f23c23db2a077da3" width="800"></a>
@@ -225,7 +225,7 @@ Popular training databases with various annotations and labels include [ImageNet
 
 See [here](http://www.deepdetect.com/tutorials/train-imagenet/) under the `Downloading the dataset` section to obtain a crawler script that will download the 1000 original classes, including as many of the original images that are still available online.
 
-> note: be considerate running the crawler script from a corporate network, they may flag the activity.
+> **note**: be considerate running the crawler script from a corporate network, they may flag the activity.
 > It will probably take overnight on a decent connection to download the 1000 ILSVRC12 classes (100GB) from ImageNet (1.2TB)
 
 Then, while creating the new network model in DIGITS, copy the [GoogleNet prototxt](data/networks/googlenet.prototxt) and specify the existing GoogleNet caffemodel as the DIGITS **Pretrained Model**:
@@ -280,7 +280,7 @@ $ ./detectnet-camera                # by default, program will run using facenet
 > **note**:  to achieve maximum performance while running detectnet, increase the Jetson TX1 clock limits by running the script:
 >  `sudo ~/jetson_clocks.sh`
 <br/>
-> **note**:  by default, the Jetson's onboard CSI camera will be used.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera.  It was also tested with a Logitech C920.  
+> **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera.  The model it's tested with is Logitech C920.  
 
 ## Re-training DetectNet with DIGITS
 
