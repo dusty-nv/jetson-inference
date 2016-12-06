@@ -1,7 +1,7 @@
 /*
  * inference-101
  * 
- * sud apt-get install libsdl2-dev libsdl2-ttf-dev
+ * sud apt-get install libsdl2-dev libsdl2-ttf-dev 
  * 
  * 
  */
@@ -11,16 +11,28 @@
 
 void sdlDisplay::handleKeys( unsigned char key, int x, int y )
 {
-    if( key == 'q' )
+    switch (key)
     {
-        mQuit = true;
-        SDL_SetWindowFullscreen(mWindow, 0); // Switch out of fullscreeen
-    }
-    if( key == 'f' )
-    {
-        Uint32 flag = SDL_WINDOW_FULLSCREEN;
-        mFullscreen = SDL_GetWindowFlags(mWindow) & flag;
-        SDL_SetWindowFullscreen(mWindow, mFullscreen ? 0 : SDL_WINDOW_FULLSCREEN);
+    case 'q':
+    case 'Q':
+        {
+            mQuit = true;
+            SDL_SetWindowFullscreen(mWindow, 0); // Switch out of fullscreeen
+        }
+        break;
+    case 'f':
+    case 'F':
+        {
+            Uint32 flag = SDL_WINDOW_FULLSCREEN;
+            mFullscreen = SDL_GetWindowFlags(mWindow) & flag;
+            SDL_SetWindowFullscreen(mWindow, mFullscreen ? 0 : SDL_WINDOW_FULLSCREEN);
+        }
+        break;
+    default:
+        if (handleCallback != NULL)
+        {
+            handleCallback(key);
+        }
     }
 }
 
@@ -33,6 +45,7 @@ sdlDisplay::sdlDisplay()
 	mWidth     = 0;
 	mHeight    = 0;
 	mAvgTime   = 1.0f;
+	handleCallback = NULL;
 
 	clock_gettime(CLOCK_REALTIME, &mLastTime);
 }

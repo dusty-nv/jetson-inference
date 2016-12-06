@@ -215,8 +215,10 @@ int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* con
 		if( value >= 0.01f )
         {
 		  	debug_print("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
+//		  	printf("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
             mItems.index[mItems.count].number = n;
-            mItems.index[mItems.count++].confidence = value;
+            mItems.index[mItems.count].confidence = value;
+            mItems.count++;
         }
 		
         if( value > classMax )

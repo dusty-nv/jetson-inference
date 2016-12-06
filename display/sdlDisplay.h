@@ -14,7 +14,8 @@
 
 #include <time.h>
 #include <SDL2/SDL_opengl.h>
-//#include <SDL2/SDL_gpu.h>
+
+typedef void (*keyboard_handler)(char);
 
 /**
  * OpenGL display window / video viewer
@@ -71,6 +72,8 @@ public:
 		
     //The window we'll be rendering to
     SDL_Renderer* mRenderer;
+    
+    void RegisterKeyCallback(keyboard_handler callback) { handleCallback = callback;printf("Helo 0x%x\n",handleCallback); } 
 protected:
 	sdlDisplay();
 		
@@ -78,6 +81,7 @@ protected:
 	bool initWindow(int width, int height);
 	bool initGL();
     void handleKeys( unsigned char key, int x, int y );
+    keyboard_handler handleCallback = 0;
 
 	static const int screenIdx = 0;
 		
