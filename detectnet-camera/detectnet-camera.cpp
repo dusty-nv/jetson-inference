@@ -4,8 +4,11 @@
 
 #define V4L_CAMERA 0
 #define GST_V4L_SRC 1
+#define GST_RTP_SRC 0
 #define SDL_DISPLAY 1
 #define ABACO 1
+#define HEIGHT 720
+#define WIDTH 1280
 
 #if V4L_CAMERA
 #include "v4l2Camera.h"
@@ -83,16 +86,22 @@ int main( int argc, char** argv )
 	/*
 	 * create the camera device
 	 */
-#if GST_V4L_SRC
-	int width     = 1280;
-	int height    = 720;
-        std::ostringstream pipeline;
-	pipeline << "v4l2src device=/dev/video0 ! ";
-        pipeline << "video/x-raw, width=(int)" << width << ", height=(int)" << height << ", "; 
-        pipeline << "format=RGB ! ";
+#if GST_V4L_SRC || GST_RTP_SRC
+	int width     = WIDTH;
+	int height    = HEIGHT;
+    std::ostringstream pipeline;
+#if GST_RTP_SRC
+	pipeline << "udpsrc port=5004 caps=\"application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)RAW, sampling=(string)YCbCr-4:2:2, depth=(string)8, width=(string)" << width << ", height=(string)" << height << ", payload=(int)96\" ! ";
+	pipeline << "queue ! rtpvrawdepay ! queue ! ";
 	pipeline << "appsink name=mysink";
+#else
+	pipeline << "v4l2src device=/dev/video0 ! ";
+    pipeline << "video/x-raw, width=(int)" << width << ", height=(int)" << height << ", "; 
+    pipeline << "format=RGB ! ";
+	pipeline << "appsink name=mysink";
+#endif
 
-        static  std::string pip = pipeline.str();
+    static  std::string pip = pipeline.str();
 
 	gstCamera* camera = gstCamera::Create(pip);
 #else
@@ -198,11 +207,18 @@ int main( int argc, char** argv )
 		// convert from YUV to RGBA
 		void* imgRGBA = NULL;
 		
-		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
-#if GST_V4L_SRC
-			printf("detectnet-camera:  failed to convert from NV12 to RGBAf\n");
-#else
+#if GST_V4L_SRC || GST_RTP_SRC
+#if GST_V4L_SRC 
+		if( !camera->ConvertRGBtoRGBA(imgCUDA, &imgRGBA) )
 			printf("detectnet-camera:  failed to convert from RGB to RGBAf\n");
+#endif
+#if GST_RTP_SRC
+		if( !camera->ConvertYUVtoRGBA(imgCUDA, &imgRGBA) )
+			printf("detectnet-camera:  failed to convert from YUV to RGBAf\n");
+#endif
+#else
+		if( !camera->ConvertNV12toRGBA(imgCUDA, &imgRGBA) )
+			printf("detectnet-camera:  failed to convert from NV12 to RGBAf\n");
 #endif
 
 		// classify image with detectNet

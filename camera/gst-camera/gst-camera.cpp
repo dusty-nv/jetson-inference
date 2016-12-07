@@ -80,8 +80,6 @@ int main( int argc, char** argv )
 
 	if( !texture )
 		printf("gst-camera:  failed to create openGL texture\n");
-	
-	
 
 	/*
 	 * start streaming
@@ -109,7 +107,7 @@ int main( int argc, char** argv )
 		// convert from YUV to RGBA
 		void* imgRGBA = NULL;
 		
-		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
+		if( !camera->ConvertNV12toRGBA(imgCUDA, &imgRGBA) )
 			printf("gst-camera:  failed to convert from NV12 to RGBA\n");
 
 		// rescale image pixel intensities

@@ -32,7 +32,9 @@ public:
 	bool Capture( void** cpu, void** cuda, unsigned long timeout=ULONG_MAX );
 	
 	// Takes in captured YUV-NV12 CUDA image, converts to float4 RGBA (with pixel intensity 0-255)
-	bool ConvertRGBA( void* input, void** output );
+	bool ConvertNV12toRGBA( void* input, void** output );
+	bool ConvertYUVtoRGBA( void* input, void** output );
+	bool ConvertRGBtoRGBA( void* input, void** output );
 	
 	inline uint32_t GetWidth() const	  { return mWidth; }
 	inline uint32_t GetHeight() const	  { return mHeight; }
