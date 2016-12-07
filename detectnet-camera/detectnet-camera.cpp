@@ -4,6 +4,8 @@
 
 #define V4L_CAMERA 0
 #define GST_V4L_SRC 1
+#define SDL_DISPLAY 1
+#define ABACO 1
 
 #if V4L_CAMERA
 #include "v4l2Camera.h"
@@ -11,8 +13,14 @@
 #include "gstCamera.h"
 #endif
 
+#if SDL_DISPLAY
+#include "sdlDisplay.h"
+#include "glTexture.h"
+#define glDisplay sdlDisplay
+#else
 #include "glDisplay.h"
 #include "glTexture.h"
+#endif
 
 #include <stdio.h>
 #include <signal.h>
@@ -39,6 +47,14 @@ void sig_handler(int signo)
 
 int main( int argc, char** argv )
 {
+#if ABACO
+    int logo;
+
+    SDL_Color white = {255, 255, 255, 0}; // WWhite
+    SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
+    SDL_Color black = {40, 40, 40, 0}; // Black
+#endif
+
 	printf("detectnet-camera\n  args (%i):  ", argc);
 
 	for( int i=0; i < argc; i++ )
@@ -143,13 +159,16 @@ int main( int argc, char** argv )
 			printf("detectnet-camera:  failed to create openGL texture\n");
 	}
 	
-	
 	/*
 	 * create font
 	 */
 	cudaFont* font = cudaFont::Create();
 	
-
+	/*
+	 * load logo
+	 */
+    logo = texture->ImageLoad("abaco.bmp");
+    
 	/*
 	 * start streaming
 	 */
@@ -167,7 +186,7 @@ int main( int argc, char** argv )
 	 */
 	float confidence = 0.0f;
 	
-	while( !signal_recieved )
+	while( !display->Quit() && !signal_recieved )
 	{
 		void* imgCPU  = NULL;
 		void* imgCUDA = NULL;
@@ -238,6 +257,11 @@ int main( int argc, char** argv )
 		{
 			display->UserEvents();
 			display->BeginRender();
+			
+#if ABACO
+            texture->Image(320, 0, logo);
+            texture->Box(0, camera->GetHeight()-40, camera->GetWidth(), camera->GetHeight(), 0xF16B22FF);
+#endif
 
 			if( texture != NULL )
 			{
@@ -258,7 +282,11 @@ int main( int argc, char** argv )
 				// draw the texture
 				texture->Render(0,0);		
 			}
-
+#if ABACO
+            texture->RenderText("WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18); 
+            texture->RenderText("YOU SUCCEED.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18); 
+            texture->RenderText("abaco.com", white, 15, camera->GetHeight()-40, 28); 
+#endif
 			display->EndRender();
 		}
 	}
