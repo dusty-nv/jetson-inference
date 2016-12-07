@@ -5,12 +5,18 @@
  */
 
 #define V4L_CAMERA 0
-#define GST_V4L_SRC 1
-#define GST_RTP_SRC 0
+#define GST_V4L_SRC 0
+#define GST_RTP_SRC 1
 #define SDL_DISPLAY 1
 #define ABACO 1
+
+#if 0
 #define HEIGHT 720
 #define WIDTH 1280
+#else
+#define HEIGHT 480
+#define WIDTH 640
+#endif
 
 #include "debug.h"
 #include <string>
@@ -118,7 +124,7 @@ int main( int argc, char** argv )
 	int height    = HEIGHT;
     std::ostringstream pipeline;
 #if GST_RTP_SRC
-	pipeline << "udpsrc port=5004 caps=\"application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)RAW, sampling=(string)YCbCr-4:2:2, depth=(string)8, width=(string)" << width << ", height=(string)" << height << ", payload=(int)96\" ! ";
+	pipeline << "udpsrc address=239.192.1.44 port=5004 caps=\"application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)RAW, sampling=(string)YCbCr-4:2:2, depth=(string)8, width=(string)" << width << ", height=(string)" << height << ", payload=(int)96\" ! ";
 	pipeline << "queue ! rtpvrawdepay ! queue ! ";
 	pipeline << "appsink name=mysink";
 #else
@@ -186,12 +192,14 @@ int main( int argc, char** argv )
 	/*
 	 * create font
 	 */
-	cudaFont* font = cudaFont::Create();
+//	cudaFont* font = cudaFont::Create();
 	
+#if ABACO
 	/*
 	 * load logo
 	 */
     logo = texture->ImageLoad("abaco.bmp");
+#endif
 
 	/*
 	 * start streaming
@@ -251,14 +259,8 @@ int main( int argc, char** argv )
 		if( img_class >= 0 )
 		{
 			debug_print("imagenet-camera:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
-			if( font != NULL )
-			{
-				sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
-#if !USE_SDL
-				font->RenderOverlay((float4*)imgRGBA, (float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
-								    str, 0, 0, make_float4(255.0f, 255.0f, 255.0f, 255.0f));
-#endif
-			}
+
+			sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
 
 			if( display != NULL )
 			{
@@ -271,12 +273,25 @@ int main( int argc, char** argv )
 		// update display
 		if( display != NULL )
 		{
+			int baroffset=0;
 			display->UserEvents();
 			display->BeginRender();
 			
+#if ABACO
             texture->Image(320, 0, logo);
             texture->Box(0, camera->GetHeight()-40, camera->GetWidth(), camera->GetHeight(), 0xF16B22FF);
-            texture->Box(0, 0, camera->GetWidth(), 65, 0xF16B22FF);
+#endif
+			if (camera->GetHeight() < 720)
+			{
+				texture->Box(0, 0, camera->GetWidth(), 35, 0xF16B22FF);
+				baroffset = 62;
+			}
+			else
+			{
+				texture->Box(0, 0, camera->GetWidth(), 65, 0xF16B22FF);
+				baroffset = 103;
+			}
+
 
             // Update confidence/s less frequently
             if (frame++ % 50 == 0)
@@ -316,6 +331,9 @@ int main( int argc, char** argv )
                 }
             }
             
+			// limit displayed items to 15
+			if (itemCount > 15 ) 
+				itemCount = 15;
             
             // Render the confidence bar
             if (display_confidence)
@@ -332,12 +350,11 @@ int main( int argc, char** argv )
                     c = 0xD34536FF;
                     
                   t = tmpConf[ii] * 100.0f;
-                  texture->Box(45, 103+(ii*22), 45 + ((300 / 100) * t), 123+(ii*22), c);
+                  texture->Box(45, baroffset+(ii*22), 45 + ((300 / 100) * t), baroffset+20+(ii*22), c);
                 }
-//           texture->Box(40, 95, 500, 500, 0x66666666);
             }
 
-
+			// Render the video 
   			if( texture != NULL )
 			{
 				// rescale image pixel intensities for display
@@ -363,15 +380,30 @@ int main( int argc, char** argv )
                 // Render the text
                 for (int ii=0;ii<itemCount;ii++)
                 {
-                  texture->RenderText((char*)&tmp[ii][0], white, 50, 100+(ii*22), 18);
+                  texture->RenderText((char*)&tmp[ii][0], white, 50, baroffset-3+(ii*22), 18);
                 }
             }
 
 #if ABACO
-            texture->RenderText(str, white, 15, 5, 24); 
-            texture->RenderText("WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18); 
-            texture->RenderText("YOU SUCCEED.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18); 
-            texture->RenderText("abaco.com", white, 15, camera->GetHeight()-40, 28); 
+			if (camera->GetHeight() < 720)
+			{
+				texture->RenderText(str, white, 15, 5, 18); 
+			}
+			else
+			{
+				texture->RenderText(str, white, 15, 5, 28); 
+			}
+			
+			if (camera->GetWidth() < 1024)
+			{
+				texture->RenderText("abaco.com", white, 15, camera->GetHeight()-30, 18); 
+			}
+			else
+			{
+				texture->RenderText("WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18); 
+				texture->RenderText("YOU SUCCEED.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18); 
+				texture->RenderText("abaco.com", white, 15, camera->GetHeight()-40, 28); 
+			}
 #endif
 
 		    display->EndRender();

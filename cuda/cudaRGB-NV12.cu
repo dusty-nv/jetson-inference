@@ -33,7 +33,7 @@ cudaError_t cudaRGBToRGBAf( uint8_t* srcDev, float4* destDev, size_t width, size
 	if( !srcDev || !destDev )
 		return cudaErrorInvalidDevicePointer;
 
-	const dim3 blockDim(8,8,1);
+	const dim3 blockDim(8,1,1);
 	const dim3 gridDim(width/blockDim.x, height/blockDim.y, 1);
 
 	RGBToRGBAf<<<gridDim, blockDim>>>( (uint8_t*)srcDev, destDev, width, height );

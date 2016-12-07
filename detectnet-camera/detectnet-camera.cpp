@@ -7,8 +7,13 @@
 #define GST_RTP_SRC 0
 #define SDL_DISPLAY 1
 #define ABACO 1
+#if 0
 #define HEIGHT 720
 #define WIDTH 1280
+#else
+#define HEIGHT 480
+#define WIDTH 640
+#endif
 
 #if V4L_CAMERA
 #include "v4l2Camera.h"

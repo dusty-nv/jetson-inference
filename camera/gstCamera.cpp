@@ -29,8 +29,14 @@ uint32_t gstCamera::mSize   = 0;
 */
 bool gstCamera::mOnboardCamera = false;
 
+#if 0
 #define HEIGHT 720
 #define WIDTH 1280
+#else
+#define HEIGHT 480
+#define WIDTH 640
+#endif
+
 #define DEPTH 12
 #define SIZE HEIGHT * WIDET * DEPTH / 8
 
@@ -43,8 +49,8 @@ gstCamera::gstCamera()
 	mPipeline   = NULL;	
 	mRGBA       = NULL;
 	
-	mWidth     = 1280;
-	mHeight    = 720;
+	mWidth     = WIDTH;
+	mHeight    = HEIGHT;
 	mDepth     = 12;
 	mSize      = (mWidth * mHeight * mDepth) / 8;
 
@@ -108,8 +114,8 @@ bool gstCamera::ConvertYUVtoRGBA( void* input, void** output )
 	}
 	
 	// nvcamera is NV12
-//	if( CUDA_FAILED(cudaYUYVToRGBAf((uint8_t*)input, (float4*)mRGBA, mWidth, mHeight)) )
-//		return false;
+	if( CUDA_FAILED(cudaYUVToRGBAf((uint8_t*)input, (float4*)mRGBA, mWidth, mHeight)) )
+		return false;
 	
 	*output = mRGBA;
 	return true;
