@@ -374,6 +374,7 @@ void glTexture::RenderText(char * message, SDL_Color color, int x, int y, int si
   }
   glEnd();
 
+  glBindTexture(GL_TEXTURE_2D, 0);
   glDisable(GL_BLEND);
   glDisable(GL_TEXTURE_2D);
   glEnable(GL_DEPTH_TEST);
@@ -392,8 +393,8 @@ int glTexture::ImageLoad(char * file)
     /* Create storage space for the texture */
     SDL_Surface *TextureImage; 
     glEnable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    glEnable(GL_BLEND);
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     sprintf(filename, "%s%s", BIN_ROOT, file);
 
@@ -429,28 +430,38 @@ int glTexture::ImageLoad(char * file)
     
     return mImageCount++;
 }
-#endif
 
-void glTexture::Box(int x, int y, int xx, int yy)
-{	
-	glEnable(GL_TEXTURE_2D);
-     
-    // grey box behnd text
+#define MULTI 0.00392156862
+void glTexture::Box(int x, int y, int xx, int yy, long color)
+{
+    float r,g,b,a;
+    r= MULTI * (color >> 24 & 0xff);
+    g= MULTI * (color >> 16 & 0xff);
+    b= MULTI * (color >>  8 & 0xff);
+    a= MULTI * (color & 0xff);
+    
+//    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glColor4f(r, g, b, a);
     glBegin(GL_QUADS); 
-        glColor3f(.96, .41, .13);
 	    glVertex2d(x, y);
 	    glVertex2d(xx, y);	
 	    glVertex2d(xx, yy);
 	    glVertex2d(x, yy);
     glEnd(); 
+
+    glDisable(GL_BLEND);
+    glDisable(GL_TEXTURE_2D);
+ //   glEnable(GL_DEPTH_TEST);
+  
 }
 
-#if USE_SDL 
 void glTexture::Image(int x, int y, int id)
 // Render logo in bottom Right corner
 { 
     float h,w;
-#if 1
     int offset=50;
     int width=87;  // Todo : Auto detect image size
     int height=40;
@@ -459,7 +470,6 @@ void glTexture::Image(int x, int y, int id)
 	glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, mTextureIds[id]);
 
-#if 1
     glBegin(GL_QUADS); 
 	    glTexCoord2f(0.0f, 0.0f); 
 	    glVertex2d((mWidth / 2) - (width/2), mHeight - height);
@@ -473,7 +483,6 @@ void glTexture::Image(int x, int y, int id)
 	    glTexCoord2f(0.0f, 1.0f); 
 	    glVertex2d((mWidth / 2) - (width/2), mHeight);
     glEnd(); 
-#endif
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 #endif
@@ -483,7 +492,7 @@ void glTexture::Render( const float4& rect )
 {
     float h,w;
 
-	GL(glEnable(GL_TEXTURE_2D));
+	glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, mID);
 	glBegin(GL_QUADS);
 		glColor4f(1.0f,1.0f,1.0f,1.0f);
@@ -501,7 +510,6 @@ void glTexture::Render( const float4& rect )
 		glVertex2d(rect.x, rect.w);
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, 0);
-#endif
 }
 
 void glTexture::Render( float x, float y )

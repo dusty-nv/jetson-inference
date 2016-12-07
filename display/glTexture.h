@@ -42,7 +42,7 @@ public:
 #if USE_SDL
     void Render( SDL_Renderer *renderer );
     void RenderText(char * message, SDL_Color color, int x, int y, int size);
-    void Box(int x, int y, int xx, int yy);
+    void Box(int x, int y, int xx, int yy, long color);
     int ImageLoad(char * file);
     void Image(int x, int y, int id);
 #endif

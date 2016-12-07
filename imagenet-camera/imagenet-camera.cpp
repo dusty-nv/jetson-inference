@@ -10,6 +10,7 @@
 #define ABACO 1
 
 #include "debug.h"
+#include <string>
 
 #if V4L_CAMERA
 #include "v4l2Camera.h"
@@ -37,6 +38,7 @@
 #include "cudaFont.h"
 #include "imageNet.h"
 
+using namespace std;
 
 bool signal_recieved = false;
 
@@ -49,24 +51,41 @@ void sig_handler(int signo)
 	}
 }
 
+bool display_confidence = false;
+
+void key_handler(char key)
+{
+    switch (key)
+    {
+        case ' ' :
+            display_confidence ? display_confidence=false : display_confidence=true;
+            break;
+        default:
+            printf("unregistered keypress (%c), ignoring\n", key);
+    }
+}
 
 int main( int argc, char** argv )
 {
-    char str[256];
     char tmp[200][200];
+    float tmpConf[200];
 
-    int logo;
     unsigned int frame = 0;
     int itemCount = 0;
 
-
 #if ABACO
+    char str[256];
+    int logo;
+
     SDL_Color white = {255, 255, 255, 0}; // WWhite
     SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
     SDL_Color black = {40, 40, 40, 0}; // Black
 #endif
 
 	debug_print("imagenet-camera\n  args (%i):  ", argc);
+
+	// Some help.
+	printf("Keyboard commands:\n\tF     Fullscreen\n\tQ     Quit\n\tSPACE Toggle overlay");
 
 	for( int i=0; i < argc; i++ )
 		printf("%i [%s]  ", i, argv[i]);
@@ -141,6 +160,11 @@ int main( int argc, char** argv )
 	glDisplay* display = glDisplay::Create(camera->GetWidth(), camera->GetHeight());
 	glTexture* texture = NULL;
 	
+	/*
+	 * register keyboard callback
+	 */
+	display->RegisterKeyCallback(key_handler);
+	
 	if( !display ) {
 		printf("\nimagenet-camera:  failed to create openGL display\n");
 	}
@@ -162,7 +186,6 @@ int main( int argc, char** argv )
 	 */
     logo = texture->ImageLoad("abaco.bmp");
 
-
 	/*
 	 * start streaming
 	 */
@@ -180,8 +203,7 @@ int main( int argc, char** argv )
 	 */
 	float confidence = 0.0f;
 	
-//	while( ( !signal_recieved) || (!display->Quit() ) )
-	while( !display->Quit() )
+	while( ( !signal_recieved) && (!display->Quit() ) )
 	{
 		void* imgCPU  = NULL;
 		void* imgCUDA = NULL;
@@ -237,13 +259,73 @@ int main( int argc, char** argv )
 		{
 			display->UserEvents();
 			display->BeginRender();
+			
             texture->Image(320, 0, logo);
-            texture->Box(0, camera->GetHeight()-40, camera->GetWidth(), camera->GetHeight());
-            texture->Box(0, 0, camera->GetWidth(), 65);
-            // Objs
-     //       texture->Box(camera->GetWidth()-380, camera->GetHeight()-100, camera->GetWidth()-50, camera->GetHeight()-600);
+            texture->Box(0, camera->GetHeight()-40, camera->GetWidth(), camera->GetHeight(), 0xF16B22FF);
+            texture->Box(0, 0, camera->GetWidth(), 65, 0xF16B22FF);
 
-			if( texture != NULL )
+            // Update confidence/s less frequently
+            if (frame++ % 50 == 0)
+            {
+#if 1
+                // Bubble sort the list
+                {
+                    bool swap = true;
+                    while (swap)
+                    {
+                        swap = false;
+                        for (int ii=0;ii<net->mItems.count-1;ii++)
+                        {
+                            if (net->mItems.index[ii].confidence < net->mItems.index[ii+1].confidence)
+                            {
+                            
+                                float tmpf;
+                                unsigned int tmpn;
+
+                                tmpf = net->mItems.index[ii].confidence;
+                                net->mItems.index[ii].confidence = net->mItems.index[ii+1].confidence; 
+                                net->mItems.index[ii+1].confidence = tmpf; 
+
+                                tmpn = net->mItems.index[ii].number;
+                                net->mItems.index[ii].number = net->mItems.index[ii+1].number; 
+                                net->mItems.index[ii+1].number = tmpn; 
+                                  
+                                swap=true;
+                            }
+                        }
+                    }
+                }
+#endif
+                for (itemCount=0;itemCount<net->mItems.count;itemCount++)
+                {
+                    sprintf((char*)&tmp[itemCount][0], "%05.2f%% %s", net->mItems.index[itemCount].confidence * 100.0f, net->GetClassDesc(net->mItems.index[itemCount].number));
+                    tmpConf[itemCount] = net->mItems.index[itemCount].confidence;
+                }
+            }
+            
+            
+            // Render the confidence bar
+            if (display_confidence)
+            {
+                for (int ii=0;ii<itemCount;ii++)
+                {
+                  int t;
+                  long c = 0;
+                  
+                  // First bar is green rest are red
+                  if (ii == 0)
+                    c = 0x2BB24CFF;
+                  else
+                    c = 0xD34536FF;
+                    
+                  t = tmpConf[ii] * 100.0f;
+                  texture->Box(45, 103+(ii*22), 45 + ((300 / 100) * t), 123+(ii*22), c);
+                }
+//           texture->Box(40, 95, 500, 500, 0x66666666);
+            }
+
+
+  			if( texture != NULL )
 			{
 				// rescale image pixel intensities for display
 				CUDA(cudaNormalizeRGBA((float4*)imgRGBA, make_float2(0.0f, 255.0f), 
@@ -263,51 +345,22 @@ int main( int argc, char** argv )
 				texture->Render(0,0);		
 			}
 
-            // Update confidence/s less frequently
-            if (frame++ % 50 == 0)
+            if (display_confidence)
             {
-                for (itemCount=0;itemCount<net->mItems.count;itemCount++)
+                // Render the text
+                for (int ii=0;ii<itemCount;ii++)
                 {
-                    sprintf((char*)&tmp[itemCount][0], "%05.2f%% %s", net->mItems.index[itemCount].confidence * 100.0f, net->GetClassDesc(net->mItems.index[itemCount].number));
+                  texture->RenderText((char*)&tmp[ii][0], white, 50, 100+(ii*22), 18);
                 }
-                // Bubble sort the list
-                {
-                    bool swap = true;
-                    while (swap)
-                    {
-                        swap = false;
-                        for (int ii=0;ii<itemCount-1;ii++)
-                        {
-                            if (net->mItems.index[ii].confidence < net->mItems.index[ii+1].confidence)
-                            {
-                            
-                                float tmpf;
-                                char tmps[200];
+            }
 
-                                tmpf = net->mItems.index[ii].confidence;
-                                net->mItems.index[ii].confidence = net->mItems.index[ii+1].confidence; 
-                                net->mItems.index[ii+1].confidence = tmpf; 
-                                  
-                                strcpy(tmps, &tmp[ii][0]);
-                                strcpy(&tmp[ii][0], &tmp[ii+1][0]);
-                                strcpy(&tmp[ii+1][0], tmps);
-                                swap=true;
-                            }
-                        }
-                    }
-                }
-            }
-            // Render the text
-            for (int ii=0;ii<itemCount;ii++)
-            {
-              texture->RenderText((char*)&tmp[ii][0], white, 50, 100+(ii*22), 18);
-            }
 #if ABACO
             texture->RenderText(str, white, 15, 5, 24); 
             texture->RenderText("WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18); 
             texture->RenderText("YOU SUCCEED.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18); 
             texture->RenderText("abaco.com", white, 15, camera->GetHeight()-40, 28); 
 #endif
+
 		    display->EndRender();
 		}
 	}
