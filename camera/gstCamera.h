@@ -21,7 +21,9 @@ class gstCamera
 {
 public:
 	static gstCamera* Create();
-	static gstCamera* Create(std::string pipeline);
+	static gstCamera* Create(std::string pipeline, int height, int width);
+
+	gstCamera(int height, int width);
 	~gstCamera();
 
 	bool Open();

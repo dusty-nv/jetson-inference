@@ -29,22 +29,19 @@ uint32_t gstCamera::mSize   = 0;
 */
 bool gstCamera::mOnboardCamera = false;
 
-#define HEIGHT 720
-#define WIDTH 1280
 #define DEPTH 12
 #define SIZE HEIGHT * WIDET * DEPTH / 8
 
-
 // constructor
-gstCamera::gstCamera()
+gstCamera::gstCamera(int height, int width)
 {	
 	mAppSink    = NULL;
 	mBus        = NULL;
 	mPipeline   = NULL;	
 	mRGBA       = NULL;
 	
-	mWidth     = 1280;
-	mHeight    = 720;
+	mWidth     = height;
+	mHeight    = width;
 	mDepth     = 12;
 	mSize      = (mWidth * mHeight * mDepth) / 8;
 
@@ -108,8 +105,8 @@ bool gstCamera::ConvertYUVtoRGBA( void* input, void** output )
 	}
 	
 	// nvcamera is NV12
-//	if( CUDA_FAILED(cudaYUYVToRGBAf((uint8_t*)input, (float4*)mRGBA, mWidth, mHeight)) )
-//		return false;
+	if( CUDA_FAILED(cudaYUVToRGBAf((uint8_t*)input, (float4*)mRGBA, mWidth, mHeight)) )
+		return false;
 	
 	*output = mRGBA;
 	return true;
@@ -332,17 +329,17 @@ gstCamera* gstCamera::Create()
 	std::ostringstream ss;
 
 	ss << "nvcamerasrc fpsRange=\"30.0 30.0\" ! video/x-raw(memory:NVMM), width=(int)" 
-		<< WIDTH 
+		<< 1280 
 		<< ", height=(int)" 
-		<< HEIGHT 
+		<< 720 
 		<< ", format=(string)NV12 ! nvvidconv flip-method=2 ! "; 
 	ss << "video/x-raw ! appsink name=mysink";
         mOnboardCamera = true;
-        return Create(ss.str());
+        return Create(ss.str(), 720, 1280);
 }
 
 // Create
-gstCamera* gstCamera::Create(std::string pipeline)
+gstCamera* gstCamera::Create(std::string pipeline, int height, int width)
 {
 	if( !gstreamerInit() )
 	{
@@ -350,7 +347,7 @@ gstCamera* gstCamera::Create(std::string pipeline)
 		return NULL;
 	}
 	
-	gstCamera* cam = new gstCamera();
+	gstCamera* cam = new gstCamera(width, height);
 	
 	if( !cam )
 		return NULL;

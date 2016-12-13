@@ -7,8 +7,14 @@
 #define GST_RTP_SRC 0
 #define SDL_DISPLAY 1
 #define ABACO 1
+
+#if GST_RTP_SRC
+#define HEIGHT 480
+#define WIDTH 640
+#else
 #define HEIGHT 720
 #define WIDTH 1280
+#endif
 
 #if V4L_CAMERA
 #include "v4l2Camera.h"
@@ -31,7 +37,6 @@
 
 #include "cudaMappedMemory.h"
 #include "cudaNormalize.h"
-#include "cudaFont.h"
 
 #include "detectNet.h"
 
@@ -91,7 +96,7 @@ int main( int argc, char** argv )
 	int height    = HEIGHT;
     std::ostringstream pipeline;
 #if GST_RTP_SRC
-	pipeline << "udpsrc port=5004 caps=\"application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)RAW, sampling=(string)YCbCr-4:2:2, depth=(string)8, width=(string)" << width << ", height=(string)" << height << ", payload=(int)96\" ! ";
+	pipeline << "udpsrc address=239.192.1.44 port=5004 caps=\"application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)RAW, sampling=(string)YCbCr-4:2:2, depth=(string)8, width=(string)" << width << ", height=(string)" << height << ", payload=(int)96\" ! ";
 	pipeline << "queue ! rtpvrawdepay ! queue ! ";
 	pipeline << "appsink name=mysink";
 #else
@@ -103,7 +108,7 @@ int main( int argc, char** argv )
 
     static  std::string pip = pipeline.str();
 
-	gstCamera* camera = gstCamera::Create(pip);
+	gstCamera* camera = gstCamera::Create(pip, height, width);
 #else
 	gstCamera* camera = gstCamera::Create();
 #endif
@@ -167,11 +172,6 @@ int main( int argc, char** argv )
 		if( !texture )
 			printf("detectnet-camera:  failed to create openGL texture\n");
 	}
-	
-	/*
-	 * create font
-	 */
-	cudaFont* font = cudaFont::Create();
 	
 	/*
 	 * load logo
@@ -248,15 +248,6 @@ int main( int argc, char** argv )
 					lastStart = n;
 				}
 			}
-		
-			/*if( font != NULL )
-			{
-				char str[256];
-				sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
-				
-				font->RenderOverlay((float4*)imgRGBA, (float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
-								    str, 10, 10, make_float4(255.0f, 255.0f, 255.0f, 255.0f));
-			}*/
 			
 			if( display != NULL )
 			{
@@ -299,9 +290,12 @@ int main( int argc, char** argv )
 				texture->Render(0,0);		
 			}
 #if ABACO
-            texture->RenderText("WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18); 
-            texture->RenderText("YOU SUCCEED.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18); 
-            texture->RenderText("abaco.com", white, 15, camera->GetHeight()-40, 28); 
+			if (!(camera->GetWidth() < 1024))
+			{
+				texture->RenderText("WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18); 
+				texture->RenderText("YOU SUCCEED.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18); 
+				texture->RenderText("abaco.com", white, 15, camera->GetHeight()-40, 28); 
+			}
 #endif
 			display->EndRender();
 		}

@@ -122,6 +122,13 @@ cudaError_t cudaNV12ToRGBAf( uint8_t* input, float4* output, size_t width, size_
  */
 cudaError_t cudaNV12SetupColorspace( float hue = 0.0f ); 
 
+//////////////////////////////////////////////////////////////////////////////////
+/// @name YUV to RGBf
+//////////////////////////////////////////////////////////////////////////////////
+
+cudaError_t cudaYUVToRGBAf( uint8_t* input, size_t inputPitch, float4* output, size_t outputPitch, size_t width, size_t height );
+cudaError_t cudaYUVToRGBAf( uint8_t* input, float4* output, size_t width, size_t height );
+
 ///@}
 
 #endif
