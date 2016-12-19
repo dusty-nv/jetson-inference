@@ -7,6 +7,7 @@
 
 #include <gst/gst.h>
 #include <string>
+#include "camera.h"
 
 
 struct _GstAppSink;
@@ -17,11 +18,13 @@ class QMutex;
 /**
  * gstreamer CSI camera using nvcamerasrc
  */
-class gstCamera
+class gstCamera : public camera
 {
 public:
 	static gstCamera* Create();
-	static gstCamera* Create(std::string pipeline);
+	static gstCamera* Create(std::string pipeline, int height, int width);
+
+	gstCamera(int height, int width);
 	~gstCamera();
 
 	bool Open();
@@ -35,11 +38,6 @@ public:
 	bool ConvertNV12toRGBA( void* input, void** output );
 	bool ConvertYUVtoRGBA( void* input, void** output );
 	bool ConvertRGBtoRGBA( void* input, void** output );
-	
-	inline uint32_t GetWidth() const	  { return mWidth; }
-	inline uint32_t GetHeight() const	  { return mHeight; }
-	inline uint32_t GetPixelDepth() const { return mDepth; }
-	inline uint32_t GetSize() const		  { return mSize; }
 	
 private:
 	static void onEOS(_GstAppSink* sink, void* user_data);
@@ -59,11 +57,6 @@ private:
 
 	std::string  mLaunchStr;
 	
-	uint32_t mWidth;
-	uint32_t mHeight;
-	uint32_t mDepth;
-	uint32_t mSize;
-
  	static bool mOnboardCamera;
 	static const uint32_t NUM_RINGBUFFERS = 4;
 	

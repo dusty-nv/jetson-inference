@@ -45,7 +45,7 @@ Provided along with this repo are TensorRT-enabled examples of running Googlenet
 The latest source can be obtained from [GitHub](http://github.com/ross-abaco/jetson-inference) and compiled onboard Jetson TX1.
 
 > **note**:  this [branch](http://github.com/ross-abaco/jetson-inference) is verified against 
->        JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS)
+>        JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS) and JetPack 2.3.1 / L4T R24.2.1 aarch64 (Ubuntu 16.04 LTS)
       
 #### 1. Cloning the repo
 To obtain the repository, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed locally:

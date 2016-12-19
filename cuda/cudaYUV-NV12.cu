@@ -406,7 +406,6 @@ __global__ void YUVToRGBAf(uint32_t* srcImage,  size_t nSourcePitch,
                            uint32_t width,       uint32_t height)
 {
     int x, y;
-    uint32_t yuv101010Pel[2];
     uint32_t processingPitch = ((width) + 63) & ~63;
     uint8_t *srcImageU8     = (uint8_t *)srcImage;
 

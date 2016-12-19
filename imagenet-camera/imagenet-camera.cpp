@@ -1,21 +1,21 @@
 /*
  * http://github.com/ross-abaco/jetson-inference
  *
- * sudo apt-get install libsdl2-dev
  */
 
 #define V4L_CAMERA 0
-#define GST_V4L_SRC 0
-#define GST_RTP_SRC 1
+#define GST_V4L_SRC 1
+#define GST_RTP_SRC 0
+#define GST_RTP_SINK 0
 #define SDL_DISPLAY 1
 #define ABACO 1
 
-#if 0
-#define HEIGHT 720
-#define WIDTH 1280
-#else
-#define HEIGHT 480
+#if GST_RTP_SRC
+#define HEIGHT 480  // Lower resolution stream for RTP
 #define WIDTH 640
+#else
+#define HEIGHT 720  // 720p HD webcam stream
+#define WIDTH 1280
 #endif
 
 #include "debug.h"
@@ -24,8 +24,13 @@
 #if V4L_CAMERA
 #include "v4l2Camera.h"
 #else
+#include "rtpStream.h"
 #include "gstCamera.h"
 #endif
+
+#if GST_RTP_SINK 
+#endif
+
 
 #if SDL_DISPLAY
 #include "sdlDisplay.h"
@@ -44,7 +49,6 @@
 #include <stdio.h>
 
 #include "cudaNormalize.h"
-#include "cudaFont.h"
 #include "imageNet.h"
 
 using namespace std;
@@ -81,15 +85,15 @@ int main( int argc, char** argv )
 
     unsigned int frame = 0;
     int itemCount = 0;
+    char str[256];
 
 #if ABACO
-    char str[256];
     int logo;
 
+#endif
     SDL_Color white = {255, 255, 255, 0}; // WWhite
     SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
     SDL_Color black = {40, 40, 40, 0}; // Black
-#endif
 
 	debug_print("imagenet-camera\n  args (%i):  ", argc);
 
@@ -135,7 +139,7 @@ int main( int argc, char** argv )
 #endif
     static  std::string pip = pipeline.str();
 
-	gstCamera* camera = gstCamera::Create(pip);
+	gstCamera* camera = gstCamera::Create(pip, HEIGHT, WIDTH);
 #else
 	gstCamera* camera = gstCamera::Create();
 #endif
@@ -170,9 +174,13 @@ int main( int argc, char** argv )
 	 * create openGL window
 	 */
 
-	glDisplay* display = glDisplay::Create(camera->GetWidth(), camera->GetHeight());
+	glDisplay* display = glDisplay::Create(camera->GetHeight(), camera->GetWidth());
 	glTexture* texture = NULL;
-	
+#if GST_RTP_SINK 
+	rtpStream rtpStreaming(HEIGHT, WIDTH, (char*)"127.0.0.1", 5004);
+	rtpStreaming.Open();
+#endif
+
 	/*
 	 * register keyboard callback
 	 */
@@ -183,22 +191,18 @@ int main( int argc, char** argv )
 	}
 	else
 	{
-		texture = glTexture::Create(camera->GetWidth(), camera->GetHeight(), GL_RGBA32F_ARB/*GL_RGBA8*/);
+		texture = glTexture::Create(camera->GetHeight(), camera->GetWidth(), GL_RGBA32F_ARB/*GL_RGBA8*/);
         texture->Render(display->mRenderer);
 		if( !texture )
 			printf("imagenet-camera:  failed to create openGL texture\n");
 	}
 		
-	/*
-	 * create font
-	 */
-//	cudaFont* font = cudaFont::Create();
 	
 #if ABACO
 	/*
 	 * load logo
 	 */
-    logo = texture->ImageLoad("abaco.bmp");
+    logo = texture->ImageLoad((char*)"abaco.bmp");
 #endif
 
 	/*
@@ -288,7 +292,7 @@ int main( int argc, char** argv )
 			}
 			else
 			{
-				texture->Box(0, 0, camera->GetWidth(), 65, 0xF16B22FF);
+				texture->Box(0, 0, camera->GetWidth(), 52, 0xF16B22FF);
 				baroffset = 103;
 			}
 
@@ -384,7 +388,6 @@ int main( int argc, char** argv )
                 }
             }
 
-#if ABACO
 			if (camera->GetHeight() < 720)
 			{
 				texture->RenderText(str, white, 15, 5, 18); 
@@ -394,18 +397,22 @@ int main( int argc, char** argv )
 				texture->RenderText(str, white, 15, 5, 28); 
 			}
 			
+#if ABACO
 			if (camera->GetWidth() < 1024)
 			{
-				texture->RenderText("abaco.com", white, 15, camera->GetHeight()-30, 18); 
+				texture->RenderText((char*)"abaco.com", white, 15, camera->GetHeight()-32, 18); 
 			}
 			else
 			{
-				texture->RenderText("WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18); 
-				texture->RenderText("YOU SUCCEED.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18); 
-				texture->RenderText("abaco.com", white, 15, camera->GetHeight()-40, 28); 
+				texture->RenderText((char*)"WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18); 
+				texture->RenderText((char*)"YOU SUCCEED.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18); 
+				texture->RenderText((char*)"abaco.com", white, 15, camera->GetHeight()-40, 28); 
 			}
 #endif
 
+#if GST_RTP_SINK 
+			rtpStreaming.Transmit((char*)imgCPU);
+#endif
 		    display->EndRender();
 		}
 	}
@@ -433,6 +440,10 @@ int main( int argc, char** argv )
 		display = NULL;
 	}
 	
+#if GST_RTP_SINK 
+	rtpStreaming.Close();
+#endif
+
 	debug_print("imagenet-camera:  video device has been un-initialized.\n");
 	debug_print("imagenet-camera:  this concludes the test of the video device.\n");\
     printf("Done./n");

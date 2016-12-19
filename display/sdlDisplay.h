@@ -6,8 +6,8 @@
  * 
  */
  
-#ifndef __GL_VIEWPORT_H__
-#define __GL_VIEWPORT_H__
+#ifndef __SDL_VIEWPORT_H__
+#define __SDL_VIEWPORT_H__
 
 #include "glUtility.h"
 #include "glTexture.h"
@@ -73,7 +73,7 @@ public:
     //The window we'll be rendering to
     SDL_Renderer* mRenderer;
     
-    void RegisterKeyCallback(keyboard_handler callback) { handleCallback = callback;printf("Helo 0x%x\n",handleCallback); } 
+    void RegisterKeyCallback(keyboard_handler callback) { handleCallback = callback; } 
 protected:
 	sdlDisplay();
 		
