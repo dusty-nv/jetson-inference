@@ -6,6 +6,8 @@ Included in this repo are resources for efficiently deploying neural networks in
 
 Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  The actions to understand and apply these are represented as ten easy-to-follow steps.
 
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
+
 ### **Ten Steps to Deep Learning**
 
 1. [What's Deep Learning?](#whats-deep-learning)
