@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- This file enables this repo to be built under the ROS catkin build system -->
+<package>
+  <name>jetson-inference</name>
+  <version>0.0.0</version>
+  <description>Guide to deploying deep-learning inference networks and realtime object detection with TensorRT and Jetson TX1</description>
+
+  <maintainer email="dustinf@nvidia.com">Dustin Franklin</maintainer>
+
+  <license>Open</license>
+
+  <buildtool_depend>cmake</buildtool_depend>
+
+  <export>
+      <build_type>cmake</build_type>
+  </export>
+
+</package>
