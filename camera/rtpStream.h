@@ -21,7 +21,7 @@ gst-launch-1.0 videotestsrc num_buffers ! video/x-raw, format=UYVY, framerate=25
 gst-launch-1.0 udpsrc port=5004 caps="application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)RAW, sampling=(string)YCbCr-4:2:2, depth=(string)8, width=(string)480, height=(string)480, payload=(int)96" ! queue ! rtpvrawdepay ! queue ! xvimagesink sync=false
 
 
-Use his program to stream data to the udpsc example above on the tegra X1 
+Use his program to stream data to the udpsc example above on the tegra X1
 
 */
 
@@ -36,22 +36,23 @@ Use his program to stream data to the udpsc example above on the tegra X1
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <netdb.h> 
+#include <netdb.h>
 #include "camera.h"
 
 
-#define ARM                   1    /* Perform endian swap */
-#define RTP_VERSION           0x2  /* RFC 1889 Version 2 */
+#define ARM                   1    			/* Perform endian swap */
+#define RTP_VERSION           0x2  			/* RFC 1889 Version 2 */
 #define RTP_PADDING           0x0
 #define RTP_EXTENSION         0x0
 #define RTP_MARKER            0x0
-#define RTP_PAYLOAD_TYPE      0x60 /* 96 Dynamic Type */
-#define RTP_SOURCE            0x12345678 /* Sould be unique */
+#define RTP_PAYLOAD_TYPE      0x60 			/* 96 Dynamic Type */
+#define RTP_SOURCE            0x12345678 	/* Sould be unique */
 #define RTP_FRAMERATE         25
 
 #define Hz90                  90000
-#define NUM_LINES_PER_PACKET  1 /* can have more that one line in a packet */
-#define MAX_BUFSIZE 1280 * 3 /* allow for RGB data upto 1280 pixels wide */
+#define NUM_LINES_PER_PACKET  1 			/* can have more that one line in a packet */
+#define MAX_BUFSIZE 	      1280 * 3 		/* allow for RGB data upto 1280 pixels wide */
+#define MAX_UDP_DATA 		  1500  		/* enough space for three lines of UDP data MTU size should be checked */
 
 static unsigned long sequence_number;
 
@@ -84,7 +85,7 @@ typedef struct  __attribute__((__packed__))
   payload_header payload;
 } header;
 
-typedef struct 
+typedef struct
 {
   header head;
   char data[MAX_BUFSIZE];
@@ -92,30 +93,56 @@ typedef struct
 
 
 /**
- * rtpstream RGB data 
+ * rtpstream RGB data
  */
 class rtpStream : public camera
 {
 public:
-	rtpStream(int height, int width, char* hosstname, int port);
-	int Transmit(char* rgbframe);
+    rtpStream(int height, int width);
+    ~rtpStream();
+	void rtpStreamOut(char* hostname, int port);
+	void rtpStreamIn(char* hostname, int port);
+	int Transmit(char* rgbframe, bool gpuAddr);
     bool Open();
 	void Close();
-    bool Capture( void** cpu, void** cuda, unsigned long timeout=ULONG_MAX ) { return false; };
-private:
-    int mSockfd;
-    int mPortNo;
-    struct sockaddr_in mServeraddr;
-    struct hostent *mServer;
-    int mServerlen;
-    unsigned int mFrame;
-    char mHostname[100];
+    bool Capture( void** cpu, void** cuda, unsigned long timeout=ULONG_MAX );
 	void update_header(header *packet, int line, int last, int32_t timestamp, int32_t source);
+    int mSockfdIn;
+    int mSockfdOut;
+    struct sockaddr_in mServeraddrIn;
+    struct sockaddr_in mServeraddrOut;
+    socklen_t mServerlenIn;
+    socklen_t mServerlenOut;
+    pthread_mutex_t mutex;
+    unsigned int mFrame;
+  	char* gpuBuffer;
+	char udpdata[MAX_UDP_DATA];
+    char* bufferIn;
+private:
+    struct hostent *mServerIn;
+    struct hostent *mServerOut;
+    int mWidth;
+	// Ingress port
+    char mHostnameIn[100];
+    int mPortNoIn;
+	// Egress port
+    char mHostnameOut[100];
+    int mPortNoOut;
+};
+
+typedef struct
+{
+	char* rgbframe;
+	char* yuvframe;
+	bool gpuAddr;
+	uint32_t width;
+	uint32_t height;
+	rtpStream *stream;
+} tx_data;
+
 #if ARM
 	void endianswap32(uint32_t *data, int length);
 	void endianswap16(uint16_t *data, int length);
-#endif	
-};
-
+#endif
 
 #endif

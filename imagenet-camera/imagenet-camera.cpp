@@ -3,22 +3,6 @@
  *
  */
 
-#define V4L_CAMERA 0
-#define GST_V4L_SRC 1
-#define GST_RTP_SRC 0
-#define GST_RTP_SINK 0
-#define SDL_DISPLAY 1
-#define ABACO 1
-
-#if GST_RTP_SRC
-#define HEIGHT 480  // Lower resolution stream for RTP
-#define WIDTH 640
-#else
-#define HEIGHT 720  // 720p HD webcam stream
-#define WIDTH 1280
-#endif
-
-#include "debug.h"
 #include <string>
 
 #if V4L_CAMERA
@@ -28,9 +12,8 @@
 #include "gstCamera.h"
 #endif
 
-#if GST_RTP_SINK 
-#endif
-
+#include "config.h"
+#include "debug.h"
 
 #if SDL_DISPLAY
 #include "sdlDisplay.h"
@@ -49,9 +32,39 @@
 #include <stdio.h>
 
 #include "cudaNormalize.h"
+#include "cudaYUV.h"
 #include "imageNet.h"
 
 using namespace std;
+
+void DumpHex(const void* data, size_t size) {
+	char ascii[17];
+	size_t i, j;
+	ascii[16] = '\0';
+	for (i = 0; i < size; ++i) {
+		printf("%02X ", ((unsigned char*)data)[i]);
+		if (((unsigned char*)data)[i] >= ' ' && ((unsigned char*)data)[i] <= '~') {
+			ascii[i % 16] = ((unsigned char*)data)[i];
+		} else {
+			ascii[i % 16] = '.';
+		}
+		if ((i+1) % 8 == 0 || i+1 == size) {
+			printf(" ");
+			if ((i+1) % 16 == 0) {
+				printf("|  %s \n", ascii);
+			} else if (i+1 == size) {
+				ascii[(i+1) % 16] = '\0';
+				if ((i+1) % 16 <= 8) {
+					printf(" ");
+				}
+				for (j = (i+1) % 16; j < 16; ++j) {
+					printf("   ");
+				}
+				printf("|  %s \n", ascii);
+			}
+		}
+	}
+}
 
 bool signal_recieved = false;
 
@@ -78,6 +91,34 @@ void key_handler(char key)
     }
 }
 
+void* mRGBA = 0;
+
+bool ConvertYUVtoRGBf( uint8_t* input, void** output, uint32_t width, uint32_t height )
+{	
+	if( !input || !output )
+		return false;
+
+	if( !mRGBA )
+	{
+		if( CUDA_FAILED(cudaMalloc(&mRGBA, width * height * sizeof(float4))) )
+		{
+			printf(LOG_CUDA "cudaMalloc -- failed to allocate memory for %ux%u RGBA texture\n", width, height);
+			return false;
+		}
+	}
+	
+	// nvcamera is YUV
+	if( CUDA_FAILED(cudaYUVToRGBAf((uint8_t*)input, (float4*)mRGBA, width, height)) )
+		{
+			printf(LOG_CUDA "cudaYUVToRGBAf -- failed convert %ux%u RGBA texture\n", width, height);
+			return false;
+		}
+
+	*output = mRGBA;
+	
+	return true;
+}
+
 int main( int argc, char** argv )
 {
     char tmp[200][200];
@@ -89,7 +130,6 @@ int main( int argc, char** argv )
 
 #if ABACO
     int logo;
-
 #endif
     SDL_Color white = {255, 255, 255, 0}; // WWhite
     SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
@@ -119,31 +159,38 @@ int main( int argc, char** argv )
 	/*
 	 * create the camera device
 	 */
-#if V4L_CAMERA
-	v4l2Camera* camera = v4l2Camera::Create("/dev/video0");
-#else
 
-#if GST_V4L_SRC || GST_RTP_SRC
+#if VIDEO_SRC==VIDEO_GST_RTP_SRC || VIDEO_SRC==VIDEO_GST_V4L_SRC
 	int width     = WIDTH;
 	int height    = HEIGHT;
     std::ostringstream pipeline;
-#if GST_RTP_SRC
+#endif
+
+#if VIDEO_SRC==VIDEO_GST_RTP_SRC
 	pipeline << "udpsrc address=239.192.1.44 port=5004 caps=\"application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)RAW, sampling=(string)YCbCr-4:2:2, depth=(string)8, width=(string)" << width << ", height=(string)" << height << ", payload=(int)96\" ! ";
-	pipeline << "queue ! rtpvrawdepay ! queue ! ";
-	pipeline << "appsink name=mysink";
-#else
+	pipeline << "rtpvrawdepay ! queue ! ";
+	pipeline << "appsink name=mysink"; 
+#endif
+
+#if VIDEO_SRC==VIDEO_GST_V4L_SRC
 	pipeline << "v4l2src device=/dev/video0 ! ";
     pipeline << "video/x-raw, width=(int)" << width << ", height=(int)" << height << ", "; 
     pipeline << "format=RGB ! ";
 	pipeline << "appsink name=mysink";
 #endif
-    static  std::string pip = pipeline.str();
 
+#if VIDEO_SRC==VIDEO_GST_RTP_SRC || VIDEO_SRC==VIDEO_GST_V4L_SRC
+    static  std::string pip = pipeline.str();
 	gstCamera* camera = gstCamera::Create(pip, HEIGHT, WIDTH);
-#else
-	gstCamera* camera = gstCamera::Create();
 #endif
 
+#if VIDEO_SRC==VIDEO_RTP_STREAM_SOURCE
+	rtpStream* camera = new rtpStream(HEIGHT, WIDTH);
+	camera->rtpStreamIn((char*)IP_UNICAST, IP_PORT_IN);
+#endif
+
+#if VIDEO_SRC==VIDEO_NV // USB Nvida TX1 CSI Webcam
+	gstCamera* camera = gstCamera::Create();
 #endif
 	
 	if( !camera )
@@ -152,12 +199,11 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
-	debug_print("\nimagenet-camera:  successfully initialized video device\n");
-	debug_print("    width:  %u\n", camera->GetWidth());
-	debug_print("   height:  %u\n", camera->GetHeight());
-	debug_print("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
+	printf("\nimagenet-camera:  successfully initialized video device\n");
+	printf("    width:  %u\n", camera->GetWidth());
+	printf("   height:  %u\n", camera->GetHeight());
+	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
 	
-
 	/*
 	 * create imageNet
 	 */
@@ -173,8 +219,7 @@ int main( int argc, char** argv )
 	/*
 	 * create openGL window
 	 */
-
-	glDisplay* display = glDisplay::Create(camera->GetHeight(), camera->GetWidth());
+	glDisplay* display = glDisplay::Create(camera->GetWidth(), camera->GetHeight());
 	glTexture* texture = NULL;
 #if GST_RTP_SINK 
 	rtpStream rtpStreaming(HEIGHT, WIDTH, (char*)"127.0.0.1", 5004);
@@ -191,7 +236,7 @@ int main( int argc, char** argv )
 	}
 	else
 	{
-		texture = glTexture::Create(camera->GetHeight(), camera->GetWidth(), GL_RGBA32F_ARB/*GL_RGBA8*/);
+		texture = glTexture::Create(camera->GetWidth(), camera->GetHeight(), GL_RGBA32F_ARB/*GL_RGBA8*/);
         texture->Render(display->mRenderer);
 		if( !texture )
 			printf("imagenet-camera:  failed to create openGL texture\n");
@@ -224,37 +269,32 @@ int main( int argc, char** argv )
 	
 	while( ( !signal_recieved) && (!display->Quit() ) )
 	{
+		void* dummy  = NULL;
 		void* imgCPU  = NULL;
 		void* imgCUDA = NULL;
 		// convert from YUV to RGBA
 		void* imgRGBA = NULL;
 		
 		// get the latest frame
-#if V4L_CAMERA
-        cudaMalloc(&imgRGBA,  camera->GetWidth() *  camera->GetHeight() * sizeof(float4));
 
-        imgCPU = camera->Capture();
-		if (imgCPU)
-            memcpy(imgRGBA, camera->Capture(), camera->GetWidth() *  camera->GetHeight() * sizeof(float4));
-        else
-            printf("imagenet-camera: V4l2 did not get buffer 0x%x!!\n", imgCPU);
-#else
-		if( !camera->Capture(&imgCUDA, &imgCPU, 1000) )
+		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
 			printf("\nimagenet-camera:  failed to capture frame\n");
-#endif
 	
-#if GST_V4L_SRC || GST_RTP_SRC
-#if GST_V4L_SRC 
-		if( !camera->ConvertRGBtoRGBA(imgCUDA, &imgRGBA) )
-			printf("detectnet-camera:  failed to convert from RGB to RGBAf\n");
+#if VIDEO_SRC==VIDEO_GST_RTP_SRC 
+		if ( !camera->ConvertYUVtoRGBA(imgCUDA, &imgRGBA) )
+			printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
 #endif
-#if GST_RTP_SRC
-		if( !camera->ConvertYUVtoRGBA(imgCUDA, &imgRGBA) )
-			printf("detectnet-camera:  failed to convert from YUV to RGBAf\n");
+#if VIDEO_SRC==VIDEO_RTP_STREAM_SOURCE
+		if ( !ConvertYUVtoRGBf((uint8_t*)imgCUDA, &imgRGBA, camera->GetWidth(), camera->GetHeight() ) )
+			printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
 #endif
-#else
-		if( !camera->ConvertNV12toRGBA(imgCUDA, &imgRGBA) )
-			printf("detectnet-camera:  failed to convert from NV12 to RGBAf\n");
+#if VIDEO_SRC==VIDEO_GST_V4L_SRC
+		if ( !camera->ConvertRGBtoRGBA(imgCUDA, &imgRGBA) )
+			printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
+#endif
+#if VIDEO_SRC==VIDEO_NV
+		if ( !camera->ConvertNV12toRGBA(imgCUDA, &imgRGBA) )
+			printf("imagenet-camera:  failed to convert from NV12 to RGBAf\n");
 #endif
 
 		// classify image
@@ -272,6 +312,11 @@ int main( int argc, char** argv )
 				sprintf(banner, "TensorRT build %x | %s | %s | %04.1f FPS", NV_GIE_VERSION, net->GetNetworkName(), net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
 				display->SetTitle(banner);	
 			}	
+		}
+		else
+		{
+			printf("imagenet-camera:  classify failure, aborting\n");
+			return 0;
 		}
 
 		// update display

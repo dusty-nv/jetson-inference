@@ -98,7 +98,7 @@ bool gstCamera::ConvertYUVtoRGBA( void* input, void** output )
 		}
 	}
 	
-	// nvcamera is NV12
+	// nvcamera is YUV
 	if( CUDA_FAILED(cudaYUVToRGBAf((uint8_t*)input, (float4*)mRGBA, mWidth, mHeight)) )
 		return false;
 	
@@ -341,7 +341,7 @@ gstCamera* gstCamera::Create(std::string pipeline, int height, int width)
 		return NULL;
 	}
 	
-	gstCamera* cam = new gstCamera(width, height);
+	gstCamera* cam = new gstCamera(height, width);
 	
 	if( !cam )
 		return NULL;
@@ -422,7 +422,6 @@ bool gstCamera::init(std::string pipestr)
 	
 	return true;
 }
-
 
 // Open
 bool gstCamera::Open()

@@ -14,7 +14,7 @@
 
 #define MUL(x,y)    (x*y)
 
-
+cudaError_t cudaNV12SetupColorspace( float hue );
 
 __constant__ uint32_t constAlpha;
 __constant__ float  constHueColorSpaceMat[9];
@@ -261,7 +261,7 @@ cudaError_t cudaNV12ToRGBA( uint8_t* srcDev, size_t srcPitch, uchar4* destDev, s
 		return cudaErrorInvalidValue;
 
 	if( !nv12ColorspaceSetup )
-		cudaNV12SetupColorspace();
+		cudaNV12SetupColorspace(0);
 
 	const dim3 blockDim(32,16,1);
 	const dim3 gridDim((width+(2*blockDim.x-1))/(2*blockDim.x), (height+(blockDim.y-1))/blockDim.y, 1);
@@ -381,7 +381,7 @@ cudaError_t cudaNV12ToRGBAf( uint8_t* srcDev, size_t srcPitch, float4* destDev, 
 		return cudaErrorInvalidValue;
 
 	if( !nv12ColorspaceSetup )
-		cudaNV12SetupColorspace();
+		cudaNV12SetupColorspace(0);
 
 	const dim3 blockDim(8,8,1);
 	//const dim3 gridDim((width+(2*blockDim.x-1))/(2*blockDim.x), (height+(blockDim.y-1))/blockDim.y, 1);
@@ -455,7 +455,7 @@ cudaError_t cudaYUVToRGBAf( uint8_t* srcDev, size_t srcPitch, float4* destDev, s
 		return cudaErrorInvalidValue;
 
 	if( !nv12ColorspaceSetup )
-		cudaNV12SetupColorspace();
+		cudaNV12SetupColorspace(0);
 
 	const dim3 blockDim(8,8,1);
 	//const dim3 gridDim((width+(2*blockDim.x-1))/(2*blockDim.x), (height+(blockDim.y-1))/blockDim.y, 1);

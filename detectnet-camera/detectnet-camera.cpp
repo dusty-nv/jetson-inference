@@ -1,20 +1,7 @@
 /*
  * http://github.com/ross-nv/jetson-inference
  */
-
-#define V4L_CAMERA 0
-#define GST_V4L_SRC 1
-#define GST_RTP_SRC 0
-#define SDL_DISPLAY 1
-#define ABACO 1
-
-#if GST_RTP_SRC
-#define HEIGHT 480
-#define WIDTH 640
-#else
-#define HEIGHT 720
-#define WIDTH 1280
-#endif
+#include "config.h"
 
 #if V4L_CAMERA
 #include "v4l2Camera.h"
@@ -159,7 +146,7 @@ int main( int argc, char** argv )
 	/*
 	 * create openGL window
 	 */
-	glDisplay* display = glDisplay::Create(camera->GetWidth(), camera->GetHeight());
+	glDisplay* display = glDisplay::Create(camera->GetHeight(), camera->GetWidth());
 	glTexture* texture = NULL;
 	
 	if( !display ) {
@@ -167,7 +154,7 @@ int main( int argc, char** argv )
 	}
 	else
 	{
-		texture = glTexture::Create(camera->GetWidth(), camera->GetHeight(), GL_RGBA32F_ARB/*GL_RGBA8*/);
+		texture = glTexture::Create(camera->GetHeight(), camera->GetWidth(), GL_RGBA32F_ARB/*GL_RGBA8*/);
 
 		if( !texture )
 			printf("detectnet-camera:  failed to create openGL texture\n");
