@@ -146,7 +146,7 @@ int main( int argc, char** argv )
 	/*
 	 * create openGL window
 	 */
-	glDisplay* display = glDisplay::Create(camera->GetHeight(), camera->GetWidth());
+	glDisplay* display = glDisplay::Create(camera->GetWidth(), camera->GetHeight());
 	glTexture* texture = NULL;
 	
 	if( !display ) {
@@ -154,17 +154,19 @@ int main( int argc, char** argv )
 	}
 	else
 	{
-		texture = glTexture::Create(camera->GetHeight(), camera->GetWidth(), GL_RGBA32F_ARB/*GL_RGBA8*/);
+		texture = glTexture::Create(camera->GetWidth(), camera->GetHeight(), GL_RGBA32F_ARB/*GL_RGBA8*/);
 
 		if( !texture )
 			printf("detectnet-camera:  failed to create openGL texture\n");
 	}
 	
+#if ABACO
 	/*
 	 * load logo
 	 */
     logo = texture->ImageLoad((char*)"abaco.bmp");
-    
+#endif
+
 	/*
 	 * start streaming
 	 */
