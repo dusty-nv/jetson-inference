@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Abaco Tegra Motion Estimation Streaming Demo (Webcam)
+X-GNOME-FullName=Abaco Systems motion estimation demo demonstration
+Comment=Nvidia computer vision demonstration on RTP streams
+Keywords=video;webcam;
+Exec=/home/ubuntu/testRtp02.sh
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=/usr/share/icons/AbacoSystems_icon.png
+Categories=GNOME;Video;Webcam
