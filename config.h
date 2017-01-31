@@ -20,7 +20,7 @@
 //
 // Gstreamer V4L2 settings
 //
-#define VIDEO_GST_V4L_SRC_DEVICE    "/dev/video1"
+#define VIDEO_GST_V4L_SRC_DEVICE    "/dev/video0"
 #define VIDEO_GST_V4L_SRC_FRAMERATE 30
 
 //
