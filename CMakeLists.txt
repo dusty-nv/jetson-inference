@@ -96,3 +96,12 @@ add_subdirectory(camera/gst-camera)
 add_subdirectory(camera/v4l2-console)
 add_subdirectory(camera/v4l2-display)
 
+
+# install
+foreach(include ${inferenceIncludes})
+    install(FILES "${include}" DESTINATION include/jetson-inference)
+endforeach()
+# install the shared library
+install(TARGETS jetson-inference DESTINATION lib/jetson-inference EXPORT jetson-inferenceConfig)
+# install the cmake project, for importing
+install(EXPORT jetson-inferenceConfig DESTINATION share/jetson-inference/cmake)
