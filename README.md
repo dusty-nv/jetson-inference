@@ -91,6 +91,7 @@ git clone http://github.org/dusty-nv/jetson-inference
 When cmake is run, a special pre-installation script (CMakePreBuild.sh) is run and will automatically install any dependencies.
 
 ``` bash
+cd jetson-inference
 mkdir build
 cd build
 cmake ../
