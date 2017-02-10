@@ -35,9 +35,7 @@ Deployment:    &nbsp;&nbsp;Jetson TX1 Developer Kit with JetPack 2.3 or newer (U
 
 >  Other branches available: [JetPack 2.2 / L4T R24.1 aarch64 (Ubuntu 14.04 LTS)](http://github.com/dusty-nv/jetson-inference/tree/L4T-R24.1) 
 
-Prior-generation training GPUs may be also used to complete the DIGITS training sessions with increased training time.
-
-TensorRT samples from the repo are intended for deployment on embedded Jetson TX1 module, however when cuDNN and TensorRT have been installed on the host side, the TensorRT samples in the repo can be compiled for PC.
+Note that TensorRT samples from the repo are intended for deployment on embedded Jetson TX1 module, however when cuDNN and TensorRT have been installed on the host side, the TensorRT samples in the repo can be compiled for PC.
 
 ## What's Deep Learning?
 
@@ -53,6 +51,8 @@ Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.co
 NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of implementing advanced AI and perception. 
 
 To get started, see the DIGITS [Getting Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md) guide and then the next section of the tutorial, [Getting TensorRT](#getting-tensorrt).
+
+Please install the latest DIGITS on a host PC or cloud service with NVIDIA GPU. See [developer.nvidia.com/digits](http://developer.nvidia.com/digits) for pre-built Docker images and Amazon Machine Image (AMI).
 
 ## Getting TensorRT
 
