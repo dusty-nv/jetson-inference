@@ -63,7 +63,8 @@ int main( int argc, char** argv )
 		type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_SD;
 	else if( strcasecmp(modelName, "fcn-alexnet-synthia-summer-hd") == 0 )
 		type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_HD;
-
+	else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p") == 0 )
+		type = segNet::FCN_ALEXNET_AERIAL_FPV_720p;
 
 	// create segnet
 	segNet* net = segNet::Create(type);
