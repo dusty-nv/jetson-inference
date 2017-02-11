@@ -66,5 +66,10 @@ tar -xzvf FCN-Alexnet-Cityscapes-HD.tar.gz -C ../data/networks
 #wget --no-check-certificate 'https://nvidia.box.com/shared/static/pa5d338t9ntca5chfbymnur53aykhall.gz' -O FCN-Alexnet-Cityscapes-SD.tar.gz
 #tar -xzvf FCN-Alexnet-Cityscapes-SD.tar.gz -C ../data/networks
 
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/y1mzlwkmytzwg2m7akt7tcbsd33f9opz.gz' -O FCN-Alexnet-Aerial-FPV-720p.tar.gz
+tar -xzvf FCN-Alexnet-Aerial-FPV-720p.tar.gz -C ../data/networks
+
+
+
 
 echo "[Pre-build]  Finished CMakePreBuild script"

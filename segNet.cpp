@@ -25,6 +25,8 @@ segNet* segNet::Create( NetworkType networkType )
 		return Create("FCN-Alexnet-Cityscapes-HD/deploy.prototxt", "FCN-Alexnet-Cityscapes-HD/snapshot_iter_367568.caffemodel", "FCN-Alexnet-Cityscapes-HD/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-HD/cityscapes-deploy-colors.txt" );	
 	else if( networkType == FCN_ALEXNET_CITYSCAPES_SD )
 		return Create("FCN-Alexnet-Cityscapes-SD/deploy.prototxt", "FCN-Alexnet-Cityscapes-SD/snapshot_iter_114860.caffemodel", "FCN-Alexnet-Cityscapes-SD/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-SD/cityscapes-deploy-colors.txt" );		
+	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p )
+		return Create("FCN-Alexnet-Aerial-FPV-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-720p/snapshot_iter_248178.caffemodel", "FCN-Alexnet-Aerial-FPV-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-720p/fpv-deploy-colors.txt" );		
 	else
 		return NULL;
 }
