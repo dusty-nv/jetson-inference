@@ -70,7 +70,7 @@ TensorRT を入手するには、最新の [JetPack](https://developer.nvidia.co
 
 最新のソースコードは、[GitHub](http://github.com/dusty-nv/jetson-inference) から入手でき、Jetson TX1 上でコンパイルします。
 
-> **注意**:  この [ブランチ](http://github.com/dusty-nv/jetson-inference) は以下の組み合わせで検証しています。 
+> **注意**:  この [ブランチ](http://github.com/dusty-nv/jetson-inference) は以下の組み合わせで検証しています。 <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS)
       
 #### 1. レポジトリをクローン
