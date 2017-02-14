@@ -1,19 +1,19 @@
 ![Alt text](https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/841b9209217f74e5992b8d332c612126)
-# Deploying Deep Learning
-Welcome to NVIDIA's guide to deploying inference and our embedded deep vision runtime library for **[Jetson TX1](http://www.nvidia.com/object/embedded-systems.html)**.
+# ディープラーニングをデプロイする（実世界で使えるようにする）
+こちらはNVIDIAの推論と **[Jetson TX1](http://www.nvidia.com/object/embedded-systems.html)** 用の組込みディープビジョン・ランタイムライブラリを使うためのガイドです.
 
-Included in this repo are resources for efficiently deploying neural networks into the field using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.
+NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** を使ってニューラルネットワークを効率的に現場にデプロイするためのリソースがこのレポジトリに含まれています。
 
-Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  The actions to understand and apply these are represented as ten easy-to-follow steps.
+ビジョン用のプリミティブ、例えば画像認識用の [`imageNet`](imageNet.h)や、物体検出用の [`detectNet`](detectNet.h)、そしてセグメンテーション用の [`segNet`](segNet.h) は、共通の [`tensorNet`](tensorNet.h) オブジェクトを継承しています。サンプルとしては、ライブカメラからのストリームしたりディスクからの画像を処理する例が提供されています。これらを理解して応用するための道筋を10個のステップにまとめました。
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-### **Ten Steps to Deep Learning**
+### **ディープラーニングまでの10ステップ**
 
-1. [What's Deep Learning?](#whats-deep-learning)
-2. [Get JetPack 2.3 / TensorRT](#getting-tensorrt)
-3. [Building from Source](#building-from-source)
-4. [Digging Into the Code](#digging-into-the-code)
+1. [ディープラーニングとは？](#whats-deep-learning)
+2. [JetPack 2.3 / TensorRT を入手](#getting-tensorrt)
+3. [ソースからビルド](#building-from-source)
+4. [コード詳説](#digging-into-the-code)
 5. [Classify Images with ImageNet](#classifying-images-with-imagenet)
 6. [Run the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
 7. [Re-train the Network with Customized Data](#re-training-the-network-with-customized-data)
@@ -24,57 +24,56 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 **Recommended System Requirements**
 
-Training GPU:  Maxwell or Pascal-based TITAN-X, Tesla M40, P40 or AWS P2 instance.  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ubuntu 14.04 x86_64 or Ubuntu 16.04 x86_64 (see DIGITS [AWS AMI](https://aws.amazon.com/marketplace/pp/B01LZN28VD) image).
+学習用 GPU: Maxwell 世代もしくは Pascal 世代の TITAN-X、Tesla M40、Tesla P40、もしくは AWS P2 インスタンス。  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ubuntu 14.04 x86_64 もしくは Ubuntu 16.04 x86_64 ( DIGITS [AWS AMI](https://aws.amazon.com/marketplace/pp/B01LZN28VD) イメージを参照).
 
-Deployment:    &nbsp;&nbsp;Jetson TX1 Developer Kit with JetPack 2.3 or newer (Ubuntu 16.04 aarch64).
+エッジ側:    &nbsp;&nbsp;Jetson TX1 開発キット、JetPack 2.3 かそれ以降 (Ubuntu 16.04 aarch64).
 
-> **note**:  this [branch](http://github.com/dusty-nv/jetson-inference) is verified against the following BSP versions for Jetson TX1: <br/>
+> **注意**:  この [ブランチ](http://github.com/dusty-nv/jetson-inference) は Jetson TX1 と以下のBSPの組み合わせで検証されています: <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS) <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> JetPack 2.3.1 / L4T R24.2.1 aarch64 (Ubuntu 16.04 LTS)
 
->  Other branches available: [JetPack 2.2 / L4T R24.1 aarch64 (Ubuntu 14.04 LTS)](http://github.com/dusty-nv/jetson-inference/tree/L4T-R24.1) 
+>  別のブランチもあるので注意: [JetPack 2.2 / L4T R24.1 aarch64 (Ubuntu 14.04 LTS)](http://github.com/dusty-nv/jetson-inference/tree/L4T-R24.1) 
 
-Note that TensorRT samples from the repo are intended for deployment on embedded Jetson TX1 module, however when cuDNN and TensorRT have been installed on the host side, the TensorRT samples in the repo can be compiled for PC.
+レポジトリに含まれる TensorRT のサンプルは組込みの Jetson TX1 モジュール用ですが、cuDNN と TensorRT がホスト側にインストールされている場合は TensorRT をホスト側のPCでコンパイルすることも可能です。
 
-## What's Deep Learning?
+## ディープラーニングとは？
 
-New to deep neural networks (DNNs) and machine learning?  Take this [introductory primer](docs/deep-learning.md) on training and inference.
+ディープ・ニューラルネットワーク（DNN）や機械学習といった言葉が初めてという方は、こちらの [入門テキスト](docs/deep-learning.md) をご覧ください。
 
 <a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/7aca8779d265a860d5133cdc8c6c6b76" width="800"></a>
 
-Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md)** training DNNs and deploying them with high performance.
-
+NVIDIAのディープラーニング用のツールを使えば、簡単にDNNの学習を **[始めたり](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md)** 高性能にデプロイすることが可能です。
 
 <a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/5720072a6941032685ea18c4e4068a23" width="700"></a>
 
-NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of implementing advanced AI and perception. 
+NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) はクラウドやPC上のラベル付けされたデータセットに対してネットワークモデルの学習をインタラクティブに行えるツールです。一方 TensorRT や Jetson は推論ランタイムを現場にデプロイするのに用います。DIGITs と TensorRT を一緒に使うことで、高度なAIや認識を実現しうるディープ・ニューラルネットワークを開発・デプロイするための非常に効率のいいワークフローを実現できます。 
 
-To get started, see the DIGITS [Getting Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md) guide and then the next section of the tutorial, [Getting TensorRT](#getting-tensorrt).
+DIGITS [スタートガイド](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md) を読んだあとに、このチュートリアルの次の章 [ を入手](#getting-tensorrt) を読んでください。
 
-Please install the latest DIGITS on a host PC or cloud service with NVIDIA GPU. See [developer.nvidia.com/digits](http://developer.nvidia.com/digits) for pre-built Docker images and Amazon Machine Image (AMI).
+最新の DIGITS をNVIDIAのGPUを搭載したホストPC もしくはクラウドサービスにインストールしてください。こちら [developer.nvidia.com/digits](http://developer.nvidia.com/digits) からビルド済みのDockerイメージ、もしくは Amazon Machine Image (AMI) を参照ください。
 
-## Getting TensorRT
+## TensorRT を入手
 
-NVIDIA TensorRT is a new library available in **[JetPack 2.3](https://developer.nvidia.com/embedded/jetpack)** for optimizing and deploying production DNN's.  TensorRT performs a host of graph optimizations and takes advantage of half-precision FP16 support on TX1 to achieve up to 2X or more performance improvement versus Caffe:
+NVIDIA TensorRT は **[JetPack 2.3](https://developer.nvidia.com/embedded/jetpack)** から利用可能になった新しいライブラリで、プロダクトレベルのDNNの最適化とデプロイのためのものです。TensorRT は多くのグラフ最適化が施され、また Tegra X1 で利用可能になった 半精度 FP16 を利用して、既存 Caffe 二倍の性能を実現します。
 
 <a href="https://devblogs.nvidia.com/parallelforall/jetpack-doubles-jetson-tx1-deep-learning-inference/"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/91d88749a582e884926686f7a9a7f9fd" width="700"></a>
 
-And in a benchmark conducted measuring images/sec/Watts, with TensorRT Jetson TX1 is up to 20X more power efficient than traditional CPUs at deep-learning inference.  See this **[Parallel ForAll](https://devblogs.nvidia.com/parallelforall/jetpack-doubles-jetson-tx1-deep-learning-inference/)** article for a technical overview of the release.
+ワットあたりの処理性能 (iages/sec/Watts) を測るベンチマークでは、TensorRT を実装した Jetson TX1 は、従来のCPUに比べて20倍も電力効率がいいことが示されました。技術概要についてはこちらの **[Parallel ForAll](https://devblogs.nvidia.com/parallelforall/jetpack-doubles-jetson-tx1-deep-learning-inference/)**  ブログ記事をご覧ください。
 
 <a href="https://devblogs.nvidia.com/parallelforall/jetpack-doubles-jetson-tx1-deep-learning-inference/"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/86d79898dbb3c0664ab1fcf112da4e6e" width="700"></a>
 
-To obtain TensorRT, download the latest [JetPack](https://developer.nvidia.com/embedded/jetpack) to your PC and re-flash your Jetson (see [Jetson TX1 User Guide](http://developer.nvidia.com/embedded/dlc/l4t-24-1-jetson-tx1-user-guide)).
+TensorRT を入手するには、最新の [JetPack](https://developer.nvidia.com/embedded/jetpack) をお手持ちのPCにダウンロードし、Jetson をフラッシュし直してください。(手順は [Jetson TX1 ユーザーガイド](http://developer.nvidia.com/embedded/dlc/l4t-24-1-jetson-tx1-user-guide)を参照).
 
-## Building from Source
-Provided along with this repo are TensorRT-enabled examples of running Googlenet/Alexnet on live camera feed for image recognition, and pedestrian detection networks with localization capabilities (i.e. that provide bounding boxes). 
+## ソースからビルド
+このレポジトリで提供されるのは、TensorRT を使ったサンプルプログラムで、Googlenet/Alexnet をカメラからの生映像に対してかけて画像認識を行ったり、歩行者検出を行いバウンディングボックスを描くものがあります。 
 
-The latest source can be obtained from [GitHub](http://github.com/dusty-nv/jetson-inference) and compiled onboard Jetson TX1.
+最新のソースコードは、[GitHub](http://github.com/dusty-nv/jetson-inference) から入手でき、Jetson TX1 上でコンパイルします。
 
-> **note**:  this [branch](http://github.com/dusty-nv/jetson-inference) is verified against 
->        JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS)
+> **注意**:  この [ブランチ](http://github.com/dusty-nv/jetson-inference) は以下の組み合わせで検証しています。 
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS)
       
-#### 1. Cloning the repo
+#### 1. レポジトリをクローン
 To obtain the repository, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed locally:
 
 ``` bash
@@ -86,8 +85,7 @@ Then clone the jetson-inference repo:
 git clone http://github.org/dusty-nv/jetson-inference
 ```
 
-#### 2. Configuring
-
+#### 2. 設定
 When cmake is run, a special pre-installation script (CMakePreBuild.sh) is run and will automatically install any dependencies.
 
 ``` bash
@@ -97,8 +95,7 @@ cd build
 cmake ../
 ```
 
-#### 3. Compiling
-
+#### 3. コンパイル
 Make sure you are still in the jetson-inference/build directory, created above in step #2.
 
 ``` bash
@@ -122,7 +119,7 @@ Depending on architecture, the package will be built to either armhf or aarch64,
 
 binaries residing in aarch64/bin, headers in aarch64/include, and libraries in aarch64/lib.
 
-## Digging Into the Code
+## コード詳説
 
 For reference, see the available vision primitives, including [`imageNet`](imageNet.h) for image recognition and [`detectNet`](detectNet.h) for object localization.
 
