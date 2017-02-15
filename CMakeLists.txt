@@ -29,11 +29,22 @@ add_definitions(${QT_DEFINITIONS})
 # setup CUDA
 find_package(CUDA)
 
+if (CMAKE_SYSTEM_PROCESSOR STREQUAL "armv7l")
+message("-- Detected ${CMAKE_SYSTEM_PROCESSOR} assumint TK1")
 set(
 	CUDA_NVCC_FLAGS
 	${CUDA_NVCC_FLAGS}; 
-    -O3 -gencode arch=compute_53,code=sm_53
+        -O3 -gencode arch=compute_32,code=sm_32, -std=c++11 -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO
 )
+else()
+message("-- Detected ${CMAKE_SYSTEM_PROCESSOR} assumint TX1")
+set(
+	CUDA_NVCC_FLAGS
+	${CUDA_NVCC_FLAGS}; 
+        -O3 -gencode arch=compute_53,code=sm_53
+)
+endif()
+
 
 # setup project output paths
 set(PROJECT_OUTPUT_DIR  ${PROJECT_BINARY_DIR}/${CMAKE_SYSTEM_PROCESSOR})
