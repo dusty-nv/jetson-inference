@@ -56,7 +56,7 @@ sudo apt-get install git cmake
 
 Then clone the jetson-inference repo:
 ``` bash
-git clone http://github.org/Abaco-systemns/jetson-inference
+git clone http://github.org/Abaco-systems/jetson-inference
 ```
 
 #### 2. Configuring
