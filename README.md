@@ -36,7 +36,7 @@ Please be patient whilst we build our DIGITS server to retrain the network and w
 - [x] [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp) updated to use webcam
 - [x] [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) updated to use webcam
 - [x] parametrize requested USB resolution (Default fixed at 1280 x 720)
-- [ ] Add suport for GigE Vision Cameras. In development.
+- [x] Add suport for GigE Vision Cameras using the Aravis libaraies.
 - [ ] update training data (military images)
 - [x] update GUI to run in window and toggle to fullscreen (fill screen)
 - [x] update GUI to use SDL2
