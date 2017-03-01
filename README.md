@@ -22,7 +22,7 @@ Modified pipelines can be supplied to the create function to support cameras usi
 ![Logitech C920 Webcamera](abaco/WebcamC920.jpg)
 > **note** : Set VIDEO_SRC to GST_V4L_SCR to use your RGB webcamera as an input source.
 
-### ptGrey GigEVision camera:
+### ptGrey GigEVision Blackfly camera:
 
 ![ptGrey Blackfly](abaco/blackfly.jpg)
 > **note** : Set VIDEO_SRC to GST_GV_STREAM_SCR to use GigEVision cameras.
