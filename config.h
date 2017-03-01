@@ -14,7 +14,7 @@
 #define GST_RTP_SINK			    0  // Enable the RTP output of rendered stream
 #define ABACO 					    1  // Abaco branding
 
-#if 0
+#if 1
 #define WIDTH 					    1280 // 720p default for HD Webcam
 #define HEIGHT 					    720
 #else
@@ -26,7 +26,7 @@
 // GigEVision camera settings
 //
 #define VIDEO_GV_PIXEL_FORMAT       ARV_PIXEL_FORMAT_RGB_8_PACKED
-#define VIDEO_GV_SRC_FRAMERATE      15.0
+#define VIDEO_GV_SRC_FRAMERATE      30.0
 
 //
 // Gstreamer V4L2 settings

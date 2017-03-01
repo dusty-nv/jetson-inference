@@ -1,5 +1,9 @@
 /*
- * 
+ * Use the arv-tool-0.x for debugging your camera:
+ *     arv-tool-0.6 control Width Height -a 192.168.1.202
+ *     arv-tool-0.6 control Width=1280 Height=720 -a 192.168.1.202
+ *     
+ *     arv-tool-0.6 features -a 192.168.1.202
  */
 #include "gvStream.h"
 #if (VIDEO_SRC == VIDEO_GV_STREAM_SOURCE)
@@ -54,30 +58,6 @@ gvStream::gvStream(int height, int width)
 	arv_option_bandwidth_limit = -1;
 }
 
-bool 
-gvStream::ConvertRGBtoRGBA( void* input, void** output )
-{	
-	if( !input || !output )
-		return false;
-
-	if( !mRGBA )
-	{
-		if( CUDA_FAILED(cudaMalloc(&mRGBA, mWidth * mHeight * sizeof(float4))) )
-		{
-			printf(LOG_CUDA "gstCamera -- failed to allocate memory for %ux%u RGBA texture\n", mWidth, mHeight);
-			return false;
-		}
-	}
-	
-	// GigEVision camera is configured RGB8
-	if( CUDA_FAILED(cudaRGBToRGBAf((uint8_t*)input, (float4*)mRGBA, mWidth, mHeight)) )
-		return false;
-	
-	*output = mRGBA;
-	return true;
-}
-
-
 void
 gvStream::set_cancel (int signal)
 {
@@ -105,7 +85,7 @@ gvStream::new_buffer_cb (ArvStream *stream, ApplicationData *data)
 		}
 
 		/* Image processing here */
-//		mFrame++;
+		mFrame++;
 		mBuffer = (void*)arv_buffer_get_data(buffer, &size);
 //		printf("Frame %d, Buffer 0x%x, Size %d\n", mFrame, (void*)mBuffer, (unsigned int)size);
 //		DumpHex(buffer, 128);
@@ -273,9 +253,9 @@ bool gvStream::Open()
 		}
 		x = (maxWidth / 2) - (GetWidth() / 2);
 		y = (maxHeight / 2) - (GetHeight() / 2);
-		width = (maxWidth / 2) + (GetWidth() / 2);
-		height = (maxHeight / 2) + (GetHeight() / 2);
-		
+		width = GetWidth();
+		height = GetHeight();
+printf("%d,%d -%d,%d\n",x,y,width,height);
 		arv_camera_set_region (mCamera, x, y, width, height);
 		
 		arv_camera_get_binning (mCamera, &dx, &dy);
@@ -349,8 +329,6 @@ bool gvStream::Open()
 
 			arv_camera_set_acquisition_mode (mCamera, ARV_ACQUISITION_MODE_CONTINUOUS);
 
-			arv_camera_set_frame_rate (mCamera, VIDEO_GV_SRC_FRAMERATE);
-
 			if (arv_option_trigger != NULL)
 				arv_camera_set_trigger (mCamera, arv_option_trigger);
 
@@ -369,14 +347,9 @@ bool gvStream::Open()
 			g_signal_connect (arv_camera_get_device (mCamera), "control-lost",
 					  G_CALLBACK (control_lost_cb), NULL);
 
-			g_timeout_add_seconds (1, periodic_task_cb, &data);
-
 			data.main_loop = g_main_loop_new (NULL, FALSE);
 
 			old_sigint_handler = signal (SIGINT, set_cancel);
-
-//			g_main_loop_run (data.main_loop);
-
 
 		} else
 			printf ("Can't create stream thread (check if the device is not already used)\n");
@@ -427,12 +400,14 @@ bool gvStream::Capture( void** cpu, void** cuda, unsigned long timeout )
 	mFrameReady = false;
 	if (!cancel)
 	{
-//		printf("DEBUG: (%d x %d = %d)\n", GetWidth(), GetHeight(), GetWidth() * GetHeight() * 3);
+//		printf("DEBUG: Frame %d (%d x %d = %d)\n", mFrame, GetWidth(), GetHeight(), GetWidth() * GetHeight() * 3);
 		while (!mFrameReady)
 		{
 			g_main_context_iteration(context, TRUE);
 		}
-		mFrameReady = false;		
+		mFrameReady = false;	
+		
+		if ((mFrame % (int)VIDEO_GV_SRC_FRAMERATE) == 0) periodic_task_cb(&data);	
 	}
 
 	cudaMemcpy( mGpuBuffer, mBuffer, GetWidth() * GetHeight() * 3, cudaMemcpyHostToDevice );

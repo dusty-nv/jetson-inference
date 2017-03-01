@@ -65,31 +65,26 @@ void key_handler(char key)
 
 void* mRGBA = 0;
 
-bool ConvertYUVtoRGBf( uint8_t* input, void** output, uint32_t width, uint32_t height )
+void convertColour(camera *camera, void* imgCUDA, void** imgRGBA)
 {
-	if( !input || !output )
-		return false;
-
-	if( !mRGBA )
-	{
-		if( CUDA_FAILED(cudaMalloc(&mRGBA, width * height * sizeof(float4))) )
-		{
-			printf(LOG_CUDA "cudaMalloc -- failed to allocate memory for %ux%u RGBA texture\n", width, height);
-			return false;
-		}
-	}
-
-	// nvcamera is YUV
-	if( CUDA_FAILED(cudaYUVToRGBAf((uint8_t*)input, (float4*)mRGBA, width, height)) )
-		{
-			printf(LOG_CUDA "cudaYUVToRGBAf -- failed convert %ux%u RGBA texture\n", width, height);
-			return false;
-		}
-
-	*output = mRGBA;
-
-	return true;
+#if VIDEO_SRC==VIDEO_GST_RTP_SRC
+	if ( !camera->ConvertYUVtoRGBA(imgCUDA, imgRGBA) )
+		printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
+#endif
+#if VIDEO_SRC==VIDEO_RTP_STREAM_SOURCE
+	if ( !camera->ConvertYUVtoRGBf(imgCUDA, imgRGBA ) )
+		printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
+#endif
+#if VIDEO_SRC==VIDEO_GST_V4L_SRC || VIDEO_GV_STREAM_SOURCE
+	if ( !camera->ConvertRGBtoRGBA(imgCUDA, imgRGBA) )
+		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
+#endif
+#if VIDEO_SRC==VIDEO_NV
+	if ( !camera->ConvertNV12toRGBA(imgCUDA, imgRGBA) )
+		printf("imagenet-camera:  failed to convert from NV12 to RGBAf\n");
+#endif
 }
+
 
 int main( int argc, char** argv )
 {
@@ -238,7 +233,6 @@ int main( int argc, char** argv )
 
 	debug_print("\nimagenet-camera:  camera open for streaming\n");
 
-
 	/*
 	 * processing loop
 	 */
@@ -260,22 +254,7 @@ int main( int argc, char** argv )
 		/*
 		 *  Convert capture colorspace to the required RGBA
 		 */
-#if VIDEO_SRC==VIDEO_GST_RTP_SRC
-		if ( !camera->ConvertYUVtoRGBA(imgCUDA, &imgRGBA) )
-			printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
-#endif
-#if VIDEO_SRC==VIDEO_RTP_STREAM_SOURCE
-		if ( !ConvertYUVtoRGBf((uint8_t*)imgCUDA, &imgRGBA, camera->GetWidth(), camera->GetHeight() ) )
-			printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
-#endif
-#if VIDEO_SRC==VIDEO_GST_V4L_SRC || VIDEO_GV_STREAM_SOURCE
-		if ( !camera->ConvertRGBtoRGBA(imgCUDA, &imgRGBA) )
-			printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
-#endif
-#if VIDEO_SRC==VIDEO_NV
-		if ( !camera->ConvertNV12toRGBA(imgCUDA, &imgRGBA) )
-			printf("imagenet-camera:  failed to convert from NV12 to RGBAf\n");
-#endif
+		convertColour(camera, imgCUDA, &imgRGBA);
 
 		/*
 		 *  Classify image

@@ -63,7 +63,7 @@ public:
     bool Open();
 	void Close();
     bool Capture( void** cpu, void** cuda, unsigned long timeout=ULONG_MAX );
-    bool ConvertRGBtoRGBA( void* input, void** output );
+    
 	/* GigE Vision functions */
 	static void new_buffer_cb (ArvStream *stream, ApplicationData *data);
 	static void stream_cb (void *user_data, ArvStreamCallbackType type, ArvBuffer *buffer);
@@ -80,8 +80,6 @@ private:
 	void (*old_sigint_handler)(int);
 	char *mGpuBuffer;
 	char tmp_str[200];
-		
-	void* mRGBA;
 };
 
 #endif
