@@ -257,7 +257,6 @@ int main( int argc, char** argv )
 printf("Captureding\n");
 		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
 			printf("\nimagenet-camera:  failed to capture frame\n");
-printf("Captured\n");
 #if VIDEO_SRC==VIDEO_GST_RTP_SRC
 		if ( !camera->ConvertYUVtoRGBA(imgCUDA, &imgRGBA) )
 			printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
@@ -269,13 +268,12 @@ printf("Captured\n");
 #if VIDEO_SRC==VIDEO_GST_V4L_SRC || VIDEO_GV_STREAM_SOURCE
 		if ( !camera->ConvertRGBtoRGBA(imgCUDA, &imgRGBA) )
 			printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
-printf("Converted\n");
 #endif
 #if VIDEO_SRC==VIDEO_NV
 		if ( !camera->ConvertNV12toRGBA(imgCUDA, &imgRGBA) )
 			printf("imagenet-camera:  failed to convert from NV12 to RGBAf\n");
 #endif
-printf("Classifying %dx%d\n", camera->GetWidth(), camera->GetHeight());
+
 		// classify image
 		const int img_class = net->Classify((float*)imgRGBA, camera->GetWidth(), camera->GetHeight(), &confidence);
 
