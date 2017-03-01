@@ -95,6 +95,17 @@ For jetson 64bit builds the architecte will be aarch64, with the following direc
       \include		where the headers reside
       \lib			where the libraries are build to
 ```
+
+#### 4. GigEVision additional steps (Optional step for GigE support)
+For GigEVision camera support please download and compile the Aravis 0.6 release.
+``` bash
+git clone https://github.com/AravisProject/aravis
+```
+Once built do
+``` bash
+make install
+```
+Header files and library objects should not allow you to copile the code with GeGEVision support. Configure camera in [`config.h`](config.h)
 ## Runtime
 The font file and binary images used can be found in /data and should be copied into the working directort. 
 
