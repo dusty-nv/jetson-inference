@@ -118,7 +118,7 @@ The font file and binary images used can be found in /data and should be copied 
 * SPACE = Toggle overlay (imagenet-camera only)
 
 ### Notes on Ethernet jitter (GigEVision)
-For testing (on the Jetson TX1) I selected an Intel PCIe Ethernet NIC device that has deeper buffers and can allows pause frames to be disabled. To optimise yournetwork interface device please run the script jetson-ethernet found in the jetson-scripts project under Abaco Systems.
+For testing (on the Jetson TX1) I selected an Intel PCIe Ethernet NIC device that has deeper buffers and can allows pause frames to be disabled. To optimise yournetwork interface device please run the script jetson-ethernet found in the jetson-scripts project under Abaco Systems. Ive had no issue running RGB8 encoded video streams at 1280x720@30Htz using this external NIC, total bandwidth consumed is aproximatly 82.2 Mb / Second for one stream.
 
 ## Links
 * [Abaco Systems](http://abaco.com)
