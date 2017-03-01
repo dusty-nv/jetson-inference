@@ -71,7 +71,6 @@ public:
 	static gboolean emit_software_trigger (void *abstract_data);
 	static void control_lost_cb (ArvGvDevice *gv_device);
 	static void set_cancel (int signal);
-  	char* gpuBuffer;
 private:
     char *str_format(ArvPixelFormat format);
 	ApplicationData data;

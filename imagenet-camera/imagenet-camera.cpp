@@ -249,13 +249,17 @@ int main( int argc, char** argv )
 		void* dummy  = NULL;
 		void* imgCPU  = NULL;
 		void* imgCUDA = NULL;
-		// convert from YUV to RGBA
-		void* imgRGBA = NULL;
+		void* imgRGBA = NULL; // buffer holding converted RGBA video
 
-		// get the latest frame
-
+		/*
+		 *  Get the latest frame
+		 */
 		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
 			printf("\nimagenet-camera:  failed to capture frame\n");
+
+		/*
+		 *  Convert capture colorspace to the required RGBA
+		 */
 #if VIDEO_SRC==VIDEO_GST_RTP_SRC
 		if ( !camera->ConvertYUVtoRGBA(imgCUDA, &imgRGBA) )
 			printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
@@ -273,7 +277,9 @@ int main( int argc, char** argv )
 			printf("imagenet-camera:  failed to convert from NV12 to RGBAf\n");
 #endif
 
-		// classify image
+		/*
+		 *  Classify image
+		 */
 		const int img_class = net->Classify((float*)imgRGBA, camera->GetWidth(), camera->GetHeight(), &confidence);
 
 		if( img_class >= 0 )

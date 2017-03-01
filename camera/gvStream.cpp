@@ -6,6 +6,7 @@
 #include <string.h>
 #include <cuda_runtime.h>
 #include <cuda.h>
+#include "debug.h"
 #include "cudaMappedMemory.h"
 #include "cudaYUV.h"
 #include "cudaRGB.h"
@@ -104,10 +105,10 @@ gvStream::new_buffer_cb (ArvStream *stream, ApplicationData *data)
 		}
 
 		/* Image processing here */
-		mFrame++;
+//		mFrame++;
 		mBuffer = (void*)arv_buffer_get_data(buffer, &size);
-		printf("Frame %d, Buffer 0x%x, Size %d\n", mFrame, mBuffer, (int)size);
-		DumpHex(buffer, 128);
+//		printf("Frame %d, Buffer 0x%x, Size %d\n", mFrame, (void*)mBuffer, (unsigned int)size);
+//		DumpHex(buffer, 128);
 		mFrameReady = true;
 		g_main_context_wakeup(context);
 
@@ -192,7 +193,7 @@ char* gvStream::str_format(ArvPixelFormat format)
 
 bool gvStream::Open()
 {
-#if 0
+#if 1
 	GError *error = NULL;
 	int i;
 
@@ -263,10 +264,9 @@ bool gvStream::Open()
 							  ARV_GV_STREAM_OPTION_NONE);
 		}
 
-		arv_camera_get_height_bounds(mCamera, NULL, &maxHeight);
-		arv_camera_get_width_bounds(mCamera, NULL, &maxWidth);
+		arv_camera_get_sensor_size(mCamera, &maxWidth, &maxHeight);
 		arv_camera_get_region (mCamera, &x, &y, &width, &height);
-		if ((GetWidth() > width) && (GetHeight() > height))
+		if ((GetWidth() > maxWidth) && (GetHeight() > maxHeight))
 		{
 			printf("ERROR requested resolution (%d x %d) is higher than the camera can support\n", GetWidth(), GetHeight());
 			return false;
@@ -349,8 +349,7 @@ bool gvStream::Open()
 
 			arv_camera_set_acquisition_mode (mCamera, ARV_ACQUISITION_MODE_CONTINUOUS);
 
-			if (arv_option_frequency > 0.0)
-				arv_camera_set_frame_rate (mCamera, arv_option_frequency);
+			arv_camera_set_frame_rate (mCamera, VIDEO_GV_SRC_FRAMERATE);
 
 			if (arv_option_trigger != NULL)
 				arv_camera_set_trigger (mCamera, arv_option_trigger);
@@ -422,34 +421,24 @@ void gvStream::Close()
 
 bool gvStream::Capture( void** cpu, void** cuda, unsigned long timeout )
 {
-	printf ("DEBUG1: set buffer 0x%x\n", mGpuBuffer);
 	// Allocate a buffer the first time we call this function
 	if (!mGpuBuffer) cudaMalloc(&mGpuBuffer, GetHeight() * GetWidth() * 3);
-	printf ("DEBUG: set buffer 0x%x\n", mGpuBuffer);
 	
-#if 0	
 	mFrameReady = false;
 	if (!cancel)
 	{
-		printf("0 (%d x %d = %d)\n", GetWidth(), GetHeight(), GetWidth() * GetHeight() * 3);
+//		printf("DEBUG: (%d x %d = %d)\n", GetWidth(), GetHeight(), GetWidth() * GetHeight() * 3);
 		while (!mFrameReady)
 		{
-			printf("1\n");
 			g_main_context_iteration(context, TRUE);
 		}
 		mFrameReady = false;		
-		printf("2\n");
 	}
-#endif
 
-//	cudaMemcpy( mGpuBuffer, mBuffer, GetWidth() * GetHeight() * 3, cudaMemcpyHostToDevice );
-	if (cudaMemset( mGpuBuffer, 0xaa, GetWidth() * GetHeight() * 3) != cudaSuccess)
-		printf ("ERROR: could not set buffer 0x%x\n", mGpuBuffer);;
-	
-//bufferIn = (char*)malloc(height * width * 2); // Holds YUV data
+	cudaMemcpy( mGpuBuffer, mBuffer, GetWidth() * GetHeight() * 3, cudaMemcpyHostToDevice );
 
 	*cpu = (void*)mBuffer;
-	*cuda = (void*)gpuBuffer;
+	*cuda = (void*)mGpuBuffer;
 	return true;
 }
 

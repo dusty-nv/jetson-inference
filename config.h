@@ -14,19 +14,19 @@
 #define GST_RTP_SINK			    0  // Enable the RTP output of rendered stream
 #define ABACO 					    1  // Abaco branding
 
-#if 1
+#if 0
+#define WIDTH 					    1280 // 720p default for HD Webcam
 #define HEIGHT 					    720
-#define WIDTH 					    1280
 #else
-#define HEIGHT 					    1080
-#define WIDTH 					    1920
+#define WIDTH 					    1920 // Max resolution for ptGrey GigEVision Blackfly
+#define HEIGHT 					    1200 
 #endif
 
 //
 // GigEVision camera settings
 //
 #define VIDEO_GV_PIXEL_FORMAT       ARV_PIXEL_FORMAT_RGB_8_PACKED
-#define VIDEO_GV_SRC_FRAMERATE      25.0
+#define VIDEO_GV_SRC_FRAMERATE      15.0
 
 //
 // Gstreamer V4L2 settings
