@@ -44,9 +44,6 @@ Please be patient whilst we build our DIGITS server to retrain the network and w
 - [ ] add RTP video streaming source for YUV encoded video streams. Injest progressive GVA (Generic Vehicle Architecture) compliant video sources.
 - [ ] Code tidys up, remove redundant depedencies.
 
-![Mug Classified](abaco/Inferance-Screenshot01.png)
-![Mug and Mouse Classified](abaco/Inferance-Screenshot02.png)
-
 ## Building from Source
 Provided along with this repo are TensorRT-enabled examples of running Googlenet/Alexnet on live camera feed for image recognition, and pedestrian detection networks with localization capabilities (i.e. that provide bounding boxes). 
 
@@ -106,6 +103,13 @@ Once built do
 make install
 ```
 Header files and library objects should not allow you to compile the code with GigEVision support. Configure camera in [`config.h`](config.h)
+## Screenshots
+### Webcam Input 
+![Mug Classified](abaco/Inferance-Screenshot01.png)
+![Mug and Mouse Classified](abaco/Inferance-Screenshot02.png)
+### GigEVision Camera Input
+![Banana Classified](abaco/Inferance-Screenshot03.png)
+
 ## Runtime
 The font file and binary images used can be found in /data and should be copied into the working directort. 
 
