@@ -105,7 +105,7 @@ Once built do
 ``` bash
 make install
 ```
-Header files and library objects should not allow you to copile the code with GeGEVision support. Configure camera in [`config.h`](config.h)
+Header files and library objects should not allow you to compile the code with GigEVision support. Configure camera in [`config.h`](config.h)
 ## Runtime
 The font file and binary images used can be found in /data and should be copied into the working directort. 
 
