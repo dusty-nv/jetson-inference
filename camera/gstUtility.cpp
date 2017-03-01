@@ -200,7 +200,7 @@ gboolean gst_message_print(GstBus* bus, GstMessage* message, gpointer user_data)
 #ifdef gst_tag_list_to_string
 			gchar* txt = gst_tag_list_to_string(tags);
 #else
-			gchar* txt = "missing gst_tag_list_to_string()";
+			gchar* txt = (gchar*)"missing gst_tag_list_to_string()";
 #endif
 
 			debug_print(LOG_GSTREAMER "gstreamer %s %s\n", GST_OBJECT_NAME(message->src), txt);

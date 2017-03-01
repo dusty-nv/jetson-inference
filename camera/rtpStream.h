@@ -24,7 +24,8 @@ gst-launch-1.0 udpsrc port=5004 caps="application/x-rtp, media=(string)video, cl
 Use his program to stream data to the udpsc example above on the tegra X1
 
 */
-
+#include "config.h"
+#if (VIDEO_SRC == VIDEO_RTP_STREAM_SOURCE)
 #ifndef __RTP_STREAM_H__
 #define __RTP_STREAM_H__
 
@@ -143,6 +144,8 @@ typedef struct
 #if ARM
 	void endianswap32(uint32_t *data, int length);
 	void endianswap16(uint16_t *data, int length);
+#endif
+
 #endif
 
 #endif

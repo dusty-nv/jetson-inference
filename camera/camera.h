@@ -5,6 +5,8 @@
 #ifndef __CAMERA_H__
 #define __CAMERA_H__
 #include <climits>
+#include <stdint.h>
+
 class camera
 {
 public:

@@ -34,7 +34,7 @@ message("-- Detected ${CMAKE_SYSTEM_PROCESSOR} assumint TK1")
 set(
 	CUDA_NVCC_FLAGS
 	${CUDA_NVCC_FLAGS}; 
-        -O3 -gencode arch=compute_32,code=sm_32, -std=c++11 -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO
+        -O3 -gencode arch=compute_32,code=sm_32, -std=c++11 -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO 
 )
 else()
 message("-- Detected ${CMAKE_SYSTEM_PROCESSOR} assumint TX1")
@@ -45,6 +45,8 @@ set(
 )
 endif()
 
+# Aravis setup
+include_directories(/usr/local/include/aravis-0.6)
 
 # setup project output paths
 set(PROJECT_OUTPUT_DIR  ${PROJECT_BINARY_DIR}/${CMAKE_SYSTEM_PROCESSOR})
@@ -69,7 +71,7 @@ file(GLOB inferenceSources *.cpp *.cu camera/*.cpp cuda/*.cu display/*.cpp)
 file(GLOB inferenceIncludes *.h camera/*.h cuda/*.h display/*.h)
 
 cuda_add_library(jetson-inference SHARED ${inferenceSources})
-target_link_libraries(jetson-inference nvcaffe_parser nvinfer Qt4::QtGui GL GLEW gstreamer-1.0 gstapp-1.0)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
+target_link_libraries(jetson-inference nvcaffe_parser nvinfer Qt4::QtGui GL GLEW gstreamer-1.0 gstapp-1.0 aravis-0.6)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
 
 
 # transfer all headers to the include directory
@@ -90,10 +92,10 @@ endforeach()
 
 
 # build samples & tools
-add_subdirectory(imagenet-console)
+#add_subdirectory(imagenet-console)
 add_subdirectory(imagenet-camera)
 
-add_subdirectory(detectnet-console)
+#add_subdirectory(detectnet-console)
 add_subdirectory(detectnet-camera)
 
 #add_subdirectory(camera/gst-camera)

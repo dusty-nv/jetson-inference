@@ -2,8 +2,10 @@
 #define VIDEO_GST_RTP_SRC 		    1  // Gstreamer udpsrc
 #define VIDEO_GST_V4L_SRC		    2  // Gstreamer v4l2src
 #define VIDEO_RTP_STREAM_SOURCE	    3  // Raw RTP
+#define VIDEO_GV_STREAM_SOURCE	    4  // GigE Vision (Aravis)
 
 #define VIDEO_SRC				    VIDEO_GST_V4L_SRC
+//#define VIDEO_SRC				    VIDEO_GV_STREAM_SOURCE
 #define SDL_DISPLAY 			    1
 #define GST_RTP_SINK			    0
 #define ABACO 					    1
@@ -18,13 +20,19 @@
 #endif
 
 //
+// GigEVision camera settings
+//
+#define VIDEO_GV_PIXEL_FORMAT ARV_PIXEL_FORMAT_RGB_8_PACKED
+#define VIDEO_GV_SRC_FRAMERATE 25.0
+
+//
 // Gstreamer V4L2 settings
 //
-#define VIDEO_GST_V4L_SRC_DEVICE    "/dev/video0"
+#define VIDEO_GST_V4L_SRC_DEVICE    "/dev/video1" // Note '/dev/video0' is the CSI camera on the TX dev platform
 #define VIDEO_GST_V4L_SRC_FRAMERATE 30
 
 //
-// Connection details
+// RTP Connection details
 //
 #define IP_UNICAST                  "127.0.0.1"
 #define IP_MULTICAST_OUT            "239.192.1.198"

@@ -2,6 +2,8 @@
  * Might need to add a route here:
  * 	sudo route add -net 239.0.0.0 netmask 255.0.0.0 eth1
  */
+#include "rtpStream.h"
+#if (VIDEO_SRC == VIDEO_RTP_STREAM_SOURCE)
 
 #include <pthread.h>
 #include <sched.h>
@@ -9,8 +11,6 @@
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <sys/socket.h>
-#include "config.h"
-#include "rtpStream.h"
 
 extern void DumpHex(const void* data, size_t size);
 
@@ -487,4 +487,5 @@ int rtpStream::Transmit(char* rgbframe, bool gpuAddr)
 #endif
     return 0;
 }
+#endif
 
