@@ -4,12 +4,15 @@
 #define VIDEO_RTP_STREAM_SOURCE	    3  // Raw RTP
 #define VIDEO_GV_STREAM_SOURCE	    4  // GigE Vision (Aravis)
 
+/*
+ * This is the important bit select your video source
+ */
 #define VIDEO_SRC				    VIDEO_GST_V4L_SRC
 //#define VIDEO_SRC				    VIDEO_GV_STREAM_SOURCE
-#define SDL_DISPLAY 			    1
-#define GST_RTP_SINK			    0
-#define ABACO 					    1
 
+#define SDL_DISPLAY 			    1  // Use SDL for video display
+#define GST_RTP_SINK			    0  // Enable the RTP output of rendered stream
+#define ABACO 					    1  // Abaco branding
 
 #if 1
 #define HEIGHT 					    720
@@ -22,13 +25,13 @@
 //
 // GigEVision camera settings
 //
-#define VIDEO_GV_PIXEL_FORMAT ARV_PIXEL_FORMAT_RGB_8_PACKED
-#define VIDEO_GV_SRC_FRAMERATE 25.0
+#define VIDEO_GV_PIXEL_FORMAT       ARV_PIXEL_FORMAT_RGB_8_PACKED
+#define VIDEO_GV_SRC_FRAMERATE      25.0
 
 //
 // Gstreamer V4L2 settings
 //
-#define VIDEO_GST_V4L_SRC_DEVICE    "/dev/video1" // Note '/dev/video0' is the CSI camera on the TX dev platform
+#define VIDEO_GST_V4L_SRC_DEVICE    "/dev/video1" // Note '/dev/video0' is the CSI camera on the TX dev platforms
 #define VIDEO_GST_V4L_SRC_FRAMERATE 30
 
 //

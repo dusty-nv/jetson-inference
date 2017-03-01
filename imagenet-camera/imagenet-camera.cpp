@@ -254,7 +254,6 @@ int main( int argc, char** argv )
 
 		// get the latest frame
 
-printf("Captureding\n");
 		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
 			printf("\nimagenet-camera:  failed to capture frame\n");
 #if VIDEO_SRC==VIDEO_GST_RTP_SRC
