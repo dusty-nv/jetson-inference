@@ -17,12 +17,12 @@ Modified pipelines can be supplied to the create function to support cameras usi
 
     video/x-raw, width=(int)640, height=(int)480, format=RGB ! videoconvert ! video/x-raw, format=RGB ! videoconvert ! appsink name=mysink
 
-Logitech C920 HD USB webcam:
+### Logitech C920 HD USB webcam:
 
 ![Logitech C920 Webcamera](abaco/WebcamC920.jpg)
 > **note** : Set VIDEO_SRC to GST_V4L_SCR to use your RGB webcamera as an input source.
 
-ptGrey GigEVision camera:
+### ptGrey GigEVision camera:
 
 ![ptGrey Blackfly](abaco/blackfly.jpg)
 > **note** : Set VIDEO_SRC to GST_GV_STREAM_SCR to use GigEVision cameras.
@@ -36,7 +36,7 @@ Please be patient whilst we build our DIGITS server to retrain the network and w
 - [x] [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp) updated to use webcam
 - [x] [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) updated to use webcam
 - [x] parametrize requested USB resolution (Default fixed at 1280 x 720)
-- [-] Add suport for GigE Vision Cameras. In development.
+- [ ] Add suport for GigE Vision Cameras. In development.
 - [ ] update training data (military images)
 - [x] update GUI to run in window and toggle to fullscreen (fill screen)
 - [x] update GUI to use SDL2
