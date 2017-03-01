@@ -118,7 +118,7 @@ The font file and binary images used can be found in /data and should be copied 
 * SPACE = Toggle overlay (imagenet-camera only)
 
 ### Notes on Ethernet jitter (GigEVision)
-For testing I have selected an Intel PCIe Ethernet NIC device that has deeper buffers and can allows pause frames to be disabled. To optimise your device please run the script jetson-ethernet found in the jetson-scripts project under Abaco Systems.
+For testing (on the Jetson TX1) I selected an Intel PCIe Ethernet NIC device that has deeper buffers and can allows pause frames to be disabled. To optimise yournetwork interface device please run the script jetson-ethernet found in the jetson-scripts project under Abaco Systems.
 
 ## Links
 * [Abaco Systems](http://abaco.com)
