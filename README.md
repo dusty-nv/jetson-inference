@@ -10,7 +10,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 
 ![ImageNet](abaco/ImageNet.jpg) for more information on source images goto (http://image-net.org/)
 
-## Support for USB webcam
+## Support for USB webcam and GiGEVision
 On the Abaco Systems SFF box there is no CSI camera so [`gstCamera`](camera/gstCamera.h) has been modified to support the Logitech C920 Webcam. At the moment only imagenet-camera.cpp has been tested and proven to work with this modification. 
 
 Modified pipelines can be supplied to the create function to support cameras using RGB colour space. The included pipeline in [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp)  for the C920 is shown below:
@@ -20,8 +20,14 @@ Modified pipelines can be supplied to the create function to support cameras usi
 Logitech C920 HD USB webcam:
 
 ![Logitech C920 Webcamera](abaco/WebcamC920.jpg)
-> **note** : Set GST_V4L_SCR to 0 to revert to the Jetson TX1 evaluation on board CSI camera.
+> **note** : Set VIDEO_SRC to GST_V4L_SCR to use your RGB webcamera as an input source.
 
+ptGrey GigEVision camera:
+
+![ptGrey Blackfly](abaco/blackfly.jpg)
+> **note** : Set VIDEO_SRC to GST_GV_STREAM_SCR to use GigEVision cameras.
+
+Set VIDEO_SRC to VIDEO_NV revert to the Jetson TX1 evaluation on board CSI camera.
 ## Goals
 The aim of this project is to create a network trained on images that come from military applications such at Air / Sea / Land. Updating the network to work with this updated network for demonstration and as an example to a defence audiance. 
 
@@ -30,7 +36,7 @@ Please be patient whilst we build our DIGITS server to retrain the network and w
 - [x] [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp) updated to use webcam
 - [x] [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) updated to use webcam
 - [x] parametrize requested USB resolution (Default fixed at 1280 x 720)
-- [ ] Add suport for GigE Vision Cameras
+- [-] Add suport for GigE Vision Cameras. In development.
 - [ ] update training data (military images)
 - [x] update GUI to run in window and toggle to fullscreen (fill screen)
 - [x] update GUI to use SDL2
