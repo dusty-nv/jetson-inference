@@ -175,7 +175,7 @@ ArvPixelFormat gvStream::videoType(int type)
 {
 	switch (type)
 	{
-		case VIDEO_GV_GR8 :
+		case VIDEO_GV_BAYER_GR8 :
 			return ARV_PIXEL_FORMAT_BAYER_GR_8;
 		case VIDEO_GV_YUV422 :
 			return ARV_PIXEL_FORMAT_YUV_422_PACKED;
