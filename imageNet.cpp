@@ -7,14 +7,11 @@
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
 
-
 // stuff we know about the network and the caffe input/output blobs
 static const int MAX_BATCH_SIZE = 1;
 
 const char* INPUT_BLOB_NAME  = "data";
 const char* OUTPUT_BLOB_NAME = "prob";
-
-
 
 // constructor
 imageNet::imageNet() : tensorNet()
@@ -22,13 +19,11 @@ imageNet::imageNet() : tensorNet()
 	mOutputClasses = 0;
 }
 
-
 // destructor
 imageNet::~imageNet()
 {
 
 }
-
 
 // Create
 imageNet* imageNet::Create( imageNet::NetworkType networkType )

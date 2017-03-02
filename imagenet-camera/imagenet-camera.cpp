@@ -85,7 +85,6 @@ void convertColour(camera *camera, void* imgCUDA, void** imgRGBA)
 #endif
 }
 
-
 int main( int argc, char** argv )
 {
     char tmp[200][200];
@@ -97,7 +96,16 @@ int main( int argc, char** argv )
 
 #if ABACO
     int logo;
+	printf("Abaco Systems (abaco.com) Inferance Demonstration\n");
+#else
+	printf("Jetson Inferance Demonstration\n");
 #endif
+	printf("\tAuthor : ross.newman@abaco.com (dustinf@nvidia.com)\n");
+	printf("\tVideo Src : %s\n", VIDEO_SRC_NAME);
+	printf("\tHidth : %u\n", HEIGHT);
+	printf("\tHeight : %u\n", WIDTH);
+	printf("\tFramerate : %u\n\n", VIDEO_DEFAULT_FRAMERATE);	
+
     SDL_Color white = {255, 255, 255, 0}; // WWhite
     SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
     SDL_Color black = {40, 40, 40, 0}; // Black
@@ -105,12 +113,7 @@ int main( int argc, char** argv )
 	debug_print("imagenet-camera\n  args (%i):  ", argc);
 
 	// Some help.
-	printf("Keyboard commands:\n\tF     Fullscreen\n\tQ     Quit\n\tSPACE Toggle overlay");
-
-	for( int i=0; i < argc; i++ )
-		printf("%i [%s]  ", i, argv[i]);
-
-	printf("\n\n");
+	printf("Keyboard commands:\n\tF     Fullscreen\n\tQ     Quit\n\tSPACE Toggle overlay\n");
 
 	/*
 	 * parse network type from CLI arguments
@@ -171,10 +174,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	printf("\nimagenet-camera:  successfully initialized video device\n");
-	printf("    width:  %u\n", camera->GetWidth());
-	printf("   height:  %u\n", camera->GetHeight());
-	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
+	printf("\nimagenet-camera:  successfully initialized video device (%s)\n", VIDEO_SRC_NAME);
 
 	/*
 	 * create imageNet
@@ -270,7 +270,7 @@ int main( int argc, char** argv )
 			if( display != NULL )
 			{
 				char banner[256];
-				sprintf(banner, "TensorRT build %x | %s | %s | %04.1f FPS", NV_GIE_VERSION, net->GetNetworkName(), net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
+				sprintf(banner, "TensorRT build %x | %s | %s | %04.1f FPS | %s", NV_GIE_VERSION, net->GetNetworkName(), net->HasFP16() ? "FP16" : "FP32", display->GetFPS(), VIDEO_SRC_NAME);
 				display->SetTitle(banner);
 			}
 		}

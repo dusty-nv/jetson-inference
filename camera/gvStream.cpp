@@ -270,7 +270,7 @@ printf("%d,%d -%d,%d\n",x,y,width,height);
 		/* Check settings */
 		format = arv_camera_get_pixel_format(mCamera);
 		
-#if 1
+#if 0
 		printf ("vendor name           = %s\n", arv_camera_get_vendor_name (mCamera));
 		printf ("model name            = %s\n", arv_camera_get_model_name (mCamera));
 		printf ("device id             = %s\n", arv_camera_get_device_id (mCamera));
