@@ -1,0 +1,2 @@
+Copy files from /usr/share/geany to this directory to overwrite them. To use the defaults, just delete the file in this directory.
+For more information read the documentation (in /usr/share/doc/geany/html/index.html or visit http://www.geany.org/).
