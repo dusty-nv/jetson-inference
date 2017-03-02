@@ -26,6 +26,7 @@ public:
 	inline uint32_t GetSize() const		  { return mSize; }
 	
 	// Takes in captured YUV-NV12 CUDA image, converts to float4 RGBA (with pixel intensity 0-255)
+	bool ConvertBAYER_GR8toRGBA( void* input, void** output );
 	bool ConvertNV12toRGBA( void* input, void** output );
 	bool ConvertYUVtoRGBA ( void* input, void** output );
 	bool ConvertRGBtoRGBA ( void* input, void** output );
