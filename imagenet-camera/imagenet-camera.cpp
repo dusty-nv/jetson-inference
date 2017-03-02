@@ -71,14 +71,28 @@ void convertColour(camera *camera, void* imgCUDA, void** imgRGBA)
 	if ( !camera->ConvertYUVtoRGBA(imgCUDA, imgRGBA) )
 		printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
 #endif
+
 #if VIDEO_SRC==VIDEO_RTP_STREAM_SOURCE
 	if ( !camera->ConvertYUVtoRGBf(imgCUDA, imgRGBA ) )
 		printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
 #endif
-#if VIDEO_SRC==VIDEO_GST_V4L_SRC || VIDEO_GV_STREAM_SOURCE
+
+#if VIDEO_SRC==VIDEO_GST_V4L_SRC
 	if ( !camera->ConvertRGBtoRGBA(imgCUDA, imgRGBA) )
 		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
 #endif
+
+#if  VIDEO_GV_STREAM_SOURCE
+#if VIDEO_GV_PIXEL_FORMAT == ARV_PIXEL_FORMAT_RGB_8_PACKED
+	if ( !camera->ConvertRGBtoRGBA(imgCUDA, imgRGBA) )
+		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
+#endif
+#if VIDEO_GV_PIXEL_FORMAT == ARV_PIXEL_FORMAT_YUV_422_PACKED
+	if ( !camera->ConvertYUVtoRGBf(imgCUDA, imgRGBA) )
+		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
+#endif
+#endif
+
 #if VIDEO_SRC==VIDEO_NV
 	if ( !camera->ConvertNV12toRGBA(imgCUDA, imgRGBA) )
 		printf("imagenet-camera:  failed to convert from NV12 to RGBAf\n");
@@ -104,7 +118,7 @@ int main( int argc, char** argv )
 	printf("\tVideo Src : %s\n", VIDEO_SRC_NAME);
 	printf("\tHidth : %u\n", HEIGHT);
 	printf("\tHeight : %u\n", WIDTH);
-	printf("\tFramerate : %u\n\n", VIDEO_DEFAULT_FRAMERATE);	
+	printf("\tFramerate : %f\n\n", VIDEO_DEFAULT_FRAMERATE);	
 
     SDL_Color white = {255, 255, 255, 0}; // WWhite
     SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
@@ -174,7 +188,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	printf("\nimagenet-camera:  successfully initialized video device (%s)\n", VIDEO_SRC_NAME);
+	printf("\nimagenet-camera:  successfully initialized video device (%s%s)\n", VIDEO_SRC_NAME, VIDEO_GV_PIXEL_FORMAT_NAME);
 
 	/*
 	 * create imageNet

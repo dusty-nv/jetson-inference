@@ -255,7 +255,7 @@ bool gvStream::Open()
 		y = (maxHeight / 2) - (GetHeight() / 2);
 		width = GetWidth();
 		height = GetHeight();
-printf("%d,%d -%d,%d\n",x,y,width,height);
+
 		arv_camera_set_region (mCamera, x, y, width, height);
 		
 		arv_camera_get_binning (mCamera, &dx, &dy);
@@ -395,7 +395,7 @@ void gvStream::Close()
 bool gvStream::Capture( void** cpu, void** cuda, unsigned long timeout )
 {
 	// Allocate a buffer the first time we call this function
-	if (!mGpuBuffer) cudaMalloc(&mGpuBuffer, GetHeight() * GetWidth() * 3);
+	if (!mGpuBuffer) cudaMalloc(&mGpuBuffer, GetHeight() * GetWidth() * VIDEO_BYTES_PER_PIXEL);
 	
 	mFrameReady = false;
 	if (!cancel)
@@ -410,7 +410,7 @@ bool gvStream::Capture( void** cpu, void** cuda, unsigned long timeout )
 		if ((mFrame % (int)VIDEO_GV_SRC_FRAMERATE) == 0) periodic_task_cb(&data);	
 	}
 
-	cudaMemcpy( mGpuBuffer, mBuffer, GetWidth() * GetHeight() * 3, cudaMemcpyHostToDevice );
+	cudaMemcpy( mGpuBuffer, mBuffer, GetWidth() * GetHeight() * VIDEO_BYTES_PER_PIXEL, cudaMemcpyHostToDevice );
 
 	*cpu = (void*)mBuffer;
 	*cuda = (void*)mGpuBuffer;

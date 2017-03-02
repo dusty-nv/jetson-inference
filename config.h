@@ -26,7 +26,6 @@
 #define VIDEO_SRC_NAME                "Nvidia CSI"
 #endif
 
-#define VIDEO_DEFAULT_FRAMERATE       30  // GigE Vision (Aravis)
 #define SDL_DISPLAY                   1  // Use SDL for video display
 #define GST_RTP_SINK                  0  // Enable the RTP output of rendered stream
 #define ABACO                         1  // Abaco branding
@@ -41,15 +40,34 @@
 
 //
 // GigEVision camera settings
+//   Choose ARV_PIXEL_FORMAT_RGB_8_PACKED | ARV_PIXEL_FORMAT_YUV_422_PACKED
 //
-#define VIDEO_GV_PIXEL_FORMAT         ARV_PIXEL_FORMAT_RGB_8_PACKED
-#define VIDEO_GV_SRC_FRAMERATE        VIDEO_DEFAULT_FRAMERATE
+#define VIDEO_GV_PIXEL_FORMAT         ARV_PIXEL_FORMAT_YUV_422_PACKED
+#define VIDEO_GV_SRC_FRAMERATE        30.0
 
 //
 // Gstreamer V4L2 settings
 //
 #define VIDEO_GST_V4L_SRC_DEVICE      "/dev/video1" // Note '/dev/video0' is the CSI camera on the TX dev platforms
-#define VIDEO_GST_V4L_SRC_FRAMERATE   VIDEO_DEFAULT_FRAMERATE
+#define VIDEO_GST_V4L_SRC_FRAMERATE   30
+
+#if VIDEO_SRC == VIDEO_GV_STREAM_SOURCE
+#define VIDEO_DEFAULT_FRAMERATE       VIDEO_GV_SRC_FRAMERATE // GigE Vision (Aravis)
+#else
+#define VIDEO_DEFAULT_FRAMERATE       VIDEO_GST_V4L_SRC_FRAMERATE 
+#endif
+
+
+#if VIDEO_GV_PIXEL_FORMAT == ARV_PIXEL_FORMAT_YUV_422_PACKED
+#define VIDEO_BYTES_PER_PIXEL         2
+#define VIDEO_GV_PIXEL_FORMAT_NAME    " YUV422"
+#elif VIDEO_GV_PIXEL_FORMAT == ARV_PIXEL_FORMAT_RGB_8_PACKED
+#define VIDEO_BYTES_PER_PIXEL         3  
+#define VIDEO_GV_PIXEL_FORMAT_NAME    " RGB8"
+#else
+#define VIDEO_BYTES_PER_PIXEL         3
+#define VIDEO_GV_PIXEL_FORMAT_NAME    ""
+#endif
 
 //
 // RTP Connection details
