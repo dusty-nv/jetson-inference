@@ -1,3 +1,7 @@
+#ifndef __CONFIG_H__
+#define __CONFIG_H__
+
+
 #define VIDEO_NV                      0  // Original NV CSI camera
 #define VIDEO_GST_RTP_SRC             1  // Gstreamer udpsrc
 #define VIDEO_GST_V4L_SRC             2  // Gstreamer v4l2src
@@ -40,9 +44,12 @@
 
 //
 // GigEVision camera settings
-//   Choose ARV_PIXEL_FORMAT_RGB_8_PACKED | ARV_PIXEL_FORMAT_YUV_422_PACKED | ARV_PIXEL_FORMAT_BAYER_GR_8
 //
-#define VIDEO_GV_PIXEL_FORMAT         ARV_PIXEL_FORMAT_BAYER_GR_8
+#define VIDEO_GV_NULL                 0 // Not used
+#define VIDEO_GV_GR8                  1 // ARV_PIXEL_FORMAT_BAYER_GR_8
+#define VIDEO_GV_YUV422               2 // ARV_PIXEL_FORMAT_YUV_422_PACKED
+#define VIDEO_GV_RGB8                 3 // ARV_PIXEL_FORMAT_RGB_8_PACKED
+#define VIDEO_GV_PIXEL_FORMAT         VIDEO_GV_GR8
 #define VIDEO_GV_SRC_FRAMERATE        30.0
 
 //
@@ -58,17 +65,17 @@
 #endif
 
 
-#if VIDEO_GV_PIXEL_FORMAT == ARV_PIXEL_FORMAT_BAYER_GR_8
+#if VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_GR8
 #define VIDEO_BYTES_PER_PIXEL         1
 #define VIDEO_GV_PIXEL_FORMAT_NAME    " BAYER GR8"
-#elif VIDEO_GV_PIXEL_FORMAT == ARV_PIXEL_FORMAT_YUV_422_PACKED
+#elif VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_YUV422
 #define VIDEO_BYTES_PER_PIXEL         2
 #define VIDEO_GV_PIXEL_FORMAT_NAME    " YUV422"
-#elif VIDEO_GV_PIXEL_FORMAT == ARV_PIXEL_FORMAT_RGB_8_PACKED
+#elif VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_RGB8
 #define VIDEO_BYTES_PER_PIXEL         3  
 #define VIDEO_GV_PIXEL_FORMAT_NAME    " RGB8"
 #else
-#define VIDEO_BYTES_PER_PIXEL         3
+#define VIDEO_BYTES_PER_PIXEL         3  
 #define VIDEO_GV_PIXEL_FORMAT_NAME    ""
 #endif
 
@@ -85,3 +92,4 @@
 // Gstreamer1.0 compatability
 //
 #define GST_1_FUDGE                   1       // Offset date by 1 byte as gstream has an RTP bug. Must have RTP_STREAM_SOURCE=1
+#endif

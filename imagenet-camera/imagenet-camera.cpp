@@ -80,16 +80,16 @@ void convertColour(camera *camera, void* imgCUDA, void** imgRGBA)
 #if VIDEO_SRC==VIDEO_GST_V4L_SRC
 	if ( !camera->ConvertRGBtoRGBA(imgCUDA, imgRGBA) )
 		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
-#endif
+#endif 
 
 #if  VIDEO_GV_STREAM_SOURCE
-#if VIDEO_GV_PIXEL_FORMAT == ARV_PIXEL_FORMAT_RGB_8_PACKED
+#if VIDEO_GV_PIXEL_FORMAT == VIDEO_GV_RGB8
 	if ( !camera->ConvertRGBtoRGBA(imgCUDA, imgRGBA) )
 		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
-#elif VIDEO_GV_PIXEL_FORMAT == ARV_PIXEL_FORMAT_YUV_422_PACKED
+#elif VIDEO_GV_PIXEL_FORMAT == VIDEO_GV_YUV422
 	if ( !camera->ConvertYUVtoRGBf(imgCUDA, imgRGBA) )
-		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
-#elif VIDEO_GV_PIXEL_FORMAT == ARV_PIXEL_FORMAT_BAYER_GR_8
+		printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
+#elif VIDEO_GV_PIXEL_FORMAT == VIDEO_GV_GR8
 	if ( !camera->ConvertBAYER_GR8toRGBA(imgCUDA, imgRGBA) )
 		printf("imagenet-camera:  failed to convert from BAYER_GR8 to RGBAf\n");
 #endif
@@ -118,10 +118,10 @@ int main( int argc, char** argv )
 #endif
 	printf("\tAuthor : ross.newman@abaco.com (dustinf@nvidia.com)\n");
 	printf("\tVideo Src : %s\n", VIDEO_SRC_NAME);
+	printf("\tBytes Per Pixel : %u%s\n",VIDEO_BYTES_PER_PIXEL, VIDEO_GV_PIXEL_FORMAT_NAME);
 	printf("\tHidth : %u\n", HEIGHT);
 	printf("\tHeight : %u\n", WIDTH);
-	printf("\tFramerate : %f\n\n", VIDEO_DEFAULT_FRAMERATE);	
-
+	printf("\tFramerate : %f\n\n", VIDEO_DEFAULT_FRAMERATE);
     SDL_Color white = {255, 255, 255, 0}; // WWhite
     SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
     SDL_Color black = {40, 40, 40, 0}; // Black

@@ -72,6 +72,7 @@ public:
 	static void control_lost_cb (ArvGvDevice *gv_device);
 	static void set_cancel (int signal);
 private:
+	ArvPixelFormat videoType(int type);
     char *str_format(ArvPixelFormat format);
 	ApplicationData data;
 	ArvCamera *mCamera;

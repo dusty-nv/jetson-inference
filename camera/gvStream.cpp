@@ -171,6 +171,21 @@ char* gvStream::str_format(ArvPixelFormat format)
 	return tmp_str;
 }
 
+ArvPixelFormat gvStream::videoType(int type)
+{
+	switch (type)
+	{
+		case VIDEO_GV_GR8 :
+			return ARV_PIXEL_FORMAT_BAYER_GR_8;
+		case VIDEO_GV_YUV422 :
+			return ARV_PIXEL_FORMAT_YUV_422_PACKED;
+		case VIDEO_GV_RGB8 :
+			return ARV_PIXEL_FORMAT_RGB_8_PACKED;
+		default :
+			return ARV_PIXEL_FORMAT_BAYER_GR_8;
+	}
+}
+
 bool gvStream::Open()
 {
 #if 1
@@ -264,7 +279,7 @@ bool gvStream::Open()
 		gain = arv_camera_get_gain (mCamera);
 		
 		/* Set your camera defaults */
-		arv_camera_set_pixel_format(mCamera, VIDEO_GV_PIXEL_FORMAT);
+		arv_camera_set_pixel_format(mCamera, videoType(VIDEO_GV_PIXEL_FORMAT));
 		arv_camera_set_frame_rate(mCamera, VIDEO_GV_SRC_FRAMERATE);		
 
 		/* Check settings */
@@ -407,7 +422,7 @@ bool gvStream::Capture( void** cpu, void** cuda, unsigned long timeout )
 		}
 		mFrameReady = false;	
 		
-		if ((mFrame % (int)VIDEO_GV_SRC_FRAMERATE) == 0) periodic_task_cb(&data);	
+//		if ((mFrame % (int)VIDEO_GV_SRC_FRAMERATE) == 0) periodic_task_cb(&data);	
 	}
 
 	cudaMemcpy( mGpuBuffer, mBuffer, GetWidth() * GetHeight() * VIDEO_BYTES_PER_PIXEL, cudaMemcpyHostToDevice );

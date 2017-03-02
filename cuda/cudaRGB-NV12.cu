@@ -49,11 +49,15 @@ __global__ void BAYER_GR8toRGBA(uint8_t* srcImage,
                            uint32_t width,       uint32_t height)
 {
     int x, y, pixel;
+	bool lineOdd, pixelOdd;
 
     x = (blockIdx.x * blockDim.x) + threadIdx.x;
     y = (blockIdx.y * blockDim.y) + threadIdx.y;
     pixel = y * width + x;
-
+    
+    pixelOdd = (pixel % 2) ? true : false;
+    lineOdd = ((pixel / width) % 2) ? true : false;
+    
     if (x >= width)
         return; //x = width - 1;
 
@@ -62,8 +66,23 @@ __global__ void BAYER_GR8toRGBA(uint8_t* srcImage,
 
 //	printf("cuda thread %i %i  %i %i pixel %i \n", x, y, width, height, pixel);
 
-	const float s = 1;
-	dstImage[pixel]     = make_float4(srcImage[pixel] * s, srcImage[ pixel] * s, srcImage[ pixel] * s, 0.0f);
+#if 1
+	// Convert to RGB
+	if ((lineOdd) && (!pixelOdd))        
+		dstImage[pixel] = make_float4(srcImage[pixel+width], srcImage[pixel], srcImage[pixel-1], 0.0f); // Green Info
+	else if ((lineOdd) && (pixelOdd))   
+		dstImage[pixel] = make_float4(srcImage[pixel+width+1], srcImage[pixel+1], srcImage[pixel], 0.0f); // Blue Info
+#if 1
+	if ((!lineOdd) && (!pixelOdd)) 
+		dstImage[pixel] = make_float4(srcImage[pixel], srcImage[pixel-1], srcImage[pixel+width+1], 0.0f); // Red Info
+	else if ((!lineOdd) && (pixelOdd)) 
+		dstImage[pixel] = make_float4(srcImage[pixel+1], srcImage[pixel], srcImage[pixel+width], 0.0f); // Green Info
+#endif
+
+#else
+	// Monochrome output
+	dstImage[pixel]     = make_float4(srcImage[pixel], srcImage[ pixel], srcImage[ pixel], 0.0f);
+#endif
 }
 
 cudaError_t cudaBAYER_GR8toRGBA( uint8_t* srcDev, float4* destDev, size_t width, size_t height )
