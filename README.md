@@ -125,7 +125,7 @@ For testing (on the Jetson TX1) I selected an Intel PCIe Ethernet NIC device tha
 
 * RGB8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 82.2 Mb / Sec. [SampleOutput-RGB8.png](/abaco/SampleOutput-RGB8.png)
 * YUV422 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 52.4 Mb / Sec. [SampleOutput-YUV422.png](/abaco/SampleOutput-YUV422.png)
-* BAYER GR8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 27.4 Mb / Sec. [SampleOutput-RGB8.png](/abaco/SampleOutput-Bayer_GR8.png)
+* BAYER GR8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 27.4 Mb / Sec. [SampleOutput-Bayer_GR8.png](/abaco/SampleOutput-Bayer_GR8.png)
 
 The sample output supplied is a test card encoded using each of the three color spaces. Bayer has a few different formats we are only testing GR8 (requires CUDA kernel for each to convert video).
 
