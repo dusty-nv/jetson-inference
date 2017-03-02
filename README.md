@@ -39,7 +39,7 @@ Please be patient whilst we build our DIGITS server to retrain the network and w
 - [x] Add suport for GigE Vision Cameras using the Aravis libaraies.
 - [x] GigEVision RGB8 colorspace support
 - [x] GigEVision YUV422  colorspace support
-- [ ] GigEVision Bayer8 colorspace support
+- [ ] GigEVision Bayer8 colorspace support. Black and White at the moment needs some work.
 - [ ] update training data (military images)
 - [x] update GUI to run in window and toggle to fullscreen (fill screen)
 - [x] update GUI to use SDL2
@@ -125,8 +125,9 @@ For testing (on the Jetson TX1) I selected an Intel PCIe Ethernet NIC device tha
 
 * RGB8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 82.2 Mb / Sec.
 * YUV422 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 52.4 Mb / Sec.
+* BAYER GR8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 27.4 Mb / Sec.
 
-Bayer should be even better but need to add Bayer to RGB CUDA function to convert.
+Bayer has a few different formats we are only testing GR8 (requires CUDA kernel for each to convert video).
 
 ## Links
 * [Abaco Systems](http://abaco.com)
