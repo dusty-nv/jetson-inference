@@ -7,6 +7,8 @@
 #include "v4l2Camera.h"
 #else
 #include "gstCamera.h"
+#include "rtpStream.h"
+#include "gvStream.h"
 #endif
 
 #if SDL_DISPLAY
@@ -39,6 +41,36 @@ void sig_handler(int signo)
 	}
 }
 
+void convertColour(camera *camera, void* imgCUDA, void** imgRGBA)
+{
+#if VIDEO_SRC==VIDEO_GST_RTP_SRC
+	if ( !camera->ConvertYUVtoRGBA(imgCUDA, imgRGBA) )
+		printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
+#endif
+
+#if VIDEO_SRC==VIDEO_RTP_STREAM_SOURCE
+	if ( !camera->ConvertYUVtoRGBf(imgCUDA, imgRGBA ) )
+		printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
+#endif
+
+#if VIDEO_SRC==VIDEO_GST_V4L_SRC
+	if ( !camera->ConvertRGBtoRGBA(imgCUDA, imgRGBA) )
+		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
+#endif 
+
+#if  VIDEO_GV_STREAM_SOURCE
+#if VIDEO_GV_PIXEL_FORMAT == VIDEO_GV_RGB8
+	if ( !camera->ConvertRGBtoRGBA(imgCUDA, imgRGBA) )
+		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
+#elif VIDEO_GV_PIXEL_FORMAT == VIDEO_GV_YUV422
+	if ( !camera->ConvertYUVtoRGBf(imgCUDA, imgRGBA) )
+		printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
+#elif VIDEO_GV_PIXEL_FORMAT == VIDEO_GV_BAYER_GR8
+	if ( !camera->ConvertBAYER_GR8toRGBA(imgCUDA, imgRGBA) )
+		printf("imagenet-camera:  failed to convert from BAYER_GR8 to RGBAf\n");
+#endif
+#endif
+}
 
 int main( int argc, char** argv )
 {
@@ -50,39 +82,36 @@ int main( int argc, char** argv )
     SDL_Color black = {40, 40, 40, 0}; // Black
 #endif
 
-	printf("detectnet-camera\n  args (%i):  ", argc);
-
-	for( int i=0; i < argc; i++ )
-		printf("%i [%s]  ", i, argv[i]);
-		
-	printf("\n\n");
+#if ABACO
+	printf("Abaco Systems (abaco.com) Inferance Demonstration\n");
+#else
+	printf("Jetson Inferance Demonstration\n");
+#endif
+	printf("\tAuthor : ross.newman@abaco.com (dustinf@nvidia.com)\n");
+	printf("\tVideo Src : %s\n", VIDEO_SRC_NAME);
+	printf("\tBytes Per Pixel : %u%s\n",VIDEO_BYTES_PER_PIXEL, VIDEO_GV_PIXEL_FORMAT_NAME);
+	printf("\tHidth : %u\n", HEIGHT);
+	printf("\tHeight : %u\n", WIDTH);
+	printf("\tFramerate : %f\n\n", VIDEO_DEFAULT_FRAMERATE);
 	
-
 	/*
 	 * parse network type from CLI arguments
 	 */
 	detectNet::NetworkType networkType = detectNet::PEDNET_MULTI;
 
-	if( argc > 1 )
-	{
-		if( strcmp(argv[1], "ped-100") == 0 )
-			networkType = detectNet::PEDNET;
-		else if( strcmp(argv[1], "facenet-120") == 0 || strcmp(argv[1], "face-120") == 0 )
-			networkType = detectNet::FACENET;
-	}
+	networkType = DETECTNET_TYPE;
 	
 	if( signal(SIGINT, sig_handler) == SIG_ERR )
 		printf("\ncan't catch SIGINT\n");
 
-
 	/*
 	 * create the camera device
 	 */
-#if GST_V4L_SRC || GST_RTP_SRC
+#if (VIDEO_SRC==VIDEO_GST_V4L_SRC) || (VIDEO_SRC==GST_RTP_SRC)
 	int width     = WIDTH;
 	int height    = HEIGHT;
     std::ostringstream pipeline;
-#if GST_RTP_SRC
+#if VIDEO_SRC==VIDEO_GST_RTP_SRC
 	pipeline << "udpsrc address=239.192.1.44 port=5004 caps=\"application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)RAW, sampling=(string)YCbCr-4:2:2, depth=(string)8, width=(string)" << width << ", height=(string)" << height << ", payload=(int)96\" ! ";
 	pipeline << "queue ! rtpvrawdepay ! queue ! ";
 	pipeline << "appsink name=mysink";
@@ -96,6 +125,8 @@ int main( int argc, char** argv )
     static  std::string pip = pipeline.str();
 
 	gstCamera* camera = gstCamera::Create(pip, height, width);
+#elif VIDEO_SRC==VIDEO_GV_STREAM_SOURCE
+	gvStream* camera = new gvStream(HEIGHT, WIDTH);
 #else
 	gstCamera* camera = gstCamera::Create();
 #endif
@@ -107,11 +138,7 @@ int main( int argc, char** argv )
 	}
 	
 	printf("\ndetectnet-camera:  successfully initialized video device\n");
-	printf("    width:  %u\n", camera->GetWidth());
-	printf("   height:  %u\n", camera->GetHeight());
-	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
 	
-
 	/*
 	 * create detectNet
 	 */
@@ -122,7 +149,6 @@ int main( int argc, char** argv )
 		printf("detectnet-camera:   failed to initialize imageNet\n");
 		return 0;
 	}
-
 
 	/*
 	 * allocate memory for output bounding boxes and class confidence
@@ -188,27 +214,16 @@ int main( int argc, char** argv )
 	{
 		void* imgCPU  = NULL;
 		void* imgCUDA = NULL;
+		void* imgRGBA = NULL;
 		
 		// get the latest frame
 		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
 			printf("\ndetectnet-camera:  failed to capture frame\n");
-
-		// convert from YUV to RGBA
-		void* imgRGBA = NULL;
 		
-#if GST_V4L_SRC || GST_RTP_SRC
-#if GST_V4L_SRC 
-		if( !camera->ConvertRGBtoRGBA(imgCUDA, &imgRGBA) )
-			printf("detectnet-camera:  failed to convert from RGB to RGBAf\n");
-#endif
-#if GST_RTP_SRC
-		if( !camera->ConvertYUVtoRGBA(imgCUDA, &imgRGBA) )
-			printf("detectnet-camera:  failed to convert from YUV to RGBAf\n");
-#endif
-#else
-		if( !camera->ConvertNV12toRGBA(imgCUDA, &imgRGBA) )
-			printf("detectnet-camera:  failed to convert from NV12 to RGBAf\n");
-#endif
+		/*
+		 *  Convert capture colorspace to the required RGBA
+		 */
+		convertColour(camera, imgCUDA, &imgRGBA);
 
 		// classify image with detectNet
 		int numBoundingBoxes = maxBoxes;

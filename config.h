@@ -79,6 +79,14 @@
 #define VIDEO_GV_PIXEL_FORMAT_NAME    ""
 #endif
 
+
+//
+// detectnet options
+//
+#define DETECTNET_TYPE_PED            detectNet::PEDNET // Pedestrians and Luggage
+#define DETECTNET_TYPE_FACE           detectNet::FACENET 
+#define DETECTNET_TYPE                DETECTNET_TYPE_PED // network type
+
 //
 // RTP Connection details
 //

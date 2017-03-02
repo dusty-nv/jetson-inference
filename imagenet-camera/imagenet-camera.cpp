@@ -169,18 +169,12 @@ int main( int argc, char** argv )
     static  std::string pip = pipeline.str();
     std::cout << pip << "\n";
 	gstCamera* camera = gstCamera::Create(pip, HEIGHT, WIDTH);
-#endif
-
-#if VIDEO_SRC==VIDEO_RTP_STREAM_SOURCE
+#elif VIDEO_SRC==VIDEO_RTP_STREAM_SOURCE
 	rtpStream* camera = new rtpStream(HEIGHT, WIDTH);
 	camera->rtpStreamIn((char*)IP_UNICAST, IP_PORT_IN);
-#endif
-
-#if VIDEO_SRC==VIDEO_GV_STREAM_SOURCE
+#elif VIDEO_SRC==VIDEO_GV_STREAM_SOURCE
 	gvStream* camera = new gvStream(HEIGHT, WIDTH);
-#endif
-
-#if VIDEO_SRC==VIDEO_NV // USB Nvida TX1 CSI Webcam
+#elif VIDEO_SRC==VIDEO_NV // USB Nvida TX1 CSI Webcam
 	gstCamera* camera = gstCamera::Create();
 #endif
 
