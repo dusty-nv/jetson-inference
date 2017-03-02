@@ -122,9 +122,12 @@ The font file and binary images used can be found in /data and should be copied 
 
 ### Notes on Ethernet jitter (GigEVision)
 For testing (on the Jetson TX1) I selected an Intel PCIe Ethernet NIC device that has deeper buffers and can allows pause frames to be disabled. To optimise your network interface device please run the script jetson-ethernet found in the jetson-scripts project under Abaco Systems. Example streams using external NIC:
+
 * RGB8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 82.2 Mb / Sec.
 * YUV422 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 52.4 Mb / Sec.
+
 Bayer should be even better but need to add Bayer to RGB CUDA function to convert.
+
 ## Links
 * [Abaco Systems](http://abaco.com)
 * [eLinux TX1](http://elinux.org/Jetson_TX1)
