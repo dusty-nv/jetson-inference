@@ -1,7 +1,7 @@
 ![Abaco stripe](abaco/Abaco_background-1000x275.png)
 
 # Abaco Systems TX1 enabled Small Form Factor solutions   
-## Deep Learning for Military Applications
+## Deep Learning for Rugged Environments (Industrial / Military)
 This is a branch of the NVIDIA's deep learning inference workshop and end-to-end realtime object recognition library for Jetson TX1. Please reffer to the main branch for details and tips on setting up this demonstartion.
 
 Included in this repo are resources for efficiently deploying neural networks using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.  
@@ -37,6 +37,9 @@ Please be patient whilst we build our DIGITS server to retrain the network and w
 - [x] [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) updated to use webcam
 - [x] parametrize requested USB resolution (Default fixed at 1280 x 720)
 - [x] Add suport for GigE Vision Cameras using the Aravis libaraies.
+- [x] GigEVision RGB8 colorspace support
+- [x] GigEVision YUV422  colorspace support
+- [ ] GigEVision Bayer8 colorspace support
 - [ ] update training data (military images)
 - [x] update GUI to run in window and toggle to fullscreen (fill screen)
 - [x] update GUI to use SDL2
@@ -118,8 +121,10 @@ The font file and binary images used can be found in /data and should be copied 
 * SPACE = Toggle overlay (imagenet-camera only)
 
 ### Notes on Ethernet jitter (GigEVision)
-For testing (on the Jetson TX1) I selected an Intel PCIe Ethernet NIC device that has deeper buffers and can allows pause frames to be disabled. To optimise your network interface device please run the script jetson-ethernet found in the jetson-scripts project under Abaco Systems. Ive had no issue running RGB8 encoded video streams at 1280x720@30Htz using this external NIC, total bandwidth consumed is aproximatly 82.2 Mb / Second for a single stream.
-
+For testing (on the Jetson TX1) I selected an Intel PCIe Ethernet NIC device that has deeper buffers and can allows pause frames to be disabled. To optimise your network interface device please run the script jetson-ethernet found in the jetson-scripts project under Abaco Systems. Example streams using external NIC:
+* RGB8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 82.2 Mb / Sec.
+* YUV422 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 52.4 Mb / Sec.
+Bayer should be even better but need to add Bayer to RGB CUDA function to convert.
 ## Links
 * [Abaco Systems](http://abaco.com)
 * [eLinux TX1](http://elinux.org/Jetson_TX1)
