@@ -39,7 +39,7 @@ Please be patient whilst we build our DIGITS server to retrain the network and w
 - [x] Add suport for GigE Vision Cameras using the Aravis libaraies.
 - [x] GigEVision RGB8 colorspace support
 - [x] GigEVision YUV422  colorspace support
-- [ ] GigEVision Bayer8 colorspace support. Black and White at the moment needs some work.
+- [x] GigEVision Bayer8 colorspace support. 
 - [ ] update training data (military images)
 - [x] update GUI to run in window and toggle to fullscreen (fill screen)
 - [x] update GUI to use SDL2
@@ -123,11 +123,13 @@ The font file and binary images used can be found in /data and should be copied 
 ### Notes on Ethernet jitter (GigEVision)
 For testing (on the Jetson TX1) I selected an Intel PCIe Ethernet NIC device that has deeper buffers and can allows pause frames to be disabled. To optimise your network interface device please run the script jetson-ethernet found in the jetson-scripts project under Abaco Systems. Example streams using external NIC:
 
-* RGB8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 82.2 Mb / Sec.
-* YUV422 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 52.4 Mb / Sec.
-* BAYER GR8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 27.4 Mb / Sec.
+* RGB8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 82.2 Mb / Sec. [SampleOutput-RGB8.png](/abaco/SampleOutput-RGB8.png) best for quality.
+* YUV422 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 52.4 Mb / Sec. [SampleOutput-YUV422.png](/abaco/SampleOutput-YUV422.png)
+* BAYER GR8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 27.4 Mb / Sec. [SampleOutput-Bayer_GR8.png](/abaco/SampleOutput-Bayer_GR8.png) lowest bandwidth. Can achieve 1920x1080@30Htz 61.0 Mb / Sec.
 
-Bayer has a few different formats we are only testing GR8 (requires CUDA kernel for each to convert video).
+The sample output supplied is a test card encoded using each of the three color spaces. Bayer has a few different formats we are only testing GR8 (requires CUDA kernel for each to convert video).
+
+> **note** : The YUV422 and Bayer GR8 CUDA convesion functions are not optimal and could be improved!!.
 
 ## Links
 * [Abaco Systems](http://abaco.com)
