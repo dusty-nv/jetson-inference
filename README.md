@@ -129,6 +129,8 @@ For testing (on the Jetson TX1) I selected an Intel PCIe Ethernet NIC device tha
 
 The sample output supplied is a test card encoded using each of the three color spaces. Bayer has a few different formats we are only testing GR8 (requires CUDA kernel for each to convert video).
 
+> **note** : The YUV422 and Bayer GR8 CUDA convesion functions are not optimal and could be improved!!.
+
 ## Links
 * [Abaco Systems](http://abaco.com)
 * [eLinux TX1](http://elinux.org/Jetson_TX1)
