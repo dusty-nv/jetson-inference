@@ -11,8 +11,8 @@
 /*
  * This is the important bit select your video source
  */
-//#define VIDEO_SRC                   VIDEO_GST_V4L_SRC
-#define VIDEO_SRC                     VIDEO_GV_STREAM_SOURCE
+#define VIDEO_SRC                   VIDEO_GST_V4L_SRC
+//#define VIDEO_SRC                     VIDEO_GV_STREAM_SOURCE
 
 #if VIDEO_SRC==VIDEO_GST_RTP_SRC
 #define VIDEO_SRC_NAME                "Gstreamer RTP"
@@ -49,7 +49,7 @@
 #define VIDEO_GV_BAYER_GR8            1 // ARV_PIXEL_FORMAT_BAYER_GR_8
 #define VIDEO_GV_YUV422               2 // ARV_PIXEL_FORMAT_YUV_422_PACKED
 #define VIDEO_GV_RGB8                 3 // ARV_PIXEL_FORMAT_RGB_8_PACKED
-#define VIDEO_GV_PIXEL_FORMAT         VIDEO_GV_YUV422
+#define VIDEO_GV_PIXEL_FORMAT         VIDEO_GV_BAYER_GR8
 #define VIDEO_GV_SRC_FRAMERATE        30.0
 
 //

@@ -2,6 +2,7 @@
  * inference-101
  */
 
+#include <math_functions.h>
 #include "cudaRGB.h"
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -55,8 +56,9 @@ __global__ void BAYER_GR8toRGBA(uint8_t* srcImage,
     y = (blockIdx.y * blockDim.y) + threadIdx.y;
     pixel = y * width + x;
     
-    pixelOdd = (pixel % 2) ? true : false;
-    lineOdd = ((pixel / width) % 2) ? true : false;
+    pixelOdd = ((pixel) % 2) ? true : false;
+	double t = floor((double)(pixel / width)) ;
+    lineOdd = (int)t % 2 ? false : true;
     
     if (x >= width)
         return; //x = width - 1;
@@ -66,18 +68,43 @@ __global__ void BAYER_GR8toRGBA(uint8_t* srcImage,
 
 //	printf("cuda thread %i %i  %i %i pixel %i \n", x, y, width, height, pixel);
 
-#if 1
-	// Convert to RGB
-	if ((lineOdd) && (!pixelOdd))        
-		dstImage[pixel] = make_float4(srcImage[pixel+width], srcImage[pixel], srcImage[pixel-1], 0.0f); // Green Info
-	else if ((lineOdd) && (pixelOdd))   
-		dstImage[pixel] = make_float4(srcImage[pixel+width+1], srcImage[pixel+1], srcImage[pixel], 0.0f); // Blue Info
-#if 1
-	if ((!lineOdd) && (!pixelOdd)) 
-		dstImage[pixel] = make_float4(srcImage[pixel], srcImage[pixel-1], srcImage[pixel+width+1], 0.0f); // Red Info
-	else if ((!lineOdd) && (pixelOdd)) 
-		dstImage[pixel] = make_float4(srcImage[pixel+1], srcImage[pixel], srcImage[pixel+width], 0.0f); // Green Info
-#endif
+#if 1 // Colour
+
+/* BAYER_GR
+ *    1  2  3  4  5  6 
+ * 1  G  R  G  R  G  R
+ * 2  B  G  B  G  B  G
+ * 3  G  R  G  R  G  R
+ * 4  B  G  B  G  B  G
+ */
+ 
+	// Odd lines
+	if ((lineOdd) && (pixelOdd))  // First Pixel
+	{
+		int r = srcImage[pixel-1] + srcImage[pixel+1] /2;
+		int b = srcImage[pixel+width]; // + srcImage[pixel-width+1] + srcImage[pixel-width-1] / 4;
+		dstImage[pixel] = make_float4(r, srcImage[pixel], b, 0.0f); // Green Info
+	}
+	else if ((lineOdd) && (!pixelOdd))   
+	{
+		int g = srcImage[pixel-1] + srcImage[pixel+1] /2;
+		int b = srcImage[pixel+width-1] + srcImage[pixel+width+1] / 2;
+		dstImage[pixel] = make_float4(srcImage[pixel], g, b, 0.0f); // Red Info
+	}
+
+	// Even lines
+	if ((!lineOdd) && (pixelOdd)) 
+	{
+		int g = srcImage[pixel+1] + srcImage[pixel-1] / 2;
+		int r = srcImage[pixel+width-1] + srcImage[pixel+width+1] / 2;
+		dstImage[pixel] = make_float4(r, g, srcImage[pixel], 0.0f); // Blue Info
+	}
+	else if ((!lineOdd) && (!pixelOdd)) 
+	{
+		int b = srcImage[pixel+1] + srcImage[pixel-1] / 2;
+		int r = srcImage[pixel+width] + srcImage[pixel+width] / 2;
+		dstImage[pixel] = make_float4(r, srcImage[pixel], b, 0.0f); // Green Info
+	}
 
 #else
 	// Monochrome output
