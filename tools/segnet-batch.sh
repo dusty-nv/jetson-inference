@@ -7,7 +7,7 @@ FILES="$SEQ_IN/*.png"
 for f in $FILES
 do
 	echo "Processing $f"
-	./segnet-console $f $f
+	./segnet-console $f $f $2
 done
 
 
