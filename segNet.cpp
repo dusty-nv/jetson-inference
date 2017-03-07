@@ -25,10 +25,10 @@ segNet* segNet::Create( NetworkType networkType )
 		return Create("FCN-Alexnet-Cityscapes-HD/deploy.prototxt", "FCN-Alexnet-Cityscapes-HD/snapshot_iter_367568.caffemodel", "FCN-Alexnet-Cityscapes-HD/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-HD/cityscapes-deploy-colors.txt" );	
 	else if( networkType == FCN_ALEXNET_CITYSCAPES_SD )
 		return Create("FCN-Alexnet-Cityscapes-SD/deploy.prototxt", "FCN-Alexnet-Cityscapes-SD/snapshot_iter_114860.caffemodel", "FCN-Alexnet-Cityscapes-SD/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-SD/cityscapes-deploy-colors.txt" );		
-	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p )
+	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p_4ch )
 		return Create("FCN-Alexnet-Aerial-FPV-4ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-4ch-720p/snapshot_iter_1777146.caffemodel", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-deploy-colors.txt", "data", "score_fr_4classes" );			
 	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p_21ch )
-		return Create("FCN-Alexnet-Aerial-FPV-21ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-21ch-720p/snapshot_iter_248178.caffemodel", "FCN-Alexnet-Aerial-FPV-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-720p/fpv-deploy-colors.txt" );		
+		return Create("FCN-Alexnet-Aerial-FPV-21ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-21ch-720p/snapshot_iter_248178.caffemodel", "FCN-Alexnet-Aerial-FPV-21ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-21ch-720p/fpv-deploy-colors.txt" );		
 	else
 		return NULL;
 }
@@ -40,8 +40,8 @@ segNet::segNet() : tensorNet()
 	mClassColors[0] = NULL;	// cpu ptr
 	mClassColors[1] = NULL;  // gpu ptr
 
-	mInterpLayer[0] = NULL;
-	mInterpLayer[1] = NULL;
+	mClassMap[0] = NULL;
+	mClassMap[1] = NULL;
 }
 
 
@@ -89,6 +89,16 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 		net->mClassColors[0][n*4+3] = 255.0f;	// a
 	}
 	
+	// initialize array of classified argmax
+	const int s_w = net->mOutputs[0].dims.w;
+	const int s_h = net->mOutputs[0].dims.h;
+	const int s_c = net->mOutputs[0].dims.c;
+		
+	printf(LOG_GIE "segNet outputs -- s_w %i  s_h %i  s_c %i\n", s_w, s_h, s_c);
+
+	if( !cudaAllocMapped((void**)&net->mClassMap[0], (void**)&net->mClassMap[1], s_w * s_h * sizeof(uint8_t)) )
+		return NULL;
+
 	// load class info
 	net->loadClassColors(colors_path);
 	net->loadClassLabels(labels_path);
@@ -239,6 +249,7 @@ cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeigh
 
 
 
+
 // Overlay
 bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t height, const char* ignore_class )
 {
@@ -247,9 +258,6 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 		printf("segNet::Overlay( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
 		return false;
 	}
-
-	printf("segnet network width %u height %u\n", mWidth, mHeight);
-	
 
 	// downsample and convert to band-sequential BGR
 	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight)) )
@@ -278,9 +286,10 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 	const int s_h = mOutputs[0].dims.h;
 	const int s_c = mOutputs[0].dims.c;
 		
-	const float s_x = float(width) / float(s_w);
-	const float s_y = float(height) / float(s_h);
-	
+	//const float s_x = float(width) / float(s_w);		// TODO bug: this should use mWidth/mHeight dimensions, in case user dimensions are different
+	//const float s_y = float(height) / float(s_h);
+	const float s_x = float(s_w) / float(mWidth);
+	const float s_y = float(s_h) / float(mHeight);
 
 	// if desired, find the ID of the class to ignore (typically void)
 	const int ignoreID = FindClassID(ignore_class);
@@ -289,7 +298,9 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 	printf(LOG_GIE "segNet::Overlay -- ignoring class '%s' id=%i\n", ignore_class, ignoreID);
 
 
-	// overlay pixels onto original
+	// find the argmax-classified class of each tile
+	uint8_t* classMap = mClassMap[0];
+
 	for( uint32_t y=0; y < s_h; y++ )
 	{
 		for( uint32_t x=0; x < s_w; x++ )
@@ -323,28 +334,90 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 				   c_max[1], p_max[1], (c_max[1] >= 0 && c_max[1] < GetNumClasses()) ? GetClassLabel(c_max[1]) : " ",
 				   c_max[2], p_max[2], (c_max[2] >= 0 && c_max[2] < GetNumClasses()) ? GetClassLabel(c_max[2]) : " ");
 			*/
-	   
-			const int oy = y * s_y;
-			const int ox = x * s_x;
-			
-			float* c_color = GetClassColor(c_max[0] == ignoreID ? c_max[1] : c_max[0]);
-			
-			for( int yy=oy; yy < oy + s_y; yy++ )
-			{
-				for( int xx=ox; xx < ox + s_x; xx++ )
-				{
-					float* px_in  = rgba +   (((yy * width * 4) + xx * 4));
-					float* px_out = output + (((yy * width * 4) + xx * 4));
-					
-					const float alph = c_color[3] / 255.0f;
-					const float inva = 1.0f - alph;
 
-					px_out[0] = alph * c_color[0] + inva * px_in[0];
-					px_out[1] = alph * c_color[1] + inva * px_in[1];
-					px_out[2] = alph * c_color[2] + inva * px_in[2];
-					px_out[3] = 255.0f;
-				}
+			const int argmax = (c_max[0] == ignoreID) ? c_max[1] : c_max[0];
+
+			classMap[y * s_w + x] = argmax;
+		}
+	}
+	   
+	// overlay pixels onto original
+	for( uint32_t y=0; y < height; y++ )
+	{
+		for( uint32_t x=0; x < width; x++ )
+		{
+			const float cx = float(x) * s_x;
+			const float cy = float(y) * s_y;
+
+			const int x1 = int(cx);
+			const int y1 = int(cy);
+			
+			const int x2 = x1 + 1;
+			const int y2 = y1 + 1;
+
+			#define CHK_BOUNDS(x, y)		( (y < 0 ? 0 : (y >= (s_h - 1) ? (s_h - 1) : y)) * s_w + (x < 0 ? 0 : (x >= (s_w - 1) ? (s_w - 1) : x)) )
+
+			/*const uint8_t classIdx[] = { classMap[y1 * s_w + x1],
+								    classMap[y1 * s_w + x2],
+								    classMap[y2 * s_w + x2],
+								    classMap[y2 * s_w + x1] };*/
+
+			const uint8_t classIdx[] = { classMap[CHK_BOUNDS(x1, y1)],
+								    classMap[CHK_BOUNDS(x2, y1)],
+								    classMap[CHK_BOUNDS(x2, y2)],
+								    classMap[CHK_BOUNDS(x1, y2)] };
+
+
+			float* cc[] = { GetClassColor(classIdx[0]),
+						 GetClassColor(classIdx[1]),
+						 GetClassColor(classIdx[2]),
+						 GetClassColor(classIdx[3]) };
+
+			
+
+			const float x1d = cx - float(x1);
+			const float y1d = cy - float(y1);
+		
+			const float x2d = 1.0f - x1d;
+			const float y2d = 1.0f - y1d;
+
+			const float x1f = 1.0f - x1d;
+			const float y1f = 1.0f - y1d;
+
+			const float x2f = 1.0f - x1f;
+			const float y2f = 1.0f - y1f;
+
+			int c_index = 0;
+
+			/*if( y2d > y1d )
+			{
+				if( x2d > y2d )			c_index = 2;
+				else 					c_index = 3;
 			}
+			else
+			{
+				if( x2d > y2d )			c_index = 1;
+				else						c_index = 0;
+			}*/
+			
+			//float* c_color = GetClassColor(classIdx[c_index]);
+			//printf("x %u y %u cx %f cy %f  x1d %f y1d %f  x2d %f y2d %f  c %i\n", x, y, cx, cy, x1d, y1d, x2d, y2d, c_index);
+
+			float c_color[] = { cc[0][0] * x1f * y1f + cc[1][0] * x2f * y1f + cc[2][0] * x2f * y2f + cc[3][0] * x1f * y2f,
+						     cc[0][1] * x1f * y1f + cc[1][1] * x2f * y1f + cc[2][1] * x2f * y2f + cc[3][1] * x1f * y2f,
+						     cc[0][2] * x1f * y1f + cc[1][2] * x2f * y1f + cc[2][2] * x2f * y2f + cc[3][2] * x1f * y2f,
+						     cc[0][3] * x1f * y1f + cc[1][3] * x2f * y1f + cc[2][3] * x2f * y2f + cc[3][3] * x1f * y2f };
+
+			float* px_in  = rgba +   (((y * width * 4) + x * 4));
+			float* px_out = output + (((y * width * 4) + x * 4));
+
+			const float alph = c_color[3] / 255.0f;
+			const float inva = 1.0f - alph;
+
+			px_out[0] = alph * c_color[0] + inva * px_in[0];
+			px_out[1] = alph * c_color[1] + inva * px_in[1];
+			px_out[2] = alph * c_color[2] + inva * px_in[2];
+			px_out[3] = 255.0f;
 		}
 	}
 
