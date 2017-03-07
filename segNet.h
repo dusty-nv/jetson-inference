@@ -117,6 +117,7 @@ protected:
 	
 	std::vector<std::string> mClassLabels;
 	float* mClassColors[2];
+	float* mInterpLayer[2];
 
 	NetworkType mNetworkType;
 };

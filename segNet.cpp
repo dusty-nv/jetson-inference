@@ -39,6 +39,9 @@ segNet::segNet() : tensorNet()
 {
 	mClassColors[0] = NULL;	// cpu ptr
 	mClassColors[1] = NULL;  // gpu ptr
+
+	mInterpLayer[0] = NULL;
+	mInterpLayer[1] = NULL;
 }
 
 
