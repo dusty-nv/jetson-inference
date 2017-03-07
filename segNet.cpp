@@ -26,7 +26,9 @@ segNet* segNet::Create( NetworkType networkType )
 	else if( networkType == FCN_ALEXNET_CITYSCAPES_SD )
 		return Create("FCN-Alexnet-Cityscapes-SD/deploy.prototxt", "FCN-Alexnet-Cityscapes-SD/snapshot_iter_114860.caffemodel", "FCN-Alexnet-Cityscapes-SD/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-SD/cityscapes-deploy-colors.txt" );		
 	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p )
-		return Create("FCN-Alexnet-Aerial-FPV-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-720p/snapshot_iter_248178.caffemodel", "FCN-Alexnet-Aerial-FPV-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-720p/fpv-deploy-colors.txt" );		
+		return Create("FCN-Alexnet-Aerial-FPV-4ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-4ch-720p/snapshot_iter_1777146.caffemodel", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-deploy-colors.txt", "data", "score_fr_4classes" );			
+	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p_21ch )
+		return Create("FCN-Alexnet-Aerial-FPV-21ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-21ch-720p/snapshot_iter_248178.caffemodel", "FCN-Alexnet-Aerial-FPV-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-720p/fpv-deploy-colors.txt" );		
 	else
 		return NULL;
 }
