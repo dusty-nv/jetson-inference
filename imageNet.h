@@ -27,7 +27,7 @@ public:
 	/**
 	 * Load a new network instance
 	 */
-	static imageNet* Create( NetworkType networkType=GOOGLENET );
+	static imageNet* Create( NetworkType networkType=GOOGLENET, bool disable_fp16=false );
 	
 	/**
 	 * Load a new network instance
@@ -38,7 +38,8 @@ public:
 	 * @param input Name of the input layer blob.
 	 */
 	static imageNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
-							 const char* class_labels, const char* input="data", const char* output="prob" );
+							const char* class_labels, const char* input="data", const char* output="prob",
+							bool disable_fp16=false );
 	
 	/**
 	 * Destroy

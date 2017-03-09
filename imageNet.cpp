@@ -1,7 +1,7 @@
 /*
  * http://github.com/dusty-nv/jetson-inference
  */
- 
+
 #include "imageNet.h"
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
@@ -30,37 +30,44 @@ imageNet::~imageNet()
 
 
 // Create
-imageNet* imageNet::Create( imageNet::NetworkType networkType )
+imageNet* imageNet::Create( imageNet::NetworkType networkType, bool disable_fp16 )
 {
 	imageNet* net = new imageNet();
 	
 	if( !net )
 		return NULL;
-	
+
+	if( disable_fp16 )
+		net->DisableFP16();
+
 	if( !net->init(networkType) )
 	{
 		printf("imageNet -- failed to initialize.\n");
 		return NULL;
 	}
-	
+
 	return net;
 }
 
 
 imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
-							const char* class_path, const char* input, const char* output )
+							const char* class_path, const char* input, const char* output,
+							bool disable_fp16 )
 {
 	imageNet* net = new imageNet();
 	
 	if( !net )
 		return NULL;
-	
+
+	if( disable_fp16 )
+		net->DisableFP16();
+
 	if( !net->init(prototxt_path, model_path, mean_binary, class_path, input, output) )
 	{
 		printf("imageNet -- failed to initialize.\n");
 		return NULL;
 	}
-	
+
 	return net;
 }
 	
@@ -91,7 +98,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 	printf("%s initialized.\n", model_path);
 	return true;
 }
-							 
+
 
 // loadClassInfo
 bool imageNet::loadClassInfo( const char* filename )
