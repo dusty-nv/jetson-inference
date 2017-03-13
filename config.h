@@ -1,3 +1,8 @@
+/*
+ * Test your camera if you have issues:
+ *     gst-launch-1.0 v4l2src device=/dev/video1 ! video/x-raw, width=1280, height=720 ! xvimagesink
+ */
+
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
@@ -68,7 +73,7 @@
 #if VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_BAYER_GR8
 #define VIDEO_BYTES_PER_PIXEL         1
 #define VIDEO_GV_PIXEL_FORMAT_NAME    " BAYER GR8"
-#elif VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_YUV422
+#elif VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_YUV422gst-launch-1.0 v4l2src device=/dev/video1 ! video/x-raw, width=1280, height=720 ! xvimagesink
 #define VIDEO_BYTES_PER_PIXEL         2
 #define VIDEO_GV_PIXEL_FORMAT_NAME    " YUV422"
 #elif VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_RGB8

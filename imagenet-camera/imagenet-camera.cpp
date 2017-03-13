@@ -82,7 +82,7 @@ void convertColour(camera *camera, void* imgCUDA, void** imgRGBA)
 		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
 #endif 
 
-#if  VIDEO_GV_STREAM_SOURCE
+#if VIDEO_SRC==VIDEO_GV_STREAM_SOURCE
 #if VIDEO_GV_PIXEL_FORMAT == VIDEO_GV_RGB8
 	if ( !camera->ConvertRGBtoRGBA(imgCUDA, imgRGBA) )
 		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
@@ -96,7 +96,7 @@ void convertColour(camera *camera, void* imgCUDA, void** imgRGBA)
 #endif
 
 #if VIDEO_SRC==VIDEO_NV
-	if ( !camera->ConvertNV12toRGBA(imgCUDA, imgRGBA) )
+	if ( !camera->ConvertNV12toRGBA(imgCUDA, ConvertBAYER_GR8toRGBAimgRGBA) )
 		printf("imagenet-camera:  failed to convert from NV12 to RGBAf\n");
 #endif
 }
@@ -118,10 +118,14 @@ int main( int argc, char** argv )
 #endif
 	printf("\tAuthor : ross.newman@abaco.com (dustinf@nvidia.com)\n");
 	printf("\tVideo Src : %s\n", VIDEO_SRC_NAME);
-	printf("\tBytes Per Pixel : %u%s\n",VIDEO_BYTES_PER_PIXEL, VIDEO_GV_PIXEL_FORMAT_NAME);
+	printf("\tBytes Per Pixel : %u",VIDEO_BYTES_PER_PIXEL);
+#if VIDEO_SRC==VIDEO_GV_STREAM_SOURCE
+	printf(" (%s)", VIDEO_GV_PIXEL_FORMAT_NAME);
+#endif
+	printf("\n");
 	printf("\tHidth : %u\n", HEIGHT);
 	printf("\tHeight : %u\n", WIDTH);
-	printf("\tFramerate : %f\n\n", VIDEO_DEFAULT_FRAMERATE);
+	printf("\tFramerate : %f\n\n", (float)VIDEO_DEFAULT_FRAMERATE);
     SDL_Color white = {255, 255, 255, 0}; // WWhite
     SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
     SDL_Color black = {40, 40, 40, 0}; // Black
