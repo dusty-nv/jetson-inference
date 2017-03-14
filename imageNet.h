@@ -27,7 +27,7 @@ public:
 	/**
 	 * Load a new network instance
 	 */
-	static imageNet* Create( NetworkType networkType=GOOGLENET );
+	static imageNet* Create( NetworkType networkType=GOOGLENET, uint32_t maxBatchSize=2 );
 	
 	/**
 	 * Load a new network instance
@@ -36,9 +36,11 @@ public:
 	 * @param mean_binary File path to the mean value binary proto
 	 * @param class_info File path to list of class name labels
 	 * @param input Name of the input layer blob.
+	 * @param maxBatchSize The maximum batch size that the network will be optimized for.
 	 */
 	static imageNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
-							 const char* class_labels, const char* input="data", const char* output="prob" );
+							 const char* class_labels, const char* input="data", const char* output="prob",
+							 uint32_t maxBatchSize=2 );
 	
 	/**
 	 * Destroy
@@ -83,8 +85,8 @@ public:
 protected:
 	imageNet();
 	
-	bool init( NetworkType networkType );
-	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output);
+	bool init( NetworkType networkType, uint32_t maxBatchSize );
+	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize );
 	bool loadClassInfo( const char* filename );
 	
 	uint32_t mOutputClasses;

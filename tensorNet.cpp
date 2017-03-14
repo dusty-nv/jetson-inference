@@ -10,8 +10,6 @@
 #include <fstream>
 
 
-static const int MAX_BATCH_SIZE = 2;
-
 
 // constructor
 tensorNet::tensorNet()
@@ -23,6 +21,7 @@ tensorNet::tensorNet()
 	mWidth          = 0;
 	mHeight         = 0;
 	mInputSize      = 0;
+	mMaxBatchSize   = 0;
 	mInputCPU       = NULL;
 	mInputCUDA      = NULL;
 	mEnableDebug    = false;
@@ -160,17 +159,20 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 
 // LoadNetwork
-bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, const char* mean_path, const char* input_blob, const char* output_blob)
+bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, const char* mean_path, 
+							 const char* input_blob, const char* output_blob, uint32_t maxBatchSize )
 {
 	std::vector<std::string> outputs;
 	outputs.push_back(output_blob);
 	
-	return LoadNetwork(prototxt_path, model_path, mean_path, input_blob, outputs);
+	return LoadNetwork(prototxt_path, model_path, mean_path, input_blob, outputs, maxBatchSize );
 }
 
 				  
 // LoadNetwork
-bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, const char* mean_path, const char* input_blob, const std::vector<std::string>& output_blobs)
+bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, const char* mean_path, 
+							 const char* input_blob, const std::vector<std::string>& output_blobs, 
+							 uint32_t maxBatchSize )
 {
 	if( !prototxt_path || !model_path )
 		return false;
@@ -191,7 +193,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	{
 		printf(LOG_GIE "cache file not found, profiling network model\n");
 	
-		if( !ProfileModel(prototxt_path, model_path, output_blobs, MAX_BATCH_SIZE, gieModelStream) )
+		if( !ProfileModel(prototxt_path, model_path, output_blobs, maxBatchSize, gieModelStream) )
 		{
 			printf("failed to load %s\n", model_path);
 			return 0;
@@ -277,9 +279,9 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	printf(LOG_GIE "%s input  binding index:  %i\n", model_path, inputIndex);
 	
 	nvinfer1::Dims3 inputDims  = engine->getBindingDimensions(inputIndex);
-	size_t inputSize  = inputDims.c * inputDims.h * inputDims.w * sizeof(float);
+	size_t inputSize  = maxBatchSize * inputDims.c * inputDims.h * inputDims.w * sizeof(float);
 	
-	printf(LOG_GIE "%s input  dims (c=%u h=%u w=%u) size=%zu\n", model_path, inputDims.c, inputDims.h, inputDims.w, inputSize);
+	printf(LOG_GIE "%s input  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path, maxBatchSize, inputDims.c, inputDims.h, inputDims.w, inputSize);
 	
 	/*
 	 * allocate memory to hold the input image
@@ -290,9 +292,10 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		return false;
 	}
 	
-	mInputSize   = inputSize;
-	mWidth       = inputDims.w;
-	mHeight      = inputDims.h;
+	mInputSize    = inputSize;
+	mWidth        = inputDims.w;
+	mHeight       = inputDims.h;
+	mMaxBatchSize = maxBatchSize;
 	
 	/*
 	 * setup network output buffers
@@ -304,8 +307,8 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		const int outputIndex = engine->getBindingIndex(output_blobs[n].c_str());
 		printf(LOG_GIE "%s output %i %s  binding index:  %i\n", model_path, n, output_blobs[n].c_str(), outputIndex);
 		nvinfer1::Dims3 outputDims = engine->getBindingDimensions(outputIndex);
-		size_t outputSize = outputDims.c * outputDims.h * outputDims.w * sizeof(float);
-		printf(LOG_GIE "%s output %i %s  dims (c=%u h=%u w=%u) size=%zu\n", model_path, n, output_blobs[n].c_str(), outputDims.c, outputDims.h, outputDims.w, outputSize);
+		size_t outputSize = maxBatchSize * outputDims.c * outputDims.h * outputDims.w * sizeof(float);
+		printf(LOG_GIE "%s output %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path, n, output_blobs[n].c_str(), maxBatchSize, outputDims.c, outputDims.h, outputDims.w, outputSize);
 	
 		// allocate output memory 
 		void* outputCPU  = NULL;

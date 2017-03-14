@@ -29,18 +29,26 @@ public:
 	 * @param prototxt File path to the deployable network prototxt
 	 * @param model File path to the caffemodel 
 	 * @param mean File path to the mean value binary proto (NULL if none)
+	 * @param input_blob The name of the input blob data to the network.
+	 * @param output_blob The name of the output blob data from the network.
+	 * @param maxBatchSize The maximum batch size that the network will be optimized for.
 	 */
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean=NULL,
-				   const char* input_blob="data", const char* output_blob="prob");
+				      const char* input_blob="data", const char* output_blob="prob",
+					  uint32_t maxBatchSize=2 );
 
 	/**
 	 * Load a new network instance with multiple output layers
 	 * @param prototxt File path to the deployable network prototxt
 	 * @param model File path to the caffemodel 
 	 * @param mean File path to the mean value binary proto (NULL if none)
+	 * @param input_blob The name of the input blob data to the network.
+	 * @param output_blobs List of names of the output blobs from the network.
+	 * @param maxBatchSize The maximum batch size that the network will be optimized for.
 	 */
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean,
-				   const char* input_blob, const std::vector<std::string>& output_blobs);
+				      const char* input_blob, const std::vector<std::string>& output_blobs,
+					  uint32_t maxBatchSize=2 );
 
 	/**
 	 * Manually enable layer profiling times.	
@@ -141,6 +149,7 @@ protected:
 	uint32_t mInputSize;
 	float*   mInputCPU;
 	float*   mInputCUDA;
+	uint32_t mMaxBatchSize;
 	bool	 mEnableProfiler;
 	bool     mEnableDebug;
 	bool	 mEnableFP16;

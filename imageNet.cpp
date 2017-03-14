@@ -7,14 +7,6 @@
 #include "cudaResize.h"
 
 
-// stuff we know about the network and the caffe input/output blobs
-static const int MAX_BATCH_SIZE = 1;
-
-const char* INPUT_BLOB_NAME  = "data";
-const char* OUTPUT_BLOB_NAME = "prob";
-
-
-
 // constructor
 imageNet::imageNet() : tensorNet()
 {
@@ -30,14 +22,14 @@ imageNet::~imageNet()
 
 
 // Create
-imageNet* imageNet::Create( imageNet::NetworkType networkType )
+imageNet* imageNet::Create( imageNet::NetworkType networkType, uint32_t maxBatchSize )
 {
 	imageNet* net = new imageNet();
 	
 	if( !net )
 		return NULL;
 	
-	if( !net->init(networkType) )
+	if( !net->init(networkType, maxBatchSize) )
 	{
 		printf("imageNet -- failed to initialize.\n");
 		return NULL;
@@ -48,14 +40,14 @@ imageNet* imageNet::Create( imageNet::NetworkType networkType )
 
 
 imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
-							const char* class_path, const char* input, const char* output )
+							const char* class_path, const char* input, const char* output, uint32_t maxBatchSize )
 {
 	imageNet* net = new imageNet();
 	
 	if( !net )
 		return NULL;
 	
-	if( !net->init(prototxt_path, model_path, mean_binary, class_path, input, output) )
+	if( !net->init(prototxt_path, model_path, mean_binary, class_path, input, output, maxBatchSize) )
 	{
 		printf("imageNet -- failed to initialize.\n");
 		return NULL;
@@ -64,12 +56,12 @@ imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, c
 	return net;
 }
 	
-bool imageNet::init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output)
+bool imageNet::init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize )
 {
 	/*
 	 * load and parse googlenet network definition and model file
 	 */
-	if( !tensorNet::LoadNetwork( prototxt_path, model_path, mean_binary, input, output ) )
+	if( !tensorNet::LoadNetwork( prototxt_path, model_path, mean_binary, input, output, maxBatchSize ) )
 	{
 		printf("failed to load %s\n", model_path);
 		return false;
@@ -140,7 +132,7 @@ bool imageNet::loadClassInfo( const char* filename )
 
 
 // init
-bool imageNet::init( imageNet::NetworkType networkType )
+bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize )
 {
 	const char* proto_file[] = { "alexnet.prototxt", "googlenet.prototxt" };
 	const char* model_file[] = { "bvlc_alexnet.caffemodel", "bvlc_googlenet.caffemodel" };
@@ -148,7 +140,7 @@ bool imageNet::init( imageNet::NetworkType networkType )
 	/*
 	 * load and parse googlenet network definition and model file
 	 */
-	if( !tensorNet::LoadNetwork( proto_file[networkType], model_file[networkType], NULL, INPUT_BLOB_NAME, OUTPUT_BLOB_NAME ) )
+	if( !tensorNet::LoadNetwork( proto_file[networkType], model_file[networkType], NULL, "data", "prob", maxBatchSize) )
 	{
 		printf("failed to load %s\n", model_file[networkType]);
 		return false;

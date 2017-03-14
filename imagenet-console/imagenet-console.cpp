@@ -39,6 +39,8 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
+	net->EnableProfiler();
+	
 	// load image from file on disk
 	float* imgCPU    = NULL;
 	float* imgCUDA   = NULL;
