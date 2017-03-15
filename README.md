@@ -100,6 +100,10 @@ For jetson 64bit builds the architecte will be aarch64, with the following direc
 For GigEVision camera support please download and compile the Aravis 0.6 release.
 ``` bash
 git clone https://github.com/AravisProject/aravis
+cd aravis
+sudo apt-get install intltool gtk-doc-tools
+./autogen.sh
+make
 ```
 Once built do
 ``` bash
