@@ -45,8 +45,11 @@ set(
 )
 endif()
 
-# Aravis setup
-include_directories(/usr/local/include/aravis-0.6)
+# Aravis setup if installed
+if(EXISTS "/usr/local/lib/libaravis-0.6.so")
+  include_directories(/usr/local/include/aravis-0.6)
+  set(ARAVIS_LIB aravis-0.6)
+endif()
 
 # setup project output paths
 set(PROJECT_OUTPUT_DIR  ${PROJECT_BINARY_DIR}/${CMAKE_SYSTEM_PROCESSOR})
@@ -71,7 +74,7 @@ file(GLOB inferenceSources *.cpp *.cu camera/*.cpp cuda/*.cu display/*.cpp)
 file(GLOB inferenceIncludes *.h camera/*.h cuda/*.h display/*.h)
 
 cuda_add_library(jetson-inference SHARED ${inferenceSources})
-target_link_libraries(jetson-inference nvcaffe_parser nvinfer Qt4::QtGui GL GLEW gstreamer-1.0 gstapp-1.0 aravis-0.6)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
+target_link_libraries(jetson-inference nvcaffe_parser nvinfer Qt4::QtGui GL GLEW gstreamer-1.0 gstapp-1.0 ${ARAVIS_LIB})		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
 
 
 # transfer all headers to the include directory

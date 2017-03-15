@@ -109,7 +109,7 @@ bool camera::ConvertRGBtoRGBA( void* input, void** output )
 	{
 		if( CUDA_FAILED(cudaMalloc(&mRGBA, mWidth * mHeight * sizeof(float4))) )
 		{
-			printf(LOG_CUDA "gvCamera -- failed to allocate memory for %ux%u RGBA texture\n", mWidth, mHeight);
+			printf(LOG_CUDA "camera -- failed to allocate memory for %ux%u RGBA texture\n", mWidth, mHeight);
 			return false;
 		}
 	}
@@ -117,7 +117,7 @@ bool camera::ConvertRGBtoRGBA( void* input, void** output )
 	// USB webcam is RGB
 	if( CUDA_FAILED(cudaRGBToRGBAf((uint8_t*)input, (float4*)mRGBA, mWidth, mHeight)) )
 	{
-		printf(LOG_CUDA "gvCamera -- conversion cudaRGBToRGBAf failed\n");
+		printf(LOG_CUDA "camera -- conversion cudaRGBToRGBAf failed (%dx%d)\n", mWidth, mHeight);
 		return false;
 	}
 
