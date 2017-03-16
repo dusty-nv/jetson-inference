@@ -57,8 +57,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 include_directories(${PROJECT_INCLUDE_DIR} ${GIE_PATH}/include)
 include_directories(/usr/include/gstreamer-1.0 /usr/lib/aarch64-linux-gnu/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/aarch64-linux-gnu/glib-2.0/include/)
 
-file(GLOB inferenceSources *.cpp *.cu camera/*.cpp cuda/*.cu display/*.cpp)
-file(GLOB inferenceIncludes *.h camera/*.h cuda/*.h display/*.h)
+file(GLOB inferenceSources *.cpp *.cu util/*.cpp util/camera/*.cpp util/cuda/*.cu util/display/*.cpp)
+file(GLOB inferenceIncludes *.h util/*.h util/camera/*.h util/cuda/*.h util/display/*.h)
 
 cuda_add_library(jetson-inference SHARED ${inferenceSources})
 target_link_libraries(jetson-inference nvcaffe_parser nvinfer Qt4::QtGui GL GLEW gstreamer-1.0 gstapp-1.0)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
@@ -85,7 +85,7 @@ endforeach()
 file(COPY "tools/segnet-batch.sh" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 
-# build samples & tools
+# build samples & utilities
 add_subdirectory(imagenet-console)
 add_subdirectory(imagenet-camera)
 
@@ -94,16 +94,19 @@ add_subdirectory(detectnet-camera)
 
 add_subdirectory(segnet-console)
 
-add_subdirectory(camera/gst-camera)
-add_subdirectory(camera/v4l2-console)
-add_subdirectory(camera/v4l2-display)
+add_subdirectory(util/camera/gst-camera)
+add_subdirectory(util/camera/v4l2-console)
+add_subdirectory(util/camera/v4l2-display)
 
 
 # install
 foreach(include ${inferenceIncludes})
     install(FILES "${include}" DESTINATION include/jetson-inference)
 endforeach()
+
 # install the shared library
 install(TARGETS jetson-inference DESTINATION lib/jetson-inference EXPORT jetson-inferenceConfig)
+
 # install the cmake project, for importing
 install(EXPORT jetson-inferenceConfig DESTINATION share/jetson-inference/cmake)
+

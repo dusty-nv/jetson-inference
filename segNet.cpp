@@ -8,6 +8,26 @@
 #include "cudaOverlay.h"
 #include "cudaResize.h"
 
+#include "commandLine.h"
+
+
+
+// constructor
+segNet::segNet() : tensorNet()
+{
+	mClassColors[0] = NULL;	// cpu ptr
+	mClassColors[1] = NULL;  // gpu ptr
+
+	mClassMap[0] = NULL;
+	mClassMap[1] = NULL;
+}
+
+
+// destructor
+segNet::~segNet()
+{
+	
+}
 
 
 // Create
@@ -32,23 +52,59 @@ segNet* segNet::Create( NetworkType networkType )
 	else
 		return NULL;
 }
-	
 
-// constructor
-segNet::segNet() : tensorNet()
+
+// Create
+segNet* segNet::Create( int argc, char** argv )
 {
-	mClassColors[0] = NULL;	// cpu ptr
-	mClassColors[1] = NULL;  // gpu ptr
+	commandLine cmdLine(argc, argv);
 
-	mClassMap[0] = NULL;
-	mClassMap[1] = NULL;
-}
+	const char* modelName = cmdLine.GetString("model");
 
+	if( !modelName )
+	{
+		modelName = "fcn-alexnet-cityscapes-sd";
 
-// destructor
-segNet::~segNet()
-{
-	
+		if( argc > 3 )
+			modelName = argv[3];	
+
+		segNet::NetworkType type = segNet::SEGNET_CUSTOM;
+
+		if( strcasecmp(modelName, "fcn-alexnet-cityscapes-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes") == 0 )
+			type = segNet::FCN_ALEXNET_CITYSCAPES_SD;
+		else if( strcasecmp(modelName, "fcn-alexnet-cityscapes-hd") == 0 )
+			type = segNet::FCN_ALEXNET_CITYSCAPES_HD;
+		else if( strcasecmp(modelName, "fcn-alexnet-pascal-voc") == 0 )
+			type = segNet::FCN_ALEXNET_PASCAL_VOC;
+		else if( strcasecmp(modelName, "fcn-alexnet-synthia-cvpr16") == 0 )
+			type = segNet::FCN_ALEXNET_SYNTHIA_CVPR16;
+		else if( strcasecmp(modelName, "fcn-alexnet-synthia-summer-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-synthia-summer") == 0)
+			type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_SD;
+		else if( strcasecmp(modelName, "fcn-alexnet-synthia-summer-hd") == 0 )
+			type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_HD;
+		else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p") == 0 )
+			type = segNet::FCN_ALEXNET_AERIAL_FPV_720p;
+		else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p-4ch") == 0 )
+			type = segNet::FCN_ALEXNET_AERIAL_FPV_720p_4ch;
+		else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p-21ch") == 0 )
+			type = segNet::FCN_ALEXNET_AERIAL_FPV_720p_21ch;
+
+		// create segnet from pretrained model
+		return segNet::Create(type);
+	}
+	else
+	{
+		const char* prototxt = cmdLine.GetString("prototxt");
+		const char* labels   = cmdLine.GetString("labels");
+		const char* colors   = cmdLine.GetString("colors");
+		const char* input    = cmdLine.GetString("input_blob");
+		const char* output   = cmdLine.GetString("output_blob");
+
+		if( !input ) 	input  = "data";
+		if( !output )  output = "score_fr_21classes";
+
+		return segNet::Create(prototxt, modelName, labels, colors, input, output);
+	}
 }
 
 
@@ -60,6 +116,15 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	
 	if( !net )
 		return NULL;
+
+	printf("\n");
+	printf("segNet -- loading segmentation network model from:\n");
+	printf("       -- prototxt:   %s\n", prototxt);
+	printf("       -- model:      %s\n", model);
+	printf("       -- labels:     %s\n", labels_path);
+	printf("       -- colors:     %s\n", colors_path);
+	printf("       -- input_blob  %s\n", input_blob);
+	printf("       -- output_blob %s\n\n", output_blob);
 	
 	//net->EnableProfiler();	
 	//net->EnableDebug();

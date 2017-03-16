@@ -5,8 +5,8 @@
 #include "segNet.h"
 
 #include "loadImage.h"
+#include "commandLine.h"
 #include "cudaMappedMemory.h"
-
 
 #include <sys/time.h>
 
@@ -29,7 +29,7 @@ int main( int argc, char** argv )
 	printf("\n\n");
 	
 	
-	// retrieve filename argument
+	// retrieve filename arguments
 	if( argc < 2 )
 	{
 		printf("segnet-console:   input image filename required\n");
@@ -44,34 +44,10 @@ int main( int argc, char** argv )
 	
 	const char* imgFilename = argv[1];
 	const char* outFilename = argv[2];
-	const char* modelName   = "fcn-alexnet-cityscapes-sd";
 
-	if( argc > 3 )
-		modelName = argv[3];	
 
-	segNet::NetworkType type = segNet::SEGNET_CUSTOM;
-
-	if( strcasecmp(modelName, "fcn-alexnet-cityscapes-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes") == 0 )
-		type = segNet::FCN_ALEXNET_CITYSCAPES_SD;
-	else if( strcasecmp(modelName, "fcn-alexnet-cityscapes-hd") == 0 )
-		type = segNet::FCN_ALEXNET_CITYSCAPES_HD;
-	else if( strcasecmp(modelName, "fcn-alexnet-pascal-voc") == 0 )
-		type = segNet::FCN_ALEXNET_PASCAL_VOC;
-	else if( strcasecmp(modelName, "fcn-alexnet-synthia-cvpr16") == 0 )
-		type = segNet::FCN_ALEXNET_SYNTHIA_CVPR16;
-	else if( strcasecmp(modelName, "fcn-alexnet-synthia-summer-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-synthia-summer") == 0)
-		type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_SD;
-	else if( strcasecmp(modelName, "fcn-alexnet-synthia-summer-hd") == 0 )
-		type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_HD;
-	else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p") == 0 )
-		type = segNet::FCN_ALEXNET_AERIAL_FPV_720p;
-	else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p-4ch") == 0 )
-		type = segNet::FCN_ALEXNET_AERIAL_FPV_720p_4ch;
-	else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p-21ch") == 0 )
-		type = segNet::FCN_ALEXNET_AERIAL_FPV_720p_21ch;
-
-	// create segnet
-	segNet* net = segNet::Create(type);
+	// create the segNet from pretrained or custom model by parsing the command line
+	segNet* net = segNet::Create(argc, argv);
 
 	if( !net )
 	{
@@ -79,6 +55,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
+	// enable layer timings for the console application
 	net->EnableProfiler();
 
 	// load image from file on disk
@@ -105,9 +82,10 @@ int main( int argc, char** argv )
 
 	printf("segnet-console:  beginning processing overlay (%zu)\n", current_timestamp());
 
-	// process image overlay
+	// set alpha blending value for classes that don't explicitly already have an alpha	
 	net->SetGlobalAlpha(120);
 
+	// process image overlay
 	if( !net->Overlay(imgCUDA, outCUDA, imgWidth, imgHeight) )
 	{
 		printf("segnet-console:  failed to process segmentation overlay.\n");

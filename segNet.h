@@ -52,6 +52,12 @@ public:
 					   const char* class_labels, const char* class_colors=NULL,
 					   const char* input="data", const char* output=/*"upscore_21classes"*/"score_fr_21classes" );
 	
+
+	/**
+	 * Load a new network instance by parsing the command line.
+	 */
+	static segNet* Create( int argc, char** argv );
+	
 	/**
 	 * Destroy
 	 */
