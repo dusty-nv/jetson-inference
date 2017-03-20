@@ -188,7 +188,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	printf("\nimagenet-camera:  successfully initialized video device (%s)\n", VIDEO_SRC_NAME);
+	printf("\nimagenet-camera:  successfully initialized video device (%s%s)\n", VIDEO_SRC_NAME, VIDEO_GV_PIXEL_FORMAT_NAME);
 
 	/*
 	 * create imageNet
