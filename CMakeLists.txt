@@ -30,19 +30,35 @@ add_definitions(${QT_DEFINITIONS})
 find_package(CUDA)
 
 if (CMAKE_SYSTEM_PROCESSOR STREQUAL "armv7l")
-message("-- Detected ${CMAKE_SYSTEM_PROCESSOR} assumint TK1")
-set(
-	CUDA_NVCC_FLAGS
-	${CUDA_NVCC_FLAGS}; 
-        -O3 -gencode arch=compute_32,code=sm_32, -std=c++11 -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO 
+	message("-- Detected ${CMAKE_SYSTEM_PROCESSOR} assuming TK1")
+	set(
+		CUDA_NVCC_FLAGS
+		${CUDA_NVCC_FLAGS}; 
+        	-O3 -gencode arch=compute_32,code=sm_32, -std=c++11 -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO 
 )
 else()
-message("-- Detected ${CMAKE_SYSTEM_PROCESSOR} assumint TX1")
-set(
-	CUDA_NVCC_FLAGS
-	${CUDA_NVCC_FLAGS}; 
-        -O3 -gencode arch=compute_53,code=sm_53
-)
+	# TX2 R27.0
+	if(CMAKE_SYSTEM STREQUAL "Linux-4.4.15-tegra")
+		message("-- Detected ${CMAKE_SYSTEM_PROCESSOR} assuming TX2 (${CMAKE_SYSTEM})")
+		set(
+			CUDA_NVCC_FLAGS
+			${CUDA_NVCC_FLAGS}; 
+        		-O3 -gencode arch=compute_62,code=compute_62)
+	# TX2 assume strings greater are future releases
+	elseif(CMAKE_SYSTEM STRGREATER "Linux-4.4.15-tegra")
+		message("-- Detected ${CMAKE_SYSTEM_PROCESSOR} assuming TX2 (${CMAKE_SYSTEM})")
+		set(
+			CUDA_NVCC_FLAGS
+			${CUDA_NVCC_FLAGS}; 
+        		-O3 -gencode arch=compute_62,code=compute_62)
+	# Older kernel versions assume TX1
+	elseif()
+		message("-- Detected ${CMAKE_SYSTEM_PROCESSOR} assuming TX1")
+		set(
+			CUDA_NVCC_FLAGS
+			${CUDA_NVCC_FLAGS}; 
+        		-O3 -gencode arch=compute_53,code=sm_53 )
+	endif()
 endif()
 
 # Aravis setup if installed
@@ -58,7 +74,6 @@ set(PROJECT_INCLUDE_DIR ${PROJECT_OUTPUT_DIR}/include)
 file(MAKE_DIRECTORY ${PROJECT_INCLUDE_DIR})
 file(MAKE_DIRECTORY ${PROJECT_OUTPUT_DIR}/bin)
 
-message("-- system arch:  ${CMAKE_SYSTEM_PROCESSOR}")
 message("-- output path:  ${PROJECT_OUTPUT_DIR}")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/bin)
