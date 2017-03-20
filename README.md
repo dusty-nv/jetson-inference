@@ -108,13 +108,18 @@ For GigEVision camera support please download and compile the Aravis 0.6 release
 git clone https://github.com/AravisProject/aravis
 cd aravis
 sudo apt-get install intltool gtk-doc-tools
-./autogen.sh
+./autogen.sh --enable-viewer
 make
 ```
 Once built do
 ``` bash
 make install
 ```
+You will also need the bayer plugin for gstreamer to enable display
+Once built do
+``` bash
+suao apt-get install gstreamer1.0-plugins-bad
+``` 
 Header files and library objects should not allow you to compile the code with GigEVision support. Configure camera in [`config.h`](config.h)
 ## Screenshots
 ### Webcam Input 
