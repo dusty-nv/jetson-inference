@@ -8,6 +8,10 @@ Included in this repo are resources for efficiently deploying neural networks us
 
 Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`detectNet`](detectNet.h) for object localization, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk. 
 
+![Project 'Elroy'](abaco/gc1000_rev.jpg)
+
+> **note** Project 'Elroy' is a rugged TX2 box built to military specifications. Will be released to GTC 2017.
+
 ![ImageNet](abaco/ImageNet.jpg) for more information on source images goto (http://image-net.org/)
 
 ## Support for USB webcam and GiGEVision
@@ -145,4 +149,4 @@ The sample output supplied is a test card encoded using each of the three color 
 * [Abaco Systems Rugged TX2](https://www.abaco.com/products/project-elroy)
 * [Abaco Systems MC10K1 - Tegra TK1 Mini COM Express module](https://www.abaco.com/products/mcom10-k1-mini-com-express)
 
-![Abaco stripe](abaco/Abaco Footer1000x100.png)
+![Abaco stripe](abaco/Abaco%20Footer1000x100.png)
