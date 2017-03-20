@@ -10,7 +10,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`
 
 ![Project 'Elroy'](abaco/gc1000_rev.jpg)
 
-> **note** Project 'Elroy' is a rugged TX2 box built to military specifications. Will be released to GTC 2017.
+> **note** Project 'Elroy' is a rugged TX2 box built to military specifications. Due for release mid 2017.
 
 ![ImageNet](abaco/ImageNet.jpg) for more information on source images goto (http://image-net.org/)
 
