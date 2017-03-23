@@ -83,15 +83,17 @@ void convertColour(camera *camera, void* imgCUDA, void** imgRGBA)
 #endif 
 
 #if VIDEO_SRC==VIDEO_GV_STREAM_SOURCE
-#if VIDEO_GV_PIXEL_FORMAT == VIDEO_GV_RGB8
+#if VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_RGB8
 	if ( !camera->ConvertRGBtoRGBA(imgCUDA, imgRGBA) )
 		printf("imagenet-camera:  failed to convert from RGB to RGBAf\n");
-#elif VIDEO_GV_PIXEL_FORMAT == VIDEO_GV_YUV422
+#elif VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_YUV422
 	if ( !camera->ConvertYUVtoRGBf(imgCUDA, imgRGBA) )
 		printf("imagenet-camera:  failed to convert from YUV to RGBAf\n");
-#elif VIDEO_GV_PIXEL_FORMAT == VIDEO_GV_BAYER_GR8
+#elif VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_BAYER_GR8
 	if ( !camera->ConvertBAYER_GR8toRGBA(imgCUDA, imgRGBA) )
 		printf("imagenet-camera:  failed to convert from BAYER_GR8 to RGBAf\n");
+#else
+		printf("imagenet-camera:  unrecognised pixel format %s\n", VIDEO_GV_PIXEL_FORMAT);	
 #endif
 #endif
 

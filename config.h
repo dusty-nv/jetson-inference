@@ -54,7 +54,7 @@
 #define VIDEO_GV_BAYER_GR8            1 // ARV_PIXEL_FORMAT_BAYER_GR_8
 #define VIDEO_GV_YUV422               2 // ARV_PIXEL_FORMAT_YUV_422_PACKED
 #define VIDEO_GV_RGB8                 3 // ARV_PIXEL_FORMAT_RGB_8_PACKED
-#define VIDEO_GV_PIXEL_FORMAT         VIDEO_GV_BAYER_GR8
+#define VIDEO_GV_PIXEL_FORMAT         VIDEO_GV_YUV422
 #define VIDEO_GV_SRC_FRAMERATE        30.0
 
 //
@@ -73,14 +73,14 @@
 #if VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_BAYER_GR8
 #define VIDEO_BYTES_PER_PIXEL         1
 #define VIDEO_GV_PIXEL_FORMAT_NAME    " BAYER GR8"
-#elif VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_YUV422gst-launch-1.0 v4l2src device=/dev/video1 ! video/x-raw, width=1280, height=720 ! xvimagesink
+#elif VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_YUV422
 #define VIDEO_BYTES_PER_PIXEL         2
 #define VIDEO_GV_PIXEL_FORMAT_NAME    " YUV422"
 #elif VIDEO_GV_PIXEL_FORMAT==VIDEO_GV_RGB8
 #define VIDEO_BYTES_PER_PIXEL         3  
 #define VIDEO_GV_PIXEL_FORMAT_NAME    " RGB8"
 #else
-#define VIDEO_BYTES_PER_PIXEL         3  
+#define VIDEO_BYTES_PER_PIXEL         2  
 #define VIDEO_GV_PIXEL_FORMAT_NAME    ""
 #endif
 
