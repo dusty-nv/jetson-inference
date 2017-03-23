@@ -52,7 +52,7 @@ else()
 			${CUDA_NVCC_FLAGS}; 
         		-O3 -gencode arch=compute_62,code=compute_62)
 	# Older kernel versions assume TX1
-	elseif()
+	else()
 		message("-- Detected ${CMAKE_SYSTEM_PROCESSOR} assuming TX1")
 		set(
 			CUDA_NVCC_FLAGS
