@@ -11,6 +11,7 @@
 
 /**
  * Image recognition with GoogleNet/Alexnet or custom models, using TensorRT.
+ * @ingroup deepVision
  */
 class imageNet : public tensorNet
 {

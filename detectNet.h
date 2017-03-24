@@ -11,6 +11,7 @@
 
 /**
  * Object recognition and localization networks with TensorRT support.
+ * @ingroup deepVision
  */
 class detectNet : public tensorNet
 {

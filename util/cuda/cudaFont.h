@@ -13,6 +13,7 @@
 
 /**
  * Font overlay rendering using CUDA
+ * @ingroup util
  */
 class cudaFont
 {

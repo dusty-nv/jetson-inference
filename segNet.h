@@ -11,6 +11,7 @@
 
 /**
  * Image segmentation with FCN-Alexnet or custom models, using TensorRT.
+ * @ingroup deepVision
  */
 class segNet : public tensorNet
 {

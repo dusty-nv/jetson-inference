@@ -11,6 +11,7 @@
 
 /**
  * Allocate ZeroCopy mapped memory, shared between CUDA and CPU.
+ * @ingroup util
  */
 inline bool cudaAllocMapped( void** cpuPtr, void** gpuPtr, size_t size )
 {

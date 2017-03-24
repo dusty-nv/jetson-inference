@@ -15,6 +15,7 @@
 /**
  * Abstract class for loading a tensor network with TensorRT.
  * For example implementations, @see imageNet and @see detectNet
+ * @ingroup deepVision
  */
 class tensorNet
 {

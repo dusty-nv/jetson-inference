@@ -18,12 +18,15 @@
  * @param gpu Pointer to CUDA device buffer residing on GPU containing image.
  * @param width Variable containing width in pixels of the image.
  * @param height Variable containing height in pixels of the image.
+ *
+ * @ingroup util
  */
 bool loadImageRGBA( const char* filename, float4** cpu, float4** gpu, int* width, int* height );
 
 
 /**
  * Save an image to disk
+ * @ingroup util
  */
 bool saveImageRGBA( const char* filename, float4* cpu, int width, int height, float max_pixel=255.0f );
 
@@ -37,6 +40,8 @@ bool saveImageRGBA( const char* filename, float4* cpu, int width, int height, fl
  * @param gpu Pointer to CUDA device buffer residing on GPU containing image.
  * @param width Variable containing width in pixels of the image.
  * @param height Variable containing height in pixels of the image.
+ *
+ * @ingroup util
  */
 bool loadImageRGB( const char* filename, float3** cpu, float3** gpu, int* width, int* height, const float3& mean=make_float3(0,0,0) );
 
@@ -50,6 +55,8 @@ bool loadImageRGB( const char* filename, float3** cpu, float3** gpu, int* width,
  * @param gpu Pointer to CUDA device buffer residing on GPU containing image.
  * @param width Variable containing width in pixels of the image.
  * @param height Variable containing height in pixels of the image.
+ *
+ * @ingroup util
  */
 bool loadImageBGR( const char* filename, float3** cpu, float3** gpu, int* width, int* height, const float3& mean=make_float3(0,0,0) );
 

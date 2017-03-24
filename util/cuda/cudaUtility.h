@@ -15,26 +15,31 @@
 /**
  * Execute a CUDA call and print out any errors
  * @return the original cudaError_t result
+ * @ingroup util
  */
 #define CUDA(x)				cudaCheckError((x), #x, __FILE__, __LINE__)
 
 /**
  * Evaluates to true on success
+ * @ingroup util
  */
 #define CUDA_SUCCESS(x)			(CUDA(x) == cudaSuccess)
 
 /**
  * Evaluates to true on failure
+ * @ingroup util
  */
 #define CUDA_FAILED(x)			(CUDA(x) != cudaSuccess)
 
 /**
  * Return from the boolean function if CUDA call fails
+ * @ingroup util
  */
 #define CUDA_VERIFY(x)			if(CUDA_FAILED(x))	return false;
 
 /**
  * LOG_CUDA string.
+ * @ingroup util
  */
 #define LOG_CUDA "[cuda]   "
 
@@ -47,6 +52,7 @@
 
 /**
  * cudaCheckError
+ * @ingroup util
  */
 inline cudaError_t cudaCheckError(cudaError_t retval, const char* txt, const char* file, int line )
 {
@@ -75,6 +81,7 @@ inline cudaError_t cudaCheckError(cudaError_t retval, const char* txt, const cha
 
 /**
  * iDivUp
+ * @ingroup util
  */
 inline __device__ __host__ int iDivUp( int a, int b )  		{ return (a % b != 0) ? (a / b + 1) : (a / b); }
 

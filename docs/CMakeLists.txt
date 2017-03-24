@@ -1,0 +1,27 @@
+# 
+# doxygen
+#
+find_package(Doxygen)
+
+if( DOXYGEN_FOUND )
+
+	configure_file( Doxyfile.in 
+				 ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY )
+
+	add_custom_target(docs ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+					WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+					COMMENT "Generating API documentation" VERBATIM )
+
+	add_custom_command(TARGET "docs" POST_BUILD 
+				    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/navtree.js ${PROJECT_OUTPUT_DIR}/docs/html
+				    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_OUTPUT_DIR}/docs/html/group__deepVision.html ${PROJECT_OUTPUT_DIR}/docs/html/index.html )
+ 
+	file(MAKE_DIRECTORY ${PROJECT_OUTPUT_DIR}/docs)
+	file(MAKE_DIRECTORY ${PROJECT_OUTPUT_DIR}/docs/html)
+	
+	#file(GLOB docIndex *.html)
+	#file(INSTALL ${docIndex} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/doc)
+
+	message("-- Doxygen detected, to build API reference, run `make docs`")
+
+endif( DOXYGEN_FOUND )

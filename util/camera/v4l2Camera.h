@@ -23,6 +23,7 @@ struct v4l2_mmap
 
 /**
  * Video4Linux2 camera capture streaming.
+ * @ingroup util
  */
 class v4l2Camera
 {

@@ -16,6 +16,7 @@ class QMutex;
 
 /**
  * gstreamer CSI camera using nvcamerasrc (or optionally v4l2src)
+ * @ingroup util
  */
 class gstCamera
 {

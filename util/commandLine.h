@@ -8,6 +8,7 @@
 
 /**
  * commandLine parser class
+ * @ingroup util
  */
 class commandLine
 {

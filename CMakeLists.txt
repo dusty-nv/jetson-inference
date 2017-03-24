@@ -98,6 +98,8 @@ add_subdirectory(util/camera/gst-camera)
 add_subdirectory(util/camera/v4l2-console)
 add_subdirectory(util/camera/v4l2-display)
 
+add_subdirectory(docs)
+
 
 # install
 foreach(include ${inferenceIncludes})
