@@ -2,7 +2,13 @@
 
 /**
  * @defgroup deepVision Deep Vision Primitives
- * Runtime APIs for abstracting deep vision network models and inferencing with TensorRT.
+ * Runtime APIs for supporting deep vision network model primitives and inferencing with TensorRT.
+ * Available network primitives currently include:  
+ *   - \ref imageNet for image recognition
+ *   - \ref detectNet for object detection + localization
+ *   - \ref segNet for segmentation
+ *
+ * The different primitives each inherit from the shared \ref tensorNet object.
  */
 
 /**
