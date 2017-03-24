@@ -1,12 +1,14 @@
 ![Alt text](https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/841b9209217f74e5992b8d332c612126)
 # Deploying Deep Learning
-Welcome to NVIDIA's guide to deploying inference and our embedded deep vision runtime library for **[Jetson TX1](http://www.nvidia.com/object/embedded-systems.html)**.
+Welcome to NVIDIA's guide to deploying inference and our embedded deep vision runtime library for **[Jetson TX1/TX2](http://www.nvidia.com/object/embedded-systems.html)**.
 
 Included in this repo are resources for efficiently deploying neural networks into the field using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.
 
 Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  The actions to understand and apply these are represented as ten easy-to-follow steps.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
+
+> **note**:  see the **[Deep Vision API Reference Guide](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html)** for complete documentation accompaning this tutorial. 
 
 ### **Ten Steps to Deep Learning**
 
