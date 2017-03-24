@@ -13,7 +13,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 ### **Ten Steps to Deep Learning**
 
 1. [What's Deep Learning?](#whats-deep-learning)
-2. [Flash JetPack to Jetson](#getting-tensorrt)
+2. [Flashing JetPack-L4T to Jetson](#getting-tensorrt)
 3. [Building from Source](#building-from-source)
 4. [Digging Into the Code](#digging-into-the-code)
 5. [Classify Images with ImageNet](#classifying-images-with-imagenet)
