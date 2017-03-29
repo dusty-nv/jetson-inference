@@ -85,7 +85,7 @@ sudo apt-get install git cmake
 
 Then clone the jetson-inference repo:
 ``` bash
-git clone http://github.org/dusty-nv/jetson-inference
+git clone http://github.com/dusty-nv/jetson-inference
 ```
 
 #### 2. Configuring
