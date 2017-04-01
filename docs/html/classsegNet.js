@@ -7,8 +7,6 @@ var classsegNet =
       [ "FCN_ALEXNET_SYNTHIA_SUMMER_SD", "classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a245b790d2bc719d2397899bef7472da3", null ],
       [ "FCN_ALEXNET_CITYSCAPES_HD", "classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a909c376ffd7d5363aea65c200f2e008e", null ],
       [ "FCN_ALEXNET_CITYSCAPES_SD", "classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a0760a67c5a08aad80d7dc732bc760e31", null ],
-      [ "FCN_ALEXNET_AERIAL_FPV_720p_4ch", "classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a6f23f70246edae5837e49d11ee17273f", null ],
-      [ "FCN_ALEXNET_AERIAL_FPV_720p_21ch", "classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a8653cf52943c03e308893f96a107bc5d", null ],
       [ "FCN_ALEXNET_AERIAL_FPV_720p", "classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a46829d99af463638dfd4e547b0a2a95d", null ],
       [ "SEGNET_CUSTOM", "classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a95a81cd526c1ada9d225f6142f5f0f41", null ]
     ] ],

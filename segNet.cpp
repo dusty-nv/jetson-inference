@@ -45,9 +45,9 @@ segNet* segNet::Create( NetworkType networkType )
 		return Create("FCN-Alexnet-Cityscapes-HD/deploy.prototxt", "FCN-Alexnet-Cityscapes-HD/snapshot_iter_367568.caffemodel", "FCN-Alexnet-Cityscapes-HD/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-HD/cityscapes-deploy-colors.txt" );	
 	else if( networkType == FCN_ALEXNET_CITYSCAPES_SD )
 		return Create("FCN-Alexnet-Cityscapes-SD/deploy.prototxt", "FCN-Alexnet-Cityscapes-SD/snapshot_iter_114860.caffemodel", "FCN-Alexnet-Cityscapes-SD/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-SD/cityscapes-deploy-colors.txt" );		
-	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p_4ch )
-		return Create("FCN-Alexnet-Aerial-FPV-4ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-4ch-720p/snapshot_iter_1777146.caffemodel", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-deploy-colors.txt", "data", "score_fr_4classes" );			
-	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p_21ch )
+	//else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p_4ch )
+	//	return Create("FCN-Alexnet-Aerial-FPV-4ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-4ch-720p/snapshot_iter_1777146.caffemodel", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-deploy-colors.txt", "data", "score_fr_4classes" );			
+	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p )
 		return Create("FCN-Alexnet-Aerial-FPV-21ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-21ch-720p/snapshot_iter_248178.caffemodel", "FCN-Alexnet-Aerial-FPV-21ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-21ch-720p/fpv-deploy-colors.txt" );		
 	else
 		return NULL;
@@ -84,10 +84,10 @@ segNet* segNet::Create( int argc, char** argv )
 			type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_HD;
 		else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p") == 0 )
 			type = segNet::FCN_ALEXNET_AERIAL_FPV_720p;
-		else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p-4ch") == 0 )
+		/*else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p-4ch") == 0 )
 			type = segNet::FCN_ALEXNET_AERIAL_FPV_720p_4ch;
 		else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p-21ch") == 0 )
-			type = segNet::FCN_ALEXNET_AERIAL_FPV_720p_21ch;
+			type = segNet::FCN_ALEXNET_AERIAL_FPV_720p_21ch;*/
 
 		// create segnet from pretrained model
 		return segNet::Create(type);

@@ -27,9 +27,7 @@ public:
 		FCN_ALEXNET_SYNTHIA_SUMMER_SD,    /**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. */
 		FCN_ALEXNET_CITYSCAPES_HD,	    /**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. */
 		FCN_ALEXNET_CITYSCAPES_SD,	    /**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. */
-		FCN_ALEXNET_AERIAL_FPV_720p_4ch,  /**< FCN-Alexnet trained on aerial first-person view of the horizon line for drones, 1280x720 and 4 output classes */ 
-		FCN_ALEXNET_AERIAL_FPV_720p_21ch, /**< FCN-Alexnet trained on aerial first-person view of the horizon line for drones, 1280x720 and 21 output classes */
-		FCN_ALEXNET_AERIAL_FPV_720p = FCN_ALEXNET_AERIAL_FPV_720p_21ch,
+		FCN_ALEXNET_AERIAL_FPV_720p, /**< FCN-Alexnet trained on aerial first-person view of the horizon line for drones, 1280x720 and 21 output classes */
 		
 		/* add new models here */
 		SEGNET_CUSTOM
