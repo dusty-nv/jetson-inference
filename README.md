@@ -1,4 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+
 # Deploying Deep Learning
 Welcome to our guide to deploying inference and embedded [deep vision](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html) runtime library for **[NVIDIA Jetson TX1/TX2](http://www.nvidia.com/object/embedded-systems.html)**.
 
