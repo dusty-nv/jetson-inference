@@ -5,11 +5,11 @@ Welcome to our guide to deploying inference and embedded [deep vision](https://r
 
 Included in this repo are resources for efficiently deploying neural networks into the field using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.
 
-Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  The actions to understand and apply these are represented as ten easy-to-follow steps.
+Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  See the **[Deep Vision API Reference Guide](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html)** for complete documentation accompaning this tutorial. 
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-> **note**:  see the **[Deep Vision API Reference Guide](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html)** for complete documentation accompaning this tutorial. 
+> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) See our [Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/) detailing Jetson TX2.
 
 ### **Ten Steps to Deep Learning**
 
