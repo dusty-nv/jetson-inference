@@ -71,12 +71,16 @@ foreach(include ${inferenceIncludes})
 endforeach()
 
 
-# copy network data
-file(GLOB networkData ${PROJECT_SOURCE_DIR}/data/networks/* ${PROJECT_SOURCE_DIR}/data/images/*)
+# create symbolic link for network data
+execute_process( COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${PROJECT_SOURCE_DIR}/data/networks" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/networks" )
+  
+  
+# copy image data
+file(GLOB imageData ${PROJECT_SOURCE_DIR}/data/images/*)
 
-foreach(include ${networkData})
-	message("-- Copying ${include}")
-	file(COPY ${include} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+foreach(image ${imageData})
+	message("-- Copying ${image}")
+	file(COPY ${image} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 	#configure_file(${include} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
 endforeach()
 

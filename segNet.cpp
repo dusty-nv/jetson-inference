@@ -34,21 +34,21 @@ segNet::~segNet()
 segNet* segNet::Create( NetworkType networkType )
 {
 	if( networkType == FCN_ALEXNET_PASCAL_VOC )
-		return Create("FCN-Alexnet-PASCAL-VOC/deploy.prototxt", "FCN-Alexnet-PASCAL-VOC/snapshot_iter_146400.caffemodel", "FCN-Alexnet-PASCAL-VOC/pascal-voc-classes.txt", NULL );
+		return Create("networks/FCN-Alexnet-PASCAL-VOC/deploy.prototxt", "networks/FCN-Alexnet-PASCAL-VOC/snapshot_iter_146400.caffemodel", "networks/FCN-Alexnet-PASCAL-VOC/pascal-voc-classes.txt", NULL );
 	else if( networkType == FCN_ALEXNET_SYNTHIA_CVPR16 )
-		return Create("FCN-Alexnet-SYNTHIA-CVPR16/deploy.prototxt", "FCN-Alexnet-SYNTHIA-CVPR16/snapshot_iter_1206700.caffemodel", "FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-labels.txt", "FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-train-colors.txt" );
+		return Create("networks/FCN-Alexnet-SYNTHIA-CVPR16/deploy.prototxt", "networks/FCN-Alexnet-SYNTHIA-CVPR16/snapshot_iter_1206700.caffemodel", "networks/FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-labels.txt", "networks/FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-train-colors.txt" );
 	else if( networkType == FCN_ALEXNET_SYNTHIA_SUMMER_HD )
-		return Create("FCN-Alexnet-SYNTHIA-Summer-HD/deploy.prototxt", "FCN-Alexnet-SYNTHIA-Summer-HD/snapshot_iter_902888.caffemodel", "FCN-Alexnet-SYNTHIA-Summer-HD/synthia-seq-labels.txt", "FCN-Alexnet-SYNTHIA-Summer-HD/synthia-seq-train-colors.txt" );	
+		return Create("networks/FCN-Alexnet-SYNTHIA-Summer-HD/deploy.prototxt", "networks/FCN-Alexnet-SYNTHIA-Summer-HD/snapshot_iter_902888.caffemodel", "networks/FCN-Alexnet-SYNTHIA-Summer-HD/synthia-seq-labels.txt", "networks/FCN-Alexnet-SYNTHIA-Summer-HD/synthia-seq-train-colors.txt" );	
 	else if( networkType == FCN_ALEXNET_SYNTHIA_SUMMER_SD )
-		return Create("FCN-Alexnet-SYNTHIA-Summer-SD/deploy.prototxt", "FCN-Alexnet-SYNTHIA-Summer-SD/snapshot_iter_431816.caffemodel", "FCN-Alexnet-SYNTHIA-Summer-SD/synthia-seq-labels.txt", "FCN-Alexnet-SYNTHIA-Summer-SD/synthia-seq-train-colors.txt" );		
+		return Create("networks/FCN-Alexnet-SYNTHIA-Summer-SD/deploy.prototxt", "networks/FCN-Alexnet-SYNTHIA-Summer-SD/snapshot_iter_431816.caffemodel", "networks/FCN-Alexnet-SYNTHIA-Summer-SD/synthia-seq-labels.txt", "networks/FCN-Alexnet-SYNTHIA-Summer-SD/synthia-seq-train-colors.txt" );		
 	else if( networkType == FCN_ALEXNET_CITYSCAPES_HD )
-		return Create("FCN-Alexnet-Cityscapes-HD/deploy.prototxt", "FCN-Alexnet-Cityscapes-HD/snapshot_iter_367568.caffemodel", "FCN-Alexnet-Cityscapes-HD/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-HD/cityscapes-deploy-colors.txt" );	
+		return Create("networks/FCN-Alexnet-Cityscapes-HD/deploy.prototxt", "networks/FCN-Alexnet-Cityscapes-HD/snapshot_iter_367568.caffemodel", "networks/FCN-Alexnet-Cityscapes-HD/cityscapes-labels.txt", "networks/FCN-Alexnet-Cityscapes-HD/cityscapes-deploy-colors.txt" );	
 	else if( networkType == FCN_ALEXNET_CITYSCAPES_SD )
-		return Create("FCN-Alexnet-Cityscapes-SD/deploy.prototxt", "FCN-Alexnet-Cityscapes-SD/snapshot_iter_114860.caffemodel", "FCN-Alexnet-Cityscapes-SD/cityscapes-labels.txt", "FCN-Alexnet-Cityscapes-SD/cityscapes-deploy-colors.txt" );		
+		return Create("networks/FCN-Alexnet-Cityscapes-SD/deploy.prototxt", "networks/FCN-Alexnet-Cityscapes-SD/snapshot_iter_114860.caffemodel", "networks/FCN-Alexnet-Cityscapes-SD/cityscapes-labels.txt", "networks/FCN-Alexnet-Cityscapes-SD/cityscapes-deploy-colors.txt" );		
 	//else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p_4ch )
 	//	return Create("FCN-Alexnet-Aerial-FPV-4ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-4ch-720p/snapshot_iter_1777146.caffemodel", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-deploy-colors.txt", "data", "score_fr_4classes" );			
 	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p )
-		return Create("FCN-Alexnet-Aerial-FPV-21ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-21ch-720p/snapshot_iter_248178.caffemodel", "FCN-Alexnet-Aerial-FPV-21ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-21ch-720p/fpv-deploy-colors.txt" );		
+		return Create("networks/FCN-Alexnet-Aerial-FPV-21ch-720p/deploy.prototxt", "networks/FCN-Alexnet-Aerial-FPV-21ch-720p/snapshot_iter_248178.caffemodel", "networks/FCN-Alexnet-Aerial-FPV-21ch-720p/fpv-labels.txt", "networks/FCN-Alexnet-Aerial-FPV-21ch-720p/fpv-deploy-colors.txt" );		
 	else
 		return NULL;
 }

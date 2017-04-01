@@ -134,8 +134,8 @@ bool imageNet::loadClassInfo( const char* filename )
 // init
 bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize )
 {
-	const char* proto_file[] = { "alexnet.prototxt", "googlenet.prototxt" };
-	const char* model_file[] = { "bvlc_alexnet.caffemodel", "bvlc_googlenet.caffemodel" };
+	const char* proto_file[] = { "networks/alexnet.prototxt", "networks/googlenet.prototxt" };
+	const char* model_file[] = { "networks/bvlc_alexnet.caffemodel", "networks/bvlc_googlenet.caffemodel" };
 
 	/*
 	 * load and parse googlenet network definition and model file
@@ -154,7 +154,7 @@ bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize )
 	 */
 	mOutputClasses = mOutputs[0].dims.c;
 	
-	if( !loadClassInfo("ilsvrc12_synset_words.txt") || mClassSynset.size() != mOutputClasses || mClassDesc.size() != mOutputClasses )
+	if( !loadClassInfo("networks/ilsvrc12_synset_words.txt") || mClassSynset.size() != mOutputClasses || mClassDesc.size() != mOutputClasses )
 	{
 		printf("imageNet -- failed to load synset class descriptions  (%zu / %zu of %u)\n", mClassSynset.size(), mClassDesc.size(), mOutputClasses);
 		return false;
