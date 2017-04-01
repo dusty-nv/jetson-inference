@@ -184,7 +184,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	gieModelStream.seekg(0, gieModelStream.beg);
 
 	char cache_path[512];
-	sprintf(cache_path, "%s.tensorcache", model_path);
+	sprintf(cache_path, "%s.%u.tensorcache", model_path, maxBatchSize);
 	printf(LOG_GIE "attempting to open cache file %s\n", cache_path);
 	
 	std::ifstream cache( cache_path );
