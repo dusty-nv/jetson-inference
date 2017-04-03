@@ -207,12 +207,12 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ad97c02a2ee6b457833ae8a1680247789"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html">segNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#ad97c02a2ee6b457833ae8a1680247789">Create</a> (<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">NetworkType</a> networkType=<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a0760a67c5a08aad80d7dc732bc760e31">FCN_ALEXNET_CITYSCAPES_SD</a>)</td></tr>
-<tr class="memdesc:ad97c02a2ee6b457833ae8a1680247789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#ad97c02a2ee6b457833ae8a1680247789">More...</a><br /></td></tr>
-<tr class="separator:ad97c02a2ee6b457833ae8a1680247789"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a502f94435a641915d0453c5b025606b9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html">segNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a502f94435a641915d0453c5b025606b9">Create</a> (const char *prototxt_path, const char *model_path, const char *class_labels, const char *class_colors=NULL, const char *input=&quot;data&quot;, const char *output=&quot;score_fr_21classes&quot;)</td></tr>
-<tr class="memdesc:a502f94435a641915d0453c5b025606b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#a502f94435a641915d0453c5b025606b9">More...</a><br /></td></tr>
-<tr class="separator:a502f94435a641915d0453c5b025606b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a243ec6117a4566686bb98ea516ba6693"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html">segNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a243ec6117a4566686bb98ea516ba6693">Create</a> (<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">NetworkType</a> networkType=<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a0760a67c5a08aad80d7dc732bc760e31">FCN_ALEXNET_CITYSCAPES_SD</a>, uint32_t maxBatchSize=2)</td></tr>
+<tr class="memdesc:a243ec6117a4566686bb98ea516ba6693"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#a243ec6117a4566686bb98ea516ba6693">More...</a><br /></td></tr>
+<tr class="separator:a243ec6117a4566686bb98ea516ba6693"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d3609a3e381469152651d3f3a11c24e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html">segNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a3d3609a3e381469152651d3f3a11c24e">Create</a> (const char *prototxt_path, const char *model_path, const char *class_labels, const char *class_colors=NULL, const char *input=<a class="el" href="segNet_8h.html#a33b5fd20f8ed468725c55eb0bcc5af71">SEGNET_DEFAULT_INPUT</a>, const char *output=<a class="el" href="segNet_8h.html#a05c359c7dcd0c1e855543a3a9a18c422">SEGNET_DEFAULT_OUTPUT</a>, uint32_t maxBatchSize=2)</td></tr>
+<tr class="memdesc:a3d3609a3e381469152651d3f3a11c24e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#a3d3609a3e381469152651d3f3a11c24e">More...</a><br /></td></tr>
+<tr class="separator:a3d3609a3e381469152651d3f3a11c24e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4186752e1402963fdde8e2d6f2613d7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html">segNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#aa4186752e1402963fdde8e2d6f2613d7">Create</a> (int argc, char **argv)</td></tr>
 <tr class="memdesc:aa4186752e1402963fdde8e2d6f2613d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance by parsing the command line.  <a href="#aa4186752e1402963fdde8e2d6f2613d7">More...</a><br /></td></tr>
 <tr class="separator:aa4186752e1402963fdde8e2d6f2613d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -384,7 +384,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ad97c02a2ee6b457833ae8a1680247789"></a>
+<a class="anchor" id="a243ec6117a4566686bb98ea516ba6693"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -395,8 +395,18 @@ Protected Attributes</h2></td></tr>
           <td class="memname">static <a class="el" href="classsegNet.html">segNet</a>* segNet::Create </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">NetworkType</a>&#160;</td>
-          <td class="paramname"><em>networkType</em> = <code><a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a0760a67c5a08aad80d7dc732bc760e31">FCN_ALEXNET_CITYSCAPES_SD</a></code></td><td>)</td>
+          <td class="paramname"><em>networkType</em> = <code><a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a0760a67c5a08aad80d7dc732bc760e31">FCN_ALEXNET_CITYSCAPES_SD</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>maxBatchSize</em> = <code>2</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -410,7 +420,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a502f94435a641915d0453c5b025606b9"></a>
+<a class="anchor" id="a3d3609a3e381469152651d3f3a11c24e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -445,13 +455,19 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>input</em> = <code>&quot;data&quot;</code>, </td>
+          <td class="paramname"><em>input</em> = <code><a class="el" href="segNet_8h.html#a33b5fd20f8ed468725c55eb0bcc5af71">SEGNET_DEFAULT_INPUT</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>output</em> = <code>&quot;score_fr_21classes&quot;</code>&#160;</td>
+          <td class="paramname"><em>output</em> = <code><a class="el" href="segNet_8h.html#a05c359c7dcd0c1e855543a3a9a18c422">SEGNET_DEFAULT_OUTPUT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>maxBatchSize</em> = <code>2</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -474,7 +490,20 @@ Protected Attributes</h2></td></tr>
     <tr><td class="paramname">class_labels</td><td>File path to list of class name labels </td></tr>
     <tr><td class="paramname">class_colors</td><td>File path to list of class colors </td></tr>
     <tr><td class="paramname">input</td><td>Name of the input layer blob. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="segNet_8h.html#a33b5fd20f8ed468725c55eb0bcc5af71">SEGNET_DEFAULT_INPUT</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
     <tr><td class="paramname">output</td><td>Name of the output layer blob. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="segNet_8h.html#a05c359c7dcd0c1e855543a3a9a18c422">SEGNET_DEFAULT_OUTPUT</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxBatchSize</td><td>The maximum batch size that the network will support and be optimized for. </td></tr>
   </table>
   </dd>
 </dl>
@@ -936,7 +965,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classsegNet.html">segNet</a></li>
-    <li class="footer">Generated on Sat Apr 1 2017 16:34:38 for Deep Vision by
+    <li class="footer">Generated on Mon Apr 3 2017 12:01:07 for Deep Vision by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

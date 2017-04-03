@@ -22,7 +22,7 @@ var files =
     [ "gstUtility.h", "gstUtility_8h.html", "gstUtility_8h" ],
     [ "imageNet.h", "imageNet_8h.html", null ],
     [ "loadImage.h", "loadImage_8h.html", "loadImage_8h" ],
-    [ "segNet.h", "segNet_8h.html", null ],
+    [ "segNet.h", "segNet_8h.html", "segNet_8h" ],
     [ "tensorNet.h", "tensorNet_8h.html", "tensorNet_8h" ],
     [ "v4l2Camera.h", "v4l2Camera_8h.html", [
       [ "v4l2_mmap", "structv4l2__mmap.html", "structv4l2__mmap" ]

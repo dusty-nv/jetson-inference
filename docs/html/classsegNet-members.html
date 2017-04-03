@@ -114,8 +114,8 @@ $(document).ready(function(){initNavTree('classsegNet.html','');});
 
 <p>This is the complete list of members for <a class="el" href="classsegNet.html">segNet</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classsegNet.html#ad97c02a2ee6b457833ae8a1680247789">Create</a>(NetworkType networkType=FCN_ALEXNET_CITYSCAPES_SD)</td><td class="entry"><a class="el" href="classsegNet.html">segNet</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classsegNet.html#a502f94435a641915d0453c5b025606b9">Create</a>(const char *prototxt_path, const char *model_path, const char *class_labels, const char *class_colors=NULL, const char *input=&quot;data&quot;, const char *output=&quot;score_fr_21classes&quot;)</td><td class="entry"><a class="el" href="classsegNet.html">segNet</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classsegNet.html#a243ec6117a4566686bb98ea516ba6693">Create</a>(NetworkType networkType=FCN_ALEXNET_CITYSCAPES_SD, uint32_t maxBatchSize=2)</td><td class="entry"><a class="el" href="classsegNet.html">segNet</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classsegNet.html#a3d3609a3e381469152651d3f3a11c24e">Create</a>(const char *prototxt_path, const char *model_path, const char *class_labels, const char *class_colors=NULL, const char *input=SEGNET_DEFAULT_INPUT, const char *output=SEGNET_DEFAULT_OUTPUT, uint32_t maxBatchSize=2)</td><td class="entry"><a class="el" href="classsegNet.html">segNet</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classsegNet.html#aa4186752e1402963fdde8e2d6f2613d7">Create</a>(int argc, char **argv)</td><td class="entry"><a class="el" href="classsegNet.html">segNet</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr><td class="entry"><a class="el" href="classtensorNet.html#a2f09ad3c1163b9a5755b11da5adc9662">DisableFP16</a>()</td><td class="entry"><a class="el" href="classtensorNet.html">tensorNet</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classtensorNet.html#ae49f74ff83e46112a30318fa0576cace">EnableDebug</a>()</td><td class="entry"><a class="el" href="classtensorNet.html">tensorNet</a></td><td class="entry"></td></tr>
@@ -179,7 +179,7 @@ $(document).ready(function(){initNavTree('classsegNet.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Apr 1 2017 16:34:38 for Deep Vision by
+    <li class="footer">Generated on Mon Apr 3 2017 12:01:07 for Deep Vision by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

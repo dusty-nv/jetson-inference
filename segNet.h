@@ -10,6 +10,19 @@
 
 
 /**
+ * Name of default input blob for segmentation model.
+ * @ingroup deepVision
+ */
+#define SEGNET_DEFAULT_INPUT   "data"
+
+/**
+ * Name of default output blob for segmentation model.
+ * @ingroup deepVision
+ */
+#define SEGNET_DEFAULT_OUTPUT  "score_fr_21classes"
+
+
+/**
  * Image segmentation with FCN-Alexnet or custom models, using TensorRT.
  * @ingroup deepVision
  */
@@ -36,7 +49,7 @@ public:
 	/**
 	 * Load a new network instance
 	 */
-	static segNet* Create( NetworkType networkType=FCN_ALEXNET_CITYSCAPES_SD );
+	static segNet* Create( NetworkType networkType=FCN_ALEXNET_CITYSCAPES_SD, uint32_t maxBatchSize=2 );
 	
 	/**
 	 * Load a new network instance
@@ -44,12 +57,15 @@ public:
 	 * @param model_path File path to the caffemodel
 	 * @param class_labels File path to list of class name labels
 	 * @param class_colors File path to list of class colors
-	 * @param input Name of the input layer blob.
-	 * @param output Name of the output layer blob.
+	 * @param input Name of the input layer blob. @see SEGNET_DEFAULT_INPUT
+	 * @param output Name of the output layer blob. @see SEGNET_DEFAULT_OUTPUT
+	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
 	static segNet* Create( const char* prototxt_path, const char* model_path, 
-					   const char* class_labels, const char* class_colors=NULL,
-					   const char* input="data", const char* output=/*"upscore_21classes"*/"score_fr_21classes" );
+						   const char* class_labels, const char* class_colors=NULL,
+					       const char* input = SEGNET_DEFAULT_INPUT, 
+					       const char* output = SEGNET_DEFAULT_OUTPUT,
+					       uint32_t maxBatchSize=2 );
 	
 
 	/**
