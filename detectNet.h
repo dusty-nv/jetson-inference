@@ -71,6 +71,11 @@ public:
 							  uint32_t maxBatchSize=2 );
 	
 	/**
+	 * Load a new network instance by parsing the command line.
+	 */
+	static detectNet* Create( int argc, char** argv );
+	
+	/**
 	 * Destory
 	 */
 	virtual ~detectNet();

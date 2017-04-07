@@ -103,7 +103,12 @@ segNet* segNet::Create( int argc, char** argv )
 		if( !input ) 	input = SEGNET_DEFAULT_INPUT;
 		if( !output )  output = SEGNET_DEFAULT_OUTPUT;
 
-		return segNet::Create(prototxt, modelName, labels, colors, input, output);
+		int maxBatchSize = cmdLine.GetInt("batch_size");
+		
+		if( maxBatchSize < 1 )
+			maxBatchSize = 2;
+		
+		return segNet::Create(prototxt, modelName, labels, colors, input, output, maxBatchSize);
 	}
 }
 
@@ -123,8 +128,8 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	printf("       -- model:      %s\n", model);
 	printf("       -- labels:     %s\n", labels_path);
 	printf("       -- colors:     %s\n", colors_path);
-	printf("       -- input_blob  %s\n", input_blob);
-	printf("       -- output_blob %s\n", output_blob);
+	printf("       -- input_blob  '%s'\n", input_blob);
+	printf("       -- output_blob '%s'\n", output_blob);
 	printf("       -- batch_size  %u\n\n", maxBatchSize);
 	
 	//net->EnableProfiler();	

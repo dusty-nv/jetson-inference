@@ -8,6 +8,7 @@
 #include "cudaOverlay.h"
 #include "cudaResize.h"
 
+#include "commandLine.h"
 
 #define OUTPUT_CVG  0
 #define OUTPUT_BBOX 1
@@ -15,18 +16,6 @@
 //#define DEBUG_CLUSTERING
 
 
-// Create
-detectNet* detectNet::Create( NetworkType networkType, float threshold, uint32_t maxBatchSize )
-{
-	if( networkType == PEDNET_MULTI )
-		return Create("networks/multiped-500/deploy.prototxt", "networks/multiped-500/snapshot_iter_178000.caffemodel", "networks/multiped-500/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
-	else if( networkType == FACENET )
-		return Create("networks/facenet-120/deploy.prototxt", "networks/facenet-120/snapshot_iter_24000.caffemodel", NULL, threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize  );
-	else /*if( networkTYpe == PEDNET )*/
-		return Create("networks/ped-100/deploy.prototxt", "networks/ped-100/snapshot_iter_70800.caffemodel", "networks/ped-100/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize  );
-}
-
-	
 // constructor
 detectNet::detectNet() : tensorNet()
 {
@@ -52,6 +41,16 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 	if( !net )
 		return NULL;
 
+	printf("\n");
+	printf("detectNet -- loading segmentation network model from:\n");
+	printf("          -- prototxt:   %s\n", prototxt);
+	printf("          -- model:      %s\n", model);
+	printf("          -- input_blob  '%s'\n", input_blob);
+	printf("          -- output_cvg  '%s'\n", coverage_blob);
+	printf("          -- output_bbox '%s'\n", bbox_blob);
+	printf("          -- threshold   %f\n", threshold);
+	printf("          -- batch_size  %u\n\n", maxBatchSize);
+	
 	//net->EnableDebug();
 	
 	std::vector<std::string> output_blobs;
@@ -92,6 +91,71 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 }
 
 
+
+// Create
+detectNet* detectNet::Create( NetworkType networkType, float threshold, uint32_t maxBatchSize )
+{
+	if( networkType == PEDNET_MULTI )
+		return Create("networks/multiped-500/deploy.prototxt", "networks/multiped-500/snapshot_iter_178000.caffemodel", "networks/multiped-500/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
+	else if( networkType == FACENET )
+		return Create("networks/facenet-120/deploy.prototxt", "networks/facenet-120/snapshot_iter_24000.caffemodel", NULL, threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize  );
+	else /*if( networkTYpe == PEDNET )*/
+		return Create("networks/ped-100/deploy.prototxt", "networks/ped-100/snapshot_iter_70800.caffemodel", "networks/ped-100/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize  );
+}
+
+
+// Create
+detectNet* detectNet::Create( int argc, char** argv )
+{
+	commandLine cmdLine(argc, argv);
+
+	const char* modelName = cmdLine.GetString("model");
+
+	if( !modelName )
+	{
+		modelName = "multiped";
+
+		if( argc > 3 )
+			modelName = argv[3];	
+
+		detectNet::NetworkType type = detectNet::PEDNET_MULTI;
+
+		if( strcasecmp(modelName, "multiped") == 0 || strcasecmp(modelName, "multiped-500") == 0 )
+			type = detectNet::PEDNET_MULTI;
+		else if( strcasecmp(modelName, "pednet") == 0 || strcasecmp(modelName, "ped-100") == 0 )
+			type = detectNet::PEDNET;
+		else if( strcasecmp(modelName, "facenet") == 0 || strcasecmp(modelName, "facenet-120") == 0 || strcasecmp(modelName, "face-120") == 0 )
+			type = detectNet::FACENET;
+
+		// create segnet from pretrained model
+		return detectNet::Create(type);
+	}
+	else
+	{
+		const char* prototxt = cmdLine.GetString("prototxt");
+		const char* input    = cmdLine.GetString("input_blob");
+		const char* out_cvg  = cmdLine.GetString("output_cvg");
+		const char* out_bbox = cmdLine.GetString("output_bbox");
+		
+		if( !input ) 	input    = DETECTNET_DEFAULT_INPUT;
+		if( !out_cvg )  out_cvg  = DETECTNET_DEFAULT_COVERAGE;
+		if( !out_bbox ) out_bbox = DETECTNET_DEFAULT_BBOX;
+		
+		float threshold = cmdLine.GetFloat("threshold");
+		
+		if( threshold == 0.0f )
+			threshold = 0.5f;
+		
+		int maxBatchSize = cmdLine.GetInt("batch_size");
+		
+		if( maxBatchSize < 1 )
+			maxBatchSize = 2;
+
+		return detectNet::Create(prototxt, modelName, NULL, threshold, input, out_cvg, out_bbox, maxBatchSize);
+	}
+}
+	
+	
 cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value );
 
 

@@ -9,7 +9,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) See our technical **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*.
+> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*.
 
 ### **Ten Steps to Deep Learning**
 
