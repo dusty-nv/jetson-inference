@@ -10,6 +10,25 @@
 
 
 /**
+ * Name of default input blob for detectNet model.
+ * @ingroup deepVision
+ */
+#define DETECTNET_DEFAULT_INPUT   "data"
+
+/**
+ * Name of default output blob of the coverage map for detectNet model.
+ * @ingroup deepVision
+ */
+#define DETECTNET_DEFAULT_COVERAGE  "coverage"
+
+/**
+ * Name of default output blob of the grid of bounding boxes for detectNet model.
+ * @ingroup deepVision
+ */
+#define DETECTNET_DEFAULT_BBOX  "bboxes"
+
+
+/**
  * Object recognition and localization networks with TensorRT support.
  * @ingroup deepVision
  */
@@ -30,8 +49,9 @@ public:
 	 * Load a new network instance
 	 * @param networkType type of pre-supported network to load
 	 * @param threshold default minimum threshold for detection
+	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
-	static detectNet* Create( NetworkType networkType=PEDNET_MULTI, float threshold=0.5f );
+	static detectNet* Create( NetworkType networkType=PEDNET_MULTI, float threshold=0.5f, uint32_t maxBatchSize=2 );
 	
 	/**
 	 * Load a custom network instance
@@ -42,9 +62,13 @@ public:
 	 * @param input Name of the input layer blob.
 	 * @param coverage Name of the output coverage classifier layer blob, which contains the confidence values for each bbox.
 	 * @param bboxes Name of the output bounding box layer blob, which contains a grid of rectangles in the image.
+	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
-	static detectNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary, float threshold=0.5f,
-						 const char* input="data", const char* coverage="coverage", const char* bboxes="bboxes" );
+	static detectNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary, float threshold=0.5f, 
+							  const char* input = DETECTNET_DEFAULT_INPUT, 
+							  const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
+							  const char* bboxes = DETECTNET_DEFAULT_BBOX,
+							  uint32_t maxBatchSize=2 );
 	
 	/**
 	 * Destory

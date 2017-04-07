@@ -15,29 +15,17 @@
 //#define DEBUG_CLUSTERING
 
 
-detectNet* detectNet::Create( NetworkType networkType, float threshold  )
+// Create
+detectNet* detectNet::Create( NetworkType networkType, float threshold, uint32_t maxBatchSize )
 {
 	if( networkType == PEDNET_MULTI )
-		return Create("networks/multiped-500/deploy.prototxt", "networks/multiped-500/snapshot_iter_178000.caffemodel", "networks/multiped-500/mean.binaryproto", threshold );
+		return Create("networks/multiped-500/deploy.prototxt", "networks/multiped-500/snapshot_iter_178000.caffemodel", "networks/multiped-500/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
 	else if( networkType == FACENET )
-		return Create("networks/facenet-120/deploy.prototxt", "networks/facenet-120/snapshot_iter_24000.caffemodel", NULL, threshold );
+		return Create("networks/facenet-120/deploy.prototxt", "networks/facenet-120/snapshot_iter_24000.caffemodel", NULL, threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize  );
 	else /*if( networkTYpe == PEDNET )*/
-		return Create("networks/ped-100/deploy.prototxt", "networks/ped-100/snapshot_iter_70800.caffemodel", "networks/ped-100/mean.binaryproto", threshold );
+		return Create("networks/ped-100/deploy.prototxt", "networks/ped-100/snapshot_iter_70800.caffemodel", "networks/ped-100/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize  );
 }
 
-	
-void detectNet::SetClassColor( uint32_t classIndex, float r, float g, float b, float a )
-{
-	if( classIndex >= GetNumClasses() || !mClassColors[0] )
-		return;
-	
-	const uint32_t i = classIndex * 4;
-	
-	mClassColors[0][i+0] = r;
-	mClassColors[0][i+1] = g;
-	mClassColors[0][i+2] = b;
-	mClassColors[0][i+3] = a;
-}
 	
 // constructor
 detectNet::detectNet() : tensorNet()
@@ -57,7 +45,7 @@ detectNet::~detectNet()
 
 
 // Create
-detectNet* detectNet::Create( const char* prototxt, const char* model, const char* mean_binary, float threshold, const char* input_blob, const char* coverage_blob, const char* bbox_blob )
+detectNet* detectNet::Create( const char* prototxt, const char* model, const char* mean_binary, float threshold, const char* input_blob, const char* coverage_blob, const char* bbox_blob, uint32_t maxBatchSize )
 {
 	detectNet* net = new detectNet();
 	
@@ -293,4 +281,17 @@ bool detectNet::DrawBoxes( float* input, float* output, uint32_t width, uint32_t
 	return true;
 }
 	
+
+// SetClassColor
+void detectNet::SetClassColor( uint32_t classIndex, float r, float g, float b, float a )
+{
+	if( classIndex >= GetNumClasses() || !mClassColors[0] )
+		return;
 	
+	const uint32_t i = classIndex * 4;
+	
+	mClassColors[0][i+0] = r;
+	mClassColors[0][i+1] = g;
+	mClassColors[0][i+2] = b;
+	mClassColors[0][i+3] = a;
+}
