@@ -10,7 +10,7 @@ var files =
     [ "cudaRGB.h", "cudaRGB_8h.html", "cudaRGB_8h" ],
     [ "cudaUtility.h", "cudaUtility_8h.html", "cudaUtility_8h" ],
     [ "cudaYUV.h", "cudaYUV_8h.html", "cudaYUV_8h" ],
-    [ "detectNet.h", "detectNet_8h.html", null ],
+    [ "detectNet.h", "detectNet_8h.html", "detectNet_8h" ],
     [ "glDisplay.h", "glDisplay_8h.html", [
       [ "glDisplay", "classglDisplay.html", "classglDisplay" ]
     ] ],

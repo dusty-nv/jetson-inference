@@ -114,6 +114,9 @@ var group__deepVision =
       [ "mPrototxtPath", "classtensorNet.html#a54005b86b851fa71aeb7a83d4ad32362", null ],
       [ "mWidth", "classtensorNet.html#accab52fa354232149048440da0071573", null ]
     ] ],
+    [ "DETECTNET_DEFAULT_BBOX", "group__deepVision.html#gac8c52a38ffa041865ed71fd2ea806620", null ],
+    [ "DETECTNET_DEFAULT_COVERAGE", "group__deepVision.html#ga1e79603783719e4a79f2c68f1ef47621", null ],
+    [ "DETECTNET_DEFAULT_INPUT", "group__deepVision.html#gac824e329015dc8aed6e1112bfe21cb97", null ],
     [ "SEGNET_DEFAULT_INPUT", "group__deepVision.html#ga33b5fd20f8ed468725c55eb0bcc5af71", null ],
     [ "SEGNET_DEFAULT_OUTPUT", "group__deepVision.html#ga05c359c7dcd0c1e855543a3a9a18c422", null ]
 ];

@@ -114,8 +114,8 @@ $(document).ready(function(){initNavTree('classdetectNet.html','');});
 
 <p>This is the complete list of members for <a class="el" href="classdetectNet.html">detectNet</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classdetectNet.html#a99d4a1bb0db1414f21daf318b83717b1">Create</a>(NetworkType networkType=PEDNET_MULTI, float threshold=0.5f)</td><td class="entry"><a class="el" href="classdetectNet.html">detectNet</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classdetectNet.html#a325b520fff417a71fdd702f13a4a6ebc">Create</a>(const char *prototxt_path, const char *model_path, const char *mean_binary, float threshold=0.5f, const char *input=&quot;data&quot;, const char *coverage=&quot;coverage&quot;, const char *bboxes=&quot;bboxes&quot;)</td><td class="entry"><a class="el" href="classdetectNet.html">detectNet</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classdetectNet.html#ac93d9cd5e770e0e103969de6dd5c6277">Create</a>(NetworkType networkType=PEDNET_MULTI, float threshold=0.5f, uint32_t maxBatchSize=2)</td><td class="entry"><a class="el" href="classdetectNet.html">detectNet</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classdetectNet.html#ad1bcb59efe9ccb06b2ac9648b720329c">Create</a>(const char *prototxt_path, const char *model_path, const char *mean_binary, float threshold=0.5f, const char *input=DETECTNET_DEFAULT_INPUT, const char *coverage=DETECTNET_DEFAULT_COVERAGE, const char *bboxes=DETECTNET_DEFAULT_BBOX, uint32_t maxBatchSize=2)</td><td class="entry"><a class="el" href="classdetectNet.html">detectNet</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classdetectNet.html#aa319ff5ea57875921b7354094ed7cb33">Detect</a>(float *rgba, uint32_t width, uint32_t height, float *boundingBoxes, int *numBoxes, float *confidence=NULL)</td><td class="entry"><a class="el" href="classdetectNet.html">detectNet</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classdetectNet.html#a9c06901bf2562bddff0fe73cbed7196c">detectNet</a>()</td><td class="entry"><a class="el" href="classdetectNet.html">detectNet</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classtensorNet.html#a2f09ad3c1163b9a5755b11da5adc9662">DisableFP16</a>()</td><td class="entry"><a class="el" href="classtensorNet.html">tensorNet</a></td><td class="entry"></td></tr>
@@ -167,7 +167,7 @@ $(document).ready(function(){initNavTree('classdetectNet.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Apr 3 2017 12:32:07 for Deep Vision by
+    <li class="footer">Generated on Fri Apr 7 2017 16:20:02 for Deep Vision by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

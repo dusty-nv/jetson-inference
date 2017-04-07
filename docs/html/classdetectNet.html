@@ -193,12 +193,12 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a99d4a1bb0db1414f21daf318b83717b1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classdetectNet.html">detectNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a99d4a1bb0db1414f21daf318b83717b1">Create</a> (<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4">NetworkType</a> networkType=<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53">PEDNET_MULTI</a>, float threshold=0.5f)</td></tr>
-<tr class="memdesc:a99d4a1bb0db1414f21daf318b83717b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#a99d4a1bb0db1414f21daf318b83717b1">More...</a><br /></td></tr>
-<tr class="separator:a99d4a1bb0db1414f21daf318b83717b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a325b520fff417a71fdd702f13a4a6ebc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classdetectNet.html">detectNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a325b520fff417a71fdd702f13a4a6ebc">Create</a> (const char *prototxt_path, const char *model_path, const char *mean_binary, float threshold=0.5f, const char *input=&quot;data&quot;, const char *coverage=&quot;coverage&quot;, const char *bboxes=&quot;bboxes&quot;)</td></tr>
-<tr class="memdesc:a325b520fff417a71fdd702f13a4a6ebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom network instance.  <a href="#a325b520fff417a71fdd702f13a4a6ebc">More...</a><br /></td></tr>
-<tr class="separator:a325b520fff417a71fdd702f13a4a6ebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac93d9cd5e770e0e103969de6dd5c6277"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classdetectNet.html">detectNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#ac93d9cd5e770e0e103969de6dd5c6277">Create</a> (<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4">NetworkType</a> networkType=<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53">PEDNET_MULTI</a>, float threshold=0.5f, uint32_t maxBatchSize=2)</td></tr>
+<tr class="memdesc:ac93d9cd5e770e0e103969de6dd5c6277"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#ac93d9cd5e770e0e103969de6dd5c6277">More...</a><br /></td></tr>
+<tr class="separator:ac93d9cd5e770e0e103969de6dd5c6277"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1bcb59efe9ccb06b2ac9648b720329c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classdetectNet.html">detectNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#ad1bcb59efe9ccb06b2ac9648b720329c">Create</a> (const char *prototxt_path, const char *model_path, const char *mean_binary, float threshold=0.5f, const char *input=DETECTNET_DEFAULT_INPUT, const char *coverage=DETECTNET_DEFAULT_COVERAGE, const char *bboxes=DETECTNET_DEFAULT_BBOX, uint32_t maxBatchSize=2)</td></tr>
+<tr class="memdesc:ad1bcb59efe9ccb06b2ac9648b720329c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom network instance.  <a href="#ad1bcb59efe9ccb06b2ac9648b720329c">More...</a><br /></td></tr>
+<tr class="separator:ad1bcb59efe9ccb06b2ac9648b720329c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -343,7 +343,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a99d4a1bb0db1414f21daf318b83717b1"></a>
+<a class="anchor" id="ac93d9cd5e770e0e103969de6dd5c6277"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -360,7 +360,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>threshold</em> = <code>0.5f</code>&#160;</td>
+          <td class="paramname"><em>threshold</em> = <code>0.5f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>maxBatchSize</em> = <code>2</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -380,13 +386,14 @@ Protected Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">networkType</td><td>type of pre-supported network to load </td></tr>
     <tr><td class="paramname">threshold</td><td>default minimum threshold for detection </td></tr>
+    <tr><td class="paramname">maxBatchSize</td><td>The maximum batch size that the network will support and be optimized for. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="a325b520fff417a71fdd702f13a4a6ebc"></a>
+<a class="anchor" id="ad1bcb59efe9ccb06b2ac9648b720329c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -421,19 +428,25 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>input</em> = <code>&quot;data&quot;</code>, </td>
+          <td class="paramname"><em>input</em> = <code><a class="el" href="group__deepVision.html#gac824e329015dc8aed6e1112bfe21cb97">DETECTNET_DEFAULT_INPUT</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>coverage</em> = <code>&quot;coverage&quot;</code>, </td>
+          <td class="paramname"><em>coverage</em> = <code><a class="el" href="group__deepVision.html#ga1e79603783719e4a79f2c68f1ef47621">DETECTNET_DEFAULT_COVERAGE</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>bboxes</em> = <code>&quot;bboxes&quot;</code>&#160;</td>
+          <td class="paramname"><em>bboxes</em> = <code><a class="el" href="group__deepVision.html#gac8c52a38ffa041865ed71fd2ea806620">DETECTNET_DEFAULT_BBOX</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>maxBatchSize</em> = <code>2</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -458,6 +471,7 @@ Protected Attributes</h2></td></tr>
     <tr><td class="paramname">input</td><td>Name of the input layer blob. </td></tr>
     <tr><td class="paramname">coverage</td><td>Name of the output coverage classifier layer blob, which contains the confidence values for each bbox. </td></tr>
     <tr><td class="paramname">bboxes</td><td>Name of the output bounding box layer blob, which contains a grid of rectangles in the image. </td></tr>
+    <tr><td class="paramname">maxBatchSize</td><td>The maximum batch size that the network will support and be optimized for. </td></tr>
   </table>
   </dd>
 </dl>
@@ -792,7 +806,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classdetectNet.html">detectNet</a></li>
-    <li class="footer">Generated on Mon Apr 3 2017 12:32:07 for Deep Vision by
+    <li class="footer">Generated on Fri Apr 7 2017 16:20:02 for Deep Vision by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

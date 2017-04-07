@@ -243,11 +243,11 @@ var NAVTREEINDEX0 =
 "globals_defs.html":[2,1,2],
 "globals_func.html":[2,1,1],
 "group__deepVision.html":[0,0],
-"group__deepVision.html#ga05c359c7dcd0c1e855543a3a9a18c422":[0,0,5],
+"group__deepVision.html#ga05c359c7dcd0c1e855543a3a9a18c422":[0,0,8],
 "group__deepVision.html#ga05c359c7dcd0c1e855543a3a9a18c422":[2,0,18,1],
-"group__deepVision.html#ga33b5fd20f8ed468725c55eb0bcc5af71":[0,0,4],
+"group__deepVision.html#ga1e79603783719e4a79f2c68f1ef47621":[0,0,5],
+"group__deepVision.html#ga1e79603783719e4a79f2c68f1ef47621":[2,0,10,1],
+"group__deepVision.html#ga33b5fd20f8ed468725c55eb0bcc5af71":[0,0,7],
 "group__deepVision.html#ga33b5fd20f8ed468725c55eb0bcc5af71":[2,0,18,0],
-"group__util.html":[0,1],
-"group__util.html#ga08121b272362dcd6f06d71a5a660c1e9":[0,1,10],
-"group__util.html#ga08121b272362dcd6f06d71a5a660c1e9":[2,0,3,0]
+"group__deepVision.html#gac824e329015dc8aed6e1112bfe21cb97":[0,0,6]
 };

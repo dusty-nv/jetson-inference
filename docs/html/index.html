@@ -127,6 +127,15 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:gac824e329015dc8aed6e1112bfe21cb97"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gac824e329015dc8aed6e1112bfe21cb97">DETECTNET_DEFAULT_INPUT</a>&#160;&#160;&#160;&quot;data&quot;</td></tr>
+<tr class="memdesc:gac824e329015dc8aed6e1112bfe21cb97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default input blob for <a class="el" href="classdetectNet.html" title="Object recognition and localization networks with TensorRT support. ">detectNet</a> model.  <a href="#gac824e329015dc8aed6e1112bfe21cb97">More...</a><br /></td></tr>
+<tr class="separator:gac824e329015dc8aed6e1112bfe21cb97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1e79603783719e4a79f2c68f1ef47621"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga1e79603783719e4a79f2c68f1ef47621">DETECTNET_DEFAULT_COVERAGE</a>&#160;&#160;&#160;&quot;coverage&quot;</td></tr>
+<tr class="memdesc:ga1e79603783719e4a79f2c68f1ef47621"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default output blob of the coverage map for <a class="el" href="classdetectNet.html" title="Object recognition and localization networks with TensorRT support. ">detectNet</a> model.  <a href="#ga1e79603783719e4a79f2c68f1ef47621">More...</a><br /></td></tr>
+<tr class="separator:ga1e79603783719e4a79f2c68f1ef47621"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac8c52a38ffa041865ed71fd2ea806620"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gac8c52a38ffa041865ed71fd2ea806620">DETECTNET_DEFAULT_BBOX</a>&#160;&#160;&#160;&quot;bboxes&quot;</td></tr>
+<tr class="memdesc:gac8c52a38ffa041865ed71fd2ea806620"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default output blob of the grid of bounding boxes for <a class="el" href="classdetectNet.html" title="Object recognition and localization networks with TensorRT support. ">detectNet</a> model.  <a href="#gac8c52a38ffa041865ed71fd2ea806620">More...</a><br /></td></tr>
+<tr class="separator:gac8c52a38ffa041865ed71fd2ea806620"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga33b5fd20f8ed468725c55eb0bcc5af71"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga33b5fd20f8ed468725c55eb0bcc5af71">SEGNET_DEFAULT_INPUT</a>&#160;&#160;&#160;&quot;data&quot;</td></tr>
 <tr class="memdesc:ga33b5fd20f8ed468725c55eb0bcc5af71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default input blob for segmentation model.  <a href="#ga33b5fd20f8ed468725c55eb0bcc5af71">More...</a><br /></td></tr>
 <tr class="separator:ga33b5fd20f8ed468725c55eb0bcc5af71"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +152,48 @@ Macros</h2></td></tr>
 </ul>
 <p>The different primitives each inherit from the shared <a class="el" href="classtensorNet.html">tensorNet</a> object. </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="gac8c52a38ffa041865ed71fd2ea806620"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DETECTNET_DEFAULT_BBOX&#160;&#160;&#160;&quot;bboxes&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Name of default output blob of the grid of bounding boxes for <a class="el" href="classdetectNet.html" title="Object recognition and localization networks with TensorRT support. ">detectNet</a> model. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga1e79603783719e4a79f2c68f1ef47621"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DETECTNET_DEFAULT_COVERAGE&#160;&#160;&#160;&quot;coverage&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Name of default output blob of the coverage map for <a class="el" href="classdetectNet.html" title="Object recognition and localization networks with TensorRT support. ">detectNet</a> model. </p>
+
+</div>
+</div>
+<a class="anchor" id="gac824e329015dc8aed6e1112bfe21cb97"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DETECTNET_DEFAULT_INPUT&#160;&#160;&#160;&quot;data&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Name of default input blob for <a class="el" href="classdetectNet.html" title="Object recognition and localization networks with TensorRT support. ">detectNet</a> model. </p>
+
+</div>
+</div>
 <a class="anchor" id="ga33b5fd20f8ed468725c55eb0bcc5af71"></a>
 <div class="memitem">
 <div class="memproto">
@@ -176,7 +227,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Apr 3 2017 12:32:07 for Deep Vision by
+    <li class="footer">Generated on Fri Apr 7 2017 16:20:02 for Deep Vision by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
