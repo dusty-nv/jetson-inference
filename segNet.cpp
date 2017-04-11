@@ -34,7 +34,7 @@ segNet::~segNet()
 segNet* segNet::Create( NetworkType networkType, uint32_t maxBatchSize )
 {
 	if( networkType == FCN_ALEXNET_PASCAL_VOC )
-		return Create("networks/FCN-Alexnet-PASCAL-VOC/deploy.prototxt", "networks/FCN-Alexnet-PASCAL-VOC/snapshot_iter_146400.caffemodel", "networks/FCN-Alexnet-PASCAL-VOC/pascal-voc-classes.txt", NULL, SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );
+		return Create("networks/FCN-Alexnet-Pascal-VOC/deploy.prototxt", "networks/FCN-Alexnet-Pascal-VOC/snapshot_iter_146400.caffemodel", "networks/FCN-Alexnet-Pascal-VOC/pascal-voc-classes.txt", "networks/FCN-Alexnet-Pascal-VOC/pascal-voc-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );
 	else if( networkType == FCN_ALEXNET_SYNTHIA_CVPR16 )
 		return Create("networks/FCN-Alexnet-SYNTHIA-CVPR16/deploy.prototxt", "networks/FCN-Alexnet-SYNTHIA-CVPR16/snapshot_iter_1206700.caffemodel", "networks/FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-labels.txt", "networks/FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-train-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );
 	else if( networkType == FCN_ALEXNET_SYNTHIA_SUMMER_HD )
