@@ -48,7 +48,7 @@ segNet* segNet::Create( NetworkType networkType, uint32_t maxBatchSize )
 	//else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p_4ch )
 	//	return Create("FCN-Alexnet-Aerial-FPV-4ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-4ch-720p/snapshot_iter_1777146.caffemodel", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-deploy-colors.txt", "data", "score_fr_4classes", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );			
 	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p )
-		return Create("networks/FCN-Alexnet-Aerial-FPV-21ch-720p/deploy.prototxt", "networks/FCN-Alexnet-Aerial-FPV-21ch-720p/snapshot_iter_248178.caffemodel", "networks/FCN-Alexnet-Aerial-FPV-21ch-720p/fpv-labels.txt", "networks/FCN-Alexnet-Aerial-FPV-21ch-720p/fpv-deploy-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );		
+		return Create("networks/FCN-Alexnet-Aerial-FPV-720p/fcn_alexnet.deploy.prototxt", "networks/FCN-Alexnet-Aerial-FPV-720p/snapshot_iter_10280.caffemodel", "networks/FCN-Alexnet-Aerial-FPV-720p/fpv-labels.txt", "networks/FCN-Alexnet-Aerial-FPV-720p/fpv-deploy-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );		
 	else
 		return NULL;
 }
