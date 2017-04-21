@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=Abaco Tegra Detectnet Inferance Demo
+Name=Abaco Tegra Imagetnet Inference Demo
 X-GNOME-FullName=Abaco Systems detectnet inferance demo demonstration
 Comment=Nvidia deep learning demonstration
 Keywords=video;webcam;
-Exec=/home/ubuntu/inferance02.sh
+Exec=/home/ubuntu/git/jetson-inference-gv/inferance.sh
 Terminal=false
 Type=Application
 StartupNotify=true
