@@ -60,7 +60,7 @@
 //
 // Gstreamer V4L2 settings
 //
-#define VIDEO_GST_V4L_SRC_DEVICE      "/dev/video1" // Note '/dev/video0' is the CSI camera on the TX dev platforms
+#define VIDEO_GST_V4L_SRC_DEVICE      "/dev/video0" // Note '/dev/video0' is the CSI camera on the TX dev platforms
 #define VIDEO_GST_V4L_SRC_FRAMERATE   30
 
 #if VIDEO_SRC == VIDEO_GV_STREAM_SOURCE
