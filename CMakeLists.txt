@@ -1,6 +1,7 @@
 
 cmake_minimum_required(VERSION 2.8)
 project(jetson-inference)
+set(HOME "$ENV{HOME}" CACHE INTERNAL "Copied from environment variable")
 
 # setup tensorRT flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")	# -std=gnu++11
@@ -119,4 +120,15 @@ add_subdirectory(detectnet-camera)
 #add_subdirectory(camera/gst-camera)
 #add_subdirectory(camera/v4l2-console)
 #add_subdirectory(camera/v4l2-display)
+
+add_custom_target(desktop echo "Installing desktop shortcut to ${HOME}/Desktop..." &&
+sudo cp ../abaco/AbacoSystems_icon.png  /usr/share/icons/AbacoSystems_icon.png &&
+cp ../abaco/Detectnet-Inferance.desktop ${HOME}/Desktop/. &&
+cp ../abaco/inferance.sh ${HOME}/. )
+
+add_custom_target(undesktop echo "Uninstalling desktop shortcut..." &&
+sudo rm /usr/share/icons/AbacoSystems_icon.png &&
+rm ${HOME}/Desktop/Detectnet-Inferance.desktop &&
+rm ${HOME}/inferance.sh )
+
 
