@@ -16,18 +16,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 * [What's Deep Learning?](#whats-deep-learning)
 	* [DIGITS Workflow](#digits-workflow) 
 * [System Setup](#system-setup)
-	* [Installing Ubuntu on the Host](#installing-ubuntu-on-the-host)
-	* [Running JetPack on the Host](#running-jetpack-on-the-host)
-	* [Installing NVIDIA Driver on the Host](#installing-nvidia-driver-on-the-host)
-	* [Installing cuDNN on the Host](#installing-cudnn-on-the-host)
-	* [Installing NVcaffe on the Host](#installing-nvcaffe-on-the-host)
-	* [Installing DIGITS on the Host](#installing-digits-on-the-host)
-	* [Starting the DIGITS Server](#starting-the-digits-server)
 * [Building from Source on Jetson](#building-from-source-on-jetson)
-	* [Cloning the Repo](#cloning-the-repo)
-	* [Configuring with CMake](#configuring-with-cmake)
-	* [Compiling the Project](#compiling-the-project)
-	* [Digging into the Code](#digging-into-the-code)
 * [Classifying Images with ImageNet](#classifying-images-with-imagenet)
 	* [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
 	* [Re-training the Network with DIGITS](#re-training-the-network-with-DIGITS)
@@ -95,17 +84,17 @@ $ ./JetPack-L4T-3.0-linux-x64.run
 
 The JetPack GUI will start.  Follow the step-by-step **[http://docs.nvidia.com/jetpack-l4t/index.html#developertools/mobile/jetpack/l4t/3.0/jetpack_l4t_install.htm Install Guide]** to complete the setup.  Near the beginning, JetPack will confirm which generation Jetson you are developing for.
 
-![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-platform.jpg)
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-platform.png)
 
 Select Jetson TX1 if you are using TX1, or Jetson TX2 if you're using TX2, and press `Next` to continue.
 
 The next screen will list the packages available to be installed.  The packages installed to the host are listed at the top under the `Host - Ubuntu` dropdown, while those intended for the Jetson are shown near the bottom.  You can select or deselect an individual package for installation by clicking it's `Action` column.
 
-![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-packages.jpg)
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-packages.png)
 
 Since CUDA will be used on the host for training DNNs, it's recommended to select the Full install by click on the radio button in the top right.  Then press `Next` to begin setup.  JetPack will download and then install the sequence of packages:
 
-![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-downloads.jpg)
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-downloads.png)
 
 Note that all the .deb packages are stored under the `jetpack_downloads` subdirectory if you are to need them later.  
 
