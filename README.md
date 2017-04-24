@@ -13,7 +13,6 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 ### **Table of Contents**
 
-* [What's Deep Learning?](#whats-deep-learning)
 * [DIGITS Workflow](#digits-workflow) 
 * [System Setup](#system-setup)
 * [Building from Source on Jetson](#building-from-source-on-jetson)
@@ -43,20 +42,17 @@ Deployment:    &nbsp;&nbsp;Jetson TX2 Developer Kit with JetPack 3.0 or newer (U
 
 Note that TensorRT samples from the repo are intended for deployment on embedded Jetson TX1/TX2 module, however when cuDNN and TensorRT have been installed on the host side, the TensorRT samples in the repo can be compiled for PC.
 
-## What's Deep Learning?
+## DIGITS Workflow
 
 New to deep neural networks (DNNs) and machine learning?  Take this [introductory primer](docs/deep-learning.md) on training and inference.
 
 <a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/digits-samples.jpg" width="800"></a>
 
-Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md)** training DNNs and deploying them with high performance.
-
-### DIGITS Workflow
+Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md)** training DNNs and deploying them into the field with high performance.  Discrete GPUs are typically used in a server, PC, or laptop for training with DIGITS, while Jetson and integrated GPU is used by embedded form factors.
 
 <a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/digits-workflow.jpg" width="700"></a>
 
 NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field. TensorRT uses graph optimizations and half-precision FP16 support to more than double DNN inferencing.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of implementing advanced AI and perception. 
-
 
 ## System Setup
 
