@@ -11,23 +11,34 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 > ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*.
 
-### **Ten Steps to Deep Learning**
+### **Table of Contents**
 
-1. [What's Deep Learning?](#whats-deep-learning)
-2. [Flashing JetPack-L4T to Jetson](#getting-tensorrt)
-3. [Building from Source](#building-from-source)
-4. [Digging Into the Code](#digging-into-the-code)
-5. [Classify Images with ImageNet](#classifying-images-with-imagenet)
-6. [Run the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
-7. [Re-train the Network with Customized Data](#re-training-the-network-with-customized-data)
-8. [Locate Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
-9. [Run the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
-10. [Re-train DetectNet with DIGITS](#re-training-detectnet-with-digits)
-
+* [What's Deep Learning?](#whats-deep-learning)
+	* [DIGITS Workflow](#digits-workflow) 
+* [System Setup](#system-setup)
+	* [Installing Ubuntu on the Host](#installing-ubuntu-on-the-host)
+	* [Running JetPack on the Host](#running-jetpack-on-the-host)
+	* [Installing NVIDIA Driver on the Host](#installing-nvidia-driver-on-the-host)
+	* [Installing cuDNN on the Host](#installing-cudnn-on-the-host)
+	* [Installing NVcaffe on the Host](#installing-nvcaffe-on-the-host)
+	* [Installing DIGITS on the Host](#installing-digits-on-the-host)
+	* [Starting the DIGITS Server](#starting-the-digits-server)
+* [Building from Source on Jetson](#building-from-source-on-jetson)
+	* [Cloning the Repo](#cloning-the-repo)
+	* [Configuring with CMake](#configuring-with-cmake)
+	* [Compiling the Project](#compiling-the-project)
+	* [Digging into the Code](#digging-into-the-code)
+* [Classifying Images with ImageNet](#classifying-images-with-imagenet)
+	* [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
+	* [Re-training the Network with DIGITS](#re-training-the-network-with-DIGITS)
+* [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
+	* [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
+	* [Re-training DetectNet with DIGITS](#re-training-detectnet-with-digits)
+* [Extra Resources](#extra-resources)
 
 **Recommended System Requirements**
 
-Training GPU:  Maxwell or Pascal-based TITAN-X, Tesla M40, P40 or AWS P2 instance.  
+Training GPU:  Maxwell or Pascal-based GPU or AWS P2 instance.  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ubuntu 14.04 x86_64 or Ubuntu 16.04 x86_64 (see DIGITS [AWS AMI](https://aws.amazon.com/marketplace/pp/B01LZN28VD) image).
 
 Deployment:    &nbsp;&nbsp;Jetson TX2 Developer Kit with JetPack 3.0 or newer (Ubuntu 16.04 aarch64).  
@@ -48,65 +59,208 @@ New to deep neural networks (DNNs) and machine learning?  Take this [introductor
 
 Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md)** training DNNs and deploying them with high performance.
 
+### DIGITS Workflow
 
 <a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/5720072a6941032685ea18c4e4068a23" width="700"></a>
 
-NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of implementing advanced AI and perception. 
+NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field. TensorRT uses graph optimizations and half-precision FP16 support to more than double DNN inferencing.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of implementing advanced AI and perception. 
 
-To get started, see the DIGITS [Getting Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md) guide and then the next section of the tutorial, [Getting TensorRT](#getting-tensorrt).
 
-Please install the latest DIGITS on a host PC or cloud service with NVIDIA GPU. See [developer.nvidia.com/digits](http://developer.nvidia.com/digits) for pre-built Docker images and Amazon Machine Image (AMI).
+## System Setup
 
-## Getting TensorRT
+During this tutorial, we will use a host PC (or AWS), for training DNNs, alongside a Jetson for inference.  The host PC will also serve to flash the Jetson with the latest JetPack.  First we'll setup and configure the host PC with the required OS and tools.
 
-NVIDIA TensorRT is a new library available in **[JetPack 2.3](https://developer.nvidia.com/embedded/jetpack)** for optimizing and deploying production DNN's.  TensorRT performs a host of graph optimizations and takes advantage of half-precision FP16 support on TX1 to achieve up to 2X or more performance improvement versus Caffe:
+### Installing Ubuntu on the Host
 
-<a href="https://devblogs.nvidia.com/parallelforall/jetpack-doubles-jetson-tx1-deep-learning-inference/"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/91d88749a582e884926686f7a9a7f9fd" width="700"></a>
+Download and install Ubuntu 16.04 x86_64 onto the host PC from one of the following locations:
 
-And in a benchmark conducted measuring images/sec/Watts, with TensorRT Jetson TX1 is up to 20X more power efficient than traditional CPUs at deep-learning inference.  See this **[Parallel ForAll](https://devblogs.nvidia.com/parallelforall/jetpack-doubles-jetson-tx1-deep-learning-inference/)** article for a technical overview of the release.
+```
+http://releases.ubuntu.com/16.04/ubuntu-16.04.2-desktop-amd64.iso
+http://releases.ubuntu.com/16.04/ubuntu-16.04.2-desktop-amd64.iso.torrent
+```
 
-<a href="https://devblogs.nvidia.com/parallelforall/jetpack-doubles-jetson-tx1-deep-learning-inference/"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/86d79898dbb3c0664ab1fcf112da4e6e" width="700"></a>
+Ubuntu 14.04 x86_64 may also be acceptable with minor modifications later while installing some packages with apt-get.
 
-To obtain TensorRT, download the latest [JetPack](https://developer.nvidia.com/embedded/jetpack) to your PC and re-flash your Jetson (see [Jetson TX1 User Guide](http://developer.nvidia.com/embedded/dlc/l4t-24-1-jetson-tx1-user-guide)).
+### Running JetPack on the Host
 
-## Building from Source
-Provided along with this repo are TensorRT-enabled examples of running Googlenet/Alexnet on live camera feed for image recognition, and pedestrian detection networks with localization capabilities (i.e. that provide bounding boxes). 
+Download the latest **[https://developer.nvidia.com/embedded/jetpack JetPack]** to the host PC.  In addition to flashing the Jetson with the latest Board Support Package (BSP), JetPack automatically installs tools for the host like CUDA Toolkit.  See the JetPack [https://developer.nvidia.com/embedded/jetpack-notes Release Notes] for the full list of features and installed packages.
 
-The latest source can be obtained from [GitHub](http://github.com/dusty-nv/jetson-inference) and compiled onboard Jetson TX1.
+After downloading JetPack from the link above, run it from the host PC with the following commands:
 
-> **note**:  this [branch](http://github.com/dusty-nv/jetson-inference) is verified against 
->        JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS)
+``` bash 
+$ cd <directory where you downloaded JetPack>
+$ chmod +x JetPack-L4T-3.0-linux-x64.run 
+$ ./JetPack-L4T-3.0-linux-x64.run 
+```
+
+The JetPack GUI will start.  Follow the step-by-step **[http://docs.nvidia.com/jetpack-l4t/index.html#developertools/mobile/jetpack/l4t/3.0/jetpack_l4t_install.htm Install Guide]** to complete the setup.  Near the beginning, JetPack will confirm which generation Jetson you are developing for.
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-platform.jpg)
+
+Select Jetson TX1 if you are using TX1, or Jetson TX2 if you're using TX2, and press `Next` to continue.
+
+The next screen will list the packages available to be installed.  The packages installed to the host are listed at the top under the `Host - Ubuntu` dropdown, while those intended for the Jetson are shown near the bottom.  You can select or deselect an individual package for installation by clicking it's `Action` column.
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-packages.jpg)
+
+Since CUDA will be used on the host for training DNNs, it's recommended to select the Full install by click on the radio button in the top right.  Then press `Next` to begin setup.  JetPack will download and then install the sequence of packages:
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-downloads.jpg)
+
+Note that all the .deb packages are stored under the `jetpack_downloads` subdirectory if you are to need them later.  
+
+After the downloads have finished installing, JetPack will enter the post-install phase where the JetPack is flashed with the L4T BSP.  You'll need to connect your Jetson to your host PC via the micro-USB port and cable included in the devkit.  Then enter your Jetson into recovery mode by holding down the Recovery button while pressing and releasing Reset.  If you type `lsusb` from the host PC after you've connected the micro-USB cable and entered the Jetson into recovery mode, you should see the NVIDIA device come up under the list of USB devices.  JetPack uses the micro-USB connection from the host to flash the L4T BSP to the Jetson.  After flashing, the Jetson will reboot and if attached to an HDMI display, will boot up to the Ubuntu desktop.  After this, JetPack connects to the Jetson from the host via SSH to install additional packages to the Jetson, like the ARM aarch64 builds of CUDA Toolkit, cuDNN, and TensorRT.  For JetPack to be able to reach the Jetson via SSH, the host PC should be networked to the Jetson via Ethernet.  This can be accomplished by running an Ethernet cable directly from the host to the Jetson, or by connecting both devices to a router or switch — the JetPack GUI will ask you to confirm which networking scenario is being used.  See the JetPack **[http://docs.nvidia.com/jetpack-l4t/index.html#developertools/mobile/jetpack/l4t/3.0/jetpack_l4t_install.htm Install Guide]** for the full directions for installing JetPack and flashing Jetson.
+
+### Installing NVIDIA Driver on the Host
+
+At this point, JetPack will have flashed the Jetson with the latest L4T BSP, and installed CUDA toolkits to both the Jetson and host PC.  However, the NVIDIA PCIe driver will still need to be installed on the host PC to enable GPU-accelerated training.  Run the following commands from the host PC to install the NVIDIA driver from the Ubuntu repo:
+
+``` bash
+$ sudo apt-get install nvidia-375
+$ sudo reboot
+```
+
+Afer rebooting, the NVIDIA driver should be listed under `lsmod`:
+
+``` bash
+$ lsmod | grep nvidia
+nvidia_uvm            647168  0
+nvidia_drm             49152  1
+nvidia_modeset        790528  4 nvidia_drm
+nvidia              12144640  60 nvidia_modeset,nvidia_uvm
+drm_kms_helper        167936  1 nvidia_drm
+drm                   368640  4 nvidia_drm,drm_kms_helper
+```
+
+To verify the CUDA toolkit and NVIDIA driver are working, run some tests that come with the CUDA samples:
+
+``` bash
+$ cd /usr/local/cuda/samples
+$ sudo make
+$ cd bin/x86_64/linux/release/
+$ ./deviceQuery
+$ ./bandwidthTest --memory=pinned
+```
+
+### Installing cuDNN on the Host
+
+The next step is to install NVIDIA **[https://developer.nvidia.com/cudnn cuDNN]** libraries on the host PC.  Download the libcudnn and libcudnn packages from the NVIDIA site:
+
+```
+https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v6/prod/8.0_20170307/Ubuntu16_04_x64/libcudnn6_6.0.20-1+cuda8.0_amd64-deb
+https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v6/prod/8.0_20170307/Ubuntu16_04_x64/libcudnn6-dev_6.0.20-1+cuda8.0_amd64-deb
+```
+
+Then install the packages with the following commands:
+
+``` bash
+$ sudo dpkg -i libcudnn6_6.0.20-1+cuda8.0_amd64.deb
+$ sudo dpkg -i libcudnn6
+libcudnn6_6.0.20-1+cuda8.0_amd64.deb
+```
+
+### Installing NVcaffe on the Host
+
+NVcaffe is the NVIDIA branch of Caffe with optimizations for GPU.  NVcaffe uses cuDNN and is used by DIGITS for training DNNs.  To install it, clone the NVcaffe repo from GitHub and compile from source.  First some prequisite packages for Caffe are installed, including the Python bindings required by DIGITS:
+
+``` bash
+$ sudo apt-get install --no-install-recommends build-essential cmake git gfortran libatlas-base-dev libboost-filesystem-dev libboost-python-dev libboost-system-dev libboost-thread-dev libgflags-dev libgoogle-glog-dev libhdf5-serial-dev libleveldb-dev liblmdb-dev libprotobuf-dev libsnappy-dev protobuf-compiler python-all-dev python-dev python-h5py python-matplotlib python-numpy python-opencv python-pil python-pip python-protobuf python-scipy python-skimage python-sklearn python-setuptools 
+$ sudo pip install --upgrade pip
+$ git clone http://github.com/NVIDIA/caffe
+$ cd caffe
+$ sudo pip install -r python/requirements.txt 
+$ mkdir build
+$ cd build
+$ cmake ../ -DUSE_OPENCV=off
+$ make --jobs=4
+$ make pycaffe
+```
+
+Caffe should now be configured and built.  Now edit your user's ~/.bashrc to include the path to your Caffe tree (replace the paths below to reflect your own):
+
+``` bash
+export CAFFE_ROOT=/home/dusty/workspace/caffe
+export PYTHONPATH=/home/dusty/workspace/caffe/python:$PYTHONPATH
+```
+
+Close and re-open the terminal for the changes to take effect.
+
+
+### Installing DIGITS on the Host
+
+NVIDIA **[https://developer.nvidia.com/digits]]** is a Python-based web service which interactively trains DNNs and manages datasets.  As highlighed in the DIGITS workflow, it runs on the host PC to create the network model during the training phase.  The trained model is then copied from the host PC to the Jetson for the runtime inference phase with TensorRT.
+
+To install DIGITS, first install the prerequisiste packages, then clone the DIGITS repo from GitHub:
+
+``` bash
+$ sudo apt-get install --no-install-recommends graphviz python-dev python-flask python-flaskext.wtf python-gevent python-h5py python-numpy python-pil python-pip python-protobuf python-scipy python-tk
+$ git clone http://github.com/nvidia/DIGITS
+$ cd DIGITS
+$ sudo pip install -r requirements.txt
+```
+
+#### Starting the DIGITS Server
+
+Assuming that your terminal is still in the DIGITS directory, the webserver can be started by running the `digits-devserver` Python script:
+
+``` bash
+$ ./digits-devserver 
+  ___ ___ ___ ___ _____ ___
+ |   \_ _/ __|_ _|_   _/ __|
+
+ | |) | | (_ || |  | | \__ \
+ |___/___\___|___| |_| |___/ 5.1-dev
+
+2017-04-17 13:19:02 [INFO ] Loaded 0 jobs.
+```
+
+DIGITS will store user jobs (training datasets and model snapshots) under the `digits/jobs` directory.
+
+To access the interactive DIGITS session, open your web browser and navigate to `0.0.0.0:5000`.
+
+> **note**:  by default the DIGITS server will start on port 5000, but the port can be specified by passing the `--port` argument to the `digits-devserver` script.
+
+
+## Building from Source on Jetson
+Provided along with this repo are TensorRT-enabled deep learning primitives for running Googlenet/Alexnet on live camera feed for image recognition, pedestrian detection networks with localization capabilities (i.e. that provide bounding boxes), and segmentation.  This repo is intended to be built & run on the Jetson and to accept the network models from the host PC trained on the DIGITS server.
+
+The latest source can be obtained from [GitHub](http://github.com/dusty-nv/jetson-inference) and compiled onboard Jetson TX1/TX2.
+
+> **note**:  this [branch](http://github.com/dusty-nv/jetson-inference) is verified against the following BSP versions for Jetson TX1/TX2: <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> Jetson TX2 - JetPack 3.0 / L4T R27.1 aarch64 (Ubuntu 16.04 LTS) <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> Jetson TX1 - JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04 LTS) <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> Jetson TX1 - JetPack 2.3.1 / L4T R24.2.1 aarch64 (Ubuntu 16.04 LTS)
       
-#### 1. Cloning the repo
+#### Cloning the Repo
 To obtain the repository, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed locally:
 
 ``` bash
-sudo apt-get install git cmake
+$ sudo apt-get install git cmake
 ```
 
 Then clone the jetson-inference repo:
 ``` bash
-git clone http://github.com/dusty-nv/jetson-inference
+$ git clone http://github.com/dusty-nv/jetson-inference
 ```
 
-#### 2. Configuring
+#### Configuring with CMake
 
 When cmake is run, a special pre-installation script (CMakePreBuild.sh) is run and will automatically install any dependencies.
 
 ``` bash
-cd jetson-inference
-mkdir build
-cd build
-cmake ../
+$ cd jetson-inference
+$ mkdir build
+$ cd build
+$ cmake ../
 ```
 
-#### 3. Compiling
+#### Compiling the Project
 
 Make sure you are still in the jetson-inference/build directory, created above in step #2.
 
 ``` bash
-cd jetson-inference/build			# omit if pwd is already /build from above
-make
+$ cd jetson-inference/build			# omit if pwd is already /build from above
+$ make
 ```
 
 Depending on architecture, the package will be built to either armhf or aarch64, with the following directory structure:
@@ -125,7 +279,7 @@ Depending on architecture, the package will be built to either armhf or aarch64,
 
 binaries residing in aarch64/bin, headers in aarch64/include, and libraries in aarch64/lib.
 
-## Digging Into the Code
+#### Digging Into the Code
 
 For reference, see the available vision primitives, including [`imageNet`](imageNet.h) for image recognition and [`detectNet`](detectNet.h) for object localization.
 
@@ -202,7 +356,7 @@ $ ./imagenet-console granny_smith_1.jpg output_1.jpg
 
 Next, we will use [imageNet](imageNet.h) to classify a live video feed from the Jetson onboard camera.
 
-## Running the Live Camera Recognition Demo
+### Running the Live Camera Recognition Demo
 
 Similar to the last example, the realtime image recognition demo is located in /aarch64/bin and is called [`imagenet-camera`](imagenet-camera/imagenet-camera.cpp).
 It runs on live camera stream and depending on user arguments, loads googlenet or alexnet with TensorRT. 
@@ -218,7 +372,7 @@ The frames per second (FPS), classified object name from the video, and confiden
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/399176be3f3ab2d9bfade84e0afe2abd"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/399176be3f3ab2d9bfade84e0afe2abd" width="800"></a>
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/93071639e44913b6f23c23db2a077da3"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/93071639e44913b6f23c23db2a077da3" width="800"></a>
 
-## Re-training the Network with Customized Data
+### Re-training the Network with DIGITS
 
 The existing GoogleNet and AlexNet models that are downloaded by the repo are pre-trained on [1000 classes of objects](data/networks/ilsvrc12_synset_words.txt).
 
@@ -272,7 +426,7 @@ $ ./detectnet-console peds-008.png output-8.png
 
 <a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84" width="900"></a>
 
-## Running the Live Camera Detection Demo
+### Running the Live Camera Detection Demo
 
 Similar to the previous example, [`detectnet-camera`](detectnet-camera/detectnet-camera.cpp) runs the object detection networks on live video feed from the Jetson onboard camera.  Launch it from command line along with the type of desired network:
 
@@ -288,7 +442,7 @@ $ ./detectnet-camera                # by default, program will run using multipe
 <br/>
 > **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera.  The model it's tested with is Logitech C920.  
 
-## Re-training DetectNet with DIGITS
+### Re-training DetectNet with DIGITS
 
 For a step-by-step guide to training custom DetectNets, see the **[Object Detection](https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection)** example included in DIGITS version 4:
 
