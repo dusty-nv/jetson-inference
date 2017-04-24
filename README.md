@@ -14,13 +14,16 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 ### **Table of Contents**
 
 * [What's Deep Learning?](#whats-deep-learning)
-	* [DIGITS Workflow](#digits-workflow) 
+* [DIGITS Workflow](#digits-workflow) 
 * [System Setup](#system-setup)
 * [Building from Source on Jetson](#building-from-source-on-jetson)
 * [Classifying Images with ImageNet](#classifying-images-with-imagenet)
+	* [Using the Console Program](#using-the-console-program)
 	* [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
 	* [Re-training the Network with DIGITS](#re-training-the-network-with-DIGITS)
 * [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
+	* [Testing Images from the Command Line](#testing-images-from-the-command-line)
+	* [Multi-class Object Detection](#multi-class-object-detection)
 	* [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
 	* [Re-training DetectNet with DIGITS](#re-training-detectnet-with-digits)
 * [Extra Resources](#extra-resources)
@@ -84,13 +87,13 @@ $ ./JetPack-L4T-3.0-linux-x64.run
 
 The JetPack GUI will start.  Follow the step-by-step **[Install Guide](http://docs.nvidia.com/jetpack-l4t/index.html#developertools/mobile/jetpack/l4t/3.0/jetpack_l4t_install.htm)** to complete the setup.  Near the beginning, JetPack will confirm which generation Jetson you are developing for.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-platform.png" width="700">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-platform.png" width="400">
 
 Select Jetson TX1 if you are using TX1, or Jetson TX2 if you're using TX2, and press `Next` to continue.
 
 The next screen will list the packages available to be installed.  The packages installed to the host are listed at the top under the `Host - Ubuntu` dropdown, while those intended for the Jetson are shown near the bottom.  You can select or deselect an individual package for installation by clicking it's `Action` column.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-downloads.png" width="700">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/jetpack-downloads.png" width="500">
 
 Since CUDA will be used on the host for training DNNs, it's recommended to select the Full install by click on the radio button in the top right.  Then press `Next` to begin setup.  JetPack will download and then install the sequence of packages.  Note that all the .deb packages are stored under the `jetpack_downloads` subdirectory if you are to need them later.  
 
@@ -140,8 +143,7 @@ Then install the packages with the following commands:
 
 ``` bash
 $ sudo dpkg -i libcudnn6_6.0.20-1+cuda8.0_amd64.deb
-$ sudo dpkg -i libcudnn6
-libcudnn6_6.0.20-1+cuda8.0_amd64.deb
+$ sudo dpkg -i libcudnn6-dev_6.0.20-1+cuda8.0_amd64.deb
 ```
 
 ### Installing NVcaffe on the Host
@@ -192,7 +194,6 @@ Assuming that your terminal is still in the DIGITS directory, the webserver can 
 $ ./digits-devserver 
   ___ ___ ___ ___ _____ ___
  |   \_ _/ __|_ _|_   _/ __|
-
  | |) | | (_ || |  | | \__ \
  |___/___\___|___| |_| |___/ 5.1-dev
 
@@ -317,9 +318,11 @@ Both inherit from the shared [`tensorNet`](tensorNet.h) object which contains co
 ## Classifying Images with ImageNet
 There are multiple types of deep learning networks available, including recognition, detection/localization, and soon segmentation.  The first deep learning capability to highlight is **image recognition** using an 'imageNet' that's been trained to identify similar objects.
 
-The [`imageNet`](imageNet.h) object accept an input image and outputs the probability for each class.  Having been trained on ImageNet database of **[1000 objects](data/networks/ilsvrc12_synset_words.txt)**, the standard AlexNet and GoogleNet networks are downloaded during [step 2](#configuring) from above.
+The [`imageNet`](imageNet.h) object accepts an input image and outputs the probability for each class.  Having been trained on ImageNet database of **[1000 objects](data/networks/ilsvrc12_synset_words.txt)**, the standard AlexNet and GoogleNet networks are downloaded during [step 2](#configuring-with-cmake) from above.  As examples of using [`imageNet`](imageNet.h) we provide a command-line interface called [`imagenet-console`](imagenet-console/imagenet-console.cpp) and a live camera program called [`imagenet-camera`](imagenet-camera/imagenet-camera.cpp).
 
-After building, first make sure your terminal is located in the aarch64/bin directory:
+### Using the Console Program
+
+First, use the [`imagenet-console`](imagenet-console/imagenet-console.cpp) program to test imageNet recognition on some example images. After [building](#building-from-source-on-jetson), make sure your terminal is located in the aarch64/bin directory:
 
 ``` bash
 $ cd jetson-inference/build/aarch64/bin
@@ -331,13 +334,13 @@ Then, classify an example image with the [`imagenet-console`](imagenet-console/i
 $ ./imagenet-console orange_0.jpg output_0.jpg
 ```
 
-<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/8c63ed0975b4c89a4134c320d4e47931"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/8c63ed0975b4c89a4134c320d4e47931" width="700"></a>
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="700">
 
 ``` bash
 $ ./imagenet-console granny_smith_1.jpg output_1.jpg
 ```
 
-<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/b6aea9d50490fbe261420ab940de0efd"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/b6aea9d50490fbe261420ab940de0efd" width="700"></a>
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple.jpg" width="700">
 
 Next, we will use [imageNet](imageNet.h) to classify a live video feed from the Jetson onboard camera.
 
@@ -354,8 +357,8 @@ The frames per second (FPS), classified object name from the video, and confiden
 
 > **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera.  The model it's tested with is Logitech C920. 
 
-<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/399176be3f3ab2d9bfade84e0afe2abd"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/399176be3f3ab2d9bfade84e0afe2abd" width="800"></a>
-<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/93071639e44913b6f23c23db2a077da3"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/93071639e44913b6f23c23db2a077da3" width="800"></a>
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange-camera.jpg" width="800">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple-camera.jpg" width="800">
 
 ### Re-training the Network with DIGITS
 
@@ -375,7 +378,7 @@ See [here](http://www.deepdetect.com/tutorials/train-imagenet/) under the `Downl
 
 Then, while creating the new network model in DIGITS, copy the [GoogleNet prototxt](data/networks/googlenet.prototxt) and specify the existing GoogleNet caffemodel as the DIGITS **Pretrained Model**:
 
-<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/610745a8bafae4a5686d45901f5cc6f3"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/610745a8bafae4a5686d45901f5cc6f3" width="800"></a>
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-digits-prototxt.jpg" width="800">
 
 The network training should now converge faster than if it were trained from scratch.  After the desired accuracy has been reached, copy the new model checkpoint back over to your Jetson and proceed as before, but now with the added classes available for recognition.
 
@@ -388,13 +391,17 @@ The [`detectNet`](detectNet.h) object accepts as input the 2D image, and outputs
 2. **multiped-500**   (multi-class pedestrian + baggage detector)
 3. **facenet-120**  (single-class facial recognition detector)
 
+As with the previous examples, provided are a console program and a camera streaming program for using detectNet.
+
+### Processing Images from the Command Line
+
 To process test images with [`detectNet`](detectNet.h) and TensorRT, use the [`detectnet-console`](detectnet-console/detectnet-console.cpp) program.  [`detectnet-console`](detectnet-console/detectnet-console.cpp) accepts command-line arguments representing the path to the input image and path to the output image (with the bounding box overlays rendered).  Some test images are included with the repo:
 
 ``` bash
 $ ./detectnet-console peds-007.png output-7.png
 ```
 
-<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/eb1066d317406abb66be939e23150ccc"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/eb1066d317406abb66be939e23150ccc" width="900"></a>
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-00.jpg" width="900">
 
 To change the network that [`detectnet-console`](detectnet-console/detectnet-console.cpp) uses, modify [`detectnet-console.cpp`](detectnet-console/detectnet-console.cpp) (beginning line 33):
 ``` c
@@ -403,13 +410,14 @@ detectNet* net = detectNet::Create( detectNet::PEDNET_MULTI );	 // uncomment to 
 //detectNet* net = detectNet::Create( detectNet::FACENET );
 ```
 Then to recompile, navigate to the `jetson-inference/build` directory and run `make`.
+
 ### Multi-class Object Detection
 When using the multiped-500 model (`PEDNET_MULTI`), for images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
 ``` bash
 $ ./detectnet-console peds-008.png output-8.png
 ```
 
-<a href="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/c0c41b17fb6ea05315b64f3ee7cbbb84" width="900"></a>
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-01.jpg" width="900">
 
 ### Running the Live Camera Detection Demo
 
@@ -431,7 +439,7 @@ $ ./detectnet-camera                # by default, program will run using multipe
 
 For a step-by-step guide to training custom DetectNets, see the **[Object Detection](https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection)** example included in DIGITS version 4:
 
-<a href="https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection"><img src="https://a70ad2d16996820e6285-3c315462976343d903d5b3a03b69072d.ssl.cf2.rackcdn.com/0c1a5ee3ab9c4629ac61cbbe9aae3e10" width="500"></a>
+<a href="https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-overview.jpg" width="500"></a>
 
 The DIGITS guide above uses the [KITTI](http://www.cvlibs.net/datasets/kitti/) dataset, however [MS COCO](http://mscoco.org) also has bounding data available for a variety of objects.
 
