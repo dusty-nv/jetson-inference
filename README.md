@@ -10,7 +10,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
 > ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*. <br/>
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Support for **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with drone dataset.
+> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Support for **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset.
 
 ### **Table of Contents**
 
