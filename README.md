@@ -312,7 +312,7 @@ public:
 Both inherit from the shared [`tensorNet`](tensorNet.h) object which contains common TensorRT code.
 
 ## Classifying Images with ImageNet
-There are multiple types of deep learning networks available, including recognition, detection/localization, and soon segmentation.  The first deep learning capability to highlight is **image recognition** using an 'imageNet' that's been trained to identify similar objects.
+There are multiple types of deep learning networks available, including recognition, detection/localization, and soon segmentation.  The first deep learning capability we're highlighting in this tutorial is **image recognition** using an 'imageNet' that's been trained to identify similar objects.
 
 The [`imageNet`](imageNet.h) object accepts an input image and outputs the probability for each class.  Having been trained on ImageNet database of **[1000 objects](data/networks/ilsvrc12_synset_words.txt)**, the standard AlexNet and GoogleNet networks are downloaded during [step 2](#configuring-with-cmake) from above.  As examples of using [`imageNet`](imageNet.h) we provide a command-line interface called [`imagenet-console`](imagenet-console/imagenet-console.cpp) and a live camera program called [`imagenet-camera`](imagenet-camera/imagenet-camera.cpp).
 
@@ -379,7 +379,7 @@ Then, while creating the new network model in DIGITS, copy the [GoogleNet protot
 The network training should now converge faster than if it were trained from scratch.  After the desired accuracy has been reached, copy the new model checkpoint back over to your Jetson and proceed as before, but now with the added classes available for recognition.
 
 ## Locating Object Coordinates using DetectNet
-The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability to highlight is detecting multiple objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
+The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting multiple objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
 
 The [`detectNet`](detectNet.h) object accepts as input the 2D image, and outputs a list of coordinates of the detected bounding boxes.  Three example detection network models are are automatically downloaded during the repo [source configuration](#configuring):
 
@@ -438,6 +438,167 @@ For a step-by-step guide to training custom DetectNets, see the **[Object Detect
 <a href="https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-overview.jpg" width="500"></a>
 
 The DIGITS guide above uses the [KITTI](http://www.cvlibs.net/datasets/kitti/) dataset, however [MS COCO](http://mscoco.org) also has bounding data available for a variety of objects.
+
+## Image Segmentation with SegNet
+
+The third deep learning capability we're highlighting in this tutorial is image segmentation.  Segmentation is based on image recognition, except the classifications occur at the pixel level as opposed to classifying entire images as with image recognition.  This is accomplished by *convolutionalizing* a pre-trained imageNet recognition model (like Alexnet), which turns it into a fully-convolutional segmentation model capable of per-pixel labelling.  Useful for environmental sensing and collision avoidance, segmentation yields dense per-pixel classification of many different potential objects per scene of, including scene foregrounds and backgrounds.
+
+The [`segNet`](segNet.h) object accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.
+
+> **note**:  see the DIGITS [semantic segmentation] example for more background info on segmentation.
+
+### Aerial Drone Dataset
+
+As an example of image segmentation, we'll work with an aerial drone dataset that separates ground terrain from the sky.  The dataset is in First Person View (FPV) to emulate the vantage point of a drone in flight and train a network that functions as an autopilot guided by the terrain that it senses.
+
+To download and extract the dataset, run the following commands from the host PC running the DIGITS server:
+
+``` bash
+$ wget --no-check-certificate https://nvidia.box.com/shared/static/ft9cc5yjvrbhkh07wcivu5ji9zola6i1.gz -O NVIDIA-Aerial-Drone-Dataset.tar.gz
+
+HTTP request sent, awaiting response... 200 OK
+Length: 7140413391 (6.6G) [application/octet-stream]
+Saving to: ‘NVIDIA-Aerial-Drone-Dataset.tar.gz’
+
+NVIDIA-Aerial-Drone-Datase 100%[======================================>]   6.65G  3.33MB/s    in 44m 44s 
+
+2017-04-17 14:11:54 (2.54 MB/s) - ‘NVIDIA-Aerial-Drone-Dataset.tar.gz’ saved [7140413391/7140413391]
+
+$ tar -xzvf NVIDIA-Aerial-Drone-Dataset.tar.gz 
+```
+
+The dataset includes various clips captured from flights of drone platforms, but the one we'll be focusing on in this tutorial is under `FPV/SFWA`.  Next we'll create the training database in DIGITS before training the model.
+
+### Importing the Dataset into DIGITS
+
+First, navigate your browser to your DIGITS server instance and choose to create a new `Segmentation Dataset` from the drop-down in the Datasets tab:
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-create-dataset.png">
+
+In the dataset creation form, specify the following options and paths to the image and label folders under the location where you extracted the aerial dataset:
+
+* Feature image folder:  `NVIDIA-Aerial-Drone-Dataset/FPV/SFWA/720p/images`
+* Label image folder:   `NVIDIA-Aerial-Drone-Dataset/FPV/SFWA/720p/labels`
+* set `% for validation` to 1%
+* Class labels:  `NVIDIA-Aerial-Drone-Dataset/FPV/SFWA/fpv-labels.txt`
+* Color map:  From text file
+* Feature Encoding:  `None`
+* Label Encoding:  `None`
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-aerial-dataset-options.png)
+
+Name the dataset whatever you choose and click the `Create` button at the bottom of the page to launch the importing job.  Next we'll create the new segmentation model and begin training.
+
+### Generating Pre-trained FCN-Alexnet
+
+Fully Convolutional Network (FCN) Alexnet is the network topology that we'll use for segmentation models with DIGITS and TensorRT.  See this [Parallel ForAll](https://devblogs.nvidia.com/parallelforall/image-segmentation-using-digits-5) article about the convolutionalizing process.  A new feature to DIGITS5 was supporting segmentation datasets and training models.  A script is included with the DIGITS semantic segmentation example which converts the Alexnet model into FCN-Alexnet.  This base model is then used as a pre-trained starting point for training future FCN-Alexnet segmentation models on custom datasets.
+
+To generate the pre-trained FCN-Alexnet model, open a terminal, navigate to the DIGITS semantic-segmantation example, and run the `net_surgery` script:
+
+``` bash
+$ cd DIGITS/examples/semantic-segmentation
+$ ./net_surgery.py
+Downloading files (this might take a few minutes)...
+Downloading https://raw.githubusercontent.com/BVLC/caffe/rc3/models/bvlc_alexnet/deploy.prototxt...
+Downloading http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel...
+Loading Alexnet model...
+...
+Saving FCN-Alexnet model to fcn_alexnet.caffemodel
+```
+
+### Training FCN-Alexnet with DIGITS
+
+When the previous data import job is complete, return to the DIGITS home screen.  Select the `Models` tab and choose to create a new `Segmentation Model` from the drop-down:
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-create-model.png">
+
+In the model creation form, select the dataset you previously created.  Set `Subtract Mean` to None and the `Base Learning Rate` to `0.0001`.  To set the network topology in DIGITS, select the `Custom Network` tab and make sure the `Caffe` sub-tab is selected.  Copy/paste the **[FCN-Alexnet prototxt](https://raw.githubusercontent.com/NVIDIA/DIGITS/master/examples/semantic-segmentation/fcn_alexnet.prototxt)** into the text box.  Finally, set the `Pretrained Model` to the output that the `net_surgery` generated above:  `DIGITS/examples/semantic-segmentation/fcn_alexnet.caffemodel`
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-aerial-model-options.png)
+
+Give your aerial model a name and click the `Create` button at the bottom of the page to start the training job.  After about 5 epochs, the `Accuracy` plot (in orange) should ramp up and the model becomes usable:
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-aerial-model-converge.png)
+
+At this point, we can try testing our new model's inference on some example images in DIGITS.
+
+### Testing Model Inference in DIGITS
+
+Before transfering the trained model to Jetson, let's test it first in DIGITS.  On the same page as previous plot, scroll down under the `Trained Models` section.  Set the `Visualization Model` to Image Segmentation and under `Test a Single Image`, select an image to try (for example `/NVIDIA-Aerial-Drone-Dataset/FPV/SFWA/720p/images/0428.png`):
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-aerial-visualization-options.png)
+
+Press `Test One` and you should see a display similar to:
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-aerial-infer.png)
+
+Next, download and extract the trained model snapshot to Jetson.
+
+### FCN-Alexnet Patches for TensorRT
+
+There exist a couple non-essential layers included in the original FCN-Alexnet which aren't supported in TensorRT and should be deleted from the `deploy.prototxt` included in the snapshot. 
+
+At the end of `deploy.prototxt`, delete the deconv and crop layers:
+
+```
+layer {
+  name: "upscore"
+  type: "Deconvolution"
+  bottom: "score_fr"
+  top: "upscore"
+  param {
+    lr_mult: 0.0
+  }
+  convolution_param {
+    num_output: 21
+    bias_term: false
+    kernel_size: 63
+    group: 21
+    stride: 32
+    weight_filler {
+      type: "bilinear"
+    }
+  }
+}
+layer {
+  name: "score"
+  type: "Crop"
+  bottom: "upscore"
+  bottom: "data"
+  top: "score"
+  crop_param {
+    axis: 2
+    offset: 18
+  }
+}
+```
+
+And on line 24 of `deploy.prototxt`, change `pad: 100` to `pad: 0`.  Finally copy the `fpv-labels.txt` and `fpv-deploy-colors.txt` from the aerial dataset to your model snapshot folder on Jetson.  Your FCN-Alexnet model snapshot is now compatible with TensorRT.  Now we can run it on Jetson and perform inference on images.
+
+### Running Segmentation on Jetson
+
+To test a custom segmentation network model snapshot on the Jetson, use the command line interface to test the segnet-console program.
+
+First, for convienience, set the path to your extracted snapshot into a `$NET` variable:
+
+``` bash
+$ NET=20170421-122956-f7c0_epoch_5.0
+
+$ ./segnet-console drone_0428.png output_0428.png \
+--prototxt=$NET/deploy.prototxt \
+--model=$NET/snapshot_iter_22610.caffemodel \
+--labels=$NET/fpv-labels.txt \
+--colors=$NET/fpv-deploy-colors.txt \
+--input_blob=data \ 
+--output_blob=score_fr
+```
+
+This runs the specified segmentation model on a test image downloaded with the repo.
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-aerial-tensorRT.png)
+
+In addition to the pre-trained aerial model from this tutorial, the repo also includes pre-trained models on other segmentation datasets, including **[Cityscapes](https://www.cityscapes-dataset.com/)**, **[SYNTHIA](http://synthia-dataset.net/)**, and **[Pascal-VOC](http://host.robots.ox.ac.uk/pascal/VOC/)**.
+
 
 ## Extra Resources
 
