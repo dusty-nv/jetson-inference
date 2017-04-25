@@ -25,6 +25,14 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 	* [Multi-class Object Detection](#multi-class-object-detection)
 	* [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
 	* [Re-training DetectNet with DIGITS](#re-training-detectnet-with-digits)
+* [Image Segmentation with SegNet](#image-segmentation-with-segnet)
+	* [Aerial Drone Dataset](#aerial-drone-dataset)
+	* [Importing the Dataset into DIGITS](#importing-the-dataset-into-digits)
+	* [Generating Pretrained FCN-Alexnet](#generating-pretrained-fcn-alexnet)
+	* [Training FCN-Alexnet with DIGITS](#training-fcn-alexnet-with-digits)
+	* [Testing Model Inference in DIGITS](#testing-model-inference-in-digits)
+	* [FCN-Alexnet Patches for TensorRT](#fcn-alexnet-patches-for-tensorrt)
+	* [Running Segmentation Models on Jetson](#running-segmentation-models-on-jetson)
 * [Extra Resources](#extra-resources)
 
 **Recommended System Requirements**
@@ -489,7 +497,7 @@ In the dataset creation form, specify the following options and paths to the ima
 
 Name the dataset whatever you choose and click the `Create` button at the bottom of the page to launch the importing job.  Next we'll create the new segmentation model and begin training.
 
-### Generating Pre-trained FCN-Alexnet
+### Generating Pretrained FCN-Alexnet
 
 Fully Convolutional Network (FCN) Alexnet is the network topology that we'll use for segmentation models with DIGITS and TensorRT.  See this [Parallel ForAll](https://devblogs.nvidia.com/parallelforall/image-segmentation-using-digits-5) article about the convolutionalizing process.  A new feature to DIGITS5 was supporting segmentation datasets and training models.  A script is included with the DIGITS semantic segmentation example which converts the Alexnet model into FCN-Alexnet.  This base model is then used as a pre-trained starting point for training future FCN-Alexnet segmentation models on custom datasets.
 
@@ -575,7 +583,7 @@ layer {
 
 And on line 24 of `deploy.prototxt`, change `pad: 100` to `pad: 0`.  Finally copy the `fpv-labels.txt` and `fpv-deploy-colors.txt` from the aerial dataset to your model snapshot folder on Jetson.  Your FCN-Alexnet model snapshot is now compatible with TensorRT.  Now we can run it on Jetson and perform inference on images.
 
-### Running Segmentation on Jetson
+### Running Segmentation Models on Jetson
 
 To test a custom segmentation network model snapshot on the Jetson, use the command line interface to test the segnet-console program.
 
