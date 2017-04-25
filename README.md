@@ -26,7 +26,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 	* [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
 	* [Re-training DetectNet with DIGITS](#re-training-detectnet-with-digits)
 * [Image Segmentation with SegNet](#image-segmentation-with-segnet)
-	* [Aerial Drone Dataset](#aerial-drone-dataset)
+	* [Downloading Aerial Drone Dataset](#downloading-aerial-drone-dataset)
 	* [Importing the Dataset into DIGITS](#importing-the-dataset-into-digits)
 	* [Generating Pretrained FCN-Alexnet](#generating-pretrained-fcn-alexnet)
 	* [Training FCN-Alexnet with DIGITS](#training-fcn-alexnet-with-digits)
@@ -453,9 +453,9 @@ The third deep learning capability we're highlighting in this tutorial is image 
 
 The [`segNet`](segNet.h) object accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.
 
-> **note**:  see the DIGITS [semantic segmentation] example for more background info on segmentation.
+> **note**:  see the DIGITS [semantic segmentation](https://github.com/NVIDIA/DIGITS/tree/master/examples/semantic-segmentation) example for more background info on segmentation.
 
-### Aerial Drone Dataset
+### Downloading Aerial Drone Dataset
 
 As an example of image segmentation, we'll work with an aerial drone dataset that separates ground terrain from the sky.  The dataset is in First Person View (FPV) to emulate the vantage point of a drone in flight and train a network that functions as an autopilot guided by the terrain that it senses.
 
@@ -481,7 +481,7 @@ The dataset includes various clips captured from flights of drone platforms, but
 
 First, navigate your browser to your DIGITS server instance and choose to create a new `Segmentation Dataset` from the drop-down in the Datasets tab:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-create-dataset.png">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-create-dataset.png" width="250">
 
 In the dataset creation form, specify the following options and paths to the image and label folders under the location where you extracted the aerial dataset:
 
@@ -518,7 +518,7 @@ Saving FCN-Alexnet model to fcn_alexnet.caffemodel
 
 When the previous data import job is complete, return to the DIGITS home screen.  Select the `Models` tab and choose to create a new `Segmentation Model` from the drop-down:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-create-model.png">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-create-model.png" width="250">
 
 In the model creation form, select the dataset you previously created.  Set `Subtract Mean` to None and the `Base Learning Rate` to `0.0001`.  To set the network topology in DIGITS, select the `Custom Network` tab and make sure the `Caffe` sub-tab is selected.  Copy/paste the **[FCN-Alexnet prototxt](https://raw.githubusercontent.com/NVIDIA/DIGITS/master/examples/semantic-segmentation/fcn_alexnet.prototxt)** into the text box.  Finally, set the `Pretrained Model` to the output that the `net_surgery` generated above:  `DIGITS/examples/semantic-segmentation/fcn_alexnet.caffemodel`
 
@@ -534,7 +534,7 @@ At this point, we can try testing our new model's inference on some example imag
 
 Before transfering the trained model to Jetson, let's test it first in DIGITS.  On the same page as previous plot, scroll down under the `Trained Models` section.  Set the `Visualization Model` to Image Segmentation and under `Test a Single Image`, select an image to try (for example `/NVIDIA-Aerial-Drone-Dataset/FPV/SFWA/720p/images/0428.png`):
 
-![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-aerial-visualization-options.png)
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-aerial-visualization-options.png" width="350">
 
 Press `Test One` and you should see a display similar to:
 
