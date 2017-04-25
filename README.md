@@ -118,7 +118,7 @@ make install
 You will also need the bayer plugin for gstreamer to enable display
 Once built do
 ``` bash
-suao apt-get install gstreamer1.0-plugins-bad
+sudo apt-get install gstreamer1.0-plugins-bad
 ``` 
 Header files and library objects should not allow you to compile the code with GigEVision support. Configure camera in [`config.h`](config.h)
 ## Screenshots
