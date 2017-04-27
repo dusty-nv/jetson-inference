@@ -31,7 +31,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 	* [Importing the Dataset into DIGITS](#importing-the-dataset-into-digits)
 	* [Generating Pretrained FCN-Alexnet](#generating-pretrained-fcn-alexnet)
 	* [Training FCN-Alexnet with DIGITS](#training-fcn-alexnet-with-digits)
-	* [Testing Model Inference in DIGITS](#testing-model-inference-in-digits)
+	* [Testing Inference Model in DIGITS](#testing-inference-model-in-digits)
 	* [FCN-Alexnet Patches for TensorRT](#fcn-alexnet-patches-for-tensorrt)
 	* [Running Segmentation Models on Jetson](#running-segmentation-models-on-jetson)
 * [Extra Resources](#extra-resources)
@@ -531,7 +531,7 @@ Give your aerial model a name and click the `Create` button at the bottom of the
 
 At this point, we can try testing our new model's inference on some example images in DIGITS.
 
-### Testing Model Inference in DIGITS
+### Testing Inference Model in DIGITS
 
 Before transfering the trained model to Jetson, let's test it first in DIGITS.  On the same page as previous plot, scroll down under the `Trained Models` section.  Set the `Visualization Model` to Image Segmentation and under `Test a Single Image`, select an image to try (for example `/NVIDIA-Aerial-Drone-Dataset/FPV/SFWA/720p/images/0428.png`):
 
