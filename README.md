@@ -109,6 +109,7 @@ git clone https://github.com/AravisProject/aravis
 cd aravis
 sudo apt-get install intltool gtk-doc-tools
 ./autogen.sh --enable-viewer
+./configure
 make
 ```
 Once built do
