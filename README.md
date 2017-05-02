@@ -163,7 +163,7 @@ $ cd caffe
 $ sudo pip install -r python/requirements.txt 
 $ mkdir build
 $ cd build
-$ cmake ../ -DUSE_OPENCV=off
+$ cmake ../ -DCUDA_USE_STATIC_CUDA_RUNTIME=OFF
 $ make --jobs=4
 $ make pycaffe
 ```
