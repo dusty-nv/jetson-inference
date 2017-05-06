@@ -47,7 +47,22 @@ wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwY
 tar -xzvf facenet-120.tar.gz -C ../data/networks
 
 
-# Segmentation Nets (202MB each - uncomment to download)
+# COCO (DetectNet)
+
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/xi71hlsht5b0y66loeg73rxfa73q561s.gz' -O DetectNet-COCO-Airplane.tar.gz
+tar -xzvf DetectNet-COCO-Airplane.tar.gz -C ../data/networks
+
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/8bhm91o9yldpf97dcz5d0welgmjy7ucw.gz' -O DetectNet-COCO-Bottle.tar.gz
+tar -xzvf DetectNet-COCO-Bottle.tar.gz -C ../data/networks
+
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/fq0m0en5mmssiizhs9nxw3xtwgnoltf2.gz' -O DetectNet-COCO-Chair.tar.gz
+tar -xzvf DetectNet-COCO-Chair.tar.gz -C ../data/networks
+
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/3qdg3z5qvl8iwjlds6bw7bwi2laloytu.gz' -O DetectNet-COCO-Dog.tar.gz
+tar -xzvf DetectNet-COCO-Dog.tar.gz -C ../data/networks
+
+
+# Segmentation Nets (uncomment to download)
 wget --no-check-certificate 'https://nvidia.box.com/shared/static/xj20b6qopfwkkpqm12ffiuaekk6bs8op.gz' -O FCN-Alexnet-Pascal-VOC.tar.gz
 tar -xzvf FCN-Alexnet-Pascal-VOC.tar.gz -C ../data/networks
 
