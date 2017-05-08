@@ -123,6 +123,8 @@ detectNet* detectNet::Create( int argc, char** argv )
 	{
 		if( argc == 2 )
 			modelName = argv[1];
+		else if( argc == 4 )
+			modelName = argv[3];
 		else
 			modelName = "pednet";
 	}
