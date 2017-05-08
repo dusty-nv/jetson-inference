@@ -42,7 +42,7 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 		return NULL;
 
 	printf("\n");
-	printf("detectNet -- loading segmentation network model from:\n");
+	printf("detectNet -- loading detection network model from:\n");
 	printf("          -- prototxt:   %s\n", prototxt);
 	printf("          -- model:      %s\n", model);
 	printf("          -- input_blob  '%s'\n", input_blob);
@@ -99,8 +99,16 @@ detectNet* detectNet::Create( NetworkType networkType, float threshold, uint32_t
 		return Create("networks/multiped-500/deploy.prototxt", "networks/multiped-500/snapshot_iter_178000.caffemodel", "networks/multiped-500/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
 	else if( networkType == FACENET )
 		return Create("networks/facenet-120/deploy.prototxt", "networks/facenet-120/snapshot_iter_24000.caffemodel", NULL, threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize  );
-	else /*if( networkTYpe == PEDNET )*/
+	else if( networkType == PEDNET )
 		return Create("networks/ped-100/deploy.prototxt", "networks/ped-100/snapshot_iter_70800.caffemodel", "networks/ped-100/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize  );
+	else if( networkType == COCO_AIRPLANE )
+		return Create("networks/DetectNet-COCO-Airplane/deploy.prototxt", "networks/DetectNet-COCO-Airplane/snapshot_iter_22500.caffemodel", "networks/DetectNet-COCO-Airplane/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
+	else if( networkType == COCO_BOTTLE )
+		return Create("networks/DetectNet-COCO-Bottle/deploy.prototxt", "networks/DetectNet-COCO-Bottle/snapshot_iter_59700.caffemodel", "networks/DetectNet-COCO-Bottle/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
+	else if( networkType == COCO_CHAIR )
+		return Create("networks/DetectNet-COCO-Chair/deploy.prototxt", "networks/DetectNet-COCO-Chair/snapshot_iter_89500.caffemodel", "networks/DetectNet-COCO-Chair/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
+	else if( networkType == COCO_DOG )
+		return Create("networks/DetectNet-COCO-Dog/deploy.prototxt", "networks/DetectNet-COCO-Dog/snapshot_iter_38600.caffemodel", "networks/DetectNet-COCO-Dog/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
 }
 
 
@@ -113,23 +121,32 @@ detectNet* detectNet::Create( int argc, char** argv )
 
 	if( !modelName )
 	{
-		modelName = "multiped";
-
-		if( argc > 3 )
-			modelName = argv[3];	
-
-		detectNet::NetworkType type = detectNet::PEDNET_MULTI;
-
-		if( strcasecmp(modelName, "multiped") == 0 || strcasecmp(modelName, "multiped-500") == 0 )
-			type = detectNet::PEDNET_MULTI;
-		else if( strcasecmp(modelName, "pednet") == 0 || strcasecmp(modelName, "ped-100") == 0 )
-			type = detectNet::PEDNET;
-		else if( strcasecmp(modelName, "facenet") == 0 || strcasecmp(modelName, "facenet-120") == 0 || strcasecmp(modelName, "face-120") == 0 )
-			type = detectNet::FACENET;
-
-		// create segnet from pretrained model
-		return detectNet::Create(type);
+		if( argc == 2 )
+			modelName = argv[1];
+		else
+			modelName = "pednet";
 	}
+
+	//if( argc > 3 )
+	//	modelName = argv[3];	
+
+	detectNet::NetworkType type = detectNet::PEDNET_MULTI;
+	bool customModel = false;
+
+	if( strcasecmp(modelName, "multiped") == 0 || strcasecmp(modelName, "multiped-500") == 0 )
+		type = detectNet::PEDNET_MULTI;
+	else if( strcasecmp(modelName, "pednet") == 0 || strcasecmp(modelName, "ped-100") == 0 )
+		type = detectNet::PEDNET;
+	else if( strcasecmp(modelName, "facenet") == 0 || strcasecmp(modelName, "facenet-120") == 0 || strcasecmp(modelName, "face-120") == 0 )
+		type = detectNet::FACENET;
+	else if( strcasecmp(modelName, "coco-airplane") == 0 || strcasecmp(modelName, "airplane") == 0 )
+		type = detectNet::COCO_AIRPLANE;
+	else if( strcasecmp(modelName, "coco-bottle") == 0 || strcasecmp(modelName, "bottle") == 0 )
+		type = detectNet::COCO_BOTTLE;
+	else if( strcasecmp(modelName, "coco-chair") == 0 || strcasecmp(modelName, "chair") == 0 )
+		type = detectNet::COCO_CHAIR;
+	else if( strcasecmp(modelName, "coco-dog") == 0 || strcasecmp(modelName, "dog") == 0 )
+		type = detectNet::COCO_DOG;
 	else
 	{
 		const char* prototxt = cmdLine.GetString("prototxt");
@@ -153,6 +170,9 @@ detectNet* detectNet::Create( int argc, char** argv )
 
 		return detectNet::Create(prototxt, modelName, NULL, threshold, input, out_cvg, out_bbox, maxBatchSize);
 	}
+
+	// create segnet from pretrained model
+	return detectNet::Create(type);
 }
 	
 	

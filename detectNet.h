@@ -40,9 +40,13 @@ public:
 	 */
 	enum NetworkType
 	{
-		PEDNET = 0,		/**< Pedestrian / person detector */
-		PEDNET_MULTI,	/**< Multi-class pedestrian + baggage detector */
-		FACENET			/**< Human facial detector trained on FDDB */
+		COCO_AIRPLANE = 0,	/**< MS-COCO airplane class */
+		COCO_BOTTLE,		/**< MS-COCO bottle class */
+		COCO_CHAIR,		/**< MS-COCO chair class */
+		COCO_DOG,		/**< MS-COCO dog class */
+		FACENET,		/**< Human facial detector trained on FDDB */
+		PEDNET,			/**< Pedestrian / person detector */
+		PEDNET_MULTI		/**< Multi-class pedestrian + baggage detector */
 	};
 
 	/**

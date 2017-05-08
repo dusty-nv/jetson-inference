@@ -46,7 +46,7 @@ int main( int argc, char** argv )
 	/*
 	 * parse network type from CLI arguments
 	 */
-	detectNet::NetworkType networkType = detectNet::PEDNET_MULTI;
+	/*detectNet::NetworkType networkType = detectNet::PEDNET_MULTI;
 
 	if( argc > 1 )
 	{
@@ -56,7 +56,7 @@ int main( int argc, char** argv )
 			networkType = detectNet::PEDNET;
 		else if( strcmp(argv[1], "facenet") == 0 || strcmp(argv[1], "facenet-120") == 0 || strcmp(argv[1], "face-120") == 0 )
 			networkType = detectNet::FACENET;
-	}
+	}*/
 	
 	if( signal(SIGINT, sig_handler) == SIG_ERR )
 		printf("\ncan't catch SIGINT\n");
@@ -82,7 +82,7 @@ int main( int argc, char** argv )
 	/*
 	 * create detectNet
 	 */
-	detectNet* net = detectNet::Create(networkType);
+	detectNet* net = detectNet::Create(argc, argv);
 	
 	if( !net )
 	{
