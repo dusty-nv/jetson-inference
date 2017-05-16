@@ -35,7 +35,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 	* [Running the Live Camera Detection Demo on Jetson](#running-the-live-camera-detection-demo-on-jetson)
 * [Image Segmentation with SegNet](#image-segmentation-with-segnet)
 	* [Downloading Aerial Drone Dataset](#downloading-aerial-drone-dataset)
-	* [Importing the Dataset into DIGITS](#importing-the-dataset-into-digits)
+	* [Importing the Aerial Dataset into DIGITS](#importing-the-aerial-dataset-into-digits)
 	* [Generating Pretrained FCN-Alexnet](#generating-pretrained-fcn-alexnet)
 	* [Training FCN-Alexnet with DIGITS](#training-fcn-alexnet-with-digits)
 	* [Testing Inference Model in DIGITS](#testing-inference-model-in-digits)
@@ -692,6 +692,8 @@ $ ./detectnet-camera                # by default, program will run using multipe
 
 The third deep learning capability we're highlighting in this tutorial is image segmentation.  Segmentation is based on image recognition, except the classifications occur at the pixel level as opposed to classifying entire images as with image recognition.  This is accomplished by *convolutionalizing* a pre-trained imageNet recognition model (like Alexnet), which turns it into a fully-convolutional segmentation model capable of per-pixel labelling.  Useful for environmental sensing and collision avoidance, segmentation yields dense per-pixel classification of many different potential objects per scene, including scene foregrounds and backgrounds.
 
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-cityscapes.png)
+
 The [`segNet`](segNet.h) object accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.
 
 > **note**:  see the DIGITS [semantic segmentation](https://github.com/NVIDIA/DIGITS/tree/master/examples/semantic-segmentation) example for more background info on segmentation.
@@ -718,7 +720,7 @@ $ tar -xzvf NVIDIA-Aerial-Drone-Dataset.tar.gz
 
 The dataset includes various clips captured from flights of drone platforms, but the one we'll be focusing on in this tutorial is under `FPV/SFWA`.  Next we'll create the training database in DIGITS before training the model.
 
-### Importing the Dataset into DIGITS
+### Importing the Aerial Dataset into DIGITS
 
 First, navigate your browser to your DIGITS server instance and choose to create a new `Segmentation Dataset` from the drop-down in the Datasets tab:
 
