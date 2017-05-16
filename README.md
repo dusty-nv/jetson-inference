@@ -11,7 +11,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 > ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*. <br/>
 > ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Support for **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset. <br/>
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) **[Object Detection](#locating-object-coordinates-using-detectNet)** training guide using MS-COCO training dataset.
+> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) **[Object Detection](#locating-object-coordinates-using-detectnet)** training guide using MS-COCO training dataset.
 
 ### **Table of Contents**
 
@@ -28,7 +28,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 	* [Importing the Detection Dataset into DIGITS](#importing-the-detection-dataset-into-digits)
 	* [Creating DetectNet Model with DIGITS](#creating-detectnet-model-with-digits)
 	* [Testing DetectNet Model Inference in DIGITS](#testing-detectnet-model-inference-in-digits)
-	* [Download the Model Snapshot to Jetson](#download-the-model-snapshot-to-jetson)
+	* [Downloading the Model Snapshot to Jetson](#downloading-the-model-snapshot-to-jetson)
 	* [DetectNet Patches for TensorRT](#detectnet-patches-for-tensorrt)
 	* [Processing Images from the Command Line on Jetson](#processing-images-from-the-command-line-on-jetson)
 	* [Multi-class Object Detection Models](#multi-class-object-detection-models)
@@ -541,7 +541,7 @@ Press the `Test One` button and you should see a page similar to:
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-infer-dog.png)
 
 
-### Download the Model Snapshot to Jetson
+### Downloading the Model Snapshot to Jetson
 
 Next, download and extract the trained model snapshot to Jetson.  From the browser on your Jetson TX1/TX2, navigate to your DIGITS server and the `DetectNet-COCO-Dog` model.  Under the `Trained Models` section, select the desired snapshot from the drop-down (usually the one with the highest epoch) and click the `Download Model` button.
 
@@ -686,6 +686,7 @@ $ ./detectnet-camera                # by default, program will run using multipe
 
 > **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera and recompile.  The webcam model it's tested with is Logitech C920.  
 
+<br/>
 
 ## Image Segmentation with SegNet
 
