@@ -10,7 +10,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
 > ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*. <br/>
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Support for **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset.
+> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Support for **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset. <br/>
 > ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) **[Object Detection](#locating-object-coordinates-using-detectNet)** training guide using MS-COCO training dataset.
 
 ### **Table of Contents**
@@ -21,9 +21,9 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 * [Classifying Images with ImageNet](#classifying-images-with-imagenet)
 	* [Using the Console Program on Jetson](#using-the-console-program)
 	* [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
-	* [Re-training the Network with DIGITS](#re-training-the-network-with-DIGITS)
-* [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
-	* [Detection Data Formatting in DIGITS](#detection-data-formatting-in-DIGITS)
+	* [Re-training the Network with DIGITS](#re-training-the-network-with-digits)
+* [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectnet)
+	* [Detection Data Formatting in DIGITS](#detection-data-formatting-in-digits)
 	* [Downloading the Detection Dataset](#downloading-the-detection-dataset)
 	* [Importing the Detection Dataset into DIGITS](#importing-the-detection-dataset-into-digits)
 	* [Creating DetectNet Model with DIGITS](#creating-detectnet-model-with-digits)
