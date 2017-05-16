@@ -413,16 +413,18 @@ Example object detection datasets with include [KITTI](http://www.cvlibs.net/dat
 
 Regardless of dataset, DIGITS uses KITTI metadata format for ingesting the detection bounding labels.  These consist of text files with frame numbers corresponding to image filenames, including contents such as:
 
-```dog 0 0 0 528.63 315.22 569.09 354.18 0 0 0 0 0 0 0
-sheep 0 0 0 235.28 300.59 270.52 346.55 0 0 0 0 0 0 0```
+```
+dog 0 0 0 528.63 315.22 569.09 354.18 0 0 0 0 0 0 0
+sheep 0 0 0 235.28 300.59 270.52 346.55 0 0 0 0 0 0 0
+```
 
 [Read more](https://github.com/NVIDIA/DIGITS/blob/digits-4.0/digits/extensions/data/objectDetection/README.md) about the folder structure and KITTI label format that DIGITS uses.  
 
 ### Downloading the Detection Dataset
 
-Let's explore using [MS-COCO](http://mscoco.org/) to train and deploy networks that detect the locations of everyday objects in camera feeds.  See the [coco2kitty.py](tools/coco2kitty.py) script for converting MS-COCO object classes to KITTI format.  Once in DIGITS folder structure, they can be imported as datasets into DIGITS.
+Let's explore using the [MS-COCO](http://mscoco.org/) dataset to train and deploy networks that detect the locations of everyday objects in camera feeds.  See the [coco2kitty.py](tools/coco2kitty.py) script for converting MS-COCO object classes to KITTI format.  Once in DIGITS folder structure, they can be imported as datasets into DIGITS.  Some example classes from MS-COCO already preprocessed in DIGITS/KITTI format are provided for convienience.
 
-To get started, from a terminal on your DIGITS server download and extract [sample MS-COCO classes](https://nvidia.box.com/shared/static/tdrvaw3fd2cwst2zu2jsi0u43vzk8ecu.gz) already in DIGITS/KITTI format here:
+From a terminal on your DIGITS server download and extract [sample MS-COCO classes](https://nvidia.box.com/shared/static/tdrvaw3fd2cwst2zu2jsi0u43vzk8ecu.gz) already in DIGITS/KITTI format here:
 
 ```bash
 $ wget --no-check-certificate https://nvidia.box.com/shared/static/tdrvaw3fd2cwst2zu2jsi0u43vzk8ecu.gz -O coco.tar.gz
@@ -444,7 +446,7 @@ Included is the training data in DIGITS format for the airplane, bottle, chair, 
 
 Navigate your browser to your DIGITS server instance and choose to create a new `Detection Dataset` from the drop-down in the Datasets tab:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-create-dataset.png" width="250">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-new-dataset-menu.png" width="250">
 
 In the form fields, specify the following options and paths to the image and label folders under the location where you extracted the aerial dataset:
 
@@ -452,10 +454,10 @@ In the form fields, specify the following options and paths to the image and lab
 * Training label folder:  `coco/train/labels/dog`
 * Validation image folder:  `coco/val/images/dog`
 * Validation label folder:  `coco/val/labels/dog`
-* Pad image (Width x Height):  640 x 640
-* Custom classes:  dontcare, dog
-* Group Name:  MS-COCO
-* Dataset Name:  coco-dog
+* Pad image (Width x Height):  `640 x 640`
+* Custom classes:  `dontcare, dog`
+* Group Name:  `MS-COCO`
+* Dataset Name:  `coco-dog`
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-new-dataset-dog.png)
 
@@ -465,7 +467,7 @@ Name the dataset whatever you choose and click the `Create` button at the bottom
 
 When the previous data import job is complete, return to the DIGITS home screen.  Select the `Models` tab and choose to create a new `Detection Model` from the drop-down:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-create-model.png" width="250">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-new-model-menu.png" width="250">
 
 Make the following settings in the form:
 
@@ -498,7 +500,7 @@ In the network area select the `Custom Network` tab and then copy/paste the cont
 
 #### Training the Model with Pretrained Googlenet
 
-Since DetectNet is derived from Googlenet it is strongly recommended to use pre-trained weights from Googlenet as this will help speed up and stabilize training significantly.  Download the model from [here](http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel) or by running the following command from your DIGITS server:
+Since DetectNet is derived from Googlenet, it is strongly recommended to use pre-trained weights from Googlenet as this will help speed up and stabilize training significantly.  Download the Googlenet model from [here](http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel) or by running the following command from your DIGITS server:
 
 ```bash
 wget http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel
@@ -511,7 +513,7 @@ Select a GPU to train on and set a name and group for the model:
 * Group Name `MS-COCO`
 * Model Name `DetectNet-COCO-Dog`
 
-Finally, click the `Create` button at the bottom of the form to begin training.
+Finally, click the `Create` button at the bottom to begin training.
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-new-model-dog.png)
 
