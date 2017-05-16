@@ -11,6 +11,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 > ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*. <br/>
 > ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Support for **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset.
+> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) **[Object Detection](#locating-object-coordinates-using-detectNet)** training guide using MS-COCO training dataset.
 
 ### **Table of Contents**
 
@@ -26,19 +27,12 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 	* [Downloading the Detection Dataset](#downloading-the-detection-dataset)
 	* [Importing the Detection Dataset into DIGITS](#importing-the-detection-dataset-into-digits)
 	* [Creating DetectNet Model with DIGITS](#creating-detectnet-model-with-digits)
-		* [Selecting DetectNet Batch Size](#selecting-detectnet-batch-size)
-		* [Specifying the DetectNet Prototxt](#specifying-the-detectnet-prototxt)
-		* [Training the Model with Pretrained Googlenet](#training-the-model-with-pretrained-googlenet)
 	* [Testing DetectNet Model Inference in DIGITS](#testing-detectnet-model-inference-in-digits)
 	* [Download the Model Snapshot to Jetson](#download-the-model-snapshot-to-jetson)
 	* [DetectNet Patches for TensorRT](#detectnet-patches-for-tensorrt)
 	* [Processing Images from the Command Line on Jetson](#processing-images-from-the-command-line-on-jetson)
-		* [Launching With a Pretrained Model](#launching-with-a-pretrained-model)
-		* [Pretrained DetectNet Models Available](#pretrained-detectnet-models-available)
-		* [Running Other MS-COCO Models on Jetson](#running-other-ms-coco-models-on-jetson)
-		* [Running Pedestrian Models on Jetson](#running-pedestrian-models-on-jetson)
-	* [Multi-class Object Detection](#multi-class-object-detection)
-	* [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
+	* [Multi-class Object Detection Models](#multi-class-object-detection-models)
+	* [Running the Live Camera Detection Demo on Jetson](#running-the-live-camera-detection-demo-on-jetson)
 * [Image Segmentation with SegNet](#image-segmentation-with-segnet)
 	* [Downloading Aerial Drone Dataset](#downloading-aerial-drone-dataset)
 	* [Importing the Dataset into DIGITS](#importing-the-dataset-into-digits)
@@ -663,7 +657,7 @@ $ ./detectnet-console peds-007.png output_7.png multiped
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-00.jpg" width="900">
 
 
-### Multi-class Object Detection
+### Multi-class Object Detection Models
 When using the multiped model (`PEDNET_MULTI`), for images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
 
 ``` bash
