@@ -18,7 +18,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 * [System Setup](#system-setup)
 * [Building from Source on Jetson](#building-from-source-on-jetson)
 * [Classifying Images with ImageNet](#classifying-images-with-imagenet)
-	* [Using the Console Program](#using-the-console-program)
+	* [Using the Console Program on Jetson](#using-the-console-program)
 	* [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
 	* [Re-training the Network with DIGITS](#re-training-the-network-with-DIGITS)
 * [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
@@ -327,7 +327,7 @@ There are multiple types of deep learning networks available, including recognit
 
 The [`imageNet`](imageNet.h) object accepts an input image and outputs the probability for each class.  Having been trained on ImageNet database of **[1000 objects](data/networks/ilsvrc12_synset_words.txt)**, the standard AlexNet and GoogleNet networks are downloaded during [step 2](#configuring-with-cmake) from above.  As examples of using [`imageNet`](imageNet.h) we provide a command-line interface called [`imagenet-console`](imagenet-console/imagenet-console.cpp) and a live camera program called [`imagenet-camera`](imagenet-camera/imagenet-camera.cpp).
 
-### Using the Console Program
+### Using the Console Program on Jetson
 
 First, use the [`imagenet-console`](imagenet-console/imagenet-console.cpp) program to test imageNet recognition on some example images. After [building](#building-from-source-on-jetson), make sure your terminal is located in the aarch64/bin directory:
 
@@ -390,57 +390,284 @@ Then, while creating the new network model in DIGITS, copy the [GoogleNet protot
 The network training should now converge faster than if it were trained from scratch.  After the desired accuracy has been reached, copy the new model checkpoint back over to your Jetson and proceed as before, but now with the added classes available for recognition.
 
 ## Locating Object Coordinates using DetectNet
-The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting multiple objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
+The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
 
-The [`detectNet`](detectNet.h) object accepts as input the 2D image, and outputs a list of coordinates of the detected bounding boxes.  Three example detection network models are are automatically downloaded during the repo [source configuration](#configuring):
+The [`detectNet`](detectNet.h) object accepts as input the 2D image, and outputs a list of coordinates of the detected bounding boxes.  To train the object detection model, first a pretrained ImageNet recognition model (like Googlenet) is used with bounding coordinate labels included in the training dataset in addition to the source imagery.
+
+The following pretrained DetectNet models are included with the tutorial:
 
 1. **ped-100**  (single-class pedestrian detector)
 2. **multiped-500**   (multi-class pedestrian + baggage detector)
 3. **facenet-120**  (single-class facial recognition detector)
+4. **coco-airplane**  (MS COCO airplane class)
+5. **coco-bottle**    (MS COCO bottle class)
+6. **coco-chair**     (MS COCO chair class)
+7. **coco-dog**       (MS COCO dog class)
 
 As with the previous examples, provided are a console program and a camera streaming program for using detectNet.
 
-### Processing Images from the Command Line
 
-To process test images with [`detectNet`](detectNet.h) and TensorRT, use the [`detectnet-console`](detectnet-console/detectnet-console.cpp) program.  [`detectnet-console`](detectnet-console/detectnet-console.cpp) accepts command-line arguments representing the path to the input image and path to the output image (with the bounding box overlays rendered).  Some test images are included with the repo:
+### Detection Data Formats with DIGITS
+
+Example object detection datasets with include [KITTI](http://www.cvlibs.net/datasets/kitti/eval_object.php), [MS-COCO](http://mscoco.org/), and others.  To use the KITTI dataset follow this [DIGITS object detection tutorial with KITTI](https://github.com/NVIDIA/DIGITS/blob/digits-4.0/digits/extensions/data/objectDetection/README.md).
+
+Regardless of dataset, DIGITS uses KITTI metadata format for ingesting the detection bounding labels.  These consist of text files with frame numbers corresponding to image filenames, including contents such as:
+
+```dog 0 0 0 528.63 315.22 569.09 354.18 0 0 0 0 0 0 0
+sheep 0 0 0 235.28 300.59 270.52 346.55 0 0 0 0 0 0 0```
+
+[Read more](https://github.com/NVIDIA/DIGITS/blob/digits-4.0/digits/extensions/data/objectDetection/README.md) about the folder structure and KITTI label format that DIGITS uses.  
+
+### Downloading the Detection Dataset
+
+Let's explore using [MS-COCO](http://mscoco.org/) to train and deploy networks that detect the locations of everyday objects in camera feeds.  See the [coco2kitty.py](tools/coco2kitty.py) script for converting MS-COCO object classes to KITTI format.  Once in DIGITS folder structure, they can be imported as datasets into DIGITS.
+
+To get started, from a terminal on your DIGITS server download and extract [sample MS-COCO classes](https://nvidia.box.com/shared/static/tdrvaw3fd2cwst2zu2jsi0u43vzk8ecu.gz) already in DIGITS/KITTI format here:
+
+```bash
+$ wget --no-check-certificate https://nvidia.box.com/shared/static/tdrvaw3fd2cwst2zu2jsi0u43vzk8ecu.gz -O coco.tar.gz
+
+HTTP request sent, awaiting response... 200 OK
+Length: 5140413391 (4.5G) [application/octet-stream]
+Saving to: ‘coco.tar.gz’
+
+coco 100%[======================================>]   4.5G  3.33MB/s    in 28m 22s 
+
+2017-04-17 10:41:19 (2.5 MB/s) - ‘coco.tar.gz’ saved [5140413391/5140413391]
+
+$ tar -xzvf coco.tar.gz 
+```
+
+Included is the training data in DIGITS format for the airplane, bottle, chair, and dog classes.  `coco2kitty.py` can be used to convert other classes.
+
+### Importing the Detection Dataset into DIGITS
+
+Navigate your browser to your DIGITS server instance and choose to create a new `Detection Dataset` from the drop-down in the Datasets tab:
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-create-dataset.png" width="250">
+
+In the form fields, specify the following options and paths to the image and label folders under the location where you extracted the aerial dataset:
+
+* Training image folder:  `coco/train/images/dog`
+* Training label folder:  `coco/train/labels/dog`
+* Validation image folder:  `coco/val/images/dog`
+* Validation label folder:  `coco/val/labels/dog`
+* Pad image (Width x Height):  640 x 640
+* Custom classes:  dontcare, dog
+* Group Name:  MS-COCO
+* Dataset Name:  coco-dog
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-new-dataset-dog.png)
+
+Name the dataset whatever you choose and click the `Create` button at the bottom of the page to launch the importing job.  Next we'll create the new detection model and begin training it.
+
+### Creating DetectNet Model with DIGITS
+
+When the previous data import job is complete, return to the DIGITS home screen.  Select the `Models` tab and choose to create a new `Detection Model` from the drop-down:
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-create-model.png" width="250">
+
+Make the following settings in the form:
+
+* Select Dataset:  `coco-dog`
+* Training epochs:  `100`
+* Subtract Mean:  `none`
+* Solver Type:  `Adam`
+* Base learning rate:  `2.5e-05`
+* Select `Show advanced learning options`
+  * Policy:  `Exponential Decay`
+  * Gamma:  `0.99`
+
+#### Selecting DetectNet Batch Size
+
+DetectNet's network default batch size of 10 consumes up to 12GB GPU memory during training.  However by using the `Batch Accumulation` field, you can also train DetectNet on a GPU with less than 12GB memory.  See the table below depending on the amount of GPU memory available in your DIGITS server:
+
+| GPU Memory     | Batch Size                | Batch Accumulation  |
+| -------------- |:-------------------------:|:-------------------:|
+| 4GB            | 2                         | 5                   |
+| 8GB            | 5                         | 2                   |
+| 12GB or larger | `[network defaults]` (10) | Leave blank (1)     |
+
+If you're training on a card with 12GB of memory or more, leave the `Batch Size` as the default and leave the `Batch Accumulation` blank.  For GPUs with less memory, use the settings from above.
+
+#### Specifying the DetectNet Prototxt 
+
+In the network area select the `Custom Network` tab and then copy/paste the contents of [`detectnet.prototxt`](data/networks/detectnet.prototxt)
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-custom-network.jpg)
+
+#### Training the Model with Pretrained Googlenet
+
+Since DetectNet is derived from Googlenet it is strongly recommended to use pre-trained weights from Googlenet as this will help speed up and stabilize training significantly.  Download the model from [here](http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel) or by running the following command from your DIGITS server:
+
+```bash
+wget http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel
+```
+
+Then specify the path to your Googlenet under the `Pretrained Model` field.
+
+Select a GPU to train on and set a name and group for the model:
+
+* Group Name `MS-COCO`
+* Model Name `DetectNet-COCO-Dog`
+
+Finally, click the `Create` button at the bottom of the form to begin training.
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-new-model-dog.png)
+
+### Testing DetectNet Model in DIGITS
+
+Leave the training job to run for a while, say 50 epochs, until the mAP (`Mean Average Precision`) plot begins to increase.  Note that due to the way mAP is calculated by the DetectNet loss function, the scale of mAP isn't necessarily 0-100, and even an mAP between 5 and 10 may indicate the model is functional.  With the size of the example COCO datasets we are using, it should take a couple hours training on a recent GPU before all 100 epochs are complete.
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-model-dog.png)
+
+At this point, we can try testing our new model's inference on some example images in DIGITS.  On the same page as the plot above, scroll down under the `Trained Models` section.  Set the `Visualization Model` to *Bounding Boxes* and under `Test a Single Image`, select an image to try (for example from the COCO validation set, `/coco/val/images/dog/000074.png`):
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-visualization-options-dog.png" width="350">
+
+Press the `Test One` button and you should see a display similar to:
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-infer-dog.png)
+
+
+### Download the Model Snapshot to Jetson
+
+Next, download and extract the trained model snapshot to Jetson.  From the browser on your Jetson TX1/TX2, navigate to your DIGITS server and the `DetectNet-COCO-Dog` model.  Under the `Trained Models` section, select the desired snapshot from the drop-down (usually the one with the highest epoch) and click the `Download Model` button.
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-model-download-dog.png)
+
+Alternatively, if your Jetson and DIGITS server aren't accessible from the same network, you can use the step above to download the snapshot to an intermediary machine and then use SCP or USB stick to copy it to Jetson.  You can then extract the archive with a command similar to:
+
+```cd <directory where you downloaded the snapshot>
+tar -xzvf 20170504-190602-879f_epoch_100.0.tar.gz
+```
+
+### DetectNet Patches for TensorRT
+
+In the original DetectNet prototxt exists a Python clustering layer which isn't available in TensorRT and should be deleted from the `deploy.prototxt` included in the snapshot.  In this repo the [`detectNet`](detectNet.h) class handles the clustering as opposed to Python.
+
+At the end of `deploy.prototxt`, delete the layer named `cluster`:
+
+```
+layer {
+  name: "cluster"
+  type: "Python"
+  bottom: "coverage"
+  bottom: "bboxes"
+  top: "bbox-list"
+  python_param {
+    module: "caffe.layers.detectnet.clustering"
+    layer: "ClusterDetections"
+    param_str: "640, 640, 16, 0.6, 2, 0.02, 22, 1"
+  }
+}
+```
+
+The snapshot can now be imported into TensorRT.
+
+
+### Processing Images from the Command Line on Jetson
+
+To process test images with [`detectNet`](detectNet.h) and TensorRT, use the [`detectnet-console`](detectnet-console/detectnet-console.cpp) program.  [`detectnet-console`](detectnet-console/detectnet-console.cpp) accepts command-line arguments representing the path to the input image and path to the output image (with the bounding box overlays rendered).  Some test images are also included with the repo.
+
+To specify your model that you downloaded from DIGITS, use the syntax to `detectnet-console` below.  First, for convienience, set the path to your extracted snapshot into a `$NET` variable:
 
 ``` bash
-$ ./detectnet-console peds-007.png output-7.png
+$ NET=20170504-190602-879f_epoch_100
+
+$ ./detectnet-console dog_0.jpg output_0.jpg \
+--prototxt=$NET/deploy.prototxt \
+--model=$NET/snapshot_iter_38600.caffemodel \
+--input_blob=data \ 
+--output_cvg=coverage \
+--output_bbox=bboxes
+```
+
+> ***note:***  the `input_blob`, `output_cvg`, and `output_bbox` arguments may be omitted if your DetectNet layer names match the defaults above (i.e. if you are using the prototxt from following this tutorial). They are provided if you are using a customized DetectNet with different layer names.
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-dog-0.jpg)
+
+Alternatively, to load one of the pretrained snapshots that comes with the repo, you can specify the pretrained model name as the 3rd argument to `detectnet-console`:
+
+``` bash
+$ ./detectnet-console dog_1.jpg output_1.jpg coco-dog
+```
+
+The above command will process dog_1.jpg, saving it to output_1.jpg, using the pretrained DetectNet-COCO-Dog model.  This is a shortcut of sorts so you don't need to wait for the model to complete training if you don't want to.
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-dog-1.jpg)
+
+#### Pretrained DetectNet Models Available
+
+Below is a table of the pretrained DetectNet snapshots downloaded with the repo (located in the `data/networks` directory after running `cmake` step) and the associated argument to `detectnet-console` used for loading the pretrained model:
+
+| DIGITS model            | CLI argument  | classes              |
+| ------------------------|---------------|----------------------|
+| DetectNet-COCO-Airplane | coco-airplane | airplanes            |
+| DetectNet-COCO-Bottle   | coco-bottle   | bottles              |
+| DetectNet-COCO-Chair    | coco-chair    | chairs               |
+| DetectNet-COCO-Dog      | coco-dog      | dogs                 |
+| ped-100                 | pednet        | pedestrians          |
+| multiped-500            | multiped      | pedestrians, luggage |
+| facenet-120             | facenet       | faces                |
+
+These all also have the python layer patch above already applied.
+
+#### Running Other MS-COCO Models on Jetson
+
+Let's try running some of the other COCO models.  The training data for these are all included in the dataset downloaded above.  Although the DIGITS training example above was for the coco-dog model, the same procedure can be followed to train DetectNet on the other classes included in the sample COCO dataset.
+
+``` bash
+$ ./detectnet-console bottle_0.jpg output_2.jpg coco-bottle
+```
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-bottle-0.jpg)
+
+
+``` bash
+$ ./detectnet-console airplane_0.jpg output_3.jpg coco-airplane
+```
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-airplane-0.jpg)
+
+#### Running Pedestrian Models on Jetson
+
+Included in the repo are also DetectNet models pretrained to detect humans.  The `pednet` and `multiped` models recognized pedestrians while `facenet` recognizes faces (from [FDDB](http://vis-www.cs.umass.edu/fddb/)).  Here's an example of detecting multiple humans simultaneously in a crowded space:
+
+
+``` bash
+$ ./detectnet-console peds-007.png output_7.png multiped
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-00.jpg" width="900">
 
-To change the network that [`detectnet-console`](detectnet-console/detectnet-console.cpp) uses, modify [`detectnet-console.cpp`](detectnet-console/detectnet-console.cpp) (beginning line 33):
-``` c
-detectNet* net = detectNet::Create( detectNet::PEDNET_MULTI );	 // uncomment to enable one of these 
-//detectNet* net = detectNet::Create( detectNet::PEDNET );
-//detectNet* net = detectNet::Create( detectNet::FACENET );
-```
-Then to recompile, navigate to the `jetson-inference/build` directory and run `make`.
 
 ### Multi-class Object Detection
-When using the multiped-500 model (`PEDNET_MULTI`), for images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
+When using the multiped model (`PEDNET_MULTI`), for images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
+
 ``` bash
-$ ./detectnet-console peds-008.png output-8.png
+$ ./detectnet-console peds-008.png output_8.png multiped
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-01.jpg" width="900">
 
-### Running the Live Camera Detection Demo
+### Running the Live Camera Detection Demo on Jetson
 
 Similar to the previous example, [`detectnet-camera`](detectnet-camera/detectnet-camera.cpp) runs the object detection networks on live video feed from the Jetson onboard camera.  Launch it from command line along with the type of desired network:
 
 ``` bash
+$ ./detectnet-camera coco-bottle    # detect bottles/soda cans in the camera
+$ ./detectnet-camera coco-dog       # detect dogs in the camera
 $ ./detectnet-camera multiped       # run using multi-class pedestrian/luggage detector
-$ ./detectnet-camera ped-100        # run using original single-class pedestrian detector
+$ ./detectnet-camera pednet         # run using original single-class pedestrian detector
 $ ./detectnet-camera facenet        # run using facial recognition network
 $ ./detectnet-camera                # by default, program will run using multiped
 ```
 
-> **note**:  to achieve maximum performance while running detectnet, increase the Jetson TX1 clock limits by running the script:
+> **note**:  to achieve maximum performance while running detectnet, increase the Jetson clock limits by running the script:
 >  `sudo ~/jetson_clocks.sh`
 <br/>
-> **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera.  The model it's tested with is Logitech C920.  
+> **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera and recompile.  The webcam model it's tested with is Logitech C920.  
 
 ### Re-training DetectNet with DIGITS
 
@@ -535,7 +762,7 @@ At this point, we can try testing our new model's inference on some example imag
 
 ### Testing Inference Model in DIGITS
 
-Before transfering the trained model to Jetson, let's test it first in DIGITS.  On the same page as previous plot, scroll down under the `Trained Models` section.  Set the `Visualization Model` to Image Segmentation and under `Test a Single Image`, select an image to try (for example `/NVIDIA-Aerial-Drone-Dataset/FPV/SFWA/720p/images/0428.png`):
+Before transfering the trained model to Jetson, let's test it first in DIGITS.  On the same page as previous plot, scroll down under the `Trained Models` section.  Set the `Visualization Model` to *Image Segmentation* and under `Test a Single Image`, select an image to try (for example `/NVIDIA-Aerial-Drone-Dataset/FPV/SFWA/720p/images/0428.png`):
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-aerial-visualization-options.png" width="350">
 
