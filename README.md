@@ -424,7 +424,7 @@ sheep 0 0 0 235.28 300.59 270.52 346.55 0 0 0 0 0 0 0
 
 Let's explore using the [MS-COCO](http://mscoco.org/) dataset to train and deploy networks that detect the locations of everyday objects in camera feeds.  See the [coco2kitty.py](tools/coco2kitty.py) script for converting MS-COCO object classes to KITTI format.  Once in DIGITS folder structure, they can be imported as datasets into DIGITS.  Some example classes from MS-COCO already preprocessed in DIGITS/KITTI format are provided for convienience.
 
-From a terminal on your DIGITS server download and extract [sample MS-COCO classes](https://nvidia.box.com/shared/static/tdrvaw3fd2cwst2zu2jsi0u43vzk8ecu.gz) already in DIGITS/KITTI format here:
+From a terminal on your DIGITS server download and extract **[sample MS-COCO classes](https://nvidia.box.com/shared/static/tdrvaw3fd2cwst2zu2jsi0u43vzk8ecu.gz)** already in DIGITS/KITTI format here:
 
 ```bash
 $ wget --no-check-certificate https://nvidia.box.com/shared/static/tdrvaw3fd2cwst2zu2jsi0u43vzk8ecu.gz -O coco.tar.gz
@@ -498,6 +498,8 @@ In the network area select the `Custom Network` tab and then copy/paste the cont
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-custom-network.jpg)
 
+The DetectNet prototxt is located at [`data/networks/detectnet.prototxt`](https://github.com/dusty-nv/jetson-inference/blob/master/data/networks/detectnet.prototxt) in the repo.
+
 #### Training the Model with Pretrained Googlenet
 
 Since DetectNet is derived from Googlenet, it is strongly recommended to use pre-trained weights from Googlenet as this will help speed up and stabilize training significantly.  Download the Googlenet model from [here](http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel) or by running the following command from your DIGITS server:
@@ -527,7 +529,7 @@ At this point, we can try testing our new model's inference on some example imag
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-visualization-options-dog.png" width="350">
 
-Press the `Test One` button and you should see a display similar to:
+Press the `Test One` button and you should see a page similar to:
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-infer-dog.png)
 
@@ -565,7 +567,7 @@ layer {
 }
 ```
 
-The snapshot can now be imported into TensorRT.
+Without this Python layer, the snapshot can now be imported into TensorRT.
 
 
 ### Processing Images from the Command Line on Jetson
@@ -585,7 +587,7 @@ $ ./detectnet-console dog_0.jpg output_0.jpg \
 --output_bbox=bboxes
 ```
 
-> ***note:***  the `input_blob`, `output_cvg`, and `output_bbox` arguments may be omitted if your DetectNet layer names match the defaults above (i.e. if you are using the prototxt from following this tutorial). They are provided if you are using a customized DetectNet with different layer names.
+> ***note:***  the `input_blob`, `output_cvg`, and `output_bbox` arguments may be omitted if your DetectNet layer names match the defaults above (i.e. if you are using the prototxt from following this tutorial). These optional command line parameters are provided if you are using a customized DetectNet with different layer names.
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-dog-0.jpg)
 
@@ -603,15 +605,15 @@ The above command will process dog_1.jpg, saving it to output_1.jpg, using the p
 
 Below is a table of the pretrained DetectNet snapshots downloaded with the repo (located in the `data/networks` directory after running `cmake` step) and the associated argument to `detectnet-console` used for loading the pretrained model:
 
-| DIGITS model            | CLI argument  | classes              |
-| ------------------------|---------------|----------------------|
-| DetectNet-COCO-Airplane | coco-airplane | airplanes            |
-| DetectNet-COCO-Bottle   | coco-bottle   | bottles              |
-| DetectNet-COCO-Chair    | coco-chair    | chairs               |
-| DetectNet-COCO-Dog      | coco-dog      | dogs                 |
-| ped-100                 | pednet        | pedestrians          |
-| multiped-500            | multiped      | pedestrians, luggage |
-| facenet-120             | facenet       | faces                |
+| DIGITS model            | CLI argument    | classes              |
+| ------------------------|-----------------|----------------------|
+| DetectNet-COCO-Airplane | `coco-airplane` | airplanes            |
+| DetectNet-COCO-Bottle   | `coco-bottle`   | bottles              |
+| DetectNet-COCO-Chair    | `coco-chair`    | chairs               |
+| DetectNet-COCO-Dog      | `coco-dog`      | dogs                 |
+| ped-100                 | `pednet`        | pedestrians          |
+| multiped-500            | `multiped`      | pedestrians, luggage |
+| facenet-120             | `facenet`       | faces                |
 
 These all also have the python layer patch above already applied.
 
