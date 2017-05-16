@@ -378,14 +378,10 @@ The frames per second (FPS), classified object name from the video, and confiden
 
 The existing GoogleNet and AlexNet models that are downloaded by the repo are pre-trained on [1000 classes of objects](data/networks/ilsvrc12_synset_words.txt).
 
-What if you require a new object class to be added to the network, or otherwise require a different organization of the classes?  
-
-Using [NVIDIA DIGITS](http://github.com/NVIDIA/DIGITS), networks can be fine-tuned or re-trained from a pre-exisiting network model.
+What if you require a new object class to be added to the network, or otherwise require a different organization of the classes?  Using [NVIDIA DIGITS](http://github.com/NVIDIA/DIGITS), networks can be fine-tuned or re-trained from a pre-exisiting network model.
 After installing DIGITS on a PC or in the cloud (such as an AWS instance), see the **[Image Folder Specification](https://github.com/NVIDIA/DIGITS/blob/master/docs/ImageFolderFormat.md)** to learn how to organize the data for your particular application.
 
-Popular training databases with various annotations and labels include [ImageNet](image-net.org), [MS COCO](mscoco.org), and [Google Images](images.google.com) among others.
-
-See [here](http://www.deepdetect.com/tutorials/train-imagenet/) under the `Downloading the dataset` section to obtain a crawler script that will download the 1000 original classes, including as many of the original images that are still available online.
+Popular training databases with various annotations and labels include [ImageNet](image-net.org), [MS COCO](mscoco.org), and [Google Images](images.google.com) among others.  See **[here](https://deepdetect.com/tutorials/train-imagenet/#downloading-the-dataset:a4354293bae6711c4be0365f66102aef)** to obtain a crawler script that will download the 1000 original classes, including as many of the original images that are still available online.
 
 > **note**: be considerate running the crawler script from a corporate network, they may flag the activity.
 > It will probably take overnight on a decent connection to download the 1000 ILSVRC12 classes (100GB) from ImageNet (1.2TB)
