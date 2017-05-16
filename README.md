@@ -22,10 +22,23 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 	* [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
 	* [Re-training the Network with DIGITS](#re-training-the-network-with-DIGITS)
 * [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectNet)
-	* [Testing Images from the Command Line](#testing-images-from-the-command-line)
+	* [Detection Data Formatting in DIGITS](#detection-data-formatting-in-DIGITS)
+	* [Downloading the Detection Dataset](#downloading-the-detection-dataset)
+	* [Importing the Detection Dataset into DIGITS](#importing-the-detection-dataset-into-digits)
+	* [Creating DetectNet Model with DIGITS](#creating-detectnet-model-with-digits)
+		* [Selecting DetectNet Batch Size](#selecting-detectnet-batch-size)
+		* [Specifying the DetectNet Prototxt](#specifying-the-detectnet-prototxt)
+		* [Training the Model with Pretrained Googlenet](#training-the-model-with-pretrained-googlenet)
+	* [Testing DetectNet Model Inference in DIGITS](#testing-detectnet-model-inference-in-digits)
+	* [Download the Model Snapshot to Jetson](#download-the-model-snapshot-to-jetson)
+	* [DetectNet Patches for TensorRT](#detectnet-patches-for-tensorrt)
+	* [Processing Images from the Command Line on Jetson](#processing-images-from-the-command-line-on-jetson)
+		* [Launching With a Pretrained Model](#launching-with-a-pretrained-model)
+		* [Pretrained DetectNet Models Available](#pretrained-detectnet-models-available)
+		* [Running Other MS-COCO Models on Jetson](#running-other-ms-coco-models-on-jetson)
+		* [Running Pedestrian Models on Jetson](#running-pedestrian-models-on-jetson)
 	* [Multi-class Object Detection](#multi-class-object-detection)
 	* [Running the Live Camera Detection Demo](#running-the-live-camera-detection-demo)
-	* [Re-training DetectNet with DIGITS](#re-training-detectnet-with-digits)
 * [Image Segmentation with SegNet](#image-segmentation-with-segnet)
 	* [Downloading Aerial Drone Dataset](#downloading-aerial-drone-dataset)
 	* [Importing the Dataset into DIGITS](#importing-the-dataset-into-digits)
@@ -407,7 +420,7 @@ The following pretrained DetectNet models are included with the tutorial:
 As with the previous examples, provided are a console program and a camera streaming program for using detectNet.
 
 
-### Detection Data Formats with DIGITS
+### Detection Data Formatting in DIGITS
 
 Example object detection datasets with include [KITTI](http://www.cvlibs.net/datasets/kitti/eval_object.php), [MS-COCO](http://mscoco.org/), and others.  To use the KITTI dataset follow this [DIGITS object detection tutorial with KITTI](https://github.com/NVIDIA/DIGITS/blob/digits-4.0/digits/extensions/data/objectDetection/README.md).
 
@@ -519,13 +532,13 @@ Finally, click the `Create` button at the bottom to begin training.
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-new-model-dog.png)
 
-### Testing DetectNet Model in DIGITS
+### Testing DetectNet Model Inference in DIGITS
 
 Leave the training job to run for a while, say 50 epochs, until the mAP (`Mean Average Precision`) plot begins to increase.  Note that due to the way mAP is calculated by the DetectNet loss function, the scale of mAP isn't necessarily 0-100, and even an mAP between 5 and 10 may indicate the model is functional.  With the size of the example COCO datasets we are using, it should take a couple hours training on a recent GPU before all 100 epochs are complete.
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-model-dog.png)
 
-At this point, we can try testing our new model's inference on some example images in DIGITS.  On the same page as the plot above, scroll down under the `Trained Models` section.  Set the `Visualization Model` to *Bounding Boxes* and under `Test a Single Image`, select an image to try (for example from the COCO validation set, `/coco/val/images/dog/000074.png`):
+At this point, we can try testing our new model's inference on some example images in DIGITS.  On the same page as the plot above, scroll down under the `Trained Models` section.  Set the `Visualization Model` to *Bounding Boxes* and under `Test a Single Image`, select an image to try (for example, `/coco/val/images/dog/000074.png`):
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-visualization-options-dog.png" width="350">
 
@@ -538,9 +551,11 @@ Press the `Test One` button and you should see a page similar to:
 
 Next, download and extract the trained model snapshot to Jetson.  From the browser on your Jetson TX1/TX2, navigate to your DIGITS server and the `DetectNet-COCO-Dog` model.  Under the `Trained Models` section, select the desired snapshot from the drop-down (usually the one with the highest epoch) and click the `Download Model` button.
 
-![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-model-download-dog.png)
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-model-download-dog.png" width="500">
 
-Alternatively, if your Jetson and DIGITS server aren't accessible from the same network, you can use the step above to download the snapshot to an intermediary machine and then use SCP or USB stick to copy it to Jetson.  You can then extract the archive with a command similar to:
+Alternatively, if your Jetson and DIGITS server aren't accessible from the same network, you can use the step above to download the snapshot to an intermediary machine and then use SCP or USB stick to copy it to Jetson.  
+
+Then extract the archive with a command similar to:
 
 ```cd <directory where you downloaded the snapshot>
 tar -xzvf 20170504-190602-879f_epoch_100.0.tar.gz
@@ -590,6 +605,8 @@ $ ./detectnet-console dog_0.jpg output_0.jpg \
 > ***note:***  the `input_blob`, `output_cvg`, and `output_bbox` arguments may be omitted if your DetectNet layer names match the defaults above (i.e. if you are using the prototxt from following this tutorial). These optional command line parameters are provided if you are using a customized DetectNet with different layer names.
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-dog-0.jpg)
+
+#### Launching With a Pretrained Model
 
 Alternatively, to load one of the pretrained snapshots that comes with the repo, you can specify the pretrained model name as the 3rd argument to `detectnet-console`:
 
@@ -670,16 +687,11 @@ $ ./detectnet-camera                # by default, program will run using multipe
 
 > **note**:  to achieve maximum performance while running detectnet, increase the Jetson clock limits by running the script:
 >  `sudo ~/jetson_clocks.sh`
+
 <br/>
+
 > **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`detectnet-camera.cpp`](detectnet-camera/detectnet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera and recompile.  The webcam model it's tested with is Logitech C920.  
 
-### Re-training DetectNet with DIGITS
-
-For a step-by-step guide to training custom DetectNets, see the **[Object Detection](https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection)** example included in DIGITS version 4:
-
-<a href="https://github.com/NVIDIA/DIGITS/tree/digits-4.0/examples/object-detection"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-overview.jpg" width="500"></a>
-
-The DIGITS guide above uses the [KITTI](http://www.cvlibs.net/datasets/kitti/) dataset, however [MS COCO](http://mscoco.org) also has bounding data available for a variety of objects.
 
 ## Image Segmentation with SegNet
 
