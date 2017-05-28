@@ -90,6 +90,7 @@ protected:
 	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize );
 	bool loadClassInfo( const char* filename );
 	
+	uint32_t mCustomClasses;
 	uint32_t mOutputClasses;
 	
 	std::vector<std::string> mClassSynset;	// 1000 class ID's (ie n01580077, n04325704)

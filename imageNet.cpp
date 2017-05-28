@@ -10,6 +10,7 @@
 // constructor
 imageNet::imageNet() : tensorNet()
 {
+	mCustomClasses = 0;
 	mOutputClasses = 0;
 }
 
@@ -39,6 +40,7 @@ imageNet* imageNet::Create( imageNet::NetworkType networkType, uint32_t maxBatch
 }
 
 
+// Create
 imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
 							const char* class_path, const char* input, const char* output, uint32_t maxBatchSize )
 {
@@ -55,7 +57,9 @@ imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, c
 	
 	return net;
 }
-	
+
+
+// init
 bool imageNet::init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize )
 {
 	/*
@@ -106,18 +110,30 @@ bool imageNet::loadClassInfo( const char* filename )
 		const int syn = 9;  // length of synset prefix (in characters)
 		const int len = strlen(str);
 		
-		if( len < syn + 1 )
-			continue;
-		
-		str[syn]   = 0;
-		str[len-1] = 0;
-		
-		const std::string a = str;
-		const std::string b = (str + syn + 1);
-		
-		//printf("a=%s b=%s\n", a.c_str(), b.c_str());
-		mClassSynset.push_back(a);
-		mClassDesc.push_back(b);
+		if( len > syn && str[0] == 'n' && str[syn] == ' ' )
+		{
+			str[syn]   = 0;
+			str[len-1] = 0;
+	
+			const std::string a = str;
+			const std::string b = (str + syn + 1);
+	
+			printf("a=%s b=%s\n", a.c_str(), b.c_str());
+
+			mClassSynset.push_back(a);
+			mClassDesc.push_back(b);
+		}
+		else if( len > 0 )
+		{
+			char a[10];
+			sprintf(a, "n%08u", mCustomClasses);
+
+			printf("a=%s b=%s (custom non-synset)\n", a, str);
+			mCustomClasses++;
+
+			mClassSynset.push_back(a);
+			mClassDesc.push_back(str);
+		}
 	}
 	
 	fclose(f);
