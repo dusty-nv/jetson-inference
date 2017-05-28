@@ -20,7 +20,7 @@ var files =
     [ "glUtility.h", "glUtility_8h.html", "glUtility_8h" ],
     [ "gstCamera.h", "gstCamera_8h.html", null ],
     [ "gstUtility.h", "gstUtility_8h.html", "gstUtility_8h" ],
-    [ "imageNet.h", "imageNet_8h.html", null ],
+    [ "imageNet.h", "imageNet_8h.html", "imageNet_8h" ],
     [ "loadImage.h", "loadImage_8h.html", "loadImage_8h" ],
     [ "segNet.h", "segNet_8h.html", "segNet_8h" ],
     [ "tensorNet.h", "tensorNet_8h.html", "tensorNet_8h" ],

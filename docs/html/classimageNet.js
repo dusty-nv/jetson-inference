@@ -17,6 +17,7 @@ var classimageNet =
     [ "loadClassInfo", "classimageNet.html#aeaaa0971ae45b2089aa1b2ed2048032d", null ],
     [ "mClassDesc", "classimageNet.html#a9c75cea83d0c3e605aef8c0dd8e43177", null ],
     [ "mClassSynset", "classimageNet.html#abd00b812a1f39a0bd23c43a8807d6193", null ],
+    [ "mCustomClasses", "classimageNet.html#ad5100ca715de83a14d8675d7e5ed174e", null ],
     [ "mNetworkType", "classimageNet.html#aef7f06f334699634c33b1243c4352fc9", null ],
     [ "mOutputClasses", "classimageNet.html#a80749925c9b6edf6b49043e8a0f507e3", null ]
 ];

@@ -2,9 +2,13 @@ var group__deepVision =
 [
     [ "detectNet", "classdetectNet.html", [
       [ "NetworkType", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4", [
+        [ "COCO_AIRPLANE", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a0be700962b9af1014273d6c51274d717", null ],
+        [ "COCO_BOTTLE", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4ab5ce7152df406d0e699fb47c29cda175", null ],
+        [ "COCO_CHAIR", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aa9c3e7f707f38390b8ebe551a6844efd", null ],
+        [ "COCO_DOG", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4afb5c869902acb688cf8b4d7e334bc0f4", null ],
+        [ "FACENET", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aba129790ea4695b8fc94f0eeecb344de", null ],
         [ "PEDNET", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3", null ],
-        [ "PEDNET_MULTI", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53", null ],
-        [ "FACENET", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aba129790ea4695b8fc94f0eeecb344de", null ]
+        [ "PEDNET_MULTI", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53", null ]
       ] ],
       [ "~detectNet", "classdetectNet.html#a82c0e177e0da142fa22aa7580077307d", null ],
       [ "detectNet", "classdetectNet.html#a9c06901bf2562bddff0fe73cbed7196c", null ],
@@ -36,6 +40,7 @@ var group__deepVision =
       [ "loadClassInfo", "classimageNet.html#aeaaa0971ae45b2089aa1b2ed2048032d", null ],
       [ "mClassDesc", "classimageNet.html#a9c75cea83d0c3e605aef8c0dd8e43177", null ],
       [ "mClassSynset", "classimageNet.html#abd00b812a1f39a0bd23c43a8807d6193", null ],
+      [ "mCustomClasses", "classimageNet.html#ad5100ca715de83a14d8675d7e5ed174e", null ],
       [ "mNetworkType", "classimageNet.html#aef7f06f334699634c33b1243c4352fc9", null ],
       [ "mOutputClasses", "classimageNet.html#a80749925c9b6edf6b49043e8a0f507e3", null ]
     ] ],
@@ -117,6 +122,8 @@ var group__deepVision =
     [ "DETECTNET_DEFAULT_BBOX", "group__deepVision.html#gac8c52a38ffa041865ed71fd2ea806620", null ],
     [ "DETECTNET_DEFAULT_COVERAGE", "group__deepVision.html#ga1e79603783719e4a79f2c68f1ef47621", null ],
     [ "DETECTNET_DEFAULT_INPUT", "group__deepVision.html#gac824e329015dc8aed6e1112bfe21cb97", null ],
+    [ "IMAGENET_DEFAULT_INPUT", "group__deepVision.html#ga00bb3120ef3040793ad3ee25d2727f5b", null ],
+    [ "IMAGENET_DEFAULT_OUTPUT", "group__deepVision.html#ga74a585b96a1bd960b5201f6b69752fad", null ],
     [ "SEGNET_DEFAULT_INPUT", "group__deepVision.html#ga33b5fd20f8ed468725c55eb0bcc5af71", null ],
     [ "SEGNET_DEFAULT_OUTPUT", "group__deepVision.html#ga05c359c7dcd0c1e855543a3a9a18c422", null ]
 ];

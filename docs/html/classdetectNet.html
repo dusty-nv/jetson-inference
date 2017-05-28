@@ -135,9 +135,16 @@ Inheritance diagram for detectNet:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a8912b56ba825368c4911e315f4f207e4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4">NetworkType</a> { <a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3">PEDNET</a> = 0, 
-<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53">PEDNET_MULTI</a>, 
-<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aba129790ea4695b8fc94f0eeecb344de">FACENET</a>
+<tr class="memitem:a8912b56ba825368c4911e315f4f207e4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4">NetworkType</a> { <br />
+&#160;&#160;<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a0be700962b9af1014273d6c51274d717">COCO_AIRPLANE</a> = 0, 
+<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4ab5ce7152df406d0e699fb47c29cda175">COCO_BOTTLE</a>, 
+<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aa9c3e7f707f38390b8ebe551a6844efd">COCO_CHAIR</a>, 
+<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4afb5c869902acb688cf8b4d7e334bc0f4">COCO_DOG</a>, 
+<br />
+&#160;&#160;<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aba129790ea4695b8fc94f0eeecb344de">FACENET</a>, 
+<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3">PEDNET</a>, 
+<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53">PEDNET_MULTI</a>
+<br />
  }<tr class="memdesc:a8912b56ba825368c4911e315f4f207e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Network choice enumeration.  <a href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a8912b56ba825368c4911e315f4f207e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -283,14 +290,26 @@ Protected Attributes</h2></td></tr>
 
 <p>Network choice enumeration. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3"></a>PEDNET&#160;</td><td class="fielddoc">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a8912b56ba825368c4911e315f4f207e4a0be700962b9af1014273d6c51274d717"></a>COCO_AIRPLANE&#160;</td><td class="fielddoc">
+<p>MS-COCO airplane class. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a8912b56ba825368c4911e315f4f207e4ab5ce7152df406d0e699fb47c29cda175"></a>COCO_BOTTLE&#160;</td><td class="fielddoc">
+<p>MS-COCO bottle class. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a8912b56ba825368c4911e315f4f207e4aa9c3e7f707f38390b8ebe551a6844efd"></a>COCO_CHAIR&#160;</td><td class="fielddoc">
+<p>MS-COCO chair class. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a8912b56ba825368c4911e315f4f207e4afb5c869902acb688cf8b4d7e334bc0f4"></a>COCO_DOG&#160;</td><td class="fielddoc">
+<p>MS-COCO dog class. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a8912b56ba825368c4911e315f4f207e4aba129790ea4695b8fc94f0eeecb344de"></a>FACENET&#160;</td><td class="fielddoc">
+<p>Human facial detector trained on FDDB. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3"></a>PEDNET&#160;</td><td class="fielddoc">
 <p>Pedestrian / person detector. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53"></a>PEDNET_MULTI&#160;</td><td class="fielddoc">
 <p>Multi-class pedestrian + baggage detector. </p>
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="a8912b56ba825368c4911e315f4f207e4aba129790ea4695b8fc94f0eeecb344de"></a>FACENET&#160;</td><td class="fielddoc">
-<p>Human facial detector trained on FDDB. </p>
 </td></tr>
 </table>
 
@@ -845,7 +864,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classdetectNet.html">detectNet</a></li>
-    <li class="footer">Generated on Thu Apr 27 2017 14:27:06 for Deep Vision by
+    <li class="footer">Generated on Sun May 28 2017 15:27:48 for Deep Vision by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -192,9 +192,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a93ef80f8e20191c46a8783d5c2206507"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classimageNet.html">imageNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#a93ef80f8e20191c46a8783d5c2206507">Create</a> (<a class="el" href="classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470">NetworkType</a> networkType=<a class="el" href="classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470ab013750d9b65eacdae3c587dd42550c0">GOOGLENET</a>, uint32_t maxBatchSize=2)</td></tr>
 <tr class="memdesc:a93ef80f8e20191c46a8783d5c2206507"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#a93ef80f8e20191c46a8783d5c2206507">More...</a><br /></td></tr>
 <tr class="separator:a93ef80f8e20191c46a8783d5c2206507"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeac03cc3193f29a61d4601e17505a3d5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classimageNet.html">imageNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#aeac03cc3193f29a61d4601e17505a3d5">Create</a> (const char *prototxt_path, const char *model_path, const char *mean_binary, const char *class_labels, const char *input=&quot;data&quot;, const char *output=&quot;prob&quot;, uint32_t maxBatchSize=2)</td></tr>
-<tr class="memdesc:aeac03cc3193f29a61d4601e17505a3d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#aeac03cc3193f29a61d4601e17505a3d5">More...</a><br /></td></tr>
-<tr class="separator:aeac03cc3193f29a61d4601e17505a3d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08c4f6416ccb41ce1fb95d80d3dd0a4c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classimageNet.html">imageNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#a08c4f6416ccb41ce1fb95d80d3dd0a4c">Create</a> (const char *prototxt_path, const char *model_path, const char *mean_binary, const char *class_labels, const char *input=<a class="el" href="group__deepVision.html#ga00bb3120ef3040793ad3ee25d2727f5b">IMAGENET_DEFAULT_INPUT</a>, const char *output=<a class="el" href="group__deepVision.html#ga74a585b96a1bd960b5201f6b69752fad">IMAGENET_DEFAULT_OUTPUT</a>, uint32_t maxBatchSize=2)</td></tr>
+<tr class="memdesc:a08c4f6416ccb41ce1fb95d80d3dd0a4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#a08c4f6416ccb41ce1fb95d80d3dd0a4c">More...</a><br /></td></tr>
+<tr class="separator:a08c4f6416ccb41ce1fb95d80d3dd0a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84b96993a80be279067e0508f649e602"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classimageNet.html">imageNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#a84b96993a80be279067e0508f649e602">Create</a> (int argc, char **argv)</td></tr>
+<tr class="memdesc:a84b96993a80be279067e0508f649e602"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance by parsing the command line.  <a href="#a84b96993a80be279067e0508f649e602">More...</a><br /></td></tr>
+<tr class="separator:a84b96993a80be279067e0508f649e602"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -219,6 +222,8 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
+<tr class="memitem:ad5100ca715de83a14d8675d7e5ed174e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#ad5100ca715de83a14d8675d7e5ed174e">mCustomClasses</a></td></tr>
+<tr class="separator:ad5100ca715de83a14d8675d7e5ed174e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80749925c9b6edf6b49043e8a0f507e3"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#a80749925c9b6edf6b49043e8a0f507e3">mOutputClasses</a></td></tr>
 <tr class="separator:a80749925c9b6edf6b49043e8a0f507e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd00b812a1f39a0bd23c43a8807d6193"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#abd00b812a1f39a0bd23c43a8807d6193">mClassSynset</a></td></tr>
@@ -430,7 +435,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aeac03cc3193f29a61d4601e17505a3d5"></a>
+<a class="anchor" id="a08c4f6416ccb41ce1fb95d80d3dd0a4c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -465,13 +470,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>input</em> = <code>&quot;data&quot;</code>, </td>
+          <td class="paramname"><em>input</em> = <code><a class="el" href="group__deepVision.html#ga00bb3120ef3040793ad3ee25d2727f5b">IMAGENET_DEFAULT_INPUT</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>output</em> = <code>&quot;prob&quot;</code>, </td>
+          <td class="paramname"><em>output</em> = <code><a class="el" href="group__deepVision.html#ga74a585b96a1bd960b5201f6b69752fad">IMAGENET_DEFAULT_OUTPUT</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -497,13 +502,49 @@ Protected Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">prototxt_path</td><td>File path to the deployable network prototxt </td></tr>
     <tr><td class="paramname">model_path</td><td>File path to the caffemodel </td></tr>
-    <tr><td class="paramname">mean_binary</td><td>File path to the mean value binary proto </td></tr>
+    <tr><td class="paramname">mean_binary</td><td>File path to the mean value binary proto (can be NULL) </td></tr>
     <tr><td class="paramname">class_info</td><td>File path to list of class name labels </td></tr>
     <tr><td class="paramname">input</td><td>Name of the input layer blob. </td></tr>
     <tr><td class="paramname">maxBatchSize</td><td>The maximum batch size that the network will support and be optimized for. </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a84b96993a80be279067e0508f649e602"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classimageNet.html">imageNet</a>* imageNet::Create </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>argv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load a new network instance by parsing the command line. </p>
 
 </div>
 </div>
@@ -797,6 +838,26 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ad5100ca715de83a14d8675d7e5ed174e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t imageNet::mCustomClasses</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="aef7f06f334699634c33b1243c4352fc9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -846,7 +907,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classimageNet.html">imageNet</a></li>
-    <li class="footer">Generated on Thu Apr 27 2017 14:27:06 for Deep Vision by
+    <li class="footer">Generated on Sun May 28 2017 15:27:48 for Deep Vision by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

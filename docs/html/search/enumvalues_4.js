@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['segnet_5fcustom',['SEGNET_CUSTOM',['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a95a81cd526c1ada9d225f6142f5f0f41',1,'segNet']]]
+  ['pednet',['PEDNET',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3',1,'detectNet']]],
+  ['pednet_5fmulti',['PEDNET_MULTI',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53',1,'detectNet']]]
 ];

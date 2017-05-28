@@ -31,7 +31,7 @@ int main( int argc, char** argv )
 	
 
 	// create imageNet
-	imageNet* net = imageNet::Create();
+	imageNet* net = imageNet::Create(argc, argv);
 
 	if( !net )
 	{

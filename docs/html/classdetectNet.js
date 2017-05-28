@@ -1,9 +1,13 @@
 var classdetectNet =
 [
     [ "NetworkType", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4", [
+      [ "COCO_AIRPLANE", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a0be700962b9af1014273d6c51274d717", null ],
+      [ "COCO_BOTTLE", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4ab5ce7152df406d0e699fb47c29cda175", null ],
+      [ "COCO_CHAIR", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aa9c3e7f707f38390b8ebe551a6844efd", null ],
+      [ "COCO_DOG", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4afb5c869902acb688cf8b4d7e334bc0f4", null ],
+      [ "FACENET", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aba129790ea4695b8fc94f0eeecb344de", null ],
       [ "PEDNET", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3", null ],
-      [ "PEDNET_MULTI", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53", null ],
-      [ "FACENET", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aba129790ea4695b8fc94f0eeecb344de", null ]
+      [ "PEDNET_MULTI", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53", null ]
     ] ],
     [ "~detectNet", "classdetectNet.html#a82c0e177e0da142fa22aa7580077307d", null ],
     [ "detectNet", "classdetectNet.html#a9c06901bf2562bddff0fe73cbed7196c", null ],

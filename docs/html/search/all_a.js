@@ -14,6 +14,7 @@ var searchData=
   ['mcontext',['mContext',['../classtensorNet.html#a2c745474e60145ee826b53e294e7f478',1,'tensorNet']]],
   ['mcontextgl',['mContextGL',['../classglDisplay.html#aecdedd41e0d674fb614b88fd9ca9fa15',1,'glDisplay']]],
   ['mcoveragethreshold',['mCoverageThreshold',['../classdetectNet.html#a2a95020a83b2c33353450505355af0ca',1,'detectNet']]],
+  ['mcustomclasses',['mCustomClasses',['../classimageNet.html#ad5100ca715de83a14d8675d7e5ed174e',1,'imageNet']]],
   ['mdisplayx',['mDisplayX',['../classglDisplay.html#ad809588391d7a2edafb0df1ea96ac35a',1,'glDisplay']]],
   ['menabledebug',['mEnableDebug',['../classtensorNet.html#a84ad901a2a0dc4aaf740d40307437b2b',1,'tensorNet']]],
   ['menablefp16',['mEnableFP16',['../classtensorNet.html#abffda5dde2c64593ddf19a6428a4d4f3',1,'tensorNet']]],

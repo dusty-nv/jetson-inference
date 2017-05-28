@@ -43,8 +43,8 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 
 	printf("\n");
 	printf("detectNet -- loading detection network model from:\n");
-	printf("          -- prototxt:   %s\n", prototxt);
-	printf("          -- model:      %s\n", model);
+	printf("          -- prototxt    %s\n", prototxt);
+	printf("          -- model       %s\n", model);
 	printf("          -- input_blob  '%s'\n", input_blob);
 	printf("          -- output_cvg  '%s'\n", coverage_blob);
 	printf("          -- output_bbox '%s'\n", bbox_blob);
@@ -133,7 +133,6 @@ detectNet* detectNet::Create( int argc, char** argv )
 	//	modelName = argv[3];	
 
 	detectNet::NetworkType type = detectNet::PEDNET_MULTI;
-	bool customModel = false;
 
 	if( strcasecmp(modelName, "multiped") == 0 || strcasecmp(modelName, "multiped-500") == 0 )
 		type = detectNet::PEDNET_MULTI;
