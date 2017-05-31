@@ -170,8 +170,8 @@ imageNet* imageNet::Create( int argc, char** argv )
 	else
 	{
 		const char* prototxt = cmdLine.GetString("prototxt");
+		const char* labels   = cmdLine.GetString("labels");
 		const char* input    = cmdLine.GetString("input_blob");
-		const char* labels   = cmdLine.GetString("class_labels");
 		const char* output   = cmdLine.GetString("output_blob");
 		const char* out_bbox = cmdLine.GetString("output_bbox");
 		
@@ -232,6 +232,9 @@ bool imageNet::loadClassInfo( const char* filename )
 
 			printf("a=%s b=%s (custom non-synset)\n", a, str);
 			mCustomClasses++;
+
+			if( str[len-1] == '\n' )
+				str[len-1] = 0;
 
 			mClassSynset.push_back(a);
 			mClassDesc.push_back(str);

@@ -73,8 +73,9 @@ int main( int argc, char** argv )
 			if( font != NULL )
 			{
 				char str[512];
-				sprintf(str, "%2.5f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
-				font->RenderOverlay((float4*)imgCUDA, (float4*)imgCUDA, imgWidth, imgHeight, (const char*)str, 10, 10);
+				sprintf(str, "%2.3f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
+				font->RenderOverlay((float4*)imgCUDA, (float4*)imgCUDA, imgWidth, imgHeight, (const char*)str, 10, 10,
+								make_float4(255.0f, 255.0f, 255.0f, 255.0f));
 			}
 			
 			printf("imagenet-console:  attempting to save output image to '%s'\n", outputFilename);

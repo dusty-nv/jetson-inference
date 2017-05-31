@@ -254,6 +254,8 @@ $ cd build
 $ cmake ../
 ```
 
+> **note**: the cmake command will launch the CMakePrebuild.sh script which asks for sudo while making sure prerequisite packages have been installed on the Jetson. The script also downloads the network model snapshots from web services.
+
 #### Compiling the Project
 
 Make sure you are still in the jetson-inference/build directory, created above in step #2.
