@@ -89,8 +89,10 @@ bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize )
 
 	if( networkType == imageNet::ALEXNET )
 		return init( "networks/alexnet.prototxt", "networks/bvlc_alexnet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize );
-	else
+	else if( networkType == imageNet::GOOGLENET )
 		return init( "networks/googlenet.prototxt", "networks/bvlc_googlenet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize );
+	else if( networkType == imageNet::GOOGLENET_12 )
+		return init( "networks/GoogleNet-ILSVRC12-subset/deploy.prototxt", "networks/GoogleNet-ILSVRC12-subset/snapshot_iter_184080.caffemodel", NULL, "networks/GoogleNet-ILSVRC12-subset/labels.txt", IMAGENET_DEFAULT_INPUT, "softmax", maxBatchSize );
 }
 
 
@@ -167,6 +169,10 @@ imageNet* imageNet::Create( int argc, char** argv )
 	{
 		type = imageNet::GOOGLENET;
 	}
+	else if( strcasecmp(modelName, "googlenet-12") == 0 || strcasecmp(modelName, "googlenet_12") == 0 )
+	{
+		type = imageNet::GOOGLENET_12;
+	}
 	else
 	{
 		const char* prototxt = cmdLine.GetString("prototxt");
@@ -230,7 +236,7 @@ bool imageNet::loadClassInfo( const char* filename )
 			char a[10];
 			sprintf(a, "n%08u", mCustomClasses);
 
-			printf("a=%s b=%s (custom non-synset)\n", a, str);
+			//printf("a=%s b=%s (custom non-synset)\n", a, str);
 			mCustomClasses++;
 
 			if( str[len-1] == '\n' )

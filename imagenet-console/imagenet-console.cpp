@@ -58,9 +58,7 @@ int main( int argc, char** argv )
 	// classify image
 	const int img_class = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
 	
-	if( img_class < 0 )
-		printf("imagenet-console:  failed to classify '%s'  (result=%i)\n", imgFilename, img_class);
-	else
+	if( img_class >= 0 )
 	{
 		printf("imagenet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, net->GetClassDesc(img_class));
 	
@@ -68,14 +66,28 @@ int main( int argc, char** argv )
 		{
 			const char* outputFilename = argv[2];
 			
+			// overlay the classification on the image
 			cudaFont* font = cudaFont::Create();
 			
 			if( font != NULL )
 			{
 				char str[512];
 				sprintf(str, "%2.3f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
+
+				const int overlay_x = 10;
+				const int overlay_y = 10;
+				const int px_offset = overlay_y * imgWidth * 4 + overlay_x * 4;
+
+				// if the image has a white background, use black text (otherwise, white)
+				const float white_cutoff = 225.0f;
+				bool white_background = false;
+
+				if( imgCPU[px_offset] > white_cutoff && imgCPU[px_offset + 1] > white_cutoff && imgCPU[px_offset + 2] > white_cutoff )
+					white_background = true;
+
+				// overlay the text on the image
 				font->RenderOverlay((float4*)imgCUDA, (float4*)imgCUDA, imgWidth, imgHeight, (const char*)str, 10, 10,
-								make_float4(255.0f, 255.0f, 255.0f, 255.0f));
+								white_background ? make_float4(0.0f, 0.0f, 0.0f, 255.0f) : make_float4(255.0f, 255.0f, 255.0f, 255.0f));
 			}
 			
 			printf("imagenet-console:  attempting to save output image to '%s'\n", outputFilename);
@@ -86,6 +98,8 @@ int main( int argc, char** argv )
 				printf("imagenet-console:  completed saving '%s'\n", outputFilename);
 		}
 	}
+	else
+		printf("imagenet-console:  failed to classify '%s'  (result=%i)\n", imgFilename, img_class);
 	
 	printf("\nshutting down...\n");
 	CUDA(cudaFreeHost(imgCPU));
