@@ -357,13 +357,13 @@ Then, classify an example image with the [`imagenet-console`](imagenet-console/i
 $ ./imagenet-console orange_0.jpg output_0.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="700">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="550">
 
 ``` bash
 $ ./imagenet-console granny_smith_1.jpg output_1.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple.jpg" width="700">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple.jpg" width="550">
 
 Next, we will use [imageNet](imageNet.h) to classify a live video feed from the Jetson onboard camera.
 
@@ -430,16 +430,16 @@ DIGITS expects the data in a hierarchy of folders, so we can create directories 
 
 ```
 ‣ ball/  (7)
-	• baseball/    (→ n02799071)
-	• basketball/  (→ n02802426)
-	• soccer ball/ (→ n04254680)
-	• tennis ball/ (→ n04409515)
+	• baseball/    (→n02799071)
+	• basketball/  (→n02802426)
+	• soccer ball/ (→n04254680)
+	• tennis ball/ (→n04409515)
 	• ...
 ‣ bear/  (4)
-	• brown bear/  (→ n02132136)
-	• black bear/  (→ n02133161)
-	• polar bear/  (→ n02134084)
-	• sloth bear/  (→ n02134418)
+	• brown bear/  (→n02132136)
+	• black bear/  (→n02133161)
+	• polar bear/  (→n02134084)
+	• sloth bear/  (→n02134418)
 • bike/  (3)
 • bird/  (17)
 • bottle/ (7)
@@ -452,7 +452,7 @@ DIGITS expects the data in a hierarchy of folders, so we can create directories 
 • sign/  (2)
 ```
 
-Since there are actually a lot of synsets linked to from ILSVRC12, we provide the [`imagenet-subset`](tools/imagenet-subset.sh) script to generate the directory structure and links given the path to the dataset.  Run the folowing commands from the DIGITS server:
+Since there are actually a lot of synsets linked to from ILSVRC12, we provide the **[`imagenet-subset.sh`](tools/imagenet-subset.sh)** script to generate the directory structure and links given the path to the dataset.  Run the folowing commands from the DIGITS server:
 
 ``` bash
 $ wget https://rawgit.com/dusty-nv/jetson-inference/master/tools/imagenet-subset.sh
@@ -545,18 +545,6 @@ $ ./imagenet-console bird_0.jpg output_0.jpg \
 As before, the classification and confidence will be overlayed to the output image.  When compared to the output of the original network, the re-trained GoogleNet-12 makes similar classifications to the original GoogleNet-1000:
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-tensorRT-console-bird.png)
-
-or otherwise require a different organization of the classes?  Using [NVIDIA DIGITS](http://github.com/NVIDIA/DIGITS), networks can be fine-tuned or re-trained from a pre-exisiting network model.
-After installing DIGITS on a PC or in the cloud (such as an AWS instance), see the **[Image Folder Specification](https://github.com/NVIDIA/DIGITS/blob/master/docs/ImageFolderFormat.md)** to learn how to organize the data for your particular application.
-
-Popular training databases with various annotations and labels include [ImageNet](image-net.org), [MS COCO](mscoco.org), and [Google Images](images.google.com) among others.  See **[here](https://deepdetect.com/tutorials/train-imagenet/#downloading-the-dataset:a4354293bae6711c4be0365f66102aef)** to obtain a crawler script that will download the 1000 original classes, including as many of the original images that are still available online.
-
-Then, while creating the new network model in DIGITS, copy the [GoogleNet prototxt](data/networks/googlenet.prototxt) and specify the existing GoogleNet caffemodel as the DIGITS **Pretrained Model**:
-
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-digits-prototxt.jpg" width="800">
-
-The network training should now converge faster than if it were trained from scratch.  After the desired accuracy has been reached, copy the new model checkpoint back over to your Jetson and proceed as before, but now with the added classes available for recognition.
-
 
 ## Locating Object Coordinates using DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
