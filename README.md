@@ -430,16 +430,16 @@ DIGITS expects the data in a hierarchy of folders, so we can create directories 
 
 ```
 ‣ ball/  (7)
-	• baseball/    (→n02799071)
-	• basketball/  (→n02802426)
-	• soccer ball/ (→n04254680)
-	• tennis ball/ (→n04409515)
+	• baseball     (→n02799071)
+	• basketball   (→n02802426)
+	• soccer ball  (→n04254680)
+	• tennis ball  (→n04409515)
 	• ...
 ‣ bear/  (4)
-	• brown bear/  (→n02132136)
-	• black bear/  (→n02133161)
-	• polar bear/  (→n02134084)
-	• sloth bear/  (→n02134418)
+	• brown bear   (→n02132136)
+	• black bear   (→n02133161)
+	• polar bear   (→n02134084)
+	• sloth bear   (→n02134418)
 • bike/  (3)
 • bird/  (17)
 • bottle/ (7)
@@ -545,6 +545,8 @@ $ ./imagenet-console bird_0.jpg output_0.jpg \
 As before, the classification and confidence will be overlayed to the output image.  When compared to the output of the original network, the re-trained GoogleNet-12 makes similar classifications to the original GoogleNet-1000:
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-tensorRT-console-bird.png)
+
+You can use similar command line parameters with `imagenet-camera` to load custom classification models with that program too.
 
 ## Locating Object Coordinates using DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
