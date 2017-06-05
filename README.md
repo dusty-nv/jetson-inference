@@ -546,7 +546,7 @@ As before, the classification and confidence will be overlayed to the output ima
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-tensorRT-console-bird.png)
 
-You can use similar command line parameters with `imagenet-camera` to load custom classification models with that program too.
+The extended command line parameters above also load custom classification models with `imagenet-camera`. 
 
 ## Locating Object Coordinates using DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
