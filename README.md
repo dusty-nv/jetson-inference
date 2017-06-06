@@ -9,10 +9,10 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*. <br/>
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Support for **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset. <br/>
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) **[Object Detection](#locating-object-coordinates-using-detectnet)** training guide using DIGITS & MS-COCO training dataset.
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) **[Image Recognition](#re-training-the-network-with-digits) training guide using DIGITS & ImageNet ILSVRC12 dataset.
+> ‣ Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*. <br/>
+> ‣ **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset. <br/>
+> ‣ **[Object Detection](#locating-object-coordinates-using-detectnet)** training guide using DIGITS & MS-COCO training dataset. <br/>
+> ‣ **[Image Recognition](#re-training-the-network-with-digits)** training guide using DIGITS & ImageNet ILSVRC12 dataset.
 
 ### **Table of Contents**
 
@@ -49,7 +49,6 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 	* [Testing Inference Model in DIGITS](#testing-inference-model-in-digits)
 	* [FCN-Alexnet Patches for TensorRT](#fcn-alexnet-patches-for-tensorrt)
 	* [Running Segmentation Models on Jetson](#running-segmentation-models-on-jetson)
-* [Extra Resources](#extra-resources)
 
 **Recommended System Requirements**
 
@@ -364,13 +363,12 @@ Then, classify an example image with the [`imagenet-console`](imagenet-console/i
 $ ./imagenet-console orange_0.jpg output_0.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="550">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="500">
 
 ``` bash
 $ ./imagenet-console granny_smith_1.jpg output_1.jpg
 ```
-
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple.jpg" width="550">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple.jpg" width="500">
 
 Next, we will use [imageNet](imageNet.h) to classify a live video feed from the Jetson onboard camera.
 
@@ -533,6 +531,8 @@ Then extract the archive with a command similar to:
 ```cd <directory where you downloaded the snapshot>
 tar -xzvf 20170524-140310-8c0b_epoch_30.0.tar.gz
 ```
+
+Next we will load our custom snapshot into TensorRT, running on the Jetson.
 
 ### Loading Custom Models on Jetson
 
