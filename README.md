@@ -11,7 +11,8 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 > ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*. <br/>
 > ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Support for **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset. <br/>
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) **[Object Detection](#locating-object-coordinates-using-detectnet)** training guide using MS-COCO training dataset.
+> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) **[Object Detection](#locating-object-coordinates-using-detectnet)** training guide using DIGITS & MS-COCO training dataset.
+> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) **[Image Recognition](#re-training-the-network-with-digits) training guide using DIGITS & ImageNet ILSVRC12 dataset.
 
 ### **Table of Contents**
 
@@ -169,12 +170,16 @@ $ sudo dpkg -i libcudnn6-dev_6.0.20-1+cuda8.0_amd64.deb
 
 ### Installing NVcaffe on the Host
 
-NVcaffe is the NVIDIA branch of Caffe with optimizations for GPU.  NVcaffe uses cuDNN and is used by DIGITS for training DNNs.  To install it, clone the NVcaffe repo from GitHub and compile from source.  First some prequisite packages for Caffe are installed, including the Python bindings required by DIGITS:
+NVcaffe is the NVIDIA branch of Caffe with optimizations for GPU.  NVcaffe uses cuDNN and is used by DIGITS for training DNNs.  To install it, clone the NVcaffe repo from GitHub and compile from source.  Use the NVcaffe-0.15 branch like below.
+
+> **note**: for this tutorial, NVcaffe is only required on the host (for training).  During inferencing phase TensorRT is used on the Jetson and doesn't require caffe.
+
+First some prequisite packages for Caffe are installed, including the Python bindings required by DIGITS:
 
 ``` bash
 $ sudo apt-get install --no-install-recommends build-essential cmake git gfortran libatlas-base-dev libboost-filesystem-dev libboost-python-dev libboost-system-dev libboost-thread-dev libgflags-dev libgoogle-glog-dev libhdf5-serial-dev libleveldb-dev liblmdb-dev libprotobuf-dev libsnappy-dev protobuf-compiler python-all-dev python-dev python-h5py python-matplotlib python-numpy python-opencv python-pil python-pip python-protobuf python-scipy python-skimage python-sklearn python-setuptools 
 $ sudo pip install --upgrade pip
-$ git clone http://github.com/NVIDIA/caffe
+$ git clone -b caffe-0.15 http://github.com/NVIDIA/caffe
 $ cd caffe
 $ sudo pip install -r python/requirements.txt 
 $ mkdir build
@@ -511,7 +516,7 @@ Press the `Classify One` button and you should see a page similar to:
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-digits-infer-cat.png)
 
-The image is categorized as `Lynx` by the original GoogleNet-1000 and as the new GoogleNet-12 model as `cat`.  This indicates the new model is working appropriately, because the Lynx category was included in GoogleNet-12's training of `cat`.
+The image is classified as the new GoogleNet-12 model as `cat`, while in the original GoogleNet-1000 it was under `Lynx`.  This indicates the new model is working appropriately, because the Lynx category was included in GoogleNet-12's training of cat.
 
 ### Downloading Model Snapshot to Jetson
 
@@ -546,7 +551,7 @@ As before, the classification and confidence will be overlayed to the output ima
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-tensorRT-console-bird.png)
 
-The extended command line parameters above also load custom classification models with `imagenet-camera`. 
+The extended command line parameters above also load custom classification models with [`imagenet-camera`](imagenet-camera/imagenet-camera.cpp). 
 
 ## Locating Object Coordinates using DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
@@ -806,7 +811,6 @@ $ ./detectnet-console peds-007.png output_7.png multiped
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-00.jpg" width="900">
-
 
 ### Multi-class Object Detection Models
 When using the multiped model (`PEDNET_MULTI`), for images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
