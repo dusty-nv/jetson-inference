@@ -9,10 +9,10 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-> ‣ Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*. <br/>
-> > &nbsp;&nbsp; **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset. <br/>
-> > &nbsp;&nbsp; **[Object Detection](#locating-object-coordinates-using-detectnet)** training guide using DIGITS & MS-COCO training dataset. <br/>
-> > &nbsp;&nbsp; **[Image Recognition](#re-training-the-network-with-digits)** training guide using DIGITS & ImageNet ILSVRC12 dataset.
+> &gt; &nbsp;&nbsp; Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*. <br/>
+> &gt; &nbsp;&nbsp; **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset. <br/>
+> &gt; &nbsp;&nbsp; **[Object Detection](#locating-object-coordinates-using-detectnet)** training guide using DIGITS & MS-COCO training dataset. <br/>
+> &gt; &nbsp;&nbsp; **[Image Recognition](#re-training-the-network-with-digits)** training guide using DIGITS & ImageNet ILSVRC12 dataset.
 
 ### **Table of Contents**
 
