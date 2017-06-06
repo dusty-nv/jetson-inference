@@ -20,7 +20,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 * [System Setup](#system-setup)
 * [Building from Source on Jetson](#building-from-source-on-jetson)
 * [Classifying Images with ImageNet](#classifying-images-with-imagenet)
-	* [Using the Console Program on Jetson](#using-the-console-program)
+	* [Using the Console Program on Jetson](#using-the-console-program-on-jetson)
 	* [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
 	* [Re-training the Network with DIGITS](#re-training-the-network-with-digits)
 	* [Downloading Image Recognition Dataset](#downloading-image-recognition-dataset)
@@ -350,7 +350,9 @@ The [`imageNet`](imageNet.h) object accepts an input image and outputs the proba
 
 ### Using the Console Program on Jetson
 
-First, use the [`imagenet-console`](imagenet-console/imagenet-console.cpp) program to test imageNet recognition on some example images. After [building](#building-from-source-on-jetson), make sure your terminal is located in the aarch64/bin directory:
+First, try using the [`imagenet-console`](imagenet-console/imagenet-console.cpp) program to test imageNet recognition on some example images.  It loads an image, uses TensorRT and the [`imageNet`](imageNet.h) class to perform the inference, then overlays the classification and saves the output image.
+
+After [building](#building-from-source-on-jetson), make sure your terminal is located in the aarch64/bin directory:
 
 ``` bash
 $ cd jetson-inference/build/aarch64/bin
