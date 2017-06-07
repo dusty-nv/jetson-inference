@@ -394,7 +394,7 @@ The existing GoogleNet and AlexNet models that are downloaded by the repo are pr
 
 To recognize a new object class, you can use DIGITS to re-train the network on new data.  You can also organize the existing classes differently, including group multiple subclasses into one.  For example in this tutorial we'll take 230 of the 1000 classes, group those into 12 classes and retrain the network.
 
-Let's start by downloading the ILSVRC12 images to work with, or you can substitute your own dataset in **[Image Folder Specification](https://github.com/NVIDIA/DIGITS/blob/master/docs/ImageFolderFormat.md)**.
+Let's start by downloading the ILSVRC12 images to work with, or you can substitute your own dataset in an **[Image Folder](https://github.com/NVIDIA/DIGITS/blob/master/docs/ImageFolderFormat.md)**.
 
 ### Downloading Image Recognition Dataset
 
