@@ -1,9 +1,9 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
 
 # Deploying Deep Learning
-Welcome to our training guide for inference and embedded [deep vision](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html) runtime library for **[NVIDIA Jetson TX1/TX2](http://www.nvidia.com/object/embedded-systems.html)**.
+Welcome to our training guide for inference and [deep vision](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html) runtime library for NVIDIA **[DIGITS](https://github.com/NVIDIA/DIGITS)** and **[Jetson TX1/TX2](http://www.nvidia.com/object/embedded-systems.html)**.
 
-Included in this repo are resources for efficiently deploying neural networks into the field using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.
+This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for efficiently deploying neural networks onto the embedded platform, improving performance and power efficiency using graph optimizations, kernel fusion, and half-precision FP16 on the Jetson.
 
 Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  See the **[Deep Vision API Reference Specification](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html)** for accompanying documentation. 
 
@@ -482,7 +482,9 @@ Set the `Training Images` path to the `12_classes` folder from the previous step
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-digits-new-dataset.png)
 
-Use the `Create` button at the bottom of the page to launch the dataset import job.  Next we'll create the new model and begin training it.
+Use the `Create` button at the bottom of the page to launch the dataset import job.  The size of the data subset is around 20GB, so it takes a few minutes.
+
+Next we'll create the new model and begin training it.
 
 ### Creating Image Classification Model with DIGITS
 
@@ -516,7 +518,7 @@ Press the `Classify One` button and you should see a page similar to:
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-digits-infer-cat.png)
 
-The image is classified as the new GoogleNet-12 model as `cat`, while in the original GoogleNet-1000 it was under `Lynx`.  This indicates the new model is working appropriately, because the Lynx category was included in GoogleNet-12's training of cat.
+The image is classified as the new GoogleNet-12 model as `cat`, while in the original GoogleNet-1000 it was under `Lynx`.  This indicates the new model is working ok, because the Lynx category was included in GoogleNet-12's training of cat.
 
 ### Downloading Model Snapshot to Jetson
 
