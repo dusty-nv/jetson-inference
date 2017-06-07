@@ -482,9 +482,7 @@ Set the `Training Images` path to the `12_classes` folder from the previous step
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-digits-new-dataset.png)
 
-Use the `Create` button at the bottom of the page to launch the dataset import job.  The size of the data subset is around 20GB, so it takes a few minutes.
-
-Next we'll create the new model and begin training it.
+Use the `Create` button at the bottom of the page to launch the dataset import job.  The size of the data subset is around 20GB, so depending on server I/O performance it takes 10-15 minutes.  Next we'll create the new model and begin training it.
 
 ### Creating Image Classification Model with DIGITS
 
