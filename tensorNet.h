@@ -150,6 +150,9 @@ protected:
 	uint32_t mInputSize;
 	float*   mInputCPU;
 	float*   mInputCUDA;
+	float*   mMeanCPU;
+	float*   mMeanCUDA;
+
 	uint32_t mMaxBatchSize;
 	bool	 mEnableProfiler;
 	bool     mEnableDebug;

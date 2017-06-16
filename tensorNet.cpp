@@ -24,6 +24,8 @@ tensorNet::tensorNet()
 	mMaxBatchSize   = 0;
 	mInputCPU       = NULL;
 	mInputCUDA      = NULL;
+	mMeanCPU        = NULL;
+	mMeanCUDA       = NULL;
 	mEnableDebug    = false;
 	mEnableProfiler = false;
 	mEnableFP16     = false;
@@ -46,6 +48,11 @@ tensorNet::~tensorNet()
 	{
 		mInfer->destroy();
 		mInfer = NULL;
+	}
+
+	if( mMeanCPU )
+	{
+		CUDA(cudaFreeHost(mMeanCPU));
 	}
 }
 
@@ -291,6 +298,28 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		printf("failed to alloc CUDA mapped memory for tensorNet input, %zu bytes\n", inputSize);
 		return false;
 	}
+
+	if( mean_path != NULL ) {
+		if( !cudaAllocMapped((void**)&mMeanCPU, (void**)&mMeanCUDA, inputSize) )
+		{
+			printf("failed to alloc CUDA mapped memory for tensorNet mean, %zu bytes\n", inputSize);
+			return false;
+		}
+
+		mMeanPath = mean_path;
+		// parse the caffe model to populate the network, then set the outputs
+		nvcaffeparser1::ICaffeParser* parser = nvcaffeparser1::createCaffeParser();
+
+		printf(LOG_GIE "parsing %s\n", mMeanPath.c_str());
+		nvcaffeparser1::IBinaryProtoBlob* mean_blob = parser->parseBinaryProto(mMeanPath.c_str());
+		memcpy(mMeanCPU, reinterpret_cast<const float*>(mean_blob->getData()), inputSize);
+		printf(LOG_GIE "%s parsed\n", mMeanPath.c_str());
+
+		mean_blob->destroy();
+		parser->destroy();
+
+		//saveImageRGB("mean.jpg", (float3*)mMeanCPU, inputDims.w, inputDims.h);
+	}
 	
 	mInputSize    = inputSize;
 	mWidth        = inputDims.w;
@@ -336,10 +365,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	mPrototxtPath   = prototxt_path;
 	mModelPath      = model_path;
 	mInputBlobName  = input_blob;
-		
-	if( mean_path != NULL )
-		mMeanPath = mean_path;
-	
+
 	printf("%s initialized.\n", mModelPath.c_str());
 	return true;
 }
