@@ -15,7 +15,7 @@
 #include "cudaNormalize.h"
 #include "cudaFont.h"
 
-#include "detectNet.h"
+#include "segNet.h"
 
 
 #define DEFAULT_CAMERA -1	// -1 for onboard camera, or change to index of /dev/video V4L2 camera (>=0)	
@@ -140,7 +140,7 @@ int main( int argc, char** argv )
 			printf("segnet-camera:  failed to convert from NV12 to RGBA\n");
 
 		// process image overlay
-		if( !net->Overlay(imgCUDA, outCUDA, camera->GetWidth(), camera->GetHeight()) )
+		if( !net->Overlay((float*)imgRGBA, (float*)outCUDA, camera->GetWidth(), camera->GetHeight()) )
 		{
 			printf("segnet-console:  failed to process segmentation overlay.\n");
 			continue;
