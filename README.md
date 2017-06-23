@@ -1,17 +1,18 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
 
 # Deploying Deep Learning
-Welcome to our guide to deploying inference and embedded [deep vision](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html) runtime library for **[NVIDIA Jetson TX1/TX2](http://www.nvidia.com/object/embedded-systems.html)**.
+Welcome to our training guide for inference and [deep vision](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html) runtime library for NVIDIA **[DIGITS](https://github.com/NVIDIA/DIGITS)** and **[Jetson TX1/TX2](http://www.nvidia.com/object/embedded-systems.html)**.
 
-Included in this repo are resources for efficiently deploying neural networks into the field using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.
+This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for efficiently deploying neural networks onto the embedded platform, improving performance and power efficiency using graph optimizations, kernel fusion, and half-precision FP16 on the Jetson.
 
-Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  See the **[Deep Vision API Reference Specification](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html)** for documentation accompanying this tutorial. 
+Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  See the **[Deep Vision API Reference Specification](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html)** for accompanying documentation. 
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*. <br/>
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) Support for **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset. <br/>
-> ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/new.jpg) **[Object Detection](#locating-object-coordinates-using-detectnet)** training guide using MS-COCO training dataset.
+> &gt; &nbsp; Read our recent **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/)**, *NVIDIA Jetson TX2 Delivers Twice the Intelligence to the Edge*. <br/>
+> &gt; &nbsp; See **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset. <br/>
+> &gt; &nbsp; Try **[Object Detection](#locating-object-coordinates-using-detectnet)** training guide using DIGITS & MS-COCO training dataset. <br/>
+> &gt; &nbsp; Use **[Image Recognition](#re-training-the-network-with-digits)** training guide using DIGITS & ImageNet ILSVRC12 dataset.
 
 ### **Table of Contents**
 
@@ -19,7 +20,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 * [System Setup](#system-setup)
 * [Building from Source on Jetson](#building-from-source-on-jetson)
 * [Classifying Images with ImageNet](#classifying-images-with-imagenet)
-	* [Using the Console Program on Jetson](#using-the-console-program)
+	* [Using the Console Program on Jetson](#using-the-console-program-on-jetson)
 	* [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
 	* [Re-training the Network with DIGITS](#re-training-the-network-with-digits)
 	* [Downloading Image Recognition Dataset](#downloading-image-recognition-dataset)
@@ -48,7 +49,6 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 	* [Testing Inference Model in DIGITS](#testing-inference-model-in-digits)
 	* [FCN-Alexnet Patches for TensorRT](#fcn-alexnet-patches-for-tensorrt)
 	* [Running Segmentation Models on Jetson](#running-segmentation-models-on-jetson)
-* [Extra Resources](#extra-resources)
 
 **Recommended System Requirements**
 
@@ -169,12 +169,16 @@ $ sudo dpkg -i libcudnn6-dev_6.0.20-1+cuda8.0_amd64.deb
 
 ### Installing NVcaffe on the Host
 
-NVcaffe is the NVIDIA branch of Caffe with optimizations for GPU.  NVcaffe uses cuDNN and is used by DIGITS for training DNNs.  To install it, clone the NVcaffe repo from GitHub and compile from source.  First some prequisite packages for Caffe are installed, including the Python bindings required by DIGITS:
+NVcaffe is the NVIDIA branch of Caffe with optimizations for GPU.  NVcaffe uses cuDNN and is used by DIGITS for training DNNs.  To install it, clone the NVcaffe repo from GitHub and compile from source.  Use the NVcaffe-0.15 branch like below.
+
+> **note**: for this tutorial, NVcaffe is only required on the host (for training).  During inferencing phase TensorRT is used on the Jetson and doesn't require caffe.
+
+First some prequisite packages for Caffe are installed, including the Python bindings required by DIGITS:
 
 ``` bash
 $ sudo apt-get install --no-install-recommends build-essential cmake git gfortran libatlas-base-dev libboost-filesystem-dev libboost-python-dev libboost-system-dev libboost-thread-dev libgflags-dev libgoogle-glog-dev libhdf5-serial-dev libleveldb-dev liblmdb-dev libprotobuf-dev libsnappy-dev protobuf-compiler python-all-dev python-dev python-h5py python-matplotlib python-numpy python-opencv python-pil python-pip python-protobuf python-scipy python-skimage python-sklearn python-setuptools 
 $ sudo pip install --upgrade pip
-$ git clone http://github.com/NVIDIA/caffe
+$ git clone -b caffe-0.15 http://github.com/NVIDIA/caffe
 $ cd caffe
 $ sudo pip install -r python/requirements.txt 
 $ mkdir build
@@ -345,7 +349,9 @@ The [`imageNet`](imageNet.h) object accepts an input image and outputs the proba
 
 ### Using the Console Program on Jetson
 
-First, use the [`imagenet-console`](imagenet-console/imagenet-console.cpp) program to test imageNet recognition on some example images. After [building](#building-from-source-on-jetson), make sure your terminal is located in the aarch64/bin directory:
+First, try using the [`imagenet-console`](imagenet-console/imagenet-console.cpp) program to test imageNet recognition on some example images.  It loads an image, uses TensorRT and the [`imageNet`](imageNet.h) class to perform the inference, then overlays the classification and saves the output image.
+
+After [building](#building-from-source-on-jetson), make sure your terminal is located in the aarch64/bin directory:
 
 ``` bash
 $ cd jetson-inference/build/aarch64/bin
@@ -357,13 +363,12 @@ Then, classify an example image with the [`imagenet-console`](imagenet-console/i
 $ ./imagenet-console orange_0.jpg output_0.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="550">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="500">
 
 ``` bash
 $ ./imagenet-console granny_smith_1.jpg output_1.jpg
 ```
-
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple.jpg" width="550">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple.jpg" width="500">
 
 Next, we will use [imageNet](imageNet.h) to classify a live video feed from the Jetson onboard camera.
 
@@ -389,7 +394,7 @@ The existing GoogleNet and AlexNet models that are downloaded by the repo are pr
 
 To recognize a new object class, you can use DIGITS to re-train the network on new data.  You can also organize the existing classes differently, including group multiple subclasses into one.  For example in this tutorial we'll take 230 of the 1000 classes, group those into 12 classes and retrain the network.
 
-Let's start by downloading the ILSVRC12 images to work with, or you can substitute your own dataset in **[Image Folder Specification](https://github.com/NVIDIA/DIGITS/blob/master/docs/ImageFolderFormat.md)**.
+Let's start by downloading the ILSVRC12 images to work with, or you can substitute your own dataset in an **[Image Folder](https://github.com/NVIDIA/DIGITS/blob/master/docs/ImageFolderFormat.md)**.
 
 ### Downloading Image Recognition Dataset
 
@@ -477,7 +482,7 @@ Set the `Training Images` path to the `12_classes` folder from the previous step
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-digits-new-dataset.png)
 
-Use the `Create` button at the bottom of the page to launch the dataset import job.  Next we'll create the new model and begin training it.
+Use the `Create` button at the bottom of the page to launch the dataset import job.  The size of the data subset is around 20GB, so depending on server I/O performance it takes 10-15 minutes.  Next we'll create the new model and begin training it.
 
 ### Creating Image Classification Model with DIGITS
 
@@ -511,7 +516,7 @@ Press the `Classify One` button and you should see a page similar to:
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-digits-infer-cat.png)
 
-The image is categorized as `Lynx` by the original GoogleNet-1000 and as the new GoogleNet-12 model as `cat`.  This indicates the new model is working appropriately, because the Lynx category was included in GoogleNet-12's training of `cat`.
+The image is classified as the new GoogleNet-12 model as `cat`, while in the original GoogleNet-1000 it was under `Lynx`.  This indicates the new model is working ok, because the Lynx category was included in GoogleNet-12's training of cat.
 
 ### Downloading Model Snapshot to Jetson
 
@@ -526,6 +531,8 @@ Then extract the archive with a command similar to:
 ```cd <directory where you downloaded the snapshot>
 tar -xzvf 20170524-140310-8c0b_epoch_30.0.tar.gz
 ```
+
+Next we will load our custom snapshot into TensorRT, running on the Jetson.
 
 ### Loading Custom Models on Jetson
 
@@ -546,7 +553,7 @@ As before, the classification and confidence will be overlayed to the output ima
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-tensorRT-console-bird.png)
 
-The extended command line parameters above also load custom classification models with `imagenet-camera`. 
+The extended command line parameters above also load custom classification models with [`imagenet-camera`](imagenet-camera/imagenet-camera.cpp). 
 
 ## Locating Object Coordinates using DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
@@ -806,7 +813,6 @@ $ ./detectnet-console peds-007.png output_7.png multiped
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-00.jpg" width="900">
-
 
 ### Multi-class Object Detection Models
 When using the multiped model (`PEDNET_MULTI`), for images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
