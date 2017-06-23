@@ -97,6 +97,7 @@ add_subdirectory(detectnet-console)
 add_subdirectory(detectnet-camera)
 
 add_subdirectory(segnet-console)
+add_subdirectory(segnet-camera)
 
 add_subdirectory(util/camera/gst-camera)
 add_subdirectory(util/camera/v4l2-console)
