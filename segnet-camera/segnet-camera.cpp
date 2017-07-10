@@ -136,7 +136,7 @@ int main( int argc, char** argv )
 		// convert from YUV to RGBA
 		void* imgRGBA = NULL;
 		
-		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
+		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA, true) )
 			printf("segnet-camera:  failed to convert from NV12 to RGBA\n");
 
 		// process image overlay

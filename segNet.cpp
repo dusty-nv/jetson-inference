@@ -63,7 +63,7 @@ segNet* segNet::Create( int argc, char** argv )
 
 	if( !modelName )
 	{
-		modelName = "fcn-alexnet-cityscapes-sd";
+		modelName = "fcn-alexnet-cityscapes-hd";
 
 		if( argc > 3 )
 			modelName = argv[3];	
