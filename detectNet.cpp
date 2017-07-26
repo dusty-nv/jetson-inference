@@ -259,19 +259,19 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 	float* net_cvg   = mOutputs[OUTPUT_CVG].CPU;
 	float* net_rects = mOutputs[OUTPUT_BBOX].CPU;
 	
-	const int ow  = mOutputs[OUTPUT_BBOX].dims.w;		// number of columns in bbox grid in X dimension
-	const int oh  = mOutputs[OUTPUT_BBOX].dims.h;		// number of rows in bbox grid in Y dimension
+	const int ow  = DIMS_W(mOutputs[OUTPUT_BBOX].dims);		// number of columns in bbox grid in X dimension
+	const int oh  = DIMS_H(mOutputs[OUTPUT_BBOX].dims);		// number of rows in bbox grid in Y dimension
 	const int owh = ow * oh;							// total number of bbox in grid
 	const int cls = GetNumClasses();					// number of object classes in coverage map
 	
-	const float cell_width  = /*width*/ mInputDims.w / ow;
-	const float cell_height = /*height*/ mInputDims.h / oh;
+	const float cell_width  = /*width*/ DIMS_W(mInputDims) / ow;
+	const float cell_height = /*height*/ DIMS_H(mInputDims) / oh;
 	
-	const float scale_x = float(width) / float(mInputDims.w);
-	const float scale_y = float(height) / float(mInputDims.h);
+	const float scale_x = float(width) / float(DIMS_W(mInputDims));
+	const float scale_y = float(height) / float(DIMS_H(mInputDims));
 
 #ifdef DEBUG_CLUSTERING	
-	printf("input width %i height %i\n", (int)mInputDims.w, (int)mInputDims.h);
+	printf("input width %i height %i\n", (int)DIMS_W(mInputDims), (int)DIMS_H(mInputDims));
 	printf("cells x %i  y %i\n", ow, oh);
 	printf("cell width %f  height %f\n", cell_width, cell_height);
 	printf("scale x %f  y %f\n", scale_x, scale_y);

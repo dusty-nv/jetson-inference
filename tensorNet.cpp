@@ -10,6 +10,14 @@
 #include <fstream>
 
 
+#if NV_TENSORRT_MAJOR > 1
+	#define CREATE_INFER_BUILDER nvinfer1::createInferBuilder
+	#define CREATE_INFER_RUNTIME nvinfer1::createInferRuntime
+#else
+	#define CREATE_INFER_BUILDER createInferBuilder
+	#define CREATE_INFER_RUNTIME createInferRuntime
+#endif
+
 
 // constructor
 tensorNet::tensorNet()
@@ -29,7 +37,9 @@ tensorNet::tensorNet()
 	mEnableFP16     = false;
 	mOverride16     = false;
 
-	memset(&mInputDims, 0, sizeof(nvinfer1::Dims3));
+#if NV_TENSORRT_MAJOR < 2
+	memset(&mInputDims, 0, sizeof(Dims3));
+#endif
 }
 
 
@@ -82,7 +92,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 					         std::ostream& gieModelStream)			   // output stream for the GIE model
 {
 	// create API root class - must span the lifetime of the engine usage
-	nvinfer1::IBuilder* builder = createInferBuilder(gLogger);
+	nvinfer1::IBuilder* builder = CREATE_INFER_BUILDER(gLogger);
 	nvinfer1::INetworkDefinition* network = builder->createNetwork();
 
 	builder->setDebugSync(mEnableDebug);
@@ -150,7 +160,19 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	parser->destroy(); //delete parser;
 
 	// serialize the engine, then close everything down
+#if NV_TENSORRT_MAJOR > 1
+	nvinfer1::IHostMemory* serMem = engine->serialize();
+
+	if( !serMem )
+	{
+		printf(LOG_GIE "failed to serialize CUDA engine\n");
+		return false;
+	}
+
+	gieModelStream.write((const char*)serMem->data(), serMem->size());
+#else
 	engine->serialize(gieModelStream);
+#endif
 	engine->destroy();
 	builder->destroy();
 	
@@ -214,7 +236,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		cache.close();
 
 		// test for half FP16 support
-		nvinfer1::IBuilder* builder = createInferBuilder(gLogger);
+		nvinfer1::IBuilder* builder = CREATE_INFER_BUILDER(gLogger);
 		
 		if( builder != NULL )
 		{
@@ -231,7 +253,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	/*
 	 * create runtime inference engine execution context
 	 */
-	nvinfer1::IRuntime* infer = createInferRuntime(gLogger);
+	nvinfer1::IRuntime* infer = CREATE_INFER_RUNTIME(gLogger);
 	
 	if( !infer )
 	{
@@ -239,7 +261,25 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		return 0;
 	}
 	
+#if NV_TENSORRT_MAJOR > 1
+	gieModelStream.seekg(0, std::ios::end);
+	const int modelSize = gieModelStream.tellg();
+	gieModelStream.seekg(0, std::ios::beg);
+
+	void* modelMem = malloc(modelSize);
+
+	if( !modelMem )
+	{
+		printf(LOG_GIE "failed to allocate %i bytes to deserialize model\n", modelSize);
+		return 0;
+	}
+
+	gieModelStream.read((char*)modelMem, modelSize);
+
+	nvinfer1::ICudaEngine* engine = infer->deserializeCudaEngine(modelMem, modelSize, NULL);
+#else
 	nvinfer1::ICudaEngine* engine = infer->deserializeCudaEngine(gieModelStream);
+#endif
 
 	if( !engine )
 	{
@@ -278,10 +318,15 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	
 	printf(LOG_GIE "%s input  binding index:  %i\n", model_path, inputIndex);
 	
-	nvinfer1::Dims3 inputDims  = engine->getBindingDimensions(inputIndex);
-	size_t inputSize  = maxBatchSize * inputDims.c * inputDims.h * inputDims.w * sizeof(float);
+#if NV_TENSORRT_MAJOR > 1
+	nvinfer1::Dims inputDims = engine->getBindingDimensions(inputIndex);
+#else
+	Dims3 inputDims = engine->getBindingDimensions(inputIndex);
+#endif
+
+	size_t inputSize  = maxBatchSize * DIMS_C(inputDims) * DIMS_H(inputDims) * DIMS_W(inputDims) * sizeof(float);
 	
-	printf(LOG_GIE "%s input  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path, maxBatchSize, inputDims.c, inputDims.h, inputDims.w, inputSize);
+	printf(LOG_GIE "%s input  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path, maxBatchSize, DIMS_C(inputDims), DIMS_H(inputDims), DIMS_W(inputDims), inputSize);
 	
 	/*
 	 * allocate memory to hold the input image
@@ -293,8 +338,8 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	}
 	
 	mInputSize    = inputSize;
-	mWidth        = inputDims.w;
-	mHeight       = inputDims.h;
+	mWidth        = DIMS_W(inputDims);
+	mHeight       = DIMS_H(inputDims);
 	mMaxBatchSize = maxBatchSize;
 	
 	/*
@@ -306,9 +351,15 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	{
 		const int outputIndex = engine->getBindingIndex(output_blobs[n].c_str());
 		printf(LOG_GIE "%s output %i %s  binding index:  %i\n", model_path, n, output_blobs[n].c_str(), outputIndex);
-		nvinfer1::Dims3 outputDims = engine->getBindingDimensions(outputIndex);
-		size_t outputSize = maxBatchSize * outputDims.c * outputDims.h * outputDims.w * sizeof(float);
-		printf(LOG_GIE "%s output %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path, n, output_blobs[n].c_str(), maxBatchSize, outputDims.c, outputDims.h, outputDims.w, outputSize);
+
+	#if NV_TENSORRT_MAJOR > 1
+		nvinfer1::Dims outputDims = engine->getBindingDimensions(outputIndex);
+	#else
+		Dims outputDims = engine->getBindingDimensions(outputIndex);
+	#endif
+
+		size_t outputSize = maxBatchSize * DIMS_C(outputDims) * DIMS_H(outputDims) * DIMS_W(outputDims) * sizeof(float);
+		printf(LOG_GIE "%s output %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path, n, output_blobs[n].c_str(), maxBatchSize, DIMS_C(outputDims), DIMS_H(outputDims), DIMS_W(outputDims), outputSize);
 	
 		// allocate output memory 
 		void* outputCPU  = NULL;
@@ -316,7 +367,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		
 		if( !cudaAllocMapped((void**)&outputCPU, (void**)&outputCUDA, outputSize) )
 		{
-			printf("failed to alloc CUDA mapped memory for %u output classes\n", outputDims.c);
+			printf("failed to alloc CUDA mapped memory for %u output classes\n", DIMS_C(outputDims));
 			return false;
 		}
 	
@@ -325,14 +376,28 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		l.CPU  = (float*)outputCPU;
 		l.CUDA = (float*)outputCUDA;
 		l.size = outputSize;
+
+	#if NV_TENSORRT_MAJOR > 1
+		DIMS_W(l.dims) = DIMS_W(outputDims);
+		DIMS_H(l.dims) = DIMS_H(outputDims);
+		DIMS_C(l.dims) = DIMS_C(outputDims);
+	#else
 		l.dims = outputDims;
+	#endif
+
 		l.name = output_blobs[n];
 		
 		mOutputs.push_back(l);
 	}
 	
 
+#if NV_TENSORRT_MAJOR > 1
+	DIMS_W(mInputDims) = DIMS_W(inputDims);
+	DIMS_H(mInputDims) = DIMS_H(inputDims);
+	DIMS_C(mInputDims) = DIMS_C(inputDims);
+#else
 	mInputDims      = inputDims;
+#endif
 	mPrototxtPath   = prototxt_path;
 	mModelPath      = model_path;
 	mInputBlobName  = input_blob;

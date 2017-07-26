@@ -119,12 +119,12 @@ public:
 	 * Retrieve the maximum number of bounding boxes the network supports.
 	 * Knowing this is useful for allocating the buffers to store the output bounding boxes.
 	 */
-	inline uint32_t GetMaxBoundingBoxes() const		{ return mOutputs[1].dims.w * mOutputs[1].dims.h * mOutputs[1].dims.c; }
+	inline uint32_t GetMaxBoundingBoxes() const		{ return DIMS_W(mOutputs[1].dims) * DIMS_H(mOutputs[1].dims) * DIMS_C(mOutputs[1].dims); }
 		
 	/**
 	 * Retrieve the number of object classes supported in the detector
 	 */
-	inline uint32_t GetNumClasses() const			{ return mOutputs[0].dims.c; }
+	inline uint32_t GetNumClasses() const			{ return DIMS_C(mOutputs[0].dims); }
 
 	/**
 	 * Set the visualization color of a particular class of object.

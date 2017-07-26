@@ -125,7 +125,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 	/*
 	 * load synset classnames
 	 */
-	mOutputClasses = mOutputs[0].dims.c;
+	mOutputClasses = DIMS_C(mOutputs[0].dims);
 	
 	if( !loadClassInfo(class_path) || mClassSynset.size() != mOutputClasses || mClassDesc.size() != mOutputClasses )
 	{

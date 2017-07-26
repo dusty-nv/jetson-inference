@@ -161,9 +161,9 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	}
 	
 	// initialize array of classified argmax
-	const int s_w = net->mOutputs[0].dims.w;
-	const int s_h = net->mOutputs[0].dims.h;
-	const int s_c = net->mOutputs[0].dims.c;
+	const int s_w = DIMS_W(net->mOutputs[0].dims);
+	const int s_h = DIMS_H(net->mOutputs[0].dims);
+	const int s_c = DIMS_C(net->mOutputs[0].dims);
 		
 	printf(LOG_GIE "segNet outputs -- s_w %i  s_h %i  s_c %i\n", s_w, s_h, s_c);
 
@@ -353,9 +353,9 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 	// retrieve scores
 	float* scores = mOutputs[0].CPU;
 
-	const int s_w = mOutputs[0].dims.w;
-	const int s_h = mOutputs[0].dims.h;
-	const int s_c = mOutputs[0].dims.c;
+	const int s_w = DIMS_W(mOutputs[0].dims);
+	const int s_h = DIMS_H(mOutputs[0].dims);
+	const int s_c = DIMS_C(mOutputs[0].dims);
 		
 	//const float s_x = float(width) / float(s_w);		// TODO bug: this should use mWidth/mHeight dimensions, in case user dimensions are different
 	//const float s_y = float(height) / float(s_h);

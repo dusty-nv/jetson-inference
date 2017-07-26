@@ -12,6 +12,22 @@
 #include <sstream>
 
 
+#if NV_TENSORRT_MAJOR > 1
+typedef nvinfer1::DimsCHW Dims3;
+
+#define DIMS_C(x) x.d[0]
+#define DIMS_H(x) x.d[1]
+#define DIMS_W(x) x.d[2]
+
+#else
+typedef nvinfer1::Dims3 Dims3; 
+
+#define DIMS_C(x) x.c
+#define DIMS_H(x) x.h
+#define DIMS_W(x) x.w
+#endif
+
+
 /**
  * Abstract class for loading a tensor network with TensorRT.
  * For example implementations, @see imageNet and @see detectNet
@@ -156,12 +172,12 @@ protected:
 	bool	 mEnableFP16;
 	bool     mOverride16;
 	
-	nvinfer1::Dims3 mInputDims;
+	Dims3 mInputDims;
 	
 	struct outputLayer
 	{
 		std::string name;
-		nvinfer1::Dims3 dims;
+		Dims3 dims;
 		uint32_t size;
 		float* CPU;
 		float* CUDA;

@@ -98,7 +98,7 @@ public:
 	/**
 	 * Retrieve the number of object classes supported in the detector
 	 */
-	inline uint32_t GetNumClasses() const						{ return mOutputs[0].dims.c; }
+	inline uint32_t GetNumClasses() const						{ return DIMS_C(mOutputs[0].dims); }
 	
 	/**
 	 * Retrieve the description of a particular class.
