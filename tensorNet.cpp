@@ -355,7 +355,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	#if NV_TENSORRT_MAJOR > 1
 		nvinfer1::Dims outputDims = engine->getBindingDimensions(outputIndex);
 	#else
-		Dims outputDims = engine->getBindingDimensions(outputIndex);
+		Dims3 outputDims = engine->getBindingDimensions(outputIndex);
 	#endif
 
 		size_t outputSize = maxBatchSize * DIMS_C(outputDims) * DIMS_H(outputDims) * DIMS_W(outputDims) * sizeof(float);
