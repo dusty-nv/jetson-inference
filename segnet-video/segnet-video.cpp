@@ -58,22 +58,24 @@ bool loadImageRGBA_video(VideoCapture& cap, float4** imgCPU, Mat &mat, int imgWi
 			cpuPtr[y*imgWidth+x] = px;
 		}
 	}
+
 	return true;
 }
 
 bool saveImageRGBA_video(VideoWriter& outputVideo,float4** outCPU,Mat &mat,int imgWidth, int imgHeight)
 {
-	float* cpuPtr = (float*)*outCPU;
+	float4* cpuPtr = *outCPU;
 	for( uint32_t y=0; y < imgHeight; y++ )
 	{
 		for( uint32_t x=0; x < imgWidth; x++ )
 		{
-			mat.at<Vec3b>(y,x)[0]=cpuPtr[y*imgWidth+x+2];
-			mat.at<Vec3b>(y,x)[1]=cpuPtr[y*imgWidth+x+1];
-			mat.at<Vec3b>(y,x)[2]=cpuPtr[y*imgWidth+x];
+			mat.at<Vec3b>(y,x)[0]=(uint8_t)(cpuPtr[y*imgWidth+x].z);
+			mat.at<Vec3b>(y,x)[1]=(uint8_t)(cpuPtr[y*imgWidth+x].y);
+			mat.at<Vec3b>(y,x)[2]=(uint8_t)(cpuPtr[y*imgWidth+x].x);
 		}
 	}
-	outputVideo.write(mat);
+
+	outputVideo<<mat;
 	return true;
 }
 
@@ -116,7 +118,7 @@ int main( int argc, char** argv )
 	}
 
 	// enable layer timings for the console application
-	net->EnableProfiler();
+	//net->EnableProfiler();
 
 	// load image from file on disk
 	float* imgCPU    = NULL;
@@ -150,10 +152,10 @@ int main( int argc, char** argv )
 			(int) cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 
 	VideoWriter outputVideo;
-	outputVideo.open(outFilename, ex, 20/*caps[0].get(CV_CAP_PROP_FPS)*/, S, true);
+	outputVideo.open(outFilename, /*ex*/CV_FOURCC('M','J','P','G'), 20/*caps[0].get(CV_CAP_PROP_FPS)*/, S, true);
 	if (!outputVideo.isOpened())
 	{
-		cout  << "Could not open the output video for write: "<<outFilename  << endl;
+		cout  << "_______________________Oops! Could not open the output video for write: "<<outFilename  << endl;
 	}
 	cout << "Input codec type: " << EXT << endl;
 
@@ -179,9 +181,7 @@ int main( int argc, char** argv )
 	 */
 	cudaFont* font = cudaFont::Create();
 
-
 	Mat mat;
-
 	// allocate output image
 	float* outCPU  = NULL;
 	float* outCUDA = NULL;
@@ -191,9 +191,6 @@ int main( int argc, char** argv )
 		printf("segnet-console:  failed to allocate CUDA memory for output image (%ix%i)\n", imgWidth, imgHeight);
 		return 0;
 	}
-
-	//	printf("segnet-console:  beginning processing overlay (%zu)\n", current_timestamp());
-
 	// set alpha blending value for classes that don't explicitly already have an alpha	
 	net->SetGlobalAlpha(120);
 
@@ -208,10 +205,10 @@ int main( int argc, char** argv )
 		}
 
 		// save output image
-		if( !saveImageRGBA_video(outputVideo, (float4**)outCPU, imgWidth, imgHeight) )
+		if ( !saveImageRGBA_video(outputVideo, (float4**)&outCPU, mat,imgWidth, imgHeight) )
+		{
 			printf("segnet-console:  failed to save output image to '%s'\n", outFilename);
-		else
-			printf("segnet-console:  completed saving '%s'\n", outFilename);
+		}
 
 		if( display != NULL )
 		{
@@ -219,11 +216,7 @@ int main( int argc, char** argv )
 			sprintf(str, "TensorRT build %x | %s | %04.1f FPS", NV_GIE_VERSION, net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
 			//sprintf(str, "GIE build %x | %s | %04.1f FPS | %05.2f%% %s", NV_GIE_VERSION, net->GetNetworkName(), display->GetFPS(), confidence * 100.0f, net->GetClassDesc(img_class));
 			display->SetTitle(str);
-		}
 
-		// update display
-		if( display != NULL )
-		{
 			display->UserEvents();
 			display->BeginRender();
 
@@ -252,11 +245,6 @@ int main( int argc, char** argv )
 		}
 
 	}
-
-
-	//printf("segnet-console:  finished processing overlay  (%zu)\n", current_timestamp());
-
-
 
 	printf("\nshutting down...\n");
 	CUDA(cudaFreeHost(imgCPU));
