@@ -63,6 +63,7 @@ bool loadImageRGBA_video(VideoCapture& cap, float4** imgCPU, Mat &mat, int imgWi
 // main entry point
 int main( int argc, char** argv )
 {
+	printf("Usage:\n./detectnet-video video_path [path_to_save_boxes]\n\n");
 	printf("detectnet-video\n  args (%i):  ", argc);
 
 	for( int i=0; i < argc; i++ )
@@ -77,7 +78,7 @@ int main( int argc, char** argv )
 	// retrieve filename argument
 	if( argc < 2 )
 	{
-		printf("detectnet-video:   input image filename required\n");
+		printf("detectnet-video:   input video filename required\n");
 		return 0;
 	}
 
@@ -118,7 +119,7 @@ int main( int argc, char** argv )
 	int    imgHeight = 0;
 
 	//=====================================================
-	// load images
+	// load video
 	VideoCapture cap(imgFilename);
 	if(!cap.isOpened())  // check if we succeeded
 	{
@@ -169,13 +170,18 @@ int main( int argc, char** argv )
 		printf("failed to load image '%s'\n", imgFilename);
 		return 0;
 	}
-*/
+	 */
 	int index=1;
-	std::ofstream myfile;
-	const char* csvFilename = argv[2];
-	myfile.open (csvFilename);
 
-	myfile<<"index, true,  left,   top,  right,   bottom\n";
+	std::ofstream myfile;
+	if(argc>2)
+	{
+
+		const char* csvFilename = argv[2];
+		myfile.open (csvFilename);
+
+		myfile<<"index, true,  left,   top,  right,   bottom\n";
+	}
 	while(loadImageRGBA_video(cap,(float4**)&imgCPU,mat,imgWidth,imgHeight))
 	{
 
@@ -208,7 +214,10 @@ int main( int argc, char** argv )
 				float* bb = bbCPU + (n * 4);
 
 				printf("bounding box %i   (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]);
-				myfile<<index<<","<<n+1<<","<<bb[0]<<","<< bb[1]<<","<< bb[2]<<","<< bb[3]<<"\n";
+				if(argc>2)
+				{
+					myfile<<index<<","<<n+1<<","<<bb[0]<<","<< bb[1]<<","<< bb[2]<<","<< bb[3]<<"\n";
+				}
 				if( nc != lastClass || n == (numBoundingBoxes - 1) )
 				{
 					if( !net->DrawBoxes(imgCUDA, imgCUDA, imgWidth, imgHeight, bbCUDA + (lastStart * 4), (n - lastStart) + 1, lastClass) )
@@ -270,7 +279,10 @@ int main( int argc, char** argv )
 		}
 		index++;
 	}
-	myfile.close();
+	if(argc>2)
+	{
+		myfile.close();
+	}
 	//printf("detectnet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, "pedestrian");
 
 	printf("\nshutting down...\n");

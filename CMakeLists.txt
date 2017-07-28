@@ -57,14 +57,13 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 
 # build C/C++ interface
 include_directories(${PROJECT_INCLUDE_DIR} ${GIE_PATH}/include)
-include_directories(/usr/include/gstreamer-1.0 /usr/lib/aarch64-linux-gnu/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/aarch64-linux-gnu/glib-2.0/include/)
+include_directories(/usr/include/gstreamer-1.0 /usr/lib/aarch64-linux-gnu/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/aarch64-linux-gnu/glib-2.0/include/ ${OpenCV_INCLUDE_DIRS})
 
 file(GLOB inferenceSources *.cpp *.cu util/*.cpp util/camera/*.cpp util/cuda/*.cu util/display/*.cpp)
 file(GLOB inferenceIncludes *.h util/*.h util/camera/*.h util/cuda/*.h util/display/*.h)
 
 cuda_add_library(jetson-inference SHARED ${inferenceSources})
 target_link_libraries(jetson-inference nvcaffe_parser nvinfer Qt4::QtGui GL GLEW gstreamer-1.0 gstapp-1.0)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
-add_subdirectory(detectnet-video)
 
 
 # transfer all headers to the include directory
@@ -102,6 +101,7 @@ add_subdirectory(detectnet-video)
 
 add_subdirectory(segnet-console)
 add_subdirectory(segnet-camera)
+add_subdirectory(segnet-video)
 
 add_subdirectory(util/camera/gst-camera)
 add_subdirectory(util/camera/v4l2-console)
