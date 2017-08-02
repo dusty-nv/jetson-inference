@@ -82,7 +82,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	const char* imgFilename = argv[1];
+	const char* vidFilename = argv[1];
 
 
 	// create detectNet
@@ -120,10 +120,10 @@ int main( int argc, char** argv )
 
 	//=====================================================
 	// load video
-	VideoCapture cap(imgFilename);
+	VideoCapture cap(vidFilename);
 	if(!cap.isOpened())  // check if we succeeded
 	{
-		printf("failed to load video '%s'\n", imgFilename);
+		printf("failed to load video '%s'\n", vidFilename);
 		return 0;
 	}
 
@@ -132,7 +132,7 @@ int main( int argc, char** argv )
 	const size_t   imgSize   = imgWidth * imgHeight * sizeof(float) * 4;
 	if( !cudaAllocMapped((void**)&imgCPU, (void**)&imgCUDA, imgSize) )
 	{
-		printf(LOG_CUDA "failed to allocated %zu bytes for image %s\n", imgSize, imgFilename);
+		printf(LOG_CUDA "failed to allocated %zu bytes for image %s\n", imgSize, vidFilename);
 		return false;
 	}
 
@@ -167,7 +167,7 @@ int main( int argc, char** argv )
 	//====================================================================
 	if( !loadImageRGBA_video(cap,(float4**)&imgCPU,mat,imgWidth,imgHeight) )
 	{
-		printf("failed to load image '%s'\n", imgFilename);
+		printf("failed to load image '%s'\n", vidFilename);
 		return 0;
 	}
 	 */
@@ -196,7 +196,7 @@ int main( int argc, char** argv )
 		printf("detectnet-video:  finished processing network  (%zu)\n", current_timestamp());
 
 		if( !result )
-			printf("detectnet-video:  failed to classify '%s'\n", imgFilename);
+			printf("detectnet-video:  failed to classify '%s'\n", vidFilename);
 		else 	// if the user supplied an output filename
 		{
 			printf("%i bounding boxes detected\n", numBoundingBoxes);
@@ -283,7 +283,6 @@ int main( int argc, char** argv )
 	{
 		myfile.close();
 	}
-	//printf("detectnet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, "pedestrian");
 
 	printf("\nshutting down...\n");
 	CUDA(cudaFreeHost(imgCPU));
