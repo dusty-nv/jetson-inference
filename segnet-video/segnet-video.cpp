@@ -82,7 +82,7 @@ bool saveImageRGBA_video(VideoWriter& outputVideo,float4** outCPU,Mat &mat,int i
 // main entry point
 int main( int argc, char** argv )
 {
-	printf("Usage:\n./segnet-video video_path path_to_save_video\n\n");
+	printf("Usage:\n./segnet-video video_path path_to_save_overlayed_video net_type path_to_save_colored_video \n\n");
 	printf("segnet-video\n  args (%i):  ", argc);
 
 	for( int i=0; i < argc; i++ )
@@ -98,15 +98,15 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	if( argc < 3 )
+	if( argc < 5 )
 	{
 		printf("segnet-video:   output video filename required\n");
 		return 0;
 	}
 
-	const char* imgFilename = argv[1];
+	const char* vidFilename = argv[1];
 	const char* outFilename = argv[2];
-
+	const char* colorFilename = argv[4];
 
 	// create the segNet from pretrained or custom model by parsing the command line
 	segNet* net = segNet::Create(argc, argv);
@@ -128,10 +128,10 @@ int main( int argc, char** argv )
 
 	//=====================================================
 	// load video
-	VideoCapture cap(imgFilename);
+	VideoCapture cap(vidFilename);
 	if(!cap.isOpened())  // check if we succeeded
 	{
-		printf("failed to load video '%s'\n", imgFilename);
+		printf("failed to load video '%s'\n", vidFilename);
 		return 0;
 	}
 
@@ -140,7 +140,7 @@ int main( int argc, char** argv )
 	const size_t   imgSize   = imgWidth * imgHeight * sizeof(float) * 4;
 	if( !cudaAllocMapped((void**)&imgCPU, (void**)&imgCUDA, imgSize) )
 	{
-		printf(LOG_CUDA "failed to allocated %zu bytes for image %s\n", imgSize, imgFilename);
+		printf(LOG_CUDA "failed to allocated %zu bytes for image %s\n", imgSize, vidFilename);
 		return false;
 	}
 
@@ -151,12 +151,19 @@ int main( int argc, char** argv )
 	Size S = Size((int) cap.get(CV_CAP_PROP_FRAME_WIDTH),    // Acquire input size
 			(int) cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 
-	VideoWriter outputVideo;
+	VideoWriter outputVideo,outputVideo2;
 	outputVideo.open(outFilename, /*ex*/CV_FOURCC('M','J','P','G'), 20/*caps[0].get(CV_CAP_PROP_FPS)*/, S, true);
+	outputVideo2.open(colorFilename,CV_FOURCC('M','J','P','G'), 20/*caps[0].get(CV_CAP_PROP_FPS)*/, S, true);
 	if (!outputVideo.isOpened())
 	{
 		cout  << "_______________________Oops! Could not open the output video for write: "<<outFilename  << endl;
 	}
+
+	if (!outputVideo2.isOpened())
+	{
+		cout  << "_______________________Oops! Could not open the output video for write: "<<colorFilename  << endl;
+	}
+
 	cout << "Input codec type: " << EXT << endl;
 
 	/*
@@ -186,9 +193,18 @@ int main( int argc, char** argv )
 	float* outCPU  = NULL;
 	float* outCUDA = NULL;
 
+	float* outCPU2  = NULL;
+	float* outCUDA2 = NULL;
+
 	if( !cudaAllocMapped((void**)&outCPU, (void**)&outCUDA, imgWidth * imgHeight * sizeof(float) * 4) )
 	{
 		printf("segnet-console:  failed to allocate CUDA memory for output image (%ix%i)\n", imgWidth, imgHeight);
+		return 0;
+	}
+
+	if( !cudaAllocMapped((void**)&outCPU2, (void**)&outCUDA2, imgWidth * imgHeight * sizeof(float) * 4) )
+	{
+		printf("segnet-console:  failed to allocate CUDA memory for output image2 (%ix%i)\n", imgWidth, imgHeight);
 		return 0;
 	}
 	// set alpha blending value for classes that don't explicitly already have an alpha	
@@ -198,7 +214,7 @@ int main( int argc, char** argv )
 	while(loadImageRGBA_video(cap,(float4**)&imgCPU,mat,imgWidth,imgHeight))
 	{
 		// process image overlay
-		if( !net->Overlay(imgCUDA, outCUDA, imgWidth, imgHeight) )
+		if( !net->Overlay_save(imgCUDA, outCUDA,outCUDA2, imgWidth, imgHeight) )
 		{
 			printf("segnet-console:  failed to process segmentation overlay.\n");
 			return 0;
@@ -206,6 +222,12 @@ int main( int argc, char** argv )
 
 		// save output image
 		if ( !saveImageRGBA_video(outputVideo, (float4**)&outCPU, mat,imgWidth, imgHeight) )
+		{
+			printf("segnet-console:  failed to save output image to '%s'\n", outFilename);
+		}
+
+		// save output image
+		if ( !saveImageRGBA_video(outputVideo2, (float4**)&outCPU2, mat,imgWidth, imgHeight) )
 		{
 			printf("segnet-console:  failed to save output image to '%s'\n", outFilename);
 		}
