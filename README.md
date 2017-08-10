@@ -590,7 +590,7 @@ sheep 0 0 0 235.28 300.59 270.52 346.55 0 0 0 0 0 0 0
 
 ### Downloading the Detection Dataset
 
-Let's explore using the [MS-COCO](http://mscoco.org/) dataset to train and deploy networks that detect the locations of everyday objects in camera feeds.  See the [coco2kitti.py](tools/coco2kitti.py) script for converting MS-COCO object classes to KITTI format.  Once in DIGITS folder structure, they can be imported as datasets into DIGITS.  Some example classes from MS-COCO already preprocessed in DIGITS/KITTI format are provided for convienience.
+Let's explore using the [MS-COCO](http://mscoco.org/) dataset to train and deploy networks that detect the locations of everyday objects in camera feeds.  See the [`coco2kitti.py`](tools/coco2kitti.py) script for converting MS-COCO object classes to KITTI format.  Once in DIGITS folder structure, they can be imported as datasets into DIGITS.  Some example classes from MS-COCO already preprocessed in DIGITS/KITTI format are provided for convienience.
 
 From a terminal on your DIGITS server download and extract **[sample MS-COCO classes](https://nvidia.box.com/shared/static/tdrvaw3fd2cwst2zu2jsi0u43vzk8ecu.gz)** already in DIGITS/KITTI format here:
 
@@ -608,7 +608,7 @@ coco 100%[======================================>]   4.5G  3.33MB/s    in 28m 22
 $ tar -xzvf coco.tar.gz 
 ```
 
-Included is the training data in DIGITS format for the airplane, bottle, chair, and dog classes.  `coco2kitty.py` can be used to convert other classes.
+Included is the training data in DIGITS format for the airplane, bottle, chair, and dog classes.  [`coco2kitti.py`](tools/coco2kitti.py) can be used to convert other classes.
 
 ### Importing the Detection Dataset into DIGITS
 
