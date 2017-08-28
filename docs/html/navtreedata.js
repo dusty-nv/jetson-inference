@@ -19,6 +19,7 @@ var NAVTREE =
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
+        [ "Typedefs", "globals_type.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
     ] ]
@@ -28,7 +29,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"group__deepVision.html#ga05c359c7dcd0c1e855543a3a9a18c422"
+"globals_type.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

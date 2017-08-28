@@ -20,6 +20,7 @@
 detectNet::detectNet() : tensorNet()
 {
 	mCoverageThreshold = 0.5f;
+	mMeanPixel         = 0.0f;
 	
 	mClassColors[0] = NULL;	// cpu ptr
 	mClassColors[1] = NULL; // gpu ptr
@@ -31,6 +32,47 @@ detectNet::~detectNet()
 {
 	
 }
+
+
+// Create
+detectNet* detectNet::Create( const char* prototxt, const char* model, float mean_pixel, float threshold, const char* input_blob, const char* coverage_blob, const char* bbox_blob, uint32_t maxBatchSize )
+{
+	detectNet* net = new detectNet();
+	
+	if( !net )
+		return NULL;
+
+	printf("\n");
+	printf("detectNet -- loading detection network model from:\n");
+	printf("          -- prototxt    %s\n", prototxt);
+	printf("          -- model       %s\n", model);
+	printf("          -- input_blob  '%s'\n", input_blob);
+	printf("          -- output_cvg  '%s'\n", coverage_blob);
+	printf("          -- output_bbox '%s'\n", bbox_blob);
+	printf("          -- mean_pixel  %f\n", mean_pixel);
+	printf("          -- threshold   %f\n", threshold);
+	printf("          -- batch_size  %u\n\n", maxBatchSize);
+	
+	//net->EnableDebug();
+	
+	std::vector<std::string> output_blobs;
+	output_blobs.push_back(coverage_blob);
+	output_blobs.push_back(bbox_blob);
+	
+	if( !net->LoadNetwork(prototxt, model, NULL, input_blob, output_blobs) )
+	{
+		printf("detectNet -- failed to initialize.\n");
+		return NULL;
+	}
+	
+	if( !net->defaultColors() )
+		return NULL;
+	
+	net->SetThreshold(threshold);
+	net->mMeanPixel = mean_pixel;
+	return net;
+}
+
 
 
 // Create
@@ -63,38 +105,63 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 		return NULL;
 	}
 	
-	const uint32_t numClasses = net->GetNumClasses();
-	
-	if( !cudaAllocMapped((void**)&net->mClassColors[0], (void**)&net->mClassColors[1], numClasses * sizeof(float4)) )
+	if( !net->defaultColors() )
 		return NULL;
-	
-	for( uint32_t n=0; n < numClasses; n++ )
-	{
-		if( n != 1 )
-		{
-			net->mClassColors[0][n*4+0] = 0.0f;	// r
-			net->mClassColors[0][n*4+1] = 200.0f;	// g
-			net->mClassColors[0][n*4+2] = 255.0f;	// b
-			net->mClassColors[0][n*4+3] = 100.0f;	// a
-		}
-		else
-		{
-			net->mClassColors[0][n*4+0] = 0.0f;	// r
-			net->mClassColors[0][n*4+1] = 255.0f;	// g
-			net->mClassColors[0][n*4+2] = 175.0f;	// b
-			net->mClassColors[0][n*4+3] = 100.0f;	// a
-		}
-	}
 	
 	net->SetThreshold(threshold);
 	return net;
 }
 
 
+// defaultColors()
+bool detectNet::defaultColors()
+{
+	const uint32_t numClasses = GetNumClasses();
+	
+	if( !cudaAllocMapped((void**)&mClassColors[0], (void**)&mClassColors[1], numClasses * sizeof(float4)) )
+		return false;
+	
+	for( uint32_t n=0; n < numClasses; n++ )
+	{
+		if( n != 1 )
+		{
+			mClassColors[0][n*4+0] = 0.0f;	// r
+			mClassColors[0][n*4+1] = 200.0f;	// g
+			mClassColors[0][n*4+2] = 255.0f;	// b
+			mClassColors[0][n*4+3] = 100.0f;	// a
+		}
+		else
+		{
+			mClassColors[0][n*4+0] = 0.0f;	// r
+			mClassColors[0][n*4+1] = 255.0f;	// g
+			mClassColors[0][n*4+2] = 175.0f;	// b
+			mClassColors[0][n*4+3] = 100.0f;	// a
+		}
+	}
+	
+	return true;
+}
+
 
 // Create
 detectNet* detectNet::Create( NetworkType networkType, float threshold, uint32_t maxBatchSize )
 {
+#if 1
+	if( networkType == PEDNET_MULTI )
+		return Create("networks/multiped-500/deploy.prototxt", "networks/multiped-500/snapshot_iter_178000.caffemodel", 117.0f, threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
+	else if( networkType == FACENET )
+		return Create("networks/facenet-120/deploy.prototxt", "networks/facenet-120/snapshot_iter_24000.caffemodel", 0.0f, threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize  );
+	else if( networkType == PEDNET )
+		return Create("networks/ped-100/deploy.prototxt", "networks/ped-100/snapshot_iter_70800.caffemodel", 0.0f, threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize  );
+	else if( networkType == COCO_AIRPLANE )
+		return Create("networks/DetectNet-COCO-Airplane/deploy.prototxt", "networks/DetectNet-COCO-Airplane/snapshot_iter_22500.caffemodel", 0.0f, threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
+	else if( networkType == COCO_BOTTLE )
+		return Create("networks/DetectNet-COCO-Bottle/deploy.prototxt", "networks/DetectNet-COCO-Bottle/snapshot_iter_59700.caffemodel", 0.0f, threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
+	else if( networkType == COCO_CHAIR )
+		return Create("networks/DetectNet-COCO-Chair/deploy.prototxt", "networks/DetectNet-COCO-Chair/snapshot_iter_89500.caffemodel", 0.0f, threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
+	else if( networkType == COCO_DOG )
+		return Create("networks/DetectNet-COCO-Dog/deploy.prototxt", "networks/DetectNet-COCO-Dog/snapshot_iter_38600.caffemodel", 0.0f, threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
+#else
 	if( networkType == PEDNET_MULTI )
 		return Create("networks/multiped-500/deploy.prototxt", "networks/multiped-500/snapshot_iter_178000.caffemodel", "networks/multiped-500/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
 	else if( networkType == FACENET )
@@ -109,6 +176,7 @@ detectNet* detectNet::Create( NetworkType networkType, float threshold, uint32_t
 		return Create("networks/DetectNet-COCO-Chair/deploy.prototxt", "networks/DetectNet-COCO-Chair/snapshot_iter_89500.caffemodel", "networks/DetectNet-COCO-Chair/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
 	else if( networkType == COCO_DOG )
 		return Create("networks/DetectNet-COCO-Dog/deploy.prototxt", "networks/DetectNet-COCO-Dog/snapshot_iter_38600.caffemodel", "networks/DetectNet-COCO-Dog/mean.binaryproto", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize );
+#endif
 }
 
 
@@ -159,6 +227,7 @@ detectNet* detectNet::Create( int argc, char** argv )
 		if( !out_cvg )  out_cvg  = DETECTNET_DEFAULT_COVERAGE;
 		if( !out_bbox ) out_bbox = DETECTNET_DEFAULT_BBOX;
 		
+		float meanPixel = cmdLine.GetFloat("mean_pixel");
 		float threshold = cmdLine.GetFloat("threshold");
 		
 		if( threshold == 0.0f )
@@ -169,14 +238,15 @@ detectNet* detectNet::Create( int argc, char** argv )
 		if( maxBatchSize < 1 )
 			maxBatchSize = 2;
 
-		return detectNet::Create(prototxt, modelName, NULL, threshold, input, out_cvg, out_bbox, maxBatchSize);
+		return detectNet::Create(prototxt, modelName, meanPixel, threshold, input, out_cvg, out_bbox, maxBatchSize);
 	}
 
 	// create segnet from pretrained model
 	return detectNet::Create(type);
 }
 	
-	
+
+cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight );	
 cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value );
 
 
@@ -236,11 +306,22 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 
 	
 	// downsample and convert to band-sequential BGR
-	if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
-								  make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f))) )
+	if( mMeanPixel != 0.0f )
 	{
-		printf("detectNet::Classify() -- cudaPreImageNetMean failed\n");
-		return false;
+		if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
+									  make_float3(mMeanPixel, mMeanPixel, mMeanPixel))) )
+		{
+			printf("detectNet::Classify() -- cudaPreImageNetMean failed\n");
+			return false;
+		}
+	}
+	else
+	{
+		if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight)) )
+		{
+			printf("detectNet::Classify() -- cudaPreImageNet failed\n");
+			return false;
+		}
 	}
 	
 	// process with GIE

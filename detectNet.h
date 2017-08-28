@@ -73,6 +73,23 @@ public:
 							  const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
 							  const char* bboxes = DETECTNET_DEFAULT_BBOX,
 							  uint32_t maxBatchSize=2 );
+							  
+	/**
+	 * Load a custom network instance
+	 * @param prototxt_path File path to the deployable network prototxt
+	 * @param model_path File path to the caffemodel
+	 * @param mean_pixel Input transform subtraction value (use 0.0 if the network already does this)
+	 * @param threshold default minimum threshold for detection
+	 * @param input Name of the input layer blob.
+	 * @param coverage Name of the output coverage classifier layer blob, which contains the confidence values for each bbox.
+	 * @param bboxes Name of the output bounding box layer blob, which contains a grid of rectangles in the image.
+	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
+	 */
+	static detectNet* Create( const char* prototxt_path, const char* model_path, float mean_pixel=0.0f, float threshold=0.5f, 
+							  const char* input = DETECTNET_DEFAULT_INPUT, 
+							  const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
+							  const char* bboxes = DETECTNET_DEFAULT_BBOX,
+							  uint32_t maxBatchSize=2 );
 	
 	/**
 	 * Load a new network instance by parsing the command line.
@@ -113,7 +130,7 @@ public:
 	/**
 	 * Set the minimum threshold for detection.
 	 */
-	inline void SetThreshold( float threshold ) 		{ mCoverageThreshold = threshold; }
+	inline void SetThreshold( float threshold ) 	{ mCoverageThreshold = threshold; }
 
 	/**
 	 * Retrieve the maximum number of bounding boxes the network supports.
@@ -136,9 +153,11 @@ protected:
 
 	// constructor
 	detectNet();
+	bool defaultColors();
 	
 	float  mCoverageThreshold;
 	float* mClassColors[2];
+	float  mMeanPixel;
 };
 
 

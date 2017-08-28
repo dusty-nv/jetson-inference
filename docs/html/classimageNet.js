@@ -2,7 +2,8 @@ var classimageNet =
 [
     [ "NetworkType", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470", [
       [ "ALEXNET", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a3e774168f30b16946773a737a6c354cf", null ],
-      [ "GOOGLENET", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470ab013750d9b65eacdae3c587dd42550c0", null ]
+      [ "GOOGLENET", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470ab013750d9b65eacdae3c587dd42550c0", null ],
+      [ "GOOGLENET_12", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470af4a7d4831db43dda4de80c2a395f3ebb", null ]
     ] ],
     [ "~imageNet", "classimageNet.html#af6bd86e81ff9e67ffe19b575c17ed104", null ],
     [ "imageNet", "classimageNet.html#a0ea17be1ce78b3e0758af46c970a968c", null ],

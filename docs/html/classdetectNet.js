@@ -11,6 +11,7 @@ var classdetectNet =
     ] ],
     [ "~detectNet", "classdetectNet.html#a82c0e177e0da142fa22aa7580077307d", null ],
     [ "detectNet", "classdetectNet.html#a9c06901bf2562bddff0fe73cbed7196c", null ],
+    [ "defaultColors", "classdetectNet.html#a6213356e9907dc284e3212c42b346c62", null ],
     [ "Detect", "classdetectNet.html#aa319ff5ea57875921b7354094ed7cb33", null ],
     [ "DrawBoxes", "classdetectNet.html#a672bd8b71e0e7094e90910e5f1bb2d77", null ],
     [ "GetMaxBoundingBoxes", "classdetectNet.html#ac22c4b837aa422b2d6e6672d3ceb9915", null ],
@@ -19,5 +20,6 @@ var classdetectNet =
     [ "SetClassColor", "classdetectNet.html#ab9ba7c63d2fc417d0908324fd0dc2223", null ],
     [ "SetThreshold", "classdetectNet.html#a1cb45695bf95d5fb5db48976d1de8ae2", null ],
     [ "mClassColors", "classdetectNet.html#adbbb6ba9ae382abe03347333cff66fca", null ],
-    [ "mCoverageThreshold", "classdetectNet.html#a2a95020a83b2c33353450505355af0ca", null ]
+    [ "mCoverageThreshold", "classdetectNet.html#a2a95020a83b2c33353450505355af0ca", null ],
+    [ "mMeanPixel", "classdetectNet.html#ab8e3c3649acd8bb8d7cd45653dbbb7a0", null ]
 ];

@@ -132,8 +132,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af8043c610d01bcde93f212f5f5bb0fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3cd178a5a809338e7a6a125cd2147f1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#ad3cd178a5a809338e7a6a125cd2147f1">Capture</a> (void **cpu, void **cuda, unsigned long timeout=ULONG_MAX)</td></tr>
 <tr class="separator:ad3cd178a5a809338e7a6a125cd2147f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9348dc8256cba63c662bfef35d449b4d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a9348dc8256cba63c662bfef35d449b4d">ConvertRGBA</a> (void *input, void **output)</td></tr>
-<tr class="separator:a9348dc8256cba63c662bfef35d449b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f7e14efad24b8fd0c4a52b554dbaa5d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a4f7e14efad24b8fd0c4a52b554dbaa5d">ConvertRGBA</a> (void *input, void **output, bool zeroCopy=false)</td></tr>
+<tr class="separator:a4f7e14efad24b8fd0c4a52b554dbaa5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1778e16622aaf2576e9a50939c0c03c2"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a1778e16622aaf2576e9a50939c0c03c2">GetWidth</a> () const </td></tr>
 <tr class="separator:a1778e16622aaf2576e9a50939c0c03c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae982ac758e214e76a7e581db25d40513"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#ae982ac758e214e76a7e581db25d40513">GetHeight</a> () const </td></tr>
@@ -223,7 +223,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9348dc8256cba63c662bfef35d449b4d"></a>
+<a class="anchor" id="a4f7e14efad24b8fd0c4a52b554dbaa5d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -237,7 +237,13 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void **&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>zeroCopy</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -470,7 +476,7 @@ Static Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classgstCamera.html">gstCamera</a></li>
-    <li class="footer">Generated on Sun May 28 2017 15:27:48 for Deep Vision by
+    <li class="footer">Generated on Mon Aug 28 2017 15:07:52 for Deep Vision by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

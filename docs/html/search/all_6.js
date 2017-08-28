@@ -36,6 +36,7 @@ var searchData=
   ['gltexture_2eh',['glTexture.h',['../glTexture_8h.html',1,'']]],
   ['glutility_2eh',['glUtility.h',['../glUtility_8h.html',1,'']]],
   ['googlenet',['GOOGLENET',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470ab013750d9b65eacdae3c587dd42550c0',1,'imageNet']]],
+  ['googlenet_5f12',['GOOGLENET_12',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470af4a7d4831db43dda4de80c2a395f3ebb',1,'imageNet']]],
   ['gprofiler',['gProfiler',['../classtensorNet.html#ae1f74819d644d0f289253fbcf5d0655f',1,'tensorNet']]],
   ['gst_5fmessage_5fprint',['gst_message_print',['../group__util.html#gaea6f54b6a54dca135dc50c17d9b219f4',1,'gstUtility.h']]],
   ['gstcamera',['gstCamera',['../classgstCamera.html',1,'']]],

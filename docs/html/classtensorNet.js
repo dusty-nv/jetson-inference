@@ -25,7 +25,7 @@ var classtensorNet =
     [ "mInputBlobName", "classtensorNet.html#ac040cf851463cd595a20a9400a5833c2", null ],
     [ "mInputCPU", "classtensorNet.html#a03d8f99ffd7dfdc4bab679592e97c4f2", null ],
     [ "mInputCUDA", "classtensorNet.html#a9530becbabaf219e3e85d0df5f4cc2b6", null ],
-    [ "mInputDims", "classtensorNet.html#a65861b30e00ac06c61e05d6b722c1b9a", null ],
+    [ "mInputDims", "classtensorNet.html#af7da0313dd945e81649e24b07e0fac0e", null ],
     [ "mInputSize", "classtensorNet.html#ac4e059779c0fba12c1ec2380c05b8104", null ],
     [ "mMaxBatchSize", "classtensorNet.html#a0027d8b3617cfc905465925dd6d84b0f", null ],
     [ "mMeanPath", "classtensorNet.html#a11eeaa1e454a97a5634c7fb5ea1bc23d", null ],

@@ -12,6 +12,7 @@ var group__deepVision =
       ] ],
       [ "~detectNet", "classdetectNet.html#a82c0e177e0da142fa22aa7580077307d", null ],
       [ "detectNet", "classdetectNet.html#a9c06901bf2562bddff0fe73cbed7196c", null ],
+      [ "defaultColors", "classdetectNet.html#a6213356e9907dc284e3212c42b346c62", null ],
       [ "Detect", "classdetectNet.html#aa319ff5ea57875921b7354094ed7cb33", null ],
       [ "DrawBoxes", "classdetectNet.html#a672bd8b71e0e7094e90910e5f1bb2d77", null ],
       [ "GetMaxBoundingBoxes", "classdetectNet.html#ac22c4b837aa422b2d6e6672d3ceb9915", null ],
@@ -20,12 +21,14 @@ var group__deepVision =
       [ "SetClassColor", "classdetectNet.html#ab9ba7c63d2fc417d0908324fd0dc2223", null ],
       [ "SetThreshold", "classdetectNet.html#a1cb45695bf95d5fb5db48976d1de8ae2", null ],
       [ "mClassColors", "classdetectNet.html#adbbb6ba9ae382abe03347333cff66fca", null ],
-      [ "mCoverageThreshold", "classdetectNet.html#a2a95020a83b2c33353450505355af0ca", null ]
+      [ "mCoverageThreshold", "classdetectNet.html#a2a95020a83b2c33353450505355af0ca", null ],
+      [ "mMeanPixel", "classdetectNet.html#ab8e3c3649acd8bb8d7cd45653dbbb7a0", null ]
     ] ],
     [ "imageNet", "classimageNet.html", [
       [ "NetworkType", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470", [
         [ "ALEXNET", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a3e774168f30b16946773a737a6c354cf", null ],
-        [ "GOOGLENET", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470ab013750d9b65eacdae3c587dd42550c0", null ]
+        [ "GOOGLENET", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470ab013750d9b65eacdae3c587dd42550c0", null ],
+        [ "GOOGLENET_12", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470af4a7d4831db43dda4de80c2a395f3ebb", null ]
       ] ],
       [ "~imageNet", "classimageNet.html#af6bd86e81ff9e67ffe19b575c17ed104", null ],
       [ "imageNet", "classimageNet.html#a0ea17be1ce78b3e0758af46c970a968c", null ],
@@ -78,7 +81,7 @@ var group__deepVision =
       [ "outputLayer", "structtensorNet_1_1outputLayer.html", [
         [ "CPU", "structtensorNet_1_1outputLayer.html#ae3c4a2d254cf1258759b7ff95d9fcbde", null ],
         [ "CUDA", "structtensorNet_1_1outputLayer.html#a29650e14f1fb9e3ac257d623f5542583", null ],
-        [ "dims", "structtensorNet_1_1outputLayer.html#a84ed34e7a34a4c94edcdad4f72fc0221", null ],
+        [ "dims", "structtensorNet_1_1outputLayer.html#a632fc84fc29c3df3a9fa7d7c377362a2", null ],
         [ "name", "structtensorNet_1_1outputLayer.html#ad34ba0cdaad850011130a611becbc31e", null ],
         [ "size", "structtensorNet_1_1outputLayer.html#ab5c8d8f6651c9696cf5e4b15e7dc1d80", null ]
       ] ],
@@ -109,7 +112,7 @@ var group__deepVision =
       [ "mInputBlobName", "classtensorNet.html#ac040cf851463cd595a20a9400a5833c2", null ],
       [ "mInputCPU", "classtensorNet.html#a03d8f99ffd7dfdc4bab679592e97c4f2", null ],
       [ "mInputCUDA", "classtensorNet.html#a9530becbabaf219e3e85d0df5f4cc2b6", null ],
-      [ "mInputDims", "classtensorNet.html#a65861b30e00ac06c61e05d6b722c1b9a", null ],
+      [ "mInputDims", "classtensorNet.html#af7da0313dd945e81649e24b07e0fac0e", null ],
       [ "mInputSize", "classtensorNet.html#ac4e059779c0fba12c1ec2380c05b8104", null ],
       [ "mMaxBatchSize", "classtensorNet.html#a0027d8b3617cfc905465925dd6d84b0f", null ],
       [ "mMeanPath", "classtensorNet.html#a11eeaa1e454a97a5634c7fb5ea1bc23d", null ],
