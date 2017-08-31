@@ -262,6 +262,8 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	}
 	
 #if NV_TENSORRT_MAJOR > 1
+	// support for stringstream deserialization was deprecated in TensorRT v2
+	// instead, read the stringstream into a memory buffer and pass that to TRT.
 	gieModelStream.seekg(0, std::ios::end);
 	const int modelSize = gieModelStream.tellg();
 	gieModelStream.seekg(0, std::ios::beg);
@@ -275,9 +277,10 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	}
 
 	gieModelStream.read((char*)modelMem, modelSize);
-
 	nvinfer1::ICudaEngine* engine = infer->deserializeCudaEngine(modelMem, modelSize, NULL);
+	free(modelMem);
 #else
+	// TensorRT v1 can deserialize directly from stringstream
 	nvinfer1::ICudaEngine* engine = infer->deserializeCudaEngine(gieModelStream);
 #endif
 
