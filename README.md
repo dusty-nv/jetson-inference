@@ -811,7 +811,7 @@ Included in the repo are also DetectNet models pretrained to detect humans.  The
 
 
 ``` bash
-$ ./detectnet-console peds-007.png output_7.png multiped
+$ ./detectnet-console peds-004.jpg output-4.jpg multiped
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-00.jpg" width="900">
@@ -820,10 +820,8 @@ $ ./detectnet-console peds-007.png output_7.png multiped
 When using the multiped model (`PEDNET_MULTI`), for images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
 
 ``` bash
-$ ./detectnet-console peds-008.png output_8.png multiped
+$ ./detectnet-console peds-003.jpg output-3.jpg multiped
 ```
-
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-01.jpg" width="900">
 
 ### Running the Live Camera Detection Demo on Jetson
 
