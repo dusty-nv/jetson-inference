@@ -49,6 +49,9 @@ tar -xzvf GoogleNet-ILSVRC12-subset.tar -C ../data/networks
 
 
 # DetectNet's  (uncomment to download)
+#wget --no-check-certificate 'https://nvidia.box.com/shared/static/xe6wo1o8qiqykfx8umuu0ki9idp0f92p.prototxt' -O detectnet.prototxt
+#mv detectnet.prototxt ../data/networks
+
 wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOMzVRODNuSHlvbms' -O ped-100.tar.gz
 tar -xzvf ped-100.tar.gz -C ../data/networks
 
