@@ -30,10 +30,18 @@ sudo ln -s /usr/lib/aarch64-linux-gnu/tegra/libGL.so /usr/lib/aarch64-linux-gnu/
 wget --no-check-certificate 'https://nvidia.box.com/shared/static/5j264j7mky11q8emy4q14w3r8hl5v6zh.caffemodel' -O bvlc_alexnet.caffemodel
 mv bvlc_alexnet.caffemodel ../data/networks
 
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/c84wp3axbtv4e2gybn40jprdquav9azm.prototxt' -O alexnet.prototxt
+mv alexnet.prototxt ../data/networks
+
+
 # GoogleNet (bvlc site was behaving slowly, so enabled mirror on nvidia.box.com instead)
 #wget http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel
 wget --no-check-certificate 'https://nvidia.box.com/shared/static/at8b1105ww1c5h7p30j5ko8qfnxrs0eg.caffemodel' -O bvlc_googlenet.caffemodel
 mv bvlc_googlenet.caffemodel ../data/networks
+
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/5z3l76p8ap4n0o6rk7lyasdog9f14gc7.prototxt' -O googlenet.prototxt
+mv googlenet.prototxt ../data/networks
+
 
 # GoogleNet, ILSVR12 subset
 wget --no-check-certificate 'https://nvidia.box.com/shared/static/zb8i3zcg39sdjjxfty7o5935hpbd64y4.gz' -O GoogleNet-ILSVRC12-subset.tar
