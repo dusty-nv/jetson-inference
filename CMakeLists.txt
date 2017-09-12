@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 2.8)
 project(jetson-inference)
 
@@ -21,20 +20,20 @@ endif()
 
 
 # Qt is used to load images (installed by ubuntu-desktop)
-find_package(Qt4 REQUIRED)
-include(${QT_USE_FILE})
-add_definitions(${QT_DEFINITIONS})
+find_package(Qt5 REQUIRED COMPONENTS Gui)
+add_definitions(${Qt5Gui_DEFINITIONS})
 
 
 # setup CUDA
 find_package(CUDA)
 
 set(
-	CUDA_NVCC_FLAGS
-	${CUDA_NVCC_FLAGS}; 
-    -O3 
-	-gencode arch=compute_53,code=sm_53
-	-gencode arch=compute_62,code=sm_62
+  CUDA_NVCC_FLAGS
+  ${CUDA_NVCC_FLAGS};
+  -O3
+  -gencode arch=compute_50,code=sm_50
+  -gencode arch=compute_53,code=sm_53
+  -gencode arch=compute_62,code=sm_62
 )
 
 
@@ -61,7 +60,7 @@ file(GLOB inferenceSources *.cpp *.cu util/*.cpp util/camera/*.cpp util/cuda/*.c
 file(GLOB inferenceIncludes *.h util/*.h util/camera/*.h util/cuda/*.h util/display/*.h)
 
 cuda_add_library(jetson-inference SHARED ${inferenceSources})
-target_link_libraries(jetson-inference nvcaffe_parser nvinfer Qt4::QtGui GL GLEW gstreamer-1.0 gstapp-1.0)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
+target_link_libraries(jetson-inference nvcaffe_parser nvinfer ${Qt5Gui_LIBRARIES} GL GLEW gstreamer-1.0 gstapp-1.0 glib-2.0 gobject-2.0 X11)
 
 
 # transfer all headers to the include directory
@@ -116,4 +115,3 @@ install(TARGETS jetson-inference DESTINATION lib/jetson-inference EXPORT jetson-
 
 # install the cmake project, for importing
 install(EXPORT jetson-inferenceConfig DESTINATION share/jetson-inference/cmake)
-
