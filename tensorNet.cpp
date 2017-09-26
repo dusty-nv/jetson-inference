@@ -217,6 +217,8 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	if( !prototxt_path || !model_path )
 		return false;
 	
+	printf(LOG_GIE "TensorRT version %u.%u, build %u\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_GIE_VERSION);
+	
 	/*
 	 * attempt to load network from cache before profiling with tensorRT
 	 */
