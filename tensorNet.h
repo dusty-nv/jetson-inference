@@ -43,6 +43,11 @@ typedef nvinfer1::Dims3 Dims3;
 #define DIMS_C(x) x.c
 #define DIMS_H(x) x.h
 #define DIMS_W(x) x.w
+
+#ifndef NV_TENSORRT_MAJOR
+#define NV_TENSORRT_MAJOR 1
+#define NV_TENSORRT_MINOR 0
+#endif
 #endif
 
 
