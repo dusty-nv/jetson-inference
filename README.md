@@ -182,7 +182,7 @@ First some prequisite packages for Caffe are installed, including the Python bin
 ``` bash
 $ sudo apt-get install --no-install-recommends build-essential cmake git gfortran libatlas-base-dev libboost-filesystem-dev libboost-python-dev libboost-system-dev libboost-thread-dev libgflags-dev libgoogle-glog-dev libhdf5-serial-dev libleveldb-dev liblmdb-dev libprotobuf-dev libsnappy-dev protobuf-compiler python-all-dev python-dev python-h5py python-matplotlib python-numpy python-opencv python-pil python-pip python-protobuf python-scipy python-skimage python-sklearn python-setuptools 
 $ sudo pip install --upgrade pip
-$ git clone -b caffe-0.15 http://github.com/NVIDIA/caffe
+$ git clone -b caffe-0.15 https://github.com/NVIDIA/caffe
 $ cd caffe
 $ sudo pip install -r python/requirements.txt 
 $ mkdir build
@@ -210,7 +210,7 @@ To install DIGITS, first install the prerequisiste packages, then clone the DIGI
 
 ``` bash
 $ sudo apt-get install --no-install-recommends graphviz python-dev python-flask python-flaskext.wtf python-gevent python-h5py python-numpy python-pil python-pip python-protobuf python-scipy python-tk
-$ git clone http://github.com/nvidia/DIGITS
+$ git clone https://github.com/nvidia/DIGITS
 $ cd DIGITS
 $ sudo pip install -r requirements.txt
 ```
@@ -255,7 +255,7 @@ $ sudo apt-get install git cmake
 
 Then clone the jetson-inference repo:
 ``` bash
-$ git clone http://github.com/dusty-nv/jetson-inference
+$ git clone https://github.com/dusty-nv/jetson-inference
 ```
 
 #### Configuring with CMake
