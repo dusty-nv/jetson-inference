@@ -45,10 +45,10 @@ fi
 cp googlenet.prototxt ../data/networks
 
 # GoogleNet, ILSVR12 subset
-if [ ! -f GoogleNet-ILSVRC12-subset.tar ]; then
-    wget --no-check-certificate 'https://nvidia.box.com/shared/static/zb8i3zcg39sdjjxfty7o5935hpbd64y4.gz' -O GoogleNet-ILSVRC12-subset.tar
+if [ ! -f GoogleNet-ILSVRC12-subset.tar.gz ]; then
+    wget --no-check-certificate 'https://nvidia.box.com/shared/static/zb8i3zcg39sdjjxfty7o5935hpbd64y4.gz' -O GoogleNet-ILSVRC12-subset.tar.gz
 fi
-tar -xzvf GoogleNet-ILSVRC12-subset.tar -C ../data/networks
+tar -xzvf GoogleNet-ILSVRC12-subset.tar.gz -C ../data/networks
 
 # DetectNet's  (uncomment to download)
 #if [ ! -f detectnet.prototxt ]; then
