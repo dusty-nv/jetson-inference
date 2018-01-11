@@ -51,9 +51,9 @@ fi
 tar -xzvf GoogleNet-ILSVRC12-subset.tar -C ../data/networks
 
 # DetectNet's  (uncomment to download)
-if [ ! -f detectnet.prototxt ]; then
+#if [ ! -f detectnet.prototxt ]; then
     #wget --no-check-certificate 'https://nvidia.box.com/shared/static/xe6wo1o8qiqykfx8umuu0ki9idp0f92p.prototxt' -O detectnet.prototxt
-fi
+#fi
 cp detectnet.prototxt ../data/networks
 
 if [ ! -f ped-100.tar.gz ]; then
@@ -98,19 +98,19 @@ if [ ! FCN-Alexnet-Pascal-VOC.tar.gz ]; then
 fi
 tar -xzvf FCN-Alexnet-Pascal-VOC.tar.gz -C ../data/networks
 
-if [ ! FCN-Alexnet-SYNTHIA-CVPR16.tar.gz ]; then
+#if [ ! FCN-Alexnet-SYNTHIA-CVPR16.tar.gz ]; then
     #wget --no-check-certificate 'https://nvidia.box.com/shared/static/u5ey2ws0nbtzyqyftkuqazx1honw6wry.gz' -O FCN-Alexnet-SYNTHIA-CVPR16.tar.gz
-fi
+#fi
 tar -xzvf FCN-Alexnet-SYNTHIA-CVPR16.tar.gz -C ../data/networks
 
-if [ ! FCN-Alexnet-SYNTHIA-Summer-HD.tar.gz ]; then
+#if [ ! FCN-Alexnet-SYNTHIA-Summer-HD.tar.gz ]; then
     #wget --no-check-certificate 'https://nvidia.box.com/shared/static/ydgmqgdhbvul6q9avoc9flxr3fdoa8pw.gz' -O FCN-Alexnet-SYNTHIA-Summer-HD.tar.gz
-fi
+#fi
 tar -xzvf FCN-Alexnet-SYNTHIA-Summer-HD.tar.gz -C ../data/networks
 
-if [ ! FCN-Alexnet-SYNTHIA-Summer-SD.tar.gz ]; then
+#if [ ! FCN-Alexnet-SYNTHIA-Summer-SD.tar.gz ]; then
     #wget --no-check-certificate 'https://nvidia.box.com/shared/static/vbk5ofu1x2hwp9luanbg4o0vrfub3a7j.gz' -O FCN-Alexnet-SYNTHIA-Summer-SD.tar.gz
-fi
+#fi
 tar -xzvf FCN-Alexnet-SYNTHIA-Summer-SD.tar.gz -C ../data/networks
 
 if [ ! FCN-Alexnet-Cityscapes-HD.tar.gz ]; then
@@ -118,9 +118,9 @@ if [ ! FCN-Alexnet-Cityscapes-HD.tar.gz ]; then
 fi
 tar -xzvf FCN-Alexnet-Cityscapes-HD.tar.gz -C ../data/networks
 
-if [ ! FCN-Alexnet-Cityscapes-SD.tar.gz ]; then
+#if [ ! FCN-Alexnet-Cityscapes-SD.tar.gz ]; then
     #wget --no-check-certificate 'https://nvidia.box.com/shared/static/pa5d338t9ntca5chfbymnur53aykhall.gz' -O FCN-Alexnet-Cityscapes-SD.tar.gz
-fi
+#fi
 tar -xzvf FCN-Alexnet-Cityscapes-SD.tar.gz -C ../data/networks
 
 if [ ! FCN-Alexnet-Aerial-FPV-720p.tar.gz ]; then
@@ -128,9 +128,9 @@ if [ ! FCN-Alexnet-Aerial-FPV-720p.tar.gz ]; then
 fi
 tar -xzvf FCN-Alexnet-Aerial-FPV-720p.tar.gz -C ../data/networks
 
-if [ ! FCN-Alexnet-Aerial-FPV-4ch-720p.tar.gz ]; then
+#if [ ! FCN-Alexnet-Aerial-FPV-4ch-720p.tar.gz ]; then
     #wget --no-check-certificate 'https://nvidia.box.com/shared/static/4z5lmlja13blj3mdn6vesrft57p30446.gz' -O FCN-Alexnet-Aerial-FPV-4ch-720p.tar.gz
-fi
+#fi
 tar -xzvf FCN-Alexnet-Aerial-FPV-4ch-720p.tar.gz -C ../data/networks
 
 
