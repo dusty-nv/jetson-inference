@@ -52,7 +52,8 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 **Recommended System Requirements**
 
-Training GPU:  Maxwell, Pascal, or Volta-based GPU (ideally with at least 6GB video memory) or AWS P2/P3 instance.  
+Training GPU:  Maxwell, Pascal, or Volta-based GPU (ideally with at least 6GB video memory) or AWS P2/P3 instance.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;optionally AWS P2/P3 instance or Microsoft Azure N-series  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ubuntu 14.04 x86_64 or Ubuntu 16.04 x86_64.
 
 Deployment:    &nbsp;&nbsp;Jetson TX2 Developer Kit with JetPack 3.0 or newer (Ubuntu 16.04 aarch64).  
