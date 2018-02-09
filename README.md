@@ -86,7 +86,7 @@ NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train
 
 During this tutorial, we'll use a host PC (or cloud instance) for training DNNs, alongside a Jetson for inference.  
 
-Due to the number of dependencies required for training, it's recommended for beginners to setup their host training PC with **[NVIDIA GPU Cloud](https://www.nvidia.com/en-us/gpu-cloud/) (NGC)** or [nvidia-docker](https://github.com/NVIDIA/nvidia-docker).  These methods automate the install of the drivers and machine learning frameworks on the host.  NGC can be used to deploy Docker images locally, or remotely to cloud providers like AWS or Azure N-series.
+Due to the number of dependencies required for training, it's recommended for beginners to setup their host training PC with **[NVIDIA GPU Cloud (NGC)](https://www.nvidia.com/en-us/gpu-cloud/)** or [nvidia-docker](https://github.com/NVIDIA/nvidia-docker).  These methods automate the install of the drivers and machine learning frameworks on the host.  NGC can be used to deploy Docker images locally, or remotely to cloud providers like AWS or Azure N-series.
 
 A host PC will also serve to flash the Jetson with the latest JetPack.  First, we'll setup and configure the host PC with the required OS and tools.
 
@@ -109,8 +109,8 @@ After downloading JetPack from the link above, run it from the host PC with the 
 
 ``` bash 
 $ cd <directory where you downloaded JetPack>
-$ chmod +x JetPack-L4T-3.1-linux-x64.run 
-$ ./JetPack-L4T-3.1-linux-x64.run 
+$ chmod +x JetPack-L4T-<version>-linux-x64.run 
+$ ./JetPack-L4T-<version>-linux-x64.run 
 ```
 
 The JetPack GUI will start.  Follow the step-by-step **[Install Guide](http://docs.nvidia.com/jetpack-l4t/index.html#developertools/mobile/jetpack/l4t/3.0/jetpack_l4t_install.htm)** to complete the setup.  Near the beginning, JetPack will confirm which generation Jetson you are developing for.
