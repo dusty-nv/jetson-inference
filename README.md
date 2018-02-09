@@ -76,7 +76,7 @@ New to deep neural networks (DNNs) and machine learning?  Take this [introductor
 
 <a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/digits-samples.jpg" width="800"></a>
 
-Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md)** training DNNs and deploying them into the field with high performance.  Discrete GPUs are typically used in a server, PC, or laptop for training with DIGITS, while Jetson and integrated GPU is used by embedded form factors.
+Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.com/NVIDIA/DIGITS/blob/master/docs/GettingStarted.md)** training DNNs and deploying them into the field with high performance.  Discrete GPUs are typically used in a server, PC, or laptop for training with DIGITS, while Jetson and integrated GPU is used in embedded form factors.
 
 <a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/digits-workflow.jpg" width="700"></a>
 
@@ -84,7 +84,11 @@ NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train
 
 ## System Setup
 
-During this tutorial, we will use a host PC (or AWS), for training DNNs, alongside a Jetson for inference.  The host PC will also serve to flash the Jetson with the latest JetPack.  First we'll setup and configure the host PC with the required OS and tools.
+During this tutorial, we'll use a host PC (or cloud instance) for training DNNs, alongside a Jetson for inference.  
+
+Due to the number of dependencies required for training, it's recommended for beginners to setup their host training PC with **[NVIDIA GPU Cloud](https://www.nvidia.com/en-us/gpu-cloud/) (NGC)** or [nvidia-docker](https://github.com/NVIDIA/nvidia-docker).  These methods automate the install of the drivers and machine learning frameworks on the host.  NGC can be used to deploy Docker images locally, or remotely to cloud providers like AWS or Azure N-series.
+
+A host PC will also serve to flash the Jetson with the latest JetPack.  First, we'll setup and configure the host PC with the required OS and tools.
 
 ### Installing Ubuntu on the Host
 
@@ -130,7 +134,7 @@ After flashing, the Jetson will reboot and if attached to an HDMI display, will 
 At this point, JetPack will have flashed the Jetson with the latest L4T BSP, and installed CUDA toolkits to both the Jetson and host PC.  However, the NVIDIA PCIe driver will still need to be installed on the host PC to enable GPU-accelerated training.  Run the following commands from the host PC to install the NVIDIA driver from the Ubuntu repo:
 
 ``` bash
-$ sudo apt-get install nvidia-375
+$ sudo apt-get install nvidia-384	# use nvidia-375 for alternate version
 $ sudo reboot
 ```
 
@@ -161,36 +165,32 @@ $ ./bandwidthTest --memory=pinned
 The next step is to install NVIDIA **[cuDNN](https://developer.nvidia.com/cudnn)** libraries on the host PC.  Download the libcudnn and libcudnn packages from the NVIDIA site:
 
 ```
-https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v6/prod/8.0_20170307/Ubuntu16_04_x64/libcudnn6_6.0.20-1+cuda8.0_amd64-deb
-https://developer.nvidia.com/compute/machine-learning/cudnn/secure/v6/prod/8.0_20170307/Ubuntu16_04_x64/libcudnn6-dev_6.0.20-1+cuda8.0_amd64-deb
+https://developer.nvidia.com/cudnn
 ```
 
 Then install the packages with the following commands:
 
 ``` bash
-$ sudo dpkg -i libcudnn6_6.0.20-1+cuda8.0_amd64.deb
-$ sudo dpkg -i libcudnn6-dev_6.0.20-1+cuda8.0_amd64.deb
+$ sudo dpkg -i libcudnn<version>_amd64.deb
+$ sudo dpkg -i libcudnn-dev_<version>_amd64.deb
 ```
 
 ### Installing NVcaffe on the Host
 
-NVcaffe is the NVIDIA branch of Caffe with optimizations for GPU.  NVcaffe uses cuDNN and is used by DIGITS for training DNNs.  To install it, clone the NVcaffe repo from GitHub and compile from source.  Use the NVcaffe-0.15 branch like below.
+[NVcaffe](https://github.com/nvidia/caffe/tree/caffe-0.15) is the NVIDIA branch of Caffe with optimizations for GPU.  NVcaffe requires cuDNN and is used by DIGITS for training DNNs.  To install it, clone the NVcaffe-0.15 repo from GitHub and compile from source.  Use the NVcaffe-0.15 branch like below.
 
 > **note**: for this tutorial, NVcaffe is only required on the host (for training).  During inferencing phase TensorRT is used on the Jetson and doesn't require caffe.
 
-First some prequisite packages for Caffe are installed, including the Python bindings required by DIGITS:
+First clone the caffe-0.15 branch from https://github.com/NVIDIA/caffe
 
 ``` bash
-$ sudo apt-get install --no-install-recommends build-essential cmake git gfortran libatlas-base-dev libboost-filesystem-dev libboost-python-dev libboost-system-dev libboost-thread-dev libgflags-dev libgoogle-glog-dev libhdf5-serial-dev libleveldb-dev liblmdb-dev libprotobuf-dev libsnappy-dev protobuf-compiler python-all-dev python-dev python-h5py python-matplotlib python-numpy python-opencv python-pil python-pip python-protobuf python-scipy python-skimage python-sklearn python-setuptools 
-$ sudo pip install --upgrade pip
 $ git clone -b caffe-0.15 https://github.com/NVIDIA/caffe
-$ cd caffe
-$ sudo pip install -r python/requirements.txt 
-$ mkdir build
-$ cd build
-$ cmake ../ -DCUDA_USE_STATIC_CUDA_RUNTIME=OFF
-$ make --jobs=4
-$ make pycaffe
+```
+
+Build caffe with the [instructions](http://caffe.berkeleyvision.org/installation.html#compilation) from here:
+
+``` 
+http://caffe.berkeleyvision.org/installation.html#compilation
 ```
 
 Caffe should now be configured and built.  Now edit your user's ~/.bashrc to include the path to your Caffe tree (replace the paths below to reflect your own):
@@ -207,14 +207,14 @@ Close and re-open the terminal for the changes to take effect.
 
 NVIDIA **[DIGITS](https://developer.nvidia.com/digits)** is a Python-based web service which interactively trains DNNs and manages datasets.  As highlighed in the DIGITS workflow, it runs on the host PC to create the network model during the training phase.  The trained model is then copied from the host PC to the Jetson for the runtime inference phase with TensorRT.
 
-To install DIGITS, first install the prerequisiste packages, then clone the DIGITS repo from GitHub:
+For automated installation, it's recommended to use DIGITS through [NVIDIA GPU Cloud](https://www.nvidia.com/en-us/gpu-cloud/), which comes with a DIGITS Docker image that can run on a GPU attached to a local PC or cloud instance. Alternatively, to install DIGITS from source, first clone the DIGITS repo from GitHub:
 
 ``` bash
-$ sudo apt-get install --no-install-recommends graphviz python-dev python-flask python-flaskext.wtf python-gevent python-h5py python-numpy python-pil python-pip python-protobuf python-scipy python-tk
 $ git clone https://github.com/nvidia/DIGITS
-$ cd DIGITS
-$ sudo pip install -r requirements.txt
+# https://github.com/NVIDIA/DIGITS/blob/digits-6.0/docs/BuildDigits.md
 ```
+
+Then complete the steps under the **[Building DIGITS](https://github.com/NVIDIA/DIGITS/blob/digits-6.0/docs/BuildDigits.md)** documentation.
 
 #### Starting the DIGITS Server
 
