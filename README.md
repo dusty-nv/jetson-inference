@@ -162,11 +162,9 @@ $ ./bandwidthTest --memory=pinned
 
 ### Installing cuDNN on the Host
 
-The next step is to install NVIDIA **[cuDNN](https://developer.nvidia.com/cudnn)** libraries on the host PC.  Download the libcudnn and libcudnn packages from the NVIDIA site:
+The next step is to install NVIDIA **[cuDNN](https://developer.nvidia.com/cudnn)** libraries on the host PC.  Download the libcudnn and libcudnn packages from the NVIDIA cuDNN webpage:
 
-```
-https://developer.nvidia.com/cudnn
-```
+[`https://developer.nvidia.com/cudnn`](https://developer.nvidia.com/cudnn)
 
 Then install the packages with the following commands:
 
@@ -177,7 +175,7 @@ $ sudo dpkg -i libcudnn-dev_<version>_amd64.deb
 
 ### Installing NVcaffe on the Host
 
-[NVcaffe](https://github.com/nvidia/caffe/tree/caffe-0.15) is the NVIDIA branch of Caffe with optimizations for GPU.  NVcaffe requires cuDNN and is used by DIGITS for training DNNs.  To install it, clone the NVcaffe-0.15 repo from GitHub and compile from source.  Use the NVcaffe-0.15 branch like below.
+[NVcaffe](https://github.com/nvidia/caffe/tree/caffe-0.15) is the NVIDIA branch of Caffe with optimizations for GPU.  NVcaffe requires cuDNN and is used by DIGITS for training DNNs.  To install it, clone the NVcaffe repo from GitHub, and compile from source, using the caffe-0.15 branch.
 
 > **note**: for this tutorial, NVcaffe is only required on the host (for training).  During inferencing phase TensorRT is used on the Jetson and doesn't require caffe.
 
@@ -189,9 +187,7 @@ $ git clone -b caffe-0.15 https://github.com/NVIDIA/caffe
 
 Build caffe with the [instructions](http://caffe.berkeleyvision.org/installation.html#compilation) from here:
 
-``` 
-http://caffe.berkeleyvision.org/installation.html#compilation
-```
+[`http://caffe.berkeleyvision.org/installation.html#compilation`](http://caffe.berkeleyvision.org/installation.html#compilation)
 
 Caffe should now be configured and built.  Now edit your user's ~/.bashrc to include the path to your Caffe tree (replace the paths below to reflect your own):
 
@@ -211,10 +207,11 @@ For automated installation, it's recommended to use DIGITS through [NVIDIA GPU C
 
 ``` bash
 $ git clone https://github.com/nvidia/DIGITS
-# https://github.com/NVIDIA/DIGITS/blob/digits-6.0/docs/BuildDigits.md
 ```
 
 Then complete the steps under the **[Building DIGITS](https://github.com/NVIDIA/DIGITS/blob/digits-6.0/docs/BuildDigits.md)** documentation.
+
+[`https://github.com/NVIDIA/DIGITS/blob/digits-6.0/docs/BuildDigits.md`](https://github.com/NVIDIA/DIGITS/blob/digits-6.0/docs/BuildDigits.md)
 
 #### Starting the DIGITS Server
 
