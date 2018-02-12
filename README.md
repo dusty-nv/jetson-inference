@@ -132,7 +132,7 @@ After flashing, the Jetson will reboot and if attached to an HDMI display, will 
 
 ### Installing NVIDIA Driver on the Host
 
-> **note**:  if you're using [NGC](https://www.nvidia.com/en-us/gpu-cloud/), you can skip ahead to [`Building from Source on Jetson`](#building-from-source-on-jetson)  
+> **note**:  if you're using [NVIDIA GPU Cloud (NGC)](https://www.nvidia.com/en-us/gpu-cloud/), you can skip ahead to [`Building from Source on Jetson`](#building-from-source-on-jetson)  
 
 At this point, JetPack will have flashed the Jetson with the latest L4T BSP, and installed CUDA toolkits to both the Jetson and host PC.  However, the NVIDIA PCIe driver will still need to be installed on the host PC to enable GPU-accelerated training.  Run the following commands from the host PC to install the NVIDIA driver from the Ubuntu repo:
 
