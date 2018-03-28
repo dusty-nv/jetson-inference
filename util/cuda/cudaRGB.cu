@@ -26,13 +26,14 @@
 
 __global__ void RGBToRGBAf(uchar3* srcImage,
                            float4* dstImage,
-                           uint32_t width,       uint32_t height)
+                           uint32_t width,
+                           uint32_t height)
 {
     int x, y, pixel;
 
     x = (blockIdx.x * blockDim.x) + threadIdx.x;
     y = (blockIdx.y * blockDim.y) + threadIdx.y;
-	
+    
     pixel = y * width + x;
 
     if (x >= width)
@@ -42,23 +43,58 @@ __global__ void RGBToRGBAf(uchar3* srcImage,
         return;
 
 //	printf("cuda thread %i %i  %i %i pixel %i \n", x, y, width, height, pixel);
-		
-	const float  s  = 1.0f;
-	const uchar3 px = srcImage[pixel];
-	
-	dstImage[pixel] = make_float4(px.x * s, px.y * s, px.z * s, 255.0f * s);
+        
+    const float  s  = 1.0f;
+    const uchar3 px = srcImage[pixel];
+    
+    dstImage[pixel] = make_float4(px.x * s, px.y * s, px.z * s, 255.0f * s);
+}
+
+__global__ void RGBAfToRGB(float4 *srcImage,
+                           uchar3 *dstImage,
+                           uint32_t width,
+                           uint32_t height)
+{
+    int x, y, pixel;
+
+    x = (blockIdx.x * blockDim.x) + threadIdx.x;
+    y = (blockIdx.y * blockDim.y) + threadIdx.y;
+    
+    pixel = y * width + x;
+
+    if (x >= width)
+        return; 
+
+    if (y >= height)
+        return;
+
+    const float4 px = srcImage[pixel];
+
+    dstImage[pixel] = make_uchar3(px.x, px.y, px.z);
 }
 
 cudaError_t cudaRGBToRGBAf( uchar3* srcDev, float4* destDev, size_t width, size_t height )
 {
-	if( !srcDev || !destDev )
-		return cudaErrorInvalidDevicePointer;
+    if( !srcDev || !destDev )
+        return cudaErrorInvalidDevicePointer;
 
-	const dim3 blockDim(8,8,1);
-	const dim3 gridDim(iDivUp(width,blockDim.x), iDivUp(height,blockDim.y), 1);
+    const dim3 blockDim(8,8,1);
+    const dim3 gridDim(iDivUp(width,blockDim.x), iDivUp(height,blockDim.y), 1);
 
-	RGBToRGBAf<<<gridDim, blockDim>>>( srcDev, destDev, width, height );
-	
-	return CUDA(cudaGetLastError());
+    RGBToRGBAf<<<gridDim, blockDim>>>( srcDev, destDev, width, height );
+
+    return CUDA(cudaGetLastError());
 }
 
+cudaError_t cudaRGBAfToRGB( float4* srcDev, uchar3* destDev, size_t width, size_t height )
+{
+    if( !srcDev || !destDev )
+        return cudaErrorInvalidDevicePointer;
+
+    const dim3 blockDim(8,8,1);
+    const dim3 gridDim(iDivUp(width,blockDim.x), iDivUp(height,blockDim.y), 1);
+
+    RGBAfToRGB<<<gridDim, blockDim>>>( srcDev, destDev, width, height );
+    
+    return CUDA(cudaGetLastError());
+}

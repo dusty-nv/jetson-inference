@@ -34,5 +34,11 @@
  */
 cudaError_t cudaRGBToRGBAf( uchar3* input, float4* output, size_t width, size_t height );
 
+/**
+ * Convert 32-bit floating-point RGBA image to 8-bit fixed-point RGB image
+ * @ingroup util
+ */
+cudaError_t cudaRGBAfToRGB( float4* input, uchar3* output, size_t width, size_t height );
+
 
 #endif
