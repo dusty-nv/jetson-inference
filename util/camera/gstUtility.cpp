@@ -221,11 +221,18 @@ gboolean gst_message_print(GstBus* bus, GstMessage* message, gpointer user_data)
 			gchar* txt = "missing gst_tag_list_to_string()";
 #endif
 
-			printf(LOG_GSTREAMER "gstreamer %s %s\n", GST_OBJECT_NAME(message->src), txt);
-
-			g_free(txt);			
+			if( txt != NULL )
+			{
+				printf(LOG_GSTREAMER "gstreamer %s %s\n", GST_OBJECT_NAME(message->src), txt);
+#ifdef gst_tag_list_to_string			
+				g_free(txt);	
+#endif
+			}
+		
 			//gst_tag_list_foreach(tags, gst_print_one_tag, NULL);
-			gst_tag_list_free(tags);
+			if( tags != NULL )			
+				gst_tag_list_free(tags);
+			
 			break;
 		}
 		default:
