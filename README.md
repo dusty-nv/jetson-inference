@@ -11,9 +11,9 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 > &gt; &nbsp; See **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset. <br/>
 > &gt; &nbsp; Try **[Object Detection](#locating-object-coordinates-using-detectnet)** training guide using DIGITS & MS-COCO training dataset. <br/>
-> &gt; &nbsp; Use **[Image Recognition](#re-training-the-network-with-digits)** training guide with DIGITS & ImageNet ILSVRC12 dataset.
-> &gt; &nbsp; Read our **[Parallel ForAll post](https://devblogs.nvidia.com/parallelforall/jetpack-doubles-jetson-inference-perf/)**, *JetPack 3.1 Doubles Jetson's Low-Latency Inference Performance*. <br/>
-> &gt; &nbsp; Check out our next tutorial, **[Deep Reinforcement Learning in Robotics](http://github.com/dusty-nv/jetson-reinforcement)**. <br/>
+> &gt; &nbsp; Use **[Image Recognition](#re-training-the-network-with-digits)** training guide with DIGITS & ImageNet ILSVRC12 dataset. <br/>
+> &gt; &nbsp; Read our **[dev blog](https://devblogs.nvidia.com/parallelforall/jetpack-doubles-jetson-inference-perf/)**, *JetPack 3.1 Doubles Jetson's Low-Latency Inference Performance*. <br/>
+> &gt; &nbsp; Check out our next GitHub tutorial, **[Deep Reinforcement Learning in Robotics](http://github.com/dusty-nv/jetson-reinforcement)**.
 
 ### **Table of Contents**
 
