@@ -131,7 +131,30 @@ After the downloads have finished installing, JetPack will enter the post-instal
 
 After flashing, the Jetson will reboot and if attached to an HDMI display, will boot up to the Ubuntu desktop.  After this, JetPack connects to the Jetson from the host via SSH to install additional packages to the Jetson, like the ARM aarch64 builds of CUDA Toolkit, cuDNN, and TensorRT.  For JetPack to be able to reach the Jetson via SSH, the host PC should be networked to the Jetson via Ethernet.  This can be accomplished by running an Ethernet cable directly from the host to the Jetson, or by connecting both devices to a router or switch — the JetPack GUI will ask you to confirm which networking scenario is being used.  See the JetPack **[Install Guide](http://docs.nvidia.com/jetpack-l4t/index.html#developertools/mobile/jetpack/l4t/3.0/jetpack_l4t_install.htm)** for the full directions for installing JetPack and flashing Jetson.
 
-### Installing NVIDIA Driver on the Host
+
+### Setting up host training PC with NGC container	
+
+NVIDIA hosts NVIDIA® GPU Cloud (NGC) container registry for AI developers worldwide.
+You can download a containerized software stack for a wide range of deep learning frameworks, optimized and verified with NVIDIA libraries and CUDA runtime version.
+
+If you have a recent generation GPU (Pascal or newer) on your PC, the use of NGC registry container is probably the easiest way to setup DIGITS.
+To use a NGC registry container on your local host machine (as opposed to cloud), you can follow this detailed [setup guide](https://docs.nvidia.com/ngc/ngc-titan-setup-guide/index.html).
+
+#### Installing the NVIDIA driver
+
+#### Installing Docker
+
+#### NGC Sign-up 
+
+#### Setting up data and job directory for DIGITS
+
+#### Starting DIGITS container
+
+### Natively setting up CUDA dev environment and building DIGITS
+
+If you chose not to use NGC container for DIGITS, you need to natively set up your CUDA development environment on your PC and build DIGITS.
+
+#### Installing NVIDIA Driver on the Host
 
 > **note**:  if you're using [NVIDIA GPU Cloud (NGC)](https://www.nvidia.com/en-us/gpu-cloud/), you can skip ahead to [`Building from Source on Jetson`](#building-from-source-on-jetson)  
 
@@ -164,7 +187,7 @@ $ ./deviceQuery
 $ ./bandwidthTest --memory=pinned
 ```
 
-### Installing cuDNN on the Host
+#### Installing cuDNN on the Host
 
 The next step is to install NVIDIA **[cuDNN](https://developer.nvidia.com/cudnn)** libraries on the host PC.  Download the libcudnn and libcudnn packages from the NVIDIA cuDNN webpage:
 
@@ -177,7 +200,7 @@ $ sudo dpkg -i libcudnn<version>_amd64.deb
 $ sudo dpkg -i libcudnn-dev_<version>_amd64.deb
 ```
 
-### Installing NVcaffe on the Host
+#### Installing NVcaffe on the Host
 
 [NVcaffe](https://github.com/nvidia/caffe/tree/caffe-0.15) is the NVIDIA branch of Caffe with optimizations for GPU.  NVcaffe requires cuDNN and is used by DIGITS for training DNNs.  To install it, clone the NVcaffe repo from GitHub, and compile from source, using the caffe-0.15 branch.
 
@@ -203,7 +226,7 @@ export PYTHONPATH=/home/dusty/workspace/caffe/python:$PYTHONPATH
 Close and re-open the terminal for the changes to take effect.
 
 
-### Installing DIGITS on the Host
+#### Installing DIGITS on the Host
 
 NVIDIA **[DIGITS](https://developer.nvidia.com/digits)** is a Python-based web service which interactively trains DNNs and manages datasets.  As highlighed in the DIGITS workflow, it runs on the host PC to create the network model during the training phase.  The trained model is then copied from the host PC to the Jetson for the runtime inference phase with TensorRT.
 
@@ -228,7 +251,7 @@ $ ./digits-devserver
  | |) | | (_ || |  | | \__ \
  |___/___\___|___| |_| |___/ 5.1-dev
 
-2017-04-17 13:19:02 [INFO ] Loaded 0 jobs.
+2017-04-17 13:19:02 [INFO ] Loaded 0 jobs.`
 ```
 
 DIGITS will store user jobs (training datasets and model snapshots) under the `digits/jobs` directory.
@@ -1021,4 +1044,3 @@ In this area, links and resources for deep learning developers are listed:
      * [Building nvcaffe](docs/building-nvcaffe.md)
 	* [Other Examples](docs/other-examples.md)
 	* [ros_deep_learning](http://www.github.com/dusty-nv/ros_deep_learning) - TensorRT inference ROS nodes
-
