@@ -139,7 +139,7 @@ After flashing, the Jetson will reboot and if attached to an HDMI display, will 
 NVIDIA hosts NVIDIA® GPU Cloud (NGC) container registry for AI developers worldwide.
 You can download a containerized software stack for a wide range of deep learning frameworks, optimized and verified with NVIDIA libraries and CUDA runtime version.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/NGC-Registry_DIGITS.png"
+<img src="./docs/images/NGC-Registry_DIGITS.png"
 
 If you have a recent generation GPU (Pascal or newer) on your PC, the use of NGC registry container is probably the easiest way to setup DIGITS.
 To use a NGC registry container on your local host machine (as opposed to cloud), you can follow this detailed [setup guide](https://docs.nvidia.com/ngc/ngc-titan-setup-guide/index.html).
@@ -214,7 +214,7 @@ https://ngc.nvidia.com/signup/register
 
 Generate your API key, and save it somewhere safe. You will use this soon later.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/NGC-Registry_API-Key-generated.png" width="500">
+<img src="./docs/images/NGC-Registry_API-Key-generated.png" width="500">
 
 #### Setting up data and job directory for DIGITS
 
