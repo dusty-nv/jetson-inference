@@ -142,11 +142,82 @@ To use a NGC registry container on your local host machine (as opposed to cloud)
 
 #### Installing the NVIDIA driver
 
+``` bash
+$ sudo apt-get install -y apt-transport-https curl
+$ cat <<EOF | sudo tee /etc/apt/sources.list.d/cuda.list > /dev/null
+deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64 /
+EOF
+$ curl -s \
+ https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub \
+ | sudo apt-key add -
+$ cat <<EOF | sudo tee /etc/apt/preferences.d/cuda > /dev/null
+Package: *
+Pin: origin developer.download.nvidia.com
+Pin-Priority: 600
+EOF
+$ sudo apt-get update && sudo apt-get install -y --no-install-recommends cuda-drivers
+$ sudo reboot
+```
+
+After reboot, check if you can run `nvidia-smi` and see if your GPU shows up.
+
+``` bash
+nvidia-smi
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 384.90                 Driver Version: 384.90                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0 TITAN X (Pascal)     Off  | 00000000:02:00.0  On |                  N/A |
+| 23%   30C    P8    10W / 250W |    468MiB / 12188MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+```
+
 #### Installing Docker
+
+``` bash
+$ sudo apt-get install -y ca-certificates curl software-properties-common
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+$ sudo add-apt-repository \
+ "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+```
+
+``` bash
+$ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
+  sudo apt-key add -
+$ ccurl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list | \
+  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+$ csudo apt-get update
+$ csudo apt-get install -y nvidia-docker2
+$ csudo usermod -aG docker $USER
+$ sudo reboot
+```
 
 #### NGC Sign-up 
 
+https://ngc.nvidia.com/signup/register
+
+Generate your API key, and save it somewhere.
+
 #### Setting up data and job directory for DIGITS
+
+``` bash
+$ docker login nvcr.io
+```
+
+You will be prompted to enter Username and Password
+
+``` bash
+Username: $oauthtoken
+Password: <Your NGC API Key>
+```
+
+Try using CUDA container listed in the NGC registry.
+
+``` bash
+docker run --runtime=nvidia --rm nvcr.io/nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04 nvidia-smi
+```
 
 #### Starting DIGITS container
 
