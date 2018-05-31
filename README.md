@@ -134,13 +134,19 @@ After flashing, the Jetson will reboot and if attached to an HDMI display, will 
 
 ### Setting up host training PC with NGC container	
 
+> **note**:  if you're setting up DIGITS natively on your host PC, you should skip ahead to [`Natively setting up DIGITS on the Host`](#natively-setting-up-digits-on-the-host)  
+
 NVIDIA hosts NVIDIA® GPU Cloud (NGC) container registry for AI developers worldwide.
 You can download a containerized software stack for a wide range of deep learning frameworks, optimized and verified with NVIDIA libraries and CUDA runtime version.
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/NGC-Registry_DIGITS.png"
 
 If you have a recent generation GPU (Pascal or newer) on your PC, the use of NGC registry container is probably the easiest way to setup DIGITS.
 To use a NGC registry container on your local host machine (as opposed to cloud), you can follow this detailed [setup guide](https://docs.nvidia.com/ngc/ngc-titan-setup-guide/index.html).
 
 #### Installing the NVIDIA driver
+
+Add the NVIDIA Developer repository and install the NVIDIA driver.
 
 ``` bash
 $ sudo apt-get install -y apt-transport-https curl
@@ -162,19 +168,23 @@ $ sudo reboot
 After reboot, check if you can run `nvidia-smi` and see if your GPU shows up.
 
 ``` bash
-nvidia-smi
+$ nvidia-smi
+Thu May 31 11:56:44 2018
 +-----------------------------------------------------------------------------+
-| NVIDIA-SMI 384.90                 Driver Version: 384.90                    |
+| NVIDIA-SMI 390.30                 Driver Version: 390.30                    |
 |-------------------------------+----------------------+----------------------+
 | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
 | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
 |===============================+======================+======================|
-|   0 TITAN X (Pascal)     Off  | 00000000:02:00.0  On |                  N/A |
-| 23%   30C    P8    10W / 250W |    468MiB / 12188MiB |      0%      Default |
+|   0  Quadro GV100        Off  | 00000000:01:00.0  On |                  Off |
+| 29%   41C    P2    27W / 250W |   1968MiB / 32506MiB |     22%      Default |
 +-------------------------------+----------------------+----------------------+
+
 ```
 
 #### Installing Docker
+
+Install prerequisites, install the GPG key, and add the Docker repository.
 
 ``` bash
 $ sudo apt-get install -y ca-certificates curl software-properties-common
@@ -182,6 +192,8 @@ $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 $ sudo add-apt-repository \
  "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 ```
+
+Add the Docker Engine Utility (nvidia-docker2) repository, install nvidia-docker2, set up permissions to use Docker without sudo each time, and then reboot the system.
 
 ``` bash
 $ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
@@ -196,11 +208,17 @@ $ sudo reboot
 
 #### NGC Sign-up 
 
+Sign up to NGC if you have not.
+
 https://ngc.nvidia.com/signup/register
 
-Generate your API key, and save it somewhere.
+Generate your API key, and save it somewhere safe. You will use this soon later.
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/NGC-Registry_API-Key-generated.png" width="500">
 
 #### Setting up data and job directory for DIGITS
+
+Back on you PC (after reboot), log in to the NGC container registry
 
 ``` bash
 $ docker login nvcr.io
@@ -213,21 +231,38 @@ Username: $oauthtoken
 Password: <Your NGC API Key>
 ```
 
-Try using CUDA container listed in the NGC registry.
+For a test, use CUDA container to see if the nvidia-smi shows your GPU.
 
 ``` bash
 docker run --runtime=nvidia --rm nvcr.io/nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04 nvidia-smi
 ```
 
+#### Setting up data and job directories
+
+Create data and job directories on your host PC, to be mounted by DIGITS container.
+
+``` bash
+$ mkdir /home/username/data
+$ mkdir /home/username/digits-jobs
+```
+
 #### Starting DIGITS container
 
-### Natively setting up CUDA dev environment and building DIGITS
+``` bash
+$ nvidia-docker run --name digits -d -p 8888:5000 \
+ -v /home/username/data:/data:ro
+ -v /home/username/digits-jobs:/workspace/jobs nvcr.io/nvidia/digits:18.05
+```
+
+Open up a web browser and access http://localhost:8888 .
+
+### Natively setting up DIGITS on the Host 
+
+> **note**:  if you're using [NVIDIA GPU Cloud (NGC)](https://www.nvidia.com/en-us/gpu-cloud/), you can skip ahead to [`Building from Source on Jetson`](#building-from-source-on-jetson)  
 
 If you chose not to use NGC container for DIGITS, you need to natively set up your CUDA development environment on your PC and build DIGITS.
 
 #### Installing NVIDIA Driver on the Host
-
-> **note**:  if you're using [NVIDIA GPU Cloud (NGC)](https://www.nvidia.com/en-us/gpu-cloud/), you can skip ahead to [`Building from Source on Jetson`](#building-from-source-on-jetson)  
 
 At this point, JetPack will have flashed the Jetson with the latest L4T BSP, and installed CUDA toolkits to both the Jetson and host PC.  However, the NVIDIA PCIe driver will still need to be installed on the host PC to enable GPU-accelerated training.  Run the following commands from the host PC to install the NVIDIA driver from the Ubuntu repo:
 
