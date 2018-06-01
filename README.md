@@ -131,9 +131,138 @@ After the downloads have finished installing, JetPack will enter the post-instal
 
 After flashing, the Jetson will reboot and if attached to an HDMI display, will boot up to the Ubuntu desktop.  After this, JetPack connects to the Jetson from the host via SSH to install additional packages to the Jetson, like the ARM aarch64 builds of CUDA Toolkit, cuDNN, and TensorRT.  For JetPack to be able to reach the Jetson via SSH, the host PC should be networked to the Jetson via Ethernet.  This can be accomplished by running an Ethernet cable directly from the host to the Jetson, or by connecting both devices to a router or switch — the JetPack GUI will ask you to confirm which networking scenario is being used.  See the JetPack **[Install Guide](http://docs.nvidia.com/jetpack-l4t/index.html#developertools/mobile/jetpack/l4t/3.0/jetpack_l4t_install.htm)** for the full directions for installing JetPack and flashing Jetson.
 
-### Installing NVIDIA Driver on the Host
+
+### Setting up host training PC with NGC container	
+
+> **note**:  if you're setting up DIGITS natively on your host PC, you should skip ahead to [`Natively setting up DIGITS on the Host`](#natively-setting-up-digits-on-the-host)  
+
+NVIDIA hosts NVIDIA® GPU Cloud (NGC) container registry for AI developers worldwide.
+You can download a containerized software stack for a wide range of deep learning frameworks, optimized and verified with NVIDIA libraries and CUDA runtime version.
+
+<img src="./docs/images/NGC-Registry_DIGITS.png">
+
+If you have a recent generation GPU (Pascal or newer) on your PC, the use of NGC registry container is probably the easiest way to setup DIGITS.
+To use a NGC registry container on your local host machine (as opposed to cloud), you can follow this detailed [setup guide](https://docs.nvidia.com/ngc/ngc-titan-setup-guide/index.html).
+
+#### Installing the NVIDIA driver
+
+Add the NVIDIA Developer repository and install the NVIDIA driver.
+
+``` bash
+$ sudo apt-get install -y apt-transport-https curl
+$ cat <<EOF | sudo tee /etc/apt/sources.list.d/cuda.list > /dev/null
+deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64 /
+EOF
+$ curl -s \
+ https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub \
+ | sudo apt-key add -
+$ cat <<EOF | sudo tee /etc/apt/preferences.d/cuda > /dev/null
+Package: *
+Pin: origin developer.download.nvidia.com
+Pin-Priority: 600
+EOF
+$ sudo apt-get update && sudo apt-get install -y --no-install-recommends cuda-drivers
+$ sudo reboot
+```
+
+After reboot, check if you can run `nvidia-smi` and see if your GPU shows up.
+
+``` bash
+$ nvidia-smi
+Thu May 31 11:56:44 2018
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 390.30                 Driver Version: 390.30                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Quadro GV100        Off  | 00000000:01:00.0  On |                  Off |
+| 29%   41C    P2    27W / 250W |   1968MiB / 32506MiB |     22%      Default |
++-------------------------------+----------------------+----------------------+
+
+```
+
+#### Installing Docker
+
+Install prerequisites, install the GPG key, and add the Docker repository.
+
+``` bash
+$ sudo apt-get install -y ca-certificates curl software-properties-common
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+$ sudo add-apt-repository \
+ "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+```
+
+Add the Docker Engine Utility (nvidia-docker2) repository, install nvidia-docker2, set up permissions to use Docker without sudo each time, and then reboot the system.
+
+``` bash
+$ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
+  sudo apt-key add -
+$ ccurl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list | \
+  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+$ csudo apt-get update
+$ csudo apt-get install -y nvidia-docker2
+$ csudo usermod -aG docker $USER
+$ sudo reboot
+```
+
+#### NGC Sign-up 
+
+Sign up to NGC if you have not.
+
+https://ngc.nvidia.com/signup/register
+
+Generate your API key, and save it somewhere safe. You will use this soon later.
+
+<img src="./docs/images/NGC-Registry_API-Key-generated.png" width="500">
+
+#### Setting up data and job directory for DIGITS
+
+Back on you PC (after reboot), log in to the NGC container registry
+
+``` bash
+$ docker login nvcr.io
+```
+
+You will be prompted to enter Username and Password
+
+``` bash
+Username: $oauthtoken
+Password: <Your NGC API Key>
+```
+
+For a test, use CUDA container to see if the nvidia-smi shows your GPU.
+
+``` bash
+docker run --runtime=nvidia --rm nvcr.io/nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04 nvidia-smi
+```
+
+#### Setting up data and job directories
+
+Create data and job directories on your host PC, to be mounted by DIGITS container.
+
+``` bash
+$ mkdir /home/username/data
+$ mkdir /home/username/digits-jobs
+```
+
+#### Starting DIGITS container
+
+``` bash
+$ nvidia-docker run --name digits -d -p 8888:5000 \
+ -v /home/username/data:/data:ro
+ -v /home/username/digits-jobs:/workspace/jobs nvcr.io/nvidia/digits:18.05
+```
+
+Open up a web browser and access http://localhost:8888 .
+
+### Natively setting up DIGITS on the Host 
 
 > **note**:  if you're using [NVIDIA GPU Cloud (NGC)](https://www.nvidia.com/en-us/gpu-cloud/), you can skip ahead to [`Building from Source on Jetson`](#building-from-source-on-jetson)  
+
+If you chose not to use NGC container for DIGITS, you need to natively set up your CUDA development environment on your PC and build DIGITS.
+
+#### Installing NVIDIA Driver on the Host
 
 At this point, JetPack will have flashed the Jetson with the latest L4T BSP, and installed CUDA toolkits to both the Jetson and host PC.  However, the NVIDIA PCIe driver will still need to be installed on the host PC to enable GPU-accelerated training.  Run the following commands from the host PC to install the NVIDIA driver from the Ubuntu repo:
 
@@ -164,7 +293,7 @@ $ ./deviceQuery
 $ ./bandwidthTest --memory=pinned
 ```
 
-### Installing cuDNN on the Host
+#### Installing cuDNN on the Host
 
 The next step is to install NVIDIA **[cuDNN](https://developer.nvidia.com/cudnn)** libraries on the host PC.  Download the libcudnn and libcudnn packages from the NVIDIA cuDNN webpage:
 
@@ -177,7 +306,7 @@ $ sudo dpkg -i libcudnn<version>_amd64.deb
 $ sudo dpkg -i libcudnn-dev_<version>_amd64.deb
 ```
 
-### Installing NVcaffe on the Host
+#### Installing NVcaffe on the Host
 
 [NVcaffe](https://github.com/nvidia/caffe/tree/caffe-0.15) is the NVIDIA branch of Caffe with optimizations for GPU.  NVcaffe requires cuDNN and is used by DIGITS for training DNNs.  To install it, clone the NVcaffe repo from GitHub, and compile from source, using the caffe-0.15 branch.
 
@@ -203,7 +332,7 @@ export PYTHONPATH=/home/dusty/workspace/caffe/python:$PYTHONPATH
 Close and re-open the terminal for the changes to take effect.
 
 
-### Installing DIGITS on the Host
+#### Installing DIGITS on the Host
 
 NVIDIA **[DIGITS](https://developer.nvidia.com/digits)** is a Python-based web service which interactively trains DNNs and manages datasets.  As highlighed in the DIGITS workflow, it runs on the host PC to create the network model during the training phase.  The trained model is then copied from the host PC to the Jetson for the runtime inference phase with TensorRT.
 
@@ -228,7 +357,7 @@ $ ./digits-devserver
  | |) | | (_ || |  | | \__ \
  |___/___\___|___| |_| |___/ 5.1-dev
 
-2017-04-17 13:19:02 [INFO ] Loaded 0 jobs.
+2017-04-17 13:19:02 [INFO ] Loaded 0 jobs.`
 ```
 
 DIGITS will store user jobs (training datasets and model snapshots) under the `digits/jobs` directory.
@@ -1021,4 +1150,3 @@ In this area, links and resources for deep learning developers are listed:
      * [Building nvcaffe](docs/building-nvcaffe.md)
 	* [Other Examples](docs/other-examples.md)
 	* [ros_deep_learning](http://www.github.com/dusty-nv/ros_deep_learning) - TensorRT inference ROS nodes
-
