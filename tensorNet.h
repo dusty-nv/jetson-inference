@@ -28,7 +28,7 @@
 #include "NvCaffeParser.h"
 
 #include <sstream>
-
+#include <vector>
 
 #if NV_TENSORRT_MAJOR > 1
 typedef nvinfer1::DimsCHW Dims3;
