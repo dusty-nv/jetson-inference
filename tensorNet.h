@@ -27,6 +27,7 @@
 #include "NvInfer.h"
 #include "NvCaffeParser.h"
 
+#include <vector>
 #include <sstream>
 
 
@@ -135,7 +136,7 @@ protected:
 	/**
 	 * Prefix used for tagging printed log output
 	 */
-	#define LOG_GIE "[GIE]  "
+	#define LOG_GIE "[TRT]  "
 	
 	/**
 	 * Logger class for GIE info/warning/errors
