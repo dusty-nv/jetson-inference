@@ -33,6 +33,20 @@ class QMutex;
 
 
 /**
+ * Enumeration of camera input source methods
+ * @ingroup util
+ */
+enum gstCameraSrc
+{
+	GST_SOURCE_NVCAMERA,	/* use nvcamerasrc element */
+	GST_SOURCE_NVARGUS,		/* use nvargussrc element */
+	GST_SOURCE_V4L2		/* use v4l2src element */
+};
+
+const char* gstCameraSrcToString( gstCameraSrc src );	/**< Text version of gstCameraSrc enum */
+
+
+/**
  * gstreamer CSI camera using nvcamerasrc (or optionally v4l2src)
  * @ingroup util
  */
@@ -58,10 +72,10 @@ public:
 	bool ConvertRGBA( void* input, void** output, bool zeroCopy=false );
 	
 	// Image dimensions
-	inline uint32_t GetWidth() const	  { return mWidth; }
-	inline uint32_t GetHeight() const	  { return mHeight; }
+	inline uint32_t GetWidth() const	   { return mWidth; }
+	inline uint32_t GetHeight() const	   { return mHeight; }
 	inline uint32_t GetPixelDepth() const { return mDepth; }
-	inline uint32_t GetSize() const		  { return mSize; }
+	inline uint32_t GetSize() const	   { return mSize; }
 	
 	// Default resolution, unless otherwise specified during Create()
 	static const uint32_t DefaultWidth  = 1280;
@@ -73,15 +87,16 @@ private:
 	static GstFlowReturn onBuffer(_GstAppSink* sink, void* user_data);
 
 	gstCamera();
-	
-	bool init();
-	bool buildLaunchStr();
+
+	bool init( gstCameraSrc src );
+	bool buildLaunchStr( gstCameraSrc src );
 	void checkMsgBus();
 	void checkBuffer();
 	
 	_GstBus*     mBus;
 	_GstAppSink* mAppSink;
 	_GstElement* mPipeline;
+	gstCameraSrc mSource;
 
 	std::string  mLaunchStr;
 	
@@ -89,7 +104,7 @@ private:
 	uint32_t mHeight;
 	uint32_t mDepth;
 	uint32_t mSize;
-	
+
 	static const uint32_t NUM_RINGBUFFERS = 16;
 	
 	void* mRingbufferCPU[NUM_RINGBUFFERS];
@@ -104,8 +119,8 @@ private:
 	uint32_t mLatestRingbuffer;
 	bool     mLatestRetrieved;
 	
-	void* mRGBA[NUM_RINGBUFFERS];
-	int   mV4L2Device;	// -1 for onboard, >=0 for V4L2 device
+	void*  mRGBA[NUM_RINGBUFFERS];
+	int    mV4L2Device;	// -1 for onboard, >=0 for V4L2 device
 	
 	inline bool onboardCamera() const		{ return (mV4L2Device < 0); }
 };

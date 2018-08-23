@@ -165,7 +165,7 @@ bool glDisplay::initWindow()
 	if( !win )
 		return false;
 
-	XStoreName(mDisplayX, win, "NVIDIA Jetson TX1 | L4T R24.1 aarch64 | Ubuntu 14.04 LTS");
+	XStoreName(mDisplayX, win, "NVIDIA Jetson | JetPack-L4T");
 	XMapWindow(mDisplayX, win);
 
 	// cleanup

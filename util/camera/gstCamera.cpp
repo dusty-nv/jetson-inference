@@ -40,6 +40,18 @@
 #include "tensorNet.h"
 
 
+
+// gstCameraSrcToString
+const char* gstCameraSrcToString( gstCameraSrc src )
+{
+	if( src == GST_SOURCE_NVCAMERA )		return "GST_SOURCE_NVCAMERA";
+	else if( src == GST_SOURCE_NVARGUS )	return "GST_SOURCE_NVARGUS";
+	else if( src == GST_SOURCE_V4L2 )		return "GST_SOURCE_V4L2";
+
+	return "UNKNOWN";
+}
+
+
 // constructor
 gstCamera::gstCamera()
 {	
@@ -52,7 +64,8 @@ gstCamera::gstCamera()
 	mHeight = 0;
 	mDepth  = 0;
 	mSize   = 0;
-	
+	mSource = GST_SOURCE_NVCAMERA;
+
 	mWaitEvent  = new QWaitCondition();
 	mWaitMutex  = new QMutex();
 	mRingMutex  = new QMutex();
@@ -143,14 +156,14 @@ bool gstCamera::ConvertRGBA( void* input, void** output, bool zeroCopy )
 // onEOS
 void gstCamera::onEOS(_GstAppSink* sink, void* user_data)
 {
-	printf(LOG_GSTREAMER "gstreamer decoder onEOS\n");
+	printf(LOG_GSTREAMER "gstCamera onEOS\n");
 }
 
 
 // onPreroll
 GstFlowReturn gstCamera::onPreroll(_GstAppSink* sink, void* user_data)
 {
-	printf(LOG_GSTREAMER "gstreamer decoder onPreroll\n");
+	printf(LOG_GSTREAMER "gstCamera onPreroll\n");
 	return GST_FLOW_OK;
 }
 
@@ -158,7 +171,7 @@ GstFlowReturn gstCamera::onPreroll(_GstAppSink* sink, void* user_data)
 // onBuffer
 GstFlowReturn gstCamera::onBuffer(_GstAppSink* sink, void* user_data)
 {
-	//printf(LOG_GSTREAMER "gstreamer decoder onBuffer\n");
+	//printf(LOG_GSTREAMER "gstCamera onBuffer\n");
 	
 	if( !user_data )
 		return GST_FLOW_OK;
@@ -316,26 +329,30 @@ void gstCamera::checkBuffer()
 }
 
 
-
 // buildLaunchStr
-bool gstCamera::buildLaunchStr()
+bool gstCamera::buildLaunchStr( gstCameraSrc src )
 {
 	// gst-launch-1.0 nvcamerasrc fpsRange="30.0 30.0" ! 'video/x-raw(memory:NVMM), width=(int)1920, height=(int)1080, format=(string)I420, framerate=(fraction)30/1' ! \
 	// nvvidconv flip-method=2 ! 'video/x-raw(memory:NVMM), format=(string)I420' ! fakesink silent=false -v
+	// #define CAPS_STR "video/x-raw(memory:NVMM), width=(int)2592, height=(int)1944, format=(string)I420, framerate=(fraction)30/1"
+	// #define CAPS_STR "video/x-raw(memory:NVMM), width=(int)1920, height=(int)1080, format=(string)I420, framerate=(fraction)30/1"
 	std::ostringstream ss;
-	
-//#define CAPS_STR "video/x-raw(memory:NVMM), width=(int)2592, height=(int)1944, format=(string)I420, framerate=(fraction)30/1"
-//#define CAPS_STR "video/x-raw(memory:NVMM), width=(int)1920, height=(int)1080, format=(string)I420, framerate=(fraction)30/1"
 
-	if( onboardCamera() )
+	if( onboardCamera() && src != GST_SOURCE_V4L2 )
 	{
-	#if NV_TENSORRT_MAJOR > 1	// if JetPack 3.1 (different flip-method)
-		const int flipMethod = 0;
+		mSource = src;	 // store camera source method
+
+	#if NV_TENSORRT_MAJOR > 1 && NV_TENSORRT_MAJOR < 5	// if JetPack 3.1-3.3 (different flip-method)
+		const int flipMethod = 0;					// Xavier (w/TRT5) camera is mounted inverted
 	#else
 		const int flipMethod = 2;
-	#endif
-	
-		ss << "nvcamerasrc fpsRange=\"30.0 30.0\" ! video/x-raw(memory:NVMM), width=(int)" << mWidth << ", height=(int)" << mHeight << ", format=(string)NV12 ! nvvidconv flip-method=" << flipMethod << " ! "; //'video/x-raw(memory:NVMM), width=(int)1920, height=(int)1080, format=(string)I420, framerate=(fraction)30/1' ! ";
+	#endif	
+
+		if( src == GST_SOURCE_NVCAMERA )
+			ss << "nvcamerasrc fpsRange=\"30.0 30.0\" ! video/x-raw(memory:NVMM), width=(int)" << mWidth << ", height=(int)" << mHeight << ", format=(string)NV12 ! nvvidconv flip-method=" << flipMethod << " ! "; //'video/x-raw(memory:NVMM), width=(int)1920, height=(int)1080, format=(string)I420, framerate=(fraction)30/1' ! ";
+		else if( src == GST_SOURCE_NVARGUS )
+			ss << "nvarguscamerasrc ! video/x-raw(memory:NVMM), width=(int)" << mWidth << ", height=(int)" << mHeight << ", framerate=30/1, format=(string)NV12 ! nvvidconv flip-method=" << flipMethod << " ! ";
+		
 		ss << "video/x-raw ! appsink name=mysink";
 	}
 	else
@@ -344,11 +361,13 @@ bool gstCamera::buildLaunchStr()
 		ss << "video/x-raw, width=(int)" << mWidth << ", height=(int)" << mHeight << ", "; 
 		ss << "format=RGB ! videoconvert ! video/x-raw, format=RGB ! videoconvert !";
 		ss << "appsink name=mysink";
+
+		mSource = GST_SOURCE_V4L2;
 	}
 	
 	mLaunchStr = ss.str();
 
-	printf(LOG_GSTREAMER "gstreamer decoder pipeline string:\n");
+	printf(LOG_GSTREAMER "gstCamera pipeline string:\n");
 	printf("%s\n", mLaunchStr.c_str());
 	return true;
 }
@@ -374,12 +393,26 @@ gstCamera* gstCamera::Create( uint32_t width, uint32_t height, int v4l2_device )
 	cam->mDepth      = cam->onboardCamera() ? 12 : 24;	// NV12 or RGB
 	cam->mSize       = (width * height * cam->mDepth) / 8;
 
-	if( !cam->init() )
+	if( !cam->init(GST_SOURCE_NVCAMERA) )
 	{
-		printf(LOG_GSTREAMER "failed to init gstCamera\n");
-		return NULL;
+		printf(LOG_GSTREAMER "failed to init gstCamera (GST_SOURCE_NVCAMERA)\n");
+
+		if( !cam->init(GST_SOURCE_NVARGUS) )
+		{
+			printf(LOG_GSTREAMER "failed to init gstCamera (GST_SOURCE_NVARGUS)\n");
+
+			if( cam->mV4L2Device < 0 )
+				cam->mV4L2Device = 0;
+
+			if( !cam->init(GST_SOURCE_V4L2) )
+			{
+				printf(LOG_GSTREAMER "failed to init gstCamera (GST_SOURCE_V4L2)\n");
+				return NULL;
+			}
+		}
 	}
 	
+	printf(LOG_GSTREAMER "gstCamera successfully initialized with %s\n", gstCameraSrcToString(cam->mSource)); 
 	return cam;
 }
 
@@ -392,14 +425,15 @@ gstCamera* gstCamera::Create( int v4l2_device )
 
 
 // init
-bool gstCamera::init()
+bool gstCamera::init( gstCameraSrc src )
 {
 	GError* err = NULL;
+	printf(LOG_GSTREAMER "gstCamera attempting to initialize with %s\n", gstCameraSrcToString(src));
 
 	// build pipeline string
-	if( !buildLaunchStr() )
+	if( !buildLaunchStr(src) )
 	{
-		printf(LOG_GSTREAMER "gstreamer decoder failed to build pipeline string\n");
+		printf(LOG_GSTREAMER "gstCamera failed to build pipeline string\n");
 		return false;
 	}
 
@@ -408,7 +442,7 @@ bool gstCamera::init()
 
 	if( err != NULL )
 	{
-		printf(LOG_GSTREAMER "gstreamer decoder failed to create pipeline\n");
+		printf(LOG_GSTREAMER "gstCamera failed to create pipeline\n");
 		printf(LOG_GSTREAMER "   (%s)\n", err->message);
 		g_error_free(err);
 		return false;
