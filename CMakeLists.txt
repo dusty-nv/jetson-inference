@@ -38,7 +38,7 @@ set(
 	-gencode arch=compute_62,code=sm_62
 )
 
-if(CUDA_VERSION_MAJOR GREATER_EQUAL 10)
+if(CUDA_VERSION_MAJOR GREATER 9)
 	message("-- CUDA ${CUDA_VERSION_MAJOR} detected, enabling SM_72")
 
 	set(
