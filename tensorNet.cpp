@@ -121,7 +121,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	nvcaffeparser1::ICaffeParser* parser = nvcaffeparser1::createCaffeParser();
 
 	mEnableFP16 = (mOverride16 == true) ? false : builder->platformHasFastFp16();
-	printf(LOG_GIE "platform %s FP16 support.\n", mEnableFP16 ? "has" : "does not have");
+	printf(LOG_GIE "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
 	printf(LOG_GIE "loading %s %s\n", deployFile.c_str(), modelFile.c_str());
 	
 	nvinfer1::DataType modelDataType = mEnableFP16 ? nvinfer1::DataType::kHALF : nvinfer1::DataType::kFLOAT; // create a 16-bit model if it's natively supported
@@ -261,7 +261,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		if( builder != NULL )
 		{
 			mEnableFP16 = !mOverride16 && builder->platformHasFastFp16();
-			printf(LOG_GIE "platform %s FP16 support.\n", mEnableFP16 ? "has" : "does not have");
+			printf(LOG_GIE "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
 			builder->destroy();	
 		}
 	}
