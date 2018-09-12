@@ -173,7 +173,7 @@ int main( int argc, char** argv )
 			if( display != NULL )
 			{
 				char str[256];
-				sprintf(str, "TensorRT build %i.%i.%i | %s | %s | %04.1f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
+				sprintf(str, "TensorRT %i.%i.%i | %s | %s | %04.1f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
 				display->SetTitle(str);	
 			}	
 		}	
