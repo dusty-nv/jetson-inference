@@ -5,7 +5,8 @@ BUILD_ROOT=$PWD
 TORCH_PREFIX=$PWD/torch
 
 echo "[Pre-build]  dependency installer script running..."
-echo "[Pre-build]  build root directory:       $BUILD_ROOT"
+echo "[Pre-build]  build root directory:   $BUILD_ROOT"
+echo " "
 
 
 # break on errors
