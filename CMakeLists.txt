@@ -2,6 +2,16 @@
 cmake_minimum_required(VERSION 2.8)
 project(jetson-inference)
 
+# submodule warning
+message(" ")
+message("Note:  this project uses git submodules in the source tree.")
+message("       if you haven't already, run the following command from")
+message("       the project's root directory:")
+message(" ")
+message("           git submodule update --init") 
+message("\n")
+
+
 # setup tensorRT flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")	# -std=gnu++11
 set(BUILD_DEPS "YES" CACHE BOOL "If YES, will install dependencies into sandbox.  Automatically reset to NO after dependencies are installed.")
@@ -9,21 +19,15 @@ set(BUILD_DEPS "YES" CACHE BOOL "If YES, will install dependencies into sandbox.
 
 # if this is the first time running cmake, perform pre-build dependency install script (or if the user manually triggers re-building the dependencies)
 if( ${BUILD_DEPS} )
-	message("Launching pre-build dependency installer script...")
+	message("-- Launching pre-build dependency installer script...")
 
 	execute_process(COMMAND sh ../CMakePreBuild.sh
 				WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
 				RESULT_VARIABLE PREBUILD_SCRIPT_RESULT)
 
 	set(BUILD_DEPS "NO" CACHE BOOL "If YES, will install dependencies into sandbox.  Automatically reset to NO after dependencies are installed." FORCE)
-	message("Finished installing dependencies")
+	message("-- Finished installing dependencies")
 endif()
-
-
-# Qt is used to load images (installed by ubuntu-desktop)
-find_package(Qt4 REQUIRED)
-include(${QT_USE_FILE})
-add_definitions(${QT_DEFINITIONS})
 
 
 # setup CUDA
@@ -72,7 +76,7 @@ file(GLOB inferenceSources *.cpp *.cu util/*.cpp util/camera/*.cpp util/cuda/*.c
 file(GLOB inferenceIncludes *.h util/*.h util/camera/*.h util/cuda/*.h util/display/*.h)
 
 cuda_add_library(jetson-inference SHARED ${inferenceSources})
-target_link_libraries(jetson-inference nvcaffe_parser nvinfer Qt4::QtGui GL GLEW gstreamer-1.0 gstapp-1.0)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
+target_link_libraries(jetson-inference nvcaffe_parser nvinfer)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
 
 
 # transfer all headers to the include directory
@@ -110,11 +114,10 @@ add_subdirectory(detectnet-camera)
 add_subdirectory(segnet-console)
 add_subdirectory(segnet-camera)
 
-add_subdirectory(util/camera/gst-camera)
-add_subdirectory(util/camera/v4l2-console)
-add_subdirectory(util/camera/v4l2-display)
-
 add_subdirectory(docs)
+add_subdirectory(utils)
+
+target_link_libraries(jetson-inference jetson-utils)
 
 
 # install
@@ -123,8 +126,8 @@ foreach(include ${inferenceIncludes})
 endforeach()
 
 # install the shared library
-install(TARGETS jetson-inference DESTINATION lib/jetson-inference EXPORT jetson-inferenceConfig)
+#install(TARGETS jetson-inference DESTINATION lib/jetson-inference EXPORT jetson-inferenceConfig)
 
 # install the cmake project, for importing
-install(EXPORT jetson-inferenceConfig DESTINATION share/jetson-inference/cmake)
+#install(EXPORT jetson-inferenceConfig DESTINATION share/jetson-inference/cmake)
 
