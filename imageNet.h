@@ -60,7 +60,9 @@ public:
 	/**
 	 * Load a new network instance
 	 */
-	static imageNet* Create( NetworkType networkType=GOOGLENET, uint32_t maxBatchSize=2 );
+	static imageNet* Create( NetworkType networkType=GOOGLENET, uint32_t maxBatchSize=2, 
+						precisionType precision=TYPE_FASTEST,
+				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
 	 * Load a new network instance
@@ -75,7 +77,8 @@ public:
 						const char* mean_binary, const char* class_labels, 
 						const char* input=IMAGENET_DEFAULT_INPUT, 
 						const char* output=IMAGENET_DEFAULT_OUTPUT, 
-						uint32_t maxBatchSize=2 );
+						uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
 	 * Load a new network instance by parsing the command line.
@@ -125,8 +128,8 @@ public:
 protected:
 	imageNet();
 	
-	bool init( NetworkType networkType, uint32_t maxBatchSize );
-	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize );
+	bool init( NetworkType networkType, uint32_t maxBatchSize, precisionType precision=TYPE_FASTEST, deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
+	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision=TYPE_FASTEST, deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	bool loadClassInfo( const char* filename );
 	
 	uint32_t mCustomClasses;

@@ -53,6 +53,48 @@ typedef nvinfer1::Dims3 Dims3;
 
 
 /**
+ * Default maximum batch size
+ */
+#define DEFAULT_MAX_BATCH_SIZE  2
+
+
+/**
+ * Enumeration for indicating the desired precision that
+ * the network should run in, if available in hardware.
+ */
+enum precisionType
+{
+	TYPE_FASTEST = 0,	/**< The fastest detected precision should be use (i.e. try INT8, then FP16, then FP32) */
+	TYPE_FP32,		/**< 32-bit floating-point precision (FP32) */
+	TYPE_FP16,		/**< 16-bit floating-point half precision (FP16) */
+	TYPE_INT8			/**< 8-bit integer precision (INT8) */
+};
+
+/**
+ * Stringize function that returns precisionType in text.
+ */
+const char* precisionTypeToStr( precisionType type );
+
+
+/**
+ * Enumeration for indicating the desired device that 
+ * the network should run on, if available in hardware.
+ */
+enum deviceType
+{
+	DEVICE_GPU = 0,			/**< GPU (if multiple GPUs are present, a specific GPU can be selected with cudaSetDevice() */
+	DEVICE_DLA,				/**< Deep Learning Accelerator (DLA) Core 0 (only on Jetson Xavier) */
+	DEVICE_DLA_0 = DEVICE_DLA,	/**< Deep Learning Accelerator (DLA) Core 0 (only on Jetson Xavier) */
+	DEVICE_DLA_1				/**< Deep Learning Accelerator (DLA) Core 1 (only on Jetson Xavier) */
+};
+
+/**
+ * Stringize function that returns deviceType in text.
+ */
+const char* deviceTypeToStr( deviceType type );
+
+
+/**
  * Abstract class for loading a tensor network with TensorRT.
  * For example implementations, @see imageNet and @see detectNet
  * @ingroup deepVision
@@ -75,8 +117,9 @@ public:
 	 * @param maxBatchSize The maximum batch size that the network will be optimized for.
 	 */
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean=NULL,
-				      const char* input_blob="data", const char* output_blob="prob",
-					  uint32_t maxBatchSize=2 );
+				   const char* input_blob="data", const char* output_blob="prob",
+				   uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+				   deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 
 	/**
 	 * Load a new network instance with multiple output layers
@@ -88,8 +131,9 @@ public:
 	 * @param maxBatchSize The maximum batch size that the network will be optimized for.
 	 */
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean,
-				      const char* input_blob, const std::vector<std::string>& output_blobs,
-					  uint32_t maxBatchSize=2 );
+				   const char* input_blob, const std::vector<std::string>& output_blobs,
+				   uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+				   deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 
 	/**
 	 * Manually enable layer profiling times.	
@@ -102,16 +146,45 @@ public:
 	void EnableDebug();
 
 	/**
-	 * Manually disable FP16 for debugging purposes.
+ 	 * Return true if GPU fallback is enabled.
 	 */
-	void DisableFP16();
+	inline bool AllowGPUFallback() const				{ return mAllowGPUFallback; }
 
 	/**
- 	 * Query for half-precision FP16 support.
+ 	 * Retrieve the device being used for execution.
 	 */
-	inline bool HasFP16() const		{ return mEnableFP16; }
+	inline deviceType GetDevice() const				{ return mDevice; }
 
+	/**
+	 * Retrieve the type of precision being used.
+	 */
+	inline precisionType GetPrecision() const			{ return mPrecision; }
+
+	/**
+	 * Check if a particular precision is being used.
+	 */
+	inline bool IsPrecision( precisionType type ) const	{ return (mPrecision == type); }
+
+	/**
+	 * Determine the fastest native precision on a device.
+	 */
+	static precisionType FindFastestPrecision( deviceType device=DEVICE_GPU );
+
+	/**
+	 * Detect the precisions supported natively on a device.
+	 */
+	static std::vector<precisionType> DetectNativePrecisions( deviceType device=DEVICE_GPU );
 	
+	/**
+	 * Detect if a particular precision is supported natively.
+	 */
+	static bool DetectNativePrecision( const std::vector<precisionType>& nativeTypes, precisionType type );
+
+	/**
+	 * Detect if a particular precision is supported natively.
+	 */
+	static bool DetectNativePrecision( precisionType precision, deviceType device=DEVICE_GPU );
+
 protected:
 
 	/**
@@ -130,14 +203,16 @@ protected:
 	 * @param modelStream output model stream
 	 */
 	bool ProfileModel( const std::string& deployFile, const std::string& modelFile,
-				    const std::vector<std::string>& outputs,
-				    uint32_t maxBatchSize, std::ostream& modelStream);
+				    const std::vector<std::string>& outputs, uint32_t maxBatchSize, 
+				    precisionType precision, deviceType device, bool allowGPUFallback,
+				    std::ostream& modelStream);
 				
 	/**
 	 * Prefix used for tagging printed log output
 	 */
 	#define LOG_GIE "[TRT]  "
-	
+	#define LOG_TRT LOG_GIE
+
 	/**
 	 * Logger class for GIE info/warning/errors
 	 */
@@ -181,6 +256,9 @@ protected:
 	std::string mMeanPath;
 	std::string mInputBlobName;
 
+	deviceType    mDevice;
+	precisionType mPrecision;
+
 	nvinfer1::IRuntime* mInfer;
 	nvinfer1::ICudaEngine* mEngine;
 	nvinfer1::IExecutionContext* mContext;
@@ -191,11 +269,10 @@ protected:
 	float*   mInputCPU;
 	float*   mInputCUDA;
 	uint32_t mMaxBatchSize;
-	bool	 mEnableProfiler;
+	bool	    mEnableProfiler;
 	bool     mEnableDebug;
-	bool	 mEnableFP16;
-	bool     mOverride16;
-	
+	bool	    mAllowGPUFallback;
+
 	Dims3 mInputDims;
 	
 	struct outputLayer

@@ -37,6 +37,53 @@
 #endif
 
 
+//---------------------------------------------------------------------
+const char* precisionTypeToStr( precisionType type )
+{
+	switch(type)
+	{
+		case TYPE_FASTEST:	return "FASTEST";
+		case TYPE_FP32:	return "FP32";
+		case TYPE_FP16:	return "FP16";
+		case TYPE_INT8:	return "INT8";
+	}
+}
+
+const char* deviceTypeToStr( deviceType type )
+{
+	switch(type)
+	{
+		case DEVICE_GPU:	return "GPU";	
+		case DEVICE_DLA_0:	return "DLA_0";
+		case DEVICE_DLA_1:	return "DLA_1";
+	}
+}
+
+static inline nvinfer1::DataType precisionTypeToTRT( precisionType type )
+{
+	switch(type)
+	{
+		case TYPE_FP16:	return nvinfer1::DataType::kHALF;
+		case TYPE_INT8:	return nvinfer1::DataType::kINT8;
+	}
+
+	return nvinfer1::DataType::kFLOAT;
+}
+
+#if NV_TENSORRT_MAJOR >= 5
+static inline nvinfer1::DeviceType deviceTypeToTRT( deviceType type )
+{
+	switch(type)
+	{
+		case DEVICE_GPU:	return nvinfer1::DeviceType::kGPU;
+		//case DEVICE_DLA:	return nvinfer1::DeviceType::kDLA;
+		case DEVICE_DLA_0:	return nvinfer1::DeviceType::kDLA0;
+		case DEVICE_DLA_1:	return nvinfer1::DeviceType::kDLA1;
+	}
+}
+#endif
+//---------------------------------------------------------------------
+
 // constructor
 tensorNet::tensorNet()
 {
@@ -52,8 +99,10 @@ tensorNet::tensorNet()
 	mInputCUDA      = NULL;
 	mEnableDebug    = false;
 	mEnableProfiler = false;
-	mEnableFP16     = false;
-	mOverride16     = false;
+
+	mPrecision 	   = TYPE_FASTEST;
+	mDevice    	   = DEVICE_GPU;
+	mAllowGPUFallback = false;
 
 #if NV_TENSORRT_MAJOR < 2
 	memset(&mInputDims, 0, sizeof(Dims3));
@@ -95,19 +144,100 @@ void tensorNet::EnableDebug()
 }
 
 
-// DisableFP16 (i.e. for debugging or unsupported network)
-void tensorNet::DisableFP16()
+// DetectNativePrecisions()
+std::vector<precisionType> tensorNet::DetectNativePrecisions( deviceType device )
 {
-	mOverride16 = true;
+	std::vector<precisionType> types;
+	Logger logger;
+
+	// create a temporary builder for querying the supported types
+	nvinfer1::IBuilder* builder = CREATE_INFER_BUILDER(logger);
+		
+	if( !builder )
+	{
+		printf(LOG_TRT "QueryNativePrecisions() failed to create TensorRT IBuilder instance\n");
+		return types;
+	}
+
+#if NV_TENSORRT_MAJOR >= 5
+	builder->setDefaultDeviceType( deviceTypeToTRT(device) );
+#endif
+
+	// FP32 is supported on all platforms
+	types.push_back(TYPE_FP32);
+
+	// detect fast (native) FP16
+	if( builder->platformHasFastFp16() )
+		types.push_back(TYPE_FP16);
+
+	// detect fast (native) INT8
+	if( builder->platformHasFastInt8() )
+		types.push_back(TYPE_INT8);
+
+	// print out supported precisions (optional)
+	const uint32_t numTypes = types.size();
+
+	printf(LOG_TRT "native precisions detected for %s:  ", deviceTypeToStr(device));
+ 
+	for( uint32_t n=0; n < numTypes; n++ )
+	{
+		printf("%s", precisionTypeToStr(types[n]));
+
+		if( n < numTypes - 1 )
+			printf(", ");
+	}
+
+	printf("\n");
+	builder->destroy();
+	return types;
+}
+
+
+// DetectNativePrecision
+bool tensorNet::DetectNativePrecision( const std::vector<precisionType>& types, precisionType type )
+{
+	const uint32_t numTypes = types.size();
+
+	for( uint32_t n=0; n < numTypes; n++ )
+	{
+		if( types[n] == type )
+			return true;
+	}
+
+	return false;
+}
+
+
+// DetectNativePrecision
+bool tensorNet::DetectNativePrecision( precisionType precision, deviceType device )
+{
+	std::vector<precisionType> types = DetectNativePrecisions(device);
+	return DetectNativePrecision(types, precision);
+}
+
+
+// FindFastestPrecision
+precisionType tensorNet::FindFastestPrecision( deviceType device )
+{
+	std::vector<precisionType> types = DetectNativePrecisions(device);
+
+	if( DetectNativePrecision(types, TYPE_INT8) )
+		return TYPE_INT8;
+	else if( DetectNativePrecision(types, TYPE_FP16) )
+		return TYPE_FP16;
+	else
+		return TYPE_FP32;
 }
 
 
 // Create an optimized GIE network from caffe prototxt and model file
 bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caffe prototxt
-					         const std::string& modelFile,			   // name for model 
-					         const std::vector<std::string>& outputs,   // network outputs
-					         unsigned int maxBatchSize,				   // batch size - NB must be at least as large as the batch we want to run with)
-					         std::ostream& gieModelStream)			   // output stream for the GIE model
+					    const std::string& modelFile,			   // name for model 
+					    const std::vector<std::string>& outputs,   // network outputs
+					    unsigned int maxBatchSize,				   // batch size - NB must be at least as large as the batch we want to run with
+					    precisionType precision, 
+					    deviceType device, bool allowGPUFallback,	
+					    std::ostream& gieModelStream)			   // output stream for the GIE model
 {
 	// create API root class - must span the lifetime of the engine usage
 	nvinfer1::IBuilder* builder = CREATE_INFER_BUILDER(gLogger);
@@ -120,11 +250,11 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	// parse the caffe model to populate the network, then set the outputs
 	nvcaffeparser1::ICaffeParser* parser = nvcaffeparser1::createCaffeParser();
 
-	mEnableFP16 = (mOverride16 == true) ? false : builder->platformHasFastFp16();
-	printf(LOG_GIE "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
+	//mEnableFP16 = (mOverride16 == true) ? false : builder->platformHasFastFp16();
+	//printf(LOG_GIE "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
 	printf(LOG_GIE "loading %s %s\n", deployFile.c_str(), modelFile.c_str());
 	
-	nvinfer1::DataType modelDataType = mEnableFP16 ? nvinfer1::DataType::kHALF : nvinfer1::DataType::kFLOAT; // create a 16-bit model if it's natively supported
+	nvinfer1::DataType modelDataType = (precision == TYPE_FP16) ? nvinfer1::DataType::kHALF : nvinfer1::DataType::kFLOAT; // import INT8 weights as FP32
 	const nvcaffeparser1::IBlobNameToTensor *blobNameToTensor =
 		parser->parse(deployFile.c_str(),		// caffe deploy file
 					  modelFile.c_str(),		// caffe model file
@@ -152,15 +282,31 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		network->markOutput(*tensor);
 	}
 
-	// Build the engine
+	// build the engine
 	printf(LOG_GIE "configuring CUDA engine\n");
 		
 	builder->setMaxBatchSize(maxBatchSize);
 	builder->setMaxWorkspaceSize(16 << 20);
 
-	// set up the network for paired-fp16 format
-	if(mEnableFP16)
+	// set the default device type
+#if NV_TENSORRT_MAJOR >= 5
+	builder->setDefaultDeviceType(deviceTypeToTRT(device));
+
+	if( allowGPUFallback )
+		builder->allowGPUFallback(true);
+#endif
+
+	// set up the builder for the desired precision
+	if( precision == TYPE_INT8 )
+	{
+		builder->setInt8Mode(true);
+		//builder->setFp16Mode(true);
+	}
+	else if( precision == TYPE_FP16 )
+	{
 		builder->setHalf2Mode(true);
+		builder->setFp16Mode(true);
+	}
 
 	printf(LOG_GIE "building CUDA engine\n");
 	nvinfer1::ICudaEngine* engine = builder->buildCudaEngine(*network);
@@ -173,9 +319,9 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 	printf(LOG_GIE "completed building CUDA engine\n");
 
-	// we don't need the network any more, and we can destroy the parser
+	// we don't need the network definition any more, and we can destroy the parser
 	network->destroy();
-	parser->destroy(); //delete parser;
+	parser->destroy();
 
 	// serialize the engine, then close everything down
 #if NV_TENSORRT_MAJOR > 1
@@ -191,28 +337,30 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 #else
 	engine->serialize(gieModelStream);
 #endif
+
 	engine->destroy();
 	builder->destroy();
-	
 	return true;
 }
 
 
 // LoadNetwork
 bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, const char* mean_path, 
-							 const char* input_blob, const char* output_blob, uint32_t maxBatchSize )
+					    const char* input_blob, const char* output_blob, uint32_t maxBatchSize,
+					    precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	std::vector<std::string> outputs;
 	outputs.push_back(output_blob);
 	
-	return LoadNetwork(prototxt_path, model_path, mean_path, input_blob, outputs, maxBatchSize );
+	return LoadNetwork(prototxt_path, model_path, mean_path, input_blob, outputs, maxBatchSize, precision, device, allowGPUFallback );
 }
 
-				  
+		  
 // LoadNetwork
 bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, const char* mean_path, 
-							 const char* input_blob, const std::vector<std::string>& output_blobs, 
-							 uint32_t maxBatchSize )
+					    const char* input_blob, const std::vector<std::string>& output_blobs, 
+					    uint32_t maxBatchSize, precisionType precision,
+				   	    deviceType device, bool allowGPUFallback )
 {
 	if( !prototxt_path || !model_path )
 		return false;
@@ -220,14 +368,24 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	printf(LOG_GIE "TensorRT version %u.%u.%u\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH);
 	
 	/*
+	 * if the precision is left unspecified, detect the fastest
+	 */
+	if( precision == TYPE_FASTEST )
+	{
+		precision = FindFastestPrecision(device);
+		printf(LOG_TRT "fastest native precision for %s:  %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
+	}
+		
+
+	/*
 	 * attempt to load network from cache before profiling with tensorRT
 	 */
 	std::stringstream gieModelStream;
 	gieModelStream.seekg(0, gieModelStream.beg);
 
 	char cache_path[512];
-	sprintf(cache_path, "%s.%u.tensorcache", model_path, maxBatchSize);
-	printf(LOG_GIE "attempting to open cache file %s\n", cache_path);
+	sprintf(cache_path, "%s.%u.%u.%s.%s.engine", model_path, maxBatchSize, (uint32_t)allowGPUFallback, deviceTypeToStr(device), precisionTypeToStr(precision));
+	printf(LOG_GIE "attempting to open engine cache file %s\n", cache_path);
 	
 	std::ifstream cache( cache_path );
 
@@ -235,41 +393,40 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	{
 		printf(LOG_GIE "cache file not found, profiling network model\n");
 	
-		if( !ProfileModel(prototxt_path, model_path, output_blobs, maxBatchSize, gieModelStream) )
+		if( !ProfileModel(prototxt_path, model_path, output_blobs, maxBatchSize, precision, device, allowGPUFallback, gieModelStream) )
 		{
 			printf("failed to load %s\n", model_path);
 			return 0;
 		}
 	
-		printf(LOG_GIE "network profiling complete, writing cache to %s\n", cache_path);
+		printf(LOG_GIE "network profiling complete, writing engine cache to %s\n", cache_path);
 		std::ofstream outFile;
 		outFile.open(cache_path);
 		outFile << gieModelStream.rdbuf();
 		outFile.close();
 		gieModelStream.seekg(0, gieModelStream.beg);
-		printf(LOG_GIE "completed writing cache to %s\n", cache_path);
+		printf(LOG_GIE "completed writing engine cache to %s\n", cache_path);
 	}
 	else
 	{
-		printf(LOG_GIE "loading network profile from cache... %s\n", cache_path);
+		printf(LOG_GIE "loading network profile from engine cache... %s\n", cache_path);
 		gieModelStream << cache.rdbuf();
 		cache.close();
 
 		// test for half FP16 support
-		nvinfer1::IBuilder* builder = CREATE_INFER_BUILDER(gLogger);
+		/*nvinfer1::IBuilder* builder = CREATE_INFER_BUILDER(gLogger);
 		
 		if( builder != NULL )
 		{
 			mEnableFP16 = !mOverride16 && builder->platformHasFastFp16();
 			printf(LOG_GIE "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
 			builder->destroy();	
-		}
+		}*/
 	}
 
 	printf(LOG_GIE "%s loaded\n", model_path);
 	
 
-	
 	/*
 	 * create runtime inference engine execution context
 	 */
@@ -347,10 +504,11 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	Dims3 inputDims = engine->getBindingDimensions(inputIndex);
 #endif
 
-	size_t inputSize  = maxBatchSize * DIMS_C(inputDims) * DIMS_H(inputDims) * DIMS_W(inputDims) * sizeof(float);
-	
+	size_t inputSize = maxBatchSize * DIMS_C(inputDims) * DIMS_H(inputDims) * DIMS_W(inputDims) * sizeof(float);
+
 	printf(LOG_GIE "%s input  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path, maxBatchSize, DIMS_C(inputDims), DIMS_H(inputDims), DIMS_W(inputDims), inputSize);
 	
+
 	/*
 	 * allocate memory to hold the input image
 	 */
@@ -365,6 +523,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	mHeight       = DIMS_H(inputDims);
 	mMaxBatchSize = maxBatchSize;
 	
+
 	/*
 	 * setup network output buffers
 	 */
@@ -409,7 +568,6 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	#endif
 
 		l.name = output_blobs[n];
-		
 		mOutputs.push_back(l);
 	}
 	
@@ -419,12 +577,15 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	DIMS_H(mInputDims) = DIMS_H(inputDims);
 	DIMS_C(mInputDims) = DIMS_C(inputDims);
 #else
-	mInputDims      = inputDims;
+	mInputDims        = inputDims;
 #endif
-	mPrototxtPath   = prototxt_path;
-	mModelPath      = model_path;
-	mInputBlobName  = input_blob;
-		
+	mPrototxtPath     = prototxt_path;
+	mModelPath        = model_path;
+	mInputBlobName    = input_blob;
+	mPrecision        = precision;
+	mDevice           = device;
+	mAllowGPUFallback = allowGPUFallback;
+
 	if( mean_path != NULL )
 		mMeanPath = mean_path;
 	

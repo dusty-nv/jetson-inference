@@ -42,7 +42,8 @@ imageNet::~imageNet()
 
 
 // Create
-imageNet* imageNet::Create( imageNet::NetworkType networkType, uint32_t maxBatchSize )
+imageNet* imageNet::Create( imageNet::NetworkType networkType, uint32_t maxBatchSize, 
+					   precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	imageNet* net = new imageNet();
 	
@@ -61,7 +62,8 @@ imageNet* imageNet::Create( imageNet::NetworkType networkType, uint32_t maxBatch
 
 // Create
 imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
-							const char* class_path, const char* input, const char* output, uint32_t maxBatchSize )
+					   const char* class_path, const char* input, const char* output, uint32_t maxBatchSize,
+					   precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	imageNet* net = new imageNet();
 	
@@ -79,7 +81,8 @@ imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, c
 
 
 // init
-bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize )
+bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize, 
+				 precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	/*const char* proto_file[] = { "networks/alexnet.prototxt", "networks/googlenet.prototxt" };
 	const char* model_file[] = { "networks/bvlc_alexnet.caffemodel", "networks/bvlc_googlenet.caffemodel" };
@@ -115,7 +118,9 @@ bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize )
 
 
 // init
-bool imageNet::init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize )
+bool imageNet::init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, 
+				const char* input, const char* output, uint32_t maxBatchSize,
+				precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	if( !prototxt_path || !model_path || !class_path || !input || !output )
 		return false;
@@ -132,7 +137,8 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 	/*
 	 * load and parse googlenet network definition and model file
 	 */
-	if( !tensorNet::LoadNetwork( prototxt_path, model_path, mean_binary, input, output, maxBatchSize ) )
+	if( !tensorNet::LoadNetwork( prototxt_path, model_path, mean_binary, input, output, 
+						    maxBatchSize, precision, device, allowGPUFallback ) )
 	{
 		printf("failed to load %s\n", model_path);
 		return false;
