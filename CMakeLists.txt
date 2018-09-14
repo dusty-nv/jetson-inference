@@ -114,6 +114,9 @@ add_subdirectory(detectnet-camera)
 add_subdirectory(segnet-console)
 add_subdirectory(segnet-camera)
 
+add_subdirectory(trt-bench)
+add_subdirectory(trt-console)
+
 add_subdirectory(docs)
 add_subdirectory(utils)
 
