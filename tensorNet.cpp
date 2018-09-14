@@ -323,8 +323,12 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		builder->setHalf2Mode(true);
 		builder->setFp16Mode(true);
 	}
-
+	
+	// build CUDA engine
+	printf(LOG_TRT "building FP16:  %s\n", builder->getFp16Mode() ? "ON" : "OFF"); 
+	printf(LOG_TRT "building INT8:  %s\n", builder->getInt8Mode() ? "ON" : "OFF"); 
 	printf(LOG_GIE "building CUDA engine\n");
+
 	nvinfer1::ICudaEngine* engine = builder->buildCudaEngine(*network);
 	
 	if( !engine )
@@ -389,7 +393,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	if( precision == TYPE_FASTEST )
 	{
 		precision = FindFastestPrecision(device);
-		printf(LOG_TRT "fastest native precision for %s:  %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
+		printf(LOG_TRT "selecting fastest native precision for %s:  %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
 	}
 		
 
