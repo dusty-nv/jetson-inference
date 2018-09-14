@@ -389,6 +389,8 @@ $ sudo apt-get install git cmake
 Then clone the jetson-inference repo:
 ``` bash
 $ git clone https://github.com/dusty-nv/jetson-inference
+$ cd jetson-inference
+$ git submodule update --init
 ```
 
 #### Configuring with CMake
@@ -396,7 +398,6 @@ $ git clone https://github.com/dusty-nv/jetson-inference
 When cmake is run, a special pre-installation script (CMakePreBuild.sh) is run and will automatically install any dependencies.
 
 ``` bash
-$ cd jetson-inference
 $ mkdir build
 $ cd build
 $ cmake ../
