@@ -55,7 +55,7 @@ typedef nvinfer1::Dims3 Dims3;
 /**
  * Default maximum batch size
  */
-#define DEFAULT_MAX_BATCH_SIZE  2
+#define MAX_BATCH_SIZE_DEFAULT  2
 
 
 /**
@@ -64,10 +64,12 @@ typedef nvinfer1::Dims3 Dims3;
  */
 enum precisionType
 {
-	TYPE_FASTEST = 0,	/**< The fastest detected precision should be use (i.e. try INT8, then FP16, then FP32) */
+	TYPE_DISABLED = 0,	/**< Unknown, unspecified, or disabled type */
+	TYPE_FASTEST,		/**< The fastest detected precision should be use (i.e. try INT8, then FP16, then FP32) */
 	TYPE_FP32,		/**< 32-bit floating-point precision (FP32) */
 	TYPE_FP16,		/**< 16-bit floating-point half precision (FP16) */
-	TYPE_INT8			/**< 8-bit integer precision (INT8) */
+	TYPE_INT8,		/**< 8-bit integer precision (INT8) */
+	NUM_PRECISIONS		/**< Number of precision types defined */
 };
 
 /**
@@ -75,6 +77,10 @@ enum precisionType
  */
 const char* precisionTypeToStr( precisionType type );
 
+/**
+ * Parse the precision type from a string.
+ */
+precisionType precisionTypeFromStr( const char* str );
 
 /**
  * Enumeration for indicating the desired device that 
@@ -85,13 +91,19 @@ enum deviceType
 	DEVICE_GPU = 0,			/**< GPU (if multiple GPUs are present, a specific GPU can be selected with cudaSetDevice() */
 	DEVICE_DLA,				/**< Deep Learning Accelerator (DLA) Core 0 (only on Jetson Xavier) */
 	DEVICE_DLA_0 = DEVICE_DLA,	/**< Deep Learning Accelerator (DLA) Core 0 (only on Jetson Xavier) */
-	DEVICE_DLA_1				/**< Deep Learning Accelerator (DLA) Core 1 (only on Jetson Xavier) */
+	DEVICE_DLA_1,				/**< Deep Learning Accelerator (DLA) Core 1 (only on Jetson Xavier) */
+	NUM_DEVICES				/**< Number of device types defined */
 };
 
 /**
  * Stringize function that returns deviceType in text.
  */
 const char* deviceTypeToStr( deviceType type );
+
+/**
+ * Parse the device type from a string.
+ */
+deviceType deviceTypeFromStr( const char* str );
 
 
 /**

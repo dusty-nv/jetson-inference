@@ -44,11 +44,37 @@ const char* precisionTypeToStr( precisionType type )
 {
 	switch(type)
 	{
+		case TYPE_DISABLED:	return "DISABLED";
 		case TYPE_FASTEST:	return "FASTEST";
 		case TYPE_FP32:	return "FP32";
 		case TYPE_FP16:	return "FP16";
 		case TYPE_INT8:	return "INT8";
 	}
+}
+
+precisionType precisionTypeFromStr( const char* str )
+{
+	if( !str )
+		return TYPE_DISABLED;
+
+	for( int n=0; n < NUM_PRECISIONS; n++ )
+	{
+		if( strcasecmp(str, precisionTypeToStr((precisionType)n)) == 0 )
+			return (precisionType)n;
+	}
+
+	return TYPE_DISABLED;
+}
+
+static inline nvinfer1::DataType precisionTypeToTRT( precisionType type )
+{
+	switch(type)
+	{
+		case TYPE_FP16:	return nvinfer1::DataType::kHALF;
+		case TYPE_INT8:	return nvinfer1::DataType::kINT8;
+	}
+
+	return nvinfer1::DataType::kFLOAT;
 }
 
 const char* deviceTypeToStr( deviceType type )
@@ -61,15 +87,21 @@ const char* deviceTypeToStr( deviceType type )
 	}
 }
 
-static inline nvinfer1::DataType precisionTypeToTRT( precisionType type )
+deviceType deviceTypeFromStr( const char* str )
 {
-	switch(type)
+	if( !str )
+		return DEVICE_GPU;
+
+ 	for( int n=0; n < NUM_DEVICES; n++ )
 	{
-		case TYPE_FP16:	return nvinfer1::DataType::kHALF;
-		case TYPE_INT8:	return nvinfer1::DataType::kINT8;
+		if( strcasecmp(str, deviceTypeToStr((deviceType)n)) == 0 )
+			return (deviceType)n;
 	}
 
-	return nvinfer1::DataType::kFLOAT;
+	if( strcasecmp(str, "DLA") == 0 )
+		return DEVICE_DLA;
+
+	return DEVICE_GPU;
 }
 
 #if NV_TENSORRT_MAJOR >= 5
@@ -300,13 +332,6 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	builder->setMaxBatchSize(maxBatchSize);
 	builder->setMaxWorkspaceSize(16 << 20);
 
-	// set the default device type
-#if NV_TENSORRT_MAJOR >= 5
-	builder->setDefaultDeviceType(deviceTypeToTRT(device));
-
-	if( allowGPUFallback )
-		builder->allowGPUFallback(true);
-#endif
 
 	// set up the builder for the desired precision
 	if( precision == TYPE_INT8 )
@@ -324,6 +349,15 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		builder->setFp16Mode(true);
 	}
 	
+
+	// set the default device type
+#if NV_TENSORRT_MAJOR >= 5
+	builder->setDefaultDeviceType(deviceTypeToTRT(device));
+
+	if( allowGPUFallback )
+		builder->allowGPUFallback(true);
+#endif
+
 	// build CUDA engine
 	printf(LOG_TRT "building FP16:  %s\n", builder->getFp16Mode() ? "ON" : "OFF"); 
 	printf(LOG_TRT "building INT8:  %s\n", builder->getInt8Mode() ? "ON" : "OFF"); 
@@ -390,12 +424,29 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	/*
 	 * if the precision is left unspecified, detect the fastest
 	 */
-	if( precision == TYPE_FASTEST )
+	printf(LOG_TRT "desired precision specified for %s: %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
+
+	if( precision == TYPE_DISABLED )
+	{
+		printf(LOG_TRT "skipping network specified with precision TYPE_DISABLE\n");
+		printf(LOG_TRT "please specify a valid precision to create the network\n");
+
+		return false;
+	}
+	else if( precision == TYPE_FASTEST )
 	{
 		precision = FindFastestPrecision(device);
 		printf(LOG_TRT "selecting fastest native precision for %s:  %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
 	}
-		
+	else
+	{
+		if( !DetectNativePrecision(precision, device) )
+		{
+			printf(LOG_TRT "precision %s is not supported for device %s\n", precisionTypeToStr(precision), deviceTypeToStr(device));
+			return false;
+		}
+	}
+
 
 	/*
 	 * attempt to load network from cache before profiling with tensorRT
@@ -410,7 +461,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	sprintf(cache_path, "%s.calibration", cache_prefix);
 	mCacheCalibrationPath = cache_path;
 	
-	sprintf(cache_path, "%s.%u.%u.%s.%s.engine", model_path, maxBatchSize, (uint32_t)allowGPUFallback, deviceTypeToStr(device), precisionTypeToStr(precision));
+	sprintf(cache_path, "%s.engine", cache_prefix);
 	mCacheEnginePath = cache_path;	
 	printf(LOG_GIE "attempting to open engine cache file %s\n", mCacheEnginePath.c_str());
 	
