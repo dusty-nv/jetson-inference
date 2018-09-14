@@ -255,6 +255,8 @@ protected:
 	std::string mModelPath;
 	std::string mMeanPath;
 	std::string mInputBlobName;
+	std::string mCacheEnginePath;
+	std::string mCacheCalibrationPath;
 
 	deviceType    mDevice;
 	precisionType mPrecision;

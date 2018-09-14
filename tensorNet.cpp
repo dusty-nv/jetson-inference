@@ -21,11 +21,13 @@
  */
  
 #include "tensorNet.h"
+#include "randInt8Calibrator.h"
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
 
 #include <iostream>
 #include <fstream>
+#include <map>
 
 
 #if NV_TENSORRT_MAJOR > 1
@@ -267,6 +269,16 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		return false;
 	}
 	
+	// extract the dimensions of the network input blobs
+	std::map<std::string, nvinfer1::Dims3> inputDimensions;
+
+	for( int i=0, n=network->getNbInputs(); i < n; i++ )
+	{
+		nvinfer1::Dims3 dims = static_cast<nvinfer1::Dims3&&>(network->getInput(i)->getDimensions());
+		inputDimensions.insert(std::make_pair(network->getInput(i)->getName(), dims));
+		std::cout << LOG_TRT << "Input \"" << network->getInput(i)->getName() << "\": " << dims.d[0] << "x" << dims.d[1] << "x" << dims.d[2] << std::endl;
+	}
+
 	// the caffe file has no notion of outputs, so we need to manually say which tensors the engine should generate	
 	const size_t num_outputs = outputs.size();
 	
@@ -300,7 +312,11 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	if( precision == TYPE_INT8 )
 	{
 		builder->setInt8Mode(true);
-		//builder->setFp16Mode(true);
+		//builder->setFp16Mode(true);		// TODO:  experiment for benefits of both INT8/FP16
+		
+		// create calibrator
+		randInt8Calibrator* calibrator = new randInt8Calibrator(1, mCacheCalibrationPath, inputDimensions);
+		builder->setInt8Calibrator(calibrator);
 	}
 	else if( precision == TYPE_FP16 )
 	{
@@ -383,11 +399,18 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	std::stringstream gieModelStream;
 	gieModelStream.seekg(0, gieModelStream.beg);
 
+	char cache_prefix[512];
 	char cache_path[512];
-	sprintf(cache_path, "%s.%u.%u.%s.%s.engine", model_path, maxBatchSize, (uint32_t)allowGPUFallback, deviceTypeToStr(device), precisionTypeToStr(precision));
-	printf(LOG_GIE "attempting to open engine cache file %s\n", cache_path);
+
+	sprintf(cache_prefix, "%s.%u.%u.%s.%s", model_path, maxBatchSize, (uint32_t)allowGPUFallback, deviceTypeToStr(device), precisionTypeToStr(precision));
+	sprintf(cache_path, "%s.calibration", cache_prefix);
+	mCacheCalibrationPath = cache_path;
 	
-	std::ifstream cache( cache_path );
+	sprintf(cache_path, "%s.%u.%u.%s.%s.engine", model_path, maxBatchSize, (uint32_t)allowGPUFallback, deviceTypeToStr(device), precisionTypeToStr(precision));
+	mCacheEnginePath = cache_path;	
+	printf(LOG_GIE "attempting to open engine cache file %s\n", mCacheEnginePath.c_str());
+	
+	std::ifstream cache( mCacheEnginePath );
 
 	if( !cache )
 	{
@@ -399,17 +422,17 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 			return 0;
 		}
 	
-		printf(LOG_GIE "network profiling complete, writing engine cache to %s\n", cache_path);
+		printf(LOG_GIE "network profiling complete, writing engine cache to %s\n", mCacheEnginePath.c_str());
 		std::ofstream outFile;
-		outFile.open(cache_path);
+		outFile.open(mCacheEnginePath);
 		outFile << gieModelStream.rdbuf();
 		outFile.close();
 		gieModelStream.seekg(0, gieModelStream.beg);
-		printf(LOG_GIE "completed writing engine cache to %s\n", cache_path);
+		printf(LOG_GIE "completed writing engine cache to %s\n", mCacheEnginePath.c_str());
 	}
 	else
 	{
-		printf(LOG_GIE "loading network profile from engine cache... %s\n", cache_path);
+		printf(LOG_GIE "loading network profile from engine cache... %s\n", mCacheEnginePath.c_str());
 		gieModelStream << cache.rdbuf();
 		cache.close();
 
