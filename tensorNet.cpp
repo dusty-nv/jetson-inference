@@ -345,7 +345,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	}
 	else if( precision == TYPE_FP16 )
 	{
-		builder->setHalf2Mode(true);
+		//builder->setHalf2Mode(true);
 		builder->setFp16Mode(true);
 	}
 	
