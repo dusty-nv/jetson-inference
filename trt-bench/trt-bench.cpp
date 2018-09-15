@@ -147,7 +147,7 @@ int main( int argc, char** argv )
 			continue;
 
 		// create network instance on the specified device
-		imageNet* net = imageNet::Create( imageNet::ALEXNET, MAX_BATCH_SIZE_DEFAULT,
+		imageNet* net = imageNet::Create( imageNet::ALEXNET, /*MAX_BATCH_SIZE_DEFAULT*/ 1,
 								    precisions[n], (deviceType)n, allowGPUFallback );
 
 		if( !net )
