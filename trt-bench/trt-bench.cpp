@@ -32,7 +32,7 @@
 #include <unistd.h>
 
 
-uint64_t imagesProcessed = 0;
+uint64_t imagesProcessed[NUM_DEVICES];
 
 
 // exit handler
@@ -49,7 +49,7 @@ void sig_handler(int signo)
 
 
 // thread entry
-static void* process( void* param )
+void* process( void* param )
 {
 	if( !param )
 	{
@@ -58,19 +58,22 @@ static void* process( void* param )
 	}
 
 	imageNet* net = (imageNet*)param;
-	printf("%s thread started\n", deviceTypeToStr(net->GetDevice()));
+	deviceType dev = net->GetDevice();
+	const char* str = deviceTypeToStr(dev);
+
+	printf("%s thread started\n", str);
 
 	while( !signal_recieved )
 	{
-		//printf("processing %s\n", deviceTypeToStr(net->GetDevice()));
-
 		if( !net->Process() )
-			printf("%s network failed to process\n", deviceTypeToStr(net->GetDevice()));
+			printf("%s network failed to process\n", str);
 
-		imagesProcessed++;
+		imagesProcessed[dev]++;
+
+		//printf("images %s %lu\n", str, imagesProcessed[dev]);
 	}
 
-	printf("exiting %s thread\n", deviceTypeToStr(net->GetDevice()));
+	printf("exiting %s thread\n", str);
 }
 
 
@@ -147,8 +150,17 @@ int main( int argc, char** argv )
 			continue;
 
 		// create network instance on the specified device
-		imageNet* net = imageNet::Create( imageNet::ALEXNET, /*MAX_BATCH_SIZE_DEFAULT*/ 1,
+#if 0
+		imageNet* net = imageNet::Create( "networks/alexnet_noprob.prototxt", "networks/bvlc_alexnet.caffemodel", 
+								    NULL, "networks/ilsvrc12_synset_words.txt", 
+								    "data", "fc8", 1 /*MAX_BATCH_SIZE_DEFAULT*/,
 								    precisions[n], (deviceType)n, allowGPUFallback );
+#else
+		imageNet* net = imageNet::Create( "networks/googlenet_noprob.prototxt", "networks/bvlc_googlenet.caffemodel", 
+							    		NULL, "networks/ilsvrc12_synset_words.txt", 
+							    		"data", "loss3/classifier", 1 /*MAX_BATCH_SIZE_DEFAULT*/,
+							    		precisions[n], (deviceType)n, allowGPUFallback );
+#endif
 
 		if( !net )
 		{
@@ -160,10 +172,14 @@ int main( int argc, char** argv )
 		if( !net->PreProcess(imgCUDA, imgWidth, imgHeight) )
 			printf("imageNet::PreProcess() failed for device %s\n", deviceTypeToStr((deviceType)n)); 
 
+		// put the networks on their own streams for concurrent execution
+		net->CreateStream();
+
 		networks.push_back(net);
 	}
 
 	const int numNetworks = networks.size();
+	memset(imagesProcessed, 0, sizeof(imagesProcessed));
 
 
 	/*
@@ -174,36 +190,59 @@ int main( int argc, char** argv )
 	for( int n=0; n < numNetworks; n++ )
 	{
 		Thread* thread = new Thread();
+		imageNet* net  = networks[n];
 
 		if( !thread )
 		{
-			printf("failed to allocate %s thread\n", deviceTypeToStr(networks[n]->GetDevice()));
+			printf("failed to allocate %s thread\n", deviceTypeToStr(net->GetDevice()));
 			continue;
 		}
 
 		threads.push_back(thread);
 
-		if( !thread->StartThread(&process, (void*)networks[n]) )
-			printf("failed to start %s thread\n", deviceTypeToStr(networks[n]->GetDevice()));
+		if( !thread->StartThread(&process, (void*)net) )
+			printf("failed to start %s thread\n", deviceTypeToStr(net->GetDevice()));
 	}
 		
 
 	/*
 	 * run until user quits
 	 */
-	const timespec timeBegin = timestamp();
+	timespec timeBegin = timestamp();
 
 	while( !signal_recieved )
 	{
 		sleep(1);
 		
+		uint64_t totalImages = 0;
+
+		for( int n=0; n < NUM_DEVICES; n++ )
+			totalImages += imagesProcessed[n];
+
 		const timespec timeNow = timestamp();
 		const timespec timeElapsed = timeDiff(timeBegin, timeNow);
 
 		const double seconds = timeElapsed.tv_sec + double(timeElapsed.tv_nsec)*double(1e-9);
-		const double imagesPerSec = double(imagesProcessed) / seconds;
+		const double imagesPerSec = double(totalImages) / seconds;
 
-		printf("%f images per second  (%lu images in %f seconds)\n", imagesPerSec, imagesProcessed, seconds);
+		printf("%f img/sec  (", imagesPerSec);
+
+		for( int n=0; n < numNetworks; n++ )
+		{
+			const deviceType dev = networks[n]->GetDevice();
+			printf("%s %f img/sec", deviceTypeToStr(dev), double(imagesProcessed[dev]) / seconds);
+
+			if( n < numNetworks - 1 )
+				printf(", ");
+		}
+
+		printf(")\n");
+		
+		if( timeElapsed.tv_sec >= 5 )
+		{
+			timeBegin = timestamp();
+			memset(imagesProcessed, 0, sizeof(imagesProcessed));
+		}
 	}
 
 

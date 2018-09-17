@@ -118,6 +118,7 @@ public:
 
 	/**
 	 * Process the network, without determining the classification argmax.
+	 * To perform the actual classification via post-processing, Classify() should be used instead.
 	 */
 	bool Process();
 

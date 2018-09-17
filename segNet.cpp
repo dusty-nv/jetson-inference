@@ -338,8 +338,7 @@ int segNet::FindClassID( const char* label_name )
 
 
 // declaration from imageNet.cu
-cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight );
-
+cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, cudaStream_t stream );	
 
 
 
@@ -353,7 +352,7 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 	}
 
 	// downsample and convert to band-sequential BGR
-	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight)) )
+	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
 	{
 		printf("segNet::Overlay() -- cudaPreImageNet failed\n");
 		return false;

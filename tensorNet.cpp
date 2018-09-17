@@ -124,7 +124,8 @@ tensorNet::tensorNet()
 	mEngine  = NULL;
 	mInfer   = NULL;
 	mContext = NULL;
-	
+	mStream  = NULL;
+
 	mWidth          = 0;
 	mHeight         = 0;
 	mInputSize      = 0;
@@ -137,6 +138,8 @@ tensorNet::tensorNet()
 	mPrecision 	   = TYPE_FASTEST;
 	mDevice    	   = DEVICE_GPU;
 	mAllowGPUFallback = false;
+
+	memset(mEvents, 0, sizeof(mEvents));
 
 #if NV_TENSORRT_MAJOR < 2
 	memset(&mInputDims, 0, sizeof(Dims3));
@@ -194,6 +197,9 @@ std::vector<precisionType> tensorNet::DetectNativePrecisions( deviceType device 
 	}
 
 #if NV_TENSORRT_MAJOR >= 5
+	if( device == DEVICE_DLA_0 || device == DEVICE_DLA_1 )
+		builder->setFp16Mode(true);
+
 	builder->setDefaultDeviceType( deviceTypeToTRT(device) );
 #endif
 
@@ -251,11 +257,11 @@ bool tensorNet::DetectNativePrecision( precisionType precision, deviceType devic
 
 
 // FindFastestPrecision
-precisionType tensorNet::FindFastestPrecision( deviceType device )
+precisionType tensorNet::FindFastestPrecision( deviceType device, bool allowInt8 )
 {
 	std::vector<precisionType> types = DetectNativePrecisions(device);
 
-	if( DetectNativePrecision(types, TYPE_INT8) )
+	if( allowInt8 && DetectNativePrecision(types, TYPE_INT8) )
 		return TYPE_INT8;
 	else if( DetectNativePrecision(types, TYPE_FP16) )
 		return TYPE_FP16;
@@ -267,10 +273,11 @@ precisionType tensorNet::FindFastestPrecision( deviceType device )
 // Create an optimized GIE network from caffe prototxt and model file
 bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caffe prototxt
 					    const std::string& modelFile,			   // name for model 
-					    const std::vector<std::string>& outputs,   // network outputs
-					    unsigned int maxBatchSize,				   // batch size - NB must be at least as large as the batch we want to run with
+					    const std::vector<std::string>& outputs,    // network outputs
+					    unsigned int maxBatchSize,			   // batch size - NB must be at least as large as the batch we want to run with
 					    precisionType precision, 
-					    deviceType device, bool allowGPUFallback,	
+					    deviceType device, bool allowGPUFallback,
+					    nvinfer1::IInt8Calibrator* calibrator, 	
 					    std::ostream& gieModelStream)			   // output stream for the GIE model
 {
 	// create API root class - must span the lifetime of the engine usage
@@ -308,7 +315,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	{
 		nvinfer1::Dims3 dims = static_cast<nvinfer1::Dims3&&>(network->getInput(i)->getDimensions());
 		inputDimensions.insert(std::make_pair(network->getInput(i)->getName(), dims));
-		std::cout << LOG_TRT << "Input \"" << network->getInput(i)->getName() << "\": " << dims.d[0] << "x" << dims.d[1] << "x" << dims.d[2] << std::endl;
+		std::cout << LOG_TRT << "retrieved Input tensor \"" << network->getInput(i)->getName() << "\":  " << dims.d[0] << "x" << dims.d[1] << "x" << dims.d[2] << std::endl;
 	}
 
 	// the caffe file has no notion of outputs, so we need to manually say which tensors the engine should generate	
@@ -319,9 +326,12 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		nvinfer1::ITensor* tensor = blobNameToTensor->find(outputs[n].c_str());
 	
 		if( !tensor )
-			printf(LOG_GIE "failed to retrieve tensor for output '%s'\n", outputs[n].c_str());
+			printf(LOG_GIE "failed to retrieve tensor for Output \"%s\"\n", outputs[n].c_str());
 		else
-			printf(LOG_GIE "retrieved output tensor '%s'\n", tensor->getName());
+		{
+			nvinfer1::Dims3 dims = static_cast<nvinfer1::Dims3&&>(tensor->getDimensions());
+			printf(LOG_GIE "retrieved Output tensor \"%s\":  %ix%ix%i\n", tensor->getName(), dims.d[0], dims.d[1], dims.d[2]);
+		}
 
 		network->markOutput(*tensor);
 	}
@@ -339,8 +349,12 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		builder->setInt8Mode(true);
 		//builder->setFp16Mode(true);		// TODO:  experiment for benefits of both INT8/FP16
 		
-		// create calibrator
-		randInt8Calibrator* calibrator = new randInt8Calibrator(1, mCacheCalibrationPath, inputDimensions);
+		if( !calibrator )
+		{
+			calibrator = new randInt8Calibrator(1, mCacheCalibrationPath, inputDimensions);
+			printf(LOG_TRT "warning:  using INT8 precision with RANDOM calibration\n");
+		}
+
 		builder->setInt8Calibrator(calibrator);
 	}
 	else if( precision == TYPE_FP16 )
@@ -401,7 +415,8 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 // LoadNetwork
 bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, const char* mean_path, 
 					    const char* input_blob, const char* output_blob, uint32_t maxBatchSize,
-					    precisionType precision, deviceType device, bool allowGPUFallback )
+					    precisionType precision, deviceType device, bool allowGPUFallback,
+					    nvinfer1::IInt8Calibrator* calibrator, cudaStream_t stream )
 {
 	std::vector<std::string> outputs;
 	outputs.push_back(output_blob);
@@ -414,7 +429,8 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, const char* mean_path, 
 					    const char* input_blob, const std::vector<std::string>& output_blobs, 
 					    uint32_t maxBatchSize, precisionType precision,
-				   	    deviceType device, bool allowGPUFallback )
+				   	    deviceType device, bool allowGPUFallback,
+					    nvinfer1::IInt8Calibrator* calibrator, cudaStream_t stream )
 {
 	if( !prototxt_path || !model_path )
 		return false;
@@ -435,7 +451,10 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	}
 	else if( precision == TYPE_FASTEST )
 	{
-		precision = FindFastestPrecision(device);
+		if( !calibrator )
+			printf(LOG_TRT "requested fasted precision without providing valid calibrator, disabling INT8\n");
+
+		precision = FindFastestPrecision(device, (calibrator != NULL));
 		printf(LOG_TRT "selecting fastest native precision for %s:  %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
 	}
 	else
@@ -445,6 +464,9 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 			printf(LOG_TRT "precision %s is not supported for device %s\n", precisionTypeToStr(precision), deviceTypeToStr(device));
 			return false;
 		}
+
+		if( precision == TYPE_INT8 && !calibrator )
+			printf(LOG_TRT "warning:  using INT8 precision with RANDOM calibration\n");
 	}
 
 
@@ -471,7 +493,9 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	{
 		printf(LOG_GIE "cache file not found, profiling network model\n");
 	
-		if( !ProfileModel(prototxt_path, model_path, output_blobs, maxBatchSize, precision, device, allowGPUFallback, gieModelStream) )
+		if( !ProfileModel(prototxt_path, model_path, output_blobs, maxBatchSize, 
+					   precision, device, allowGPUFallback, calibrator,
+					   gieModelStream) )
 		{
 			printf("failed to load %s\n", model_path);
 			return 0;
@@ -568,6 +592,8 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	mEngine  = engine;
 	mContext = context;
 	
+	SetStream(stream);	// set default device stream
+
 	
 	/*
 	 * determine dimensions of network input bindings
@@ -590,6 +616,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	/*
 	 * allocate memory to hold the input image
 	 */
+	//if( CUDA_FAILED(cudaMalloc((void**)&mInputCUDA, inputSize)) )
 	if( !cudaAllocMapped((void**)&mInputCPU, (void**)&mInputCUDA, inputSize) )
 	{
 		printf("failed to alloc CUDA mapped memory for tensorNet input, %zu bytes\n", inputSize);
@@ -625,6 +652,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		void* outputCPU  = NULL;
 		void* outputCUDA = NULL;
 		
+		//if( CUDA_FAILED(cudaMalloc((void**)&outputCUDA, outputSize)) )
 		if( !cudaAllocMapped((void**)&outputCPU, (void**)&outputCUDA, outputSize) )
 		{
 			printf("failed to alloc CUDA mapped memory for %u output classes\n", DIMS_C(outputDims));
@@ -670,4 +698,38 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	printf("%s initialized.\n", mModelPath.c_str());
 	return true;
 }
+
+
+// CreateStream
+cudaStream_t tensorNet::CreateStream( bool nonBlocking )
+{
+	uint32_t flags = cudaStreamDefault;
+
+	if( nonBlocking )
+		flags = cudaStreamNonBlocking;
+
+	cudaStream_t stream = NULL;
+
+	if( CUDA_FAILED(cudaStreamCreateWithFlags(&stream, flags)) )
+		return NULL;
+
+	SetStream(stream);
+	return stream;
+}
+
+
+// SetStream
+void tensorNet::SetStream( cudaStream_t stream )
+{
+	mStream = stream;
+
+	if( !mStream )
+		return;
+
+	for( int n=0; n < 2; n++ )
+	{
+		if( !mEvents[n] )
+			CUDA(cudaEventCreateWithFlags(&mEvents[n], /*cudaEventBlockingSync*/cudaEventDefault));
+	}
+}	
 

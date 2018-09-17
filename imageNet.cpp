@@ -260,7 +260,7 @@ bool imageNet::loadClassInfo( const char* filename )
 
 
 // from imageNet.cu
-cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value );
+cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value, cudaStream_t stream );
 					
 
 // PreProcess
@@ -275,7 +275,8 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 
 	// downsample and convert to band-sequential BGR
 	if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
-								 make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f))) )
+								 make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f),
+								 GetStream())) )
 	{
 		printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetMean() failed\n");
 		return false;
@@ -288,14 +289,37 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 // Process
 bool imageNet::Process()
 {
-	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
-	
-	if( !mContext->execute(1, inferenceBuffers) )
+	void* bindBuffers[] = { mInputCUDA, mOutputs[0].CUDA };	
+	cudaStream_t stream = GetStream();
+
+	if( !stream )
 	{
-		printf(LOG_TRT "imageNet::Classify() -- failed to execute TensorRT network\n");
-		return false;
+		if( !mContext->execute(1, bindBuffers) )
+		{
+			printf(LOG_TRT "imageNet::Process() -- failed to execute TensorRT network\n");
+			return false;
+		}
 	}
-	
+	else
+	{
+		//printf("%s stream %p\n", deviceTypeToStr(GetDevice()), GetStream());
+
+		//CUDA(cudaEventRecord(mEvents[0], stream));
+		
+		// queue the inference processing kernels
+		const bool result = mContext->enqueue(1, bindBuffers, stream, NULL);
+
+		//CUDA(cudaEventRecord(mEvents[1], stream));
+		//CUDA(cudaEventSynchronize(mEvents[1]));
+		CUDA(cudaStreamSynchronize(stream));
+
+		if( !result )
+		{
+			printf(LOG_TRT "imageNet::Process() -- failed to enqueue TensorRT network\n");
+			return false;
+		}	
+	}
+
 	//CUDA(cudaDeviceSynchronize());
 	PROFILER_REPORT();
 

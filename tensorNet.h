@@ -131,7 +131,8 @@ public:
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean=NULL,
 				   const char* input_blob="data", const char* output_blob="prob",
 				   uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
-				   deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
+				   deviceType device=DEVICE_GPU, bool allowGPUFallback=true,
+				   nvinfer1::IInt8Calibrator* calibrator=NULL, cudaStream_t stream=NULL );
 
 	/**
 	 * Load a new network instance with multiple output layers
@@ -145,7 +146,8 @@ public:
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean,
 				   const char* input_blob, const std::vector<std::string>& output_blobs,
 				   uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
-				   deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
+				   deviceType device=DEVICE_GPU, bool allowGPUFallback=true,
+				   nvinfer1::IInt8Calibrator* calibrator=NULL, cudaStream_t stream=NULL );
 
 	/**
 	 * Manually enable layer profiling times.	
@@ -180,7 +182,7 @@ public:
 	/**
 	 * Determine the fastest native precision on a device.
 	 */
-	static precisionType FindFastestPrecision( deviceType device=DEVICE_GPU );
+	static precisionType FindFastestPrecision( deviceType device=DEVICE_GPU, bool allowInt8=true );
 
 	/**
 	 * Detect the precisions supported natively on a device.
@@ -196,6 +198,21 @@ public:
 	 * Detect if a particular precision is supported natively.
 	 */
 	static bool DetectNativePrecision( precisionType precision, deviceType device=DEVICE_GPU );
+
+	/**
+	 * Retrieve the stream that the device is operating on.
+	 */
+	inline cudaStream_t GetStream() const				{ return mStream; }
+
+	/**
+	 * Create and use a new stream for execution.
+	 */
+	cudaStream_t CreateStream( bool nonBlocking=true );
+
+	/**
+	 * Set the stream that the device is operating on.
+	 */
+	void SetStream( cudaStream_t stream );
 
 protected:
 
@@ -217,7 +234,7 @@ protected:
 	bool ProfileModel( const std::string& deployFile, const std::string& modelFile,
 				    const std::vector<std::string>& outputs, uint32_t maxBatchSize, 
 				    precisionType precision, deviceType device, bool allowGPUFallback,
-				    std::ostream& modelStream);
+				    nvinfer1::IInt8Calibrator* calibrator, std::ostream& modelStream);
 				
 	/**
 	 * Prefix used for tagging printed log output
@@ -272,6 +289,8 @@ protected:
 
 	deviceType    mDevice;
 	precisionType mPrecision;
+	cudaStream_t  mStream;
+	cudaEvent_t   mEvents[2];
 
 	nvinfer1::IRuntime* mInfer;
 	nvinfer1::ICudaEngine* mEngine;

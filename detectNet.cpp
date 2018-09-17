@@ -271,8 +271,8 @@ detectNet* detectNet::Create( int argc, char** argv )
 }
 	
 
-cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight );	
-cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value );
+cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, cudaStream_t stream );	
+cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value, cudaStream_t stream );
 
 
 
@@ -334,7 +334,7 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 	if( mMeanPixel != 0.0f )
 	{
 		if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
-									  make_float3(mMeanPixel, mMeanPixel, mMeanPixel))) )
+									  make_float3(mMeanPixel, mMeanPixel, mMeanPixel), GetStream())) )
 		{
 			printf("detectNet::Classify() -- cudaPreImageNetMean failed\n");
 			return false;
@@ -342,7 +342,7 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 	}
 	else
 	{
-		if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight)) )
+		if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
 		{
 			printf("detectNet::Classify() -- cudaPreImageNet failed\n");
 			return false;
