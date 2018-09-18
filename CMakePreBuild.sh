@@ -34,6 +34,8 @@ mv bvlc_alexnet.caffemodel ../data/networks
 wget --no-check-certificate 'https://nvidia.box.com/shared/static/c84wp3axbtv4e2gybn40jprdquav9azm.prototxt' -O alexnet.prototxt
 mv alexnet.prototxt ../data/networks
 
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/o0w0sl3obqxj21u09c0cwzw4khymz7hh.prototxt' -O alexnet_noprob.prototxt
+mv alexnet_noprob.prototxt ../data/networks
 
 # GoogleNet (bvlc site was behaving slowly, so enabled mirror on nvidia.box.com instead)
 #wget http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel
@@ -43,6 +45,8 @@ mv bvlc_googlenet.caffemodel ../data/networks
 wget --no-check-certificate 'https://nvidia.box.com/shared/static/5z3l76p8ap4n0o6rk7lyasdog9f14gc7.prototxt' -O googlenet.prototxt
 mv googlenet.prototxt ../data/networks
 
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/ue8qrqtglu36andbvobvaaj8egxjaoli.prototxt' -O googlenet_noprob.prototxt
+mv googlenet_noprob.prototxt ../data/networks
 
 # GoogleNet, ILSVR12 subset
 wget --no-check-certificate 'https://nvidia.box.com/shared/static/zb8i3zcg39sdjjxfty7o5935hpbd64y4.gz' -O GoogleNet-ILSVRC12-subset.tar
