@@ -548,9 +548,15 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 #if NV_TENSORRT_MAJOR >= 5
 	// if using DLA, set the desired core before deserialization occurs
 	if( device == DEVICE_DLA_0 )
+	{
+		printf(LOG_TRT "device %s, enabling DLA core 0\n", deviceTypeToStr(device));
 		infer->setDLACore(0);
+	}
 	else if( device == DEVICE_DLA_1 )
+	{
+		printf(LOG_TRT "device %s, enabling DLA core 1\n", deviceTypeToStr(device));
 		infer->setDLACore(1);
+	}
 #endif
 
 #if NV_TENSORRT_MAJOR > 1
