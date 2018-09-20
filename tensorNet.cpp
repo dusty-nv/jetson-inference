@@ -111,8 +111,8 @@ static inline nvinfer1::DeviceType deviceTypeToTRT( deviceType type )
 	{
 		case DEVICE_GPU:	return nvinfer1::DeviceType::kGPU;
 		//case DEVICE_DLA:	return nvinfer1::DeviceType::kDLA;
-		case DEVICE_DLA_0:	return nvinfer1::DeviceType::kDLA0;
-		case DEVICE_DLA_1:	return nvinfer1::DeviceType::kDLA1;
+		case DEVICE_DLA_0:	return nvinfer1::DeviceType::kDLA/*0*/;
+		case DEVICE_DLA_1:	return nvinfer1::DeviceType::kDLA/*1*/;
 	}
 }
 #endif
@@ -370,6 +370,11 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 	if( allowGPUFallback )
 		builder->allowGPUFallback(true);
+	
+	if( device == DEVICE_DLA_0 )
+		builder->setDLACore(0);
+	else if( device == DEVICE_DLA_1 )
+		builder->setDLACore(1);
 #endif
 
 	// build CUDA engine
@@ -539,7 +544,15 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		printf(LOG_GIE "failed to create InferRuntime\n");
 		return 0;
 	}
-	
+
+#if NV_TENSORRT_MAJOR >= 5
+	// if using DLA, set the desired core before deserialization occurs
+	if( device == DEVICE_DLA_0 )
+		infer->setDLACore(0);
+	else if( device == DEVICE_DLA_1 )
+		infer->setDLACore(1);
+#endif
+
 #if NV_TENSORRT_MAJOR > 1
 	// support for stringstream deserialization was deprecated in TensorRT v2
 	// instead, read the stringstream into a memory buffer and pass that to TRT.
