@@ -108,6 +108,8 @@ public:
 	 */
 	bool Overlay( float* input, float* output, uint32_t width, uint32_t height, const char* ignore_class="void" );
 	
+	bool Overlay_save( float* input, float* output, float* output2,uint32_t width, uint32_t height, const char* ignore_class="void" );
+
 	/**
 	 * Find the ID of a particular class (by label name).
 	 */
