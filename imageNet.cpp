@@ -25,7 +25,6 @@
 #include "cudaResize.h"
 #include "commandLine.h"
 
-
 // constructor
 imageNet::imageNet() : tensorNet()
 {
@@ -111,6 +110,8 @@ bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize )
 		return init( "networks/googlenet.prototxt", "networks/bvlc_googlenet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize );
 	else if( networkType == imageNet::GOOGLENET_12 )
 		return init( "networks/GoogleNet-ILSVRC12-subset/deploy.prototxt", "networks/GoogleNet-ILSVRC12-subset/snapshot_iter_184080.caffemodel", NULL, "networks/GoogleNet-ILSVRC12-subset/labels.txt", IMAGENET_DEFAULT_INPUT, "softmax", maxBatchSize );
+	else
+		return init( "networks/googlenet.prototxt", "networks/bvlc_googlenet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize );
 }
 
 
@@ -124,6 +125,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 	printf("imageNet -- loading classification network model from:\n");
 	printf("         -- prototxt     %s\n", prototxt_path);
 	printf("         -- model        %s\n", model_path);
+	printf("         -- mean_binary  %s\n", mean_binary);
 	printf("         -- class_labels %s\n", class_path);
 	printf("         -- input_blob   '%s'\n", input);
 	printf("         -- output_blob  '%s'\n", output);
@@ -198,6 +200,7 @@ imageNet* imageNet::Create( int argc, char** argv )
 		const char* input    = cmdLine.GetString("input_blob");
 		const char* output   = cmdLine.GetString("output_blob");
 		const char* out_bbox = cmdLine.GetString("output_bbox");
+		const char* mean     = cmdLine.GetString("mean_binary");
 		
 		if( !input ) 	input    = IMAGENET_DEFAULT_INPUT;
 		if( !output )  output   = IMAGENET_DEFAULT_OUTPUT;
@@ -207,7 +210,7 @@ imageNet* imageNet::Create( int argc, char** argv )
 		if( maxBatchSize < 1 )
 			maxBatchSize = 2;
 
-		return imageNet::Create(prototxt, modelName, NULL, labels, input, output, maxBatchSize);
+		return imageNet::Create(prototxt, modelName, mean, labels, input, output, maxBatchSize);
 	}
 
 	// create from pretrained model
@@ -279,7 +282,7 @@ bool imageNet::loadClassInfo( const char* filename )
 
 // from imageNet.cu
 cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value );
-					
+cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, float* mean_binary );
 					
 // Classify
 int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* confidence )
@@ -290,13 +293,22 @@ int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* con
 		return -1;
 	}
 
-	
-	// downsample and convert to band-sequential BGR
-	if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
-								 make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f))) )
+	if( !mMeanCPU )
 	{
-		printf("imageNet::Classify() -- cudaPreImageNetMean failed\n");
-		return -1;
+		// downsample and convert to band-sequential BGR
+		if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
+									 make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f))) )
+		{
+			printf("imageNet::Classify() -- cudaPreImageNetMean failed\n");
+			return -1;
+		}
+	} else {
+		if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
+									 mMeanCUDA)) )
+		{
+			printf("imageNet::Classify() -- cudaPreImageNetMean failed\n");
+			return -1;
+		}
 	}
 	
 	

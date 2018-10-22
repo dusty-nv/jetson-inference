@@ -63,6 +63,11 @@ bool saveImageRGBA( const char* filename, float4* cpu, int width, int height, fl
  */
 bool loadImageRGB( const char* filename, float3** cpu, float3** gpu, int* width, int* height, const float3& mean=make_float3(0,0,0) );
 
+/**
+ * Save an image to disk
+ * @ingroup util
+ */
+bool saveImageRGB( const char* filename, float3* cpu, int width, int height, float max_pixel=255.0f );
 
 /**
  * Load a color image from disk into CUDA memory.
