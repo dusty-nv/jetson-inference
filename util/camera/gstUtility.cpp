@@ -215,11 +215,7 @@ gboolean gst_message_print(GstBus* bus, GstMessage* message, gpointer user_data)
 
 			gst_message_parse_tag(message, &tags);
 
-#ifdef gst_tag_list_to_string
 			gchar* txt = gst_tag_list_to_string(tags);
-#else
-			gchar* txt = "missing gst_tag_list_to_string()";
-#endif
 
 			if( txt != NULL )
 			{
