@@ -105,6 +105,7 @@ bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize )
 	printf("%s initialized.\n", GetNetworkName());
 	return true;*/
 
+	mNetworkType = networkType;
 	if( networkType == imageNet::ALEXNET )
 		return init( "networks/alexnet.prototxt", "networks/bvlc_alexnet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize );
 	else if( networkType == imageNet::GOOGLENET )
