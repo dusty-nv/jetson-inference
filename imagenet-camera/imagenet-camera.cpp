@@ -1,5 +1,6 @@
+
 /*
- * http://github.com/ross-abaco/jetson-inference
+ * http://github.com/ross-newan/jetson-inference
  *
  */
 
@@ -112,13 +113,13 @@ int main( int argc, char** argv )
     int itemCount = 0;
     char str[256];
 
-#if ABACO
+#if LOGO
     int logo;
-	printf("Abaco Systems (abaco.com) Inferance Demonstration\n");
+	printf("Jetson Inferance Demonstration\n");
 #else
 	printf("Jetson Inferance Demonstration\n");
 #endif
-	printf("\tAuthor : ross.newman@abaco.com (dustinf@nvidia.com)\n");
+	printf("\tAuthor : ross@rossnewman.com, dustinf@nvidia.com\n");
 	printf("\tVideo Src : %s\n", VIDEO_SRC_NAME);
 	printf("\tBytes Per Pixel : %u",VIDEO_BYTES_PER_PIXEL);
 #if VIDEO_SRC==VIDEO_GV_STREAM_SOURCE
@@ -129,7 +130,8 @@ int main( int argc, char** argv )
 	printf("\tHeight : %u\n", WIDTH);
 	printf("\tFramerate : %f\n\n", (float)VIDEO_DEFAULT_FRAMERATE);
     SDL_Color white = {255, 255, 255, 0}; // WWhite
-    SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
+//    SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
+    SDL_Color orange = {136, 201, 70, 0}; // Green orange #88c946
     SDL_Color black = {40, 40, 40, 0}; // Black
 
 	debug_print("imagenet-camera\n  args (%i):  ", argc);
@@ -173,7 +175,7 @@ int main( int argc, char** argv )
 
 #if VIDEO_SRC==VIDEO_GST_RTP_SRC || VIDEO_SRC==VIDEO_GST_V4L_SRC
     static  std::string pip = pipeline.str();
-    std::cout << pip << "\n";
+    printf("%s\n", pip.c_str());
 	gstCamera* camera = gstCamera::Create(pip, HEIGHT, WIDTH);
 #elif VIDEO_SRC==VIDEO_RTP_STREAM_SOURCE
 	rtpStream* camera = new rtpStream(HEIGHT, WIDTH);
@@ -231,7 +233,7 @@ int main( int argc, char** argv )
 	}
 
 
-#if ABACO
+#if LOGO
 	/*
 	 * load logo
 	 */
@@ -286,7 +288,7 @@ int main( int argc, char** argv )
 			if( display != NULL )
 			{
 				char banner[256];
-				sprintf(banner, "TensorRT build %x | %s | %s | %04.1f FPS | %s", NV_GIE_VERSION, net->GetNetworkName(), net->HasFP16() ? "FP16" : "FP32", display->GetFPS(), VIDEO_SRC_NAME);
+				sprintf(banner, "TensorRT build %u.%u.%u | %s | %s | %04.1f FPS | %s",  NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), net->HasFP16() ? "FP16" : "FP32", display->GetFPS(), VIDEO_SRC_NAME);
 				display->SetTitle(banner);
 			}
 		}
@@ -303,7 +305,7 @@ int main( int argc, char** argv )
 			display->UserEvents();
 			display->BeginRender();
 
-#if ABACO
+#if LOGO
             texture->Image(320, 0, logo);
             texture->Box(0, camera->GetHeight()-40, camera->GetWidth(), camera->GetHeight(), 0xF16B22FF);
 #endif
@@ -419,16 +421,16 @@ int main( int argc, char** argv )
 				texture->RenderText(str, white, 15, 5, 28);
 			}
 
-#if ABACO
+#if LOGO
 			if (camera->GetWidth() < 1024)
 			{
-				texture->RenderText((char*)"abaco.com", white, 15, camera->GetHeight()-32, 18);
+				texture->RenderText((char*)"www.rossnewman.com", white, 15, camera->GetHeight()-32, 18);
 			}
 			else
 			{
-				texture->RenderText((char*)"WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18);
-				texture->RenderText((char*)"YOU SUCCEED.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18);
-				texture->RenderText((char*)"abaco.com", white, 15, camera->GetHeight()-40, 28);
+				texture->RenderText((char*)"I am ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18);
+				texture->RenderText((char*)"AI.", white, camera->GetWidth()-140, camera->GetHeight()-33, 18);
+				texture->RenderText((char*)"nvidia.com", white, 15, camera->GetHeight()-40, 28);
 			}
 #endif
 
@@ -471,4 +473,3 @@ int main( int argc, char** argv )
     printf("Done./n");
 	return 0;
 }
-

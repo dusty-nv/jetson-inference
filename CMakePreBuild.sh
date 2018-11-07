@@ -21,8 +21,8 @@ sudo apt-get update
 
 # libgstreamer-plugins-base1.0-dev
 
-sudo rm /usr/lib/aarch64-linux-gnu/libGL.so
-sudo ln -s /usr/lib/aarch64-linux-gnu/tegra/libGL.so /usr/lib/aarch64-linux-gnu/libGL.so
+#sudo rm /usr/lib/aarch64-linux-gnu/libGL.so
+#sudo ln -s /usr/lib/aarch64-linux-gnu/tegra/libGL.so /usr/lib/aarch64-linux-gnu/libGL.so
 
 wget http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel
 mv bvlc_alexnet.caffemodel ../data/networks

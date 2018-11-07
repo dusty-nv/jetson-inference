@@ -37,7 +37,10 @@
 
 #define SDL_DISPLAY                   1  // Use SDL for video display
 #define GST_RTP_SINK                  0  // Enable the RTP output of rendered stream
-#define ABACO                         1  // Abaco branding
+#define LOGO                          1  // Display some branding
+#define COMPANY_NAME                  "Ross Newman"
+#define COMPANY_URL                   "rossnewman.com"
+#define COMPANY_LOGO                  "logo.bmp"
 
 #if 1
 #define WIDTH                         1280 // 720p default for HD Webcam

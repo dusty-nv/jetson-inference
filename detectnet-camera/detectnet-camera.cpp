@@ -74,20 +74,21 @@ void convertColour(camera *camera, void* imgCUDA, void** imgRGBA)
 
 int main( int argc, char** argv )
 {
-#if ABACO
+#if LOGO
     int logo;
 
-    SDL_Color white = {255, 255, 255, 0}; // WWhite
-    SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
+    SDL_Color white = {255, 255, 255, 0}; // White
+//    SDL_Color orange = {247, 107, 34, 0}; // Abaco orange
+    SDL_Color orange = {136, 201, 70, 0}; // Green orange #88c946
     SDL_Color black = {40, 40, 40, 0}; // Black
 #endif
 
-#if ABACO
-	printf("Abaco Systems (abaco.com) Inferance Demonstration\n");
+#if LOGO
+	printf("%s (%s) Inferance Demonstration\n", COMPANY_NAME, COMPANY_URL);
 #else
 	printf("Jetson Inferance Demonstration\n");
 #endif
-	printf("\tAuthor : ross.newman@abaco.com (dustinf@nvidia.com)\n");
+	printf("\tAuthor : ross@rossnewman.com, dustinf@nvidia.com\n");
 	printf("\tVideo Src : %s\n", VIDEO_SRC_NAME);
 	printf("\tBytes Per Pixel : %u%s\n",VIDEO_BYTES_PER_PIXEL, VIDEO_GV_PIXEL_FORMAT_NAME);
 	printf("\tHidth : %u\n", HEIGHT);
@@ -186,7 +187,7 @@ int main( int argc, char** argv )
 			printf("detectnet-camera:  failed to create openGL texture\n");
 	}
 	
-#if ABACO
+#if LOGO
 	/*
 	 * load logo
 	 */
@@ -256,7 +257,7 @@ int main( int argc, char** argv )
 			if( display != NULL )
 			{
 				char str[256];
-				sprintf(str, "TensorRT build %x | %s | %04.1f FPS", NV_GIE_VERSION, net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
+				sprintf(str, "TensorRT build %u.u.u | %s | %04.1f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
 				//sprintf(str, "GIE build %x | %s | %04.1f FPS | %05.2f%% %s", NV_GIE_VERSION, net->GetNetworkName(), display->GetFPS(), confidence * 100.0f, net->GetClassDesc(img_class));
 				display->SetTitle(str);	
 			}	
@@ -269,7 +270,7 @@ int main( int argc, char** argv )
 			display->UserEvents();
 			display->BeginRender();
 			
-#if ABACO
+#if LOGO
             texture->Image(320, 0, logo);
             texture->Box(0, camera->GetHeight()-40, camera->GetWidth(), camera->GetHeight(), 0xF16B22FF);
 #endif
@@ -293,7 +294,7 @@ int main( int argc, char** argv )
 				// draw the texture
 				texture->Render(0,0);		
 			}
-#if ABACO
+#if LOGO
 			if (!(camera->GetWidth() < 1024))
 			{
 				texture->RenderText((char*)"WE INNOVATE. WE DELIVER. ", black, camera->GetWidth()-381, camera->GetHeight()-33, 18); 

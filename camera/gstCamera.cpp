@@ -19,7 +19,7 @@
 #include "cudaMappedMemory.h"
 #include "cudaYUV.h"
 #include "cudaRGB.h"
-#include </usr/local/cuda-8.0/samples/common/inc/helper_math.h>
+#include </usr/local/cuda/samples/common/inc/helper_math.h>
 
 
 bool gstCamera::mOnboardCamera = false;
