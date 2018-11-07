@@ -1,21 +1,15 @@
-![Abaco stripe](abaco/Abaco_background-1000x275.png)
-
-# Abaco Systems TX2 enabled Small Form Factor solutions   
+# Jetson Inferance (GigE Support)   
 ## Deep Learning for Rugged Environments (Industrial / Military)
-This is a branch of the NVIDIA's deep learning inference workshop and end-to-end realtime object recognition library for Jetson TX1 and TX2. Please reffer to the main branch for details and tips on setting up this demonstartion.
+This is a branch of the NVIDIA's deep learning inference workshop and end-to-end realtime object recognition library for Jetson TX1,TX2 and AGX Xavier. Please reffer to the main branch for details and tips on setting up this demonstartion.
 
 Included in this repo are resources for efficiently deploying neural networks using NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)**.  
 
 Vision primitives, such as [`imageNet`](imageNet.h) for image recognition and [`detectNet`](detectNet.h) for object localization, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk. 
 
-![Project 'Elroy'](abaco/gc1000_rev.jpg)
-
-> **note** Project 'Elroy' is a rugged TX2 box built to military specifications. Due for release mid 2017.
-
 ![ImageNet](abaco/ImageNet.jpg) for more information on source images goto (http://image-net.org/)
 
 ## Support for USB webcam and GiGEVision
-On the Abaco Systems SFF box there is no CSI camera so [`gstCamera`](camera/gstCamera.h) has been modified to support the Logitech C920 Webcam. At the moment only imagenet-camera.cpp has been tested and proven to work with this modification. 
+On rugged targets there CSI signals do not typically leave the enclosure so [`gstCamera`](camera/gstCamera.h) has been modified to support the Logitech C920 Webcam. At the moment only imagenet-camera.cpp has been tested and proven to work with this modification. 
 
 Modified pipelines can be supplied to the create function to support cameras using RGB colour space. The included pipeline in [`imagenet-camera.cpp`](imagenet-camera/imagenet-camera.cpp)  for the C920 is shown below:
 
@@ -59,8 +53,9 @@ The latest source can be obtained from [GitHub](http://github.com/ross-abaco/jet
 **note**:  this [branch](http://github.com/ross-abaco/jetson-inference) is verified against :
 * TX1 JetPack 2.3 / L4T R24.2 aarch64 (Ubuntu 16.04) 
 * TX1 JetPack 2.3.1 / L4T R24.2.1 aarch64 (Ubuntu 16.04)
-* TX2 JetPack 3.0 / L4T R27.1 aarch64 (Ubuntu 16.04 kernel 4.4) 
-      
+* TX2 JetPack 3.0 / L4T R27.1 aarch64 (Ubuntu 16.04 kernel 4.4)
+* AGX Xavier JetPack 4.1 / L4T R31 aarch64 (Ubuntu 18.04 kernel 4.9)
+
 #### 1. Cloning the repo
 To obtain the repository, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed locally:
 
@@ -70,7 +65,7 @@ sudo apt-get install git cmake
 
 Then clone the jetson-inference repo:
 ``` bash
-git clone http://github.com/Abaco-Systems/jetson-inference-gv
+git clone http://github.com/ross-newman/jetson-inference-gv
 ```
 
 #### 2. Configuring
@@ -137,7 +132,7 @@ The font file and binary images used can be found in /data and should be copied 
 * SPACE = Toggle overlay (imagenet-camera only)
 
 ### Notes on Ethernet jitter (GigEVision)
-For testing (on the Jetson TX2) I selected an Intel PCIe Ethernet NIC device that has deeper buffers and can allows pause frames to be disabled. To optimise your network interface device please run the script jetson-ethernet found in the jetson-scripts project under Abaco Systems. Example streams using external NIC:
+For testing (on the Jetson TX2) I selected an Intel PCIe Ethernet NIC device that has deeper buffers and can allows pause frames to be disabled. To optimise your network interface device please run the script jetson-ethernet found in the jetson-scripts project. Example streams using external NIC:
 
 * RGB8 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 82.2 Mb / Sec. [SampleOutput-RGB8.png](/abaco/SampleOutput-RGB8.png) best for quality.
 * YUV422 encoded video streams at 1280x720@30Htz, total bandwidth consumed is aproximatly 52.4 Mb / Sec. [SampleOutput-YUV422.png](/abaco/SampleOutput-YUV422.png)
@@ -148,11 +143,6 @@ The sample output supplied is a test card encoded using each of the three color 
 > **note** : The YUV422 and Bayer GR8 CUDA convesion functions are not optimal and could be improved!!.
 
 ## Links
-* [Abaco Systems](http://abaco.com)
 * [eLinux TX1](http://elinux.org/Jetson_TX1)
 * [eLinux TX2](http://elinux.org/Jetson_TX2)
 * [Nvidia devtalk](https://devtalk.nvidia.com/default/board/164/)
-* [Abaco Systems Rugged TX2](https://www.abaco.com/products/project-elroy)
-* [Abaco Systems MC10K1 - Tegra TK1 Mini COM Express module](https://www.abaco.com/products/mcom10-k1-mini-com-express)
-
-![Abaco stripe](abaco/Abaco%20Footer1000x100.png)
