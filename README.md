@@ -72,6 +72,8 @@ git clone http://github.com/ross-newman/jetson-inference-gv
 
 When cmake is run, a special pre-installation script (CMakePreBuild.sh) is run and will automatically install any dependencies.
 
+> NOTE: There is an issue with SDL2 so please build from source (SDL2-2.0.9, SDL2_ttf-2.0.14) before continung to run cmake. See [issue 1](https://github.com/ross-newman/jetson-inference-gv/issues/1) for notes on how to do this.
+
 ``` bash
 mkdir build
 cd build
