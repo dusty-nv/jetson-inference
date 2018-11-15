@@ -111,8 +111,13 @@ static inline nvinfer1::DeviceType deviceTypeToTRT( deviceType type )
 	{
 		case DEVICE_GPU:	return nvinfer1::DeviceType::kGPU;
 		//case DEVICE_DLA:	return nvinfer1::DeviceType::kDLA;
-		case DEVICE_DLA_0:	return nvinfer1::DeviceType::kDLA/*0*/;
-		case DEVICE_DLA_1:	return nvinfer1::DeviceType::kDLA/*1*/;
+#if NV_TENSORRT_MAJOR == 5 && NV_TENSORRT_MINOR == 0 && NV_TENSORRT_PATCH == 0
+		case DEVICE_DLA_0:	return nvinfer1::DeviceType::kDLA0;
+		case DEVICE_DLA_1:	return nvinfer1::DeviceType::kDLA1;
+#else
+		case DEVICE_DLA_0:	return nvinfer1::DeviceType::kDLA;
+		case DEVICE_DLA_1:	return nvinfer1::DeviceType::kDLA;
+#endif
 	}
 }
 #endif
@@ -371,10 +376,12 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	if( allowGPUFallback )
 		builder->allowGPUFallback(true);
 	
+#if !(NV_TENSORRT_MAJOR == 5 && NV_TENSORRT_MINOR == 0 && NV_TENSORRT_PATCH == 0)
 	if( device == DEVICE_DLA_0 )
 		builder->setDLACore(0);
 	else if( device == DEVICE_DLA_1 )
 		builder->setDLACore(1);
+#endif
 #endif
 
 	// build CUDA engine
@@ -545,7 +552,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		return 0;
 	}
 
-#if NV_TENSORRT_MAJOR >= 5
+#if NV_TENSORRT_MAJOR >= 5 && !(NV_TENSORRT_MAJOR == 5 && NV_TENSORRT_MINOR == 0 && NV_TENSORRT_PATCH == 0)
 	// if using DLA, set the desired core before deserialization occurs
 	if( device == DEVICE_DLA_0 )
 	{
