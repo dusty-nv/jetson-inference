@@ -67,7 +67,8 @@ public:
 	/**
 	 * Load a new network instance
 	 */
-	static segNet* Create( NetworkType networkType=FCN_ALEXNET_CITYSCAPES_SD, uint32_t maxBatchSize=2 );
+	static segNet* Create( NetworkType networkType=FCN_ALEXNET_CITYSCAPES_SD, uint32_t maxBatchSize=2,
+					   precisionType precision=TYPE_FASTEST, deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
 	 * Load a new network instance
@@ -80,10 +81,11 @@ public:
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
 	static segNet* Create( const char* prototxt_path, const char* model_path, 
-						   const char* class_labels, const char* class_colors=NULL,
-					       const char* input = SEGNET_DEFAULT_INPUT, 
-					       const char* output = SEGNET_DEFAULT_OUTPUT,
-					       uint32_t maxBatchSize=2 );
+					   const char* class_labels, const char* class_colors=NULL,
+					   const char* input = SEGNET_DEFAULT_INPUT, 
+					   const char* output = SEGNET_DEFAULT_OUTPUT,
+					   uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST, 
+					   deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 
 	/**

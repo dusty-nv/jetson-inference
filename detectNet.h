@@ -73,7 +73,8 @@ public:
 	 * @param threshold default minimum threshold for detection
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
-	static detectNet* Create( NetworkType networkType=PEDNET_MULTI, float threshold=0.5f, uint32_t maxBatchSize=2 );
+	static detectNet* Create( NetworkType networkType=PEDNET_MULTI, float threshold=0.5f, uint32_t maxBatchSize=2, 
+						 precisionType precision=TYPE_FASTEST, deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
 	 * Load a custom network instance
@@ -87,10 +88,11 @@ public:
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
 	static detectNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary, float threshold=0.5f, 
-							  const char* input = DETECTNET_DEFAULT_INPUT, 
-							  const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
-							  const char* bboxes = DETECTNET_DEFAULT_BBOX,
-							  uint32_t maxBatchSize=2 );
+						 const char* input = DETECTNET_DEFAULT_INPUT, 
+						 const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
+						 const char* bboxes = DETECTNET_DEFAULT_BBOX,
+						 uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+				   		 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 							  
 	/**
 	 * Load a custom network instance
@@ -104,10 +106,11 @@ public:
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
 	static detectNet* Create( const char* prototxt_path, const char* model_path, float mean_pixel=0.0f, float threshold=0.5f, 
-							  const char* input = DETECTNET_DEFAULT_INPUT, 
-							  const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
-							  const char* bboxes = DETECTNET_DEFAULT_BBOX,
-							  uint32_t maxBatchSize=2 );
+						 const char* input = DETECTNET_DEFAULT_INPUT, 
+						 const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
+						 const char* bboxes = DETECTNET_DEFAULT_BBOX,
+						 uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+				   		 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
 	 * Load a new network instance by parsing the command line.

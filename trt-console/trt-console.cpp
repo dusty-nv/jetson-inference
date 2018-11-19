@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, NVIDIA CORPORATION. All rights reserved.
+ * Copyright (c) 2018, NVIDIA CORPORATION. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -30,7 +30,7 @@
 // main entry point
 int main( int argc, char** argv )
 {
-	printf("imagenet-console\n  args (%i):  ", argc);
+	printf("trt-console\n  args (%i):  ", argc);
 	
 	for( int i=0; i < argc; i++ )
 		printf("%i [%s]  ", i, argv[i]);
@@ -41,7 +41,7 @@ int main( int argc, char** argv )
 	// retrieve filename argument
 	if( argc < 2 )
 	{
-		printf("imagenet-console:   input image filename required\n");
+		printf("trt-console:   input image filename required\n");
 		return 0;
 	}
 	
@@ -53,7 +53,7 @@ int main( int argc, char** argv )
 
 	if( !net )
 	{
-		printf("imagenet-console:   failed to initialize imageNet\n");
+		printf("trt-console:   failed to initialize imageNet\n");
 		return 0;
 	}
 	
@@ -80,7 +80,7 @@ int main( int argc, char** argv )
 	// overlay the classification on the image
 	if( img_class >= 0 )
 	{
-		printf("imagenet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, net->GetClassDesc(img_class));
+		printf("trt-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, net->GetClassDesc(img_class));
 	
 		if( argc > 2 )
 		{
@@ -110,16 +110,16 @@ int main( int argc, char** argv )
 								white_background ? make_float4(0.0f, 0.0f, 0.0f, 255.0f) : make_float4(255.0f, 255.0f, 255.0f, 255.0f));
 			}
 			
-			printf("imagenet-console:  attempting to save output image to '%s'\n", outputFilename);
+			printf("trt-console:  attempting to save output image to '%s'\n", outputFilename);
 			
 			if( !saveImageRGBA(outputFilename, (float4*)imgCPU, imgWidth, imgHeight) )
-				printf("imagenet-console:  failed to save output image to '%s'\n", outputFilename);
+				printf("trt-console:  failed to save output image to '%s'\n", outputFilename);
 			else
-				printf("imagenet-console:  completed saving '%s'\n", outputFilename);
+				printf("trt-console:  completed saving '%s'\n", outputFilename);
 		}
 	}
 	else
-		printf("imagenet-console:  failed to classify '%s'  (result=%i)\n", imgFilename, img_class);
+		printf("trt-console:  failed to classify '%s'  (result=%i)\n", imgFilename, img_class);
 	
 	printf("\nshutting down...\n");
 	CUDA(cudaFreeHost(imgCPU));

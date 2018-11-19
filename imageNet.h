@@ -60,7 +60,9 @@ public:
 	/**
 	 * Load a new network instance
 	 */
-	static imageNet* Create( NetworkType networkType=GOOGLENET, uint32_t maxBatchSize=2 );
+	static imageNet* Create( NetworkType networkType=GOOGLENET, uint32_t maxBatchSize=2, 
+						precisionType precision=TYPE_FASTEST,
+				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
 	 * Load a new network instance
@@ -75,7 +77,8 @@ public:
 						const char* mean_binary, const char* class_labels, 
 						const char* input=IMAGENET_DEFAULT_INPUT, 
 						const char* output=IMAGENET_DEFAULT_OUTPUT, 
-						uint32_t maxBatchSize=2 );
+						uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
 	 * Load a new network instance by parsing the command line.
@@ -89,6 +92,7 @@ public:
 	
 	/**
 	 * Determine the maximum likelihood image class.
+	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
 	 * @param rgba float4 input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
@@ -96,6 +100,27 @@ public:
 	 * @returns Index of the maximum class, or -1 on error.
 	 */
 	int Classify( float* rgba, uint32_t width, uint32_t height, float* confidence=NULL );
+
+	/**
+	 * Determine the maximum likelihood image class.
+	 * @note before calling this function, you must call PreProcess() with the image. 
+	 * @param confidence optional pointer to float filled with confidence value.
+	 * @returns Index of the maximum class, or -1 on error.
+	 */
+	int Classify( float* confidence=NULL );
+
+	/**
+	 * Perform pre-processing on the image to apply mean-value subtraction and
+	 * to organize the data into NCHW format and BGR colorspace that the networks expect.
+ 	 * After calling PreProcess(), you can call Classify() without supplying all the parameters.
+	 */
+	bool PreProcess( float* rgba, uint32_t width, uint32_t height );
+
+	/**
+	 * Process the network, without determining the classification argmax.
+	 * To perform the actual classification via post-processing, Classify() should be used instead.
+	 */
+	bool Process();
 
 	/**
 	 * Retrieve the number of image recognition classes (typically 1000)
@@ -125,8 +150,8 @@ public:
 protected:
 	imageNet();
 	
-	bool init( NetworkType networkType, uint32_t maxBatchSize );
-	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize );
+	bool init( NetworkType networkType, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
+	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool loadClassInfo( const char* filename );
 	
 	uint32_t mCustomClasses;

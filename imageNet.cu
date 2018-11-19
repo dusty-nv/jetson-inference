@@ -48,7 +48,8 @@ __global__ void gpuPreImageNet( float2 scale, float4* input, int iWidth, float* 
 
 // cudaPreImageNet
 cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight,
-				         float* output, size_t outputWidth, size_t outputHeight )
+				         float* output, size_t outputWidth, size_t outputHeight,
+					    cudaStream_t stream )
 {
 	if( !input || !output )
 		return cudaErrorInvalidDevicePointer;
@@ -63,7 +64,7 @@ cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeigh
 	const dim3 blockDim(8, 8);
 	const dim3 gridDim(iDivUp(outputWidth,blockDim.x), iDivUp(outputHeight,blockDim.y));
 
-	gpuPreImageNet<<<gridDim, blockDim>>>(scale, input, inputWidth, output, outputWidth, outputHeight);
+	gpuPreImageNet<<<gridDim, blockDim, 0, stream>>>(scale, input, inputWidth, output, outputWidth, outputHeight);
 
 	return CUDA(cudaGetLastError());
 }
@@ -95,7 +96,8 @@ __global__ void gpuPreImageNetMean( float2 scale, float4* input, int iWidth, flo
 
 // cudaPreImageNetMean
 cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight,
-				             float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value )
+				             float* output, size_t outputWidth, size_t outputHeight, 
+						   const float3& mean_value, cudaStream_t stream )
 {
 	if( !input || !output )
 		return cudaErrorInvalidDevicePointer;
@@ -110,7 +112,7 @@ cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputH
 	const dim3 blockDim(8, 8);
 	const dim3 gridDim(iDivUp(outputWidth,blockDim.x), iDivUp(outputHeight,blockDim.y));
 
-	gpuPreImageNetMean<<<gridDim, blockDim>>>(scale, input, inputWidth, output, outputWidth, outputHeight, mean_value);
+	gpuPreImageNetMean<<<gridDim, blockDim, 0, stream>>>(scale, input, inputWidth, output, outputWidth, outputHeight, mean_value);
 
 	return CUDA(cudaGetLastError());
 }
