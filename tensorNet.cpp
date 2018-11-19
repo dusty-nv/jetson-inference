@@ -342,7 +342,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	}
 
 	// build the engine
-	printf(LOG_GIE "configuring CUDA engine\n");
+	printf(LOG_GIE "device %s, configuring CUDA engine\n", deviceTypeToStr(device));
 		
 	builder->setMaxBatchSize(maxBatchSize);
 	builder->setMaxWorkspaceSize(16 << 20);
@@ -357,7 +357,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		if( !calibrator )
 		{
 			calibrator = new randInt8Calibrator(1, mCacheCalibrationPath, inputDimensions);
-			printf(LOG_TRT "warning:  using INT8 precision with RANDOM calibration\n");
+			printf(LOG_TRT "warning:  device %s using INT8 precision with RANDOM calibration\n", deviceTypeToStr(device));
 		}
 
 		builder->setInt8Calibrator(calibrator);
@@ -385,19 +385,19 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 #endif
 
 	// build CUDA engine
-	printf(LOG_TRT "building FP16:  %s\n", builder->getFp16Mode() ? "ON" : "OFF"); 
-	printf(LOG_TRT "building INT8:  %s\n", builder->getInt8Mode() ? "ON" : "OFF"); 
-	printf(LOG_GIE "building CUDA engine\n");
+	printf(LOG_TRT "device %s, building FP16:  %s\n", deviceTypeToStr(device), builder->getFp16Mode() ? "ON" : "OFF"); 
+	printf(LOG_TRT "device %s, building INT8:  %s\n", deviceTypeToStr(device), builder->getInt8Mode() ? "ON" : "OFF"); 
+	printf(LOG_GIE "device %s, building CUDA engine\n", deviceTypeToStr(device));
 
 	nvinfer1::ICudaEngine* engine = builder->buildCudaEngine(*network);
 	
 	if( !engine )
 	{
-		printf(LOG_GIE "failed to build CUDA engine\n");
+		printf(LOG_GIE "device %s, failed to build CUDA engine\n", deviceTypeToStr(device));
 		return false;
 	}
 
-	printf(LOG_GIE "completed building CUDA engine\n");
+	printf(LOG_GIE "device %s, completed building CUDA engine\n", deviceTypeToStr(device));
 
 	// we don't need the network definition any more, and we can destroy the parser
 	network->destroy();
@@ -409,7 +409,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 	if( !serMem )
 	{
-		printf(LOG_GIE "failed to serialize CUDA engine\n");
+		printf(LOG_GIE "device %s, failed to serialize CUDA engine\n", deviceTypeToStr(device));
 		return false;
 	}
 
@@ -464,7 +464,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	else if( precision == TYPE_FASTEST )
 	{
 		if( !calibrator )
-			printf(LOG_TRT "requested fasted precision without providing valid calibrator, disabling INT8\n");
+			printf(LOG_TRT "requested fasted precision for device %s without providing valid calibrator, disabling INT8\n", deviceTypeToStr(device));
 
 		precision = FindFastestPrecision(device, (calibrator != NULL));
 		printf(LOG_TRT "selecting fastest native precision for %s:  %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
@@ -478,7 +478,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		}
 
 		if( precision == TYPE_INT8 && !calibrator )
-			printf(LOG_TRT "warning:  using INT8 precision with RANDOM calibration\n");
+			printf(LOG_TRT "warning:  device %s using INT8 precision with RANDOM calibration\n", deviceTypeToStr(device));
 	}
 
 
@@ -503,13 +503,13 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 
 	if( !cache )
 	{
-		printf(LOG_GIE "cache file not found, profiling network model\n");
+		printf(LOG_GIE "cache file not found, profiling network model on device %s\n", deviceTypeToStr(device));
 	
 		if( !ProfileModel(prototxt_path, model_path, output_blobs, maxBatchSize, 
 					   precision, device, allowGPUFallback, calibrator,
 					   gieModelStream) )
 		{
-			printf("failed to load %s\n", model_path);
+			printf("device %s, failed to load %s\n", deviceTypeToStr(device), model_path);
 			return 0;
 		}
 	
@@ -519,7 +519,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		outFile << gieModelStream.rdbuf();
 		outFile.close();
 		gieModelStream.seekg(0, gieModelStream.beg);
-		printf(LOG_GIE "completed writing engine cache to %s\n", mCacheEnginePath.c_str());
+		printf(LOG_GIE "device %s, completed writing engine cache to %s\n", deviceTypeToStr(device), mCacheEnginePath.c_str());
 	}
 	else
 	{
@@ -538,7 +538,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		}*/
 	}
 
-	printf(LOG_GIE "%s loaded\n", model_path);
+	printf(LOG_GIE "device %s, %s loaded\n", deviceTypeToStr(device), model_path);
 	
 
 	/*
@@ -548,7 +548,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	
 	if( !infer )
 	{
-		printf(LOG_GIE "failed to create InferRuntime\n");
+		printf(LOG_GIE "device %s, failed to create InferRuntime\n", deviceTypeToStr(device));
 		return 0;
 	}
 
@@ -591,7 +591,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 
 	if( !engine )
 	{
-		printf(LOG_GIE "failed to create CUDA engine\n");
+		printf(LOG_GIE "device %s, failed to create CUDA engine\n", deviceTypeToStr(device));
 		return 0;
 	}
 	
@@ -599,20 +599,20 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	
 	if( !context )
 	{
-		printf(LOG_GIE "failed to create execution context\n");
+		printf(LOG_GIE "device %s, failed to create execution context\n", deviceTypeToStr(device));
 		return 0;
 	}
 
 	if( mEnableDebug )
 	{
-		printf(LOG_GIE "enabling context debug sync.\n");
+		printf(LOG_GIE "device %s, enabling context debug sync.\n", deviceTypeToStr(device));
 		context->setDebugSync(true);
 	}
 
 	if( mEnableProfiler )
 		context->setProfiler(&gProfiler);
 
-	printf(LOG_GIE "CUDA engine context initialized with %u bindings\n", engine->getNbBindings());
+	printf(LOG_GIE "device %s, CUDA engine context initialized with %u bindings\n", deviceTypeToStr(device), engine->getNbBindings());
 	
 	mInfer   = infer;
 	mEngine  = engine;
@@ -721,7 +721,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	if( mean_path != NULL )
 		mMeanPath = mean_path;
 	
-	printf("%s initialized.\n", mModelPath.c_str());
+	printf("device %s, %s initialized.\n", deviceTypeToStr(device), mModelPath.c_str());
 	return true;
 }
 
