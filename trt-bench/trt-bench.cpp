@@ -91,6 +91,13 @@ int main( int argc, char** argv )
 
 
 	/*
+	 * set CUDA driver to spin-wait
+	 */
+	CUDA(cudaSetDeviceFlags(cudaDeviceScheduleSpin));
+	cudaFree(0);
+
+
+	/*
 	 * parse command line
 	 */
 	commandLine cmdLine(argc, argv);
