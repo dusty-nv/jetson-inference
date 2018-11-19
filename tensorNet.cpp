@@ -298,7 +298,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 	//mEnableFP16 = (mOverride16 == true) ? false : builder->platformHasFastFp16();
 	//printf(LOG_GIE "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
-	printf(LOG_GIE "loading %s %s\n", deployFile.c_str(), modelFile.c_str());
+	printf(LOG_GIE "device %s, loading %s %s\n", deviceTypeToStr(device), deployFile.c_str(), modelFile.c_str());
 	
 	nvinfer1::DataType modelDataType = (precision == TYPE_FP16) ? nvinfer1::DataType::kHALF : nvinfer1::DataType::kFLOAT; // import INT8 weights as FP32
 	const nvcaffeparser1::IBlobNameToTensor *blobNameToTensor =
@@ -309,7 +309,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 	if( !blobNameToTensor )
 	{
-		printf(LOG_GIE "failed to parse caffe network\n");
+		printf(LOG_GIE "device %s, failed to parse caffe network\n", deviceTypeToStr(device));
 		return false;
 	}
 	
@@ -382,6 +382,12 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	else if( device == DEVICE_DLA_1 )
 		builder->setDLACore(1);
 #endif
+#else
+	if( device != DEVICE_GPU )
+	{
+		printf(LOG_TRT "device %s is not supported in TensorRT %u.%u\n", deviceTypeToStr(device), NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+		return false;
+	}
 #endif
 
 	// build CUDA engine
