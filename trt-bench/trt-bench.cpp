@@ -80,7 +80,7 @@ void* process( void* param )
 // main entry point
 int main( int argc, char** argv )
 {
-	printf("trt-bench\n");
+	printf("\ntrt-bench usage: --image=<path> [--GPU=FP16|INT8] [--DLA_0=FP16] [--DLA_1=FP16] [--allowGPUFallback]\n");
 
 
 	/*
@@ -128,7 +128,7 @@ int main( int argc, char** argv )
 
 	// determine if GPU fallback is requested
 	const bool allowGPUFallback = cmdLine.GetFlag("allowGPUFallback");
-	printf("   -- allowGPUFallback:  %s\n", allowGPUFallback ? "ON" : "OFF");
+	printf("   -- allowGPUFallback:  %s\n\n", allowGPUFallback ? "ON" : "OFF");
 
 
 	/*
