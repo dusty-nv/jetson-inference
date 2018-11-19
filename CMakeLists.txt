@@ -11,6 +11,16 @@ message(" ")
 message("           git submodule update --init") 
 message("\n")
 
+if( NOT EXISTS "${PROJECT_SOURCE_DIR}/utils/.git" )
+	message("Note:  required git submodules have not been detected.")
+	message("       first, please run the following command from the")
+	message("       the project's root directory to clone them:")
+	message(" ")
+	message("          git submodule update --init")
+	message(" ")
+	message(FATAL_ERROR "missing required git submodules, see instructions above")
+endif()
+
 
 # setup tensorRT flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")	# -std=gnu++11
