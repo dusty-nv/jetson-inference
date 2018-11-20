@@ -31,6 +31,8 @@ imageNet::imageNet() : tensorNet()
 {
 	mCustomClasses = 0;
 	mOutputClasses = 0;
+
+	mNetworkType = CUSTOM;
 }
 
 
@@ -56,6 +58,7 @@ imageNet* imageNet::Create( imageNet::NetworkType networkType, uint32_t maxBatch
 		return NULL;
 	}
 	
+	net->mNetworkType = networkType;
 	return net;
 }
 
@@ -90,6 +93,8 @@ bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize,
 		return init( "networks/googlenet.prototxt", "networks/bvlc_googlenet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == imageNet::GOOGLENET_12 )
 		return init( "networks/GoogleNet-ILSVRC12-subset/deploy.prototxt", "networks/GoogleNet-ILSVRC12-subset/snapshot_iter_184080.caffemodel", NULL, "networks/GoogleNet-ILSVRC12-subset/labels.txt", IMAGENET_DEFAULT_INPUT, "softmax", maxBatchSize, precision, device, allowGPUFallback );
+	else
+		return NULL;
 }
 
 

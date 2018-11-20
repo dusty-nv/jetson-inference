@@ -52,6 +52,7 @@ public:
 	 */
 	enum NetworkType
 	{
+		CUSTOM,
 		ALEXNET,		/**< 1000-class ILSVR12 */
 		GOOGLENET,	/**< 1000-class ILSVR12 */
 		GOOGLENET_12	/**< 12-class subset of ImageNet ILSVR12 from the tutorial */
