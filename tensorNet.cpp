@@ -215,9 +215,11 @@ std::vector<precisionType> tensorNet::DetectNativePrecisions( deviceType device 
 	if( builder->platformHasFastFp16() )
 		types.push_back(TYPE_FP16);
 
+#if NV_TENSORRT_MAJOR >= 4
 	// detect fast (native) INT8
 	if( builder->platformHasFastInt8() )
 		types.push_back(TYPE_INT8);
+#endif
 
 	// print out supported precisions (optional)
 	const uint32_t numTypes = types.size();
@@ -314,6 +316,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	}
 	
 	// extract the dimensions of the network input blobs
+#if NV_TENSORRT_MAJOR >= 4
 	std::map<std::string, nvinfer1::Dims3> inputDimensions;
 
 	for( int i=0, n=network->getNbInputs(); i < n; i++ )
@@ -322,6 +325,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		inputDimensions.insert(std::make_pair(network->getInput(i)->getName(), dims));
 		std::cout << LOG_TRT << "retrieved Input tensor \"" << network->getInput(i)->getName() << "\":  " << dims.d[0] << "x" << dims.d[1] << "x" << dims.d[2] << std::endl;
 	}
+#endif
 
 	// the caffe file has no notion of outputs, so we need to manually say which tensors the engine should generate	
 	const size_t num_outputs = outputs.size();
@@ -334,8 +338,10 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 			printf(LOG_GIE "failed to retrieve tensor for Output \"%s\"\n", outputs[n].c_str());
 		else
 		{
+		#if NV_TENSORRT_MAJOR >= 4
 			nvinfer1::Dims3 dims = static_cast<nvinfer1::Dims3&&>(tensor->getDimensions());
 			printf(LOG_GIE "retrieved Output tensor \"%s\":  %ix%ix%i\n", tensor->getName(), dims.d[0], dims.d[1], dims.d[2]);
+		#endif
 		}
 
 		network->markOutput(*tensor);
@@ -351,6 +357,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	// set up the builder for the desired precision
 	if( precision == TYPE_INT8 )
 	{
+	#if NV_TENSORRT_MAJOR >= 4
 		builder->setInt8Mode(true);
 		//builder->setFp16Mode(true);		// TODO:  experiment for benefits of both INT8/FP16
 		
@@ -361,6 +368,12 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		}
 
 		builder->setInt8Calibrator(calibrator);
+	#else
+		printf(LOG_TRT "INT8 precision requested, and TensorRT %u.%u doesn't meet minimum version for INT8\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+		printf(LOG_TRT "please use minumum version of TensorRT 4.0 or newer for INT8 support\n");
+
+		return false;
+	#endif
 	}
 	else if( precision == TYPE_FP16 )
 	{

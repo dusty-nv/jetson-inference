@@ -28,6 +28,8 @@
 #include <fstream>
 
 
+#if NV_TENSORRT_MAJOR >= 4
+
 //-------------------------------------------------------------------------------------------------
 static inline int volume(nvinfer1::Dims dims)
 {
@@ -107,4 +109,6 @@ void randInt8Calibrator::writeCalibrationCache( const void*, size_t )
 {
 
 }
+
+#endif
 

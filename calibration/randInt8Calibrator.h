@@ -30,6 +30,8 @@
 #include <vector>
 
 
+#if NV_TENSORRT_MAJOR >= 4
+
 /**
  * Random INT8 Calibrator.
  * This calibrator is for testing performance without needing
@@ -79,5 +81,6 @@ private:
 	std::vector<char> mCalibrationCache;
 };
 
+#endif
 #endif
 
