@@ -77,6 +77,15 @@ static inline nvinfer1::DataType precisionTypeToTRT( precisionType type )
 	return nvinfer1::DataType::kFLOAT;
 }
 
+static inline bool isFp16Enabled( nvinfer1::IBuilder* builder )
+{
+#if NV_TENSORRT_MAJOR < 4
+	return builder->getHalf2Mode();
+#else
+	return builder->getFp16Mode();
+#endif
+}
+
 const char* deviceTypeToStr( deviceType type )
 {
 	switch(type)
@@ -377,8 +386,11 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	}
 	else if( precision == TYPE_FP16 )
 	{
-		//builder->setHalf2Mode(true);
+	#if NV_TENSORRT_MAJOR < 4
+		builder->setHalf2Mode(true);
+	#else
 		builder->setFp16Mode(true);
+	#endif
 	}
 	
 
@@ -404,7 +416,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 #endif
 
 	// build CUDA engine
-	printf(LOG_TRT "device %s, building FP16:  %s\n", deviceTypeToStr(device), builder->getFp16Mode() ? "ON" : "OFF"); 
+	printf(LOG_TRT "device %s, building FP16:  %s\n", deviceTypeToStr(device), isFp16Enabled(builder) ? "ON" : "OFF"); 
 	printf(LOG_TRT "device %s, building INT8:  %s\n", deviceTypeToStr(device), builder->getInt8Mode() ? "ON" : "OFF"); 
 	printf(LOG_GIE "device %s, building CUDA engine\n", deviceTypeToStr(device));
 
