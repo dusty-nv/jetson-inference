@@ -139,8 +139,8 @@ foreach(include ${inferenceIncludes})
 endforeach()
 
 # install the shared library
-#install(TARGETS jetson-inference DESTINATION lib/jetson-inference EXPORT jetson-inferenceConfig)
+install(TARGETS jetson-inference DESTINATION lib/jetson-inference EXPORT jetson-inferenceConfig)
 
 # install the cmake project, for importing
-#install(EXPORT jetson-inferenceConfig DESTINATION share/jetson-inference/cmake)
+install(EXPORT jetson-inferenceConfig DESTINATION share/jetson-inference/cmake)
 
