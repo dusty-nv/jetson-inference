@@ -133,13 +133,20 @@ add_subdirectory(utils)
 target_link_libraries(jetson-inference jetson-utils)
 
 
-# install
+# install includes
 foreach(include ${inferenceIncludes})
     install(FILES "${include}" DESTINATION include/jetson-inference)
 endforeach()
 
+# install images
+install(CODE "file(COPY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/fontmapA.png DESTINATION ${CMAKE_INSTALL_PREFIX}/bin )" )
+install(CODE "file(COPY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/fontmapB.png DESTINATION ${CMAKE_INSTALL_PREFIX}/bin )" )
+
+# install symlink to networks
+install(CODE "execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/data/networks ${CMAKE_INSTALL_PREFIX}/bin/networks )" )
+
 # install the shared library
-install(TARGETS jetson-inference DESTINATION lib/jetson-inference EXPORT jetson-inferenceConfig)
+install(TARGETS jetson-inference DESTINATION lib EXPORT jetson-inferenceConfig)
 
 # install the cmake project, for importing
 install(EXPORT jetson-inferenceConfig DESTINATION share/jetson-inference/cmake)
