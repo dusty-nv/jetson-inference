@@ -24,6 +24,7 @@
 #include "randInt8Calibrator.h"
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
+#include "filesystem.h"
 
 #include <iostream>
 #include <fstream>
@@ -469,17 +470,24 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 
 		  
 // LoadNetwork
-bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, const char* mean_path, 
+bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_, const char* mean_path, 
 					    const char* input_blob, const std::vector<std::string>& output_blobs, 
 					    uint32_t maxBatchSize, precisionType precision,
 				   	    deviceType device, bool allowGPUFallback,
 					    nvinfer1::IInt8Calibrator* calibrator, cudaStream_t stream )
 {
-	if( !prototxt_path || !model_path )
+	if( !prototxt_path_ || !model_path_ )
 		return false;
 	
 	printf(LOG_GIE "TensorRT version %u.%u.%u\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH);
 	
+	/*
+	 * verify the prototxt and model paths
+	 */
+	const std::string model_path    = locateFile(model_path_);
+	const std::string prototxt_path = locateFile(prototxt_path_);
+	
+
 	/*
 	 * if the precision is left unspecified, detect the fastest
 	 */
@@ -522,7 +530,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	char cache_prefix[512];
 	char cache_path[512];
 
-	sprintf(cache_prefix, "%s.%u.%u.%s.%s", model_path, maxBatchSize, (uint32_t)allowGPUFallback, deviceTypeToStr(device), precisionTypeToStr(precision));
+	sprintf(cache_prefix, "%s.%u.%u.%s.%s", model_path.c_str(), maxBatchSize, (uint32_t)allowGPUFallback, deviceTypeToStr(device), precisionTypeToStr(precision));
 	sprintf(cache_path, "%s.calibration", cache_prefix);
 	mCacheCalibrationPath = cache_path;
 	
@@ -540,7 +548,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 					   precision, device, allowGPUFallback, calibrator,
 					   gieModelStream) )
 		{
-			printf("device %s, failed to load %s\n", deviceTypeToStr(device), model_path);
+			printf("device %s, failed to load %s\n", deviceTypeToStr(device), model_path.c_str());
 			return 0;
 		}
 	
@@ -569,7 +577,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 		}*/
 	}
 
-	printf(LOG_GIE "device %s, %s loaded\n", deviceTypeToStr(device), model_path);
+	printf(LOG_GIE "device %s, %s loaded\n", deviceTypeToStr(device), model_path.c_str());
 	
 
 	/*
@@ -657,7 +665,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	 */
 	const int inputIndex = engine->getBindingIndex(input_blob);
 	
-	printf(LOG_GIE "%s input  binding index:  %i\n", model_path, inputIndex);
+	printf(LOG_GIE "%s input  binding index:  %i\n", model_path.c_str(), inputIndex);
 	
 #if NV_TENSORRT_MAJOR > 1
 	nvinfer1::Dims inputDims = engine->getBindingDimensions(inputIndex);
@@ -667,7 +675,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 
 	size_t inputSize = maxBatchSize * DIMS_C(inputDims) * DIMS_H(inputDims) * DIMS_W(inputDims) * sizeof(float);
 
-	printf(LOG_GIE "%s input  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path, maxBatchSize, DIMS_C(inputDims), DIMS_H(inputDims), DIMS_W(inputDims), inputSize);
+	printf(LOG_GIE "%s input  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path.c_str(), maxBatchSize, DIMS_C(inputDims), DIMS_H(inputDims), DIMS_W(inputDims), inputSize);
 	
 
 	/*
@@ -694,7 +702,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	for( int n=0; n < numOutputs; n++ )
 	{
 		const int outputIndex = engine->getBindingIndex(output_blobs[n].c_str());
-		printf(LOG_GIE "%s output %i %s  binding index:  %i\n", model_path, n, output_blobs[n].c_str(), outputIndex);
+		printf(LOG_GIE "%s output %i %s  binding index:  %i\n", model_path.c_str(), n, output_blobs[n].c_str(), outputIndex);
 
 	#if NV_TENSORRT_MAJOR > 1
 		nvinfer1::Dims outputDims = engine->getBindingDimensions(outputIndex);
@@ -703,7 +711,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	#endif
 
 		size_t outputSize = maxBatchSize * DIMS_C(outputDims) * DIMS_H(outputDims) * DIMS_W(outputDims) * sizeof(float);
-		printf(LOG_GIE "%s output %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path, n, output_blobs[n].c_str(), maxBatchSize, DIMS_C(outputDims), DIMS_H(outputDims), DIMS_W(outputDims), outputSize);
+		printf(LOG_GIE "%s output %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path.c_str(), n, output_blobs[n].c_str(), maxBatchSize, DIMS_C(outputDims), DIMS_H(outputDims), DIMS_W(outputDims), outputSize);
 	
 		// allocate output memory 
 		void* outputCPU  = NULL;

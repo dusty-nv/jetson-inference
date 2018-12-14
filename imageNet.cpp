@@ -21,9 +21,12 @@
  */
  
 #include "imageNet.h"
+
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
+
 #include "commandLine.h"
+#include "filesystem.h"
 
 
 // constructor
@@ -208,14 +211,25 @@ bool imageNet::loadClassInfo( const char* filename )
 	if( !filename )
 		return false;
 	
-	FILE* f = fopen(filename, "r");
+	// locate the file
+	const std::string path = locateFile(filename);
+
+	if( path.length() == 0 )
+	{
+		printf("imageNet -- failed to find %s\n", filename);
+		return false;
+	}
+
+	// open the file
+	FILE* f = fopen(path.c_str(), "r");
 	
 	if( !f )
 	{
-		printf("imageNet -- failed to open %s\n", filename);
+		printf("imageNet -- failed to open %s\n", path.c_str());
 		return false;
 	}
 	
+	// read class descriptions
 	char str[512];
 
 	while( fgets(str, 512, f) != NULL )

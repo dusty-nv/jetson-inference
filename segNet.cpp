@@ -27,7 +27,7 @@
 #include "cudaResize.h"
 
 #include "commandLine.h"
-
+#include "filesystem.h"
 
 
 // constructor
@@ -206,14 +206,25 @@ bool segNet::loadClassColors( const char* filename )
 	if( !filename )
 		return false;
 	
-	FILE* f = fopen(filename, "r");
+	// locate the file
+	const std::string path = locateFile(filename);
+
+	if( path.length() == 0 )
+	{
+		printf("segNet -- failed to find %s\n", filename);
+		return false;
+	}
+
+	// open the file
+	FILE* f = fopen(path.c_str(), "r");
 	
 	if( !f )
 	{
-		printf("segNet -- failed to open %s\n", filename);
+		printf("segNet -- failed to open %s\n", path.c_str());
 		return false;
 	}
 	
+	// read class colors
 	char str[512];
 	int  idx = 0;
 
@@ -255,14 +266,25 @@ bool segNet::loadClassLabels( const char* filename )
 	if( !filename )
 		return false;
 	
-	FILE* f = fopen(filename, "r");
+	// locate the file
+	const std::string path = locateFile(filename);
+
+	if( path.length() == 0 )
+	{
+		printf("segNet -- failed to find %s\n", filename);
+		return false;
+	}
+
+	// open the file
+	FILE* f = fopen(path.c_str(), "r");
 	
 	if( !f )
 	{
-		printf("segNet -- failed to open %s\n", filename);
+		printf("segNet -- failed to open %s\n", path.c_str());
 		return false;
 	}
 	
+	// read class labels
 	char str[512];
 
 	while( fgets(str, 512, f) != NULL )
