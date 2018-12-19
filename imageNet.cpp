@@ -146,6 +146,27 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 }
 			
 
+// NetworkTypeFromStr
+imageNet::NetworkType imageNet::NetworkTypeFromStr( const char* modelName )
+{
+	if( !modelName )
+		return imageNet::CUSTOM;
+
+	imageNet::NetworkType type = imageNet::GOOGLENET;
+
+	if( strcasecmp(modelName, "alexnet") == 0 )
+		type = imageNet::ALEXNET;
+	else if( strcasecmp(modelName, "googlenet") == 0 )
+		type = imageNet::GOOGLENET;
+	else if( strcasecmp(modelName, "googlenet-12") == 0 || strcasecmp(modelName, "googlenet_12") == 0 )
+		type = imageNet::GOOGLENET_12;
+	else
+		type = imageNet::CUSTOM;
+
+	return type;
+}
+
+
 
 // Create
 imageNet* imageNet::Create( int argc, char** argv )

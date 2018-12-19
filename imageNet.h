@@ -58,6 +58,15 @@ public:
 		GOOGLENET_12	/**< 12-class subset of ImageNet ILSVR12 from the tutorial */
 	};
 
+
+	/**
+	 * Parse a string to one of the built-in pretrained models.
+	 * Valid names are "alexnet", "googlenet", "googlenet-12", or "googlenet_12".
+	 * @returns one of the imageNet::NetworkType enums, or imageNet::CUSTOM on invalid string.
+	 */
+	static NetworkType NetworkTypeFromStr( const char* model_name );
+
+
 	/**
 	 * Load a new network instance
 	 */
