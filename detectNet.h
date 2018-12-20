@@ -58,14 +58,23 @@ public:
 	 */
 	enum NetworkType
 	{
-		COCO_AIRPLANE = 0,	/**< MS-COCO airplane class */
+		CUSTOM = 0,		/**< Custom model from user */
+		COCO_AIRPLANE,		/**< MS-COCO airplane class */
 		COCO_BOTTLE,		/**< MS-COCO bottle class */
 		COCO_CHAIR,		/**< MS-COCO chair class */
-		COCO_DOG,		/**< MS-COCO dog class */
-		FACENET,		/**< Human facial detector trained on FDDB */
+		COCO_DOG,			/**< MS-COCO dog class */
+		FACENET,			/**< Human facial detector trained on FDDB */
 		PEDNET,			/**< Pedestrian / person detector */
 		PEDNET_MULTI		/**< Multi-class pedestrian + baggage detector */
 	};
+
+	/**
+	 * Parse a string to one of the built-in pretrained models.
+	 * Valid names are "pednet", "multiped", "facenet", "face", "coco-airplane", "airplane",
+	 * "coco-bottle", "bottle", "coco-chair", "chair", "coco-dog", or "dog".
+	 * @returns one of the detectNet::NetworkType enums, or detectNet::CUSTOM on invalid string.
+	 */
+	static NetworkType NetworkTypeFromStr( const char* model_name );
 
 	/**
 	 * Load a new network instance
