@@ -293,7 +293,8 @@ bool imageNet::loadClassInfo( const char* filename )
 	
 	if( mClassSynset.size() == 0 )
 		return false;
-	
+
+	mClassPath = path;	
 	return true;
 }
 

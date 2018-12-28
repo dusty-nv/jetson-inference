@@ -148,6 +148,11 @@ public:
 	inline const char* GetClassSynset( uint32_t index ) const		{ return mClassSynset[index].c_str(); }
 	
 	/**
+ 	 * Retrieve the path to the file containing the class descriptions.
+	 */
+	inline const char* GetClassPath() const						{ return mClassPath.c_str(); }
+
+	/**
 	 * Retrieve the network type (alexnet or googlenet)
 	 */
 	inline NetworkType GetNetworkType() const					{ return mNetworkType; }
@@ -155,7 +160,7 @@ public:
 	/**
  	 * Retrieve a string describing the network name.
 	 */
-	inline const char* GetNetworkName() const					{ return (mNetworkType == GOOGLENET ? "googlenet" : "alexnet"); }
+	inline const char* GetNetworkName() const					{ if(mNetworkType == GOOGLENET) return "googlenet"; else if(mNetworkType == GOOGLENET_12) return "googlenet_12"; else if(mNetworkType == ALEXNET) return "alexnet"; else return "custom"; }
 
 protected:
 	imageNet();
@@ -170,6 +175,7 @@ protected:
 	std::vector<std::string> mClassSynset;	// 1000 class ID's (ie n01580077, n04325704)
 	std::vector<std::string> mClassDesc;
 
+	std::string mClassPath;
 	NetworkType mNetworkType;
 };
 
