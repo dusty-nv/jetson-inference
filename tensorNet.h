@@ -214,6 +214,16 @@ public:
 	 */
 	void SetStream( cudaStream_t stream );
 
+	/**
+	 * Retrieve the path to the network prototxt file.
+	 */
+	inline const char* GetPrototxtPath() const			{ return mPrototxtPath.c_str(); }
+
+	/**
+	 * Retrieve the path to the network model file.
+	 */
+	inline const char* GetModelPath() const				{ return mModelPath.c_str(); }
+
 protected:
 
 	/**
