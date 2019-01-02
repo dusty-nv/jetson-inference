@@ -69,7 +69,7 @@ int main( int argc, char** argv )
 	net->EnableProfiler();
 	
 	// alloc memory for bounding box & confidence value output arrays
-	const uint32_t maxBoxes = net->GetMaxBoundingBoxes();		printf("maximum bounding boxes:  %u\n", maxBoxes);
+	const uint32_t maxBoxes = net->GetMaxBoundingBoxes();
 	const uint32_t classes  = net->GetNumClasses();
 	
 	float* bbCPU    = NULL;
@@ -119,7 +119,8 @@ int main( int argc, char** argv )
 			const int nc = confCPU[n*2+1];
 			float* bb = bbCPU + (n * 4);
 			
-			printf("bounding box %i   (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
+			printf("detected obj %i  class #%u (%s)  confidence=%f\n", n, nc, net->GetClassDesc(nc), confCPU[n*2]);
+			printf("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
 			
 			if( nc != lastClass || n == (numBoundingBoxes - 1) )
 			{
