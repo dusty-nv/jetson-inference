@@ -57,13 +57,13 @@ tar -xzvf GoogleNet-ILSVRC12-subset.tar -C ../data/networks
 #wget --no-check-certificate 'https://nvidia.box.com/shared/static/xe6wo1o8qiqykfx8umuu0ki9idp0f92p.prototxt' -O detectnet.prototxt
 #mv detectnet.prototxt ../data/networks
 
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOMzVRODNuSHlvbms' -O ped-100.tar.gz
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/0wbxo6lmxfamm1dk90l8uewmmbpbcffb.gz' -O ped-100.tar.gz
 tar -xzvf ped-100.tar.gz -C ../data/networks
 
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOUmtGdGIyYjlEbTA' -O multiped-500.tar.gz
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/r3bq08qh7zb0ap2lf4ysjujdx64j8ofw.gz' -O multiped-500.tar.gz
 tar -xzvf multiped-500.tar.gz -C ../data/networks
 
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOWXpOQ0JCQ3AxSTA' -O facenet-120.tar.gz
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/wjitc00ef8j6shjilffibm6r2xxcpigz.gz' -O facenet-120.tar.gz
 tar -xzvf facenet-120.tar.gz -C ../data/networks
 
 
