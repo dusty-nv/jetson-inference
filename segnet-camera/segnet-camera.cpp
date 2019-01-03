@@ -157,8 +157,15 @@ int main( int argc, char** argv )
 		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA, true) )
 			printf("segnet-camera:  failed to convert from NV12 to RGBA\n");
 
-		// process image overlay
-		if( !net->Overlay((float*)imgRGBA, (float*)outCUDA, camera->GetWidth(), camera->GetHeight()) )
+		// process the segmentation network
+		if( !net->Process((float*)imgRGBA, camera->GetWidth(), camera->GetHeight()) )
+		{
+			printf("segnet-console:  failed to process segmentation\n");
+			continue;
+		}
+
+		// generate overlay
+		if( !net->Overlay((float*)outCUDA, camera->GetWidth(), camera->GetHeight(), segNet::FILTER_POINT) )
 		{
 			printf("segnet-console:  failed to process segmentation overlay.\n");
 			continue;

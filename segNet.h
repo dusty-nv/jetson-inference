@@ -48,7 +48,7 @@ class segNet : public tensorNet
 {
 public:
 	/**
-	 * Network model enumeration.
+	 * Enumeration of pretrained/built-in network models.
 	 */
 	enum NetworkType
 	{
@@ -58,11 +58,34 @@ public:
 		FCN_ALEXNET_SYNTHIA_SUMMER_SD,    /**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
 		FCN_ALEXNET_CITYSCAPES_HD,	    /**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. */
 		FCN_ALEXNET_CITYSCAPES_SD,	    /**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
-		FCN_ALEXNET_AERIAL_FPV_720p, /**< FCN-Alexnet trained on aerial first-person view of the horizon line for drones, 1280x720 and 21 output classes */
+		FCN_ALEXNET_AERIAL_FPV_720p, 	    /**< FCN-Alexnet trained on aerial first-person view of the horizon line for drones, 1280x720 and 21 output classes */
 		
 		/* add new models here */
 		SEGNET_CUSTOM
 	};
+
+	/**
+ 	 * Enumeration of mask/overlay filtering modes.
+	 */
+	enum FilterMode
+	{
+		FILTER_POINT,		/**< Single point sampling */
+		FILTER_LINEAR		/**< Bilinear filtering */
+	};
+
+	/**
+	 * Parse a string from one of the built-in pretrained models.
+	 * Valid names are "cityscapes-hd", "cityscapes-sd", "pascal-voc", ect.
+	 * @returns one of the segNet::NetworkType enums, or segNet::CUSTOM on invalid string.
+	 */
+	static NetworkType NetworkTypeFromStr( const char* model_name );
+
+	/**
+	 * Parse a string from one of the FilterMode values.
+	 * Valid strings are "point", and "linear"
+	 * @returns one of the segNet::FilterMode enums, or default segNet::FILTER_LINEAR on an error.
+	 */
+	static FilterMode FilterModeFromStr( const char* str, FilterMode default_value=FILTER_LINEAR );
 
 	/**
 	 * Load a new network instance
@@ -99,17 +122,38 @@ public:
 	virtual ~segNet();
 	
 	/**
+ 	 * Perform the initial inferencing processing portion of the segmentation.
+	 * The results can then be visualized using the Overlay() and Mask() functions.
+	 * @param input float4 input image in CUDA device memory, RGBA colorspace with values 0-255.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
+	 * @param ignore_class label name of class to ignore in the classification (or NULL to process all).
+	 */
+	bool Process( float* input, uint32_t width, uint32_t height, const char* ignore_class="void" );
+
+	/**
+	 * Produce a grayscale binary segmentation mask, where the pixel values
+	 * correspond to the class ID of the corresponding class type.
+	 */
+	bool Mask( uint8_t* output, uint32_t width, uint32_t height );
+
+	/**
+	 * Produce a colorized RGBA segmentation mask.
+	 */
+	bool Mask( float* output, uint32_t width, uint32_t height, FilterMode filter=FILTER_LINEAR );
+
+	/**
 	 * Produce the segmentation overlay alpha blended on top of the original image.
 	 * @param input float4 input image in CUDA device memory, RGBA colorspace with values 0-255.
 	 * @param output float4 output image in CUDA device memory, RGBA colorspace with values 0-255.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
-	 * @param alpha alpha blending value indicating transparency of the overlay.
 	 * @param ignore_class label name of class to ignore in the classification (or NULL to process all).
+	 * @param type overlay visualization options
 	 * @returns true on success, false on error.
 	 */
-	bool Overlay( float* input, float* output, uint32_t width, uint32_t height, const char* ignore_class="void" );
-	
+	bool Overlay( float* output, uint32_t width, uint32_t height, FilterMode filter=FILTER_LINEAR );
+
 	/**
 	 * Find the ID of a particular class (by label name).
 	 */
@@ -142,6 +186,18 @@ public:
 	void SetGlobalAlpha( float alpha, bool explicit_exempt=true );
 
 	/**
+	 * Retrieve the number of columns in the classification grid.
+	 * This indicates the resolution of the raw segmentation output.
+	 */
+	inline uint32_t GetGridWidth() const						{ return DIMS_W(mOutputs[0].dims); }
+
+	/**
+	 * Retrieve the number of rows in the classification grid.
+	 * This indicates the resolution of the raw segmentation output.
+	 */
+	inline uint32_t GetGridHeight() const						{ return DIMS_H(mOutputs[0].dims); }
+
+	/**
 	 * Retrieve the network type (alexnet or googlenet)
 	 */
 	inline NetworkType GetNetworkType() const					{ return mNetworkType; }
@@ -154,14 +210,24 @@ public:
 protected:
 	segNet();
 	
+	bool classify( const char* ignore_class );
+
+	bool overlayPoint( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask );
+	bool overlayLinear( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask );
+	
 	bool loadClassColors( const char* filename );
 	bool loadClassLabels( const char* filename );
 	
 	std::vector<std::string> mClassLabels;
+
 	float*   mClassColors[2];	/**< array of overlay colors in shared CPU/GPU memory */
 	uint8_t* mClassMap[2];		/**< runtime buffer for the argmax-classified class index of each tile */
+	
+	float*   mLastInputImg;		/**< last input image to be processed, stored for overlay */
+	uint32_t mLastInputWidth;	/**< width in pixels of last input image to be processed */
+	uint32_t mLastInputHeight;	/**< height in pixels of last input image to be processed */
 
-	NetworkType mNetworkType;
+	NetworkType mNetworkType;	/**< Pretrained built-in model type enumeration */
 };
 
 
