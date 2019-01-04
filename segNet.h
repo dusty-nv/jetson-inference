@@ -167,7 +167,7 @@ public:
 	/**
 	 * Retrieve the description of a particular class.
 	 */
-	inline const char* GetClassLabel( uint32_t id )	const		{ return mClassLabels[id].c_str(); }
+	inline const char* GetClassLabel( uint32_t id )	const		{ return id < mClassLabels.size() ? mClassLabels[id].c_str() : NULL; }
 	
 	/**
 	 * Retrieve the class synset category of a particular class.
