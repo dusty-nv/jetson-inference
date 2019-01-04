@@ -79,7 +79,7 @@ segNet::NetworkType segNet::NetworkTypeFromStr( const char* modelName )
 
 	if( strcasecmp(modelName, "cityscapes-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes-sd") == 0 )
 		type = segNet::FCN_ALEXNET_CITYSCAPES_SD;
-	else if( strcasecmp(modelName, "cityscapes-hd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes-hd") == 0 )
+	else if( strcasecmp(modelName, "cityscapes") == 0 || strcasecmp(modelName, "cityscapes-hd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes-hd") == 0 )
 		type = segNet::FCN_ALEXNET_CITYSCAPES_HD;
 	else if( strcasecmp(modelName, "pascal-voc") == 0 || strcasecmp(modelName, "fcn-alexnet-pascal-voc") == 0 )
 		type = segNet::FCN_ALEXNET_PASCAL_VOC;
@@ -363,6 +363,7 @@ bool segNet::loadClassLabels( const char* filename )
 	if( mClassLabels.size() == 0 )
 		return false;
 	
+	mClassPath = path;
 	return true;
 }
 

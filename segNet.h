@@ -163,7 +163,7 @@ public:
 	 * Retrieve the number of object classes supported in the detector
 	 */
 	inline uint32_t GetNumClasses() const						{ return DIMS_C(mOutputs[0].dims); }
-	
+
 	/**
 	 * Retrieve the description of a particular class.
 	 */
@@ -184,6 +184,11 @@ public:
 	 * (optionally except for those that have been explicitly set).
 	 */
 	void SetGlobalAlpha( float alpha, bool explicit_exempt=true );
+
+	/**
+ 	 * Retrieve the path to the file containing the class label descriptions.
+	 */
+	inline const char* GetClassPath() const						{ return mClassPath.c_str(); }
 
 	/**
 	 * Retrieve the number of columns in the classification grid.
@@ -219,6 +224,7 @@ protected:
 	bool loadClassLabels( const char* filename );
 	
 	std::vector<std::string> mClassLabels;
+	std::string mClassPath;
 
 	float*   mClassColors[2];	/**< array of overlay colors in shared CPU/GPU memory */
 	uint8_t* mClassMap[2];		/**< runtime buffer for the argmax-classified class index of each tile */
