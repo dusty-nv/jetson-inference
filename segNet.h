@@ -69,7 +69,7 @@ public:
 	 */
 	enum FilterMode
 	{
-		FILTER_POINT,		/**< Single point sampling */
+		FILTER_POINT,		/**< Nearest point sampling */
 		FILTER_LINEAR		/**< Bilinear filtering */
 	};
 
@@ -217,8 +217,8 @@ protected:
 	
 	bool classify( const char* ignore_class );
 
-	bool overlayPoint( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask );
-	bool overlayLinear( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask );
+	bool overlayPoint( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only );
+	bool overlayLinear( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only );
 	
 	bool loadClassColors( const char* filename );
 	bool loadClassLabels( const char* filename );

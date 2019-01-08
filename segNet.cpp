@@ -603,10 +603,28 @@ bool segNet::Overlay( float* output, uint32_t width, uint32_t height, FilterMode
 }
 
 
+#define OVERLAY_CUDA 
+
+// declaration from segNet.cu
+cudaError_t cudaSegOverlay( float4* input, uint32_t in_width, uint32_t in_height,
+				        float4* output, uint32_t out_width, uint32_t out_height,
+					   float4* class_colors, uint8_t* scores, const int2& scores_dim,
+					   bool filter_linear, bool mask_only, cudaStream_t stream );
+
 
 // overlayLinear
-bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask )
+bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only )
 {
+#ifdef OVERLAY_CUDA
+	// generate overlay on the GPU
+	if( CUDA_FAILED(cudaSegOverlay((float4*)input, in_width, in_height, (float4*)output, out_width, out_height,
+							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
+							 false, mask_only, GetStream())) )
+	{
+		printf(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
+		return false;
+	}
+#else
 	// retrieve classification map
 	uint8_t* classMap = mClassMap[0];
 
@@ -634,7 +652,7 @@ bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, 
 			// output the pixel
 			float* px_out = output + (((y * out_width * 4) + x * 4));
 
-			if( mask )
+			if( mask_only )
 			{
 				// only draw the segmentation mask
 				px_out[0] = c_color[0];
@@ -660,14 +678,24 @@ bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, 
 			}
 		}
 	}
-
+#endif
 	return true;
 }
 
 
 // overlayLinear
-bool segNet::overlayLinear( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask )
+bool segNet::overlayLinear( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only )
 {
+#ifdef OVERLAY_CUDA
+	// generate overlay on the GPU
+	if( CUDA_FAILED(cudaSegOverlay((float4*)input, in_width, in_height, (float4*)output, out_width, out_height,
+							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
+							 true, mask_only, GetStream())) )
+	{
+		printf(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
+		return false;
+	}
+#else
 	// retrieve classification map
 	uint8_t* classMap = mClassMap[0];
 
@@ -748,7 +776,7 @@ bool segNet::overlayLinear( float* input, uint32_t in_width, uint32_t in_height,
 			// output the pixel
 			float* px_out = output + (((y * out_width * 4) + x * 4));
 
-			if( mask )
+			if( mask_only )
 			{
 				// only draw the segmentation mask
 				px_out[0] = c_color[0];
@@ -774,7 +802,7 @@ bool segNet::overlayLinear( float* input, uint32_t in_width, uint32_t in_height,
 			}
 		}
 	}
-
+#endif
 	return true;
 }
 	

@@ -115,13 +115,15 @@ int main( int argc, char** argv )
 
 
 	// generate image overlay
-	if( !net->Overlay(outCUDA, imgWidth, imgHeight) )
+	if( !net->Overlay(outCUDA, imgWidth, imgHeight, segNet::FILTER_LINEAR) )
 	{
 		printf("segnet-console:  failed to generate overlay.\n");
 		return 0;
 	}
 
-	
+	CUDA(cudaThreadSynchronize());
+
+
 	// save output image
 	if( !saveImageRGBA(outFilename, (float4*)outCPU, imgWidth, imgHeight) )
 		printf("segnet-console:  failed to save output image to '%s'\n", outFilename);

@@ -165,7 +165,7 @@ int main( int argc, char** argv )
 		}
 
 		// generate overlay
-		if( !net->Overlay((float*)outCUDA, camera->GetWidth(), camera->GetHeight(), segNet::FILTER_POINT) )
+		if( !net->Overlay((float*)outCUDA, camera->GetWidth(), camera->GetHeight(), segNet::FILTER_LINEAR) )
 		{
 			printf("segnet-console:  failed to process segmentation overlay.\n");
 			continue;
