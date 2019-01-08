@@ -84,8 +84,8 @@ __global__ void gpuSegOverlay( float4* input, const int in_width, const int in_h
 	else
 	{
 		// calculate coordinates in scores cell
-		const float bx = (px * float(scores_dim.x));
-		const float by = (py * float(scores_dim.y));
+		const float bx = (px * float(scores_dim.x)) - 0.5f;
+		const float by = (py * float(scores_dim.y)) - 0.5f;
 
 		const float cx = bx < 0.0f ? 0.0f : bx;
 		const float cy = by < 0.0f ? 0.0f : by;
