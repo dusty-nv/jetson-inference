@@ -23,9 +23,7 @@
 #ifndef __TENSOR_NET_H__
 #define __TENSOR_NET_H__
 
-
 #include "NvInfer.h"
-#include "NvCaffeParser.h"
 
 #include <vector>
 #include <sstream>
@@ -104,6 +102,28 @@ const char* deviceTypeToStr( deviceType type );
  * Parse the device type from a string.
  */
 deviceType deviceTypeFromStr( const char* str );
+
+/**
+ * Enumeration indicating the format of the model that's
+ * imported in TensorRT (either caffe, ONNX, or UFF).
+ */
+enum modelFormat
+{
+	MODEL_CUSTOM = 0,	/**< Created directly with TensorRT API */
+	MODEL_CAFFE,		/**< caffemodel */
+	MODEL_ONNX,		/**< ONNX */
+	MODEL_UFF			/**< UFF */
+};
+
+/**
+ * Stringize function that returns modelFormat in text.
+ */
+const char* modelFormatToStr( modelFormat format );
+
+/**
+ * Parse the model format from a string.
+ */
+modelFormat modelFormatFromStr( const char* str );
 
 
 /**
@@ -224,6 +244,11 @@ public:
 	 */
 	inline const char* GetModelPath() const				{ return mModelPath.c_str(); }
 
+	/**
+	 * Retrieve the format of the network model.
+	 */
+	inline modelFormat GetModelFormat() const			{ return mModelFormat; }
+
 protected:
 
 	/**
@@ -299,6 +324,7 @@ protected:
 
 	deviceType    mDevice;
 	precisionType mPrecision;
+	modelFormat   mModelFormat;
 	cudaStream_t  mStream;
 	cudaEvent_t   mEvents[2];
 
