@@ -4,6 +4,6 @@ file(GLOB segnetConsoleIncludes *.h )
 
 cuda_add_executable(segnet-console ${segnetConsoleSources})
 
-target_link_libraries(segnet-console nvcaffe_parser nvinfer jetson-inference)
+target_link_libraries(segnet-console jetson-inference)
 
 install(TARGETS segnet-console DESTINATION bin)

@@ -4,6 +4,6 @@ file(GLOB segnetCameraIncludes *.h )
 
 cuda_add_executable(segnet-camera ${segnetCameraSources})
 
-target_link_libraries(segnet-camera nvcaffe_parser nvinfer jetson-inference)
+target_link_libraries(segnet-camera jetson-inference)
 
 install(TARGETS segnet-camera DESTINATION bin)
