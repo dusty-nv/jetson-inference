@@ -20,11 +20,85 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include "imageNet.h"
+#include "tensorNet.h"
 
 #include "loadImage.h"
-#include "cudaFont.h"
+#include "cudaUtility.h"
 
+
+cudaError_t cudaPreHomographyNet( float4* inputA, float4* inputB, size_t inputWidth, size_t inputHeight,
+				         	    float* output, size_t outputWidth, size_t outputHeight,
+					         cudaStream_t stream );
+
+class homographyNet : public tensorNet
+{
+public:
+	static homographyNet* Create()
+	{
+		homographyNet* net = new homographyNet();
+
+		if( !net->LoadNetwork(NULL, "networks/deep-homography-coco/deep_homography.onnx",
+						  NULL, "input_0", "output_0", 1 /*MAX_BATCH_SIZE_DEFAULT*/,
+						  TYPE_FP32, DEVICE_GPU) )
+		{
+			printf(LOG_TRT "failed to load homographyNet\n");
+			delete net;
+			return NULL;
+		}
+
+		return net;
+	}
+
+	~homographyNet()
+	{
+
+	}
+
+	bool Process( float* imageA, float* imageB, uint32_t width, uint32_t height )
+	{
+		if( !imageA || !imageB || width == 0 || height == 0 )
+		{
+			printf(LOG_TRT "homographyNet::Process() -- invalid user inputs\n");
+			return false;
+		}
+
+		//printf("user input width=%u height=%u\n", width, height);
+		//printf("homg input width=%u height=%u\n", mWidth, mHeight);
+
+		if( CUDA_FAILED(cudaPreHomographyNet((float4*)imageA, (float4*)imageB, width, height,
+									  mInputCUDA, mWidth, mHeight, GetStream())) )
+		{
+			printf(LOG_TRT "homographyNet::Process() -- cudaPreHomographyNet() failed\n");
+			return false;
+		}
+
+		void* bindBuffers[] = { mInputCUDA, mOutputs[0].CUDA };	
+
+		if( !mContext->execute(1, bindBuffers) )
+		{
+			printf(LOG_TRT "homographyNet::Process() -- failed to execute TensorRT network\n");
+			return false;
+		}
+
+		PROFILER_REPORT();
+
+		const uint32_t numOutputs = DIMS_C(mOutputs[0].dims);
+
+		for( uint32_t n=0; n < numOutputs; n++ )
+			printf("%f ", mOutputs[0].CPU[n]);
+
+		printf("\n");
+		return true;
+	}
+		
+	
+protected:
+	homographyNet()
+	{
+
+	}
+
+};
 
 
 // main entry point
@@ -38,91 +112,59 @@ int main( int argc, char** argv )
 	printf("\n\n");
 	
 	
-	// retrieve filename argument
-	if( argc < 2 )
+	// retrieve filename arguments
+	if( argc < 3 )
 	{
-		printf("trt-console:   input image filename required\n");
+		printf("trt-console:   two input image filenames required\n");
 		return 0;
 	}
 	
-	const char* imgFilename = argv[1];
-	
 
-	// create imageNet
-	imageNet* net = imageNet::Create(argc, argv);
+	// load images
+	const char* imgFilename[] = { argv[1], argv[2] };
+
+	float* imgCPU[] = { NULL, NULL };
+	float* imgCUDA[] = { NULL, NULL };
+	int    imgWidth[] = { 0, 0 };
+	int    imgHeight[] = { 0, 0 };
+
+	for( uint32_t n=0; n < 2; n++ )
+	{
+		if( !loadImageRGBA(imgFilename[n], (float4**)&imgCPU[n], (float4**)&imgCUDA[n], &imgWidth[n], &imgHeight[n]) )
+		{
+			printf("failed to load image #%u '%s'\n", n, imgFilename[n]);
+			return 0;
+		}
+	}
+
+	if( imgWidth[0] != imgWidth[1] || imgHeight[0] != imgHeight[1] )
+	{
+		printf("the two images must have the same dimensions\n");
+		return 0;
+	}
+
+
+	// create homography network
+	homographyNet* net = homographyNet::Create();
 
 	if( !net )
 	{
-		printf("trt-console:   failed to initialize imageNet\n");
+		printf("trt-console:  failed to load homographyNet\n");
 		return 0;
 	}
-	
+
 	net->EnableProfiler();
-	
 
-	// load image from file on disk
-	float* imgCPU    = NULL;
-	float* imgCUDA   = NULL;
-	int    imgWidth  = 0;
-	int    imgHeight = 0;
-		
-	if( !loadImageRGBA(imgFilename, (float4**)&imgCPU, (float4**)&imgCUDA, &imgWidth, &imgHeight) )
+	// process the network
+	for( int n=0; n < 10; n++ )
 	{
-		printf("failed to load image '%s'\n", imgFilename);
-		return 0;
-	}
-	
-	// classify image
-	float confidence = 0.0f;
-	const int img_class = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
-	
-
-	// overlay the classification on the image
-	if( img_class >= 0 )
-	{
-		printf("trt-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, net->GetClassDesc(img_class));
-	
-		if( argc > 2 )
+		if( !net->Process(imgCUDA[0], imgCUDA[1], imgWidth[0], imgHeight[0]) )
 		{
-			const char* outputFilename = argv[2];
-			
-			// overlay the classification on the image
-			cudaFont* font = cudaFont::Create();
-			
-			if( font != NULL )
-			{
-				char str[512];
-				sprintf(str, "%2.3f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
-
-				const int overlay_x = 10;
-				const int overlay_y = 10;
-				const int px_offset = overlay_y * imgWidth * 4 + overlay_x * 4;
-
-				// if the image has a white background, use black text (otherwise, white)
-				const float white_cutoff = 225.0f;
-				bool white_background = false;
-
-				if( imgCPU[px_offset] > white_cutoff && imgCPU[px_offset + 1] > white_cutoff && imgCPU[px_offset + 2] > white_cutoff )
-					white_background = true;
-
-				// overlay the text on the image
-				font->RenderOverlay((float4*)imgCUDA, (float4*)imgCUDA, imgWidth, imgHeight, (const char*)str, 10, 10,
-								white_background ? make_float4(0.0f, 0.0f, 0.0f, 255.0f) : make_float4(255.0f, 255.0f, 255.0f, 255.0f));
-			}
-			
-			printf("trt-console:  attempting to save output image to '%s'\n", outputFilename);
-			
-			if( !saveImageRGBA(outputFilename, (float4*)imgCPU, imgWidth, imgHeight) )
-				printf("trt-console:  failed to save output image to '%s'\n", outputFilename);
-			else
-				printf("trt-console:  completed saving '%s'\n", outputFilename);
+			printf("trt-console:  failed to process homographyNet\n");
+			return 0;
 		}
 	}
-	else
-		printf("trt-console:  failed to classify '%s'  (result=%i)\n", imgFilename, img_class);
-	
-	printf("\nshutting down...\n");
-	CUDA(cudaFreeHost(imgCPU));
+
 	delete net;
 	return 0;
 }
