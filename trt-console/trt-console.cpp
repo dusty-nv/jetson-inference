@@ -25,6 +25,69 @@
 #include "loadImage.h"
 #include "cudaUtility.h"
 
+#include <opencv2/calib3d.hpp>
+#include <sys/time.h>
+
+
+
+
+template<typename T>
+void mat33_inverse( const T m[3][3], T inv[3][3] )
+{
+	// determinant
+	const T det = m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+			  - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+			  + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+
+	// inverse
+	inv[0][0] = + (m[1][1] * m[2][2] - m[1][2] * m[2][1]);
+	inv[0][1] = - (m[0][1] * m[2][2] - m[0][2] * m[2][1]);
+	inv[0][2] = + (m[0][1] * m[1][2] - m[0][2] * m[1][1]);
+	inv[1][0] = - (m[1][0] * m[2][2] - m[1][2] * m[2][0]);
+	inv[1][1] = + (m[0][0] * m[2][2] - m[0][2] * m[2][0]);
+	inv[1][2] = - (m[0][0] * m[1][2] - m[0][2] * m[1][0]);
+	inv[2][0] = + (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+	inv[2][1] = - (m[0][0] * m[2][1] - m[0][1] * m[2][0]);
+	inv[2][2] = + (m[0][0] * m[1][1] - m[0][1] * m[1][0]);
+
+	// scale by determinant
+	for( uint32_t i=0; i < 3; i++ )
+		for( uint32_t k=0; k < 3; k++ )
+			inv[i][k] /= det;
+}
+
+
+template<typename T>
+void mat33_print( const T m[3][3], const char* name=NULL )
+{
+	if( name != NULL )
+		printf("%s = \n");
+
+	printf(" [ ");
+
+	for( uint32_t i=0; i < 3; i++ )
+	{
+		for( uint32_t k=0; k < 3; k++ )
+			printf("%f ", m[i][k]);
+
+		if( i < 2 )
+			printf("\n   ");
+		else
+			printf("]\n");
+	}
+}
+
+	
+
+
+
+uint64_t current_timestamp() {
+    struct timeval te; 
+    gettimeofday(&te, NULL); // get current time
+    return te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
+}
+
+
 
 cudaError_t cudaPreHomographyNet( float4* inputA, float4* inputB, size_t inputWidth, size_t inputHeight,
 				         	    float* output, size_t outputWidth, size_t outputHeight,
@@ -88,9 +151,66 @@ public:
 			printf("%f ", mOutputs[0].CPU[n]);
 
 		printf("\n");
+
+		const float scale = 32.0f;
+
+		for( uint32_t n=0; n < numOutputs; n++ )
+			mOutputs[0].CPU[n] *= scale;
+
+		std::vector<cv::Point2f> pts1;
+		std::vector<cv::Point2f> pts2;
+
+		pts1.resize(4);
+		pts2.resize(4);
+
+		pts1[0].x = 0.0f;    pts1[0].y = 0.0f;
+		pts1[1].x = mWidth;  pts1[1].y = 0.0f;
+		pts1[2].x = mWidth;  pts1[2].y = mHeight;
+		pts1[3].x = 0.0f;    pts1[3].y = mHeight;
+
+		for( uint32_t n=0; n < 4; n++ )
+		{
+			pts2[n].x = pts1[n].x + mOutputs[0].CPU[n*2+0];
+			pts2[n].y = pts1[n].y + mOutputs[0].CPU[n*2+1];
+		}
+
+		for( uint32_t n=0; n < 4; n++ )
+			printf("pts1[%u]  x=%f  y=%f\n", n, pts1[n].x, pts1[n].y);
+
+		for( uint32_t n=0; n < 4; n++ )
+			printf("pts2[%u]  x=%f  y=%f\n", n, pts2[n].x, pts2[n].y);
+
+		printf("trt-console:  beginning cv::findHomography (%zu)\n", current_timestamp());
+
+		cv::Mat H_cv = cv::findHomography(pts1, pts2);
+ 
+		printf("trt-console:  finished  cv::findHomography (%zu)\n", current_timestamp());
+
+		if( H_cv.cols * H_cv.rows != 9 )
+		{
+			printf("homographyNet::Process() -- OpenCV matrix is unexpected size (%ix%i)\n", H_cv.cols, H_cv.rows);
+			return false;
+		}
+
+		double* H_ptr = H_cv.ptr<double>();
+
+		for( uint32_t n=0; n < 9; n++ )
+			printf("H[%u] = %f\n", n, H_ptr[n]);
+
+		double H[3][3];
+		double H_inv[3][3];
+
+		for( uint32_t i=0; i < 3; i++ )
+			for( uint32_t k=0; k < 3; k++ )
+				H[i][k] = H_ptr[i*3+k];
+
+		mat33_print(H, "H");
+		mat33_inverse(H, H_inv);
+		mat33_print(H_inv, "H_inv");
+		
 		return true;
 	}
-		
+	
 	
 protected:
 	homographyNet()
