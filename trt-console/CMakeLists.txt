@@ -1,5 +1,7 @@
 
-find_package(OpenCV COMPONENTS core calib3d REQUIRED)
+# OpenCV used for findHomography() and decomposeHomography()
+# OpenCV version >= 3.0.0 required for decomposeHomography()
+find_package(OpenCV 3.0.0 COMPONENTS core calib3d REQUIRED)
 
 file(GLOB trtConsoleSources *.cpp)
 file(GLOB trtConsoleIncludes *.h )

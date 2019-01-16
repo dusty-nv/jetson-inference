@@ -26,8 +26,9 @@
 #include "cudaUtility.h"
 
 #include <opencv2/calib3d.hpp>
-#include <sys/time.h>
 
+#include <sys/time.h>
+#include <iostream>
 
 
 
@@ -61,7 +62,7 @@ template<typename T>
 void mat33_print( const T m[3][3], const char* name=NULL )
 {
 	if( name != NULL )
-		printf("%s = \n");
+		printf("%s = \n", name);
 
 	printf(" [ ");
 
@@ -128,6 +129,9 @@ public:
 		//printf("user input width=%u height=%u\n", width, height);
 		//printf("homg input width=%u height=%u\n", mWidth, mHeight);
 
+		/*
+		 * convert/rescale the individual RGBA images into grayscale planar format
+		 */
 		if( CUDA_FAILED(cudaPreHomographyNet((float4*)imageA, (float4*)imageB, width, height,
 									  mInputCUDA, mWidth, mHeight, GetStream())) )
 		{
@@ -135,6 +139,9 @@ public:
 			return false;
 		}
 
+		/*
+		 * perform the inferencing
+	 	 */
 		void* bindBuffers[] = { mInputCUDA, mOutputs[0].CUDA };	
 
 		if( !mContext->execute(1, bindBuffers) )
@@ -152,11 +159,17 @@ public:
 
 		printf("\n");
 
+		/*
+		 * rescale the raw outputs
+		 */
 		const float scale = 32.0f;
 
 		for( uint32_t n=0; n < numOutputs; n++ )
 			mOutputs[0].CPU[n] *= scale;
 
+		/*
+		 * translate the x/y displacements back into corner points
+		 */
 		std::vector<cv::Point2f> pts1;
 		std::vector<cv::Point2f> pts2;
 
@@ -180,10 +193,12 @@ public:
 		for( uint32_t n=0; n < 4; n++ )
 			printf("pts2[%u]  x=%f  y=%f\n", n, pts2[n].x, pts2[n].y);
 
-		printf("trt-console:  beginning cv::findHomography (%zu)\n", current_timestamp());
 
+		/*
+		 * estimate the homography using DLT
+		 */
+		printf("trt-console:  beginning cv::findHomography (%zu)\n", current_timestamp());
 		cv::Mat H_cv = cv::findHomography(pts1, pts2);
- 
 		printf("trt-console:  finished  cv::findHomography (%zu)\n", current_timestamp());
 
 		if( H_cv.cols * H_cv.rows != 9 )
@@ -192,6 +207,10 @@ public:
 			return false;
 		}
 
+
+		/*
+		 * compute the homography's inverse
+		 */
 		double* H_ptr = H_cv.ptr<double>();
 
 		for( uint32_t n=0; n < 9; n++ )
@@ -207,6 +226,52 @@ public:
 		mat33_print(H, "H");
 		mat33_inverse(H, H_inv);
 		mat33_print(H_inv, "H_inv");
+
+
+		/*
+		 * create a default intrinsic camera calibration matrix
+		 * note:  should use a real calibration matrix here
+		 */
+		cv::Mat cam_intrinsic = cv::Mat::zeros(3, 3, CV_64FC1);	// CV_32FC1
+
+		// focal length  (TODO: fix for image size != 128)
+		const double fx = 114.0;		// F = (img_size/2) * tan(FoV/2)
+		const double fy = fx;		// F = (128/2) * tan(45/2)	
+
+		cam_intrinsic.at<double>(0,0) = fx;
+		cam_intrinsic.at<double>(1,1) = fy;
+		cam_intrinsic.at<double>(2,2) = 1.0;
+
+		cam_intrinsic.at<double>(0,2) = double(mWidth - 1) * 0.5;
+		cam_intrinsic.at<double>(1,2) = double(mHeight - 1) * 0.5;
+
+		
+		/*
+		 * decompose the homography
+		 */
+		std::vector<cv::Mat> Rs_decomp, ts_decomp, normals_decomp;
+
+		printf("trt-console:  beginning cv::decomposeHomography (%zu)\n", current_timestamp());
+		const int solutions = cv::decomposeHomographyMat(H_cv, cam_intrinsic, Rs_decomp, ts_decomp, normals_decomp);
+		printf("trt-console:  finished  cv::decomposeHomography (%zu)\n", current_timestamp());
+		
+		std::cout << std::endl << "Decompose homography matrix computed from the camera displacement:" << std::endl;
+		
+		for (int i = 0; i < solutions; i++)
+		{
+			const double factor_d1 = 1.0; //const double factor_d1 = 1.0 / d_inv1;
+			
+			cv::Mat rvec_decomp;
+			cv::Rodrigues(Rs_decomp[i], rvec_decomp);
+
+			std::cout << std::endl << "Solution " << i << ":" << std::endl;
+			std::cout << "rvec from homography decomposition: " << rvec_decomp.t() << std::endl;
+			//std::cout << "rvec from camera displacement: " << rvec_1to2.t() << std::endl;
+			std::cout << "tvec from homography decomposition: " << ts_decomp[i].t() << " and scaled by d: " << factor_d1 * ts_decomp[i].t() << std::endl;
+			//std::cout << "tvec from camera displacement: " << t_1to2.t() << std::endl;
+			std::cout << "plane normal from homography decomposition: " << normals_decomp[i].t() << std::endl;
+			//std::cout << "plane normal at camera 1 pose: " << normal1.t() << std::endl << std::endl;
+		}
 		
 		return true;
 	}
