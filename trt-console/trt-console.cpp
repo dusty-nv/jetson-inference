@@ -78,7 +78,61 @@ void mat33_print( const T m[3][3], const char* name=NULL )
 	}
 }
 
-	
+
+namespace cv
+{
+    Mat filterHomographyDecomp(InputArrayOfArrays rotations,
+                               InputArrayOfArrays normals,
+                               InputArray _beforeRectifiedPoints,
+                               InputArray _afterRectifiedPoints,
+                               InputArray _pointsMask)
+    {
+        CV_Assert(_beforeRectifiedPoints.type() == CV_32FC2 && _afterRectifiedPoints.type() == CV_32FC2 && (_pointsMask.empty() || _pointsMask.type() == CV_8U));
+
+        Mat beforeRectifiedPoints = _beforeRectifiedPoints.getMat(), afterRectifiedPoints = _afterRectifiedPoints.getMat(), pointsMask = _pointsMask.getMat();
+
+        Mat possibleSolutions;
+
+        for (int solutionIdx = 0; solutionIdx < rotations.size().area(); solutionIdx++)
+        {
+            bool solutionValid = true;
+
+            for (int pointIdx = 0; pointIdx < beforeRectifiedPoints.size().area(); pointIdx++) 
+		  {
+                if (pointsMask.empty() || pointsMask.at<bool>(pointIdx))
+                {
+                    Mat tempAddMat = Mat(1, 1, CV_64F, double(1));
+
+                    Mat tempPrevPointMat = Mat(beforeRectifiedPoints.at<Point2f>(pointIdx));
+                    tempPrevPointMat.convertTo(tempPrevPointMat, CV_64F);
+                    tempPrevPointMat.push_back(tempAddMat);
+
+                    Mat tempCurrPointMat = Mat(afterRectifiedPoints.at<Point2f>(pointIdx));
+                    tempCurrPointMat.convertTo(tempCurrPointMat, CV_64F);
+                    tempCurrPointMat.push_back(tempAddMat);
+
+                    double prevNormDot = tempPrevPointMat.dot(normals.getMat(solutionIdx));
+                    double currNormDot = tempCurrPointMat.dot(rotations.getMat(solutionIdx) * normals.getMat(solutionIdx));
+
+                    if (prevNormDot <= 0 || currNormDot <= 0)
+                    {
+				    printf("invalid solution %i  (point=%i)\n", solutionIdx, pointIdx);
+                        solutionValid = false;
+                        break;
+                    }
+                }
+            }
+            if (solutionValid)
+            {
+                possibleSolutions.push_back(solutionIdx);
+            }
+        }
+
+        return possibleSolutions;
+    }
+
+}
+
 
 
 
@@ -272,7 +326,16 @@ public:
 			std::cout << "plane normal from homography decomposition: " << normals_decomp[i].t() << std::endl;
 			//std::cout << "plane normal at camera 1 pose: " << normal1.t() << std::endl << std::endl;
 		}
+
+
+		/*
+		 * filter the possible decomposition solutions
+		 */
+		cv::Mat filtered_decomp = cv::filterHomographyDecomp(Rs_decomp, normals_decomp,
+												   pts1, pts2, cv::Mat());
 		
+		printf("filtered solutions mat (%ix%i) (type=%i)\n", filtered_decomp.cols, filtered_decomp.rows, filtered_decomp.type());
+
 		return true;
 	}
 	
