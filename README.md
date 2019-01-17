@@ -395,10 +395,10 @@ The latest source can be obtained from [GitHub](http://github.com/dusty-nv/jetso
 
       
 #### Cloning the Repo
-To obtain the repository, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed locally:
+To obtain the repository, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake as well as some dependency libraries are installed locally:
 
 ``` bash
-$ sudo apt-get install git cmake
+$ sudo apt-get install git cmake libqt4-dev libqt4-dev-bin libglew-dev
 ```
 
 Then clone the jetson-inference repo:
