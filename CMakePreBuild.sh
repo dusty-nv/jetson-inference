@@ -108,4 +108,8 @@ tar -xzvf FCN-Alexnet-Aerial-FPV-720p.tar.gz -C ../data/networks
 #tar -xzvf FCN-Alexnet-Aerial-FPV-4ch-720p.tar.gz -C ../data/networks
 
 
+# Deep Homography
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/nlqbsdnt76y0nmkwdzxkg4zbvhk4bidh.gz' -O Deep-Homography-COCO.tar.gz
+tar -xzvf Deep-Homography-COCO.tar.gz -C ../data/networks
+
 echo "[Pre-build]  Finished CMakePreBuild script"

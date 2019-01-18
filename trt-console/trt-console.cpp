@@ -155,7 +155,7 @@ public:
 	{
 		homographyNet* net = new homographyNet();
 
-		if( !net->LoadNetwork(NULL, "networks/deep-homography-coco/deep_homography.onnx",
+		if( !net->LoadNetwork(NULL, "networks/Deep-Homography-COCO/deep_homography.onnx",
 						  NULL, "input_0", "output_0", 1 /*MAX_BATCH_SIZE_DEFAULT*/,
 						  TYPE_FP32, DEVICE_GPU) )
 		{
