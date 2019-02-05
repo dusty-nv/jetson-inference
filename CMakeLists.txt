@@ -60,6 +60,10 @@ if(CUDA_VERSION_MAJOR GREATER 9)
 		${CUDA_NVCC_FLAGS}; 
 		-gencode arch=compute_72,code=sm_72
 	)
+
+	# OpenCV used for findHomography() and decomposeHomography()
+	# OpenCV version >= 3.0.0 required for decomposeHomography()
+	find_package(OpenCV 3.0.0 COMPONENTS core calib3d REQUIRED)
 endif()
 
 
@@ -86,7 +90,7 @@ file(GLOB inferenceSources *.cpp *.cu calibration/*.cpp)
 file(GLOB inferenceIncludes *.h calibration/*.h)
 
 cuda_add_library(jetson-inference SHARED ${inferenceSources})
-target_link_libraries(jetson-inference nvcaffe_parser nvinfer)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
+#target_link_libraries(jetson-inference nvcaffe_parser nvinfer)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
 
 
 # transfer all headers to the include directory
@@ -133,7 +137,10 @@ add_subdirectory(utils)
 target_link_libraries(jetson-inference jetson-utils nvinfer nvcaffe_parser)
 
 if(CUDA_VERSION_MAJOR GREATER 9)
-	target_link_libraries(jetson-inference nvonnxparser)
+	target_link_libraries(jetson-inference nvonnxparser opencv_core opencv_calib3d)
+
+	add_subdirectory(homography-console)
+	#add_subdirectory(homography-camera)
 endif()
 
 
