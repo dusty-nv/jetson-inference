@@ -25,58 +25,16 @@
 #include "commandLine.h"
 #include "cudaUtility.h"
 
+#include "mat33.h"
+
 #ifdef HAS_HOMOGRAPHY_NET
 #include <opencv2/calib3d.hpp>
 #endif
 
 
-//---------------------------------------------------------------------------
-template<typename T>
-void mat33_inverse( const T m[3][3], T inv[3][3] )
-{
-	// determinant
-	const T det = m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
-			  - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
-			  + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+//#define DEBUG_HOMOGRAPHY
 
-	// inverse
-	inv[0][0] = + (m[1][1] * m[2][2] - m[1][2] * m[2][1]);
-	inv[0][1] = - (m[0][1] * m[2][2] - m[0][2] * m[2][1]);
-	inv[0][2] = + (m[0][1] * m[1][2] - m[0][2] * m[1][1]);
-	inv[1][0] = - (m[1][0] * m[2][2] - m[1][2] * m[2][0]);
-	inv[1][1] = + (m[0][0] * m[2][2] - m[0][2] * m[2][0]);
-	inv[1][2] = - (m[0][0] * m[1][2] - m[0][2] * m[1][0]);
-	inv[2][0] = + (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
-	inv[2][1] = - (m[0][0] * m[2][1] - m[0][1] * m[2][0]);
-	inv[2][2] = + (m[0][0] * m[1][1] - m[0][1] * m[1][0]);
-
-	// scale by determinant
-	for( uint32_t i=0; i < 3; i++ )
-		for( uint32_t k=0; k < 3; k++ )
-			inv[i][k] /= det;
-}
-
-
-template<typename T>
-void mat33_print( const T m[3][3], const char* name=NULL )
-{
-	if( name != NULL )
-		printf("%s = \n", name);
-
-	printf(" [ ");
-
-	for( uint32_t i=0; i < 3; i++ )
-	{
-		for( uint32_t k=0; k < 3; k++ )
-			printf("%f ", m[i][k]);
-
-		if( i < 2 )
-			printf("\n   ");
-		else
-			printf("]\n");
-	}
-}
-
+//-------------------------------------------------------------------------------------
 #ifdef HAS_HOMOGRAPHY_NET
 namespace cv
 {
@@ -131,7 +89,7 @@ namespace cv
     }
 }
 #endif
-//---------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------
 
 // constructor
 homographyNet::homographyNet() : tensorNet()
@@ -259,13 +217,14 @@ homographyNet* homographyNet::Create( int argc, char** argv )
 }
 
 
+// from homographyNet.cu
 cudaError_t cudaPreHomographyNet( float4* inputA, float4* inputB, size_t inputWidth, size_t inputHeight,
 				         	    float* output, size_t outputWidth, size_t outputHeight,
 					         cudaStream_t stream );
 
 
-// FindHomography
-bool homographyNet::FindHomography( float* imageA, float* imageB, uint32_t width, uint32_t height )
+// FindDisplacement
+bool homographyNet::FindDisplacement( float* imageA, float* imageB, uint32_t width, uint32_t height, float displacement[8] )
 {
 #ifdef HAS_HOMOGRAPHY_NET
 	if( !imageA || !imageB || width == 0 || height == 0 )
@@ -302,12 +261,14 @@ bool homographyNet::FindHomography( float* imageA, float* imageB, uint32_t width
 
 	const uint32_t numOutputs = DIMS_C(mOutputs[0].dims);
 
+#ifdef DEBUG_HOMOGRAPHY
 	printf("raw " );
 
 	for( uint32_t n=0; n < numOutputs; n++ )
 		printf("%f ", mOutputs[0].CPU[n]);
 
 	printf("\n");
+#endif
 
 	/*
 	 * rescale the raw outputs
@@ -315,15 +276,29 @@ bool homographyNet::FindHomography( float* imageA, float* imageB, uint32_t width
 	const float scale = 32.0f;
 
 	for( uint32_t n=0; n < numOutputs; n++ )
-		mOutputs[0].CPU[n] *= scale;
+		displacement[n] = mOutputs[0].CPU[n] * scale;
 
+#ifdef DEBUG_HOMOGRAPHY
 	printf("*32 " );
 
 	for( uint32_t n=0; n < numOutputs; n++ )
-		printf("%f ", mOutputs[0].CPU[n]);
+		printf("%f ", displacement[n]);
 
 	printf("\n");
+#endif
 
+	return true;
+#else
+	printf(LOG_TRT "error -- homographyNet is supported only in TensorRT 5.0 and newer\n");
+	return false;
+#endif
+}
+	
+
+// ComputeHomography
+bool homographyNet::ComputeHomography( const float displacement[8], float H[3][3], float H_inv[3][3] )
+{
+#ifdef HAS_HOMOGRAPHY_NET
 	/*
 	 * translate the x/y displacements back into corner points
 	 */
@@ -340,16 +315,17 @@ bool homographyNet::FindHomography( float* imageA, float* imageB, uint32_t width
 
 	for( uint32_t n=0; n < 4; n++ )
 	{
-		pts2[n].x = pts1[n].x + mOutputs[0].CPU[n*2+0];
-		pts2[n].y = pts1[n].y + mOutputs[0].CPU[n*2+1];
+		pts2[n].x = pts1[n].x + displacement[n*2+0];
+		pts2[n].y = pts1[n].y + displacement[n*2+1];
 	}
 
+#ifdef DEBUG_HOMOGRAPHY
 	for( uint32_t n=0; n < 4; n++ )
 		printf("pts1[%u]  x=%f  y=%f\n", n, pts1[n].x, pts1[n].y);
 
 	for( uint32_t n=0; n < 4; n++ )
 		printf("pts2[%u]  x=%f  y=%f\n", n, pts2[n].x, pts2[n].y);
-
+#endif
 
 	/*
 	 * estimate the homography using DLT
@@ -368,17 +344,56 @@ bool homographyNet::FindHomography( float* imageA, float* imageB, uint32_t width
 	 */
 	double* H_ptr = H_cv.ptr<double>();
 
-	double H[3][3];
-	double H_inv[3][3];
+	//double H[3][3];
+	//double H_inv[3][3];
 
 	for( uint32_t i=0; i < 3; i++ )
 		for( uint32_t k=0; k < 3; k++ )
 			H[i][k] = H_ptr[i*3+k];
 
+#ifdef DEBUG_HOMOGRAPHY
 	mat33_print(H, "H");
-	mat33_inverse(H, H_inv);
+	mat33_inverse(H_inv, H);
 	mat33_print(H_inv, "H_inv");
+#endif
 
+	return true;
+#else
+	printf(LOG_TRT "error -- homographyNet is supported only in TensorRT 5.0 and newer\n");
+	return false;
+#endif
+}
+
+
+// ComputeHomography
+bool homographyNet::ComputeHomography( const float displacement[8], float H[3][3] )
+{
+	float H_inv[3][3];
+	return ComputeHomography(displacement, H, H_inv);
+}
+
+	
+// FindHomography
+bool homographyNet::FindHomography( float* imageA, float* imageB, uint32_t width, uint32_t height, float H[3][3], float H_inv[3][3] )
+{
+	float displacement[8];
+
+	if( !FindDisplacement(imageA, imageB, width, height, displacement) )
+		return false;
+
+	return ComputeHomography(displacement, H, H_inv);
+}
+
+
+// FindHomography
+bool homographyNet::FindHomography( float* imageA, float* imageB, uint32_t width, uint32_t height, float H[3][3] )
+{
+	float H_inv[3][3];
+	return FindHomography(imageA, imageB, width, height, H, H_inv);
+}
+
+
+	
 #if 0
 	/*
 	 * create a default intrinsic camera calibration matrix
@@ -434,12 +449,5 @@ bool homographyNet::FindHomography( float* imageA, float* imageB, uint32_t width
 	
 	printf("filtered solutions mat (%ix%i) (type=%i)\n", filtered_decomp.cols, filtered_decomp.rows, filtered_decomp.type());
 #endif
-	return true;
-#else
-	printf(LOG_TRT "error -- homographyNet is supported only in TensorRT 5.0 and newer\n");
-	return false;
-#endif
-}
-
 			 
 

@@ -105,11 +105,36 @@ public:
 	virtual ~homographyNet();
 	
 	/**
-	 * Find homography that warps imageA to imageB.
+	 * Find the displacement from imageA to imageB.
 	 * @returns True if the image was processed without error, false if an error was encountered.
 	 */
-	bool FindHomography( float* imageA, float* imageB, uint32_t width, uint32_t height );
+	bool FindDisplacement( float* imageA, float* imageB, uint32_t width, uint32_t height, float displacement[8] );
 	
+	/**
+	 * Find the homography that warps imageA to imageB.
+	 * @returns True if the image was processed without error, false if an error was encountered.
+	 */
+	bool FindHomography( float* imageA, float* imageB, uint32_t width, uint32_t height, float H[3][3] );
+	
+	/**
+	 * Find the homography (and it's inverse) that warps imageA to imageB.
+	 * @returns True if the image was processed without error, false if an error was encountered.
+	 */
+	bool FindHomography( float* imageA, float* imageB, uint32_t width, uint32_t height, float H[3][3], float H_inv[3][3] );
+
+	/**
+	 * Given the displacement from FindDisplacement(), compute the homography.
+	 * @returns True if the image was processed without error, false if an error was encountered.
+	 */
+	bool ComputeHomography( const float displacement[8], float H[3][3] );
+	
+	/**
+	 * Given the displacement from FindDisplacement(), compute the homography and it's inverse.
+	 * @returns True if the image was processed without error, false if an error was encountered.
+	 */
+	bool ComputeHomography( const float displacement[8], float H[3][3], float H_inv[3][3] );
+
+
 protected:
 
 	// constructor

@@ -24,6 +24,7 @@
 
 #include "loadImage.h"
 #include "commandLine.h"
+#include "mat33.h"
 
 #include <sys/time.h>
 #include <iostream>
@@ -41,21 +42,27 @@ uint64_t current_timestamp() {
 int print_usage()
 {
 	printf("\nUSAGE:\n");
-	printf("  homography-console --imageA=<path> --imageB=<path> --model=<name/path>\n\n");
-	printf("  note:  --model is optional and can be path to ONNX model, 'coco', or 'webcam'\n");
-	printf("         if --model is left unspecified, the default model is 'webcam'\n");
- 
+	printf("  homography-console --model=<name/path> --imageA=<path> --imageB=<path> --imageOut<path>\n\n");
+	printf("     >  --model is optional and can be path to ONNX model, 'coco', or 'webcam'\n");
+	printf("        if --model is left unspecified, the default model is 'webcam'\n\n");
+ 	printf("     >  --imageOut is optional, and if specified will be imageA warped by the homography\n");
+
      return 0;
 }
+
 
 // main entry point
 int main( int argc, char** argv )
 {
-	// parse command line
+	/*
+	 * parse command line
+	 */
 	commandLine cmdLine(argc, argv);
 
 	const char* imgPath[] = { cmdLine.GetString("imageA"),
 						 cmdLine.GetString("imageB") };
+
+	const char* imgWarpPath = cmdLine.GetString("imageOut");
 
 	if( !imgPath[0] || !imgPath[1] )
 	{
@@ -64,7 +71,9 @@ int main( int argc, char** argv )
 	}
 	
 	
-	// load network
+	/*
+	 * load network
+	 */
 	homographyNet* net = homographyNet::Create(argc, argv);
 
 	if( !net )
@@ -76,7 +85,9 @@ int main( int argc, char** argv )
 	net->EnableProfiler();
 
 
-	// load images
+	/* 
+	 * load input images
+	 */
 	float* imgCPU[] = { NULL, NULL };
 	float* imgCUDA[] = { NULL, NULL };
 	int    imgWidth[] = { 0, 0 };
@@ -99,14 +110,22 @@ int main( int argc, char** argv )
 	}
 
 
-	// process the network
+	/*
+	 * find the homography with the network
+	 */
+	float H[3][3];
+	float H_inv[3][3];
+
 	for( int n=0; n < 10; n++ )
 	{
-		if( !net->FindHomography(imgCUDA[0], imgCUDA[1], imgWidth[0], imgHeight[0]) )
+		if( !net->FindHomography(imgCUDA[0], imgCUDA[1], imgWidth[0], imgHeight[0], H, H_inv) )
 		{
 			printf("homography-console:  failed to find homography\n");
 			return 0;
 		}
+
+		mat33_print(H, "H");
+		mat33_print(H, "H_inv");
 	}
 
 	delete net;
