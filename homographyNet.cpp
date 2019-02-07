@@ -32,7 +32,7 @@
 #endif
 
 
-//#define DEBUG_HOMOGRAPHY
+#define DEBUG_HOMOGRAPHY
 
 //-------------------------------------------------------------------------------------
 #ifdef HAS_HOMOGRAPHY_NET
@@ -351,9 +351,10 @@ bool homographyNet::ComputeHomography( const float displacement[8], float H[3][3
 		for( uint32_t k=0; k < 3; k++ )
 			H[i][k] = H_ptr[i*3+k];
 
-#ifdef DEBUG_HOMOGRAPHY
-	mat33_print(H, "H");
 	mat33_inverse(H_inv, H);
+
+#ifdef DEBUG_HOMOGRAPHY
+	mat33_print(H, "H");	
 	mat33_print(H_inv, "H_inv");
 #endif
 

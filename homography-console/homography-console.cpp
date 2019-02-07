@@ -22,6 +22,9 @@
 
 #include "homographyNet.h"
 
+#include "cudaMappedMemory.h"
+#include "cudaWarp.h"
+
 #include "loadImage.h"
 #include "commandLine.h"
 #include "mat33.h"
@@ -62,7 +65,7 @@ int main( int argc, char** argv )
 	const char* imgPath[] = { cmdLine.GetString("imageA"),
 						 cmdLine.GetString("imageB") };
 
-	const char* imgWarpPath = cmdLine.GetString("imageOut");
+	const char* imgWarpedPath = cmdLine.GetString("imageOut");
 
 	if( !imgPath[0] || !imgPath[1] )
 	{
@@ -125,8 +128,42 @@ int main( int argc, char** argv )
 		}
 
 		mat33_print(H, "H");
-		mat33_print(H, "H_inv");
+		mat33_print(H_inv, "H_inv");
 	}
+
+
+	/*
+	 * if desired, warp the input by the homography
+	 */
+	if( imgWarpedPath != NULL )
+	{
+		float4* imgWarpedCPU  = NULL;
+		float4* imgWarpedCUDA = NULL;
+
+		// allocate memory for the warped image
+		if( !cudaAllocMapped((void**)&imgWarpedCPU, (void**)&imgWarpedCUDA, imgWidth[0] * imgHeight[0] * sizeof(float4)) )
+		{
+			printf("homography-console:  failed to allocate CUDA memory for warped image\n");
+			return 0;
+		}
+
+		// warp the original image by H
+		if( CUDA_FAILED(cudaWarpPerspective((float4*)imgCUDA[0], imgWarpedCUDA, imgWidth[0], imgHeight[0], H, false)) )
+		{
+			printf("homography-console:  failed to warp output image\n");
+			return 0;
+		}
+
+		CUDA(cudaThreadSynchronize());
+
+		// save the warped image to disk
+		if( !saveImageRGBA(imgWarpedPath, imgWarpedCPU, imgWidth[0], imgHeight[0]) )
+		{
+			printf("homography-console:  failed to save warped image to '%s'\n", imgWarpedPath);
+			return 0;
+		}
+	}
+	
 
 	delete net;
 	return 0;
