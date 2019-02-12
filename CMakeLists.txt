@@ -140,7 +140,7 @@ if(CUDA_VERSION_MAJOR GREATER 9)
 	target_link_libraries(jetson-inference nvonnxparser opencv_core opencv_calib3d)
 
 	add_subdirectory(homography-console)
-	#add_subdirectory(homography-camera)
+	add_subdirectory(homography-camera)
 endif()
 
 
