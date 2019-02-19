@@ -141,6 +141,8 @@ if(CUDA_VERSION_MAJOR GREATER 9)
 
 	add_subdirectory(homography-console)
 	add_subdirectory(homography-camera)
+
+	add_subdirectory(superres-console)
 endif()
 
 
