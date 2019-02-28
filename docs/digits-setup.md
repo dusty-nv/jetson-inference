@@ -1,5 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
 
+<p align="right"><sup><a href="digits-workflow.md">Back</a> | </sup><b><a href="../README.md"><sup>TOC</sup></a></b></p>
+
 # DIGITS System Setup
 
 During this tutorial, we'll use a host PC (or cloud instance) for training DNNs, alongside a Jetson for inference.  
@@ -144,8 +146,8 @@ $ nvidia-docker run --name digits -d -p 8888:5000 \
 Open up a web browser and access http://localhost:8888 .
 
 ##
-<p align="right">Next - <b><a href="jetpack-setup.md">Jetson Setup with JetPack</a></b>
+<p align="right">Next >> <b><a href="jetpack-setup.md">Jetson Setup with JetPack</a></b>
 <br/>
-Back - <b><a href="digits-workflow.md">DIGITS Workflow</a></p>
+Back << <b><a href="digits-workflow.md">DIGITS Workflow</a></p>
 <p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
 
