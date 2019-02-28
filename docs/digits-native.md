@@ -111,4 +111,4 @@ To access the interactive DIGITS session, open your web browser and navigate to 
 > **note**:  by default the DIGITS server will start on port 5000, but the port can be specified by passing the `--port` argument to the `digits-devserver` script.
 
 
-<p align="right">Next — <b><a href="jetpack-setup.md">Setting up Jetson with JetPack</a></b></p>
+<p align="right">Next — <b><a href="jetpack-setup.md">Jetson Setup with JetPack</a></b></p>
