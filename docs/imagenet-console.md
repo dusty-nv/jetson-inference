@@ -1,5 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="building-repo.md">Back</a> | <a href="imagenet-camera.md">Next</a> | </sup><b><a href="../README.md"><sup>Contents</sup></a></b></p>  
+<p align="right"><sup><a href="building-repo.md">Back</a> | <a href="imagenet-camera.md">Next</a> | </sup><b><a href="../README.md"><sup>Contents</sup></a></b>
+<br/>
+<sup>Module:  Image Recognition</sup></p>  
 
 ## Classifying Images with ImageNet
 There are multiple types of deep learning networks available, including recognition, detection/localization, and soon segmentation.  The first deep learning capability we're highlighting in this tutorial is **image recognition** using an 'imageNet' that's been trained to identify similar objects.
