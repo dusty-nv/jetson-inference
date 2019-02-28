@@ -1,6 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="digits-workflow.md">Back</a> | <a href="jetpack-setup.md">Next</a> | </sup><b><a href="../"><sup>Contents</sup></a></b></p>
-
+<p align="right"><sup><a href="digits-workflow.md">Back</a> | <a href="jetpack-setup.md">Next</a> | </sup><b><a href="../"><sup>Contents</sup></a></b></p>  
 # DIGITS System Setup
 
 During this tutorial, we'll use a host PC (or cloud instance) for training DNNs, alongside a Jetson for inference.  
