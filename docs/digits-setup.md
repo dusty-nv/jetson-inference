@@ -143,9 +143,9 @@ $ nvidia-docker run --name digits -d -p 8888:5000 \
 
 Open up a web browser and access http://localhost:8888 .
 
-==
+<hr>
 
 <p align="right">Next — <b><a href="jetpack-setup.md">Jetson Setup with JetPack</a></b></p>
 
-<sup><p align="center">© 2016-2019 NVIDIA | <b><a href="../README.md">Table of Contents</a></b></p></sup>
+<p align="center"><sup>© 2016-2019 NVIDIA </sup>| <b><a href="../README.md">Table of Contents</a></b></p>
 
