@@ -1,32 +1,32 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
 
-# System Setup
+# DIGITS System Setup
 
 During this tutorial, we'll use a host PC (or cloud instance) for training DNNs, alongside a Jetson for inference.  
 
 Due to the number of dependencies required for training, it's recommended for beginners to setup their host training PC with **[NVIDIA GPU Cloud (NGC)](https://www.nvidia.com/en-us/gpu-cloud/)** or [nvidia-docker](https://github.com/NVIDIA/nvidia-docker).  These methods automate the install of the drivers and machine learning frameworks on the host.  NGC can be used to deploy Docker images locally, or remotely to cloud providers like AWS or Azure N-series.
 
-A host PC will also serve to flash the Jetson with the latest JetPack.  First, we'll setup and configure the host PC with the required OS and tools.
+A host PC will also serve to flash the Jetson with the latest JetPack.  First, we'll setup and configure the host training PC with the required OS and tools.
 
 ### Installing Ubuntu on the Host
 
-Download and install Ubuntu 16.04 x86_64 onto the host PC from one of the following locations:
+If you don't already have Ubuntu installed on your host PC, download and install Ubuntu 16.04 x86_64 from one of the following locations:
 
 ```
 http://releases.ubuntu.com/16.04/ubuntu-16.04.2-desktop-amd64.iso
 http://releases.ubuntu.com/16.04/ubuntu-16.04.2-desktop-amd64.iso.torrent
 ```
 
-Ubuntu 14.04 x86_64 may also be acceptable with minor modifications later while installing some packages with apt-get.
+Ubuntu 14.04 x86_64 or Ubuntu 18.04 x86_64 may also be acceptable with minor modifications later while installing some packages with apt-get.
 
 ### Setting up host training PC with NGC container	
 
-> **note**:  if you're setting up DIGITS natively on your host PC, you should skip ahead to [`Natively setting up DIGITS on the Host`](#natively-setting-up-digits-on-the-host)  
+> **note**:  if you're setting up DIGITS natively on your host PC, you should go to [`Natively setting up DIGITS on the Host`](digits-native.md)  
 
 NVIDIA hosts NVIDIA® GPU Cloud (NGC) container registry for AI developers worldwide.
 You can download a containerized software stack for a wide range of deep learning frameworks, optimized and verified with NVIDIA libraries and CUDA runtime version.
 
-<img src="./docs/images/NGC-Registry_DIGITS.png">
+<img src="./images/NGC-Registry_DIGITS.png">
 
 If you have a recent generation GPU (Pascal or newer) on your PC, the use of NGC registry container is probably the easiest way to setup DIGITS.
 To use a NGC registry container on your local host machine (as opposed to cloud), you can follow this detailed [setup guide](https://docs.nvidia.com/ngc/ngc-titan-setup-guide/index.html).
@@ -101,7 +101,7 @@ https://ngc.nvidia.com/signup/register
 
 Generate your API key, and save it somewhere safe. You will use this soon later.
 
-<img src="./docs/images/NGC-Registry_API-Key-generated.png" width="500">
+<img src="./images/NGC-Registry_API-Key-generated.png" width="500">
 
 #### Setting up data and job directory for DIGITS
 
@@ -142,4 +142,5 @@ $ nvidia-docker run --name digits -d -p 8888:5000 \
 ```
 
 Open up a web browser and access http://localhost:8888 .
-<p align="right">Next — <a href="system-setup.md">System Setup</a></p>
+
+<p align="right">Next — <b><a href="jetpack-setup.md">Setting up Jetson with JetPack</a></b></p>

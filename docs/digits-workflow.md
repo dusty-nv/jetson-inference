@@ -12,4 +12,4 @@ Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.co
 
 NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field. TensorRT uses graph optimizations and half-precision FP16 support to more than double DNN inferencing.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of implementing advanced AI and perception. 
 
-<p align="right">Next — <a href="system-setup.md">System Setup</a></p>
+<p align="right">Next — <b><a href="digits-setup.md">DIGITS System Setup</a></b></p>
