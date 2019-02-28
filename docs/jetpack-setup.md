@@ -1,5 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="digits-setup.md">Back</a> | <a href="building-repo.md">Next</a> | </sup><b><a href="../README.md"><sup>Contents</sup></a></b></p>  
+<p align="right"><sup><a href="digits-setup.md">Back</a> | <a href="building-repo.md">Next</a> | </sup><b><a href="../README.md"><sup>Contents</sup></a></b>
+<br/>
+<sup>System Setup</sup></p> 
 
 # Setting up Jetson with JetPack
 
