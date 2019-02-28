@@ -5,7 +5,7 @@
 
 # DIGITS Workflow
 
-New to deep neural networks (DNNs) and machine learning?  Take this [introductory primer](docs/deep-learning.md) on training and inference.
+New to deep neural networks (DNNs) and machine learning?  Take this [introductory primer](deep-learning.md) on training and inference.
 
 <a href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/deep-learning.md"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/digits-samples.jpg" width="800"></a>
 
@@ -15,10 +15,6 @@ Using NVIDIA deep learning tools, it's easy to **[Get Started](https://github.co
 
 NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train network models on annotated datasets in the cloud or PC, while TensorRT and Jetson are used to deploy runtime inference in the field. TensorRT uses graph optimizations and half-precision FP16 support to more than double DNN inferencing.  Together, DIGITS and TensorRT form an effective workflow for developing and deploying deep neural networks capable of implementing advanced AI and perception. 
 
-<p align="right">Next — <b><a href="digits-setup.md">DIGITS System Setup</a></b></p>
-
 ##
-<p align="right">Next | <b><a href="digits-setup.md">DIGITS System Setup</a></b>
-<br/>
-Back | <b><a href="../README.md">Readme</a></p>
+<p align="right">Next | <b><a href="digits-setup.md">DIGITS System Setup</a></b></p>
 <p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
