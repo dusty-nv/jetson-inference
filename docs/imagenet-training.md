@@ -3,7 +3,7 @@
 <br/>
 <sup>Image Recognition</sup></p> 
 
-### Re-training the Network with DIGITS
+# Re-training the Network with DIGITS
 
 The existing GoogleNet and AlexNet models that are downloaded by the repo are pre-trained on [1000 classes of objects](data/networks/ilsvrc12_synset_words.txt) from the ImageNet ILSVRC12 benchmark.
 

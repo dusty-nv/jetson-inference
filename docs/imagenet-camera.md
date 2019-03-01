@@ -19,6 +19,8 @@ The frames per second (FPS), classified object name from the video, and confiden
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange-camera.jpg" width="800">
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple-camera.jpg" width="800">
 
+Next, we will re-train the image recognition network on a customized dataset.
+
 ##
 <p align="right">Next | <b><a href="imagenet-training.md">Re-training the Recognition Network</a></b>
 <br/>

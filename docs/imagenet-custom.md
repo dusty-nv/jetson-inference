@@ -5,7 +5,7 @@
 
 # Loading Custom Models on Jetson
 
-The `imagenet-console` and `imagenet-camera` programs that we used before also accept extended command line parameters for loading a custom model snapshot.  Set the `$NET` variable below to the path to your extracted snapshot:
+The [`imagenet-console`](imagenet-console/imagenet-console.cpp) and [`imagenet-camera`](imagenet-camera/imagenet-camera.cpp) programs that we used before also accept extended command line parameters for loading a custom model snapshot.  Set the `$NET` variable below to the path to your extracted snapshot:
 
 ``` bash
 $ NET=networks/GoogleNet-ILSVRC12-subset
@@ -18,7 +18,7 @@ $ ./imagenet-console bird_0.jpg output_0.jpg \
 --output_blob=softmax
 ```
 
-As before, the classification and confidence will be overlayed to the output image.  When compared to the output of the original network, the re-trained GoogleNet-12 makes similar classifications to the original GoogleNet-1000:
+As before, the classification and confidence will be overlayed to the output image.  When compared to the output of the original network, the retrained GoogleNet-12 makes similar classifications to the original GoogleNet-1000, except that now it outputs the meta-classes that we've retrained it with:
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-tensorRT-console-bird.png)
 
