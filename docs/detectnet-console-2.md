@@ -83,6 +83,10 @@ When using the multiped model (`PEDNET_MULTI`), for images containing luggage or
 $ ./detectnet-console peds-003.jpg output-3.jpg multiped
 ```
 
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-01.jpg" width="900">
+
+Next, we'll run object detection on a live camera stream.
+
 ##
 <p align="right">Next | <b><a href="detectnet-camera-2.md">Running the Live Camera Detection Demo</a></b>
 <br/>
