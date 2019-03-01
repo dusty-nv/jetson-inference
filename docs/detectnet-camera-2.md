@@ -3,16 +3,16 @@
 <br/>
 <sup>Object Detection</sup></p>
 
-# Running the Live Camera Detection Demo on Jetson
+# Running the Live Camera Detection Demo
 
 Similar to the previous example, [`detectnet-camera`](detectnet-camera/detectnet-camera.cpp) runs the object detection networks on live video feed from the Jetson onboard camera.  Launch it from command line along with the type of desired network:
 
 ``` bash
-$ ./detectnet-camera coco-bottle    # detect bottles/soda cans in the camera
-$ ./detectnet-camera coco-dog       # detect dogs in the camera
+$ ./detectnet-camera facenet        # run using facial recognition network
 $ ./detectnet-camera multiped       # run using multi-class pedestrian/luggage detector
 $ ./detectnet-camera pednet         # run using original single-class pedestrian detector
-$ ./detectnet-camera facenet        # run using facial recognition network
+$ ./detectnet-camera coco-bottle    # detect bottles/soda cans in the camera
+$ ./detectnet-camera coco-dog       # detect dogs in the camera
 $ ./detectnet-camera                # by default, program will run using multiped
 ```
 
