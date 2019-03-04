@@ -90,10 +90,8 @@ In this area, links and resources for deep learning developers are listed:
 
 ## Legacy Links
 
-<details>
+<details open>
 <summary>Since the documentation has been re-organized, below are links mapping the previous content to the new locations.</summary>
-
-
 
 
 ### DIGITS Workflow
