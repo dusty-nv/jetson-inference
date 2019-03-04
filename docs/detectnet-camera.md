@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="detectnet-console.md">Back</a> | <a href="detectnet-camera.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
+<p align="right"><sup><a href="detectnet-console.md">Back</a> | <a href="segnet-dataset.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></p>
 
@@ -26,7 +26,7 @@ $ ./detectnet-camera                # by default, program will run using multipe
 <br/>
 
 ##
-<p align="right">Next | <b><a href="detectnet-console.md">Detecting Objects from the Command Line</a></b>
+<p align="right">Next | <b><a href="segnet-dataset.md">Semantic Segmentation with SegNet</a></b>
 <br/>
 Back | <b><a href="detectnet-console.md">Detecting Objects from the Command Line</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>
