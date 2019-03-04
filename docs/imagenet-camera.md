@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="imagenet-console.md">Back</a> | <a href="imagenet-training.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
+<p align="right"><sup><a href="imagenet-example.md">Back</a> | <a href="imagenet-training.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
 
@@ -24,5 +24,5 @@ Next, we will re-train the image recognition network on a customized dataset.
 ##
 <p align="right">Next | <b><a href="imagenet-training.md">Re-training the Recognition Network</a></b>
 <br/>
-Back | <b><a href="imagenet-console.md">Classifying Images with ImageNet</a></p>
+Back | <b><a href="imagenet-example.md">Creating Your Own Image Recognition Program</a></p>
 <p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
