@@ -86,12 +86,15 @@ In this area, links and resources for deep learning developers are listed:
 	* [ros_deep_learning](http://www.github.com/dusty-nv/ros_deep_learning) - TensorRT inference ROS nodes
      * [NVIDIA AI IoT](https://github.com/NVIDIA-AI-IOT) - NVIDIA Jetson GitHub repositories
      * [Jetson eLinux Wiki](https://www.eLinux.org/Jetson) - Jetson eLinux Wiki
-     * [Other Examples](docs/other-examples.md)
 
 
 ## Legacy Links
 
-Since the documentation has been re-organized, below are convenience links mapping the previous content to the new locations.
+<details>
+<summary>Since the documentation has been re-organized, below are links mapping the previous content to the new locations.</summary>
+
+
+
 
 ### DIGITS Workflow
 
@@ -324,3 +327,6 @@ See [FCN-Alexnet Patches for TensorRT](docs/segnet-patches.md)
 ### Running Segmentation Models on Jetson
 
 See [Running Segmentation Models on Jetson](docs/segnet-console.md)
+
+</details>
+
