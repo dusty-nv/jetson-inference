@@ -3,14 +3,20 @@
 <br/>
 <sup>Image Recognition</sup></p>  
 
-# Creating Your Own Image Recognition Program
-In the previous step, we ran an application that came with the `jetson-inference` repo.  Now, we're going to walk through creating a new program from scratch for image recognition called [`my-recognition`](examples/my-recognition/my-recognition.cpp).  This program will be able to exist as a standalone project outside the repo, hence if you wish to use the `jetson-inference` library in your own projects and applications, you can follow this example.  For convienience and your reference, the completed files are available in the [`examples/my-recognition`](examples/my-recognition) directory of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing.   
+# Coding Your Own Image Recognition Program
+In the previous step, we ran an application that came with the jetson-inference repo.  
 
-## Setting up Project Structure
+Now, we're going to walk through creating a new program from scratch for image recognition called [`my-recognition`](../examples/my-recognition/my-recognition.cpp).  This program will be able to exist as a standalone project outside the repo, hence if you wish to use the jetson-inference library in your own projects and applications, you can follow this example.  
 
-You can store the `my-recognition` example that we will be creating wherever you want on your Jetson.  For simplicity, this guide will create it in the user's home directory at `~/my-recognition`.
+For your convenience and reference, the completed files are available in the [`examples/my-recognition`](../examples/my-recognition) directory of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing.   
 
-Run these commands from a terminal to create the directory and files required.  We will then add the necessary source code for the program to the files.  
+## Setting up the Project
+
+You can store the `my-recognition` example that we will be creating wherever you want on your Jetson.  
+
+For simplicity, this guide will create it in the user's home directory located at `~/my-recognition`.
+
+Run these commands from a terminal to create the directory and files required:  
 
 ``` bash
 $ mkdir ~/my-recognition
@@ -22,13 +28,17 @@ $ wget https://github.com/dusty-nv/jetson-inference/raw/master/data/images/brown
 $ wget https://github.com/dusty-nv/jetson-inference/raw/master/data/images/polar_bear.jpg 
 ```
 
-Some test images are also downloaded with the `wget` commands above.  Next, we'll code the main source file for the program.
+Some test images are also downloaded to the folder with the `wget` commands above.  
+
+Next, we'll add the code for the program to the empty source files we created here.
 
 ## Source Code
 
-Open up the empty `my-recognition.cpp` in your editor of choice (or run `gedit my-recognition.cpp`).  We are going to start adding the necessary code to use the [`imageNet`](imageNet.h) class for recognizing images.
+Open up `my-recognition.cpp` in your editor of choice (or run `gedit my-recognition.cpp`).  
 
-#### Including Headers
+Let's start adding the necessary code to use the [`imageNet`](../imageNet.h) class for recognizing images.
+
+#### Includes
 
 First, include a couple of headers that we'll need:
 
@@ -39,12 +49,12 @@ First, include a couple of headers that we'll need:
 // include loadImage header for loading images
 #include <jetson-utils/loadImage.h>
 ```
-> **note**:  these headers are installed under `/usr/local/include` during the `sudo make install` step of [building the `jetson-inference` repo](building-repo.md)
+> **note**:  these headers are installed under `/usr/local/include` during the `sudo make install` step of [building the jetson-inference repo](building-repo.md)  
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these headers won't be found when we go to compile the example later on.
 
-#### Declaring main() and Parsing Command Line Arguments
+#### Declaring main() and Parsing the Command Line
 
-Next, declare your `main()` method and check to make sure that the program was launched with the desired image filename as a command line argument:
+Next, declare your `main()` method and verify that the program was launched with the image filename as an argument on the command line:  
 
 ``` cpp
 // main entry point
@@ -69,20 +79,20 @@ This example loads and classifies an image that the user specifies.  It will be 
 $ ./my-recognition my_image.jpg
 ```
 
-where the desired image filename should be substituted for `my_image.jpg`.  The code above makes sure that this command line argument was provided to the program.
+The desired image filename to be loaded should be substituted for `my_image.jpg`.  The code above makes sure that this command line argument was provided to the program.
 
 #### Loading the Image from Disk
 
-Declare some variables that will store the attributes of the image and pointers to the memory, and then load the image from disk with the [`loadImageRGBA()`](utils/loadImage.h) function.
+Declare some variables that will store the dimensions of the image and pointers to it's memory, and then load the image from disk with the [`loadImageRGBA()`](../utils/loadImage.h) function.
 
 ``` cpp
 	// these variables will be used to store the image data and dimensions
 	// the image data will be stored in shared CPU/GPU memory, so there are
 	// pointers for the CPU and GPU (both reference the same physical memory)
-	float* imgCPU    = NULL;		// CPU pointer to floating-point RGBA image data
-	float* imgCUDA   = NULL;		// GPU pointer to floating-point RGBA image data
-	int    imgWidth  = 0;		// width of the image (in pixels)
-	int    imgHeight = 0;		// height of the image (in pixels)
+	float* imgCPU    = NULL;    // CPU pointer to floating-point RGBA image data
+	float* imgCUDA   = NULL;    // GPU pointer to floating-point RGBA image data
+	int    imgWidth  = 0;       // width of the image (in pixels)
+	int    imgHeight = 0;       // height of the image (in pixels)
 		
 	// load the image from disk as float4 RGBA (32 bits per channel, 128 bits per pixel)
 	if( !loadImageRGBA(imgFilename, (float4**)&imgCPU, (float4**)&imgCUDA, &imgWidth, &imgHeight) )
@@ -92,11 +102,15 @@ Declare some variables that will store the attributes of the image and pointers 
 	}
 ```
 
-The image will be stored in shared memory that's mapped to the CPU and GPU.  There are pointers available for access on the CPU and GPU, but there is really only one copy of the image in memory.  Both the CPU and CUDA pointers resolve to the same physical memory, without needing to perform memory copies.  When accessing the image from CPU code, the `imgCPU` pointer should be used, and when accessing the image from a CUDA kernel on the GPU, the `imgCUDA` pointer should be used.  Since our operations in this example will run on the GPU with TensorRT, we will be using the `imgCUDA` pointer.  The image is loaded in `float4` RGBA format, with pixel values between 0.0 and 255.0.  
+The loaded image will be stored in shared memory that's mapped to both the CPU and GPU.  There are two pointers available for access in the CPU and GPU address spaces, but there is really only one copy of the image in memory.  Both the CPU and GPU pointers resolve to the same physical memory, without needing to perform memory copies (i.e. `cudaMemcpy()`).  
+
+When accessing the image from CPU code, the `imgCPU` pointer should be used, and when accessing the image from within a CUDA kernel on the GPU, the `imgCUDA` pointer should be used.  Since our operations in this example will run on the GPU with TensorRT, we will be using the `imgCUDA` pointer.  
+
+The image is loaded in `float4` RGBA format, with pixel values between 0.0 and 255.0.  
 
 #### Loading the Image Recognition Network
 
-The following code will load the GoogleNet model with TensorRT, which gets downloaded when you initially built the `jetson-inference` repo.  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](data/networks/ilsvrc12_synset_words.txt) of objects.
+The following code will load the GoogleNet model with TensorRT, which was already downloaded when you initially [built the `jetson-inference` repo](building-repo.md).  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many species of animals, and everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
 
 ``` cpp
 	// load the GoogleNet image recognition network with TensorRT
@@ -111,7 +125,9 @@ The following code will load the GoogleNet model with TensorRT, which gets downl
 	}
 ```
 
-If desired, you can load the AlexNet model instead by calling `imageNet::Create(imageNet::ALEXNET)`.  The AlexNet model is also trained on the same 1000 classes of objects from ILSVRC12.  
+If desired, you can load the AlexNet model instead of GoogleNet by calling `imageNet::Create(imageNet::ALEXNET)`.  
+
+The AlexNet model is also trained on the same 1000 classes of objects from ILSVRC12.  
 
 #### Classifying the Image
 
@@ -126,11 +142,13 @@ Next, we are going to classify the image that we loaded with the image recogniti
 	const int classIndex = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
 ```
 
-The `imageNet::Classify()` function accepts an image in GPU memory and performs the inferencing in TensorRT.  It returns the index of the object class that the image was recognized as, along with the confidence value of the result.
+The `imageNet::Classify()` function accepts an image in GPU memory, and performs the inferencing with TensorRT.  
+
+It returns the index of the object class that the image was recognized as, along with the confidence value of the result.
 
 #### Interpreting the Results
 
-Unless the call to `imageNet::Classify()` resulted in an error, print out the classification info of the recognized object:   
+Unless the call to `imageNet::Classify()` resulted in an error, let's print out the classification info of the recognized object:   
 
 ``` cpp
 	// make sure a valid classification result was returned	
@@ -150,7 +168,9 @@ Unless the call to `imageNet::Classify()` resulted in an error, print out the cl
 	}
 ```
 
-Since `imageNet::Classify()` returns an integer-based index of the object class (between 0 and 1000), we use the `imageNet::GetClassDesc()` function to retrieve a human-readable description of the object.  These descriptions of the 1000 classes are parsed from [`ilsvrc12_synset_words.txt`](data/networks/ilsvrc12_synset_words.txt) when the network gets loaded (this file was previously downloaded when the `jetson-inference` repo was built).  
+Since `imageNet::Classify()` returns an integer-based index of the object class (between 0 and 1000 for ILSVRC12), we use the `imageNet::GetClassDesc()` function to retrieve a human-readable description of the object.  
+
+These descriptions of the 1000 classes are parsed from [`ilsvrc12_synset_words.txt`](../data/networks/ilsvrc12_synset_words.txt) when the network gets loaded (this file was previously downloaded when the `jetson-inference` repo was built).  
 
 #### Shutting Down
 
@@ -165,7 +185,9 @@ Before exiting the program, `delete` the network object to destroy the TensorRT 
 }
 ```
 
-That's it!  Next we just need to create a simple makefile for our new recognition program with CMake.
+That's it!  Remember to add the return statement and closing curly bracket to your main() method.  
+
+Next we just need to create a simple makefile for our new recognition program with CMake.
 
 ## Creating CMakeLists.txt
 
@@ -199,9 +221,9 @@ cuda_add_executable(my-recognition my-recognition.cpp)
 target_link_libraries(my-recognition jetson-inference)
 ```
 
-You can use this as a template for compiling your own projects that use the `jetson-inference` library.  The most relevant bits are:
+In the future you can use this CMakeLists as a template for compiling your own projects that use the `jetson-inference` library.  The most relevant bits are:
 
-*  Pull in the `jetson-inference` and `jetson-utils` project:  
+*  Pull in the `jetson-utils` and `jetson-inference` projects:  
      ``` cmake
 		find_package(jetson-utils)
 		find_package(jetson-inference)
@@ -211,8 +233,8 @@ You can use this as a template for compiling your own projects that use the `jet
 		target_link_libraries(my-recognition jetson-inference)
 	```
 
-> **note**:  these libraries are installed under `/usr/local/lib` during the `sudo make install` step of [building the `jetson-inference` repo](building-repo.md)
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these libraries won't be found when we go to compile the example later on.
+> **note**:  these libraries are installed under `/usr/local/lib` during the `sudo make install` step of [building the jetson-inference repo](building-repo.md)  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these libraries won't be found when we go to compile the example in the next step.  
 
 ## Building the Example
 
@@ -224,11 +246,13 @@ $ cmake .
 $ make
 ```
 
-If you encounter errors, make sure that you ran `sudo make install` while [building the `jetson-inference` repo](building-repo.md).  You can also download the completed, working code of this example from the [`examples/my-recognition`](examples/my-recognition) directory of the repo.  
+If you encounter errors, make sure that you ran `sudo make install` while [building the jetson-inference repo](building-repo.md).  
+
+You can also download the completed, working code of this example from the [`examples/my-recognition`](../examples/my-recognition) directory of the repo.  
 
 ## Running the Example
 
-Now that our program is compiled, let's classify the test images that we [downloaded](#setting-up-project-structure) at the beginning of this guide:  
+Now that our program is compiled, let's classify the test images that we [downloaded](#setting-up-the-project) at the beginning of this guide:  
 
 ``` bash
 $ ./my-recognition polar_bear.jpg
