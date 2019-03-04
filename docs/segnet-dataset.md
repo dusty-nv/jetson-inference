@@ -56,7 +56,7 @@ In the dataset creation form, specify the following options and paths to the ima
 Name the dataset whatever you choose and click the `Create` button at the bottom of the page to launch the importing job.  Next we'll create the new segmentation model and begin training.
 
 ##
-<p align="right">Next | <b><a href="detectnet-camera.md">Running the Live Camera Detection Demo</a></b>
+<p align="right">Next | <b><a href="segnet-pretrained.md">Generating Pretrained FCN-Alexnet</a></b>
 <br/>
-Back | <b><a href="segnet-pretrained.md">Generating Pretrained FCN-Alexnet</a></p>
+Back | <b><a href="detectnet-camera.md">Running the Live Camera Detection Demo</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>

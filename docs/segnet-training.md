@@ -29,7 +29,7 @@ Press `Test One` and you should see a display similar to:
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-digits-aerial-infer.png)
 
-Next, download and extract the trained model snapshot to Jetson.
+Next, download and extract the trained model snapshot to Jetson and proceed to the next step.  
 
 ##
 <p align="right">Next | <b><a href="segnet-patches.md">FCN-Alexnet Patches for TensorRT</a></b>
