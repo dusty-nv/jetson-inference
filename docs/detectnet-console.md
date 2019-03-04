@@ -26,7 +26,7 @@ $ ./detectnet-console dog_0.jpg output_0.jpg \
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-dog-0.jpg)
 
-#### Launching With a Pretrained Model
+### Launching With a Pretrained Model
 
 Alternatively, to load one of the pretrained snapshots that comes with the repo, you can specify the pretrained model name as the 3rd argument to `detectnet-console`:
 
@@ -38,7 +38,7 @@ The above command will process dog_1.jpg, saving it to output_1.jpg, using the p
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-dog-1.jpg)
 
-#### Pretrained DetectNet Models Available
+### Pretrained DetectNet Models Available
 
 Below is a table of the pretrained DetectNet snapshots downloaded with the repo (located in the `data/networks` directory after running `cmake` step) and the associated argument to `detectnet-console` used for loading the pretrained model:
 
@@ -82,7 +82,7 @@ $ ./detectnet-console peds-004.jpg output-4.jpg multiped
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-00.jpg" width="900">
 
-### Multi-class Object Detection Models
+#### Multi-class Object Detection Models
 When using the multiped model (`PEDNET_MULTI`), for images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
 
 ``` bash

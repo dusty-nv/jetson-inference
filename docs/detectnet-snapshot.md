@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="detectnet-training.md">Back</a> | <a href="detectnet-snapshot.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
+<p align="right"><sup><a href="detectnet-training.md">Back</a> | <a href="detectnet-console.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></p> 
 
