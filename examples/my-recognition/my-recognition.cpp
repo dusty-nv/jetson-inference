@@ -72,13 +72,13 @@ int main( int argc, char** argv )
 	float confidence = 0.0;
 
 	// classify the image with TensorRT on the GPU (hence we use the CUDA pointer)
-	// this will return the index of the class that the image was recognized as (or -1 on error)
+	// this will return the index of the object class that the image was recognized as (or -1 on error)
 	const int classIndex = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
 
 	// make sure a valid classification result was returned	
 	if( classIndex >= 0 )
 	{
-		// retrieve the name/description of the class index
+		// retrieve the name/description of the object class index
 		const char* classDescription = net->GetClassDesc(classIndex);
 
 		// print out the classification results
