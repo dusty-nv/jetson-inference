@@ -92,7 +92,7 @@ In this area, links and resources for deep learning developers are listed:
 
 <details open>
 <summary>Since the documentation has been re-organized, below are links mapping the previous content to the new locations.</summary>
-
+(click on the arrow to hide this section)
 
 ### DIGITS Workflow
 
