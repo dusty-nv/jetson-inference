@@ -5,7 +5,7 @@
 
 # Re-Training the Recognition Network
 
-The existing GoogleNet and AlexNet models that are downloaded by the repo are pre-trained on [1000 classes of objects](data/networks/ilsvrc12_synset_words.txt) from the ImageNet ILSVRC12 benchmark.
+The existing GoogleNet and AlexNet models that are downloaded by the repo are pre-trained on [1000 classes of objects](../data/networks/ilsvrc12_synset_words.txt) from the ImageNet ILSVRC12 benchmark.
 
 To recognize a new object class, you can use DIGITS to re-train the network on new data.  You can also organize the existing classes differently, including group multiple subclasses into one.  For example in this tutorial we'll take 230 of the 1000 classes, group those into 12 classes and retrain the network.
 
@@ -13,7 +13,7 @@ Let's start by downloading the ILSVRC12 images to work with, or you can substitu
 
 ### Downloading Image Recognition Dataset
 
-An image recognition dataset consists of a large number of images sorted by their classification type (typically by directory).  The ILSVRC12 dataset was used in the training of the default GoogleNet and AlexNet models.  It's roughly 100GB in size and includes 1 million images over 1000 different classes.  The dataset is downloaded to the DIGITS server using the [`imagenet-download.py`](tools/imagenet-download.py) image crawler.
+An image recognition dataset consists of a large number of images sorted by their classification type (typically by directory).  The ILSVRC12 dataset was used in the training of the default GoogleNet and AlexNet models.  It's roughly 100GB in size and includes 1 million images over 1000 different classes.  The dataset is downloaded to the DIGITS server using the [`imagenet-download.py`](../tools/imagenet-download.py) image crawler.
 
 To download the dataset, first make sure you have enough disk space on your DIGITS server (120GB recommended), then run the following commands from a directory on that machine where you want the dataset stored:
 
@@ -40,7 +40,7 @@ n01494475/
 ...
 ```
 
-These 8-digit ID's prefixed wth N are referred to as the **synset ID** of the class.  The name string of the class can be looked up in [`ilsvrc12_synset_words.txt`](data/networks/ilsvrc12_synset_words.txt).  For example, synset `n01484850 great white shark`.
+These 8-digit ID's prefixed wth N are referred to as the **synset ID** of the class.  The name string of the class can be looked up in [`ilsvrc12_synset_words.txt`](../data/networks/ilsvrc12_synset_words.txt).  For example, synset `n01484850 great white shark`.
 
 ### Customizing the Object Classes
 
@@ -72,7 +72,7 @@ DIGITS expects the data in a hierarchy of folders, so we can create directories 
 • sign/  (2)
 ```
 
-Since there are actually a lot of synsets linked to from ILSVRC12, we provide the **[`imagenet-subset.sh`](tools/imagenet-subset.sh)** script to generate the directory structure and links given the path to the dataset.  Run the folowing commands from the DIGITS server:
+Since there are actually a lot of synsets linked to from ILSVRC12, we provide the **[`imagenet-subset.sh`](../tools/imagenet-subset.sh)** script to generate the directory structure and links given the path to the dataset.  Run the folowing commands from the DIGITS server:
 
 ``` bash
 $ wget https://rawgit.com/dusty-nv/jetson-inference/master/tools/imagenet-subset.sh

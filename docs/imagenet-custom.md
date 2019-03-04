@@ -5,7 +5,7 @@
 
 # Loading Custom Models on Jetson
 
-The [`imagenet-console`](imagenet-console/imagenet-console.cpp) and [`imagenet-camera`](imagenet-camera/imagenet-camera.cpp) programs that we used before also accept extended command line parameters for loading a custom model snapshot.  Set the `$NET` variable below to the path to your extracted snapshot:
+The [`imagenet-console`](../imagenet-console/imagenet-console.cpp) and [`imagenet-camera`](../imagenet-camera/imagenet-camera.cpp) programs that we used before also accept extended command line parameters for loading a custom model snapshot.  Set the `$NET` variable below to the path to your extracted snapshot:
 
 ``` bash
 $ NET=networks/GoogleNet-ILSVRC12-subset
@@ -22,7 +22,7 @@ As before, the classification and confidence will be overlayed to the output ima
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-tensorRT-console-bird.png)
 
-The extended command line parameters above also load custom classification models with [`imagenet-camera`](imagenet-camera/imagenet-camera.cpp). 
+The extended command line parameters above also load custom classification models with [`imagenet-camera`](../imagenet-camera/imagenet-camera.cpp). 
 
 ##
 <p align="right">Next | <b><a href="detectnet-training.md">Locating Object Coordinates using DetectNet</a></b>

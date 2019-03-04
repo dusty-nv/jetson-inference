@@ -6,7 +6,7 @@
 # Locating Object Coordinates using DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
 
-The [`detectNet`](detectNet.h) object accepts as input the 2D image, and outputs a list of coordinates of the detected bounding boxes.  To train the object detection model, first a pretrained ImageNet recognition model (like Googlenet) is used with bounding coordinate labels included in the training dataset in addition to the source imagery.
+The [`detectNet`](../detectNet.h) object accepts as input the 2D image, and outputs a list of coordinates of the detected bounding boxes.  To train the object detection model, first a pretrained ImageNet recognition model (like Googlenet) is used with bounding coordinate labels included in the training dataset in addition to the source imagery.
 
 The following pretrained DetectNet models are included with the tutorial:
 
@@ -36,7 +36,7 @@ sheep 0 0 0 235.28 300.59 270.52 346.55 0 0 0 0 0 0 0
 
 ### Downloading the Detection Dataset
 
-Let's explore using the [MS-COCO](http://mscoco.org/) dataset to train and deploy networks that detect the locations of everyday objects in camera feeds.  See the [`coco2kitti.py`](tools/coco2kitti.py) script for converting MS-COCO object classes to KITTI format.  Once in DIGITS folder structure, they can be imported as datasets into DIGITS.  Some example classes from MS-COCO already preprocessed in DIGITS/KITTI format are provided for convienience.
+Let's explore using the [MS-COCO](http://mscoco.org/) dataset to train and deploy networks that detect the locations of everyday objects in camera feeds.  See the [`coco2kitti.py`](../tools/coco2kitti.py) script for converting MS-COCO object classes to KITTI format.  Once in DIGITS folder structure, they can be imported as datasets into DIGITS.  Some example classes from MS-COCO already preprocessed in DIGITS/KITTI format are provided for convienience.
 
 From a terminal on your DIGITS server download and extract **[sample MS-COCO classes](https://nvidia.box.com/shared/static/tdrvaw3fd2cwst2zu2jsi0u43vzk8ecu.gz)** already in DIGITS/KITTI format here:
 
@@ -54,7 +54,7 @@ coco 100%[======================================>]   4.5G  3.33MB/s    in 28m 22
 $ tar -xzvf coco.tar.gz 
 ```
 
-Included is the training data in DIGITS format for the airplane, bottle, chair, and dog classes.  [`coco2kitti.py`](tools/coco2kitti.py) can be used to convert other classes.
+Included is the training data in DIGITS format for the airplane, bottle, chair, and dog classes.  [`coco2kitti.py`](../tools/coco2kitti.py) can be used to convert other classes.
 
 ### Importing the Detection Dataset into DIGITS
 
@@ -108,7 +108,7 @@ If you're training on a card with 12GB of memory or more, leave the `Batch Size`
 
 #### Specifying the DetectNet Prototxt 
 
-In the network area select the `Custom Network` tab and then copy/paste the contents of [`detectnet.prototxt`](data/networks/detectnet.prototxt)
+In the network area select the `Custom Network` tab and then copy/paste the contents of [`detectnet.prototxt`](../data/networks/detectnet.prototxt)
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-digits-custom-network.jpg)
 

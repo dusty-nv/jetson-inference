@@ -63,7 +63,7 @@ In the build tree, you can find the binaries residing in `build/aarch64/bin`, he
 
 #### Digging Into the Code
 
-For reference, see the available vision primitives, including [`imageNet`](imageNet.h) for image recognition and [`detectNet`](detectNet.h) for object localization.
+For reference, see the available vision primitives, including [`imageNet`](../imageNet.h) for image recognition and [`detectNet`](../detectNet.h) for object localization.
 
 ``` c++
 /**
@@ -109,7 +109,7 @@ public:
 };
 ```
 
-Both inherit from the shared [`tensorNet`](tensorNet.h) object which contains common TensorRT code.
+Both inherit from the shared [`tensorNet`](../tensorNet.h) object which contains common TensorRT code.
 
 ##
 <p align="right">Next | <b><a href="imagenet-console-2.md">Classifying Images with ImageNet</a></b>

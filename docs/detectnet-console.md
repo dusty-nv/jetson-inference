@@ -5,9 +5,9 @@
 
 # Detecting Objects from the Command Line
 
-To process test images with [`detectNet`](detectNet.h) and TensorRT on the Jetson, we can use the [`detectnet-console`](detectnet-console/detectnet-console.cpp) program.  
+To process test images with [`detectNet`](../detectNet.h) and TensorRT on the Jetson, we can use the [`detectnet-console`](../detectnet-console/detectnet-console.cpp) program.  
 
-[`detectnet-console`](detectnet-console/detectnet-console.cpp) accepts command-line arguments representing the path to the input image and path to the output image (with the bounding box overlays rendered).  Some test images are also included with the repo.
+[`detectnet-console`](../detectnet-console/detectnet-console.cpp) accepts command-line arguments representing the path to the input image and path to the output image (with the bounding box overlays rendered).  Some test images are also included with the repo.
 
 To specify your model that you downloaded from DIGITS in the previous step, use the syntax to `detectnet-console` below.  First, for convienience, set the path to your extracted snapshot into a `$NET` variable:
 

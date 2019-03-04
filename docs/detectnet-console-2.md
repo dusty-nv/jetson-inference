@@ -6,7 +6,7 @@
 # Locating Object Coordinates using DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
 
-The [`detectNet`](detectNet.h) object accepts as input the 2D image, and outputs a list of coordinates of the detected bounding boxes.  To train the object detection model, first a pretrained ImageNet recognition model (like Googlenet) is used with bounding coordinate labels included in the training dataset in addition to the source imagery.
+The [`detectNet`](../detectNet.h) object accepts as input the 2D image, and outputs a list of coordinates of the detected bounding boxes.  To train the object detection model, first a pretrained ImageNet recognition model (like Googlenet) is used with bounding coordinate labels included in the training dataset in addition to the source imagery.
 
 The following pretrained DetectNet models are included with the tutorial:
 
@@ -22,7 +22,7 @@ As with the previous examples, provided are a console program and a camera strea
 
 ### Detecting Objects from the Command Line
 
-The [`detectnet-console`](detectnet-console/detectnet-console.cpp) program can be used to find objects in images.  To load one of the pretrained object detection models that comes with the repo, you can specify the pretrained model name as the 3rd argument to `detectnet-console`:
+The [`detectnet-console`](../detectnet-console/detectnet-console.cpp) program can be used to find objects in images.  To load one of the pretrained object detection models that comes with the repo, you can specify the pretrained model name as the 3rd argument to `detectnet-console`:
 
 ``` bash
 $ ./detectnet-console dog_1.jpg output_1.jpg coco-dog
