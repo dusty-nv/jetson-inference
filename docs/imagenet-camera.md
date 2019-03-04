@@ -24,5 +24,5 @@ Next, we will re-train the image recognition network on a customized dataset.
 ##
 <p align="right">Next | <b><a href="imagenet-training.md">Re-training the Recognition Network</a></b>
 <br/>
-Back | <b><a href="imagenet-example.md">Coding Your Own Image Recognition Program</a></p>
+Back | <b><a href="imagenet-example.md">Coding Your Own Image Recognition Program</a></b></p>
 <p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>

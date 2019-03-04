@@ -36,5 +36,5 @@ Next, we'll go through the steps to code your own image recognition program from
 ##
 <p align="right">Next | <b><a href="imagenet-example.md">Coding Your Own Image Recognition Program</a></b>
 <br/>
-Back | <b><a href="building-repo.md">Building the Repo from Source</a></p>
+Back | <b><a href="building-repo.md">Building the Repo from Source</a></b></p>
 <p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
