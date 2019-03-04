@@ -170,7 +170,7 @@ Unless the call to [`imageNet::Classify()`](../imageNet.h#L103) resulted in an e
 
 Since [`imageNet::Classify()`](../imageNet.h#L103) returns an integer-based index of the object class (between 0 and 1000 for ILSVRC12), we use the [`imageNet::GetClassDesc()`](../imageNet.h#L140) function to retrieve a human-readable description of the object.  
 
-These descriptions of the 1000 classes are parsed from [`ilsvrc12_synset_words.txt`](../data/networks/ilsvrc12_synset_words.txt) when the network gets loaded (this file was previously downloaded when the `jetson-inference` repo was built).  
+These descriptions of the 1000 classes are parsed from [`ilsvrc12_synset_words.txt`](../data/networks/ilsvrc12_synset_words.txt) when the network gets loaded (this file was previously downloaded when the jetson-inference repo was built).  
 
 #### Shutting Down
 
@@ -278,4 +278,4 @@ This is the conclusion of this section of the tutorial.  Next, we'll classify a 
 <p align="right">Next | <b><a href="imagenet-camera.md">Running the Live Camera Recognition Demo</a></b>
 <br/>
 Back | <b><a href="imagenet-console.md">Classifying Images with ImageNet</a></b></p>
-<p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
+<p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>
