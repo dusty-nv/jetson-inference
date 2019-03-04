@@ -49,8 +49,8 @@ First, include a couple of headers that we'll need:
 // include loadImage header for loading images
 #include <jetson-utils/loadImage.h>
 ```
-> **note**:  these headers are installed under `/usr/local/include` during the `sudo make install` step of [building the jetson-inference repo](building-repo.md)  
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these headers won't be found when we go to compile the example later on.
+> **note**:  these headers are installed under `/usr/local/include` during the `sudo make install` step of [building the repo](building-repo.md#compiling-the-project)  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these headers won't be found when we go to compile the example later on.
 
 #### Declaring main() and Parsing the Command Line
 
@@ -83,7 +83,7 @@ The desired image filename to be loaded should be substituted for `my_image.jpg`
 
 #### Loading the Image from Disk
 
-Declare some variables that will store the dimensions of the image and pointers to it's memory, and then load the image from disk with the [`loadImageRGBA()`](../utils/loadImage.h) function.
+Declare some variables that will store the dimensions of the image and pointers to it's memory, and then load the image from disk with the [`loadImageRGBA()`](https://github.com/dusty-nv/jetson-utils/loadImage.h#L30) function.
 
 ``` cpp
 	// these variables will be used to store the image data and dimensions
@@ -110,7 +110,7 @@ The image is loaded in `float4` RGBA format, with pixel values between 0.0 and 2
 
 #### Loading the Image Recognition Network
 
-The following code will load the GoogleNet model with TensorRT, which was already downloaded when you initially [built the `jetson-inference` repo](building-repo.md).  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many species of animals, and everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
+Using the [`imageNet::Create()`](../imageNet.h#L70), the following code will load the GoogleNet model with TensorRT, which was already downloaded when you initially [built the jetson-inference repo](building-repo.md#compiling-the-project).  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](../data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many different species of animals, along with everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
 
 ``` cpp
 	// load the GoogleNet image recognition network with TensorRT
@@ -125,13 +125,13 @@ The following code will load the GoogleNet model with TensorRT, which was alread
 	}
 ```
 
-If desired, you can load the AlexNet model instead of GoogleNet by calling `imageNet::Create(imageNet::ALEXNET)`.  
+If desired, you can load the AlexNet model instead of GoogleNet by calling [`imageNet::Create(imageNet::ALEXNET)`](../imageNet.h#L70).  
 
 The AlexNet model is also trained on the same 1000 classes of objects from ILSVRC12.  
 
 #### Classifying the Image
 
-Next, we are going to classify the image that we loaded with the image recognition network:  
+Next, we are going to classify the image with the image recognition network using the [`imageNet::Classify()`](../imageNet.h#L103) function:  
 
 ``` cpp
 	// this variable will store the confidence of the classification (between 0 and 1)
@@ -142,13 +142,13 @@ Next, we are going to classify the image that we loaded with the image recogniti
 	const int classIndex = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
 ```
 
-The `imageNet::Classify()` function accepts an image in GPU memory, and performs the inferencing with TensorRT.  
+[`imageNet::Classify()`](../imageNet.h#L103) accepts an image pointer in GPU memory, and performs the inferencing with TensorRT.  
 
 It returns the index of the object class that the image was recognized as, along with the confidence value of the result.
 
 #### Interpreting the Results
 
-Unless the call to `imageNet::Classify()` resulted in an error, let's print out the classification info of the recognized object:   
+Unless the call to [`imageNet::Classify()`](../imageNet.h#L103) resulted in an error, let's print out the classification info of the recognized object:   
 
 ``` cpp
 	// make sure a valid classification result was returned	
@@ -168,7 +168,7 @@ Unless the call to `imageNet::Classify()` resulted in an error, let's print out 
 	}
 ```
 
-Since `imageNet::Classify()` returns an integer-based index of the object class (between 0 and 1000 for ILSVRC12), we use the `imageNet::GetClassDesc()` function to retrieve a human-readable description of the object.  
+Since [`imageNet::Classify()`](../imageNet.h#L103) returns an integer-based index of the object class (between 0 and 1000 for ILSVRC12), we use the [`imageNet::GetClassDesc()`](../imageNet.h#L140) function to retrieve a human-readable description of the object.  
 
 These descriptions of the 1000 classes are parsed from [`ilsvrc12_synset_words.txt`](../data/networks/ilsvrc12_synset_words.txt) when the network gets loaded (this file was previously downloaded when the `jetson-inference` repo was built).  
 
@@ -233,8 +233,8 @@ In the future you can use this CMakeLists as a template for compiling your own p
 		target_link_libraries(my-recognition jetson-inference)
 	```
 
-> **note**:  these libraries are installed under `/usr/local/lib` during the `sudo make install` step of [building the jetson-inference repo](building-repo.md)  
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these libraries won't be found when we go to compile the example in the next step.  
+> **note**:  these libraries are installed under `/usr/local/lib` during the `sudo make install` step of [building the repo](building-repo.md#compiling-the-project)  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these libraries won't be found when we go to compile the example in the next step.  
 
 ## Building the Example
 
@@ -246,7 +246,7 @@ $ cmake .
 $ make
 ```
 
-If you encounter errors, make sure that you ran `sudo make install` while [building the jetson-inference repo](building-repo.md).  
+If you encounter errors, make sure that you ran `sudo make install` while [building the jetson-inference repo](building-repo.md#compiling-the-project).  
 
 You can also download the completed, working code of this example from the [`examples/my-recognition`](../examples/my-recognition) directory of the repo.  
 
