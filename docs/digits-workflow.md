@@ -18,4 +18,4 @@ NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train
 ##
 <p align="right">Next | <b><a href="digits-setup.md">DIGITS System Setup</a></b><br/>
 Back | <b><a href="../README.md">Overview</a></p>
-<p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>

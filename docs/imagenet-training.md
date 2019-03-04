@@ -137,4 +137,4 @@ The image is classified as the new GoogleNet-12 model as `cat`, while in the ori
 <p align="right">Next | <b><a href="imagenet-snapshot.md">Downloading Model Snapshots to Jetson</a></b>
 <br/>
 Back | <b><a href="imagenet-camera.md">Running the Live Camera Recognition Demo</a></p>
-<p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>

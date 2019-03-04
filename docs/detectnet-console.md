@@ -97,4 +97,4 @@ Next, we'll run object detection on a live camera stream.
 <p align="right">Next | <b><a href="detectnet-camera.md">Running the Live Camera Detection Demo</a></b>
 <br/>
 Back | <b><a href="detectnet-snapshot.md">Downloading the Detection Model to Jetson</a></p>
-<p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>

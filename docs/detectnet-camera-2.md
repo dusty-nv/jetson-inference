@@ -27,4 +27,4 @@ $ ./detectnet-camera                # by default, program will run using multipe
 
 ##
 <p align="right">Back | <b><a href="detectnet-console-2.md">Detecting Objects from the Command Line</a></p>
-<p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>

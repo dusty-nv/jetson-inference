@@ -39,4 +39,4 @@ Please refer to the **[JetPack Install Guide](http://docs.nvidia.com/jetpack-l4t
 <p align="right">Next | <b><a href="building-repo-2.md">Building the Repo from Source</a></b>
 <br/>
 Back | <b><a href="../README.md">Overview</a></p>
-<p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>

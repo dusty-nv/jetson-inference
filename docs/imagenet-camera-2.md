@@ -23,4 +23,4 @@ The frames per second (FPS), classified object name from the video, and confiden
 <p align="right">Next | <b><a href="detectnet-console-2.md">Locating Object Coordinates with DetectNet</a></b>
 <br/>
 Back | <b><a href="imagenet-example-2.md">Coding Your Own Image Recognition Program</a></p>
-<p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>

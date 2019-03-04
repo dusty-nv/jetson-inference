@@ -115,4 +115,4 @@ Both inherit from the shared [`tensorNet`](tensorNet.h) object which contains co
 <p align="right">Next | <b><a href="imagenet-console-2.md">Classifying Images with ImageNet</a></b>
 <br/>
 Back | <b><a href="jetpack-setup-2.md">Setting up Jetson with JetPack</a></p>
-<p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>
