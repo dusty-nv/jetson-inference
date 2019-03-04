@@ -50,7 +50,7 @@ First, include a couple of headers that we'll need:
 #include <jetson-utils/loadImage.h>
 ```
 > **note**:  these headers are installed under `/usr/local/include` during the `sudo make install` step of [building the repo](building-repo.md#compiling-the-project)  
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these headers won't be found when we go to compile the example later on.
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these headers won't be found when we go to compile the example.  
 
 #### Declaring main() and Parsing the Command Line
 
@@ -83,7 +83,7 @@ The desired image filename to be loaded should be substituted for `my_image.jpg`
 
 #### Loading the Image from Disk
 
-Declare some variables that will store the dimensions of the image and pointers to it's memory, and then load the image from disk with the [`loadImageRGBA()`](https://github.com/dusty-nv/jetson-utils/loadImage.h#L30) function.
+Declare some variables that will store the dimensions of the image and pointers to it's memory, and then load the image from disk with the [`loadImageRGBA()`](https://github.com/dusty-nv/jetson-utils/blob/master/loadImage.h#L30) function.
 
 ``` cpp
 	// these variables will be used to store the image data and dimensions
@@ -110,7 +110,7 @@ The image is loaded in `float4` RGBA format, with pixel values between 0.0 and 2
 
 #### Loading the Image Recognition Network
 
-Using the [`imageNet::Create()`](../imageNet.h#L70), the following code will load the GoogleNet model with TensorRT, which was already downloaded when you initially [built the jetson-inference repo](building-repo.md#compiling-the-project).  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](../data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many different species of animals, along with everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
+Using the [`imageNet::Create()`](../imageNet.h#L70) function, the following code will load the GoogleNet model with TensorRT, which was already downloaded when you initially [built the jetson-inference repo](building-repo.md#compiling-the-project).  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](../data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many different species of animals, along with everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
 
 ``` cpp
 	// load the GoogleNet image recognition network with TensorRT
@@ -234,7 +234,7 @@ In the future you can use this CMakeLists as a template for compiling your own p
 	```
 
 > **note**:  these libraries are installed under `/usr/local/lib` during the `sudo make install` step of [building the repo](building-repo.md#compiling-the-project)  
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these libraries won't be found when we go to compile the example in the next step.  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these libraries won't be found when we go to compile the example.  
 
 ## Building the Example
 
