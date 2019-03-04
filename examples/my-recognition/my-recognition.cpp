@@ -75,7 +75,7 @@ int main( int argc, char** argv )
 	// this will return the index of the class that the image was recognized as (or -1 on error)
 	const int classIndex = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
 
-	// make sure a valid classification was returned	
+	// make sure a valid classification result was returned	
 	if( classIndex >= 0 )
 	{
 		// retrieve the name/description of the class index
