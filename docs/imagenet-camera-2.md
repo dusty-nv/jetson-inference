@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="imagenet-console-2.md">Back</a> | <a href="detectnet-console-2.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
+<p align="right"><sup><a href="imagenet-example-2.md">Back</a> | <a href="detectnet-console-2.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
 
@@ -22,5 +22,5 @@ The frames per second (FPS), classified object name from the video, and confiden
 ##
 <p align="right">Next | <b><a href="detectnet-console-2.md">Locating Object Coordinates with DetectNet</a></b>
 <br/>
-Back | <b><a href="imagenet-console-2.md">Classifying Images with ImageNet</a></p>
+Back | <b><a href="imagenet-example-2.md">Coding Your Own Image Recognition Program</a></p>
 <p align="center"><sup>© 2016-2019 NVIDIA | </sup><b><a href="../README.md"><sup>Table of Contents</sup></a></b></p>
