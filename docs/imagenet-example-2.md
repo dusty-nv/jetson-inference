@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="imagenet-console-2.md">Back</a> | <a href="imagenet-camera-2.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
+<p align="right"><sup><a href="imagenet-console-2.md">Back</a> | <a href="imagenet-camera-2.md">Next</a> | </sup><a href="../README.md#inference-only"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
 
@@ -278,4 +278,4 @@ This is the conclusion of this section of the tutorial.  Next, we'll classify a 
 <p align="right">Next | <b><a href="imagenet-camera-2.md">Running the Live Camera Recognition Demo</a></b>
 <br/>
 Back | <b><a href="imagenet-console-2.md">Classifying Images with ImageNet</a></b></p>
-<p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>
+<p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#inference-only"><sup>Table of Contents</sup></a></p>
