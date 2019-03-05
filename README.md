@@ -344,5 +344,5 @@ See [Running Segmentation Models on Jetson](docs/segnet-console.md)
 </details>
 
 ##
-<p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#deploying-deep-learning"><sup>Table of Contents</sup></a></p>
+<p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="#deploying-deep-learning"><sup>Table of Contents</sup></a></p>
 
