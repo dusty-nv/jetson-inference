@@ -13,8 +13,17 @@ There are multiple tracks of the tutorial that you can choose to follow, includi
 
 ## Inference Only
 
-If you would like to only do the inference portion of the tutorial, which can be run on the Jetson in roughly two hours, these modules are available below:
+If you would like to only do the inference portion of the tutorial, which can be run on your Jetson in roughly two hours, these modules are available below:
 
+* [Setting up Jetson with JetPack](docs/jetpack-setup-2.md)
+* [Building the Repo from Source](docs/building-repo-2.md)
+* [Classifying Images with ImageNet](docs/imagenet-console-2.md)
+	* [Using the Console Program on Jetson](docs/imagenet-console-2.md#using-the-console-program-on-jetson)
+	* [Coding Your Own Image Recognition Program](docs/imagenet-example-2.md)
+	* [Running the Live Camera Recognition Demo](docs/imagenet-camera-2.md)
+* [Locating Object Coordinates using DetectNet](docs/detectnet-console-2.md)
+	* [Detecting Objects from the Command Line](docs/detectnet-console-2.md#detecting-objects-from-the-command-line)
+	* [Running the Live Camera Detection Demo](docs/detectnet-camera-2.md)
 
 ## Training + Inference
 
@@ -26,6 +35,7 @@ The full tutorial includes training and inference, and can take roughly two days
 * [Building the Repo from Source](docs/building-repo.md)
 * [Classifying Images with ImageNet](docs/imagenet-console.md)
 	* [Using the Console Program on Jetson](docs/imagenet-console.md#using-the-console-program-on-jetson)
+	* [Coding Your Own Image Recognition Program](docs/imagenet-example.md)
 	* [Running the Live Camera Recognition Demo](docs/imagenet-camera.md)
 	* [Re-Training the Network with DIGITS](docs/imagenet-training.md)
 	* [Downloading Image Recognition Dataset](docs/imagenet-training.md#downloading-image-recognition-dataset)
@@ -332,4 +342,7 @@ See [FCN-Alexnet Patches for TensorRT](docs/segnet-patches.md)
 See [Running Segmentation Models on Jetson](docs/segnet-console.md)
 
 </details>
+
+##
+<p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#deploying-deep-learning"><sup>Table of Contents</sup></a></p>
 
