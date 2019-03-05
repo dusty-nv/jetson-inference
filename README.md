@@ -5,55 +5,69 @@ Welcome to our training guide for inference and [deep vision](https://rawgit.com
 
 This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for efficiently deploying neural networks onto the embedded platform, improving performance and power efficiency using graph optimizations, kernel fusion, and half-precision FP16 on the Jetson.
 
-Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  See the **[Deep Vision API Reference Specification](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html)** for accompanying documentation. 
+Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for semantic segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  See the **[Deep Vision API Reference Specification](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html)** for accompanying documentation. 
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-> &gt; &nbsp; See **[Image Segmentation](#image-segmentation-with-segnet)** models and training guide with aerial drone dataset. <br/>
-> &gt; &nbsp; Try **[Object Detection](#locating-object-coordinates-using-detectnet)** training guide using DIGITS & MS-COCO training dataset. <br/>
-> &gt; &nbsp; Use **[Image Recognition](#re-training-the-network-with-digits)** training guide with DIGITS & ImageNet ILSVRC12 dataset. <br/>
-> &gt; &nbsp; Check out our next GitHub tutorial, **[Deep Reinforcement Learning in Robotics](http://github.com/dusty-nv/jetson-reinforcement)**. <br/>
-> &gt; &nbsp; Jetson AGX Xavier Developer Kit and JetPack 4.1.1 DP is **[now available](https://news.developer.nvidia.com/nvidia-jetson-agx_xavier-developer-kit-now-available/)** and supported in the repo.
+There are multiple tracks of the tutorial that you can choose to follow, including Training + Inference or Inference-Only.
 
-### **Table of Contents**
+## Inference Only
 
-* [DIGITS Workflow](#digits-workflow) 
-* [System Setup](#system-setup)
-* [Building from Source on Jetson](#building-from-source-on-jetson)
-* [Classifying Images with ImageNet](#classifying-images-with-imagenet)
-	* [Using the Console Program on Jetson](#using-the-console-program-on-jetson)
-	* [Running the Live Camera Recognition Demo](#running-the-live-camera-recognition-demo)
-	* [Re-training the Network with DIGITS](#re-training-the-network-with-digits)
-	* [Downloading Image Recognition Dataset](#downloading-image-recognition-dataset)
-	* [Customizing the Object Classes](#customizing-the-object-classes)
-	* [Importing Classification Dataset into DIGITS](#importing-classification-dataset-into-digits)
-	* [Creating Image Classification Model with DIGITS](#creating-image-classification-model-with-digits)
-	* [Testing Classification Model in DIGITS](#testing-classification-model-in-digits)
-	* [Downloading Model Snapshot to Jetson](#downloading-model-snapshot-to-jetson)
-	* [Loading Custom Models on Jetson](#loading-custom-models-on-jetson)
-* [Locating Object Coordinates using DetectNet](#locating-object-coordinates-using-detectnet)
-	* [Detection Data Formatting in DIGITS](#detection-data-formatting-in-digits)
-	* [Downloading the Detection Dataset](#downloading-the-detection-dataset)
-	* [Importing the Detection Dataset into DIGITS](#importing-the-detection-dataset-into-digits)
-	* [Creating DetectNet Model with DIGITS](#creating-detectnet-model-with-digits)
-	* [Testing DetectNet Model Inference in DIGITS](#testing-detectnet-model-inference-in-digits)
-	* [Downloading the Model Snapshot to Jetson](#downloading-the-model-snapshot-to-jetson)
-	* [DetectNet Patches for TensorRT](#detectnet-patches-for-tensorrt)
-	* [Processing Images from the Command Line on Jetson](#processing-images-from-the-command-line-on-jetson)
-	* [Multi-class Object Detection Models](#multi-class-object-detection-models)
-	* [Running the Live Camera Detection Demo on Jetson](#running-the-live-camera-detection-demo-on-jetson)
-* [Image Segmentation with SegNet](#image-segmentation-with-segnet)
-	* [Downloading Aerial Drone Dataset](#downloading-aerial-drone-dataset)
-	* [Importing the Aerial Dataset into DIGITS](#importing-the-aerial-dataset-into-digits)
-	* [Generating Pretrained FCN-Alexnet](#generating-pretrained-fcn-alexnet)
-	* [Training FCN-Alexnet with DIGITS](#training-fcn-alexnet-with-digits)
-	* [Testing Inference Model in DIGITS](#testing-inference-model-in-digits)
-	* [FCN-Alexnet Patches for TensorRT](#fcn-alexnet-patches-for-tensorrt)
-	* [Running Segmentation Models on Jetson](#running-segmentation-models-on-jetson)
+If you would like to only do the inference portion of the tutorial, which can be run on the Jetson in roughly two hours, these modules are available below:
 
-**Recommended System Requirements**
 
-Training GPU:  Maxwell, Pascal, or Volta-based GPU (ideally with at least 6GB video memory)  
+## Training + Inference
+
+The full tutorial includes training and inference, and can take roughly two days or more depending on system setup, downloading the datasets, and the training speed of your GPU.
+
+* [DIGITS Workflow](docs/digits-workflow.md) 
+* [DIGITS System Setup](docs/digits-setup.md)
+* [Setting up Jetson with JetPack](docs/jetpack-setup.md)
+* [Building the Repo from Source](docs/building-repo.md)
+* [Classifying Images with ImageNet](docs/imagenet-console.md)
+	* [Using the Console Program on Jetson](docs/imagenet-console.md#using-the-console-program-on-jetson)
+	* [Running the Live Camera Recognition Demo](docs/imagenet-camera.md)
+	* [Re-Training the Network with DIGITS](docs/imagenet-training.md)
+	* [Downloading Image Recognition Dataset](docs/imagenet-training.md#downloading-image-recognition-dataset)
+	* [Customizing the Object Classes](docs/imagenet-training.md#customizing-the-object-classes)
+	* [Importing Classification Dataset into DIGITS](docs/imagenet-training.md#importing-classification-dataset-into-digits)
+	* [Creating Image Classification Model with DIGITS](docs/imagenet-training.md#creating-image-classification-model-with-digits)
+	* [Testing Classification Model in DIGITS](docs/imagenet-training.md#testing-classification-model-in-digits)
+	* [Downloading Model Snapshot to Jetson](docs/imagenet-snapshot.md)
+	* [Loading Custom Models on Jetson](docs/imagenet-custom.md)
+* [Locating Object Coordinates using DetectNet](docs/detectnet-training.md)
+	* [Detection Data Formatting in DIGITS](docs/detectnet-training.md#detection-data-formatting-in-digits)
+	* [Downloading the Detection Dataset](docs/detectnet-training.md#downloading-the-detection-dataset)
+	* [Importing the Detection Dataset into DIGITS](docs/detectnet-training.md#importing-the-detection-dataset-into-digits)
+	* [Creating DetectNet Model with DIGITS](docs/detectnet-training.md#creating-detectnet-model-with-digits)
+	* [Testing DetectNet Model Inference in DIGITS](docs/detectnet-training.md#testing-detectnet-model-inference-in-digits)
+	* [Downloading the Detection Model to Jetson](docs/detectnet-snapshot.md)
+	* [DetectNet Patches for TensorRT](docs/detectnet-snapshot.md#detectnet-patches-for-tensorrt)
+	* [Detecting Objects from the Command Line](docs/detectnet-console.md)
+	* [Multi-class Object Detection Models](docs/detectnet-console.md#multi-class-object-detection-models)
+	* [Running the Live Camera Detection Demo on Jetson](docs/detectnet-camera.md)
+* [Semantic Segmentation with SegNet](docs/segnet-dataset.md)
+	* [Downloading Aerial Drone Dataset](docs/segnet-dataset.md#downloading-aerial-drone-dataset)
+	* [Importing the Aerial Dataset into DIGITS](docs/segnet-dataset.md#importing-the-aerial-dataset-into-digits)
+	* [Generating Pretrained FCN-Alexnet](docs/segnet-pretrained.md)
+	* [Training FCN-Alexnet with DIGITS](docs/segnet-training.md)
+	* [Testing Inference Model in DIGITS](docs/segnet-training.md#testing-inference-model-in-digits)
+	* [FCN-Alexnet Patches for TensorRT](docs/segnet-patches.md)
+	* [Running Segmentation Models on Jetson](docs/segnet-console.md)
+
+
+## Extra Resources
+
+In this area, links and resources for deep learning developers are listed:
+
+* [Appendix](docs/aux-contents.md)
+	* [ros_deep_learning](http://www.github.com/dusty-nv/ros_deep_learning) - TensorRT inference ROS nodes
+     * [NVIDIA AI IoT](https://github.com/NVIDIA-AI-IOT) - NVIDIA Jetson GitHub repositories
+     * [Jetson eLinux Wiki](https://www.eLinux.org/Jetson) - Jetson eLinux Wiki
+
+## Recommended System Requirements
+
+Training GPU:  Maxwell, Pascal, Volta, or Turing-based GPU (ideally with at least 6GB video memory)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;optionally, AWS P2/P3 instance or Microsoft Azure N-series  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ubuntu 14.04 x86_64 or Ubuntu 16.04 x86_64.
 
@@ -77,15 +91,6 @@ Deployment:    &nbsp;&nbsp;Jetson Xavier Developer Kit with JetPack 4.0 or newer
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> Jetson TX1 - JetPack 2.3.1 / L4T R24.2.1 aarch64 (Ubuntu 16.04 LTS)
 
 Note that TensorRT samples from the repo are intended for deployment onboard Jetson, however when cuDNN and TensorRT have been installed on the host side, the TensorRT samples in the repo can be compiled for PC.
-
-## Extra Resources
-
-In this area, links and resources for deep learning developers are listed:
-
-* [Appendix](docs/aux-contents.md)
-	* [ros_deep_learning](http://www.github.com/dusty-nv/ros_deep_learning) - TensorRT inference ROS nodes
-     * [NVIDIA AI IoT](https://github.com/NVIDIA-AI-IOT) - NVIDIA Jetson GitHub repositories
-     * [Jetson eLinux Wiki](https://www.eLinux.org/Jetson) - Jetson eLinux Wiki
 
 
 ## Legacy Links
