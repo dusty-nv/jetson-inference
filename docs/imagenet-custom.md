@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="imagenet-snapshot.md">Back</a> | <a href="detectnet-training.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
+<p align="right"><sup><a href="imagenet-snapshot.md">Back</a> | <a href="detectnet-training.md">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p> 
 
@@ -28,4 +28,4 @@ The extended command line parameters above also load custom classification model
 <p align="right">Next | <b><a href="detectnet-training.md">Locating Object Coordinates using DetectNet</a></b>
 <br/>
 Back | <b><a href="imagenet-snapshot.md">Downloading Model Snapshots to Jetson</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>

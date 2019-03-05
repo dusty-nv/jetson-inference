@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="segnet-patches.md">Back</a> | <a href="../README.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
+<p align="right"><sup><a href="segnet-patches.md">Back</a> | <a href="../README.md#training--inference">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>Semantic Segmentation</sup></s></p>
 
@@ -29,4 +29,4 @@ In addition to the aerial model from this tutorial, the repo also includes pre-t
 
 ##
 <p align="right">Back | <b><a href="segnet-training.md">FCN-Alexnet Patches for TensorRT</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>

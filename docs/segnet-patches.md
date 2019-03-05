@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="segnet-training.md">Back</a> | <a href="segnet-console.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
+<p align="right"><sup><a href="segnet-training.md">Back</a> | <a href="segnet-console.md">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>Semantic Segmentation</sup></s></p>
 
@@ -50,4 +50,4 @@ Finally, copy the `fpv-labels.txt` and `fpv-deploy-colors.txt` from the aerial d
 <p align="right">Next | <b><a href="segnet-console.md">Running Segmentation Models on Jetson</a></b>
 <br/>
 Back | <b><a href="segnet-training.md">Training FCN-Alexnet with DIGITS</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>

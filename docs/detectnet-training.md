@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="imagenet-custom.md">Back</a> | <a href="detectnet-snapshot.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
+<p align="right"><sup><a href="imagenet-custom.md">Back</a> | <a href="detectnet-snapshot.md">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></p> 
 
@@ -153,4 +153,4 @@ Next, we will deploy our DetectNet model to Jetson and run the inference there.
 <p align="right">Next | <b><a href="detectnet-snapshot.md">Downloading the Detection Model to Jetson</a></b>
 <br/>
 Back | <b><a href="imagenet-custom.md">Loading Custom Models on Jetson</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>

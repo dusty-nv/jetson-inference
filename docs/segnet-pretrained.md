@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="segnet-dataset.md">Back</a> | <a href="segnet-training.md">Next</a> | </sup><a href="../README.md"><sup>Contents</sup></a>
+<p align="right"><sup><a href="segnet-dataset.md">Back</a> | <a href="segnet-training.md">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>Semantic Segmentation</sup></s></p>
 
@@ -28,4 +28,4 @@ Next, we'll train our FCN-Alexnet model on the drone dataset in DIGITS.
 <p align="right">Next | <b><a href="segnet-training.md">Training FCN-Alexnet with DIGITS</a></b>
 <br/>
 Back | <b><a href="segnet-dataset.md">Semantic Segmentation with SegNet</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>
