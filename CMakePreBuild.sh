@@ -15,7 +15,7 @@ echo " "
 
 # install packages
 sudo apt-get update
-sudo apt-get install -y libqt4-dev qt4-dev-tools libglew-dev glew-utils libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libglib2.0-dev
+sudo apt-get install -y libqt4-dev qt4-dev-tools libglew-dev glew-utils libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libglib2.0-dev libopencv-calib3d-dev libopencv-dev 
 # libgstreamer0.10-0-dev libgstreamer-plugins-base0.10-dev libxml2-dev
 sudo apt-get update
 
@@ -107,5 +107,9 @@ tar -xzvf FCN-Alexnet-Aerial-FPV-720p.tar.gz -C ../data/networks
 #wget --no-check-certificate 'https://nvidia.box.com/shared/static/4z5lmlja13blj3mdn6vesrft57p30446.gz' -O FCN-Alexnet-Aerial-FPV-4ch-720p.tar.gz
 #tar -xzvf FCN-Alexnet-Aerial-FPV-4ch-720p.tar.gz -C ../data/networks
 
+
+# Deep Homography
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/nlqbsdnt76y0nmkwdzxkg4zbvhk4bidh.gz' -O Deep-Homography-COCO.tar.gz
+tar -xzvf Deep-Homography-COCO.tar.gz -C ../data/networks
 
 echo "[Pre-build]  Finished CMakePreBuild script"

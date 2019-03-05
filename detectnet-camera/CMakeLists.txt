@@ -4,6 +4,6 @@ file(GLOB detectnetCameraIncludes *.h )
 
 cuda_add_executable(detectnet-camera ${detectnetCameraSources})
 
-target_link_libraries(detectnet-camera nvcaffe_parser nvinfer jetson-inference)
+target_link_libraries(detectnet-camera jetson-inference)
 
 install(TARGETS detectnet-camera DESTINATION bin)

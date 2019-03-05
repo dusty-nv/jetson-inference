@@ -26,6 +26,12 @@
 #include "cudaResize.h"
 #include "filesystem.h"
 
+#include "NvCaffeParser.h"
+
+#if NV_TENSORRT_MAJOR >= 5
+#include "NvOnnxParser.h"
+#endif
+
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -87,6 +93,46 @@ static inline bool isFp16Enabled( nvinfer1::IBuilder* builder )
 #endif
 }
 
+#if NV_TENSORRT_MAJOR >= 4
+static inline const char* dataTypeToStr( nvinfer1::DataType type )
+{
+	switch(type)
+	{
+		case nvinfer1::DataType::kFLOAT:	return "FP32";
+		case nvinfer1::DataType::kHALF:	return "FP16";
+		case nvinfer1::DataType::kINT8:	return "INT8";
+		case nvinfer1::DataType::kINT32:	return "INT32";
+	}
+}
+
+static inline const char* dimensionTypeToStr( nvinfer1::DimensionType type )
+{
+	switch(type)
+	{
+		case nvinfer1::DimensionType::kSPATIAL:	 return "SPATIAL";
+		case nvinfer1::DimensionType::kCHANNEL:	 return "CHANNEL";
+		case nvinfer1::DimensionType::kINDEX:	 return "INDEX";
+		case nvinfer1::DimensionType::kSEQUENCE: return "SEQUENCE";
+	}
+}
+#endif
+
+#if NV_TENSORRT_MAJOR > 1
+static inline nvinfer1::Dims validateDims( const nvinfer1::Dims& dims )
+{
+	if( dims.nbDims == nvinfer1::Dims::MAX_DIMS )
+		return dims;
+	
+	nvinfer1::Dims dims_out = dims;
+
+	// TRT doesn't set the higher dims, so make sure they are 1
+	for( int n=dims_out.nbDims; n < nvinfer1::Dims::MAX_DIMS; n++ )
+		dims_out.d[n] = 1;
+
+	return dims_out;
+}
+#endif
+
 const char* deviceTypeToStr( deviceType type )
 {
 	switch(type)
@@ -131,6 +177,32 @@ static inline nvinfer1::DeviceType deviceTypeToTRT( deviceType type )
 	}
 }
 #endif
+
+const char* modelFormatToStr( modelFormat format )
+{
+	switch(format)
+	{
+		case MODEL_CUSTOM:	return "custom";	
+		case MODEL_CAFFE:	return "caffe";
+		case MODEL_ONNX:	return "ONNX";
+		case MODEL_UFF:	return "UFF";
+	}
+}
+
+modelFormat modelFormatFromStr( const char* str )
+{
+	if( !str )
+		return MODEL_CUSTOM;
+
+	if( strcasecmp(str, "caffemodel") == 0 || strcasecmp(str, "caffe") == 0 )
+		return MODEL_CAFFE;
+	else if( strcasecmp(str, "onnx") == 0 )
+		return MODEL_ONNX;
+	else if( strcasecmp(str, "uff") == 0 )
+		return MODEL_UFF;
+
+	return MODEL_CUSTOM;
+}
 //---------------------------------------------------------------------
 
 // constructor
@@ -150,6 +222,7 @@ tensorNet::tensorNet()
 	mEnableDebug    = false;
 	mEnableProfiler = false;
 
+	mModelFormat      = MODEL_CUSTOM;
 	mPrecision 	   = TYPE_FASTEST;
 	mDevice    	   = DEVICE_GPU;
 	mAllowGPUFallback = false;
@@ -305,28 +378,76 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	builder->setMinFindIterations(3);	// allow time for TX1 GPU to spin up
      builder->setAverageFindIterations(2);
 
-	// parse the caffe model to populate the network, then set the outputs
-	nvcaffeparser1::ICaffeParser* parser = nvcaffeparser1::createCaffeParser();
-
 	//mEnableFP16 = (mOverride16 == true) ? false : builder->platformHasFastFp16();
 	//printf(LOG_GIE "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
 	printf(LOG_GIE "device %s, loading %s %s\n", deviceTypeToStr(device), deployFile.c_str(), modelFile.c_str());
 	
-	nvinfer1::DataType modelDataType = (precision == TYPE_FP16) ? nvinfer1::DataType::kHALF : nvinfer1::DataType::kFLOAT; // import INT8 weights as FP32
-	const nvcaffeparser1::IBlobNameToTensor *blobNameToTensor =
-		parser->parse(deployFile.c_str(),		// caffe deploy file
-					  modelFile.c_str(),		// caffe model file
-					 *network,					// network definition that the parser will populate
-					  modelDataType);
 
-	if( !blobNameToTensor )
+	// parse the different types of model formats
+	if( mModelFormat == MODEL_CAFFE )
 	{
-		printf(LOG_GIE "device %s, failed to parse caffe network\n", deviceTypeToStr(device));
-		return false;
+		// parse the caffe model to populate the network, then set the outputs
+		nvcaffeparser1::ICaffeParser* parser = nvcaffeparser1::createCaffeParser();
+
+		nvinfer1::DataType modelDataType = (precision == TYPE_FP16) ? nvinfer1::DataType::kHALF : nvinfer1::DataType::kFLOAT; // import INT8 weights as FP32
+		const nvcaffeparser1::IBlobNameToTensor* blobNameToTensor =
+			parser->parse(deployFile.c_str(),		// caffe deploy file
+						  modelFile.c_str(),	// caffe model file
+						 *network,			// network definition that the parser will populate
+						  modelDataType);
+
+		if( !blobNameToTensor )
+		{
+			printf(LOG_GIE "device %s, failed to parse caffe network\n", deviceTypeToStr(device));
+			return false;
+		}
+
+		// the caffe file has no notion of outputs, so we need to manually say which tensors the engine should generate	
+		const size_t num_outputs = outputs.size();
+		
+		for( size_t n=0; n < num_outputs; n++ )
+		{
+			nvinfer1::ITensor* tensor = blobNameToTensor->find(outputs[n].c_str());
+		
+			if( !tensor )
+				printf(LOG_GIE "failed to retrieve tensor for Output \"%s\"\n", outputs[n].c_str());
+			else
+			{
+			#if NV_TENSORRT_MAJOR >= 4
+				nvinfer1::Dims3 dims = static_cast<nvinfer1::Dims3&&>(tensor->getDimensions());
+				printf(LOG_GIE "retrieved Output tensor \"%s\":  %ix%ix%i\n", tensor->getName(), dims.d[0], dims.d[1], dims.d[2]);
+			#endif
+			}
+
+			network->markOutput(*tensor);
+		}
+
+		//parser->destroy();
 	}
+#if NV_TENSORRT_MAJOR >= 5
+	else if( mModelFormat == MODEL_ONNX )
+	{
+		nvonnxparser::IParser* parser = nvonnxparser::createParser(*network, gLogger);
+
+		if( !parser )
+		{
+			printf(LOG_TRT "failed to create nvonnxparser::IParser instance\n");
+			return false;
+		}
+
+		if( !parser->parseFromFile(modelFile.c_str(), (int)nvinfer1::ILogger::Severity::kWARNING) )
+		{
+			printf(LOG_TRT "failed to parse ONNX model '%s'\n", modelFile.c_str());
+			return false;
+		}
+
+		//parser->destroy();
+	}
+#endif
+
 	
-	// extract the dimensions of the network input blobs
 #if NV_TENSORRT_MAJOR >= 4
+	// extract the dimensions of the network input blobs
 	std::map<std::string, nvinfer1::Dims3> inputDimensions;
 
 	for( int i=0, n=network->getNbInputs(); i < n; i++ )
@@ -337,25 +458,6 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	}
 #endif
 
-	// the caffe file has no notion of outputs, so we need to manually say which tensors the engine should generate	
-	const size_t num_outputs = outputs.size();
-	
-	for( size_t n=0; n < num_outputs; n++ )
-	{
-		nvinfer1::ITensor* tensor = blobNameToTensor->find(outputs[n].c_str());
-	
-		if( !tensor )
-			printf(LOG_GIE "failed to retrieve tensor for Output \"%s\"\n", outputs[n].c_str());
-		else
-		{
-		#if NV_TENSORRT_MAJOR >= 4
-			nvinfer1::Dims3 dims = static_cast<nvinfer1::Dims3&&>(tensor->getDimensions());
-			printf(LOG_GIE "retrieved Output tensor \"%s\":  %ix%ix%i\n", tensor->getName(), dims.d[0], dims.d[1], dims.d[2]);
-		#endif
-		}
-
-		network->markOutput(*tensor);
-	}
 
 	// build the engine
 	printf(LOG_GIE "device %s, configuring CUDA engine\n", deviceTypeToStr(device));
@@ -433,7 +535,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 	// we don't need the network definition any more, and we can destroy the parser
 	network->destroy();
-	parser->destroy();
+	//parser->destroy();
 
 	// serialize the engine, then close everything down
 #if NV_TENSORRT_MAJOR > 1
@@ -476,17 +578,43 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 				   	    deviceType device, bool allowGPUFallback,
 					    nvinfer1::IInt8Calibrator* calibrator, cudaStream_t stream )
 {
-	if( !prototxt_path_ || !model_path_ )
+	if( /*!prototxt_path_ ||*/ !model_path_ )
 		return false;
 	
 	printf(LOG_GIE "TensorRT version %u.%u.%u\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH);
 	
+
 	/*
 	 * verify the prototxt and model paths
 	 */
 	const std::string model_path    = locateFile(model_path_);
-	const std::string prototxt_path = locateFile(prototxt_path_);
+	const std::string prototxt_path = locateFile(prototxt_path_ != NULL ? prototxt_path_ : "");
 	
+	const std::string model_ext = fileExtension(model_path_);
+	const modelFormat model_fmt = modelFormatFromStr(model_ext.c_str());
+
+	printf(LOG_TRT "detected model format - %s  (extension '.%s')\n", modelFormatToStr(model_fmt), model_ext.c_str());
+
+	if( model_fmt == MODEL_CUSTOM || model_fmt == MODEL_UFF )
+	{
+		printf(LOG_TRT "model format '%s' not supported by jetson-inference\n", modelFormatToStr(model_fmt));
+		return false;
+	}
+#if NV_TENSORRT_MAJOR < 5
+	else if( model_fmt == MODEL_ONNX )
+	{
+		printf(LOG_TRT "importing ONNX models is not supported in TensorRT %u.%u (version >= 5.0 required)\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+		return false;
+	}
+#endif
+	else if( model_fmt == MODEL_CAFFE && !prototxt_path_ )
+	{
+		printf(LOG_TRT "attempted to load caffe model without specifying prototxt file\n");
+		return false;
+	}
+
+	mModelFormat = model_fmt;
+
 
 	/*
 	 * if the precision is left unspecified, detect the fastest
@@ -659,32 +787,55 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	
 	SetStream(stream);	// set default device stream
 
+
+#if NV_TENSORRT_MAJOR >= 4
+	/*
+	 * print out binding info
+	 */
+	const int numBindings = engine->getNbBindings();
 	
+	for( int n=0; n < numBindings; n++ )
+	{
+		printf(LOG_TRT "binding -- index   %i\n", n);
+
+		const char* bind_name = engine->getBindingName(n);
+
+		printf("               -- name    '%s'\n", bind_name);
+		printf("               -- type    %s\n", dataTypeToStr(engine->getBindingDataType(n)));
+		printf("               -- in/out  %s\n", engine->bindingIsInput(n) ? "INPUT" : "OUTPUT");
+
+		const nvinfer1::Dims bind_dims = engine->getBindingDimensions(n);
+
+		printf("               -- # dims  %i\n", bind_dims.nbDims);
+		
+		for( int i=0; i < bind_dims.nbDims; i++ )
+			printf("               -- dim #%i  %i (%s)\n", i, bind_dims.d[i], dimensionTypeToStr(bind_dims.type[i]));
+	}
+#endif
+
 	/*
 	 * determine dimensions of network input bindings
 	 */
 	const int inputIndex = engine->getBindingIndex(input_blob);
 	
-	printf(LOG_GIE "%s input  binding index:  %i\n", model_path.c_str(), inputIndex);
+	printf(LOG_GIE "binding to input 0 %s  binding index:  %i\n", input_blob, inputIndex);
 	
 #if NV_TENSORRT_MAJOR > 1
-	nvinfer1::Dims inputDims = engine->getBindingDimensions(inputIndex);
+	nvinfer1::Dims inputDims = validateDims(engine->getBindingDimensions(inputIndex));
 #else
 	Dims3 inputDims = engine->getBindingDimensions(inputIndex);
 #endif
 
 	size_t inputSize = maxBatchSize * DIMS_C(inputDims) * DIMS_H(inputDims) * DIMS_W(inputDims) * sizeof(float);
-
-	printf(LOG_GIE "%s input  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path.c_str(), maxBatchSize, DIMS_C(inputDims), DIMS_H(inputDims), DIMS_W(inputDims), inputSize);
+	printf(LOG_GIE "binding to input 0 %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", input_blob, maxBatchSize, DIMS_C(inputDims), DIMS_H(inputDims), DIMS_W(inputDims), inputSize);
 	
 
 	/*
-	 * allocate memory to hold the input image
+	 * allocate memory to hold the input buffer
 	 */
-	//if( CUDA_FAILED(cudaMalloc((void**)&mInputCUDA, inputSize)) )
 	if( !cudaAllocMapped((void**)&mInputCPU, (void**)&mInputCUDA, inputSize) )
 	{
-		printf("failed to alloc CUDA mapped memory for tensorNet input, %zu bytes\n", inputSize);
+		printf(LOG_TRT "failed to alloc CUDA mapped memory for tensor input, %zu bytes\n", inputSize);
 		return false;
 	}
 	
@@ -702,16 +853,16 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	for( int n=0; n < numOutputs; n++ )
 	{
 		const int outputIndex = engine->getBindingIndex(output_blobs[n].c_str());
-		printf(LOG_GIE "%s output %i %s  binding index:  %i\n", model_path.c_str(), n, output_blobs[n].c_str(), outputIndex);
+		printf(LOG_GIE "binding to output %i %s  binding index:  %i\n", n, output_blobs[n].c_str(), outputIndex);
 
 	#if NV_TENSORRT_MAJOR > 1
-		nvinfer1::Dims outputDims = engine->getBindingDimensions(outputIndex);
+		nvinfer1::Dims outputDims = validateDims(engine->getBindingDimensions(outputIndex));
 	#else
 		Dims3 outputDims = engine->getBindingDimensions(outputIndex);
 	#endif
 
 		size_t outputSize = maxBatchSize * DIMS_C(outputDims) * DIMS_H(outputDims) * DIMS_W(outputDims) * sizeof(float);
-		printf(LOG_GIE "%s output %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", model_path.c_str(), n, output_blobs[n].c_str(), maxBatchSize, DIMS_C(outputDims), DIMS_H(outputDims), DIMS_W(outputDims), outputSize);
+		printf(LOG_GIE "binding to output %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", n, output_blobs[n].c_str(), maxBatchSize, DIMS_C(outputDims), DIMS_H(outputDims), DIMS_W(outputDims), outputSize);
 	
 		// allocate output memory 
 		void* outputCPU  = NULL;
@@ -720,7 +871,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 		//if( CUDA_FAILED(cudaMalloc((void**)&outputCUDA, outputSize)) )
 		if( !cudaAllocMapped((void**)&outputCPU, (void**)&outputCUDA, outputSize) )
 		{
-			printf("failed to alloc CUDA mapped memory for %u output classes\n", DIMS_C(outputDims));
+			printf(LOG_TRT "failed to alloc CUDA mapped memory for tensor output, %zu bytes\n", outputSize);
 			return false;
 		}
 	
