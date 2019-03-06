@@ -78,7 +78,9 @@ static inline nvinfer1::DataType precisionTypeToTRT( precisionType type )
 	switch(type)
 	{
 		case TYPE_FP16:	return nvinfer1::DataType::kHALF;
+#if NV_TENSORRT_MAJOR >= 4
 		case TYPE_INT8:	return nvinfer1::DataType::kINT8;
+#endif
 	}
 
 	return nvinfer1::DataType::kFLOAT;
@@ -90,6 +92,15 @@ static inline bool isFp16Enabled( nvinfer1::IBuilder* builder )
 	return builder->getHalf2Mode();
 #else
 	return builder->getFp16Mode();
+#endif
+}
+
+static inline bool isInt8Enabled( nvinfer1::IBuilder* builder )
+{
+#if NV_TENSORRT_MAJOR >= 4
+	return builder->getInt8Mode();
+#else
+	return false;
 #endif
 }
 
@@ -520,7 +531,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 	// build CUDA engine
 	printf(LOG_TRT "device %s, building FP16:  %s\n", deviceTypeToStr(device), isFp16Enabled(builder) ? "ON" : "OFF"); 
-	printf(LOG_TRT "device %s, building INT8:  %s\n", deviceTypeToStr(device), builder->getInt8Mode() ? "ON" : "OFF"); 
+	printf(LOG_TRT "device %s, building INT8:  %s\n", deviceTypeToStr(device), isInt8Enabled(builder) ? "ON" : "OFF"); 
 	printf(LOG_GIE "device %s, building CUDA engine\n", deviceTypeToStr(device));
 
 	nvinfer1::ICudaEngine* engine = builder->buildCudaEngine(*network);
@@ -580,9 +591,12 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 {
 	if( /*!prototxt_path_ ||*/ !model_path_ )
 		return false;
-	
+
+#if NV_TENSORRT_MAJOR >= 4
 	printf(LOG_GIE "TensorRT version %u.%u.%u\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH);
-	
+#else
+	printf(LOG_GIE "TensorRT version %u.%u\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+#endif
 
 	/*
 	 * verify the prototxt and model paths
@@ -719,7 +733,8 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 		return 0;
 	}
 
-#if NV_TENSORRT_MAJOR >= 5 && !(NV_TENSORRT_MAJOR == 5 && NV_TENSORRT_MINOR == 0 && NV_TENSORRT_PATCH == 0)
+#if NV_TENSORRT_MAJOR >= 5 
+#if !(NV_TENSORRT_MAJOR == 5 && NV_TENSORRT_MINOR == 0 && NV_TENSORRT_PATCH == 0)
 	// if using DLA, set the desired core before deserialization occurs
 	if( device == DEVICE_DLA_0 )
 	{
@@ -731,6 +746,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 		printf(LOG_TRT "device %s, enabling DLA core 1\n", deviceTypeToStr(device));
 		infer->setDLACore(1);
 	}
+#endif
 #endif
 
 #if NV_TENSORRT_MAJOR > 1

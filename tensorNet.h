@@ -23,6 +23,10 @@
 #ifndef __TENSOR_NET_H__
 #define __TENSOR_NET_H__
 
+// forward declaration of IInt8Calibrator
+namespace nvinfer1 { class IInt8Calibrator; }
+
+// include TensorRT
 #include "NvInfer.h"
 
 #include <vector>
