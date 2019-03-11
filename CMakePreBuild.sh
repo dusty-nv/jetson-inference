@@ -113,4 +113,8 @@ tar -xzvf FCN-Alexnet-Aerial-FPV-720p.tar.gz -C ../data/networks
 wget --no-check-certificate 'https://nvidia.box.com/shared/static/nlqbsdnt76y0nmkwdzxkg4zbvhk4bidh.gz' -O Deep-Homography-COCO.tar.gz
 tar -xzvf Deep-Homography-COCO.tar.gz -C ../data/networks
 
+# Super Resolution
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/a99l8ttk21p3tubjbyhfn4gh37o45rn8.gz' -O Super-Resolution-BSD500.tar.gz
+tar -xzvf Super-Resolution-BSD500.tar.gz -C ../data/networks
+
 echo "[Pre-build]  Finished CMakePreBuild script"
