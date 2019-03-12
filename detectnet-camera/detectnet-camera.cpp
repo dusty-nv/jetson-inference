@@ -112,7 +112,7 @@ int main( int argc, char** argv )
 	/*
 	 * allocate memory for output bounding boxes and class confidence
 	 */
-	const uint32_t maxBoxes = net->GetMaxBoundingBoxes();		printf("maximum bounding boxes:  %u\n", maxBoxes);
+	const uint32_t maxBoxes = net->GetMaxBoundingBoxes();
 	const uint32_t classes  = net->GetNumClasses();
 	
 	float* bbCPU    = NULL;
@@ -199,7 +199,8 @@ int main( int argc, char** argv )
 				const int nc = confCPU[n*2+1];
 				float* bb = bbCPU + (n * 4);
 				
-				printf("bounding box %i   (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
+				printf("detected obj %i  class #%u (%s)  confidence=%f\n", n, nc, net->GetClassDesc(nc), confCPU[n*2]);
+				printf("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
 				
 				if( nc != lastClass || n == (numBoundingBoxes - 1) )
 				{
@@ -226,8 +227,7 @@ int main( int argc, char** argv )
 			if( display != NULL )
 			{
 				char str[256];
-				sprintf(str, "TensorRT build %x | %s | %04.1f FPS", NV_GIE_VERSION, net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
-				//sprintf(str, "GIE build %x | %s | %04.1f FPS | %05.2f%% %s", NV_GIE_VERSION, net->GetNetworkName(), display->GetFPS(), confidence * 100.0f, net->GetClassDesc(img_class));
+				sprintf(str, "TensorRT %i.%i.%i | %s | %04.1f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), display->GetFPS());
 				display->SetTitle(str);	
 			}	
 		}	

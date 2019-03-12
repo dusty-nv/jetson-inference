@@ -5,7 +5,8 @@ BUILD_ROOT=$PWD
 TORCH_PREFIX=$PWD/torch
 
 echo "[Pre-build]  dependency installer script running..."
-echo "[Pre-build]  build root directory:       $BUILD_ROOT"
+echo "[Pre-build]  build root directory:   $BUILD_ROOT"
+echo " "
 
 
 # break on errors
@@ -15,14 +16,15 @@ echo "[Pre-build]  build root directory:       $BUILD_ROOT"
 # install packages
 sudo apt-get update
 sudo apt-get install -y libqt4-dev qt4-dev-tools libglew-dev glew-utils libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libglib2.0-dev
+sudo apt-get install -y libopencv-calib3d-dev libopencv-dev 
 # libgstreamer0.10-0-dev libgstreamer-plugins-base0.10-dev libxml2-dev
 sudo apt-get update
 
 
 # libgstreamer-plugins-base1.0-dev
 
-sudo rm /usr/lib/aarch64-linux-gnu/libGL.so
-sudo ln -s /usr/lib/aarch64-linux-gnu/tegra/libGL.so /usr/lib/aarch64-linux-gnu/libGL.so
+#sudo rm /usr/lib/aarch64-linux-gnu/libGL.so
+#sudo ln -s /usr/lib/aarch64-linux-gnu/tegra/libGL.so /usr/lib/aarch64-linux-gnu/libGL.so
 
 
 # uncomment to download Alexnet (220MB)
@@ -37,6 +39,8 @@ wget --no-check-certificate 'https://nvidia.box.com/shared/static/c84wp3axbtv4e2
 mv alexnet.prototxt ../data/networks
 fi
 
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/o0w0sl3obqxj21u09c0cwzw4khymz7hh.prototxt' -O alexnet_noprob.prototxt
+mv alexnet_noprob.prototxt ../data/networks
 
 # GoogleNet (bvlc site was behaving slowly, so enabled mirror on nvidia.box.com instead)
 if [ ! -f "../data/networks/bvlc_googlenet.caffemodel" ]; then
@@ -50,6 +54,8 @@ wget --no-check-certificate 'https://nvidia.box.com/shared/static/5z3l76p8ap4n0o
 mv googlenet.prototxt ../data/networks
 fi
 
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/ue8qrqtglu36andbvobvaaj8egxjaoli.prototxt' -O googlenet_noprob.prototxt
+mv googlenet_noprob.prototxt ../data/networks
 
 # GoogleNet, ILSVR12 subset
 if [ ! -d "../data/networks/GoogleNet-ILSVRC12-subset" ]; then
@@ -65,17 +71,17 @@ fi
 #fi
 
 if [ ! -d "../data/networks/ped-100" ]; then
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOMzVRODNuSHlvbms' -O ped-100.tar.gz
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/0wbxo6lmxfamm1dk90l8uewmmbpbcffb.gz' -O ped-100.tar.gz
 tar -xzvf ped-100.tar.gz -C ../data/networks
 fi
 
 if [ ! -d "../data/networks/multiped-500" ]; then
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOUmtGdGIyYjlEbTA' -O multiped-500.tar.gz
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/r3bq08qh7zb0ap2lf4ysjujdx64j8ofw.gz' -O multiped-500.tar.gz
 tar -xzvf multiped-500.tar.gz -C ../data/networks
 fi
 
 if [ ! -d "../data/networks/facenet-120" ]; then
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0BwYxpotGWRNOWXpOQ0JCQ3AxSTA' -O facenet-120.tar.gz
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/wjitc00ef8j6shjilffibm6r2xxcpigz.gz' -O facenet-120.tar.gz
 tar -xzvf facenet-120.tar.gz -C ../data/networks
 fi
 
@@ -144,5 +150,13 @@ fi
 #tar -xzvf FCN-Alexnet-Aerial-FPV-4ch-720p.tar.gz -C ../data/networks
 #fi
 
+
+# Deep Homography
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/nlqbsdnt76y0nmkwdzxkg4zbvhk4bidh.gz' -O Deep-Homography-COCO.tar.gz
+tar -xzvf Deep-Homography-COCO.tar.gz -C ../data/networks
+
+# Super Resolution
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/a99l8ttk21p3tubjbyhfn4gh37o45rn8.gz' -O Super-Resolution-BSD500.tar.gz
+tar -xzvf Super-Resolution-BSD500.tar.gz -C ../data/networks
 
 echo "[Pre-build]  Finished CMakePreBuild script"

@@ -98,19 +98,31 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	printf("segnet-console:  beginning processing overlay (%zu)\n", current_timestamp());
-
 	// set alpha blending value for classes that don't explicitly already have an alpha	
 	net->SetGlobalAlpha(120);
 
-	// process image overlay
-	if( !net->Overlay(imgCUDA, outCUDA, imgWidth, imgHeight) )
+
+	// process the segmentation network
+	printf("segnet-console:  beginning processing (%zu)\n", current_timestamp());
+
+	if( !net->Process(imgCUDA, imgWidth, imgHeight) )
 	{
-		printf("segnet-console:  failed to process segmentation overlay.\n");
+		printf("segnet-console:  failed to process segmentation\n");
 		return 0;
 	}
 
-	printf("segnet-console:  finished processing overlay  (%zu)\n", current_timestamp());
+	printf("segnet-console:  finished processing (%zu)\n", current_timestamp());
+
+
+	// generate image overlay
+	if( !net->Overlay(outCUDA, imgWidth, imgHeight, segNet::FILTER_LINEAR) )
+	{
+		printf("segnet-console:  failed to generate overlay.\n");
+		return 0;
+	}
+
+	CUDA(cudaThreadSynchronize());
+
 
 	// save output image
 	if( !saveImageRGBA(outFilename, (float4*)outCPU, imgWidth, imgHeight) )

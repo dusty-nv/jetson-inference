@@ -59,6 +59,7 @@ int main( int argc, char** argv )
 	
 	net->EnableProfiler();
 	
+
 	// load image from file on disk
 	float* imgCPU    = NULL;
 	float* imgCUDA   = NULL;
@@ -70,12 +71,13 @@ int main( int argc, char** argv )
 		printf("failed to load image '%s'\n", imgFilename);
 		return 0;
 	}
-
-	float confidence = 0.0f;
 	
 	// classify image
+	float confidence = 0.0f;
 	const int img_class = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
 	
+
+	// overlay the classification on the image
 	if( img_class >= 0 )
 	{
 		printf("imagenet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, net->GetClassDesc(img_class));

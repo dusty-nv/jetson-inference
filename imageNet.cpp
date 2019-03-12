@@ -21,9 +21,12 @@
  */
  
 #include "imageNet.h"
+
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
+
 #include "commandLine.h"
+#include "filesystem.h"
 
 
 // constructor
@@ -31,6 +34,8 @@ imageNet::imageNet() : tensorNet()
 {
 	mCustomClasses = 0;
 	mOutputClasses = 0;
+
+	mNetworkType = CUSTOM;
 }
 
 
@@ -42,33 +47,36 @@ imageNet::~imageNet()
 
 
 // Create
-imageNet* imageNet::Create( imageNet::NetworkType networkType, uint32_t maxBatchSize )
+imageNet* imageNet::Create( imageNet::NetworkType networkType, uint32_t maxBatchSize, 
+					   precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	imageNet* net = new imageNet();
 	
 	if( !net )
 		return NULL;
 	
-	if( !net->init(networkType, maxBatchSize) )
+	if( !net->init(networkType, maxBatchSize, precision, device, allowGPUFallback) )
 	{
 		printf("imageNet -- failed to initialize.\n");
 		return NULL;
 	}
 	
+	net->mNetworkType = networkType;
 	return net;
 }
 
 
 // Create
 imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
-							const char* class_path, const char* input, const char* output, uint32_t maxBatchSize )
+					   const char* class_path, const char* input, const char* output, uint32_t maxBatchSize,
+					   precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	imageNet* net = new imageNet();
 	
 	if( !net )
 		return NULL;
 	
-	if( !net->init(prototxt_path, model_path, mean_binary, class_path, input, output, maxBatchSize) )
+	if( !net->init(prototxt_path, model_path, mean_binary, class_path, input, output, maxBatchSize, precision, device, allowGPUFallback) )
 	{
 		printf("imageNet -- failed to initialize.\n");
 		return NULL;
@@ -79,43 +87,24 @@ imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, c
 
 
 // init
-bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize )
+bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize, 
+				 precisionType precision, deviceType device, bool allowGPUFallback )
 {
-	/*const char* proto_file[] = { "networks/alexnet.prototxt", "networks/googlenet.prototxt" };
-	const char* model_file[] = { "networks/bvlc_alexnet.caffemodel", "networks/bvlc_googlenet.caffemodel" };
-
-	if( !tensorNet::LoadNetwork( proto_file[networkType], model_file[networkType], NULL, "data", "prob", maxBatchSize) )
-	{
-		printf("failed to load %s\n", model_file[networkType]);
-		return false;
-	}
-
-	mNetworkType = networkType;
-	printf(LOG_GIE "%s loaded\n", GetNetworkName());
-
-
-	mOutputClasses = mOutputs[0].dims.c;
-	
-	if( !loadClassInfo("networks/ilsvrc12_synset_words.txt") || mClassSynset.size() != mOutputClasses || mClassDesc.size() != mOutputClasses )
-	{
-		printf("imageNet -- failed to load synset class descriptions  (%zu / %zu of %u)\n", mClassSynset.size(), mClassDesc.size(), mOutputClasses);
-		return false;
-	}
-	
-	printf("%s initialized.\n", GetNetworkName());
-	return true;*/
-
 	if( networkType == imageNet::ALEXNET )
-		return init( "networks/alexnet.prototxt", "networks/bvlc_alexnet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize );
+		return init( "networks/alexnet.prototxt", "networks/bvlc_alexnet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == imageNet::GOOGLENET )
-		return init( "networks/googlenet.prototxt", "networks/bvlc_googlenet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize );
+		return init( "networks/googlenet.prototxt", "networks/bvlc_googlenet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == imageNet::GOOGLENET_12 )
-		return init( "networks/GoogleNet-ILSVRC12-subset/deploy.prototxt", "networks/GoogleNet-ILSVRC12-subset/snapshot_iter_184080.caffemodel", NULL, "networks/GoogleNet-ILSVRC12-subset/labels.txt", IMAGENET_DEFAULT_INPUT, "softmax", maxBatchSize );
+		return init( "networks/GoogleNet-ILSVRC12-subset/deploy.prototxt", "networks/GoogleNet-ILSVRC12-subset/snapshot_iter_184080.caffemodel", NULL, "networks/GoogleNet-ILSVRC12-subset/labels.txt", IMAGENET_DEFAULT_INPUT, "softmax", maxBatchSize, precision, device, allowGPUFallback );
+	else
+		return NULL;
 }
 
 
 // init
-bool imageNet::init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize )
+bool imageNet::init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, 
+				const char* input, const char* output, uint32_t maxBatchSize,
+				precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	if( !prototxt_path || !model_path || !class_path || !input || !output )
 		return false;
@@ -132,7 +121,8 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 	/*
 	 * load and parse googlenet network definition and model file
 	 */
-	if( !tensorNet::LoadNetwork( prototxt_path, model_path, mean_binary, input, output, maxBatchSize ) )
+	if( !tensorNet::LoadNetwork( prototxt_path, model_path, mean_binary, input, output, 
+						    maxBatchSize, precision, device, allowGPUFallback ) )
 	{
 		printf("failed to load %s\n", model_path);
 		return false;
@@ -155,6 +145,27 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 	return true;
 }
 			
+
+// NetworkTypeFromStr
+imageNet::NetworkType imageNet::NetworkTypeFromStr( const char* modelName )
+{
+	if( !modelName )
+		return imageNet::CUSTOM;
+
+	imageNet::NetworkType type = imageNet::GOOGLENET;
+
+	if( strcasecmp(modelName, "alexnet") == 0 )
+		type = imageNet::ALEXNET;
+	else if( strcasecmp(modelName, "googlenet") == 0 )
+		type = imageNet::GOOGLENET;
+	else if( strcasecmp(modelName, "googlenet-12") == 0 || strcasecmp(modelName, "googlenet_12") == 0 )
+		type = imageNet::GOOGLENET_12;
+	else
+		type = imageNet::CUSTOM;
+
+	return type;
+}
+
 
 
 // Create
@@ -221,14 +232,25 @@ bool imageNet::loadClassInfo( const char* filename )
 	if( !filename )
 		return false;
 	
-	FILE* f = fopen(filename, "r");
+	// locate the file
+	const std::string path = locateFile(filename);
+
+	if( path.length() == 0 )
+	{
+		printf("imageNet -- failed to find %s\n", filename);
+		return false;
+	}
+
+	// open the file
+	FILE* f = fopen(path.c_str(), "r");
 	
 	if( !f )
 	{
-		printf("imageNet -- failed to open %s\n", filename);
+		printf("imageNet -- failed to open %s\n", path.c_str());
 		return false;
 	}
 	
+	// read class descriptions
 	char str[512];
 
 	while( fgets(str, 512, f) != NULL )
@@ -271,43 +293,111 @@ bool imageNet::loadClassInfo( const char* filename )
 	
 	if( mClassSynset.size() == 0 )
 		return false;
-	
+
+	mClassPath = path;	
 	return true;
 }
 
 
 
 // from imageNet.cu
-cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value );
+cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value, cudaStream_t stream );
 					
-					
+
+// PreProcess
+bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
+{
+	// verify parameters
+	if( !rgba || width == 0 || height == 0 )
+	{
+		printf(LOG_TRT "imageNet::PreProcess( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
+		return false;
+	}
+
+	// downsample and convert to band-sequential BGR
+	if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
+								 make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f),
+								 GetStream())) )
+	{
+		printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetMean() failed\n");
+		return false;
+	}
+
+	return true;
+}
+
+
+// Process
+bool imageNet::Process()
+{
+	void* bindBuffers[] = { mInputCUDA, mOutputs[0].CUDA };	
+	cudaStream_t stream = GetStream();
+
+	if( !stream )
+	{
+		if( !mContext->execute(1, bindBuffers) )
+		{
+			printf(LOG_TRT "imageNet::Process() -- failed to execute TensorRT network\n");
+			return false;
+		}
+	}
+	else
+	{
+		//printf("%s stream %p\n", deviceTypeToStr(GetDevice()), GetStream());
+
+		//CUDA(cudaEventRecord(mEvents[0], stream));
+		
+		// queue the inference processing kernels
+		const bool result = mContext->enqueue(1, bindBuffers, stream, NULL);
+
+		//CUDA(cudaEventRecord(mEvents[1], stream));
+		//CUDA(cudaEventSynchronize(mEvents[1]));
+		CUDA(cudaStreamSynchronize(stream));
+
+		if( !result )
+		{
+			printf(LOG_TRT "imageNet::Process() -- failed to enqueue TensorRT network\n");
+			return false;
+		}	
+	}
+
+	//CUDA(cudaDeviceSynchronize());
+	PROFILER_REPORT();
+
+	return true;
+}
+
+				
 // Classify
 int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* confidence )
 {
+	// verify parameters
 	if( !rgba || width == 0 || height == 0 )
 	{
-		printf("imageNet::Classify( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
+		printf(LOG_TRT "imageNet::Classify( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
 		return -1;
 	}
-
 	
 	// downsample and convert to band-sequential BGR
-	if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
-								 make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f))) )
+	if( !PreProcess(rgba, width, height) )
 	{
-		printf("imageNet::Classify() -- cudaPreImageNetMean failed\n");
+		printf(LOG_TRT "imageNet::Classify() -- PreProcess() failed\n");
 		return -1;
 	}
 	
-	
-	// process with GIE
-	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
-	
-	mContext->execute(1, inferenceBuffers);
-	
-	//CUDA(cudaDeviceSynchronize());
-	PROFILER_REPORT();
-	
+	return Classify(confidence);
+}
+
+
+// Classify
+int imageNet::Classify( float* confidence )
+{	
+	// process with TRT
+	if( !Process() )
+	{
+		printf(LOG_TRT "imageNet::Process() failed\n");
+		return -1;
+	}
 	
 	// determine the maximum class
 	int classIndex = -1;

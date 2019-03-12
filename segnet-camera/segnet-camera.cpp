@@ -157,8 +157,15 @@ int main( int argc, char** argv )
 		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA, true) )
 			printf("segnet-camera:  failed to convert from NV12 to RGBA\n");
 
-		// process image overlay
-		if( !net->Overlay((float*)imgRGBA, (float*)outCUDA, camera->GetWidth(), camera->GetHeight()) )
+		// process the segmentation network
+		if( !net->Process((float*)imgRGBA, camera->GetWidth(), camera->GetHeight()) )
+		{
+			printf("segnet-console:  failed to process segmentation\n");
+			continue;
+		}
+
+		// generate overlay
+		if( !net->Overlay((float*)outCUDA, camera->GetWidth(), camera->GetHeight(), segNet::FILTER_LINEAR) )
 		{
 			printf("segnet-console:  failed to process segmentation overlay.\n");
 			continue;
@@ -168,8 +175,7 @@ int main( int argc, char** argv )
 		if( display != NULL )
 		{
 			char str[256];
-			sprintf(str, "TensorRT build %x | %s | %04.1f FPS", NV_GIE_VERSION, net->HasFP16() ? "FP16" : "FP32", display->GetFPS());
-			//sprintf(str, "GIE build %x | %s | %04.1f FPS | %05.2f%% %s", NV_GIE_VERSION, net->GetNetworkName(), display->GetFPS(), confidence * 100.0f, net->GetClassDesc(img_class));
+			sprintf(str, "TensorRT %i.%i.%i | %s | %04.1f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), display->GetFPS());
 			display->SetTitle(str);	
 	
 			// next frame in the window

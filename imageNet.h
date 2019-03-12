@@ -52,15 +52,27 @@ public:
 	 */
 	enum NetworkType
 	{
+		CUSTOM,
 		ALEXNET,		/**< 1000-class ILSVR12 */
 		GOOGLENET,	/**< 1000-class ILSVR12 */
 		GOOGLENET_12	/**< 12-class subset of ImageNet ILSVR12 from the tutorial */
 	};
 
+
+	/**
+	 * Parse a string to one of the built-in pretrained models.
+	 * Valid names are "alexnet", "googlenet", "googlenet-12", or "googlenet_12".
+	 * @returns one of the imageNet::NetworkType enums, or imageNet::CUSTOM on invalid string.
+	 */
+	static NetworkType NetworkTypeFromStr( const char* model_name );
+
+
 	/**
 	 * Load a new network instance
 	 */
-	static imageNet* Create( NetworkType networkType=GOOGLENET, uint32_t maxBatchSize=2 );
+	static imageNet* Create( NetworkType networkType=GOOGLENET, uint32_t maxBatchSize=2, 
+						precisionType precision=TYPE_FASTEST,
+				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
 	 * Load a new network instance
@@ -75,7 +87,8 @@ public:
 						const char* mean_binary, const char* class_labels, 
 						const char* input=IMAGENET_DEFAULT_INPUT, 
 						const char* output=IMAGENET_DEFAULT_OUTPUT, 
-						uint32_t maxBatchSize=2 );
+						uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
 	 * Load a new network instance by parsing the command line.
@@ -89,6 +102,7 @@ public:
 	
 	/**
 	 * Determine the maximum likelihood image class.
+	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
 	 * @param rgba float4 input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
@@ -96,6 +110,27 @@ public:
 	 * @returns Index of the maximum class, or -1 on error.
 	 */
 	int Classify( float* rgba, uint32_t width, uint32_t height, float* confidence=NULL );
+
+	/**
+	 * Determine the maximum likelihood image class.
+	 * @note before calling this function, you must call PreProcess() with the image. 
+	 * @param confidence optional pointer to float filled with confidence value.
+	 * @returns Index of the maximum class, or -1 on error.
+	 */
+	int Classify( float* confidence=NULL );
+
+	/**
+	 * Perform pre-processing on the image to apply mean-value subtraction and
+	 * to organize the data into NCHW format and BGR colorspace that the networks expect.
+ 	 * After calling PreProcess(), you can call Classify() without supplying all the parameters.
+	 */
+	bool PreProcess( float* rgba, uint32_t width, uint32_t height );
+
+	/**
+	 * Process the network, without determining the classification argmax.
+	 * To perform the actual classification via post-processing, Classify() should be used instead.
+	 */
+	bool Process();
 
 	/**
 	 * Retrieve the number of image recognition classes (typically 1000)
@@ -113,6 +148,11 @@ public:
 	inline const char* GetClassSynset( uint32_t index ) const		{ return mClassSynset[index].c_str(); }
 	
 	/**
+ 	 * Retrieve the path to the file containing the class descriptions.
+	 */
+	inline const char* GetClassPath() const						{ return mClassPath.c_str(); }
+
+	/**
 	 * Retrieve the network type (alexnet or googlenet)
 	 */
 	inline NetworkType GetNetworkType() const					{ return mNetworkType; }
@@ -120,13 +160,13 @@ public:
 	/**
  	 * Retrieve a string describing the network name.
 	 */
-	inline const char* GetNetworkName() const					{ return (mNetworkType == GOOGLENET ? "googlenet" : "alexnet"); }
+	inline const char* GetNetworkName() const					{ if(mNetworkType == GOOGLENET) return "googlenet"; else if(mNetworkType == GOOGLENET_12) return "googlenet_12"; else if(mNetworkType == ALEXNET) return "alexnet"; else return "custom"; }
 
 protected:
 	imageNet();
 	
-	bool init( NetworkType networkType, uint32_t maxBatchSize );
-	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize );
+	bool init( NetworkType networkType, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
+	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool loadClassInfo( const char* filename );
 	
 	uint32_t mCustomClasses;
@@ -135,6 +175,7 @@ protected:
 	std::vector<std::string> mClassSynset;	// 1000 class ID's (ie n01580077, n04325704)
 	std::vector<std::string> mClassDesc;
 
+	std::string mClassPath;
 	NetworkType mNetworkType;
 };
 

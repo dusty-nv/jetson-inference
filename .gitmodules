@@ -1,0 +1,4 @@
+[submodule "utils"]
+	path = utils
+	url = https://github.com/dusty-nv/jetson-utils
+	branch = master

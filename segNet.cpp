@@ -27,17 +27,23 @@
 #include "cudaResize.h"
 
 #include "commandLine.h"
-
+#include "filesystem.h"
 
 
 // constructor
 segNet::segNet() : tensorNet()
 {
+	mLastInputImg    = NULL;
+	mLastInputWidth  = 0;
+	mLastInputHeight = 0;
+
 	mClassColors[0] = NULL;	// cpu ptr
 	mClassColors[1] = NULL;  // gpu ptr
 
 	mClassMap[0] = NULL;
 	mClassMap[1] = NULL;
+
+	mNetworkType = SEGNET_CUSTOM;
 }
 
 
@@ -48,27 +54,77 @@ segNet::~segNet()
 }
 
 
-// Create
-segNet* segNet::Create( NetworkType networkType, uint32_t maxBatchSize )
+// FilterModeFromStr
+segNet::FilterMode segNet::FilterModeFromStr( const char* str, FilterMode default_value )
 {
+	if( !str )
+		return default_value;
+
+	if( strcasecmp(str, "point") == 0 )
+		return segNet::FILTER_POINT;
+	else if( strcasecmp(str, "linear") == 0 )
+		return segNet::FILTER_LINEAR;
+
+	return default_value;
+}
+
+
+// NetworkTypeFromStr
+segNet::NetworkType segNet::NetworkTypeFromStr( const char* modelName )
+{
+	if( !modelName )
+		return segNet::SEGNET_CUSTOM;
+
+	segNet::NetworkType type = segNet::FCN_ALEXNET_CITYSCAPES_HD;
+
+	if( strcasecmp(modelName, "cityscapes-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes-sd") == 0 )
+		type = segNet::FCN_ALEXNET_CITYSCAPES_SD;
+	else if( strcasecmp(modelName, "cityscapes") == 0 || strcasecmp(modelName, "cityscapes-hd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes-hd") == 0 )
+		type = segNet::FCN_ALEXNET_CITYSCAPES_HD;
+	else if( strcasecmp(modelName, "pascal-voc") == 0 || strcasecmp(modelName, "fcn-alexnet-pascal-voc") == 0 )
+		type = segNet::FCN_ALEXNET_PASCAL_VOC;
+	else if( strcasecmp(modelName, "synthia-cvpr16") == 0 || strcasecmp(modelName, "fcn-alexnet-synthia-cvpr16") == 0 )
+		type = segNet::FCN_ALEXNET_SYNTHIA_CVPR16;
+	else if( strcasecmp(modelName, "synthia-summer-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-synthia-summer-sd") == 0 )
+		type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_SD;
+	else if( strcasecmp(modelName, "synthia-summer-hd") == 0 || strcasecmp(modelName, "fcn-alexnet-synthia-summer-hd") == 0 )
+		type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_HD;
+	else if( strcasecmp(modelName, "aerial-fpv") == 0 || strcasecmp(modelName, "aerial-fpv-720p") == 0 || strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p") == 0 )
+		type = segNet::FCN_ALEXNET_AERIAL_FPV_720p;
+	else
+		type = segNet::SEGNET_CUSTOM;
+
+	return type;
+}
+
+
+// Create
+segNet* segNet::Create( NetworkType networkType, uint32_t maxBatchSize,
+				    precisionType precision, deviceType device, bool allowGPUFallback )
+{
+	segNet* net = NULL;
+
 	if( networkType == FCN_ALEXNET_PASCAL_VOC )
-		return Create("networks/FCN-Alexnet-Pascal-VOC/deploy.prototxt", "networks/FCN-Alexnet-Pascal-VOC/snapshot_iter_146400.caffemodel", "networks/FCN-Alexnet-Pascal-VOC/pascal-voc-classes.txt", "networks/FCN-Alexnet-Pascal-VOC/pascal-voc-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );
+		net = Create("networks/FCN-Alexnet-Pascal-VOC/deploy.prototxt", "networks/FCN-Alexnet-Pascal-VOC/snapshot_iter_146400.caffemodel", "networks/FCN-Alexnet-Pascal-VOC/pascal-voc-classes.txt", "networks/FCN-Alexnet-Pascal-VOC/pascal-voc-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == FCN_ALEXNET_SYNTHIA_CVPR16 )
-		return Create("networks/FCN-Alexnet-SYNTHIA-CVPR16/deploy.prototxt", "networks/FCN-Alexnet-SYNTHIA-CVPR16/snapshot_iter_1206700.caffemodel", "networks/FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-labels.txt", "networks/FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-train-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );
+		net = Create("networks/FCN-Alexnet-SYNTHIA-CVPR16/deploy.prototxt", "networks/FCN-Alexnet-SYNTHIA-CVPR16/snapshot_iter_1206700.caffemodel", "networks/FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-labels.txt", "networks/FCN-Alexnet-SYNTHIA-CVPR16/synthia-cvpr16-train-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == FCN_ALEXNET_SYNTHIA_SUMMER_HD )
-		return Create("networks/FCN-Alexnet-SYNTHIA-Summer-HD/deploy.prototxt", "networks/FCN-Alexnet-SYNTHIA-Summer-HD/snapshot_iter_902888.caffemodel", "networks/FCN-Alexnet-SYNTHIA-Summer-HD/synthia-seq-labels.txt", "networks/FCN-Alexnet-SYNTHIA-Summer-HD/synthia-seq-train-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );	
+		net = Create("networks/FCN-Alexnet-SYNTHIA-Summer-HD/deploy.prototxt", "networks/FCN-Alexnet-SYNTHIA-Summer-HD/snapshot_iter_902888.caffemodel", "networks/FCN-Alexnet-SYNTHIA-Summer-HD/synthia-seq-labels.txt", "networks/FCN-Alexnet-SYNTHIA-Summer-HD/synthia-seq-train-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );	
 	else if( networkType == FCN_ALEXNET_SYNTHIA_SUMMER_SD )
-		return Create("networks/FCN-Alexnet-SYNTHIA-Summer-SD/deploy.prototxt", "networks/FCN-Alexnet-SYNTHIA-Summer-SD/snapshot_iter_431816.caffemodel", "networks/FCN-Alexnet-SYNTHIA-Summer-SD/synthia-seq-labels.txt", "networks/FCN-Alexnet-SYNTHIA-Summer-SD/synthia-seq-train-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );		
+		net = Create("networks/FCN-Alexnet-SYNTHIA-Summer-SD/deploy.prototxt", "networks/FCN-Alexnet-SYNTHIA-Summer-SD/snapshot_iter_431816.caffemodel", "networks/FCN-Alexnet-SYNTHIA-Summer-SD/synthia-seq-labels.txt", "networks/FCN-Alexnet-SYNTHIA-Summer-SD/synthia-seq-train-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
 	else if( networkType == FCN_ALEXNET_CITYSCAPES_HD )
-		return Create("networks/FCN-Alexnet-Cityscapes-HD/deploy.prototxt", "networks/FCN-Alexnet-Cityscapes-HD/snapshot_iter_367568.caffemodel", "networks/FCN-Alexnet-Cityscapes-HD/cityscapes-labels.txt", "networks/FCN-Alexnet-Cityscapes-HD/cityscapes-deploy-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );	
+		net = Create("networks/FCN-Alexnet-Cityscapes-HD/deploy.prototxt", "networks/FCN-Alexnet-Cityscapes-HD/snapshot_iter_367568.caffemodel", "networks/FCN-Alexnet-Cityscapes-HD/cityscapes-labels.txt", "networks/FCN-Alexnet-Cityscapes-HD/cityscapes-deploy-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );	
 	else if( networkType == FCN_ALEXNET_CITYSCAPES_SD )
-		return Create("networks/FCN-Alexnet-Cityscapes-SD/deploy.prototxt", "networks/FCN-Alexnet-Cityscapes-SD/snapshot_iter_114860.caffemodel", "networks/FCN-Alexnet-Cityscapes-SD/cityscapes-labels.txt", "networks/FCN-Alexnet-Cityscapes-SD/cityscapes-deploy-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );		
+		net = Create("networks/FCN-Alexnet-Cityscapes-SD/deploy.prototxt", "networks/FCN-Alexnet-Cityscapes-SD/snapshot_iter_114860.caffemodel", "networks/FCN-Alexnet-Cityscapes-SD/cityscapes-labels.txt", "networks/FCN-Alexnet-Cityscapes-SD/cityscapes-deploy-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
 	//else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p_4ch )
-	//	return Create("FCN-Alexnet-Aerial-FPV-4ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-4ch-720p/snapshot_iter_1777146.caffemodel", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-deploy-colors.txt", "data", "score_fr_4classes", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );			
+	//	net = Create("FCN-Alexnet-Aerial-FPV-4ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-4ch-720p/snapshot_iter_1777146.caffemodel", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-deploy-colors.txt", "data", "score_fr_4classes", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );			
 	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p )
-		return Create("networks/FCN-Alexnet-Aerial-FPV-720p/fcn_alexnet.deploy.prototxt", "networks/FCN-Alexnet-Aerial-FPV-720p/snapshot_iter_10280.caffemodel", "networks/FCN-Alexnet-Aerial-FPV-720p/fpv-labels.txt", "networks/FCN-Alexnet-Aerial-FPV-720p/fpv-deploy-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );		
+		net = Create("networks/FCN-Alexnet-Aerial-FPV-720p/fcn_alexnet.deploy.prototxt", "networks/FCN-Alexnet-Aerial-FPV-720p/snapshot_iter_10280.caffemodel", "networks/FCN-Alexnet-Aerial-FPV-720p/fpv-labels.txt", "networks/FCN-Alexnet-Aerial-FPV-720p/fpv-deploy-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
 	else
 		return NULL;
+
+	if( net != NULL )
+		net->mNetworkType = networkType;
 }
 
 
@@ -132,7 +188,9 @@ segNet* segNet::Create( int argc, char** argv )
 
 
 // Create
-segNet* segNet::Create( const char* prototxt, const char* model, const char* labels_path, const char* colors_path, const char* input_blob, const char* output_blob, uint32_t maxBatchSize )
+segNet* segNet::Create( const char* prototxt, const char* model, const char* labels_path, const char* colors_path, 
+				    const char* input_blob, const char* output_blob, uint32_t maxBatchSize,
+				    precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	// create segmentation model
 	segNet* net = new segNet();
@@ -158,7 +216,8 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	std::vector<std::string> output_blobs;
 	output_blobs.push_back(output_blob);
 	
-	if( !net->LoadNetwork(prototxt, model, NULL, input_blob, output_blobs, maxBatchSize) )
+	if( !net->LoadNetwork(prototxt, model, NULL, input_blob, output_blobs, maxBatchSize,
+					  precision, device, allowGPUFallback) )
 	{
 		printf("segNet -- failed to initialize.\n");
 		return NULL;
@@ -202,14 +261,25 @@ bool segNet::loadClassColors( const char* filename )
 	if( !filename )
 		return false;
 	
-	FILE* f = fopen(filename, "r");
+	// locate the file
+	const std::string path = locateFile(filename);
+
+	if( path.length() == 0 )
+	{
+		printf("segNet -- failed to find %s\n", filename);
+		return false;
+	}
+
+	// open the file
+	FILE* f = fopen(path.c_str(), "r");
 	
 	if( !f )
 	{
-		printf("segNet -- failed to open %s\n", filename);
+		printf("segNet -- failed to open %s\n", path.c_str());
 		return false;
 	}
 	
+	// read class colors
 	char str[512];
 	int  idx = 0;
 
@@ -251,14 +321,25 @@ bool segNet::loadClassLabels( const char* filename )
 	if( !filename )
 		return false;
 	
-	FILE* f = fopen(filename, "r");
+	// locate the file
+	const std::string path = locateFile(filename);
+
+	if( path.length() == 0 )
+	{
+		printf("segNet -- failed to find %s\n", filename);
+		return false;
+	}
+
+	// open the file
+	FILE* f = fopen(path.c_str(), "r");
 	
 	if( !f )
 	{
-		printf("segNet -- failed to open %s\n", filename);
+		printf("segNet -- failed to open %s\n", path.c_str());
 		return false;
 	}
 	
+	// read class labels
 	char str[512];
 
 	while( fgets(str, 512, f) != NULL )
@@ -282,6 +363,7 @@ bool segNet::loadClassLabels( const char* filename )
 	if( mClassLabels.size() == 0 )
 		return false;
 	
+	mClassPath = path;
 	return true;
 }
 
@@ -334,40 +416,56 @@ int segNet::FindClassID( const char* label_name )
 
 
 // declaration from imageNet.cu
-cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight );
+cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, cudaStream_t stream );	
 
 
 
-
-// Overlay
-bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t height, const char* ignore_class )
+// Process
+bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* ignore_class )
 {
-	if( !rgba || width == 0 || height == 0 || !output )
+	if( !rgba || width == 0 || height == 0 )
 	{
-		printf("segNet::Overlay( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
+		printf("segNet::Process( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
 		return false;
 	}
 
 	// downsample and convert to band-sequential BGR
-	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight)) )
+	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
 	{
-		printf("segNet::Overlay() -- cudaPreImageNet failed\n");
+		printf("segNet::Process() -- cudaPreImageNet failed\n");
 		return false;
 	}
 
 	
-	// process with GIE
+	// process with TensorRT
 	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
 	
 	if( !mContext->execute(1, inferenceBuffers) )
 	{
-		printf(LOG_GIE "segNet::Overlay() -- failed to execute tensorRT context\n");
+		printf(LOG_GIE "segNet::Process() -- failed to execute TensorRT context\n");
 		return false;
 	}
 
 	PROFILER_REPORT();	// report total time, when profiling enabled
 
-	
+
+	// generate argmax classification map
+	if( !classify(ignore_class) )
+		return false;
+
+
+	// cache pointer to last image processed
+	mLastInputImg = rgba;
+	mLastInputWidth = width;
+	mLastInputHeight = height;
+
+	return true;
+}
+
+
+// argmax classification
+bool segNet::classify( const char* ignore_class )
+{
 	// retrieve scores
 	float* scores = mOutputs[0].CPU;
 
@@ -380,11 +478,12 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 	const float s_x = float(s_w) / float(mWidth);
 	const float s_y = float(s_h) / float(mHeight);
 
+
 	// if desired, find the ID of the class to ignore (typically void)
 	const int ignoreID = FindClassID(ignore_class);
 	
-	printf(LOG_GIE "segNet::Overlay -- s_w %i  s_h %i  s_c %i  s_x %f  s_y %f\n", s_w, s_h, s_c, s_x, s_y);
-	printf(LOG_GIE "segNet::Overlay -- ignoring class '%s' id=%i\n", ignore_class, ignoreID);
+	//printf(LOG_GIE "segNet::Process -- s_w %i  s_h %i  s_c %i  s_x %f  s_y %f\n", s_w, s_h, s_c, s_x, s_y);
+	//printf(LOG_GIE "segNet::Process -- ignoring class '%s' id=%i\n", ignore_class, ignoreID);
 
 
 	// find the argmax-classified class of each tile
@@ -394,48 +493,225 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 	{
 		for( uint32_t x=0; x < s_w; x++ )
 		{
-			float p_max[3] = {-100000.0f, -100000.0f, -100000.0f };
-			int   c_max[3] = { -1, -1, -1 };
+			float p_max = -100000.0f;
+			int   c_max = -1;
 
-			for( uint32_t c=0; c < s_c; c++ )	// classes
+			for( int c=0; c < s_c; c++ )
 			{
+				// skip ignoreID
+				if( c == ignoreID )
+					continue;
+
+				// check if this class score is higher
 				const float p = scores[c * s_w * s_h + y * s_w + x];
 
-				if( c_max[0] < 0 || p > p_max[0] )
+				if( c_max < 0 || p > p_max )
 				{
-					p_max[0] = p;
-					c_max[0] = c;
-				}
-				else if( c_max[1] < 0 || p > p_max[1] )
-				{
-					p_max[1] = p;
-					c_max[1] = c;
-				}
-				else if( c_max[2] < 0 || p > p_max[2] )
-				{
-					p_max[2] = p;
-					c_max[2] = c;
+					p_max = p;
+					c_max = c;
 				}
 			}
 
-			/*printf("%02u %u  class %i  %f  %s  class %i  %f  %s  class %i  %f  %s\n", x, y, 
-				   c_max[0], p_max[0], (c_max[0] >= 0 && c_max[0] < GetNumClasses()) ? GetClassLabel(c_max[0]) : " ", 
-				   c_max[1], p_max[1], (c_max[1] >= 0 && c_max[1] < GetNumClasses()) ? GetClassLabel(c_max[1]) : " ",
-				   c_max[2], p_max[2], (c_max[2] >= 0 && c_max[2] < GetNumClasses()) ? GetClassLabel(c_max[2]) : " ");
-			*/
-
-			const int argmax = (c_max[0] == ignoreID) ? c_max[1] : c_max[0];
-
-			classMap[y * s_w + x] = argmax;
+			classMap[y * s_w + x] = c_max;
 		}
 	}
-	   
-	// overlay pixels onto original
-	for( uint32_t y=0; y < height; y++ )
+
+	return true;
+}
+
+
+// Mask (binary)
+bool segNet::Mask( uint8_t* output, uint32_t out_width, uint32_t out_height )
+{
+	if( !output || out_width == 0 || out_height == 0 )
 	{
-		for( uint32_t x=0; x < width; x++ )
+		printf("segNet::Mask( 0x%p, %u, %u ) -> invalid parameters\n", output, out_width, out_height); 
+		return false;
+	}	
+
+	// retrieve classification map
+	uint8_t* classMap = mClassMap[0];
+
+	const int s_w = DIMS_W(mOutputs[0].dims);
+	const int s_h = DIMS_H(mOutputs[0].dims);
+		
+	const float s_x = float(s_w) / float(out_width);
+	const float s_y = float(s_h) / float(out_height);
+
+
+	// overlay pixels onto original
+	for( uint32_t y=0; y < out_height; y++ )
+	{
+		for( uint32_t x=0; x < out_width; x++ )
 		{
-			const float cx = float(x) * s_x;
+			const int cx = float(x) * s_x;
+			const int cy = float(y) * s_y;
+
+			// get the class ID of this cell
+			const uint8_t classIdx = classMap[cy * s_w + cx];
+
+			// output the pixel
+			output[y * out_width + x] = classIdx;
+		}
+	}
+
+	return true;
+}
+
+
+// Mask (colorized)
+bool segNet::Mask( float* output, uint32_t width, uint32_t height, FilterMode filter )
+{
+	if( !output || width == 0 || height == 0 )
+	{
+		printf("segNet::Mask( 0x%p, %u, %u ) -> invalid parameters\n", output, width, height); 
+		return false;
+	}	
+
+	// filter in point or linear
+	if( filter == FILTER_POINT )
+		return overlayPoint(NULL, 0, 0, output, width, height, true);
+	else if( filter == FILTER_LINEAR )
+		return overlayLinear(NULL, 0, 0, output, width, height, true);
+
+	return false;
+}
+
+
+// Overlay
+bool segNet::Overlay( float* output, uint32_t width, uint32_t height, FilterMode filter )
+{
+	if( !output || width == 0 || height == 0 )
+	{
+		printf("segNet::Overlay( 0x%p, %u, %u ) -> invalid parameters\n", output, width, height); 
+		return false;
+	}	
+	
+	if( !mLastInputImg )
+	{
+		printf(LOG_TRT "segNet -- Process() must be called before Overlay()\n");
+		return false;
+	}
+
+	// filter in point or linear
+	if( filter == FILTER_POINT )
+		return overlayPoint(mLastInputImg, mLastInputWidth, mLastInputHeight, output, width, height, false);
+	else if( filter == FILTER_LINEAR )
+		return overlayLinear(mLastInputImg, mLastInputWidth, mLastInputHeight, output, width, height, false);
+
+	return false;
+}
+
+
+#define OVERLAY_CUDA 
+
+// declaration from segNet.cu
+cudaError_t cudaSegOverlay( float4* input, uint32_t in_width, uint32_t in_height,
+				        float4* output, uint32_t out_width, uint32_t out_height,
+					   float4* class_colors, uint8_t* scores, const int2& scores_dim,
+					   bool filter_linear, bool mask_only, cudaStream_t stream );
+
+
+// overlayLinear
+bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only )
+{
+#ifdef OVERLAY_CUDA
+	// generate overlay on the GPU
+	if( CUDA_FAILED(cudaSegOverlay((float4*)input, in_width, in_height, (float4*)output, out_width, out_height,
+							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
+							 false, mask_only, GetStream())) )
+	{
+		printf(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
+		return false;
+	}
+#else
+	// retrieve classification map
+	uint8_t* classMap = mClassMap[0];
+
+	const int s_w = DIMS_W(mOutputs[0].dims);
+	const int s_h = DIMS_H(mOutputs[0].dims);
+
+	const float s_x = float(s_w) / float(out_width);
+	const float s_y = float(s_h) / float(out_height);
+
+
+	// overlay pixels onto original
+	for( uint32_t y=0; y < out_height; y++ )
+	{
+		for( uint32_t x=0; x < out_width; x++ )
+		{
+			const int cx = float(x) * s_x;
+			const int cy = float(y) * s_y;
+
+			// get the class ID of this cell
+			const uint8_t classIdx = classMap[cy * s_w + cx];
+
+			// find the color of this class
+			float* c_color = GetClassColor(classIdx);
+
+			// output the pixel
+			float* px_out = output + (((y * out_width * 4) + x * 4));
+
+			if( mask_only )
+			{
+				// only draw the segmentation mask
+				px_out[0] = c_color[0];
+				px_out[1] = c_color[1];
+				px_out[2] = c_color[2];
+				px_out[3] = 255.0f;
+			}
+			else
+			{
+				// alpha blend with input image
+				const uint32_t x_in = float(x) / float(out_width) * float(in_width);
+				const uint32_t y_in = float(y) / float(out_height) * float(in_height);
+
+				float* px_in = input + (((y_in * in_width * 4) + x_in * 4));
+				
+				const float alph = c_color[3] / 255.0f;
+				const float inva = 1.0f - alph;
+
+				px_out[0] = alph * c_color[0] + inva * px_in[0];
+				px_out[1] = alph * c_color[1] + inva * px_in[1];
+				px_out[2] = alph * c_color[2] + inva * px_in[2];
+				px_out[3] = 255.0f;
+			}
+		}
+	}
+#endif
+	return true;
+}
+
+
+// overlayLinear
+bool segNet::overlayLinear( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only )
+{
+#ifdef OVERLAY_CUDA
+	// generate overlay on the GPU
+	if( CUDA_FAILED(cudaSegOverlay((float4*)input, in_width, in_height, (float4*)output, out_width, out_height,
+							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
+							 true, mask_only, GetStream())) )
+	{
+		printf(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
+		return false;
+	}
+#else
+	// retrieve classification map
+	uint8_t* classMap = mClassMap[0];
+
+	const int s_w = DIMS_W(mOutputs[0].dims);
+	const int s_h = DIMS_H(mOutputs[0].dims);
+
+	const float s_x = float(s_w) / float(out_width);
+	const float s_y = float(s_h) / float(out_height);
+
+
+	// overlay pixels onto original
+	for( uint32_t y=0; y < out_height; y++ )
+	{
+		for( uint32_t x=0; x < out_width; x++ )
+		{
+			const float cx = float(x) * s_x;	
 			const float cy = float(y) * s_y;
 
 			const int x1 = int(cx);
@@ -463,7 +739,7 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 						 GetClassColor(classIdx[3]) };
 
 			
-
+			// compute bilinear weights
 			const float x1d = cx - float(x1);
 			const float y1d = cy - float(y1);
 		
@@ -476,9 +752,9 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 			const float x2f = 1.0f - x1f;
 			const float y2f = 1.0f - y1f;
 
-			int c_index = 0;
+			/*int c_index = 0;
 
-			/*if( y2d > y1d )
+			if( y2d > y1d )
 			{
 				if( x2d > y2d )			c_index = 2;
 				else 					c_index = 3;
@@ -497,22 +773,37 @@ bool segNet::Overlay( float* rgba, float* output, uint32_t width, uint32_t heigh
 						     cc[0][2] * x1f * y1f + cc[1][2] * x2f * y1f + cc[2][2] * x2f * y2f + cc[3][2] * x1f * y2f,
 						     cc[0][3] * x1f * y1f + cc[1][3] * x2f * y1f + cc[2][3] * x2f * y2f + cc[3][3] * x1f * y2f };
 
-			float* px_in  = rgba +   (((y * width * 4) + x * 4));
-			float* px_out = output + (((y * width * 4) + x * 4));
+			// output the pixel
+			float* px_out = output + (((y * out_width * 4) + x * 4));
 
-			const float alph = c_color[3] / 255.0f;
-			const float inva = 1.0f - alph;
+			if( mask_only )
+			{
+				// only draw the segmentation mask
+				px_out[0] = c_color[0];
+				px_out[1] = c_color[1];
+				px_out[2] = c_color[2];
+				px_out[3] = 255.0f;
+			}
+			else
+			{
+				// alpha blend with input image
+				const int x_in = float(x) / float(out_width) * float(in_width);
+				const int y_in = float(y) / float(out_height) * float(in_height);
 
-			px_out[0] = alph * c_color[0] + inva * px_in[0];
-			px_out[1] = alph * c_color[1] + inva * px_in[1];
-			px_out[2] = alph * c_color[2] + inva * px_in[2];
-			px_out[3] = 255.0f;
+				float* px_in = input + (((y_in * in_width * 4) + x_in * 4));
+				
+				const float alph = c_color[3] / 255.0f;
+				const float inva = 1.0f - alph;
+
+				px_out[0] = alph * c_color[0] + inva * px_in[0];
+				px_out[1] = alph * c_color[1] + inva * px_in[1];
+				px_out[2] = alph * c_color[2] + inva * px_in[2];
+				px_out[3] = 255.0f;
+			}
 		}
 	}
-
+#endif
 	return true;
 }
-
-
 	
 	
