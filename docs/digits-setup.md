@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="digits-workflow.md">Back</a> | <a href="jetpack-setup.md">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="digits-workflow.md">Back</a> | <a href="jetpack-setup.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>System Setup</sup></p>  
 
@@ -150,5 +150,5 @@ Open up a web browser and access http://localhost:8888
 <p align="right">Next | <b><a href="jetpack-setup.md">Setting up Jetson with JetPack</a></b>
 <br/>
 Back | <b><a href="digits-workflow.md">DIGITS Workflow</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>
 

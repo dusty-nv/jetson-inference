@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="detectnet-snapshot.md">Back</a> | <a href="detectnet-camera.md">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="detectnet-snapshot.md">Back</a> | <a href="detectnet-camera.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></s></p>
 
@@ -97,4 +97,4 @@ Next, we'll run object detection on a live camera stream.
 <p align="right">Next | <b><a href="detectnet-camera.md">Running the Live Camera Detection Demo</a></b>
 <br/>
 Back | <b><a href="detectnet-snapshot.md">Downloading the Detection Model to Jetson</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>

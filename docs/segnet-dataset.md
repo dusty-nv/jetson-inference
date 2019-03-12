@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="detectnet-camera.md">Back</a> | <a href="segnet-pretrained.md">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="detectnet-camera.md">Back</a> | <a href="segnet-pretrained.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>Semantic Segmentation</sup></s></p>
 
@@ -59,4 +59,4 @@ Name the dataset whatever you choose and click the `Create` button at the bottom
 <p align="right">Next | <b><a href="segnet-pretrained.md">Generating Pretrained FCN-Alexnet</a></b>
 <br/>
 Back | <b><a href="detectnet-camera.md">Running the Live Camera Detection Demo</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>

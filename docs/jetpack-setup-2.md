@@ -5,7 +5,7 @@
 
 # Setting up Jetson with JetPack
 
-> **note**:  if your Jetson has already been setup with JetPack, you can skip this step and continue to [`Building the Repo`](building-repo.md)
+> **note**:  if your Jetson has already been setup with JetPack, you can skip this step and continue to [`Building the Repo`](building-repo-2.md)
 
 Download the latest **[JetPack](https://developer.nvidia.com/embedded/jetpack)** to your host PC.  In addition to flashing the Jetson with the latest Board Support Package (BSP), JetPack automatically installs tools for the host like CUDA Toolkit.  See the JetPack [Release Notes](https://developer.nvidia.com/embedded/jetpack-notes) for the full list of features and installed packages.
 

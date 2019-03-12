@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="../README.md#training--inference">Back</a> | <a href="digits-setup.md">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="../README.md#two-days-to-a-demo-training--inference">Back</a> | <a href="digits-setup.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>Overview</sup></p>  
 
@@ -17,5 +17,5 @@ NVIDIA [DIGITS](https://github.com/NVIDIA/DIGITS) is used to interactively train
 
 ##
 <p align="right">Next | <b><a href="digits-setup.md">DIGITS System Setup</a></b><br/>
-Back | <b><a href="../README.md#training--inference">Overview</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>
+Back | <b><a href="../README.md#two-days-to-a-demo-training--inference">Overview</a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>

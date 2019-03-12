@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="detectnet-training.md">Back</a> | <a href="detectnet-console.md">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="detectnet-training.md">Back</a> | <a href="detectnet-console.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></p> 
 
@@ -44,4 +44,4 @@ Without this Python layer, the snapshot can now be imported into TensorRT onboar
 <p align="right">Next | <b><a href="detectnet-console.md">Detecting Objects from the Command Line</a></b>
 <br/>
 Back | <b><a href="detectnet-training.md">Locating Object Coordinates using DetectNet</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>

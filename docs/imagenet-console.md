@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="building-repo.md">Back</a> | <a href="imagenet-example.md">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="building-repo.md">Back</a> | <a href="imagenet-example.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
 
@@ -37,4 +37,4 @@ Next, we'll go through the steps to code your own image recognition program from
 <p align="right">Next | <b><a href="imagenet-example.md">Coding Your Own Image Recognition Program</a></b>
 <br/>
 Back | <b><a href="building-repo.md">Building the Repo from Source</a></b></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>

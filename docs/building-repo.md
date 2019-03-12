@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="jetpack-setup.md">Back</a> | <a href="imagenet-console.md">Next</a> | </sup><a href="../README.md#training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="jetpack-setup.md">Back</a> | <a href="imagenet-console.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
 <br/>
 <sup>System Setup</sup></p>   
 
@@ -115,4 +115,4 @@ Both inherit from the shared [`tensorNet`](../tensorNet.h) object which contains
 <p align="right">Next | <b><a href="imagenet-console.md">Classifying Images with ImageNet</a></b>
 <br/>
 Back | <b><a href="jetpack-setup.md">Setting up Jetson with JetPack</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>
