@@ -11,7 +11,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 There are multiple tracks of the tutorial that you can choose to follow, including Training + Inference or Inference-Only.
 
-## Inference Only
+## Hello AI World (Inference Only)
 
 If you would like to only do the inference portion of the tutorial, which can be run on your Jetson in roughly two hours, these modules are available below:
 
@@ -25,7 +25,7 @@ If you would like to only do the inference portion of the tutorial, which can be
 	* [Detecting Objects from the Command Line](docs/detectnet-console-2.md#detecting-objects-from-the-command-line)
 	* [Running the Live Camera Detection Demo](docs/detectnet-camera-2.md)
 
-## Training + Inference
+## Two Days to a Demo (Training + Inference)
 
 The full tutorial includes training and inference, and can take roughly two days or more depending on system setup, downloading the datasets, and the training speed of your GPU.
 
