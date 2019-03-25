@@ -25,7 +25,7 @@ $ ./imagenet-console orange_0.jpg output_0.jpg
 ```
 
 > **note**:  the first time you run the program, TensorRT may take up to a few minutes to optimize the network. <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This optimized network is saved after the first run, and future runs will load faster.
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network is saved after the first run, and future runs will load faster.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="500">
 
