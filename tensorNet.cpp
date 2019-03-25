@@ -532,7 +532,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	// build CUDA engine
 	printf(LOG_TRT "device %s, building FP16:  %s\n", deviceTypeToStr(device), isFp16Enabled(builder) ? "ON" : "OFF"); 
 	printf(LOG_TRT "device %s, building INT8:  %s\n", deviceTypeToStr(device), isInt8Enabled(builder) ? "ON" : "OFF"); 
-	printf(LOG_GIE "device %s, building CUDA engine\n", deviceTypeToStr(device));
+	printf(LOG_GIE "device %s, building CUDA engine (this may take a few minutes the first time a network is loaded)\n", deviceTypeToStr(device));
 
 	nvinfer1::ICudaEngine* engine = builder->buildCudaEngine(*network);
 	
