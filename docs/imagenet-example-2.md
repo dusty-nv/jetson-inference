@@ -246,7 +246,9 @@ $ cmake .
 $ make
 ```
 
-If you encounter errors, make sure that you ran `sudo make install` while [building the jetson-inference repo](building-repo-2.md#compiling-the-project).  
+If you encounter errors, make sure that you ran `sudo make install` while [building the jetson-inference repo](building-repo-2.md#compiling-the-project).
+
+If the error message is 'This file requires compiler and library support for the ISO C++ 2011 standard'. You will have to add this line into the CMakeLists.txt file: SET(CMAKE_CXX_FLAGS "-std=c++11 -03")
 
 You can also download the completed, working code of this example from the [`examples/my-recognition`](../examples/my-recognition) directory of the repo.  
 
