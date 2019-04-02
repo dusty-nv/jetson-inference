@@ -22,8 +22,8 @@ $ ./detectnet-camera                # by default, program will run using multipe
 <br/>
 
 > **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`detectnet-camera.cpp`](../detectnet-camera/detectnet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera and recompile.  The webcam model it's tested with is Logitech C920.  
-
 <br/>
+
 ## What's Next
 
 This is the last step of the *Hello AI World* tutorial, which covers inferencing on Jetson with TensorRT.  
