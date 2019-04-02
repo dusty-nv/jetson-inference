@@ -27,14 +27,16 @@ $ ./detectnet-camera                # by default, program will run using multipe
 
 ## What's Next
 
-This is the last step of the *Hello AI World* tutorial, which covers inferencing on Jetson with TensorRT.  To recap, together we've covered:
+This is the last step of the *Hello AI World* tutorial, which covers inferencing on Jetson with TensorRT.  
+
+To recap, together we've covered:
 
 * Using image recognition networks to classify images
 * Coding your own image recognition program in C++
 * Classifying video from a live camera stream
 * Performing object detection to locate object coordinates
 
-Next, we encourage you to follow our full *[Training + Inference](https://github.com/dusty-nv/jetson-inference#two-days-to-a-demo-training--inference)* tutorial, which also covers the re-training of these networks on custom datasets.  This way, you can collect your own data and have the models recognize objects specific to your applications.  The full tutorial also covers semantic segmentation, which is like image classification, but on a per-pixel level instead of predicting one class for the entire image.  Good luck!
+Next, we encourage you to follow our full **[Training + Inference](https://github.com/dusty-nv/jetson-inference#two-days-to-a-demo-training--inference)** tutorial, which also covers the re-training of these networks on custom datasets.  This way, you can collect your own data and have the models recognize objects specific to your applications.  The full tutorial also covers semantic segmentation, which is like image classification, but on a per-pixel level instead of predicting one class for the entire image.  Good luck!
 
 ##
 <p align="right">Back | <b><a href="detectnet-console-2.md">Detecting Objects from the Command Line</a></p>
