@@ -131,7 +131,7 @@ public:
 	static detectNet* Create( int argc, char** argv );
 	
 	/**
-	 * Destory
+	 * Destroy
 	 */
 	virtual ~detectNet();
 	
