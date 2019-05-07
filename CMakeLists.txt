@@ -66,7 +66,6 @@ if(CUDA_VERSION_MAJOR GREATER 9)
 	find_package(OpenCV 3.0.0 COMPONENTS core calib3d REQUIRED)
 endif()
 
-
 # setup project output paths
 set(PROJECT_OUTPUT_DIR  ${PROJECT_BINARY_DIR}/${CMAKE_SYSTEM_PROCESSOR})
 set(PROJECT_INCLUDE_DIR ${PROJECT_OUTPUT_DIR}/include)
@@ -133,6 +132,7 @@ add_subdirectory(trt-console)
 
 add_subdirectory(docs)
 add_subdirectory(utils)
+add_subdirectory(python)
 
 target_link_libraries(jetson-inference jetson-utils nvinfer nvcaffe_parser)
 

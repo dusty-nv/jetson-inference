@@ -1,0 +1,3 @@
+build/
+data/networks/
+*.pyc
