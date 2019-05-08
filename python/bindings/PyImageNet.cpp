@@ -20,34 +20,16 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+#include "PyTensorNet.h"
 #include "PyImageNet.h"
+
 #include "imageNet.h"
 
 
 typedef struct {
-    PyObject_HEAD
+    PyTensorNet_Object base;
     imageNet* net;	// object instance
 } PyImageNet_Object;
-
-
-// New
-static PyObject* PyImageNet_New( PyTypeObject *type, PyObject *args, PyObject *kwds )
-{
-	printf("PyImageNet_New()\n");
-	
-	// allocate a new container
-    PyImageNet_Object* self = (PyImageNet_Object*)type->tp_alloc(type, 0);
-	
-	if( !self )
-	{
-		PyErr_SetString(PyExc_MemoryError, "PyImageNet -- tp_alloc() failed to allocate a new object");
-		printf("PyImageNet -- tp_alloc() failed to allocate a new object\n");
-		return NULL;
-	}
-	
-    self->net = NULL;
-    return (PyObject*)self;
-}
 
 
 // Init
@@ -85,29 +67,13 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 		return -1;
 	}
 
+	self->base.net = self->net;
     return 0;
 }
 
 
-// Deallocate
-static void PyImageNet_Dealloc(PyImageNet_Object* self)
-{
-	printf("PyImageNet_Dealloc()\n");
-
-	// free the network
-	if( self->net != NULL )
-	{
-		delete self->net;
-		self->net = NULL;
-	}
-	
-	// free the container
-    Py_TYPE(self)->tp_free((PyObject*)self);
-}
-
-
 // GetNetworkName
-static PyObject* PyImageNet_GetNetworkName(PyImageNet_Object* self)
+static PyObject* PyImageNet_GetNetworkName( PyImageNet_Object* self )
 {
 	if( !self || !self->net )
 	{
@@ -120,7 +86,7 @@ static PyObject* PyImageNet_GetNetworkName(PyImageNet_Object* self)
 
 
 // GetNumClasses
-static PyObject* PyImageNet_GetNumClasses(PyImageNet_Object* self)
+static PyObject* PyImageNet_GetNumClasses( PyImageNet_Object* self )
 {
 	if( !self || !self->net )
 	{
@@ -163,6 +129,32 @@ PyObject* PyImageNet_GetClassDesc( PyImageNet_Object* self, PyObject* args )
 }
 
 
+// GetClassSynset
+PyObject* PyImageNet_GetClassSynset( PyImageNet_Object* self, PyObject* args )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, "PyImageNet -- invalid object instance");
+		return NULL;
+	}
+	
+	int classIdx = 0;
+
+	if( !PyArg_ParseTuple(args, "i", &classIdx) )
+	{
+		PyErr_SetString(PyExc_Exception, "PyImageNet -- failed to parse arguments");
+		return NULL;
+	}
+		
+	if( classIdx < 0 || classIdx >= self->net->GetNumClasses() )
+	{
+		PyErr_SetString(PyExc_Exception, "PyImageNet -- requested class index is out of bounds");
+		return NULL;
+	}
+
+	return Py_BuildValue("s", self->net->GetClassSynset(classIdx));
+}
+
 //-------------------------------------------------------------------------------
 static PyTypeObject pyImageNet_Type = 
 {
@@ -174,6 +166,7 @@ static PyMethodDef pyImageNet_Methods[] =
 	{ "GetNetworkName", (PyCFunction)PyImageNet_GetNetworkName, METH_NOARGS, "Return the name of the build-in network used by the model, or 'custom' if using a custom-loaded model"},
     { "GetNumClasses", (PyCFunction)PyImageNet_GetNumClasses, METH_NOARGS, "Return the number of object classes that this network model is able to classify"},
 	{ "GetClassDesc", (PyCFunction)PyImageNet_GetClassDesc, METH_VARARGS, "Return the class description for the given class index"},
+	{ "GetClassSynset", (PyCFunction)PyImageNet_GetClassSynset, METH_VARARGS, "Return the class synset dataset category for the given class index"},
 	{NULL}  /* Sentinel */
 };
 
@@ -185,11 +178,12 @@ bool PyImageNet_Register( PyObject* module )
 	
 	pyImageNet_Type.tp_name 	 = "jetson.inference.imageNet";
 	pyImageNet_Type.tp_basicsize = sizeof(PyImageNet_Object);
-	pyImageNet_Type.tp_flags 	 = Py_TPFLAGS_DEFAULT;
+	pyImageNet_Type.tp_flags 	 = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+	pyImageNet_Type.tp_base      = PyTensorNet_Type();
 	pyImageNet_Type.tp_methods   = pyImageNet_Methods;
-	pyImageNet_Type.tp_new 		 = PyImageNet_New;
+	pyImageNet_Type.tp_new 		 = NULL; /*PyImageNet_New;*/
 	pyImageNet_Type.tp_init		 = (initproc)PyImageNet_Init;
-	pyImageNet_Type.tp_dealloc	 = (destructor)PyImageNet_Dealloc;
+	pyImageNet_Type.tp_dealloc	 = NULL; /*(destructor)PyImageNet_Dealloc;*/
 	pyImageNet_Type.tp_doc  	 = "Image Recognition DNN";
 	 
 	if( PyType_Ready(&pyImageNet_Type) < 0 )
@@ -202,7 +196,7 @@ bool PyImageNet_Register( PyObject* module )
     
 	if( PyModule_AddObject(module, "imageNet", (PyObject*)&pyImageNet_Type) < 0 )
 	{
-		printf("PyImageNet -- PyModule_AddObject('ImageNet') failed\n");
+		printf("PyImageNet -- PyModule_AddObject('imageNet') failed\n");
 		return false;
 	}
 	

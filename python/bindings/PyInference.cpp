@@ -21,6 +21,8 @@
  */
 
 #include "PyInference.h"
+
+#include "PyTensorNet.h"
 #include "PyImageNet.h"
 
 
@@ -66,8 +68,11 @@ bool PyInference_Register( PyObject* module )
 {
 	printf("jetson.inference -- registering module types...\n");
 	
+	if( !PyTensorNet_Register(module) )
+		printf("jetson.inference -- failed to register tensorNet type\n");
+	
 	if( !PyImageNet_Register(module) )
-		printf("jetson.inference -- failed to register ImageNet type\n");
+		printf("jetson.inference -- failed to register imageNet type\n");
 	
 	printf("jetson.inference -- done registering module types\n");
 	return true;
