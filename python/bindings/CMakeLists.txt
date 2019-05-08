@@ -35,6 +35,7 @@ message("-- found Python library:  ${PYTHON_LIBRARIES}")
 
 include_directories(${PYTHON_INCLUDE_DIRS})
 
+# build the bindings
 file(GLOB pythonExtSources *.cpp)
 
 cuda_add_library(jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR} SHARED ${pythonExtSources})
@@ -46,4 +47,12 @@ set_target_properties(jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VE
 					PREFIX ""
 					OUTPUT_NAME "jetson_inference_python"
 					LIBRARY_OUTPUT_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/python/${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
+
+# install to /usr/pythonX.X/dist-packages
+set(PYTHON_BINDING_INSTALL_DIR /usr/lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages)
+
+install(TARGETS jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR} DESTINATION ${PYTHON_BINDING_INSTALL_DIR})
+
+install(DIRECTORY ../python/Jetson DESTINATION ${PYTHON_BINDING_INSTALL_DIR})
+install(DIRECTORY ../python/jetson DESTINATION ${PYTHON_BINDING_INSTALL_DIR})
 
