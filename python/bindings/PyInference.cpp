@@ -22,6 +22,10 @@
 
 #include <Python.h>
 
+#if PY_MAJOR_VERSION >= 3
+#define PYTHON_3
+#endif
+
 extern "C"
 PyObject* PyInference_Test( PyObject* self, PyObject* args )
 {
@@ -50,7 +54,7 @@ PyObject* PyInference_Print( PyObject* self, PyObject* args )
 }
 
 
-static PyMethodDef PyInferenceFunctions[] =
+static PyMethodDef pyInferenceFunctions[] =
 {
 	{ "MyTest", PyInference_Test, METH_VARARGS, "Test function." },
 	{ "MyPrint", PyInference_Print, METH_VARARGS, "Print a string." },
@@ -58,11 +62,32 @@ static PyMethodDef PyInferenceFunctions[] =
 	{ NULL, NULL, 0, NULL }
 };
 
+#ifdef PYTHON_3
+static struct PyModuleDef pyInferenceModuleDef = {
+        PyModuleDef_HEAD_INIT,
+        "jetson_inference_python",
+        NULL,
+        -1,
+        pyInferenceFunctions
+};
+
+PyMODINIT_FUNC
+PyInit_jetson_inference_python(void)
+{
+	printf("Jetson.Inference -- initializing Python %i.%i bindings...\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
+	PyObject* module = PyModule_Create(&pyInferenceModuleDef);
+	printf("Jetson.Inference -- done Python %i.%i binding initialization\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
+	return module;
+}
+
+#else
 PyMODINIT_FUNC
 initjetson_inference_python(void)
 {
-	printf("PyInference:  initializing Python module...\n");
-	Py_InitModule("jetson_inference_python", PyInferenceFunctions);
-	printf("PyInference:  done module initialization\n");
+	printf("Jetson.Inference -- initializing Python %i.%i bindings...\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
+	Py_InitModule("jetson_inference_python", pyInferenceFunctions);
+	printf("Jetson.Inference -- done Python %i.%i binding initialization\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
 }
+#endif
+
 
