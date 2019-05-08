@@ -20,14 +20,16 @@
  * DEALINGS IN THE SOFTWARE.
  */
  
-#ifndef __PYTHON_BINDINGS_IMAGENET__
-#define __PYTHON_BINDINGS_IMAGENET__
+#ifndef __PYTHON_BINDINGS_INFERENCE__
+#define __PYTHON_BINDINGS_INFERENCE__
 
-#include "PyInference.h"
+#include <Python.h>
 
-
-// Register object type
-bool PyImageNet_Register( PyObject* module );
-
+// check Python version
+#if PY_MAJOR_VERSION >= 3
+	#define PYTHON_3
+#elif PY_MAJOR_VERSION >= 2
+	#define PYTHON_2
+#endif
 
 #endif

@@ -160,3 +160,6 @@ install(TARGETS jetson-inference DESTINATION lib EXPORT jetson-inferenceConfig)
 # install the cmake project, for importing
 install(EXPORT jetson-inferenceConfig DESTINATION share/jetson-inference/cmake)
 
+# run ldconfig after installing
+install(CODE "execute_process( COMMAND ldconfig )")
+
