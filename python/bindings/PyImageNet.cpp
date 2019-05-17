@@ -97,7 +97,7 @@ static PyObject* PyImageNet_GetNumClasses( PyImageNet_Object* self )
 #ifdef PYTHON_3
 	return PyLong_FromUnsignedLong(self->net->GetNumClasses());
 #else
-    return PyInt_FromLong(self->net->GetNumClasses());
+	return PyInt_FromLong(self->net->GetNumClasses());
 #endif
 }
 
@@ -164,7 +164,7 @@ static PyTypeObject pyImageNet_Type =
 static PyMethodDef pyImageNet_Methods[] = 
 {
 	{ "GetNetworkName", (PyCFunction)PyImageNet_GetNetworkName, METH_NOARGS, "Return the name of the build-in network used by the model, or 'custom' if using a custom-loaded model"},
-    { "GetNumClasses", (PyCFunction)PyImageNet_GetNumClasses, METH_NOARGS, "Return the number of object classes that this network model is able to classify"},
+     { "GetNumClasses", (PyCFunction)PyImageNet_GetNumClasses, METH_NOARGS, "Return the number of object classes that this network model is able to classify"},
 	{ "GetClassDesc", (PyCFunction)PyImageNet_GetClassDesc, METH_VARARGS, "Return the class description for the given class index"},
 	{ "GetClassSynset", (PyCFunction)PyImageNet_GetClassSynset, METH_VARARGS, "Return the class synset dataset category for the given class index"},
 	{NULL}  /* Sentinel */
