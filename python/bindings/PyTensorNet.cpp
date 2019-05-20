@@ -34,8 +34,8 @@ static PyObject* PyTensorNet_New( PyTypeObject *type, PyObject *args, PyObject *
 	
 	if( !self )
 	{
-		PyErr_SetString(PyExc_MemoryError, "PyTensorNet -- tp_alloc() failed to allocate a new object");
-		printf("PyTensorNet -- tp_alloc() failed to allocate a new object\n");
+		PyErr_SetString(PyExc_MemoryError, LOG_PY_INFERENCE "tensorNet tp_alloc() failed to allocate a new object");
+		printf(LOG_PY_INFERENCE "tensorNet tp_alloc() failed to allocate a new object\n");
 		return NULL;
 	}
 	
@@ -66,7 +66,7 @@ PyObject* PyTensorNet_EnableDebug( PyTensorNet_Object* self, PyObject* args )
 {
 	if( !self || !self->net )
 	{
-		PyErr_SetString(PyExc_Exception, "PyTensorNet -- invalid object instance");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "tensorNet invalid object instance");
 		return NULL;
 	}
 	
@@ -80,7 +80,7 @@ PyObject* PyTensorNet_EnableProfiler( PyTensorNet_Object* self, PyObject* args )
 {
 	if( !self || !self->net )
 	{
-		PyErr_SetString(PyExc_Exception, "PyTensorNet -- invalid object instance");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "tensorNet invalid object instance");
 		return NULL;
 	}
 	
@@ -94,7 +94,7 @@ static PyObject* PyTensorNet_GetModelFormat( PyTensorNet_Object* self )
 {
 	if( !self || !self->net )
 	{
-		PyErr_SetString(PyExc_Exception, "PyTensorNet -- invalid object instance");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "tensorNet invalid object instance");
 		return NULL;
 	}
 	
@@ -107,7 +107,7 @@ static PyObject* PyTensorNet_GetModelPath( PyTensorNet_Object* self )
 {
 	if( !self || !self->net )
 	{
-		PyErr_SetString(PyExc_Exception, "PyTensorNet -- invalid object instance");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "tensorNet invalid object instance");
 		return NULL;
 	}
 	
@@ -120,7 +120,7 @@ static PyObject* PyTensorNet_GetPrototxtPath( PyTensorNet_Object* self )
 {
 	if( !self || !self->net )
 	{
-		PyErr_SetString(PyExc_Exception, "PyTensorNet -- invalid object instance");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "tensorNet invalid object instance");
 		return NULL;
 	}
 	
@@ -156,18 +156,18 @@ bool PyTensorNet_Register( PyObject* module )
 	if( !module )
 		return false;
 	
-	pyTensorNet_Type.tp_name 	  = "jetson.inference.tensorNet";
-	pyTensorNet_Type.tp_basicsize = sizeof(PyTensorNet_Object);
+	pyTensorNet_Type.tp_name 	  = PY_INFERENCE_MODULE_NAME ".tensorNet";
+	pyTensorNet_Type.tp_basicsize   = sizeof(PyTensorNet_Object);
 	pyTensorNet_Type.tp_flags 	  = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-	pyTensorNet_Type.tp_methods   = pyTensorNet_Methods;
-	pyTensorNet_Type.tp_new 	  = PyTensorNet_New;
-	pyTensorNet_Type.tp_init	  = NULL; /*(initproc)PyTensorNet_Init;*/
+	pyTensorNet_Type.tp_methods     = pyTensorNet_Methods;
+	pyTensorNet_Type.tp_new 	       = PyTensorNet_New;
+	pyTensorNet_Type.tp_init	       = NULL; /*(initproc)PyTensorNet_Init;*/
 	pyTensorNet_Type.tp_dealloc	  = (destructor)PyTensorNet_Dealloc;
 	pyTensorNet_Type.tp_doc  	  = "TensorRT DNN Base Object";
 	 
 	if( PyType_Ready(&pyTensorNet_Type) < 0 )
 	{
-		printf("PyTensorNet -- PyType_Ready() failed\n");
+		printf(LOG_PY_INFERENCE "tensorNet PyType_Ready() failed\n");
 		return false;
 	}
 	
@@ -175,7 +175,7 @@ bool PyTensorNet_Register( PyObject* module )
     
 	if( PyModule_AddObject(module, "tensorNet", (PyObject*)&pyTensorNet_Type) < 0 )
 	{
-		printf("PyTensorNet -- PyModule_AddObject('tensorNet') failed\n");
+		printf(LOG_PY_INFERENCE "tensorNet PyModule_AddObject('tensorNet') failed\n");
 		return false;
 	}
 	

@@ -42,19 +42,19 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|s", kwlist, &network))
 	{
-		PyErr_SetString(PyExc_Exception, "PyImageNet -- failed to parse args tuple in __init__()");
-		printf("PyImageNet -- failed to parse args tuple in __init__()\n");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet failed to parse args tuple in __init__()");
+		printf(LOG_PY_INFERENCE "imageNet failed to parse args tuple in __init__()\n");
 		return -1;
 	}
     
-	printf("PyImageNet -- loading build-in network '%s'\n", network);
+	printf(LOG_PY_INFERENCE "imageNet loading build-in network '%s'\n", network);
 	
 	imageNet::NetworkType networkType = imageNet::NetworkTypeFromStr(network);
 	
 	if( networkType == imageNet::CUSTOM )
 	{
-		PyErr_SetString(PyExc_Exception, "PyImageNet -- invalid built-in network was requested");
-		printf("PyImageNet -- invalid built-in network was requested ('%s')\n", network);
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid built-in network was requested");
+		printf(LOG_PY_INFERENCE "imageNet invalid built-in network was requested ('%s')\n", network);
 		return -1;
 	}
 	
@@ -62,13 +62,13 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 	
 	if( !self->net )
 	{
-		PyErr_SetString(PyExc_Exception, "PyImageNet -- failed to load network");
-		printf("PyImageNet -- failed to load built-in network '%s'\n", network);
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet failed to load network");
+		printf(LOG_PY_INFERENCE "imageNet failed to load built-in network '%s'\n", network);
 		return -1;
 	}
 
 	self->base.net = self->net;
-    return 0;
+	return 0;
 }
 
 
@@ -77,7 +77,7 @@ static PyObject* PyImageNet_GetNetworkName( PyImageNet_Object* self )
 {
 	if( !self || !self->net )
 	{
-		PyErr_SetString(PyExc_Exception, "PyImageNet -- invalid object instance");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid object instance");
 		return NULL;
 	}
 	
@@ -90,15 +90,11 @@ static PyObject* PyImageNet_GetNumClasses( PyImageNet_Object* self )
 {
 	if( !self || !self->net )
 	{
-		PyErr_SetString(PyExc_Exception, "PyImageNet -- invalid object instance");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid object instance");
 		return NULL;
 	}
 
-#ifdef PYTHON_3
-	return PyLong_FromUnsignedLong(self->net->GetNumClasses());
-#else
-	return PyInt_FromLong(self->net->GetNumClasses());
-#endif
+	return PYLONG_FROM_UNSIGNED_LONG(self->net->GetNumClasses());
 }
 
 
@@ -107,7 +103,7 @@ PyObject* PyImageNet_GetClassDesc( PyImageNet_Object* self, PyObject* args )
 {
 	if( !self || !self->net )
 	{
-		PyErr_SetString(PyExc_Exception, "PyImageNet -- invalid object instance");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid object instance");
 		return NULL;
 	}
 	
@@ -115,13 +111,13 @@ PyObject* PyImageNet_GetClassDesc( PyImageNet_Object* self, PyObject* args )
 
 	if( !PyArg_ParseTuple(args, "i", &classIdx) )
 	{
-		PyErr_SetString(PyExc_Exception, "PyImageNet -- failed to parse arguments");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet failed to parse arguments");
 		return NULL;
 	}
 		
 	if( classIdx < 0 || classIdx >= self->net->GetNumClasses() )
 	{
-		PyErr_SetString(PyExc_Exception, "PyImageNet -- requested class index is out of bounds");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet requested class index is out of bounds");
 		return NULL;
 	}
 
@@ -134,7 +130,7 @@ PyObject* PyImageNet_GetClassSynset( PyImageNet_Object* self, PyObject* args )
 {
 	if( !self || !self->net )
 	{
-		PyErr_SetString(PyExc_Exception, "PyImageNet -- invalid object instance");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid object instance");
 		return NULL;
 	}
 	
@@ -142,13 +138,13 @@ PyObject* PyImageNet_GetClassSynset( PyImageNet_Object* self, PyObject* args )
 
 	if( !PyArg_ParseTuple(args, "i", &classIdx) )
 	{
-		PyErr_SetString(PyExc_Exception, "PyImageNet -- failed to parse arguments");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet failed to parse arguments");
 		return NULL;
 	}
 		
 	if( classIdx < 0 || classIdx >= self->net->GetNumClasses() )
 	{
-		PyErr_SetString(PyExc_Exception, "PyImageNet -- requested class index is out of bounds");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet requested class index is out of bounds");
 		return NULL;
 	}
 
@@ -176,19 +172,19 @@ bool PyImageNet_Register( PyObject* module )
 	if( !module )
 		return false;
 	
-	pyImageNet_Type.tp_name 	 = "jetson.inference.imageNet";
-	pyImageNet_Type.tp_basicsize = sizeof(PyImageNet_Object);
-	pyImageNet_Type.tp_flags 	 = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-	pyImageNet_Type.tp_base      = PyTensorNet_Type();
-	pyImageNet_Type.tp_methods   = pyImageNet_Methods;
-	pyImageNet_Type.tp_new 		 = NULL; /*PyImageNet_New;*/
-	pyImageNet_Type.tp_init		 = (initproc)PyImageNet_Init;
-	pyImageNet_Type.tp_dealloc	 = NULL; /*(destructor)PyImageNet_Dealloc;*/
-	pyImageNet_Type.tp_doc  	 = "Image Recognition DNN";
+	pyImageNet_Type.tp_name		= PY_INFERENCE_MODULE_NAME ".imageNet";
+	pyImageNet_Type.tp_basicsize	= sizeof(PyImageNet_Object);
+	pyImageNet_Type.tp_flags		= Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+	pyImageNet_Type.tp_base		= PyTensorNet_Type();
+	pyImageNet_Type.tp_methods	= pyImageNet_Methods;
+	pyImageNet_Type.tp_new		= NULL; /*PyImageNet_New;*/
+	pyImageNet_Type.tp_init		= (initproc)PyImageNet_Init;
+	pyImageNet_Type.tp_dealloc	= NULL; /*(destructor)PyImageNet_Dealloc;*/
+	pyImageNet_Type.tp_doc		= "Image Recognition DNN";
 	 
 	if( PyType_Ready(&pyImageNet_Type) < 0 )
 	{
-		printf("PyImageNet -- PyType_Ready() failed\n");
+		printf(LOG_PY_INFERENCE "imageNet PyType_Ready() failed\n");
 		return false;
 	}
 	
@@ -196,7 +192,7 @@ bool PyImageNet_Register( PyObject* module )
     
 	if( PyModule_AddObject(module, "imageNet", (PyObject*)&pyImageNet_Type) < 0 )
 	{
-		printf("PyImageNet -- PyModule_AddObject('imageNet') failed\n");
+		printf(LOG_PY_INFERENCE "imageNet PyModule_AddObject('imageNet') failed\n");
 		return false;
 	}
 	

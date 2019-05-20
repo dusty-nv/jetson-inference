@@ -25,11 +25,46 @@
 
 #include <Python.h>
 
+// user-facing module name 
+#define PY_INFERENCE_MODULE_NAME "jetson.inference"
+
+// logging prefix
+#define LOG_PY_INFERENCE PY_INFERENCE_MODULE_NAME " -- "
+
 // check Python version
 #if PY_MAJOR_VERSION >= 3
+
+	// Python3 defines
+	#ifndef PYTHON_3
 	#define PYTHON_3
+	#endif
+
+	#ifndef PYLONG_FROM_LONG
+	#define PYLONG_FROM_LONG(x)			PyLong_FromLong(x)
+	#endif
+
+	#ifndef PYLONG_FROM_UNSIGNED_LONG
+	#define PYLONG_FROM_UNSIGNED_LONG(x)	PyLong_FromUnsignedLong(x)
+	#endif
+
 #elif PY_MAJOR_VERSION >= 2
+
+	// Python2 defines
+	#ifndef PYTHON_2
 	#define PYTHON_2
-#endif
+	#endif
+
+	#ifndef PYLONG_FROM_LONG
+	#define PYLONG_FROM_LONG(x)			PyInt_FromLong(x)
+	#endif
+
+	#ifndef PYLONG_FROM_UNSIGNED_LONG
+	#define PYLONG_FROM_UNSIGNED_LONG(x)	PyInt_FromLong(x)
+	#endif
 
 #endif
+
+
+
+#endif
+

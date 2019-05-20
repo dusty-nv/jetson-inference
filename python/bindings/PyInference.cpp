@@ -66,15 +66,15 @@ static PyMethodDef pyInferenceFunctions[] =
 // register object types
 bool PyInference_Register( PyObject* module )
 {
-	printf("jetson.inference -- registering module types...\n");
+	printf(LOG_PY_INFERENCE "registering module types...\n");
 	
 	if( !PyTensorNet_Register(module) )
-		printf("jetson.inference -- failed to register tensorNet type\n");
+		printf(LOG_PY_INFERENCE "failed to register tensorNet type\n");
 	
 	if( !PyImageNet_Register(module) )
-		printf("jetson.inference -- failed to register imageNet type\n");
+		printf(LOG_PY_INFERENCE "failed to register imageNet type\n");
 	
-	printf("jetson.inference -- done registering module types\n");
+	printf(LOG_PY_INFERENCE "done registering module types\n");
 	return true;
 }
 
@@ -90,22 +90,22 @@ static struct PyModuleDef pyInferenceModuleDef = {
 PyMODINIT_FUNC
 PyInit_jetson_inference_python(void)
 {
-	printf("jetson.inference -- initializing Python %i.%i bindings...\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
+	printf(LOG_PY_INFERENCE "initializing Python %i.%i bindings...\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
 	
 	// create the module
 	PyObject* module = PyModule_Create(&pyInferenceModuleDef);
 	
 	if( !module )
 	{
-		printf("jetson.inference -- PyModule_Create() failed\n");
+		printf(LOG_PY_INFERENCE "PyModule_Create() failed\n");
 		return NULL;
 	}
 	
 	// register types
 	if( !PyInference_Register(module) )
-		printf("jetson.inference -- failed to register module types\n");
+		printf(LOG_PY_INFERENCE "failed to register module types\n");
 	
-	printf("jetson.inference -- done Python %i.%i binding initialization\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
+	printf(LOG_PY_INFERENCE "done Python %i.%i binding initialization\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
 	return module;
 }
 
@@ -113,22 +113,22 @@ PyInit_jetson_inference_python(void)
 PyMODINIT_FUNC
 initjetson_inference_python(void)
 {
-	printf("jetson.inference -- initializing Python %i.%i bindings...\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
+	printf(LOG_PY_INFERENCE "initializing Python %i.%i bindings...\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
 	
 	// create the module
 	PyObject* module = Py_InitModule("jetson_inference_python", pyInferenceFunctions);
 	
 	if( !module )
 	{
-		printf("jetson.inference -- Py_InitModule() failed\n");
+		printf(LOG_PY_INFERENCE "Py_InitModule() failed\n");
 		return;
 	}
 	
 	// register types
 	if( !PyInference_Register(module) )
-		printf("jetson.inference -- failed to register module types\n");
+		printf(LOG_PY_INFERENCE "failed to register module types\n");
 	
-	printf("jetson.inference -- done Python %i.%i binding initialization\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
+	printf(LOG_PY_INFERENCE "done Python %i.%i binding initialization\n", PY_MAJOR_VERSION, PY_MINOR_VERSION);
 }
 #endif
 
