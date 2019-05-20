@@ -39,29 +39,78 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 {
 	printf("PyImageNet_Init()\n");
 	
-	const char* network = "googlenet";
-	static char* kwlist[] = {"network", NULL};
+	// parse arguments
+	PyObject* argList     = NULL;
+	const char* network   = "googlenet";
+	static char* kwlist[] = {"network", "argv", NULL};
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|s", kwlist, &network))
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sO", kwlist, &network, &argList))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.__init()__ failed to parse args tuple");
 		printf(LOG_PY_INFERENCE "imageNet.__init()__ failed to parse args tuple\n");
 		return -1;
 	}
     
-	printf(LOG_PY_INFERENCE "imageNet loading build-in network '%s'\n", network);
-	
-	imageNet::NetworkType networkType = imageNet::NetworkTypeFromStr(network);
-	
-	if( networkType == imageNet::CUSTOM )
+	// determine whether to use argv or built-in network
+	if( argList != NULL && PyList_Check(argList) )
 	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid built-in network was requested");
-		printf(LOG_PY_INFERENCE "imageNet invalid built-in network was requested ('%s')\n", network);
-		return -1;
+		printf(LOG_PY_INFERENCE "imageNet loading network using argv command line params\n");
+
+		// parse the python list into char**
+		const size_t argc = PyList_Size(argList);
+
+		if( argc == 0 )
+		{
+			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.__init()__ argv list was empty");
+			return -1;
+		}
+
+		char** argv = (char**)malloc(sizeof(char*) * argc);
+
+		if( !argv )
+		{
+			PyErr_SetString(PyExc_MemoryError, LOG_PY_INFERENCE "imageNet.__init()__ failed to malloc memory for argv list");
+			return -1;
+		}
+
+		for( size_t n=0; n < argc; n++ )
+		{
+			PyObject* item = PyList_GetItem(argList, n);
+			
+			if( !PyArg_Parse(item, "%s", &argv[n]) )
+			{
+				PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.__init()__ failed to parse argv list");
+				return -1;
+			}
+
+			printf(LOG_PY_INFERENCE "imageNet.__init__() argv[%zu] = '%s'\n", n, argv[n]);
+		}
+
+		// load the network using (argc, argv)
+		self->net = imageNet::Create(argc, argv);
+
+		// free the arguments array
+		free(argv);
 	}
-	
-	self->net = imageNet::Create(networkType);
-	
+	else
+	{
+		printf(LOG_PY_INFERENCE "imageNet loading build-in network '%s'\n", network);
+		
+		// parse the selected built-in network
+		imageNet::NetworkType networkType = imageNet::NetworkTypeFromStr(network);
+		
+		if( networkType == imageNet::CUSTOM )
+		{
+			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid built-in network was requested");
+			printf(LOG_PY_INFERENCE "imageNet invalid built-in network was requested ('%s')\n", network);
+			return -1;
+		}
+		
+		// load the built-in network
+		self->net = imageNet::Create(networkType);
+	}
+
+	// confirm the network loaded
 	if( !self->net )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet failed to load network");

@@ -12,3 +12,15 @@ message("-- trying to build Python bindings for Python versions:  ${PYTHON_BINDI
 foreach(PYTHON_BINDING_VERSION ${PYTHON_BINDING_VERSIONS})
 	add_subdirectory(bindings bindings_python_${PYTHON_BINDING_VERSION})
 endforeach()
+
+
+#
+# install Python examples
+#
+file(GLOB pyInferenceExamples examples/*.py)
+
+foreach(pyExample ${pyInferenceExamples})
+	message("-- Copying ${pyExample}")
+	file(COPY ${pyExample} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+	install(FILES "${pyExample}" DESTINATION bin)
+endforeach()
