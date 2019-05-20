@@ -25,6 +25,8 @@
 
 #include "imageNet.h"
 
+#include "../../utils/python/bindings/PyCUDA.h"
+
 
 typedef struct {
     PyTensorNet_Object base;
@@ -42,8 +44,8 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|s", kwlist, &network))
 	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet failed to parse args tuple in __init__()");
-		printf(LOG_PY_INFERENCE "imageNet failed to parse args tuple in __init__()\n");
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.__init()__ failed to parse args tuple");
+		printf(LOG_PY_INFERENCE "imageNet.__init()__ failed to parse args tuple\n");
 		return -1;
 	}
     
@@ -72,6 +74,72 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 }
 
 
+// Classify
+static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, PyObject *kwds )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid object instance");
+		return NULL;
+	}
+	
+	// parse arguments
+	PyObject* capsule = NULL;
+
+	int width = 0;
+	int height = 0;
+
+	static char* kwlist[] = {"image", "width", "height", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "Oii", kwlist, &capsule, &width, &height))
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple");
+		printf(LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple\n");
+		return NULL;
+	}
+
+	// verify dimensions
+	if( width <= 0 || height <= 0 )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() image dimensions are invalid");
+		return NULL;
+	}
+
+	// get pointer to image data
+	void* img = PyCapsule_GetPointer(capsule, CUDA_MAPPED_MEMORY_CAPSULE);
+
+	if( !img )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() failed to get image pointer from PyCapsule container");
+		return NULL;
+	}
+
+	// classify the image
+	float confidence = 0.0f;
+
+	const int img_class = self->net->Classify((float*)img, width, height, &confidence);
+
+	if( img_class < 0 )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() encountered an error classifying the image");
+		return NULL;
+	}
+
+	// create output objects
+	PyObject* pyClass = PYLONG_FROM_LONG(img_class);
+	PyObject* pyConf  = PyFloat_FromDouble(confidence);
+
+	// return tuple
+	PyObject* tuple = PyTuple_Pack(2, pyClass, pyConf);
+
+	Py_DECREF(pyClass);
+	Py_DECREF(pyConf);
+
+	return tuple;
+    
+}
+
+
 // GetNetworkName
 static PyObject* PyImageNet_GetNetworkName( PyImageNet_Object* self )
 {
@@ -81,7 +149,7 @@ static PyObject* PyImageNet_GetNetworkName( PyImageNet_Object* self )
 		return NULL;
 	}
 	
-    return Py_BuildValue("s", self->net->GetNetworkName());
+	return Py_BuildValue("s", self->net->GetNetworkName());
 }
 
 
@@ -159,6 +227,7 @@ static PyTypeObject pyImageNet_Type =
 
 static PyMethodDef pyImageNet_Methods[] = 
 {
+	{ "Classify", (PyCFunction)PyImageNet_Classify, METH_VARARGS|METH_KEYWORDS, "Classify an RGBA image and return the object class and confidence"},
 	{ "GetNetworkName", (PyCFunction)PyImageNet_GetNetworkName, METH_NOARGS, "Return the name of the build-in network used by the model, or 'custom' if using a custom-loaded model"},
      { "GetNumClasses", (PyCFunction)PyImageNet_GetNumClasses, METH_NOARGS, "Return the number of object classes that this network model is able to classify"},
 	{ "GetClassDesc", (PyCFunction)PyImageNet_GetClassDesc, METH_VARARGS, "Return the class description for the given class index"},
