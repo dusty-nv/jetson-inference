@@ -155,7 +155,7 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
 	}
 
 	// get pointer to image data
-	void* img = PyCapsule_GetPointer(capsule, CUDA_MAPPED_MEMORY_CAPSULE);
+	void* img = PyCUDA_GetPointer(capsule);
 
 	if( !img )
 	{
