@@ -179,7 +179,6 @@ int main( int argc, char** argv )
 			display->SetTitle(str);	
 	
 			// next frame in the window
-			display->UserEvents();
 			display->BeginRender();
 
 			if( texture != NULL )

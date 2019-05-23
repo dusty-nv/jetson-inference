@@ -236,7 +236,6 @@ int main( int argc, char** argv )
 		// update display
 		if( display != NULL )
 		{
-			display->UserEvents();
 			display->BeginRender();
 
 			if( texture != NULL )
