@@ -37,7 +37,7 @@ typedef struct {
 // Init
 static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *kwds )
 {
-	printf("PyImageNet_Init()\n");
+	printf(LOG_PY_INFERENCE "PyImageNet_Init()\n");
 	
 	// parse arguments
 	PyObject* argList     = NULL;

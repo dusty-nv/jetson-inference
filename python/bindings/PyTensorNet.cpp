@@ -27,10 +27,10 @@
 // New
 static PyObject* PyTensorNet_New( PyTypeObject *type, PyObject *args, PyObject *kwds )
 {
-	printf("PyTensorNet_New()\n");
+	printf(LOG_PY_INFERENCE "PyTensorNet_New()\n");
 	
 	// allocate a new container
-    PyTensorNet_Object* self = (PyTensorNet_Object*)type->tp_alloc(type, 0);
+	PyTensorNet_Object* self = (PyTensorNet_Object*)type->tp_alloc(type, 0);
 	
 	if( !self )
 	{
@@ -39,8 +39,8 @@ static PyObject* PyTensorNet_New( PyTypeObject *type, PyObject *args, PyObject *
 		return NULL;
 	}
 	
-    self->net = NULL;
-    return (PyObject*)self;
+	self->net = NULL;
+	return (PyObject*)self;
 }
 
 
