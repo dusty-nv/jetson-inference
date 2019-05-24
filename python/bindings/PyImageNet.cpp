@@ -52,7 +52,7 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 	}
     
 	// determine whether to use argv or built-in network
-	if( argList != NULL && PyList_Check(argList) )
+	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
 		printf(LOG_PY_INFERENCE "imageNet loading network using argv command line params\n");
 
@@ -77,7 +77,7 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 		{
 			PyObject* item = PyList_GetItem(argList, n);
 			
-			if( !PyArg_Parse(item, "%s", &argv[n]) )
+			if( !PyArg_Parse(item, "s", &argv[n]) )
 			{
 				PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.__init()__ failed to parse argv list");
 				return -1;

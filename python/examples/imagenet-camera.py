@@ -29,46 +29,38 @@ import argparse
 # parse the command line
 parser = argparse.ArgumentParser()
 
-parser.add_argument("file_in", type=str, help="filename of the input image to process")
-parser.add_argument("file_out", type=str, default=None, nargs='?', help="filename of the output image to save")
+parser.add_argument("--width", type=int, default=1280, help="desired width of camera stream (default is 1280 pixels)")
+parser.add_argument("--height", type=int, default=720, help="desired height of camera stream (default is 720 pixels)")
 parser.add_argument("--network", type=str, default="googlenet", help="model to use, can be:  alexnet, googlenet, googlenet-12")
-parser.add_argument("--profile", type=bool, default=False, help="enable performance profiling and multiple runs of the model")
-parser.add_argument("--runs", type=int, default=15, help="if profiling is enabling, the number of iterations to run")
+parser.add_argument("--v4l2_device", type=int, default=-1, help="if using VL42 camera, index of the desired /dev/video node")
 
 opt, argv = parser.parse_known_args()
-
-print(opt)
-print(argv)
-
-# load an image (into shared CPU/GPU memory)
-img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
 
 # load the recognition network
 net = jetson.inference.imageNet(opt.network, argv)
 
-# enable model profiling
-if opt.profile is True:
-	net.EnableProfiler()
-else:
-	opt.runs = 1
+# create the camera and display
+font = jetson.utils.cudaFont()
+camera = jetson.utils.gstCamera(opt.width, opt.height, opt.v4l2_device)
+display = jetson.utils.glDisplay()
 
-# run model inference
-for i in range(opt.runs):
-	print("\n/////////////////////////////////////\n// RUN {:d}\n/////////////////////////////////////".format(i))
-	
+# process frames until user exits
+while display.IsOpen():
+	# capture the image
+	img, width, height = camera.CaptureRGBA()
+
 	# classify the image
 	class_idx, confidence = net.Classify(img, width, height)
 
 	# find the object description
 	class_desc = net.GetClassDesc(class_idx)
 
-	# print out the result
-	print("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence\n".format(class_desc, class_idx, confidence * 100))
-
-# overlay the result on the image
-if opt.file_out is not None:
-	font = jetson.utils.cudaFont()	
+	# overlay the result on the image	
 	font.Overlay(img, width, height, "{:f}% {:s}".format(confidence * 100, class_desc), 10, 10, font.Green)
-	jetson.utils.saveImageRGBA(opt.file_out, img, width, height)
+	
+	# render the image
+	display.RenderOnce(img, width, height)
 
+	# update the title bar
+	display.SetTitle("{:s} | {:.0f} FPS".format(net.GetNetworkName(), display.GetFPS()))
 
