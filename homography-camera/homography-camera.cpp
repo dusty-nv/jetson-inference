@@ -140,7 +140,7 @@ int main( int argc, char** argv )
 	/*
 	 * stabilize the camera video
 	 */
-	void* lastImg = NULL;
+	float* lastImg = NULL;
 
 	float displacementAvg[] = {0,0,0,0,0,0,0,0};	// average the camera displacement over a series of frames 
 	const float displacementAvgFactor = 1.0f;	// to smooth it out over time (factor of 1.0 = instant)
@@ -156,7 +156,7 @@ int main( int argc, char** argv )
 
 
 		// convert from YUV to RGBA
-		void* imgRGBA = NULL;
+		float* imgRGBA = NULL;
 		
 		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
 			printf("homography-camera:  failed to convert camera to RGBA\n");
@@ -173,7 +173,7 @@ int main( int argc, char** argv )
 		// find the displacement
 		float displacement[8];
 
-		if( !net->FindDisplacement((float*)lastImg, (float*)imgRGBA, imgWidth, imgHeight, displacement) )
+		if( !net->FindDisplacement(lastImg, imgRGBA, imgWidth, imgHeight, displacement) )
 		{
 			printf("homography-camera:  failed to find displacement\n");
 			continue;

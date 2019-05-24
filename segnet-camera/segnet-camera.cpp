@@ -152,20 +152,20 @@ int main( int argc, char** argv )
 			printf("\nsegnet-camera:  failed to capture frame\n");
 
 		// convert from YUV to RGBA
-		void* imgRGBA = NULL;
+		float* imgRGBA = NULL;
 		
 		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA, true) )
 			printf("segnet-camera:  failed to convert from NV12 to RGBA\n");
 
 		// process the segmentation network
-		if( !net->Process((float*)imgRGBA, camera->GetWidth(), camera->GetHeight()) )
+		if( !net->Process(imgRGBA, camera->GetWidth(), camera->GetHeight()) )
 		{
 			printf("segnet-console:  failed to process segmentation\n");
 			continue;
 		}
 
 		// generate overlay
-		if( !net->Overlay((float*)outCUDA, camera->GetWidth(), camera->GetHeight(), segNet::FILTER_LINEAR) )
+		if( !net->Overlay(outCUDA, camera->GetWidth(), camera->GetHeight(), segNet::FILTER_LINEAR) )
 		{
 			printf("segnet-console:  failed to process segmentation overlay.\n");
 			continue;

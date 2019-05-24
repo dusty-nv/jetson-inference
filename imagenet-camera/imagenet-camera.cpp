@@ -97,27 +97,10 @@ int main( int argc, char** argv )
 
 
 	/*
-	 * create openGL window
+	 * create display window and overlay font
 	 */
 	glDisplay* display = glDisplay::Create();
-	glTexture* texture = NULL;
-	
-	if( !display ) {
-		printf("\nimagenet-camera:  failed to create openGL display\n");
-	}
-	else
-	{
-		texture = glTexture::Create(camera->GetWidth(), camera->GetHeight(), GL_RGBA32F_ARB/*GL_RGBA8*/);
-
-		if( !texture )
-			printf("imagenet-camera:  failed to create openGL texture\n");
-	}
-	
-	
-	/*
-	 * create font
-	 */
-	cudaFont* font = cudaFont::Create();
+	cudaFont*  font    = cudaFont::Create();
 	
 
 	/*
@@ -139,23 +122,14 @@ int main( int argc, char** argv )
 	
 	while( !signal_recieved )
 	{
-		void* imgCPU  = NULL;
-		void* imgCUDA = NULL;
+		float* imgRGBA = NULL;
 		
 		// get the latest frame
-		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
+		if( !camera->CaptureRGBA(&imgRGBA, 1000) )
 			printf("\nimagenet-camera:  failed to capture frame\n");
-		//else
-		//	printf("imagenet-camera:  recieved new frame  CPU=0x%p  GPU=0x%p\n", imgCPU, imgCUDA);
-		
-		// convert from YUV to RGBA
-		void* imgRGBA = NULL;
-		
-		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
-			printf("imagenet-camera:  failed to convert from NV12 to RGBA\n");
 
 		// classify image
-		const int img_class = net->Classify((float*)imgRGBA, camera->GetWidth(), camera->GetHeight(), &confidence);
+		const int img_class = net->Classify(imgRGBA, camera->GetWidth(), camera->GetHeight(), &confidence);
 	
 		if( img_class >= 0 )
 		{
@@ -182,38 +156,20 @@ int main( int argc, char** argv )
 		// update display
 		if( display != NULL )
 		{
-			display->BeginRender();
+			display->RenderOnce((float*)imgRGBA, camera->GetWidth(), camera->GetHeight());
 
-			if( texture != NULL )
-			{
-				// rescale image pixel intensities for display
-				CUDA(cudaNormalizeRGBA((float4*)imgRGBA, make_float2(0.0f, 255.0f), 
-								   (float4*)imgRGBA, make_float2(0.0f, 1.0f), 
-		 						   camera->GetWidth(), camera->GetHeight()));
-
-				// map from CUDA to openGL using GL interop
-				void* tex_map = texture->MapCUDA();
-
-				if( tex_map != NULL )
-				{
-					cudaMemcpy(tex_map, imgRGBA, texture->GetSize(), cudaMemcpyDeviceToDevice);
-					texture->Unmap();
-				}
-
-				// draw the texture
-				texture->Render(100,100);		
-			}
-
-			display->EndRender();
+			// check if the user quit
+			if( display->IsClosed() )
+				signal_recieved = true;
 		}
 	}
-	
-	printf("\nimagenet-camera:  un-initializing video device\n");
 	
 	
 	/*
 	 * shutdown the camera device
 	 */
+	printf("\nimagenet-camera:  shutting down...\n");
+	
 	if( camera != NULL )
 	{
 		delete camera;
@@ -226,8 +182,7 @@ int main( int argc, char** argv )
 		display = NULL;
 	}
 	
-	printf("imagenet-camera:  video device has been un-initialized.\n");
-	printf("imagenet-camera:  this concludes the test of the video device.\n");
+	printf("imagenet-camera:  shutdown complete.\n");
 	return 0;
 }
 

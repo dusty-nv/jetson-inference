@@ -179,7 +179,7 @@ int main( int argc, char** argv )
 			printf("\ndetectnet-camera:  failed to capture frame\n");
 
 		// convert from YUV to RGBA
-		void* imgRGBA = NULL;
+		float* imgRGBA = NULL;
 		
 		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
 			printf("detectnet-camera:  failed to convert from NV12 to RGBA\n");
@@ -187,7 +187,7 @@ int main( int argc, char** argv )
 		// classify image with detectNet
 		int numBoundingBoxes = maxBoxes;
 	
-		if( net->Detect((float*)imgRGBA, camera->GetWidth(), camera->GetHeight(), bbCPU, &numBoundingBoxes, confCPU))
+		if( net->Detect(imgRGBA, camera->GetWidth(), camera->GetHeight(), bbCPU, &numBoundingBoxes, confCPU))
 		{
 			printf("%i bounding boxes detected\n", numBoundingBoxes);
 		
@@ -204,8 +204,8 @@ int main( int argc, char** argv )
 				
 				if( nc != lastClass || n == (numBoundingBoxes - 1) )
 				{
-					if( !net->DrawBoxes((float*)imgRGBA, (float*)imgRGBA, camera->GetWidth(), camera->GetHeight(), 
-						                        bbCUDA + (lastStart * 4), (n - lastStart) + 1, lastClass) )
+					if( !net->DrawBoxes(imgRGBA, imgRGBA, camera->GetWidth(), camera->GetHeight(), 
+						               bbCUDA + (lastStart * 4), (n - lastStart) + 1, lastClass) )
 						printf("detectnet-console:  failed to draw boxes\n");
 						
 					lastClass = nc;
