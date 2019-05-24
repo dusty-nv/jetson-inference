@@ -57,7 +57,7 @@ imageNet* imageNet::Create( imageNet::NetworkType networkType, uint32_t maxBatch
 	
 	if( !net->init(networkType, maxBatchSize, precision, device, allowGPUFallback) )
 	{
-		printf("imageNet -- failed to initialize.\n");
+		printf(LOG_TRT "imageNet -- failed to initialize.\n");
 		return NULL;
 	}
 	
@@ -78,7 +78,7 @@ imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, c
 	
 	if( !net->init(prototxt_path, model_path, mean_binary, class_path, input, output, maxBatchSize, precision, device, allowGPUFallback) )
 	{
-		printf("imageNet -- failed to initialize.\n");
+		printf(LOG_TRT "imageNet -- failed to initialize.\n");
 		return NULL;
 	}
 	
@@ -208,8 +208,7 @@ imageNet* imageNet::Create( int argc, char** argv )
 		const char* labels   = cmdLine.GetString("labels");
 		const char* input    = cmdLine.GetString("input_blob");
 		const char* output   = cmdLine.GetString("output_blob");
-		const char* out_bbox = cmdLine.GetString("output_bbox");
-		
+
 		if( !input ) 	input    = IMAGENET_DEFAULT_INPUT;
 		if( !output )  output   = IMAGENET_DEFAULT_OUTPUT;
 		
