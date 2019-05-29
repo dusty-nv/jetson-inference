@@ -24,6 +24,7 @@
 
 #include "PyTensorNet.h"
 #include "PyImageNet.h"
+#include "PyDetectNet.h"
 
 
 extern "C"
@@ -74,6 +75,9 @@ bool PyInference_Register( PyObject* module )
 	if( !PyImageNet_Register(module) )
 		printf(LOG_PY_INFERENCE "failed to register imageNet type\n");
 	
+	if( !PyDetectNet_Register(module) )
+		printf(LOG_PY_INFERENCE "failed to register detectNet type\n");
+
 	printf(LOG_PY_INFERENCE "done registering module types\n");
 	return true;
 }
