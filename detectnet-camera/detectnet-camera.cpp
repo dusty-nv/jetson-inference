@@ -31,13 +31,14 @@
 
 #include "cudaMappedMemory.h"
 #include "cudaNormalize.h"
-#include "cudaFont.h"
 
 #include "detectNet.h"
 
 
-#define DEFAULT_CAMERA -1	// -1 for onboard camera, or change to index of /dev/video V4L2 camera (>=0)	
-		
+#define DEFAULT_CAMERA -1		// -1 for onboard CSI camera, or change to index of /dev/video V4L2 camera (>=0)	
+#define DEFAULT_CAMERA_WIDTH 1280	// default camera width is 1280 pixels, change this if you want a different size
+#define DEFAULT_CAMERA_HEIGHT 720	// default camera height is 720 pixels, change this is you want a different size
+
 
 bool signal_recieved = false;
 
@@ -62,20 +63,8 @@ int main( int argc, char** argv )
 	
 
 	/*
-	 * parse network type from CLI arguments
+	 * attach signal handler
 	 */
-	/*detectNet::NetworkType networkType = detectNet::PEDNET_MULTI;
-
-	if( argc > 1 )
-	{
-		if( strcmp(argv[1], "multiped") == 0 || strcmp(argv[1], "pednet") == 0 || strcmp(argv[1], "multiped-500") == 0 )
-			networkType = detectNet::PEDNET_MULTI;
-		else if( strcmp(argv[1], "ped-100") == 0 )
-			networkType = detectNet::PEDNET;
-		else if( strcmp(argv[1], "facenet") == 0 || strcmp(argv[1], "facenet-120") == 0 || strcmp(argv[1], "face-120") == 0 )
-			networkType = detectNet::FACENET;
-	}*/
-	
 	if( signal(SIGINT, sig_handler) == SIG_ERR )
 		printf("\ncan't catch SIGINT\n");
 
@@ -83,7 +72,7 @@ int main( int argc, char** argv )
 	/*
 	 * create the camera device
 	 */
-	gstCamera* camera = gstCamera::Create(DEFAULT_CAMERA);
+	gstCamera* camera = gstCamera::Create(DEFAULT_CAMERA_WIDTH, DEFAULT_CAMERA_HEIGHT, DEFAULT_CAMERA);
 	
 	if( !camera )
 	{
@@ -104,64 +93,30 @@ int main( int argc, char** argv )
 	
 	if( !net )
 	{
-		printf("detectnet-camera:   failed to initialize imageNet\n");
+		printf("detectnet-camera:   failed to load detectNet model\n");
 		return 0;
 	}
 
-
-	/*
-	 * allocate memory for output bounding boxes and class confidence
-	 */
-	const uint32_t maxBoxes = net->GetMaxBoundingBoxes();
-	const uint32_t classes  = net->GetNumClasses();
-	
-	float* bbCPU    = NULL;
-	float* bbCUDA   = NULL;
-	float* confCPU  = NULL;
-	float* confCUDA = NULL;
-	
-	if( !cudaAllocMapped((void**)&bbCPU, (void**)&bbCUDA, maxBoxes * sizeof(float4)) ||
-	    !cudaAllocMapped((void**)&confCPU, (void**)&confCUDA, maxBoxes * classes * sizeof(float)) )
-	{
-		printf("detectnet-console:  failed to alloc output memory\n");
-		return 0;
-	}
-	
 
 	/*
 	 * create openGL window
 	 */
 	glDisplay* display = glDisplay::Create();
-	glTexture* texture = NULL;
-	
-	if( !display ) {
-		printf("\ndetectnet-camera:  failed to create openGL display\n");
-	}
-	else
-	{
-		texture = glTexture::Create(camera->GetWidth(), camera->GetHeight(), GL_RGBA32F_ARB/*GL_RGBA8*/);
 
-		if( !texture )
-			printf("detectnet-camera:  failed to create openGL texture\n");
-	}
-	
-	
-	/*
-	 * create font
-	 */
-	cudaFont* font = cudaFont::Create();
-	
+	if( !display ) 
+		printf("detectnet-camera:  failed to create openGL display\n");
+
 
 	/*
 	 * start streaming
 	 */
 	if( !camera->Open() )
 	{
-		printf("\ndetectnet-camera:  failed to open camera for streaming\n");
+		printf("detectnet-camera:  failed to open camera for streaming\n");
 		return 0;
 	}
 	
-	printf("\ndetectnet-camera:  camera open for streaming\n");
+	printf("detectnet-camera:  camera open for streaming\n");
 	
 	
 	/*
@@ -171,58 +126,26 @@ int main( int argc, char** argv )
 	
 	while( !signal_recieved )
 	{
-		void* imgCPU  = NULL;
-		void* imgCUDA = NULL;
-		
-		// get the latest frame
-		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
-			printf("\ndetectnet-camera:  failed to capture frame\n");
-
-		// convert from YUV to RGBA
+		// capture RGBA image
 		float* imgRGBA = NULL;
 		
-		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
-			printf("detectnet-camera:  failed to convert from NV12 to RGBA\n");
+		if( !camera->CaptureRGBA(&imgRGBA, 1000) )
+			printf("detectnet-camera:  failed to capture RGBA image from camera\n");
 
 		// classify image with detectNet
-		int numBoundingBoxes = maxBoxes;
+		detectNet::Detection* detections = NULL;
 	
-		if( net->Detect(imgRGBA, camera->GetWidth(), camera->GetHeight(), bbCPU, &numBoundingBoxes, confCPU))
+		const int numDetections = net->Detect(imgRGBA, camera->GetWidth(), camera->GetHeight(), &detections);
+		
+		if( numDetections > 0 )
 		{
-			printf("%i bounding boxes detected\n", numBoundingBoxes);
+			printf("%i bounding boxes detected\n", numDetections);
 		
-			int lastClass = 0;
-			int lastStart = 0;
-			
-			for( int n=0; n < numBoundingBoxes; n++ )
+			for( int n=0; n < numDetections; n++ )
 			{
-				const int nc = confCPU[n*2+1];
-				float* bb = bbCPU + (n * 4);
-				
-				printf("detected obj %i  class #%u (%s)  confidence=%f\n", n, nc, net->GetClassDesc(nc), confCPU[n*2]);
-				printf("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
-				
-				if( nc != lastClass || n == (numBoundingBoxes - 1) )
-				{
-					if( !net->DrawBoxes(imgRGBA, imgRGBA, camera->GetWidth(), camera->GetHeight(), 
-						               bbCUDA + (lastStart * 4), (n - lastStart) + 1, lastClass) )
-						printf("detectnet-console:  failed to draw boxes\n");
-						
-					lastClass = nc;
-					lastStart = n;
-
-					CUDA(cudaDeviceSynchronize());
-				}
+				printf("detected obj %i  class #%u (%s)  confidence=%f\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence);
+				printf("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
 			}
-		
-			/*if( font != NULL )
-			{
-				char str[256];
-				sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
-				
-				font->RenderOverlay((float4*)imgRGBA, (float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
-								    str, 10, 10, make_float4(255.0f, 255.0f, 255.0f, 255.0f));
-			}*/
 			
 			if( display != NULL )
 			{
@@ -236,52 +159,25 @@ int main( int argc, char** argv )
 		// update display
 		if( display != NULL )
 		{
-			display->BeginRender();
+			display->RenderOnce((float*)imgRGBA, camera->GetWidth(), camera->GetHeight());
 
-			if( texture != NULL )
-			{
-				// rescale image pixel intensities for display
-				CUDA(cudaNormalizeRGBA((float4*)imgRGBA, make_float2(0.0f, 255.0f), 
-								   (float4*)imgRGBA, make_float2(0.0f, 1.0f), 
-		 						   camera->GetWidth(), camera->GetHeight()));
-
-				// map from CUDA to openGL using GL interop
-				void* tex_map = texture->MapCUDA();
-
-				if( tex_map != NULL )
-				{
-					cudaMemcpy(tex_map, imgRGBA, texture->GetSize(), cudaMemcpyDeviceToDevice);
-					texture->Unmap();
-				}
-
-				// draw the texture
-				texture->Render(100,100);		
-			}
-
-			display->EndRender();
+			// check if the user quit
+			if( display->IsClosed() )
+				signal_recieved = true;
 		}
 	}
 	
-	printf("\ndetectnet-camera:  un-initializing video device\n");
-	
-	
-	/*
-	 * shutdown the camera device
-	 */
-	if( camera != NULL )
-	{
-		delete camera;
-		camera = NULL;
-	}
 
-	if( display != NULL )
-	{
-		delete display;
-		display = NULL;
-	}
+	/*
+	 * destroy resources
+	 */
+	printf("\ndetectnet-camera:  shutting down...\n");
 	
-	printf("detectnet-camera:  video device has been un-initialized.\n");
-	printf("detectnet-camera:  this concludes the test of the video device.\n");
+	SAFE_DELETE(camera);
+	SAFE_DELETE(display);
+	SAFE_DELETE(net);
+
+	printf("detectnet-camera:  shutdown complete.\n");
 	return 0;
 }
 

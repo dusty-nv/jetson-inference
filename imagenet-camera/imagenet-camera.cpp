@@ -34,9 +34,10 @@
 #include "imageNet.h"
 
 
-#define DEFAULT_CAMERA -1	// -1 for onboard camera, or change to index of /dev/video V4L2 camera (>=0)	
-		
-		
+#define DEFAULT_CAMERA -1		// -1 for onboard CSI camera, or change to index of /dev/video V4L2 camera (>=0)	
+#define DEFAULT_CAMERA_WIDTH 1280	// default camera width is 1280 pixels, change this if you want a different size
+#define DEFAULT_CAMERA_HEIGHT 720	// default camera height is 720 pixels, change this is you want a different size
+
 		
 bool signal_recieved = false;
 
@@ -70,7 +71,7 @@ int main( int argc, char** argv )
 	/*
 	 * create the camera device
 	 */
-	gstCamera* camera = gstCamera::Create(DEFAULT_CAMERA);
+	gstCamera* camera = gstCamera::Create(DEFAULT_CAMERA_WIDTH, DEFAULT_CAMERA_HEIGHT, DEFAULT_CAMERA);
 	
 	if( !camera )
 	{
@@ -166,21 +167,13 @@ int main( int argc, char** argv )
 	
 	
 	/*
-	 * shutdown the camera device
+	 * destroy resources
 	 */
 	printf("\nimagenet-camera:  shutting down...\n");
 	
-	if( camera != NULL )
-	{
-		delete camera;
-		camera = NULL;
-	}
-
-	if( display != NULL )
-	{
-		delete display;
-		display = NULL;
-	}
+	SAFE_DELETE(camera);
+	SAFE_DELETE(display);
+	SAFE_DELETE(net);
 	
 	printf("imagenet-camera:  shutdown complete.\n");
 	return 0;
