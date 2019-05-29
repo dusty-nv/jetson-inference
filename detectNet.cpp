@@ -23,8 +23,7 @@
 #include "detectNet.h"
 
 #include "cudaMappedMemory.h"
-#include "cudaOverlay.h"
-#include "cudaResize.h"
+#include "cudaUtility.h"
 
 #include "commandLine.h"
 #include "filesystem.h"
@@ -41,16 +40,34 @@ detectNet::detectNet() : tensorNet()
 	mCoverageThreshold = 0.5f;
 	mMeanPixel         = 0.0f;
 	mCustomClasses     = 0;
-
+	
 	mClassColors[0] = NULL;	// cpu ptr
 	mClassColors[1] = NULL; // gpu ptr
+	
+	mDetectionSets[0] = NULL; // cpu ptr
+	mDetectionSets[1] = NULL; // gpu ptr
+	mDetectionSet     = 0;
 }
 
 
 // destructor
 detectNet::~detectNet()
 {
+	if( mDetectionSets != NULL )
+	{
+		CUDA(cudaFreeHost(mDetectionSets[0]));
+		
+		mDetectionSets[0] = NULL;
+		mDetectionSets[1] = NULL;
+	}
 	
+	if( mClassColors != NULL )
+	{
+		CUDA(cudaFreeHost(mClassColors[0]));
+		
+		mClassColors[0] = NULL;
+		mClassColors[1] = NULL;
+	}
 }
 
 
@@ -90,6 +107,10 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, float mea
 		return NULL;
 	}
 	
+	// allocate detection sets
+	if( !net->allocDetections() )
+		return NULL;
+	
 	// set default class colors
 	if( !net->defaultColors() )
 		return NULL;
@@ -103,7 +124,7 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, float mea
 	net->mMeanPixel = mean_pixel;
 
 	// get the maximum bounding boxes
-	printf("detectNet -- maximum bounding boxes:  %u\n", net->GetMaxBoundingBoxes());
+	printf("detectNet -- maximum bounding boxes:  %u\n", net->GetMaxDetections());
 	return net;
 }
 
@@ -145,6 +166,10 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 		return NULL;
 	}
 	
+	// allocate detection sets
+	if( !net->allocDetections() )
+		return NULL;
+	
 	// set default class colors
 	if( !net->defaultColors() )
 		return NULL;
@@ -157,11 +182,24 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, const cha
 	net->SetThreshold(threshold);
 
 	// get the maximum bounding boxes
-	printf("detectNet -- maximum bounding boxes:  %u\n", net->GetMaxBoundingBoxes());
+	printf("detectNet -- maximum bounding boxes:  %u\n", net->GetMaxDetections());
 	return net;
 }
 
 
+// allocDetections
+bool detectNet::allocDetections()
+{
+	const size_t det_size = sizeof(Detection) * mNumDetectionSets * GetMaxDetections();
+	
+	if( !cudaAllocMapped((void**)&mDetectionSets[0], (void**)&mDetectionSets[1], det_size) )
+		return false;
+	
+	memset(mDetectionSets[0], 0, det_size);
+	return true;
+}
+
+	
 // defaultColors
 bool detectNet::defaultColors()
 {
@@ -429,15 +467,7 @@ detectNet* detectNet::Create( int argc, char** argv )
 }
 	
 
-cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, cudaStream_t stream );	
-cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value, cudaStream_t stream );
-
-
-
-struct float6 { float x; float y; float z; float w; float v; float u; };
-static inline float6 make_float6( float x, float y, float z, float w, float v, float u ) { float6 f; f.x = x; f.y = y; f.z = z; f.w = w; f.v = v; f.u = u; return f; }
-
-
+#if 0
 inline static bool rectOverlap(const float6& r1, const float6& r2)
 {
     return ! ( r2.x > r1.z  
@@ -446,85 +476,94 @@ inline static bool rectOverlap(const float6& r1, const float6& r2)
         || r2.w < r1.y
         );
 }
-
-static void mergeRect( std::vector<float6>& rects, const float6& rect )
-{
-	const uint32_t num_rects = rects.size();
-	
-	bool intersects = false;
-	
-	for( uint32_t r=0; r < num_rects; r++ )
-	{
-		if( rectOverlap(rects[r], rect) )
-		{
-			intersects = true;   
-
-#ifdef DEBUG_CLUSTERING
-			printf("found overlap\n");		
 #endif
 
-			if( rect.x < rects[r].x ) 	rects[r].x = rect.x;
-			if( rect.y < rects[r].y ) 	rects[r].y = rect.y;
-			if( rect.z > rects[r].z )	rects[r].z = rect.z;
-			if( rect.w > rects[r].w ) 	rects[r].w = rect.w;
-			
-			break;
-		}
-			
-	} 
-	
-	if( !intersects )
-		rects.push_back(rect);
-}
+
+// from imageNet.cu
+cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, cudaStream_t stream );	
+cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value, cudaStream_t stream );
 
 
 // Detect
-bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* boundingBoxes, int* numBoxes, float* confidence )
+int detectNet::Detect( float* input, uint32_t width, uint32_t height, Detection** detections, bool overlay )
 {
-	if( !rgba || width == 0 || height == 0 || !boundingBoxes || !numBoxes || *numBoxes < 1 )
-	{
-		printf("detectNet::Detect( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
-		return false;
-	}
+	Detection* det = mDetectionSets[0] + mDetectionSet * GetMaxDetections();
+
+	if( detections != NULL )
+		*detections = det;
+
+	mDetectionSet++;
+
+	if( mDetectionSet >= mNumDetectionSets )
+		mDetectionSet = 0;
+	
+	return Detect(input, width, height, det, overlay);
+}
 
 	
+// Detect
+int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* detections, bool overlay )
+{
+	if( !rgba || width == 0 || height == 0 || !detections )
+	{
+		printf(LOG_TRT "detectNet::Detect( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
+		return -1;
+	}
+
 	// downsample and convert to band-sequential BGR
 	if( mMeanPixel != 0.0f )
 	{
 		if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
 									  make_float3(mMeanPixel, mMeanPixel, mMeanPixel), GetStream())) )
 		{
-			printf("detectNet::Classify() -- cudaPreImageNetMean failed\n");
-			return false;
+			printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNetMean() failed\n");
+			return -1;
 		}
 	}
 	else
 	{
 		if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
 		{
-			printf("detectNet::Classify() -- cudaPreImageNet failed\n");
-			return false;
+			printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNet() failed\n");
+			return -1;
 		}
 	}
 	
-	// process with GIE
+	// process with TensorRT
 	void* inferenceBuffers[] = { mInputCUDA, mOutputs[OUTPUT_CVG].CUDA, mOutputs[OUTPUT_BBOX].CUDA };
 	
 	if( !mContext->execute(1, inferenceBuffers) )
 	{
-		printf(LOG_GIE "detectNet::Classify() -- failed to execute tensorRT context\n");
-		*numBoxes = 0;
-		return false;
+		printf(LOG_TRT "detectNet::Detect() -- failed to execute TensorRT context\n");
+		return -1;
 	}
 	
 	PROFILER_REPORT();
 
+	// cluster detections
+	const int numDetections = clusterDetections(detections, width, height);
+
+	// render the overlay
+	if( overlay && numDetections > 0 )
+	{
+		if( !Overlay(rgba, rgba, width, height, detections, numDetections) )
+			printf(LOG_TRT "detectNet::Detect() -- failed to render overlay\n");
+	}
+	
+	return numDetections;
+}
+
+
+
+// clusterDetections
+int detectNet::clusterDetections( Detection* detections, uint32_t width, uint32_t height )
+{
 	// cluster detection bboxes
 	float* net_cvg   = mOutputs[OUTPUT_CVG].CPU;
 	float* net_rects = mOutputs[OUTPUT_BBOX].CPU;
 	
-	const int ow  = DIMS_W(mOutputs[OUTPUT_BBOX].dims);		// number of columns in bbox grid in X dimension
-	const int oh  = DIMS_H(mOutputs[OUTPUT_BBOX].dims);		// number of rows in bbox grid in Y dimension
+	const int ow  = DIMS_W(mOutputs[OUTPUT_BBOX].dims);	// number of columns in bbox grid in X dimension
+	const int oh  = DIMS_H(mOutputs[OUTPUT_BBOX].dims);	// number of rows in bbox grid in Y dimension
 	const int owh = ow * oh;							// total number of bbox in grid
 	const int cls = GetNumClasses();					// number of object classes in coverage map
 	
@@ -540,15 +579,12 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 	printf("cell width %f  height %f\n", cell_width, cell_height);
 	printf("scale x %f  y %f\n", scale_x, scale_y);
 #endif
-#if 1
-	std::vector< std::vector<float6> > rects;
-	rects.resize(cls);
-	
+
 	// extract and cluster the raw bounding boxes that meet the coverage threshold
-	for( uint32_t z=0; z < cls; z++ )
+	int numDetections = 0;
+
+	for( uint32_t z=0; z < cls; z++ )	// z = current object class
 	{
-		rects[z].reserve(owh);
-		
 		for( uint32_t y=0; y < oh; y++ )
 		{
 			for( uint32_t x=0; x < ow; x++)
@@ -567,69 +603,54 @@ bool detectNet::Detect( float* rgba, uint32_t width, uint32_t height, float* bou
 					
 				#ifdef DEBUG_CLUSTERING
 					printf("rect x=%u y=%u  cvg=%f  %f %f   %f %f \n", x, y, coverage, x1, x2, y1, y2);
-				#endif					
-					mergeRect( rects[z], make_float6(x1, y1, x2, y2, coverage, z) );
+				#endif		
+
+					// merge with list, checking for overlaps
+					bool detectionMerged = false;
+
+					for( uint32_t n=0; n < numDetections; n++ )
+					{
+						if( detections[n].ClassID == z && detections[n].Expand(x1, y1, x2, y2) )
+						{
+							detectionMerged = true;
+							break;
+						}
+					}
+
+					// create new entry if the detection wasn't merged with another detection
+					if( !detectionMerged )
+					{
+						detections[numDetections].ClassID    = z;
+						detections[numDetections].Confidence = coverage;
+					
+						detections[numDetections].Left   = x1;
+						detections[numDetections].Top    = y1;
+						detections[numDetections].Right  = x2;
+						detections[numDetections].Bottom = y2;
+					
+						numDetections++;
+					}
 				}
 			}
 		}
 	}
 	
-	//printf("done clustering rects\n");
-	
-	// condense the multiple class lists down to 1 list of detections
-	const uint32_t numMax = *numBoxes;
-	int n = 0;
-	
-	for( uint32_t z = 0; z < cls; z++ )
-	{
-		const uint32_t numBox = rects[z].size();
-		
-		for( uint32_t b = 0; b < numBox && n < numMax; b++ )
-		{
-			const float6 r = rects[z][b];
-			
-			boundingBoxes[n * 4 + 0] = r.x;
-			boundingBoxes[n * 4 + 1] = r.y;
-			boundingBoxes[n * 4 + 2] = r.z;
-			boundingBoxes[n * 4 + 3] = r.w;
-			
-			if( confidence != NULL )
-			{
-				confidence[n * 2 + 0] = r.v;	// coverage
-				confidence[n * 2 + 1] = r.u;	// class ID
-			}
-			
-			n++;
-		}
-	}
-	
-	*numBoxes = n;
-#else
-	*numBoxes = 0;
-#endif
-	return true;
+	return numDetections;
 }
 
 
-// DrawBoxes
-bool detectNet::DrawBoxes( float* input, float* output, uint32_t width, uint32_t height, const float* boundingBoxes, int numBoxes, int classIndex )
+// from detectNet.cu
+cudaError_t cudaDetectionOverlay( float4* input, float4* output, uint32_t width, uint32_t height, detectNet::Detection* detections, int numDetections, float4* colors );
+
+// Overlay
+bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections )
 {
-	if( !input || !output || width == 0 || height == 0 || !boundingBoxes || numBoxes < 1 || classIndex < 0 || classIndex >= GetNumClasses() )
+	if( CUDA_FAILED(cudaDetectionOverlay((float4*)input, (float4*)output, width, height, detections, numDetections, (float4*)mClassColors[1])) )
 		return false;
-	
-	const float4 color = make_float4( mClassColors[0][classIndex*4+0], 
-									  mClassColors[0][classIndex*4+1],
-									  mClassColors[0][classIndex*4+2],
-									  mClassColors[0][classIndex*4+3] );
-	
-	//printf("draw boxes  %i  %i   %f %f %f %f\n", numBoxes, classIndex, color.x, color.y, color.z, color.w);
-	
-	if( CUDA_FAILED(cudaRectOutlineOverlay((float4*)input, (float4*)output, width, height, (float4*)boundingBoxes, numBoxes, color)) )
-		return false;
-	
+
 	return true;
 }
-	
+
 
 // SetClassColor
 void detectNet::SetClassColor( uint32_t classIndex, float r, float g, float b, float a )

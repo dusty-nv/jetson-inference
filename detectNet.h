@@ -54,6 +54,56 @@ class detectNet : public tensorNet
 {
 public:
 	/**
+	 * Object Detection result.
+	 */
+	struct Detection
+	{
+		// Object Info
+		uint32_t ClassID;	/**< Class index of the detected object. */
+		float Confidence;	/**< Confidence value of the detected object. */
+
+		// Bounding Box Coordinates
+		float Left;		/**< Left bounding box coordinate (in pixels) */
+		float Right;		/**< Right bounding box coordinate (in pixels) */
+		float Top;		/**< Top bounding box cooridnate (in pixels) */
+		float Bottom;		/**< Bottom bounding box coordinate (in pixels) */
+
+		/**< Calculate the width of the object */
+		inline float Width() const						{ return Right - Left; }
+
+		/**< Calculate the height of the object */
+		inline float Height() const						{ return Bottom - Top; }
+
+		/**< Calculate the area of the object */
+		inline float Area() const						{ return Width() * Height(); }
+
+		/**< Return the center of the object */
+		inline void Center( float* x, float* y )			{ if(x) *x = Left + Width() * 0.5f; if(y) *y = Top + Height() * 0.5f; }
+
+		/**< Return true if the coordinate is inside the bounding box */
+		inline bool Contains( float x, float y ) const		{ return x >= Left && x <= Right && y >= Top && y <= Bottom; }
+
+		/**< Return true if the bounding boxes overlap */
+		inline bool Overlaps( const Detection& det ) const	{ return !(det.Left > Right || det.Right < Left || det.Top > Bottom || det.Bottom < Top); }
+		
+		/**< Return true if the bounding boxes overlap */
+		inline bool Overlaps( float x1, float y1, float x2, float y2 ) const	{ return !(x1 > Right || x2 < Left || y1 > Bottom || y2 < Top); }
+		
+		/**< Expand the bounding box if they overlap (return true if so) */
+		inline bool Expand( float x1, float y1, float x2, float y2 ) 	     { if(!Overlaps(x1, y1, x2, y2)) return false; Left = fminf(x1, Left); Top = fminf(y1, Top); Right = fmaxf(x2, Right); Bottom = fmaxf(y2, Bottom); return true; }
+		
+		/**< Expand the bounding box if they overlap (return true if so) */
+		inline bool Expand( const Detection& det )      		{ if(!Overlaps(det)) return false; Left = fminf(det.Left, Left); Top = fminf(det.Top, Top); Right = fmaxf(det.Right, Right); Bottom = fmaxf(det.Bottom, Bottom); return true; }
+		
+		/**< Reset all member variables to zero */
+		inline void Reset()								{ ClassID = 0; Confidence = 0; Left = 0; Right = 0; Top = 0; Bottom = 0; } 								
+		
+		/**< Default constructor */
+		inline Detection()								{ Reset(); }
+	};
+
+		
+	/**
 	 * Network choice enumeration.
 	 */
 	enum NetworkType
@@ -136,24 +186,36 @@ public:
 	virtual ~detectNet();
 	
 	/**
-	 * Detect object locations in the RGBA image.
-	 * @param rgba float4 RGBA input image in CUDA device memory.
-	 * @param width width of the input image in pixels.
-	 * @param height height of the input image in pixels.
-	 * @param numBoxes pointer to a single integer containing the maximum number of boxes available in boundingBoxes.
-	 *                 upon successful return, will be set to the number of bounding boxes detected in the image.
-	 * @param boundingBoxes pointer to array of bounding boxes.
-	 * @param confidence optional pointer to float2 array filled with a (confidence, class) pair for each bounding box (numBoxes) 
-	 * @returns True if the image was processed without error, false if an error was encountered.
+	 * Detect object locations from an RGBA image, returning an array containing the detection results.
+	 * @param[in]  input float4 RGBA input image in CUDA device memory.
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] detections pointer that will be set to array of detection results (residing in shared CPU/GPU memory)
+	 * @param[in]  overlay if true, overlay the bounding boxes of the detected objects over the image (@see Overlay())
+	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
 	 */
-	bool Detect( float* rgba, uint32_t width, uint32_t height, float* boundingBoxes, int* numBoxes, float* confidence=NULL );
+	int Detect( float* input, uint32_t width, uint32_t height, Detection** detections, bool overlay=true );
+
+	/**
+	 * Detect object locations in an RGBA image, into an array of the results allocated by the user.
+	 * @param[in]  input float4 RGBA input image in CUDA device memory.
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] detections pointer to user-allocated array that will be filled with the detection results.
+	 *                        @see GetMaxDetections() for the number of detection results that should be allocated in this buffer.
+	 * @param[in]  overlay if true, overlay the bounding boxes of the detected objects over the image (@see Overlay())
+	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
+	 */
+	int Detect( float* input, uint32_t width, uint32_t height, Detection* detections, bool overlay=true );
 	
 	/**
-	 * Draw bounding boxes in the RGBA image.
+	 * Draw the detected bounding boxes overlayed on an RGBA image.
+	 * @note Overlay() will automatically be called by default by Detect(), if the overlay parameter is true 
 	 * @param input float4 RGBA input image in CUDA device memory.
 	 * @param output float4 RGBA output image in CUDA device memory.
+	 * @param detections Array of detections allocated in CUDA device memory.
 	 */
-	bool DrawBoxes( float* input, float* output, uint32_t width, uint32_t height, const float* boundingBoxes, int numBoxes, int classIndex=0 );
+	bool Overlay( float* input, float* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections );
 	
 	/**
 	 * Retrieve the minimum threshold for detection.
@@ -167,10 +229,10 @@ public:
 	inline void SetThreshold( float threshold ) 		{ mCoverageThreshold = threshold; }
 
 	/**
-	 * Retrieve the maximum number of bounding boxes the network supports.
-	 * Knowing this is useful for allocating the buffers to store the output bounding boxes.
+	 * Retrieve the maximum number of simultaneous detections the network supports.
+	 * Knowing this is useful for allocating the buffers to store the output detection results.
 	 */
-	inline uint32_t GetMaxBoundingBoxes() const		{ return DIMS_W(mOutputs[1].dims) * DIMS_H(mOutputs[1].dims) * DIMS_C(mOutputs[1].dims); }
+	inline uint32_t GetMaxDetections() const		{ return DIMS_W(mOutputs[1].dims) * DIMS_H(mOutputs[1].dims) /** DIMS_C(mOutputs[1].dims)*/ * GetNumClasses(); }
 		
 	/**
 	 * Retrieve the number of object classes supported in the detector
@@ -203,10 +265,12 @@ protected:
 	// constructor
 	detectNet();
 
+	bool allocDetections();
 	bool defaultColors();
 	void defaultClassDesc();
-
 	bool loadClassDesc( const char* filename );
+	
+	int clusterDetections( Detection* detections, uint32_t width, uint32_t height );
 
 	float  mCoverageThreshold;
 	float* mClassColors[2];
@@ -216,7 +280,11 @@ protected:
 	std::vector<std::string> mClassSynset;
 
 	std::string mClassPath;
-	uint32_t mCustomClasses;
+	uint32_t    mCustomClasses;
+
+	Detection* mDetectionSets[2];	// list of detections, NumDetectionSets * GetMaxDetections()
+	uint32_t   mDetectionSet;		// index of next detection set to use
+	static const uint32_t mNumDetectionSets = 16;	
 };
 
 
