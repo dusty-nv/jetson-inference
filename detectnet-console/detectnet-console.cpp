@@ -68,21 +68,6 @@ int main( int argc, char** argv )
 
 	net->EnableProfiler();
 	
-	// alloc memory for bounding box & confidence value output arrays
-	const uint32_t maxBoxes = net->GetMaxBoundingBoxes();
-	const uint32_t classes  = net->GetNumClasses();
-	
-	float* bbCPU    = NULL;
-	float* bbCUDA   = NULL;
-	float* confCPU  = NULL;
-	float* confCUDA = NULL;
-	
-	if( !cudaAllocMapped((void**)&bbCPU, (void**)&bbCUDA, maxBoxes * sizeof(float4)) ||
-	    !cudaAllocMapped((void**)&confCPU, (void**)&confCUDA, maxBoxes * classes * sizeof(float)) )
-	{
-		printf("detectnet-console:  failed to alloc output memory\n");
-		return 0;
-	}
 	
 	// load image from file on disk
 	float* imgCPU    = NULL;
@@ -96,40 +81,22 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
+
 	// classify image
-	int numBoundingBoxes = maxBoxes;
-	
-	printf("detectnet-console:  beginning processing network (%zu)\n", current_timestamp());
+	detectNet::Detection* detections = NULL;
 
-	const bool result = net->Detect(imgCUDA, imgWidth, imgHeight, bbCPU, &numBoundingBoxes, confCPU);
+	printf("detectnet-console:  beginning processing network + overlay (%zu)\n", current_timestamp());
+	const int numDetections = net->Detect(imgCUDA, imgWidth, imgHeight, &detections);
+	printf("detectnet-console:  finished processing network + overlay  (%zu)\n", current_timestamp());
 
-	printf("detectnet-console:  finished processing network  (%zu)\n", current_timestamp());
-
-	if( !result )
-		printf("detectnet-console:  failed to classify '%s'\n", imgFilename);
-	else if( argc > 2 )		// if the user supplied an output filename
+	if( numDetections >= 0 && argc > 2 )		// if the user supplied an output filename
 	{
-		printf("%i bounding boxes detected\n", numBoundingBoxes);
+		printf("%i bounding boxes detected\n", numDetections);
 		
-		int lastClass = 0;
-		int lastStart = 0;
-		
-		for( int n=0; n < numBoundingBoxes; n++ )
+		for( int n=0; n < numDetections; n++ )
 		{
-			const int nc = confCPU[n*2+1];
-			float* bb = bbCPU + (n * 4);
-			
-			printf("detected obj %i  class #%u (%s)  confidence=%f\n", n, nc, net->GetClassDesc(nc), confCPU[n*2]);
-			printf("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, bb[0], bb[1], bb[2], bb[3], bb[2] - bb[0], bb[3] - bb[1]); 
-			
-			if( nc != lastClass || n == (numBoundingBoxes - 1) )
-			{
-				if( !net->DrawBoxes(imgCUDA, imgCUDA, imgWidth, imgHeight, bbCUDA + (lastStart * 4), (n - lastStart) + 1, lastClass) )
-					printf("detectnet-console:  failed to draw boxes\n");
-					
-				lastClass = nc;
-				lastStart = n;
-			}
+			printf("detected obj %i  class #%u (%s)  confidence=%f\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence);
+			printf("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
 		}
 		
 		CUDA(cudaThreadSynchronize());
@@ -143,10 +110,10 @@ int main( int argc, char** argv )
 			printf("detectnet-console:  successfully wrote %ix%i image to '%s'\n", imgWidth, imgHeight, argv[2]);
 		
 	}
-	//printf("detectnet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, "pedestrian");
-	
+
 	printf("\nshutting down...\n");
 	CUDA(cudaFreeHost(imgCPU));
 	delete net;
 	return 0;
 }
+
