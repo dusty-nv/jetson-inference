@@ -31,6 +31,7 @@ namespace nvinfer1 { class IInt8Calibrator; }
 
 #include <vector>
 #include <sstream>
+#include <math.h>
 
 
 #if NV_TENSORRT_MAJOR > 1
