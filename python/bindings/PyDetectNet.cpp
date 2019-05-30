@@ -103,10 +103,30 @@ static void PyDetection_Dealloc( PyDetection_Object* self )
 // ToString
 static PyObject* PyDetection_ToString( PyDetection_Object* self )
 {
+	// get center coord
+	float cx = 0.0f;
+	float cy = 0.0f;
+
+	self->det.Center(&cx, &cy);
+
+	// format string
 	char str[1024];
 
-	sprintf(str, "<detectNet.Detection object>\n   -- ClassID: %u\n   -- Confidence: %f\n   -- Left: %f\n   -- Top: %f\n   -- Right: %f\n   -- Bottom: %f\n",
-		   self->det.ClassID, self->det.Confidence, self->det.Left, self->det.Top, self->det.Right, self->det.Bottom);
+	sprintf(str, 
+		   "<detectNet.Detection object>\n"
+		   "   -- ClassID: %i\n"
+		   "   -- Confidence: %g\n"
+		   "   -- Left:    %g\n"
+		   "   -- Top:     %g\n"
+		   "   -- Right:   %g\n"
+		   "   -- Bottom:  %g\n"
+		   "   -- Width:   %g\n"
+		   "   -- Height:  %g\n"
+		   "   -- Area:    %g\n"
+		   "   -- Center:  (%g, %g)",
+		   self->det.ClassID, self->det.Confidence, 
+		   self->det.Left, self->det.Top, self->det.Right, self->det.Bottom,
+		   self->det.Width(), self->det.Height(), self->det.Area(), cx, cy);
 
 	return PYSTRING_FROM_STRING(str);
 }
@@ -135,6 +155,61 @@ static PyObject* PyDetection_Contains( PyDetection_Object* self, PyObject *args,
 
 	PY_RETURN_BOOL(self->det.Contains(x,y));
 }
+
+
+// GetClassID
+static PyObject* PyDetection_GetClassID( PyDetection_Object* self, void* closure )
+{
+	return PYLONG_FROM_UNSIGNED_LONG(self->det.ClassID);
+}
+
+// SetClassID
+static int PyDetection_SetClassID( PyDetection_Object* self, PyObject* value, void* closure )
+{
+	if( !value )
+	{
+		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.ClassID attribute");
+		return -1;
+	}
+
+	int arg = PYLONG_AS_LONG(value);
+
+	if( PyErr_Occurred() != NULL )
+		return -1;
+
+	if( arg < 0 )
+		arg = 0;
+
+	self->det.ClassID = arg;
+	return 0;
+}
+
+
+
+// GetConfidence
+static PyObject* PyDetection_GetConfidence( PyDetection_Object* self, void* closure )
+{
+	return PyFloat_FromDouble(self->det.Confidence);
+}
+
+// SetLeft
+static int PyDetection_SetConfidence( PyDetection_Object* self, PyObject* value, void* closure )
+{
+	if( !value )
+	{
+		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.Confidence attribute");
+		return -1;
+	}
+
+	const double arg = PyFloat_AsDouble(value);
+
+	if( PyErr_Occurred() != NULL )
+		return -1;
+
+	self->det.Confidence = arg;
+	return 0;
+}
+
 
 
 // GetLeft
@@ -249,6 +324,12 @@ static PyObject* PyDetection_GetHeight( PyDetection_Object* self, void* closure 
 	return PyFloat_FromDouble(self->det.Height());
 }
 
+// GetArea
+static PyObject* PyDetection_GetArea( PyDetection_Object* self, void* closure )
+{
+	return PyFloat_FromDouble(self->det.Area());
+}
+
 // GetCenter
 static PyObject* PyDetection_GetCenter( PyDetection_Object* self, void* closure )
 {
@@ -271,12 +352,15 @@ static PyObject* PyDetection_GetCenter( PyDetection_Object* self, void* closure 
 
 static PyGetSetDef pyDetection_GetSet[] = 
 {
+	{ "ClassID", (getter)PyDetection_GetClassID, (setter)PyDetection_SetClassID, "Class index of the detected object", NULL},
+	{ "Confidence", (getter)PyDetection_GetConfidence, (setter)PyDetection_SetConfidence, "Confidence value of the detected object", NULL},
 	{ "Left", (getter)PyDetection_GetLeft, (setter)PyDetection_SetLeft, "Left bounding box coordinate", NULL},
 	{ "Right", (getter)PyDetection_GetRight, (setter)PyDetection_SetRight, "Right bounding box coordinate", NULL},
 	{ "Top", (getter)PyDetection_GetTop, (setter)PyDetection_SetTop, "Top bounding box coordinate", NULL},
 	{ "Bottom", (getter)PyDetection_GetBottom, (setter)PyDetection_SetBottom, "Bottom bounding box coordinate", NULL},
 	{ "Width", (getter)PyDetection_GetWidth, NULL, "Width of bounding box", NULL},
 	{ "Height", (getter)PyDetection_GetHeight, NULL, "Height of bounding box", NULL},
+	{ "Area", (getter)PyDetection_GetArea, NULL, "Area of bounding box", NULL},
 	{ "Center", (getter)PyDetection_GetCenter, NULL, "Center (x,y) coordinate of bounding box", NULL},
 	{ NULL } /* Sentinel */
 };

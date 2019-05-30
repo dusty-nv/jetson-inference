@@ -39,6 +39,10 @@
 	#define PYTHON_3
 	#endif
 
+	#ifndef PYLONG_AS_LONG
+	#define PYLONG_AS_LONG(x)			PyLong_AsLong(x)
+	#endif
+
 	#ifndef PYLONG_FROM_LONG
 	#define PYLONG_FROM_LONG(x)			PyLong_FromLong(x)
 	#endif
@@ -60,6 +64,10 @@
 	// Python2 defines
 	#ifndef PYTHON_2
 	#define PYTHON_2
+	#endif
+
+	#ifndef PYLONG_AS_LONG
+	#define PYLONG_AS_LONG(x)			PyInt_AsLong(x)
 	#endif
 
 	#ifndef PYLONG_FROM_LONG
