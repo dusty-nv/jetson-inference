@@ -30,31 +30,26 @@ import argparse
 # parse the command line
 parser = argparse.ArgumentParser()
 
-parser.add_argument("file_in", type=str, help="filename of the input image to process")
-parser.add_argument("file_out", type=str, default=None, nargs='?', help="filename of the output image to save")
 parser.add_argument("--network", type=str, default="pednet", help="model to use, can be:  pednet, multiped, facenet, coco-dog, coco-bottle, coco-chair, coco-airplane")
 parser.add_argument("--threshold", type=float, default=0.5, help="minimum detection threshold to use")
-parser.add_argument("--profile", type=bool, default=False, help="enable performance profiling and multiple runs of the model")
-parser.add_argument("--runs", type=int, default=15, help="if profiling is enabling, the number of iterations to run")
+parser.add_argument("--width", type=int, default=1280, help="desired width of camera stream (default is 1280 pixels)")
+parser.add_argument("--height", type=int, default=720, help="desired height of camera stream (default is 720 pixels)")
+parser.add_argument("--v4l2_device", type=int, default=-1, help="if using VL42 camera, index of the desired /dev/video node")
 
 opt, argv = parser.parse_known_args()
-
-# load an image (into shared CPU/GPU memory)
-img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
 
 # load the object detection network
 net = jetson.inference.detectNet(opt.network, argv, opt.threshold)
 
-# enable model profiling
-if opt.profile is True:
-	net.EnableProfiler()
-else:
-	opt.runs = 1
+# create the camera and display
+camera = jetson.utils.gstCamera(opt.width, opt.height, opt.v4l2_device)
+display = jetson.utils.glDisplay()
 
-# run model inference
-for i in range(opt.runs):
-	print("\n/////////////////////////////////////\n// RUN {:d}\n/////////////////////////////////////".format(i))
-	
+# process frames until user exits
+while display.IsOpen():
+	# capture the image
+	img, width, height = camera.CaptureRGBA()
+
 	# detect objects in the image (with overlay)
 	detections = net.Detect(img, width, height)
 
@@ -64,8 +59,9 @@ for i in range(opt.runs):
 	for detection in detections:
 		print(detection)
 
-# save the output image with the bounding box overlays
-if opt.file_out is not None:
-	jetson.utils.saveImageRGBA(opt.file_out, img, width, height)
+	# render the image
+	display.RenderOnce(img, width, height)
 
+	# update the title bar
+	display.SetTitle("{:s} | {:.0f} FPS".format(opt.network, display.GetFPS()))
 

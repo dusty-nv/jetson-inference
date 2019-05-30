@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #
 # Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved.
 #
@@ -31,8 +32,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument("filename", type=str, help="filename of the image to process")
 parser.add_argument("--network", type=str, default="googlenet", help="model to use, can be:  alexnet, googlenet, googlenet-12")
 opt = parser.parse_args()
-
-print(opt)
 
 # load an image (into shared CPU/GPU memory)
 img, width, height = jetson.utils.loadImageRGBA(opt.filename)

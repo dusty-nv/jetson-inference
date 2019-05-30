@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #
 # Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved.
 #
@@ -36,9 +37,6 @@ parser.add_argument("--profile", type=bool, default=False, help="enable performa
 parser.add_argument("--runs", type=int, default=15, help="if profiling is enabling, the number of iterations to run")
 
 opt, argv = parser.parse_known_args()
-
-print(opt)
-print(argv)
 
 # load an image (into shared CPU/GPU memory)
 img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
