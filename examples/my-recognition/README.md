@@ -4,5 +4,5 @@
 
 See this part of the tutorial for information about building and running this example:
 
-[`../../docs/imagenet-example-2.md`](**Coding Your Own Image Recognition Program**)
+[**Coding Your Own Image Recognition Program**](../../docs/imagenet-example-2.md)
 
