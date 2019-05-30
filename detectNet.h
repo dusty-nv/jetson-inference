@@ -78,7 +78,7 @@ public:
 		inline float Area() const						{ return Width() * Height(); }
 
 		/**< Return the center of the object */
-		inline void Center( float* x, float* y )			{ if(x) *x = Left + Width() * 0.5f; if(y) *y = Top + Height() * 0.5f; }
+		inline void Center( float* x, float* y ) const		{ if(x) *x = Left + Width() * 0.5f; if(y) *y = Top + Height() * 0.5f; }
 
 		/**< Return true if the coordinate is inside the bounding box */
 		inline bool Contains( float x, float y ) const		{ return x >= Left && x <= Right && y >= Top && y <= Bottom; }
