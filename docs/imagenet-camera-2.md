@@ -16,30 +16,26 @@ The frames per second (FPS), classified object name from the video, and confiden
 
 > **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`imagenet-camera.cpp`](../imagenet-camera/imagenet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera.  The model it's tested with is Logitech C920. 
 
-To  flip the Camera you need to do the follwoing:
-- Open the Camera code:
+To  flip the Camera you need to change the follwoing code:
 ```bash
 $ cd ~/jetson-inference/utils/camera/
 $ gedit gstCamera.cpp
-```
-- Change the folloing code:
-```bash
+
+// Find the follwing code:
 	#if NV_TENSORRT_MAJOR > 1 && NV_TENSORRT_MAJOR < 5	// if JetPack 3.1-3.3 (different flip-method)
 		const int flipMethod = 0;			// Xavier (w/TRT5) camera is mounted inverted
 	#else
 		const int flipMethod = 2;
 	#endif	
 
-Change the code to:
-
+//Change the code to:
 	#if NV_TENSORRT_MAJOR > 1 && NV_TENSORRT_MAJOR < 5	// if JetPack 3.1-3.3 (different flip-method)
 		const int flipMethod = 0;			// Xavier (w/TRT5) camera is mounted inverted
 	#else
 		const int flipMethod = 0;
 	#endif	
-```
-Build the Code: 
-```bash 
+//Save and close the code.
+
 $ cd ~/jetson-inference/build/
 $ make
 ```
