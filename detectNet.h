@@ -28,22 +28,28 @@
 
 
 /**
- * Name of default input blob for detectNet model.
+ * Name of default input blob for DetectNet caffe model.
  * @ingroup deepVision
  */
 #define DETECTNET_DEFAULT_INPUT   "data"
 
 /**
- * Name of default output blob of the coverage map for detectNet model.
+ * Name of default output blob of the coverage map for DetectNet caffe model.
  * @ingroup deepVision
  */
 #define DETECTNET_DEFAULT_COVERAGE  "coverage"
 
 /**
- * Name of default output blob of the grid of bounding boxes for detectNet model.
+ * Name of default output blob of the grid of bounding boxes for DetectNet caffe model.
  * @ingroup deepVision
  */
 #define DETECTNET_DEFAULT_BBOX  "bboxes"
+
+/**
+ * Default value of the minimum detection threshold
+ * @ingroup deepVision
+ */
+#define DETECTNET_DEFAULT_THRESHOLD 0.5f
 
 
 /**
@@ -115,7 +121,13 @@ public:
 		COCO_DOG,			/**< MS-COCO dog class */
 		FACENET,			/**< Human facial detector trained on FDDB */
 		PEDNET,			/**< Pedestrian / person detector */
-		PEDNET_MULTI		/**< Multi-class pedestrian + baggage detector */
+		PEDNET_MULTI,		/**< Multi-class pedestrian + baggage detector */
+
+#if NV_TENSORRT_MAJOR > 4
+		SSD_INCEPTION_V2,	/**< SSD Inception-v2 UFF model, trained on MS-COCO */
+		SSD_MOBILENET_V1,	/**< SSD Mobilenet-v1 UFF model, trained on MS-COCO */
+		SSD_MOBILENET_V2	/**< SSD Mobilenet-v2 UFF model, trained on MS-COCO */
+#endif
 	};
 
 	/**
@@ -132,8 +144,9 @@ public:
 	 * @param threshold default minimum threshold for detection
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
-	static detectNet* Create( NetworkType networkType=PEDNET_MULTI, float threshold=0.5f, uint32_t maxBatchSize=2, 
-						 precisionType precision=TYPE_FASTEST, deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
+	static detectNet* Create( NetworkType networkType=PEDNET_MULTI, float threshold=DETECTNET_DEFAULT_THRESHOLD, 
+						 uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, precisionType precision=TYPE_FASTEST, 
+						 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
 	 * Load a custom network instance
@@ -147,12 +160,13 @@ public:
 	 * @param bboxes Name of the output bounding box layer blob, which contains a grid of rectangles in the image.
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
-	static detectNet* Create( const char* prototxt_path, const char* model_path, 
-						 const char* mean_binary, const char* class_labels, float threshold=0.5f, 
+	static detectNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary, 
+						 const char* class_labels, float threshold=DETECTNET_DEFAULT_THRESHOLD, 
 						 const char* input = DETECTNET_DEFAULT_INPUT, 
 						 const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
 						 const char* bboxes = DETECTNET_DEFAULT_BBOX,
-						 uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+						 uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+						 precisionType precision=TYPE_FASTEST,
 				   		 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 							  
 	/**
@@ -168,13 +182,32 @@ public:
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
 	static detectNet* Create( const char* prototxt_path, const char* model_path, float mean_pixel=0.0f, 
-						 const char* class_labels=NULL, float threshold=0.5f, 
+						 const char* class_labels=NULL, float threshold=DETECTNET_DEFAULT_THRESHOLD, 
 						 const char* input = DETECTNET_DEFAULT_INPUT, 
 						 const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
 						 const char* bboxes = DETECTNET_DEFAULT_BBOX,
-						 uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+						 uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+						 precisionType precision=TYPE_FASTEST,
 				   		 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
+	/**
+	 * Load a custom network instance of a UFF model
+	 * @param model_path File path to the UFF model
+	 * @param class_labels File path to list of class name labels
+	 * @param threshold default minimum threshold for detection
+	 * @param input Name of the input layer blob.
+	 * @param inputDims Dimensions of the input layer blob.
+	 * @param output Name of the output layer blob containing the bounding boxes, ect.
+	 * @param numDetections Name of the output layer blob containing the detection count.
+	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
+	 */
+	static detectNet* Create( const char* model_path, const char* class_labels, float threshold, 
+						 const char* input, const Dims3& inputDims, 
+						 const char* output, const char* numDetections,
+						 uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+						 precisionType precision=TYPE_FASTEST,
+				   		 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
+
 	/**
 	 * Load a new network instance by parsing the command line.
 	 */
@@ -221,23 +254,23 @@ public:
 	 * Retrieve the minimum threshold for detection.
 	 * TODO:  change this to per-class in the future
 	 */
-	inline float GetThreshold() const				{ return mCoverageThreshold; }
+	inline float GetThreshold() const							{ return mCoverageThreshold; }
 
 	/**
 	 * Set the minimum threshold for detection.
 	 */
-	inline void SetThreshold( float threshold ) 		{ mCoverageThreshold = threshold; }
+	inline void SetThreshold( float threshold ) 					{ mCoverageThreshold = threshold; }
 
 	/**
 	 * Retrieve the maximum number of simultaneous detections the network supports.
 	 * Knowing this is useful for allocating the buffers to store the output detection results.
 	 */
-	inline uint32_t GetMaxDetections() const		{ return DIMS_W(mOutputs[1].dims) * DIMS_H(mOutputs[1].dims) /** DIMS_C(mOutputs[1].dims)*/ * GetNumClasses(); }
+	inline uint32_t GetMaxDetections() const					{ return mMaxDetections; } 
 		
 	/**
 	 * Retrieve the number of object classes supported in the detector
 	 */
-	inline uint32_t GetNumClasses() const			{ return DIMS_C(mOutputs[0].dims); }
+	inline uint32_t GetNumClasses() const						{ return mNumClasses; }
 
 	/**
 	 * Retrieve the description of a particular class.
@@ -263,12 +296,16 @@ public:
 protected:
 
 	// constructor
-	detectNet();
+	detectNet( float meanPixel=0.0f );
 
 	bool allocDetections();
 	bool defaultColors();
 	void defaultClassDesc();
 	bool loadClassDesc( const char* filename );
+
+	bool init( const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_labels, 
+			 float threshold, const char* input, const char* coverage, const char* bboxes, uint32_t maxBatchSize, 
+			 precisionType precision, deviceType device, bool allowGPUFallback );
 	
 	int clusterDetections( Detection* detections, uint32_t width, uint32_t height );
 
@@ -281,10 +318,13 @@ protected:
 
 	std::string mClassPath;
 	uint32_t    mCustomClasses;
+	uint32_t	  mNumClasses;
 
-	Detection* mDetectionSets[2];	// list of detections, NumDetectionSets * GetMaxDetections()
-	uint32_t   mDetectionSet;		// index of next detection set to use
-	static const uint32_t mNumDetectionSets = 16;	
+	Detection* mDetectionSets[2];	// list of detections, mNumDetectionSets * mMaxDetections
+	uint32_t   mDetectionSet;	// index of next detection set to use
+	uint32_t	 mMaxDetections;	// number of raw detections in the grid
+
+	static const uint32_t mNumDetectionSets = 16; // size of detection ringbuffer
 };
 
 

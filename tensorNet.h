@@ -57,13 +57,15 @@ typedef nvinfer1::Dims3 Dims3;
 
 /**
  * Default maximum batch size
+ * @ingroup deepVision 
  */
-#define MAX_BATCH_SIZE_DEFAULT  2
+#define DEFAULT_MAX_BATCH_SIZE  2
 
 
 /**
  * Enumeration for indicating the desired precision that
  * the network should run in, if available in hardware.
+ * @ingroup deepVision
  */
 enum precisionType
 {
@@ -77,17 +79,20 @@ enum precisionType
 
 /**
  * Stringize function that returns precisionType in text.
+ * @ingroup deepVision
  */
 const char* precisionTypeToStr( precisionType type );
 
 /**
  * Parse the precision type from a string.
+ * @ingroup deepVision
  */
 precisionType precisionTypeFromStr( const char* str );
 
 /**
  * Enumeration for indicating the desired device that 
  * the network should run on, if available in hardware.
+ * @ingroup deepVision
  */
 enum deviceType
 {
@@ -100,19 +105,22 @@ enum deviceType
 
 /**
  * Stringize function that returns deviceType in text.
+ * @ingroup deepVision
  */
 const char* deviceTypeToStr( deviceType type );
 
 /**
  * Parse the device type from a string.
+ * @ingroup deepVision
  */
 deviceType deviceTypeFromStr( const char* str );
 
 /**
  * Enumeration indicating the format of the model that's
  * imported in TensorRT (either caffe, ONNX, or UFF).
+ * @ingroup deepVision
  */
-enum modelFormat
+enum modelType
 {
 	MODEL_CUSTOM = 0,	/**< Created directly with TensorRT API */
 	MODEL_CAFFE,		/**< caffemodel */
@@ -121,14 +129,16 @@ enum modelFormat
 };
 
 /**
- * Stringize function that returns modelFormat in text.
+ * Stringize function that returns modelType in text.
+ * @ingroup deepVision
  */
-const char* modelFormatToStr( modelFormat format );
+const char* modelTypeToStr( modelType type );
 
 /**
  * Parse the model format from a string.
+ * @ingroup deepVision
  */
-modelFormat modelFormatFromStr( const char* str );
+modelType modelTypeFromStr( const char* str );
 
 
 /**
@@ -155,7 +165,7 @@ public:
 	 */
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean=NULL,
 				   const char* input_blob="data", const char* output_blob="prob",
-				   uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+				   uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, precisionType precision=TYPE_FASTEST,
 				   deviceType device=DEVICE_GPU, bool allowGPUFallback=true,
 				   nvinfer1::IInt8Calibrator* calibrator=NULL, cudaStream_t stream=NULL );
 
@@ -170,7 +180,25 @@ public:
 	 */
 	bool LoadNetwork( const char* prototxt, const char* model, const char* mean,
 				   const char* input_blob, const std::vector<std::string>& output_blobs,
-				   uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+				   uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, precisionType precision=TYPE_FASTEST,
+				   deviceType device=DEVICE_GPU, bool allowGPUFallback=true,
+				   nvinfer1::IInt8Calibrator* calibrator=NULL, cudaStream_t stream=NULL );
+
+	/**
+	 * Load a new network instance (this variant is used for UFF models)
+	 * @param prototxt File path to the deployable network prototxt
+	 * @param model File path to the caffemodel 
+	 * @param mean File path to the mean value binary proto (NULL if none)
+	 * @param input_blob The name of the input blob data to the network.
+	 * @param input_dims The dimensions of the input blob (used for UFF).
+	 * @param output_blobs List of names of the output blobs from the network.
+	 * @param maxBatchSize The maximum batch size that the network will be optimized for.
+	 */
+	bool LoadNetwork( const char* prototxt, const char* model, const char* mean,
+				   const char* input_blob, const Dims3& input_dims, 
+				   const std::vector<std::string>& output_blobs,
+				   uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+				   precisionType precision=TYPE_FASTEST,
 				   deviceType device=DEVICE_GPU, bool allowGPUFallback=true,
 				   nvinfer1::IInt8Calibrator* calibrator=NULL, cudaStream_t stream=NULL );
 
@@ -252,7 +280,12 @@ public:
 	/**
 	 * Retrieve the format of the network model.
 	 */
-	inline modelFormat GetModelFormat() const			{ return mModelFormat; }
+	inline modelType GetModelType() const				{ return mModelType; }
+
+	/**
+	 * Return true if the model is of the specified format.
+	 */
+	inline bool IsModelType( modelType type ) const		{ return (mModelType == type); }
 
 protected:
 
@@ -272,6 +305,7 @@ protected:
 	 * @param modelStream output model stream
 	 */
 	bool ProfileModel( const std::string& deployFile, const std::string& modelFile,
+					const char* input, const Dims3& inputDims,
 				    const std::vector<std::string>& outputs, uint32_t maxBatchSize, 
 				    precisionType precision, deviceType device, bool allowGPUFallback,
 				    nvinfer1::IInt8Calibrator* calibrator, std::ostream& modelStream);
@@ -329,7 +363,7 @@ protected:
 
 	deviceType    mDevice;
 	precisionType mPrecision;
-	modelFormat   mModelFormat;
+	modelType     mModelType;
 	cudaStream_t  mStream;
 	cudaEvent_t   mEvents[2];
 

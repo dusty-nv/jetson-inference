@@ -215,7 +215,7 @@ imageNet* imageNet::Create( int argc, char** argv )
 		int maxBatchSize = cmdLine.GetInt("batch_size");
 		
 		if( maxBatchSize < 1 )
-			maxBatchSize = 2;
+			maxBatchSize = DEFAULT_MAX_BATCH_SIZE;
 
 		return imageNet::Create(prototxt, modelName, NULL, labels, input, output, maxBatchSize);
 	}

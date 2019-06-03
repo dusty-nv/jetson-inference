@@ -30,6 +30,8 @@
 
 #if NV_TENSORRT_MAJOR >= 5
 #include "NvOnnxParser.h"
+#include "NvUffParser.h"
+#include "NvInferPlugin.h"
 #endif
 
 #include <iostream>
@@ -189,7 +191,7 @@ static inline nvinfer1::DeviceType deviceTypeToTRT( deviceType type )
 }
 #endif
 
-const char* modelFormatToStr( modelFormat format )
+const char* modelTypeToStr( modelType format )
 {
 	switch(format)
 	{
@@ -200,7 +202,7 @@ const char* modelFormatToStr( modelFormat format )
 	}
 }
 
-modelFormat modelFormatFromStr( const char* str )
+modelType modelTypeFromStr( const char* str )
 {
 	if( !str )
 		return MODEL_CUSTOM;
@@ -233,7 +235,7 @@ tensorNet::tensorNet()
 	mEnableDebug    = false;
 	mEnableProfiler = false;
 
-	mModelFormat      = MODEL_CUSTOM;
+	mModelType        = MODEL_CUSTOM;
 	mPrecision 	   = TYPE_FASTEST;
 	mDevice    	   = DEVICE_GPU;
 	mAllowGPUFallback = false;
@@ -374,6 +376,7 @@ precisionType tensorNet::FindFastestPrecision( deviceType device, bool allowInt8
 // Create an optimized GIE network from caffe prototxt and model file
 bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caffe prototxt
 					    const std::string& modelFile,			   // name for model 
+					    const char* input, const Dims3& inputDims,
 					    const std::vector<std::string>& outputs,    // network outputs
 					    unsigned int maxBatchSize,			   // batch size - NB must be at least as large as the batch we want to run with
 					    precisionType precision, 
@@ -387,7 +390,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 	builder->setDebugSync(mEnableDebug);
 	builder->setMinFindIterations(3);	// allow time for TX1 GPU to spin up
-     builder->setAverageFindIterations(2);
+	builder->setAverageFindIterations(2);
 
 	//mEnableFP16 = (mOverride16 == true) ? false : builder->platformHasFastFp16();
 	//printf(LOG_GIE "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
@@ -395,7 +398,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	
 
 	// parse the different types of model formats
-	if( mModelFormat == MODEL_CAFFE )
+	if( mModelType == MODEL_CAFFE )
 	{
 		// parse the caffe model to populate the network, then set the outputs
 		nvcaffeparser1::ICaffeParser* parser = nvcaffeparser1::createCaffeParser();
@@ -436,7 +439,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		//parser->destroy();
 	}
 #if NV_TENSORRT_MAJOR >= 5
-	else if( mModelFormat == MODEL_ONNX )
+	else if( mModelType == MODEL_ONNX )
 	{
 		nvonnxparser::IParser* parser = nvonnxparser::createParser(*network, gLogger);
 
@@ -452,6 +455,46 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 			return false;
 		}
 
+		//parser->destroy();
+	}
+	else if( mModelType == MODEL_UFF )
+	{
+		// create parser instance
+		nvuffparser::IUffParser* parser = nvuffparser::createUffParser();
+		
+		if( !parser )
+		{
+			printf(LOG_TRT "failed to create UFF parser\n");
+			return false;
+		}
+		
+		// register input
+		if( !parser->registerInput(input, inputDims, nvuffparser::UffInputOrder::kNCHW) )
+		{
+			printf(LOG_TRT "failed to register input '%s' for UFF model '%s'\n", input, modelFile.c_str());
+			return false;
+		}
+		
+		// register outputs
+		/*const size_t numOutputs = outputs.size();
+		
+		for( uint32_t n=0; n < numOutputs; n++ )
+		{
+			if( !parser->registerOutput(outputs[n].c_str()) )
+				printf(LOG_TRT "failed to register output '%s' for UFF model '%s'\n", outputs[n].c_str(), modelFile.c_str());
+		}*/
+
+		if( !parser->registerOutput("MarkOutput_0") )
+			printf(LOG_TRT "failed to register output '%s' for UFF model '%s'\n", "MarkOutput_0", modelFile.c_str());
+
+		
+		// parse network
+		if( !parser->parse(modelFile.c_str(), *network, nvinfer1::DataType::kFLOAT) )
+		{
+			printf(LOG_TRT "failed to parse UFF model '%s'\n", modelFile.c_str());
+			return false;
+		}
+		
 		//parser->destroy();
 	}
 #endif
@@ -581,10 +624,25 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 	return LoadNetwork(prototxt_path, model_path, mean_path, input_blob, outputs, maxBatchSize, precision, device, allowGPUFallback );
 }
 
-		  
+
 // LoadNetwork
 bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_, const char* mean_path, 
 					    const char* input_blob, const std::vector<std::string>& output_blobs, 
+					    uint32_t maxBatchSize, precisionType precision,
+				   	    deviceType device, bool allowGPUFallback,
+					    nvinfer1::IInt8Calibrator* calibrator, cudaStream_t stream )
+{
+	return LoadNetwork(prototxt_path_, model_path_, mean_path,
+					   input_blob, Dims3(1,1,1), output_blobs,
+					   maxBatchSize, precision, device,
+					   allowGPUFallback, calibrator, stream);
+}
+
+					   
+// LoadNetwork
+bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_, const char* mean_path, 
+					    const char* input_blob, const Dims3& input_dims,
+					    const std::vector<std::string>& output_blobs, 
 					    uint32_t maxBatchSize, precisionType precision,
 				   	    deviceType device, bool allowGPUFallback,
 					    nvinfer1::IInt8Calibrator* calibrator, cudaStream_t stream )
@@ -593,9 +651,28 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 		return false;
 
 #if NV_TENSORRT_MAJOR >= 4
-	printf(LOG_GIE "TensorRT version %u.%u.%u\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH);
+	printf(LOG_TRT "TensorRT version %u.%u.%u\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH);
 #else
-	printf(LOG_GIE "TensorRT version %u.%u\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+	printf(LOG_TRT "TensorRT version %u.%u\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+#endif
+
+	/*
+	 * load NV inference plugins
+	 */
+#if NV_TENSORRT_MAJOR > 4
+	static bool loadedPlugins = false;
+
+	if( !loadedPlugins )
+	{
+		printf(LOG_TRT "loading NVIDIA plugins...\n");
+
+		loadedPlugins = initLibNvInferPlugins(&gLogger, "");
+
+		if( !loadedPlugins )
+			printf(LOG_TRT "failed to load NVIDIA plugins\n");
+		else
+			printf(LOG_TRT "completed loading NVIDIA plugins.\n");
+	}
 #endif
 
 	/*
@@ -605,19 +682,24 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	const std::string prototxt_path = locateFile(prototxt_path_ != NULL ? prototxt_path_ : "");
 	
 	const std::string model_ext = fileExtension(model_path_);
-	const modelFormat model_fmt = modelFormatFromStr(model_ext.c_str());
+	const modelType   model_fmt = modelTypeFromStr(model_ext.c_str());
 
-	printf(LOG_TRT "detected model format - %s  (extension '.%s')\n", modelFormatToStr(model_fmt), model_ext.c_str());
+	printf(LOG_TRT "detected model format - %s  (extension '.%s')\n", modelTypeToStr(model_fmt), model_ext.c_str());
 
-	if( model_fmt == MODEL_CUSTOM || model_fmt == MODEL_UFF )
+	if( model_fmt == MODEL_CUSTOM )
 	{
-		printf(LOG_TRT "model format '%s' not supported by jetson-inference\n", modelFormatToStr(model_fmt));
+		printf(LOG_TRT "model format '%s' not supported by jetson-inference\n", modelTypeToStr(model_fmt));
 		return false;
 	}
 #if NV_TENSORRT_MAJOR < 5
 	else if( model_fmt == MODEL_ONNX )
 	{
 		printf(LOG_TRT "importing ONNX models is not supported in TensorRT %u.%u (version >= 5.0 required)\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+		return false;
+	}
+	else if( model_fmt == MODEL_UFF )
+	{
+		printf(LOG_TRT "importing UFF models is not supported in TensorRT %u.%u (version >= 5.0 required)\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
 		return false;
 	}
 #endif
@@ -627,7 +709,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 		return false;
 	}
 
-	mModelFormat = model_fmt;
+	mModelType = model_fmt;
 
 
 	/*
@@ -686,9 +768,9 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	{
 		printf(LOG_GIE "cache file not found, profiling network model on device %s\n", deviceTypeToStr(device));
 	
-		if( !ProfileModel(prototxt_path, model_path, output_blobs, maxBatchSize, 
-					   precision, device, allowGPUFallback, calibrator,
-					   gieModelStream) )
+		if( !ProfileModel(prototxt_path, model_path, input_blob, input_dims,
+						 output_blobs, maxBatchSize, precision, device, 
+						 allowGPUFallback, calibrator, gieModelStream) )
 		{
 			printf("device %s, failed to load %s\n", deviceTypeToStr(device), model_path.c_str());
 			return 0;

@@ -85,7 +85,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 include_directories(${PROJECT_INCLUDE_DIR} ${GIE_PATH}/include)
 include_directories(/usr/include/gstreamer-1.0 /usr/lib/aarch64-linux-gnu/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/aarch64-linux-gnu/glib-2.0/include/)
 
-file(GLOB inferenceSources *.cpp *.cu calibration/*.cpp)
+file(GLOB inferenceSources *.cpp *.cu calibration/*.cpp plugins/*.cpp)
 file(GLOB inferenceIncludes *.h calibration/*.h)
 
 cuda_add_library(jetson-inference SHARED ${inferenceSources})

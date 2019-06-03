@@ -70,7 +70,7 @@ public:
 	/**
 	 * Load a new network instance
 	 */
-	static imageNet* Create( NetworkType networkType=GOOGLENET, uint32_t maxBatchSize=2, 
+	static imageNet* Create( NetworkType networkType=GOOGLENET, uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
 						precisionType precision=TYPE_FASTEST,
 				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
@@ -87,7 +87,8 @@ public:
 						const char* mean_binary, const char* class_labels, 
 						const char* input=IMAGENET_DEFAULT_INPUT, 
 						const char* output=IMAGENET_DEFAULT_OUTPUT, 
-						uint32_t maxBatchSize=2, precisionType precision=TYPE_FASTEST,
+						uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+						precisionType precision=TYPE_FASTEST,
 				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
