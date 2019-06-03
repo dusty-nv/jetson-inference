@@ -393,7 +393,7 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 	// parse arguments
 	PyObject* argList     = NULL;
 	const char* network   = "multiped";
-	float threshold       = 0.5f;
+	float threshold       = DETECTNET_DEFAULT_THRESHOLD;
 
 	static char* kwlist[] = {"network", "argv", "threshold", NULL};
 

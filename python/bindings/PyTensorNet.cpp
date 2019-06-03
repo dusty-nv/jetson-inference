@@ -89,8 +89,8 @@ PyObject* PyTensorNet_EnableProfiler( PyTensorNet_Object* self, PyObject* args )
 }
 
 
-// GetModelFormat
-static PyObject* PyTensorNet_GetModelFormat( PyTensorNet_Object* self )
+// GetModelType
+static PyObject* PyTensorNet_GetModelType( PyTensorNet_Object* self )
 {
 	if( !self || !self->net )
 	{
@@ -98,7 +98,7 @@ static PyObject* PyTensorNet_GetModelFormat( PyTensorNet_Object* self )
 		return NULL;
 	}
 	
-    return Py_BuildValue("s", modelFormatToStr(self->net->GetModelFormat()));
+    return Py_BuildValue("s", modelTypeToStr(self->net->GetModelType()));
 }
 
 
@@ -138,7 +138,7 @@ static PyMethodDef pyTensorNet_Methods[] =
 {
 	{ "EnableDebug", (PyCFunction)PyTensorNet_EnableDebug, METH_NOARGS, "Enable TensorRT debug messages and device synchronization"},
 	{ "EnableProfiler", (PyCFunction)PyTensorNet_EnableProfiler, METH_NOARGS, "Enable the profiling of network layer execution times"},
-	{ "GetModelFormat", (PyCFunction)PyTensorNet_GetModelFormat, METH_NOARGS, "Return the type of model format (caffe, ONNX, UFF, or custom)"},
+	{ "GetModelType", (PyCFunction)PyTensorNet_GetModelType, METH_NOARGS, "Return the type of model format (caffe, ONNX, UFF, or custom)"},
 	{ "GetModelPath", (PyCFunction)PyTensorNet_GetModelPath, METH_NOARGS, "Return the path to the network model file on disk"},
 	{ "GetPrototxtPath", (PyCFunction)PyTensorNet_GetPrototxtPath, METH_NOARGS, "Return the path to the network prototxt file on disk"},
 	{NULL}  /* Sentinel */
