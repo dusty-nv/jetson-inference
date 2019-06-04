@@ -69,7 +69,6 @@ tar -xzvf facenet-120.tar.gz -C ../data/networks
 
 
 # COCO (DetectNet)
-
 wget --no-check-certificate 'https://nvidia.box.com/shared/static/xi71hlsht5b0y66loeg73rxfa73q561s.gz' -O DetectNet-COCO-Airplane.tar.gz
 tar -xzvf DetectNet-COCO-Airplane.tar.gz -C ../data/networks
 
@@ -81,6 +80,11 @@ tar -xzvf DetectNet-COCO-Chair.tar.gz -C ../data/networks
 
 wget --no-check-certificate 'https://nvidia.box.com/shared/static/3qdg3z5qvl8iwjlds6bw7bwi2laloytu.gz' -O DetectNet-COCO-Dog.tar.gz
 tar -xzvf DetectNet-COCO-Dog.tar.gz -C ../data/networks
+
+
+# SSD (UFF)
+wget --no-check-certificate 'https://nvidia.box.com/shared/static/zp9cmlq4i5ho3sh6gabt7dkhzuxd8s55.gz' -O SSD.tar.gz
+tar -xzvf SSD.tar.gz -C ../data/networks
 
 
 # Segmentation Nets (uncomment to download)
