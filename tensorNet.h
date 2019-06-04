@@ -349,7 +349,7 @@ protected:
 	/**
 	 * When profiling is enabled, end a profiling section and report timing statistics.
 	 */
-	inline void PROFILER_REPORT()		{ if(mEnableProfiler) { printf(LOG_GIE "layer network time - %f ms\n", gProfiler.timingAccumulator); gProfiler.timingAccumulator = 0.0f; printf(LOG_GIE "note -- when processing a single image, run 'sudo jetson_clocks' beforehand\n               to disable DVFS for more accurate profiling & timing measurements\n"); } }
+	inline void PROFILER_REPORT()		{ if(mEnableProfiler) { printf(LOG_GIE "layer network time - %f ms\n", gProfiler.timingAccumulator); gProfiler.timingAccumulator = 0.0f; printf(LOG_GIE "note -- when processing a single image, run 'sudo jetson_clocks' before\n               to disable DVFS for more accurate profiling & timing measurements\n"); } }
 
 protected:
 

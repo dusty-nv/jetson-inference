@@ -65,6 +65,7 @@ public:
 	struct Detection
 	{
 		// Object Info
+		uint32_t Instance;	/**< Index of this unique object instance */
 		uint32_t ClassID;	/**< Class index of the detected object. */
 		float Confidence;	/**< Confidence value of the detected object. */
 
@@ -102,7 +103,7 @@ public:
 		inline bool Expand( const Detection& det )      		{ if(!Overlaps(det)) return false; Left = fminf(det.Left, Left); Top = fminf(det.Top, Top); Right = fmaxf(det.Right, Right); Bottom = fmaxf(det.Bottom, Bottom); return true; }
 		
 		/**< Reset all member variables to zero */
-		inline void Reset()								{ ClassID = 0; Confidence = 0; Left = 0; Right = 0; Top = 0; Bottom = 0; } 								
+		inline void Reset()								{ Instance = 0; ClassID = 0; Confidence = 0; Left = 0; Right = 0; Top = 0; Bottom = 0; } 								
 		
 		/**< Default constructor */
 		inline Detection()								{ Reset(); }

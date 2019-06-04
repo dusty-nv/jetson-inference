@@ -284,7 +284,7 @@ bool detectNet::defaultColors()
 			mClassColors[0][n*4+0] = 0.0f;	// r
 			mClassColors[0][n*4+1] = 255.0f;	// g
 			mClassColors[0][n*4+2] = 175.0f;	// b
-			mClassColors[0][n*4+3] = 100.0f;	// a
+			mClassColors[0][n*4+3] = 75.0f;	// a
 		}
 	}
 	
@@ -502,6 +502,16 @@ detectNet* detectNet::Create( int argc, char** argv )
 			modelName = "pednet";
 	}
 
+	float threshold = cmdLine.GetFloat("threshold");
+	
+	if( threshold == 0.0f )
+		threshold = DETECTNET_DEFAULT_THRESHOLD;
+	
+	int maxBatchSize = cmdLine.GetInt("batch_size");
+	
+	if( maxBatchSize < 1 )
+		maxBatchSize = DEFAULT_MAX_BATCH_SIZE;
+
 	//if( argc > 3 )
 	//	modelName = argv[3];	
 
@@ -535,21 +545,12 @@ detectNet* detectNet::Create( int argc, char** argv )
 		if( !out_bbox ) out_bbox = DETECTNET_DEFAULT_BBOX;
 		
 		float meanPixel = cmdLine.GetFloat("mean_pixel");
-		float threshold = cmdLine.GetFloat("threshold");
-		
-		if( threshold == 0.0f )
-			threshold = DETECTNET_DEFAULT_THRESHOLD;
-		
-		int maxBatchSize = cmdLine.GetInt("batch_size");
-		
-		if( maxBatchSize < 1 )
-			maxBatchSize = DEFAULT_MAX_BATCH_SIZE;
 
 		return detectNet::Create(prototxt, modelName, meanPixel, class_labels, threshold, input, out_cvg, out_bbox, maxBatchSize);
 	}
 
 	// create segnet from pretrained model
-	return detectNet::Create(type);
+	return detectNet::Create(type, threshold, maxBatchSize);
 }
 	
 
@@ -639,25 +640,49 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 	
 	PROFILER_REPORT();
 
+	// post-processing / clustering
+	int numDetections = 0;
+
 	if( IsModelType(MODEL_UFF) )
-	{
-		// TODO
-		return -1;
+	{		
+		const int rawDetections = *(int*)mOutputs[OUTPUT_NUM].CPU;
+		const int rawParameters = DIMS_W(mOutputs[OUTPUT_UFF].dims);
+
+		printf(LOG_TRT "detectNet::Detect() -- %i unfiltered detections\n", rawDetections);
+
+		// filter the raw detections by thresholding the confidence
+		for( int n=0; n < rawDetections; n++ )
+		{
+			float* object_data = mOutputs[OUTPUT_UFF].CPU + n * rawParameters;
+
+			if( object_data[2] < mCoverageThreshold )
+				continue;
+
+			detections[numDetections].Instance   = numDetections; //(uint32_t)object_data[0];
+			detections[numDetections].ClassID    = (uint32_t)object_data[1];
+			detections[numDetections].Confidence = object_data[2];
+			detections[numDetections].Left       = object_data[3] * width;
+			detections[numDetections].Top        = object_data[4] * height;
+			detections[numDetections].Right      = object_data[5] * width;
+			detections[numDetections].Bottom	  = object_data[6] * height;
+
+			numDetections++;
+		}
 	}
 	else
 	{
 		// cluster detections
-		const int numDetections = clusterDetections(detections, width, height);
-
-		// render the overlay
-		if( overlay && numDetections > 0 )
-		{
-			if( !Overlay(rgba, rgba, width, height, detections, numDetections) )
-				printf(LOG_TRT "detectNet::Detect() -- failed to render overlay\n");
-		}
-		
-		return numDetections;
+		numDetections = clusterDetections(detections, width, height);
 	}
+
+	// render the overlay
+	if( overlay && numDetections > 0 )
+	{
+		if( !Overlay(rgba, rgba, width, height, detections, numDetections) )
+			printf(LOG_TRT "detectNet::Detect() -- failed to render overlay\n");
+	}
+	
+	return numDetections;
 }
 
 
@@ -727,6 +752,7 @@ int detectNet::clusterDetections( Detection* detections, uint32_t width, uint32_
 					// create new entry if the detection wasn't merged with another detection
 					if( !detectionMerged )
 					{
+						detections[numDetections].Instance   = numDetections;
 						detections[numDetections].ClassID    = z;
 						detections[numDetections].Confidence = coverage;
 					
