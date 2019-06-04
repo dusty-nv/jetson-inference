@@ -23,7 +23,7 @@
 #include "detectNet.h"
 
 #include "cudaMappedMemory.h"
-#include "cudaUtility.h"
+#include "cudaFont.h"
 
 #include "commandLine.h"
 #include "filesystem.h"
@@ -573,7 +573,7 @@ cudaError_t cudaPreImageNetNorm( float4* input, size_t inputWidth, size_t inputH
 
 
 // Detect
-int detectNet::Detect( float* input, uint32_t width, uint32_t height, Detection** detections, bool overlay )
+int detectNet::Detect( float* input, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay )
 {
 	Detection* det = mDetectionSets[0] + mDetectionSet * GetMaxDetections();
 
@@ -590,7 +590,7 @@ int detectNet::Detect( float* input, uint32_t width, uint32_t height, Detection*
 
 	
 // Detect
-int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* detections, bool overlay )
+int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* detections, uint32_t overlay )
 {
 	if( !rgba || width == 0 || height == 0 || !detections )
 	{
@@ -648,7 +648,9 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 		const int rawDetections = *(int*)mOutputs[OUTPUT_NUM].CPU;
 		const int rawParameters = DIMS_W(mOutputs[OUTPUT_UFF].dims);
 
+#ifdef DEBUG_CLUSTERING	
 		printf(LOG_TRT "detectNet::Detect() -- %i unfiltered detections\n", rawDetections);
+#endif
 
 		// filter the raw detections by thresholding the confidence
 		for( int n=0; n < rawDetections; n++ )
@@ -666,6 +668,12 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 			detections[numDetections].Right      = object_data[5] * width;
 			detections[numDetections].Bottom	  = object_data[6] * height;
 
+			if( detections[numDetections].ClassID >= mNumClasses )
+			{
+				printf(LOG_TRT "detectNet::Detect() -- detected object has invalid classID (%u)\n", detections[numDetections].ClassID);
+				detections[numDetections].ClassID = 0;
+			}
+
 			numDetections++;
 		}
 	}
@@ -676,9 +684,9 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 	}
 
 	// render the overlay
-	if( overlay && numDetections > 0 )
+	if( overlay != 0 && numDetections > 0 )
 	{
-		if( !Overlay(rgba, rgba, width, height, detections, numDetections) )
+		if( !Overlay(rgba, rgba, width, height, detections, numDetections, overlay) )
 			printf(LOG_TRT "detectNet::Detect() -- failed to render overlay\n");
 	}
 	
@@ -776,11 +784,50 @@ int detectNet::clusterDetections( Detection* detections, uint32_t width, uint32_
 cudaError_t cudaDetectionOverlay( float4* input, float4* output, uint32_t width, uint32_t height, detectNet::Detection* detections, int numDetections, float4* colors );
 
 // Overlay
-bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections )
+bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections, uint32_t flags )
 {
-	if( CUDA_FAILED(cudaDetectionOverlay((float4*)input, (float4*)output, width, height, detections, numDetections, (float4*)mClassColors[1])) )
+	if( flags == 0 )
+	{
+		printf(LOG_TRT "detectNet -- Overlay() was called with OVERLAY_NONE, returning false\n");
 		return false;
+	}
 
+	// bounding box overlay
+	if( flags & OVERLAY_BOX )
+	{
+		if( CUDA_FAILED(cudaDetectionOverlay((float4*)input, (float4*)output, width, height, detections, numDetections, (float4*)mClassColors[1])) )
+			return false;
+	}
+
+	// class label overlay
+	if( flags & OVERLAY_LABEL )
+	{
+		static cudaFont* font = NULL;
+
+		// make sure the font object is created
+		if( !font )
+		{
+			font = cudaFont::Create();
+	
+			if( !font )
+			{
+				printf(LOG_TRT "detectNet -- Overlay() was called with OVERLAY_FONT, but failed to create cudaFont()\n");
+				return false;
+			}
+		}
+
+		// draw each object's description
+		std::vector< std::pair< std::string, int2 > > labels;
+
+		for( uint32_t n=0; n < numDetections; n++ )
+		{
+			labels.push_back( std::pair<std::string, int2>( GetClassDesc(detections[n].ClassID),
+												   make_int2(detections[n].Left, detections[n].Top) ) );
+		}
+
+		font->RenderOverlay((float4*)input, (float4*)input, width, height, labels, make_float4(255,255,255,255));
+	}
+	
 	return true;
 }
 

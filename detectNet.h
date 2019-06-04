@@ -109,7 +109,16 @@ public:
 		inline Detection()								{ Reset(); }
 	};
 
-		
+	/**
+	 * Overlay flags (can be OR'd together).
+	 */
+	enum OverlayFlags
+	{
+		OVERLAY_NONE  = 0,			/**< No overlay. */
+		OVERLAY_BOX   = (1 << 0),	/**< Overlay the object bounding boxes */
+		OVERLAY_LABEL = (1 << 1)		/**< Overlay the class description labels */
+	};
+	
 	/**
 	 * Network choice enumeration.
 	 */
@@ -225,10 +234,10 @@ public:
 	 * @param[in]  width width of the input image in pixels.
 	 * @param[in]  height height of the input image in pixels.
 	 * @param[out] detections pointer that will be set to array of detection results (residing in shared CPU/GPU memory)
-	 * @param[in]  overlay if true, overlay the bounding boxes of the detected objects over the image (@see Overlay())
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
 	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
 	 */
-	int Detect( float* input, uint32_t width, uint32_t height, Detection** detections, bool overlay=true );
+	int Detect( float* input, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay=OVERLAY_BOX );
 
 	/**
 	 * Detect object locations in an RGBA image, into an array of the results allocated by the user.
@@ -237,10 +246,10 @@ public:
 	 * @param[in]  height height of the input image in pixels.
 	 * @param[out] detections pointer to user-allocated array that will be filled with the detection results.
 	 *                        @see GetMaxDetections() for the number of detection results that should be allocated in this buffer.
-	 * @param[in]  overlay if true, overlay the bounding boxes of the detected objects over the image (@see Overlay())
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
 	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
 	 */
-	int Detect( float* input, uint32_t width, uint32_t height, Detection* detections, bool overlay=true );
+	int Detect( float* input, uint32_t width, uint32_t height, Detection* detections, uint32_t overlay=OVERLAY_BOX );
 	
 	/**
 	 * Draw the detected bounding boxes overlayed on an RGBA image.
@@ -249,7 +258,7 @@ public:
 	 * @param output float4 RGBA output image in CUDA device memory.
 	 * @param detections Array of detections allocated in CUDA device memory.
 	 */
-	bool Overlay( float* input, float* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections );
+	bool Overlay( float* input, float* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections, uint32_t flags=OVERLAY_BOX );
 	
 	/**
 	 * Retrieve the minimum threshold for detection.

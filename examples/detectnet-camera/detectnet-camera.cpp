@@ -139,27 +139,25 @@ int main( int argc, char** argv )
 		
 		if( numDetections > 0 )
 		{
-			printf("%i bounding boxes detected\n", numDetections);
+			printf("%i objects detected\n", numDetections);
 		
 			for( int n=0; n < numDetections; n++ )
 			{
 				printf("detected obj %i  class #%u (%s)  confidence=%f\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence);
 				printf("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
 			}
-			
-			if( display != NULL )
-			{
-				char str[256];
-				sprintf(str, "TensorRT %i.%i.%i | %s | %04.1f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), display->GetFPS());
-				display->SetTitle(str);	
-			}	
 		}	
-
 
 		// update display
 		if( display != NULL )
 		{
+			// render the image
 			display->RenderOnce((float*)imgRGBA, camera->GetWidth(), camera->GetHeight());
+
+			// update the status bar
+			char str[256];
+			sprintf(str, "TensorRT %i.%i.%i | %s | %04.1f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), display->GetFPS());
+			display->SetTitle(str);
 
 			// check if the user quit
 			if( display->IsClosed() )
