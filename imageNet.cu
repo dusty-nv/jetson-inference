@@ -155,6 +155,8 @@ cudaError_t cudaPreImageNetNorm( float4* input, size_t inputWidth, size_t inputH
 
 	const float multiplier = (range.y - range.x) / 255.0f;
 	
+	//printf("cudaPreImageNetNorm([%f, %f])  multiplier=%f\n", range.x, range.y, multiplier);
+	
 	// launch kernel
 	const dim3 blockDim(8, 8);
 	const dim3 gridDim(iDivUp(outputWidth,blockDim.x), iDivUp(outputHeight,blockDim.y));
