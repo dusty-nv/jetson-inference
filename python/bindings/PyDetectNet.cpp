@@ -157,6 +157,34 @@ static PyObject* PyDetection_Contains( PyDetection_Object* self, PyObject *args,
 }
 
 
+// GetInstance
+static PyObject* PyDetection_GetInstance( PyDetection_Object* self, void* closure )
+{
+	return PYLONG_FROM_UNSIGNED_LONG(self->det.Instance);
+}
+
+// SetInstance
+static int PyDetection_SetInstance( PyDetection_Object* self, PyObject* value, void* closure )
+{
+	if( !value )
+	{
+		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.Instance attribute");
+		return -1;
+	}
+
+	int arg = PYLONG_AS_LONG(value);
+
+	if( PyErr_Occurred() != NULL )
+		return -1;
+
+	if( arg < 0 )
+		arg = 0;
+
+	self->det.Instance = arg;
+	return 0;
+}
+
+
 // GetClassID
 static PyObject* PyDetection_GetClassID( PyDetection_Object* self, void* closure )
 {
@@ -352,6 +380,7 @@ static PyObject* PyDetection_GetCenter( PyDetection_Object* self, void* closure 
 
 static PyGetSetDef pyDetection_GetSet[] = 
 {
+	{ "Instance", (getter)PyDetection_GetInstance, (setter)PyDetection_SetInstance, "Instance index of the detected object", NULL},
 	{ "ClassID", (getter)PyDetection_GetClassID, (setter)PyDetection_SetClassID, "Class index of the detected object", NULL},
 	{ "Confidence", (getter)PyDetection_GetConfidence, (setter)PyDetection_SetConfidence, "Confidence value of the detected object", NULL},
 	{ "Left", (getter)PyDetection_GetLeft, (setter)PyDetection_SetLeft, "Left bounding box coordinate", NULL},
