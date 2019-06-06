@@ -144,20 +144,17 @@ int main( int argc, char** argv )
 				font->RenderOverlay((float4*)imgRGBA, (float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
 								    str, 0, 0, make_float4(255.0f, 255.0f, 255.0f, 255.0f));
 			}
-			
-			if( display != NULL )
-			{
-				char str[256];
-				sprintf(str, "TensorRT %i.%i.%i | %s | %s | %04.1f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), precisionTypeToStr(net->GetPrecision()), display->GetFPS());
-				display->SetTitle(str);	
-			}	
 		}	
-
 
 		// update display
 		if( display != NULL )
 		{
 			display->RenderOnce((float*)imgRGBA, camera->GetWidth(), camera->GetHeight());
+
+			// update status bar
+			char str[256];
+			sprintf(str, "TensorRT %i.%i.%i | %s | %s | %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), precisionTypeToStr(net->GetPrecision()), display->GetFPS());
+			display->SetTitle(str);	
 
 			// check if the user quit
 			if( display->IsClosed() )
