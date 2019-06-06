@@ -313,8 +313,8 @@ protected:
 	/**
 	 * Prefix used for tagging printed log output
 	 */
-	#define LOG_GIE "[TRT]  "
-	#define LOG_TRT LOG_GIE
+	#define LOG_TRT "[TRT]   "
+	#define LOG_GIE LOG_TRT
 
 	/**
 	 * Logger class for GIE info/warning/errors
