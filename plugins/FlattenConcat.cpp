@@ -256,7 +256,7 @@ class FlattenConcatPluginCreator : public IPluginCreator
 public:
     FlattenConcatPluginCreator()
     {
-	   printf("FlattenConcatPluginCreator('%s')\n", FLATTENCONCAT_PLUGIN_NAME);
+	   //printf("FlattenConcatPluginCreator('%s')\n", FLATTENCONCAT_PLUGIN_NAME);
 
         mFC.nbFields = 0;
         mFC.fields = 0;
@@ -264,7 +264,7 @@ public:
 
     ~FlattenConcatPluginCreator() {}
 
-    const char* getPluginName() const override { printf("FlattenConcatPluginCreator::GetPluginName('%s')\n", FLATTENCONCAT_PLUGIN_NAME); return FLATTENCONCAT_PLUGIN_NAME; }
+    const char* getPluginName() const override { /*printf("FlattenConcatPluginCreator::GetPluginName('%s')\n", FLATTENCONCAT_PLUGIN_NAME);*/ return FLATTENCONCAT_PLUGIN_NAME; }
 
     const char* getPluginVersion() const override { return FLATTENCONCAT_PLUGIN_VERSION; }
 
