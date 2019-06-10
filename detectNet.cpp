@@ -825,7 +825,7 @@ bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t h
 												   make_int2(detections[n].Left, detections[n].Top) ) );
 		}
 
-		font->RenderOverlay((float4*)input, (float4*)input, width, height, labels, make_float4(255,255,255,255));
+		font->OverlayText((float4*)input, width, height, labels, make_float4(255,255,255,255));
 	}
 	
 	return true;

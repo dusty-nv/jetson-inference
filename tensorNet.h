@@ -59,7 +59,7 @@ typedef nvinfer1::Dims3 Dims3;
  * Default maximum batch size
  * @ingroup deepVision 
  */
-#define DEFAULT_MAX_BATCH_SIZE  2
+#define DEFAULT_MAX_BATCH_SIZE  1
 
 
 /**

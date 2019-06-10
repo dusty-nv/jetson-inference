@@ -141,8 +141,8 @@ int main( int argc, char** argv )
 				char str[256];
 				sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
 	
-				font->RenderOverlay((float4*)imgRGBA, (float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
-								    str, 0, 0, make_float4(255.0f, 255.0f, 255.0f, 255.0f));
+				font->OverlayText((float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
+						        str, 5, 5, make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
 			}
 		}	
 

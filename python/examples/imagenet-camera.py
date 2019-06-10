@@ -57,7 +57,7 @@ while display.IsOpen():
 	class_desc = net.GetClassDesc(class_idx)
 
 	# overlay the result on the image	
-	font.Overlay(img, width, height, "{:f}% {:s}".format(confidence * 100, class_desc), 10, 10, font.Green)
+	font.OverlayText(img, width, height, "{:05.2f}% {:s}".format(confidence * 100, class_desc), 5, 5, font.White, font.Gray40)
 	
 	# render the image
 	display.RenderOnce(img, width, height)
