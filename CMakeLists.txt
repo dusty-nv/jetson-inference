@@ -27,6 +27,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")	# -std=gnu++11
 set(BUILD_DEPS "YES" CACHE BOOL "If YES, will install dependencies into sandbox.  Automatically reset to NO after dependencies are installed.")
 
 
+# model downloader tool
+file(COPY "tools/download-models.sh" DESTINATION ${PROJECT_BINARY_DIR})
+file(COPY "tools/download-models.rc" DESTINATION ${PROJECT_BINARY_DIR})
+
+
 # if this is the first time running cmake, perform pre-build dependency install script (or if the user manually triggers re-building the dependencies)
 if( ${BUILD_DEPS} )
 	message("-- Launching pre-build dependency installer script...")
