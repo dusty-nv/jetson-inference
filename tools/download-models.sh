@@ -34,8 +34,9 @@ function exit_message()
 {
 	echo " "
 	echo "$LOG to run this tool again, use the following commands:"
-	echo "             $ cd <jetson-inference>/tools"
-	echo "             $ ./download-models.sh"
+	echo " "
+	echo "    $ cd <jetson-inference>/tools"
+	echo "    $ ./download-models.sh"
 	echo " "
 
 	exit $1
@@ -140,7 +141,7 @@ function attempt_download_archive()
 		return $wget_status
 	fi
 
-	tar -xzvf $filename -C $OUTPUT_DIR
+	tar -xzf $filename -C $OUTPUT_DIR
 
 	local tar_status=$?
 
@@ -479,14 +480,14 @@ while true; do
 							  13 "   > DetectNet-COCO-Bottle      (29 MB)" off \
 							  14 "   > DetectNet-COCO-Chair       (29 MB)" off \
 							  15 "   > DetectNet-COCO-Airplane    (29 MB)" off \
-							  16 "\ZbSemantic Segmentation - all     (477 MB)\Zn" off \
+							  16 "\ZbSemantic Segmentation - all     (1.4 GB)\Zn" off \
 							  17 "   > FCN-Alexnet-Cityscapes-SD  (235 MB)" off \
 							  18 "   > FCN-Alexnet-Cityscapes-HD  (235 MB)" off \
 							  19 "   > FCN-Alexnet-Aerial-FPV     (7 MB)" on \
-							  20 "   > FCN-Alexnet-Pascal-VOC     (?? MB)" off \
-							  21 "   > FCN-Alexnet-Synthia-CVPR   (?? MB)" off \
-							  22 "   > FCN-Alexnet-Synthia-Summer-SD (?? MB)" off \
-							  23 "   > FCN-Alexnet-Synthia-Summer-HD (?? MB)" off \
+							  20 "   > FCN-Alexnet-Pascal-VOC     (235 MB)" off \
+							  21 "   > FCN-Alexnet-Synthia-CVPR   (235 MB)" off \
+							  22 "   > FCN-Alexnet-Synthia-Summer-SD (235 MB)" off \
+							  23 "   > FCN-Alexnet-Synthia-Summer-HD (235 MB)" off \
 							  24 "\ZbImage Processing - all models   (138 MB)\Zn" off \
 							  25 "   > Deep-Homography-COCO       (137 MB)" off \
 							  26 "   > Super-Resolution-BSD500    (1 MB)" off )
