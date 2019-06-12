@@ -340,19 +340,19 @@ public:
 	 */
 	inline void PrintProfilerTimes()
 	{
-		printf(LOG_TRT "---------------------------------------------\n");
+		printf(LOG_TRT "----------------------------------------------\n");
 		printf(LOG_TRT "Timing Report %s\n", GetModelPath());
-		printf(LOG_TRT "---------------------------------------------\n");
+		printf(LOG_TRT "----------------------------------------------\n");
 
 		for( uint32_t n=0; n <= PROFILER_TOTAL; n++ )
 		{
 			const profilerQuery query = (profilerQuery)n;
 
 			if( PROFILER_QUERY(query) )
-				printf(LOG_TRT "%-12s  CPU %fms  CUDA %fms\n", profilerQueryToStr(query), mProfilerTimes[n].x, mProfilerTimes[n].y);
+				printf(LOG_TRT "%-12s  CPU %8.5fms  CUDA %8.5fms\n", profilerQueryToStr(query), mProfilerTimes[n].x, mProfilerTimes[n].y);
 		}
 
-		printf(LOG_TRT "---------------------------------------------\n");
+		printf(LOG_TRT "----------------------------------------------\n");
 	}
 
 protected:

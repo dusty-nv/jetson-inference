@@ -339,11 +339,23 @@ bool imageNet::Process()
 
 	if( !stream )
 	{
+	#if 1
 		if( !mContext->execute(1, bindBuffers) )
 		{
 			printf(LOG_TRT "imageNet::Process() -- failed to execute TensorRT network\n");
 			return false;
 		}
+	#else
+		const bool result = mContext->enqueue(1, bindBuffers, NULL, NULL);
+
+		CUDA(cudaDeviceSynchronize());
+
+		if( !result )
+		{
+			printf(LOG_TRT "imageNet::Process() -- failed to enqueue TensorRT network\n");
+			return false;
+		}
+	#endif	
 	}
 	else
 	{

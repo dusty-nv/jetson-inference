@@ -21,17 +21,16 @@
  */
 
 #include "gstCamera.h"
-
 #include "glDisplay.h"
-#include "glTexture.h"
+
+#include "cudaFont.h"
+#include "imageNet.h"
+
+#include "Thread.h"
 
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
-
-#include "cudaNormalize.h"
-#include "cudaFont.h"
-#include "imageNet.h"
 
 
 #define DEFAULT_CAMERA -1		// -1 for onboard CSI camera, or change to index of /dev/video V4L2 camera (>=0)	
@@ -53,6 +52,8 @@ void sig_handler(int signo)
 
 int main( int argc, char** argv )
 {
+	//Thread::SetAffinity(0);
+
 	printf("imagenet-camera\n  args (%i):  ", argc);
 
 	for( int i=0; i < argc; i++ )
@@ -155,7 +156,7 @@ int main( int argc, char** argv )
 
 			// update status bar
 			char str[256];
-			sprintf(str, "TensorRT %i.%i.%i | %s | %s | %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), precisionTypeToStr(net->GetPrecision()), display->GetFPS());
+			sprintf(str, "TensorRT %i.%i.%i | %s | %s | Network %.0f FPS | Display %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), precisionTypeToStr(net->GetPrecision()), 1000.0f / net->GetProfilerTime(PROFILER_NETWORK, PROFILER_CUDA), display->GetFPS());
 			display->SetTitle(str);	
 
 			// check if the user quit
