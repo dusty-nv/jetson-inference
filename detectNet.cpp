@@ -419,11 +419,11 @@ detectNet* detectNet::Create( NetworkType networkType, float threshold, uint32_t
 		return Create("networks/DetectNet-COCO-Dog/deploy.prototxt", "networks/DetectNet-COCO-Dog/snapshot_iter_38600.caffemodel", 0.0f, "networks/DetectNet-COCO-Dog/class_labels.txt", threshold, DETECTNET_DEFAULT_INPUT, DETECTNET_DEFAULT_COVERAGE, DETECTNET_DEFAULT_BBOX, maxBatchSize, precision, device, allowGPUFallback );
 #if NV_TENSORRT_MAJOR > 4
 	else if( networkType == SSD_INCEPTION_V2 )
-		return Create("networks/SSD/ssd_inception_v2_coco.uff", "networks/SSD/ssd_coco_labels.txt", threshold, "Input", Dims3(3,300,300), "NMS", "NMS_1", maxBatchSize, precision, device, allowGPUFallback);
+		return Create("networks/SSD-Inception-v2/ssd_inception_v2_coco.uff", "networks/SSD/ssd_coco_labels.txt", threshold, "Input", Dims3(3,300,300), "NMS", "NMS_1", maxBatchSize, precision, device, allowGPUFallback);
 	else if( networkType == SSD_MOBILENET_V1 )
-		return Create("networks/SSD/ssd_mobilenet_v1_coco.uff", "networks/SSD/ssd_coco_labels.txt", threshold, "Input", Dims3(3,300,300), "Postprocessor", "Postprocessor_1", maxBatchSize, precision, device, allowGPUFallback);
+		return Create("networks/SSD-Mobilenet-v1/ssd_mobilenet_v1_coco.uff", "networks/SSD/ssd_coco_labels.txt", threshold, "Input", Dims3(3,300,300), "Postprocessor", "Postprocessor_1", maxBatchSize, precision, device, allowGPUFallback);
 	else if( networkType == SSD_MOBILENET_V2 )
-		return Create("networks/SSD/ssd_mobilenet_v2_coco.uff", "networks/SSD/ssd_coco_labels.txt", threshold, "Input", Dims3(3,300,300), "NMS", "NMS_1", maxBatchSize, precision, device, allowGPUFallback);
+		return Create("networks/SSD-Mobilenet-v2/ssd_mobilenet_v2_coco.uff", "networks/SSD/ssd_coco_labels.txt", threshold, "Input", Dims3(3,300,300), "NMS", "NMS_1", maxBatchSize, precision, device, allowGPUFallback);
 #endif
 	else
 		return NULL;
@@ -598,6 +598,8 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 		return -1;
 	}
 
+	PROFILER_BEGIN(PROFILER_PREPROCESS);
+
 	// downsample and convert to band-sequential BGR
 	if( IsModelType(MODEL_UFF) )
 	{
@@ -629,6 +631,9 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 		}
 	}
 	
+	PROFILER_END(PROFILER_PREPROCESS);
+	PROFILER_BEGIN(PROFILER_NETWORK);
+
 	// process with TensorRT
 	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA, mOutputs[1].CUDA };
 	
@@ -638,7 +643,8 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 		return -1;
 	}
 	
-	PROFILER_REPORT();
+	PROFILER_END(PROFILER_NETWORK);
+	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
 	// post-processing / clustering
 	int numDetections = 0;
@@ -682,6 +688,7 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 		// cluster detections
 		numDetections = clusterDetections(detections, width, height);
 	}
+
 
 	// render the overlay
 	if( overlay != 0 && numDetections > 0 )
@@ -786,6 +793,8 @@ cudaError_t cudaDetectionOverlay( float4* input, float4* output, uint32_t width,
 // Overlay
 bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections, uint32_t flags )
 {
+	PROFILER_BEGIN(PROFILER_VISUALIZE);
+
 	if( flags == 0 )
 	{
 		printf(LOG_TRT "detectNet -- Overlay() was called with OVERLAY_NONE, returning false\n");
@@ -828,6 +837,7 @@ bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t h
 		font->OverlayText((float4*)input, width, height, labels, make_float4(255,255,255,255));
 	}
 	
+	PROFILER_END(PROFILER_VISUALIZE);
 	return true;
 }
 

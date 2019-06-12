@@ -242,7 +242,7 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	const int s_h = DIMS_H(net->mOutputs[0].dims);
 	const int s_c = DIMS_C(net->mOutputs[0].dims);
 		
-	printf(LOG_GIE "segNet outputs -- s_w %i  s_h %i  s_c %i\n", s_w, s_h, s_c);
+	printf(LOG_TRT "segNet outputs -- s_w %i  s_h %i  s_c %i\n", s_w, s_h, s_c);
 
 	if( !cudaAllocMapped((void**)&net->mClassMap[0], (void**)&net->mClassMap[1], s_w * s_h * sizeof(uint8_t)) )
 		return NULL;
@@ -429,6 +429,8 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 		return false;
 	}
 
+	PROFILER_BEGIN(PROFILER_PREPROCESS);
+
 	// downsample and convert to band-sequential BGR
 	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
 	{
@@ -436,23 +438,26 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 		return false;
 	}
 
+	PROFILER_END(PROFILER_PREPROCESS);
+	PROFILER_BEGIN(PROFILER_NETWORK);
 	
 	// process with TensorRT
 	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
 	
 	if( !mContext->execute(1, inferenceBuffers) )
 	{
-		printf(LOG_GIE "segNet::Process() -- failed to execute TensorRT context\n");
+		printf(LOG_TRT "segNet::Process() -- failed to execute TensorRT context\n");
 		return false;
 	}
 
-	PROFILER_REPORT();	// report total time, when profiling enabled
-
+	PROFILER_END(PROFILER_NETWORK);
+	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
 	// generate argmax classification map
 	if( !classify(ignore_class) )
 		return false;
 
+	PROFILER_END(PROFILER_POSTPROCESS);
 
 	// cache pointer to last image processed
 	mLastInputImg = rgba;
@@ -482,8 +487,8 @@ bool segNet::classify( const char* ignore_class )
 	// if desired, find the ID of the class to ignore (typically void)
 	const int ignoreID = FindClassID(ignore_class);
 	
-	//printf(LOG_GIE "segNet::Process -- s_w %i  s_h %i  s_c %i  s_x %f  s_y %f\n", s_w, s_h, s_c, s_x, s_y);
-	//printf(LOG_GIE "segNet::Process -- ignoring class '%s' id=%i\n", ignore_class, ignoreID);
+	//printf(LOG_TRT "segNet::Process -- s_w %i  s_h %i  s_c %i  s_x %f  s_y %f\n", s_w, s_h, s_c, s_x, s_y);
+	//printf(LOG_TRT "segNet::Process -- ignoring class '%s' id=%i\n", ignore_class, ignoreID);
 
 
 	// find the argmax-classified class of each tile
@@ -529,6 +534,8 @@ bool segNet::Mask( uint8_t* output, uint32_t out_width, uint32_t out_height )
 		return false;
 	}	
 
+	PROFILER_BEGIN(PROFILER_VISUALIZE);
+
 	// retrieve classification map
 	uint8_t* classMap = mClassMap[0];
 
@@ -555,6 +562,7 @@ bool segNet::Mask( uint8_t* output, uint32_t out_width, uint32_t out_height )
 		}
 	}
 
+	PROFILER_END(PROFILER_VISUALIZE);
 	return true;
 }
 
@@ -615,6 +623,8 @@ cudaError_t cudaSegOverlay( float4* input, uint32_t in_width, uint32_t in_height
 // overlayLinear
 bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only )
 {
+	PROFILER_BEGIN(PROFILER_VISUALIZE);
+
 #ifdef OVERLAY_CUDA
 	// generate overlay on the GPU
 	if( CUDA_FAILED(cudaSegOverlay((float4*)input, in_width, in_height, (float4*)output, out_width, out_height,
@@ -679,6 +689,7 @@ bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, 
 		}
 	}
 #endif
+	PROFILER_END(PROFILER_VISUALIZE);
 	return true;
 }
 
@@ -686,6 +697,8 @@ bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, 
 // overlayLinear
 bool segNet::overlayLinear( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only )
 {
+	PROFILER_BEGIN(PROFILER_VISUALIZE);
+
 #ifdef OVERLAY_CUDA
 	// generate overlay on the GPU
 	if( CUDA_FAILED(cudaSegOverlay((float4*)input, in_width, in_height, (float4*)output, out_width, out_height,
@@ -803,6 +816,7 @@ bool segNet::overlayLinear( float* input, uint32_t in_width, uint32_t in_height,
 		}
 	}
 #endif
+	PROFILER_END(PROFILER_VISUALIZE);
 	return true;
 }
 	

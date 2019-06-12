@@ -236,6 +236,8 @@ bool homographyNet::FindDisplacement( float* imageA, float* imageB, uint32_t wid
 	//printf("user input width=%u height=%u\n", width, height);
 	//printf("homg input width=%u height=%u\n", mWidth, mHeight);
 
+	PROFILER_BEGIN(PROFILER_PREPROCESS);
+
 	/*
 	 * convert/rescale the individual RGBA images into grayscale planar format
 	 */
@@ -245,6 +247,9 @@ bool homographyNet::FindDisplacement( float* imageA, float* imageB, uint32_t wid
 		printf(LOG_TRT "homographyNet::Process() -- cudaPreHomographyNet() failed\n");
 		return false;
 	}
+
+	PROFILER_END(PROFILER_PREPROCESS);
+	PROFILER_BEGIN(PROFILER_NETWORK);
 
 	/*
 	 * perform the inferencing
@@ -257,7 +262,7 @@ bool homographyNet::FindDisplacement( float* imageA, float* imageB, uint32_t wid
 		return false;
 	}
 
-	PROFILER_REPORT();
+	PROFILER_END(PROFILER_NETWORK);
 
 	const uint32_t numOutputs = DIMS_C(mOutputs[0].dims);
 
@@ -299,6 +304,8 @@ bool homographyNet::FindDisplacement( float* imageA, float* imageB, uint32_t wid
 bool homographyNet::ComputeHomography( const float displacement[8], float H[3][3], float H_inv[3][3] )
 {
 #ifdef HAS_HOMOGRAPHY_NET
+	PROFILER_BEGIN(PROFILER_POSTPROCESS);
+
 	/*
 	 * translate the x/y displacements back into corner points
 	 */
@@ -357,6 +364,9 @@ bool homographyNet::ComputeHomography( const float displacement[8], float H[3][3
 	mat33_print(H, "H");	
 	mat33_print(H_inv, "H_inv");
 #endif
+
+	PROFILER_END(PROFILER_POSTPROCESS);
+	//PROFILER_REPORT();
 
 	return true;
 #else

@@ -216,6 +216,19 @@ modelType modelTypeFromStr( const char* str )
 
 	return MODEL_CUSTOM;
 }
+
+const char* profilerQueryToStr( profilerQuery query )
+{
+	switch(query)
+	{
+		case PROFILER_PREPROCESS:  return "Pre-Process";
+		case PROFILER_NETWORK:	  return "Network";
+		case PROFILER_POSTPROCESS: return "Post-Process";
+		case PROFILER_VISUALIZE:	  return "Visualize";
+		case PROFILER_TOTAL:	  return "Total";
+	}
+}
+
 //---------------------------------------------------------------------
 
 // constructor
@@ -240,7 +253,12 @@ tensorNet::tensorNet()
 	mDevice    	   = DEVICE_GPU;
 	mAllowGPUFallback = false;
 
-	memset(mEvents, 0, sizeof(mEvents));
+	mProfilerQueriesUsed = 0;
+	mProfilerQueriesDone = 0;
+
+	memset(mEventsCPU, 0, sizeof(mEventsCPU));
+	memset(mEventsGPU, 0, sizeof(mEventsGPU));
+	memset(mProfilerTimes, 0, sizeof(mProfilerTimes));
 
 #if NV_TENSORRT_MAJOR < 2
 	memset(&mInputDims, 0, sizeof(Dims3));
@@ -266,7 +284,7 @@ tensorNet::~tensorNet()
 
 
 // EnableProfiler
-void tensorNet::EnableProfiler()
+void tensorNet::EnableLayerProfiler()
 {
 	mEnableProfiler = true;
 
@@ -393,8 +411,8 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	builder->setAverageFindIterations(2);
 
 	//mEnableFP16 = (mOverride16 == true) ? false : builder->platformHasFastFp16();
-	//printf(LOG_GIE "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
-	printf(LOG_GIE "device %s, loading %s %s\n", deviceTypeToStr(device), deployFile.c_str(), modelFile.c_str());
+	//printf(LOG_TRT "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
+	printf(LOG_TRT "device %s, loading %s %s\n", deviceTypeToStr(device), deployFile.c_str(), modelFile.c_str());
 	
 
 	// parse the different types of model formats
@@ -412,7 +430,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 		if( !blobNameToTensor )
 		{
-			printf(LOG_GIE "device %s, failed to parse caffe network\n", deviceTypeToStr(device));
+			printf(LOG_TRT "device %s, failed to parse caffe network\n", deviceTypeToStr(device));
 			return false;
 		}
 
@@ -424,12 +442,12 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 			nvinfer1::ITensor* tensor = blobNameToTensor->find(outputs[n].c_str());
 		
 			if( !tensor )
-				printf(LOG_GIE "failed to retrieve tensor for Output \"%s\"\n", outputs[n].c_str());
+				printf(LOG_TRT "failed to retrieve tensor for Output \"%s\"\n", outputs[n].c_str());
 			else
 			{
 			#if NV_TENSORRT_MAJOR >= 4
 				nvinfer1::Dims3 dims = static_cast<nvinfer1::Dims3&&>(tensor->getDimensions());
-				printf(LOG_GIE "retrieved Output tensor \"%s\":  %ix%ix%i\n", tensor->getName(), dims.d[0], dims.d[1], dims.d[2]);
+				printf(LOG_TRT "retrieved Output tensor \"%s\":  %ix%ix%i\n", tensor->getName(), dims.d[0], dims.d[1], dims.d[2]);
 			#endif
 			}
 
@@ -514,7 +532,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 
 	// build the engine
-	printf(LOG_GIE "device %s, configuring CUDA engine\n", deviceTypeToStr(device));
+	printf(LOG_TRT "device %s, configuring CUDA engine\n", deviceTypeToStr(device));
 		
 	builder->setMaxBatchSize(maxBatchSize);
 	builder->setMaxWorkspaceSize(16 << 20);
@@ -575,17 +593,17 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	// build CUDA engine
 	printf(LOG_TRT "device %s, building FP16:  %s\n", deviceTypeToStr(device), isFp16Enabled(builder) ? "ON" : "OFF"); 
 	printf(LOG_TRT "device %s, building INT8:  %s\n", deviceTypeToStr(device), isInt8Enabled(builder) ? "ON" : "OFF"); 
-	printf(LOG_GIE "device %s, building CUDA engine (this may take a few minutes the first time a network is loaded)\n", deviceTypeToStr(device));
+	printf(LOG_TRT "device %s, building CUDA engine (this may take a few minutes the first time a network is loaded)\n", deviceTypeToStr(device));
 
 	nvinfer1::ICudaEngine* engine = builder->buildCudaEngine(*network);
 	
 	if( !engine )
 	{
-		printf(LOG_GIE "device %s, failed to build CUDA engine\n", deviceTypeToStr(device));
+		printf(LOG_TRT "device %s, failed to build CUDA engine\n", deviceTypeToStr(device));
 		return false;
 	}
 
-	printf(LOG_GIE "device %s, completed building CUDA engine\n", deviceTypeToStr(device));
+	printf(LOG_TRT "device %s, completed building CUDA engine\n", deviceTypeToStr(device));
 
 	// we don't need the network definition any more, and we can destroy the parser
 	network->destroy();
@@ -597,7 +615,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 	if( !serMem )
 	{
-		printf(LOG_GIE "device %s, failed to serialize CUDA engine\n", deviceTypeToStr(device));
+		printf(LOG_TRT "device %s, failed to serialize CUDA engine\n", deviceTypeToStr(device));
 		return false;
 	}
 
@@ -760,13 +778,13 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	
 	sprintf(cache_path, "%s.engine", cache_prefix);
 	mCacheEnginePath = cache_path;	
-	printf(LOG_GIE "attempting to open engine cache file %s\n", mCacheEnginePath.c_str());
+	printf(LOG_TRT "attempting to open engine cache file %s\n", mCacheEnginePath.c_str());
 	
 	std::ifstream cache( mCacheEnginePath );
 
 	if( !cache )
 	{
-		printf(LOG_GIE "cache file not found, profiling network model on device %s\n", deviceTypeToStr(device));
+		printf(LOG_TRT "cache file not found, profiling network model on device %s\n", deviceTypeToStr(device));
 	
 		if( !ProfileModel(prototxt_path, model_path, input_blob, input_dims,
 						 output_blobs, maxBatchSize, precision, device, 
@@ -776,17 +794,17 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 			return 0;
 		}
 	
-		printf(LOG_GIE "network profiling complete, writing engine cache to %s\n", mCacheEnginePath.c_str());
+		printf(LOG_TRT "network profiling complete, writing engine cache to %s\n", mCacheEnginePath.c_str());
 		std::ofstream outFile;
 		outFile.open(mCacheEnginePath);
 		outFile << gieModelStream.rdbuf();
 		outFile.close();
 		gieModelStream.seekg(0, gieModelStream.beg);
-		printf(LOG_GIE "device %s, completed writing engine cache to %s\n", deviceTypeToStr(device), mCacheEnginePath.c_str());
+		printf(LOG_TRT "device %s, completed writing engine cache to %s\n", deviceTypeToStr(device), mCacheEnginePath.c_str());
 	}
 	else
 	{
-		printf(LOG_GIE "loading network profile from engine cache... %s\n", mCacheEnginePath.c_str());
+		printf(LOG_TRT "loading network profile from engine cache... %s\n", mCacheEnginePath.c_str());
 		gieModelStream << cache.rdbuf();
 		cache.close();
 
@@ -796,12 +814,12 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 		if( builder != NULL )
 		{
 			mEnableFP16 = !mOverride16 && builder->platformHasFastFp16();
-			printf(LOG_GIE "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
+			printf(LOG_TRT "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
 			builder->destroy();	
 		}*/
 	}
 
-	printf(LOG_GIE "device %s, %s loaded\n", deviceTypeToStr(device), model_path.c_str());
+	printf(LOG_TRT "device %s, %s loaded\n", deviceTypeToStr(device), model_path.c_str());
 	
 
 	/*
@@ -811,7 +829,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	
 	if( !infer )
 	{
-		printf(LOG_GIE "device %s, failed to create InferRuntime\n", deviceTypeToStr(device));
+		printf(LOG_TRT "device %s, failed to create InferRuntime\n", deviceTypeToStr(device));
 		return 0;
 	}
 
@@ -842,7 +860,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 
 	if( !modelMem )
 	{
-		printf(LOG_GIE "failed to allocate %i bytes to deserialize model\n", modelSize);
+		printf(LOG_TRT "failed to allocate %i bytes to deserialize model\n", modelSize);
 		return 0;
 	}
 
@@ -856,7 +874,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 
 	if( !engine )
 	{
-		printf(LOG_GIE "device %s, failed to create CUDA engine\n", deviceTypeToStr(device));
+		printf(LOG_TRT "device %s, failed to create CUDA engine\n", deviceTypeToStr(device));
 		return 0;
 	}
 	
@@ -864,20 +882,20 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	
 	if( !context )
 	{
-		printf(LOG_GIE "device %s, failed to create execution context\n", deviceTypeToStr(device));
+		printf(LOG_TRT "device %s, failed to create execution context\n", deviceTypeToStr(device));
 		return 0;
 	}
 
 	if( mEnableDebug )
 	{
-		printf(LOG_GIE "device %s, enabling context debug sync.\n", deviceTypeToStr(device));
+		printf(LOG_TRT "device %s, enabling context debug sync.\n", deviceTypeToStr(device));
 		context->setDebugSync(true);
 	}
 
 	if( mEnableProfiler )
 		context->setProfiler(&gProfiler);
 
-	printf(LOG_GIE "device %s, CUDA engine context initialized with %u bindings\n", deviceTypeToStr(device), engine->getNbBindings());
+	printf(LOG_TRT "device %s, CUDA engine context initialized with %u bindings\n", deviceTypeToStr(device), engine->getNbBindings());
 	
 	mInfer   = infer;
 	mEngine  = engine;
@@ -916,7 +934,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	 */
 	const int inputIndex = engine->getBindingIndex(input_blob);
 	
-	printf(LOG_GIE "binding to input 0 %s  binding index:  %i\n", input_blob, inputIndex);
+	printf(LOG_TRT "binding to input 0 %s  binding index:  %i\n", input_blob, inputIndex);
 	
 #if NV_TENSORRT_MAJOR > 1
 	nvinfer1::Dims inputDims = validateDims(engine->getBindingDimensions(inputIndex));
@@ -925,7 +943,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 #endif
 
 	size_t inputSize = maxBatchSize * DIMS_C(inputDims) * DIMS_H(inputDims) * DIMS_W(inputDims) * sizeof(float);
-	printf(LOG_GIE "binding to input 0 %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", input_blob, maxBatchSize, DIMS_C(inputDims), DIMS_H(inputDims), DIMS_W(inputDims), inputSize);
+	printf(LOG_TRT "binding to input 0 %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", input_blob, maxBatchSize, DIMS_C(inputDims), DIMS_H(inputDims), DIMS_W(inputDims), inputSize);
 	
 
 	/*
@@ -951,7 +969,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	for( int n=0; n < numOutputs; n++ )
 	{
 		const int outputIndex = engine->getBindingIndex(output_blobs[n].c_str());
-		printf(LOG_GIE "binding to output %i %s  binding index:  %i\n", n, output_blobs[n].c_str(), outputIndex);
+		printf(LOG_TRT "binding to output %i %s  binding index:  %i\n", n, output_blobs[n].c_str(), outputIndex);
 
 	#if NV_TENSORRT_MAJOR > 1
 		nvinfer1::Dims outputDims = validateDims(engine->getBindingDimensions(outputIndex));
@@ -960,7 +978,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	#endif
 
 		size_t outputSize = maxBatchSize * DIMS_C(outputDims) * DIMS_H(outputDims) * DIMS_W(outputDims) * sizeof(float);
-		printf(LOG_GIE "binding to output %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", n, output_blobs[n].c_str(), maxBatchSize, DIMS_C(outputDims), DIMS_H(outputDims), DIMS_W(outputDims), outputSize);
+		printf(LOG_TRT "binding to output %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", n, output_blobs[n].c_str(), maxBatchSize, DIMS_C(outputDims), DIMS_H(outputDims), DIMS_W(outputDims), outputSize);
 	
 		// allocate output memory 
 		void* outputCPU  = NULL;
@@ -991,6 +1009,13 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 		mOutputs.push_back(l);
 	}
 	
+
+	/*
+	 * create events for timing
+	 */
+	for( int n=0; n < PROFILER_TOTAL * 2; n++ )
+		CUDA(cudaEventCreate(&mEventsGPU[n]));
+
 
 #if NV_TENSORRT_MAJOR > 1
 	DIMS_W(mInputDims) = DIMS_W(inputDims);
@@ -1039,11 +1064,5 @@ void tensorNet::SetStream( cudaStream_t stream )
 
 	if( !mStream )
 		return;
-
-	for( int n=0; n < 2; n++ )
-	{
-		if( !mEvents[n] )
-			CUDA(cudaEventCreateWithFlags(&mEvents[n], /*cudaEventBlockingSync*/cudaEventDefault));
-	}
 }	
 

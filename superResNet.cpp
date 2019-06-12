@@ -89,6 +89,8 @@ bool superResNet::UpscaleRGBA( float* input, uint32_t inputWidth, uint32_t input
 		    				 float* output, uint32_t outputWidth, uint32_t outputHeight,
 		    				 float maxPixelValue )
 {
+	PROFILER_BEGIN(PROFILER_PREPROCESS);
+
 	/*
 	 * convert input image to NCHW format and with pixel range 0.0-1.0f
 	 */
@@ -99,6 +101,9 @@ bool superResNet::UpscaleRGBA( float* input, uint32_t inputWidth, uint32_t input
 		printf(LOG_TRT "superResNet::UpscaleRGBA() -- cudaPreSuperResNet() failed\n");
 		return false;
 	}
+
+	PROFILER_END(PROFILER_PREPROCESS);
+	PROFILER_BEGIN(PROFILER_NETWORK);
 
 	/*
 	 * perform the inferencing
@@ -111,7 +116,8 @@ bool superResNet::UpscaleRGBA( float* input, uint32_t inputWidth, uint32_t input
 		return false;
 	}
 
-	PROFILER_REPORT();
+	PROFILER_END(PROFILER_NETWORK);
+	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
 	/*
 	 * convert output image from NCHW to packed RGBA, with the user's pixel range
@@ -124,6 +130,7 @@ bool superResNet::UpscaleRGBA( float* input, uint32_t inputWidth, uint32_t input
 		return false;
 	}
 
+	PROFILER_END(PROFILER_POSTPROCESS);
 	return true;
 }
 

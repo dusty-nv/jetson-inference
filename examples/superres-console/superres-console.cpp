@@ -69,7 +69,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	net->EnableProfiler();
+	net->EnableLayerProfiler();
 
 
 	/* 
@@ -120,6 +120,7 @@ int main( int argc, char** argv )
 		}
 	}	
 
+	CUDA(cudaDeviceSynchronize());
 
 	/*
 	 * save output image

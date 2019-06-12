@@ -74,7 +74,7 @@ int main( int argc, char** argv )
 	}
 	
 	// enable layer timings for the console application
-	net->EnableProfiler();
+	net->EnableLayerProfiler();
 
 	// load image from file on disk
 	float* imgCPU    = NULL;
@@ -121,8 +121,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	CUDA(cudaThreadSynchronize());
-
+	CUDA(cudaDeviceSynchronize());
 
 	// save output image
 	if( !saveImageRGBA(outFilename, (float4*)outCPU, imgWidth, imgHeight) )

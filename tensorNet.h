@@ -26,8 +26,10 @@
 // forward declaration of IInt8Calibrator
 namespace nvinfer1 { class IInt8Calibrator; }
 
-// include TensorRT
+// includes
 #include "NvInfer.h"
+#include "cudaUtility.h"
+#include "timespec.h"
 
 #include <vector>
 #include <sstream>
@@ -60,6 +62,12 @@ typedef nvinfer1::Dims3 Dims3;
  * @ingroup deepVision 
  */
 #define DEFAULT_MAX_BATCH_SIZE  1
+
+/**
+ * Prefix used for tagging printed log output from TensorRT.
+ * @ingroup deepVision
+ */
+#define LOG_TRT "[TRT]   "
 
 
 /**
@@ -140,6 +148,36 @@ const char* modelTypeToStr( modelType type );
  */
 modelType modelTypeFromStr( const char* str );
 
+/**
+ * Profiling queries
+ * @see tensorNet::GetProfilerTime()
+ * @ingroup deepVision
+ */
+enum profilerQuery
+{
+	PROFILER_PREPROCESS = 0,
+	PROFILER_NETWORK,
+	PROFILER_POSTPROCESS,
+	PROFILER_VISUALIZE,
+	PROFILER_TOTAL,
+};
+
+/**
+ * Stringize function that returns profilerQuery in text.
+ * @ingroup deepVision
+ */
+const char* profilerQueryToStr( profilerQuery query );
+
+/**
+ * Profiler device
+ * @ingroup deepVision
+ */
+enum profilerDevice
+{
+	PROFILER_CPU = 0,	/**< CPU walltime */
+	PROFILER_CUDA,		/**< CUDA kernel time */ 
+};
+
 
 /**
  * Abstract class for loading a tensor network with TensorRT.
@@ -205,7 +243,7 @@ public:
 	/**
 	 * Manually enable layer profiling times.	
 	 */
-	void EnableProfiler();
+	void EnableLayerProfiler();
 
 	/**
 	 * Manually enable debug messages and synchronization.
@@ -287,6 +325,36 @@ public:
 	 */
 	inline bool IsModelType( modelType type ) const		{ return (mModelType == type); }
 
+	/**
+	 * Retrieve the profiler runtime (in milliseconds).
+	 */
+	inline float2 GetProfilerTime( profilerQuery query )	 				 { PROFILER_QUERY(query); return mProfilerTimes[query]; }
+	
+	/**
+	 * Retrieve the profiler runtime (in milliseconds).
+	 */
+	inline float GetProfilerTime( profilerQuery query, profilerDevice device ) { PROFILER_QUERY(query); return (device == PROFILER_CPU) ? mProfilerTimes[query].x : mProfilerTimes[query].y; }
+	
+	/**
+	 * Print the profiler times (in millseconds).
+	 */
+	inline void PrintProfilerTimes()
+	{
+		printf(LOG_TRT "---------------------------------------------\n");
+		printf(LOG_TRT "Timing Report %s\n", GetModelPath());
+		printf(LOG_TRT "---------------------------------------------\n");
+
+		for( uint32_t n=0; n <= PROFILER_TOTAL; n++ )
+		{
+			const profilerQuery query = (profilerQuery)n;
+
+			if( PROFILER_QUERY(query) )
+				printf(LOG_TRT "%-12s  CPU %fms  CUDA %fms\n", profilerQueryToStr(query), mProfilerTimes[n].x, mProfilerTimes[n].y);
+		}
+
+		printf(LOG_TRT "---------------------------------------------\n");
+	}
+
 protected:
 
 	/**
@@ -309,12 +377,6 @@ protected:
 				    const std::vector<std::string>& outputs, uint32_t maxBatchSize, 
 				    precisionType precision, deviceType device, bool allowGPUFallback,
 				    nvinfer1::IInt8Calibrator* calibrator, std::ostream& modelStream);
-				
-	/**
-	 * Prefix used for tagging printed log output
-	 */
-	#define LOG_TRT "[TRT]   "
-	#define LOG_GIE LOG_TRT
 
 	/**
 	 * Logger class for GIE info/warning/errors
@@ -324,7 +386,7 @@ protected:
 		void log( Severity severity, const char* msg ) override
 		{
 			if( severity != Severity::kINFO /*|| mEnableDebug*/ )
-				printf(LOG_GIE "%s\n", msg);
+				printf(LOG_TRT "%s\n", msg);
 		}
 	} gLogger;
 
@@ -338,7 +400,7 @@ protected:
 		
 		virtual void reportLayerTime(const char* layerName, float ms)
 		{
-			printf(LOG_GIE "layer %s - %f ms\n", layerName, ms);
+			printf(LOG_TRT "layer %s - %f ms\n", layerName, ms);
 			timingAccumulator += ms;
 		}
 		
@@ -347,9 +409,82 @@ protected:
 	} gProfiler;
 
 	/**
-	 * When profiling is enabled, end a profiling section and report timing statistics.
+	 * Begin a profiling query, before network is run
 	 */
-	inline void PROFILER_REPORT()		{ if(mEnableProfiler) { printf(LOG_GIE "layer network time - %f ms\n", gProfiler.timingAccumulator); gProfiler.timingAccumulator = 0.0f; printf(LOG_GIE "note -- when processing a single image, run 'sudo jetson_clocks' before\n               to disable DVFS for more accurate profiling & timing measurements\n"); } }
+	inline void PROFILER_BEGIN( profilerQuery query )		
+	{ 
+		const uint32_t evt = query*2; 
+		const uint32_t flag = (1 << query);
+
+		CUDA(cudaEventRecord(mEventsGPU[evt], mStream)); 
+		timestamp(&mEventsCPU[evt]); 
+
+		mProfilerQueriesUsed |= flag;
+		mProfilerQueriesDone &= ~flag;
+	}
+
+	/**
+	 * End a profiling query, after the network is run
+	 */
+	inline void PROFILER_END( profilerQuery query )		
+	{ 
+		const uint32_t evt = query*2+1; 
+
+		CUDA(cudaEventRecord(mEventsGPU[evt])); 
+		timestamp(&mEventsCPU[evt]); 
+		timespec cpuTime; 
+		timeDiff(mEventsCPU[evt-1], mEventsCPU[evt], &cpuTime);
+		mProfilerTimes[query].x = timeFloat(cpuTime);
+
+		if( mEnableProfiler && query == PROFILER_NETWORK ) 
+		{ 
+			printf(LOG_TRT "layer network time - %f ms\n", gProfiler.timingAccumulator); 
+			gProfiler.timingAccumulator = 0.0f; 
+			printf(LOG_TRT "note -- when processing a single image, run 'sudo jetson_clocks' before\n"
+				  "                to disable DVFS for more accurate profiling/timing measurements\n"); 
+		}
+	}
+	
+	/**
+	 * Query the CUDA part of a profiler query.
+	 */
+	inline bool PROFILER_QUERY( profilerQuery query )
+	{
+		const uint32_t flag = (1 << query);
+
+		if( query == PROFILER_TOTAL )
+		{
+			mProfilerTimes[PROFILER_TOTAL].x = 0.0f;
+			mProfilerTimes[PROFILER_TOTAL].y = 0.0f;
+
+			for( uint32_t n=0; n < PROFILER_TOTAL; n++ )
+			{
+				if( PROFILER_QUERY((profilerQuery)n) )
+				{
+					mProfilerTimes[PROFILER_TOTAL].x += mProfilerTimes[n].x;
+					mProfilerTimes[PROFILER_TOTAL].y += mProfilerTimes[n].y;
+				}
+			}
+
+			return true;
+		}
+		else if( mProfilerQueriesUsed & flag )
+		{
+			if( !(mProfilerQueriesDone & flag) )
+			{
+				const uint32_t evt = query*2;
+				float cuda_time = 0.0f;
+				CUDA(cudaEventElapsedTime(&cuda_time, mEventsGPU[evt], mEventsGPU[evt+1]));
+				mProfilerTimes[query].y = cuda_time;
+				mProfilerQueriesDone |= flag;
+				//mProfilerQueriesUsed &= ~flag;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
 
 protected:
 
@@ -365,7 +500,8 @@ protected:
 	precisionType mPrecision;
 	modelType     mModelType;
 	cudaStream_t  mStream;
-	cudaEvent_t   mEvents[2];
+	cudaEvent_t   mEventsGPU[PROFILER_TOTAL * 2];
+	timespec      mEventsCPU[PROFILER_TOTAL * 2];
 
 	nvinfer1::IRuntime* mInfer;
 	nvinfer1::ICudaEngine* mEngine;
@@ -376,6 +512,9 @@ protected:
 	uint32_t mInputSize;
 	float*   mInputCPU;
 	float*   mInputCUDA;
+	float2   mProfilerTimes[PROFILER_TOTAL + 1];
+	uint32_t mProfilerQueriesUsed;
+	uint32_t mProfilerQueriesDone;
 	uint32_t mMaxBatchSize;
 	bool	    mEnableProfiler;
 	bool     mEnableDebug;

@@ -57,7 +57,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
-	net->EnableProfiler();
+	//net->EnableLayerProfiler();
 	
 
 	// load image from file on disk
@@ -97,8 +97,12 @@ int main( int argc, char** argv )
 				font->OverlayText((float4*)imgCUDA, imgWidth, imgHeight, (const char*)str, 10, 10,
 							   make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
 			}
-			
+
+			// wait for GPU to complete work			
 			CUDA(cudaDeviceSynchronize());
+
+			// print out performance info
+			net->PrintProfilerTimes();
 
 			printf("imagenet-console:  attempting to save output image to '%s'\n", outputFilename);
 			

@@ -23,7 +23,7 @@ endif()
 
 
 # setup tensorRT flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")	# -std=gnu++11
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-write-strings")	# -std=gnu++11
 set(BUILD_DEPS "YES" CACHE BOOL "If YES, will install dependencies into sandbox.  Automatically reset to NO after dependencies are installed.")
 
 
@@ -46,6 +46,7 @@ endif()
 
 
 # setup CUDA
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/utils/cuda" )
 find_package(CUDA)
 message("-- CUDA version: ${CUDA_VERSION}")
 

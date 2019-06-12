@@ -144,6 +144,8 @@ int main( int argc, char** argv )
 				font->OverlayText((float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
 						        str, 5, 5, make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
 			}
+
+			net->PrintProfilerTimes();
 		}	
 
 		// update display

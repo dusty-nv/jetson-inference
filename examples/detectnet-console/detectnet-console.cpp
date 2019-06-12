@@ -66,7 +66,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	net->EnableProfiler();
+	//net->EnableLayerProfiler();
 	
 	
 	// load image from file on disk
@@ -99,7 +99,11 @@ int main( int argc, char** argv )
 			printf("bounding box %u  (%f, %f)  (%f, %f)  w=%f  h=%f\n", detections[n].Instance, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
 		}
 		
-		CUDA(cudaThreadSynchronize());
+		// wait for the GPU to finish		
+		CUDA(cudaDeviceSynchronize());
+
+		// print out timing info
+		net->PrintProfilerTimes();
 		
 		// save image to disk
 		printf("detectnet-console:  writing %ix%i image to '%s'\n", imgWidth, imgHeight, argv[2]);

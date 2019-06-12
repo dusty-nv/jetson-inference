@@ -128,7 +128,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 		return false;
 	}
 
-	printf(LOG_GIE "%s loaded\n", model_path);
+	printf(LOG_TRT "%s loaded\n", model_path);
 
 	/*
 	 * load synset classnames
@@ -313,6 +313,8 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 		return false;
 	}
 
+	PROFILER_BEGIN(PROFILER_PREPROCESS);
+
 	// downsample and convert to band-sequential BGR
 	if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
 								 make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f),
@@ -322,6 +324,7 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 		return false;
 	}
 
+	PROFILER_END(PROFILER_PREPROCESS);
 	return true;
 }
 
@@ -331,6 +334,8 @@ bool imageNet::Process()
 {
 	void* bindBuffers[] = { mInputCUDA, mOutputs[0].CUDA };	
 	cudaStream_t stream = GetStream();
+
+	PROFILER_BEGIN(PROFILER_NETWORK);
 
 	if( !stream )
 	{
@@ -360,9 +365,7 @@ bool imageNet::Process()
 		}	
 	}
 
-	//CUDA(cudaDeviceSynchronize());
-	PROFILER_REPORT();
-
+	PROFILER_END(PROFILER_NETWORK);
 	return true;
 }
 
@@ -398,6 +401,8 @@ int imageNet::Classify( float* confidence )
 		return -1;
 	}
 	
+	PROFILER_BEGIN(PROFILER_POSTPROCESS);
+
 	// determine the maximum class
 	int classIndex = -1;
 	float classMax = -1.0f;
@@ -420,6 +425,7 @@ int imageNet::Classify( float* confidence )
 		*confidence = classMax;
 	
 	//printf("\nmaximum class:  #%i  (%f) (%s)\n", classIndex, classMax, mClassDesc[classIndex].c_str());
+	PROFILER_END(PROFILER_POSTPROCESS);	
 	return classIndex;
 }
 

@@ -148,6 +148,8 @@ int main( int argc, char** argv )
 			}
 		}	
 
+		net->PrintProfilerTimes();
+
 		// update display
 		if( display != NULL )
 		{

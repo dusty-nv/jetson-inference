@@ -85,7 +85,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	net->EnableProfiler();
+	net->EnableLayerProfiler();
 
 
 	/* 
@@ -154,7 +154,7 @@ int main( int argc, char** argv )
 			return 0;
 		}
 
-		CUDA(cudaThreadSynchronize());
+		CUDA(cudaDeviceSynchronize());
 
 		// save the warped image to disk
 		if( !saveImageRGBA(imgWarpedPath, imgWarpedCPU, imgWidth[0], imgHeight[0]) )
