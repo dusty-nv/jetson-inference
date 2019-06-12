@@ -62,7 +62,7 @@ static void PyTensorNet_Dealloc( PyTensorNet_Object* self )
 
 
 // EnableDebug
-PyObject* PyTensorNet_EnableDebug( PyTensorNet_Object* self, PyObject* args )
+PyObject* PyTensorNet_EnableDebug( PyTensorNet_Object* self )
 {
 	if( !self || !self->net )
 	{
@@ -75,8 +75,8 @@ PyObject* PyTensorNet_EnableDebug( PyTensorNet_Object* self, PyObject* args )
 }
 
 
-// EnableProfiler
-PyObject* PyTensorNet_EnableProfiler( PyTensorNet_Object* self, PyObject* args )
+// EnableLayerProfiler
+PyObject* PyTensorNet_EnableLayerProfiler( PyTensorNet_Object* self )
 {
 	if( !self || !self->net )
 	{
@@ -84,7 +84,21 @@ PyObject* PyTensorNet_EnableProfiler( PyTensorNet_Object* self, PyObject* args )
 		return NULL;
 	}
 	
-	self->net->EnableProfiler();
+	self->net->EnableLayerProfiler();
+	Py_RETURN_NONE;
+}
+
+
+// PrintProfilerTimes
+PyObject* PyTensorNet_PrintProfilerTimes( PyTensorNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "tensorNet invalid object instance");
+		return NULL;
+	}
+	
+	self->net->PrintProfilerTimes();
 	Py_RETURN_NONE;
 }
 
@@ -137,7 +151,8 @@ static PyTypeObject pyTensorNet_Type =
 static PyMethodDef pyTensorNet_Methods[] = 
 {
 	{ "EnableDebug", (PyCFunction)PyTensorNet_EnableDebug, METH_NOARGS, "Enable TensorRT debug messages and device synchronization"},
-	{ "EnableProfiler", (PyCFunction)PyTensorNet_EnableProfiler, METH_NOARGS, "Enable the profiling of network layer execution times"},
+	{ "EnableLayerProfiler", (PyCFunction)PyTensorNet_EnableLayerProfiler, METH_NOARGS, "Enable the profiling of network layer execution times"},
+	{ "PrintProfilerTimes", (PyCFunction)PyTensorNet_PrintProfilerTimes, METH_NOARGS, "Print out performance timing info"},	
 	{ "GetModelType", (PyCFunction)PyTensorNet_GetModelType, METH_NOARGS, "Return the type of model format (caffe, ONNX, UFF, or custom)"},
 	{ "GetModelPath", (PyCFunction)PyTensorNet_GetModelPath, METH_NOARGS, "Return the path to the network model file on disk"},
 	{ "GetPrototxtPath", (PyCFunction)PyTensorNet_GetPrototxtPath, METH_NOARGS, "Return the path to the network prototxt file on disk"},

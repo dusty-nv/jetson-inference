@@ -47,13 +47,14 @@ net = jetson.inference.detectNet(opt.network, argv, opt.threshold)
 
 # enable model profiling
 if opt.profile is True:
-	net.EnableProfiler()
+	net.EnableLayerProfiler()
 else:
 	opt.runs = 1
 
 # run model inference
 for i in range(opt.runs):
-	print("\n/////////////////////////////////////\n// RUN {:d}\n/////////////////////////////////////".format(i))
+	if opt.runs > 1:
+		print("\n/////////////////////////////////////\n// RUN {:d}\n/////////////////////////////////////".format(i))
 	
 	# detect objects in the image (with overlay)
 	detections = net.Detect(img, width, height)
@@ -63,6 +64,9 @@ for i in range(opt.runs):
 
 	for detection in detections:
 		print(detection)
+	
+	# print out timing info
+	net.PrintProfilerTimes()
 
 # save the output image with the bounding box overlays
 if opt.file_out is not None:

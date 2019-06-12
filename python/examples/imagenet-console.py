@@ -46,13 +46,14 @@ net = jetson.inference.imageNet(opt.network, argv)
 
 # enable model profiling
 if opt.profile is True:
-	net.EnableProfiler()
+	net.EnableLayerProfiler()
 else:
 	opt.runs = 1
 
 # run model inference
 for i in range(opt.runs):
-	print("\n/////////////////////////////////////\n// RUN {:d}\n/////////////////////////////////////".format(i))
+	if opt.runs > 1:
+		print("\n/////////////////////////////////////\n// RUN {:d}\n/////////////////////////////////////".format(i))
 	
 	# classify the image
 	class_idx, confidence = net.Classify(img, width, height)
@@ -62,6 +63,9 @@ for i in range(opt.runs):
 
 	# print out the result
 	print("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence\n".format(class_desc, class_idx, confidence * 100))
+	
+	# print out timing info
+	net.PrintProfilerTimes()
 
 # overlay the result on the image
 if opt.file_out is not None:
