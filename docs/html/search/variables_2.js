@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['cpu',['CPU',['../structtensorNet_1_1outputLayer.html#ae3c4a2d254cf1258759b7ff95d9fcbde',1,'tensorNet::outputLayer']]],
-  ['cuda',['CUDA',['../structtensorNet_1_1outputLayer.html#a29650e14f1fb9e3ac257d623f5542583',1,'tensorNet::outputLayer']]]
+  ['bottom',['Bottom',['../structdetectNet_1_1Detection.html#a97869bd21815bfc1ca005fa057329ffe',1,'detectNet::Detection']]],
+  ['buf',['buf',['../structv4l2__mmap.html#aca68b03edf7ccf47451c1dff1f6ccaa3',1,'v4l2_mmap']]]
 ];

@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['idivup',['iDivUp',['../group__util.html#ga46df5cd83bb2b50cd45d429154a7699b',1,'cudaUtility.h']]],
-  ['imagenet',['imageNet',['../classimageNet.html',1,'imageNet'],['../classimageNet.html#a0ea17be1ce78b3e0758af46c970a968c',1,'imageNet::imageNet()']]],
-  ['imagenet_2eh',['imageNet.h',['../imageNet_8h.html',1,'']]],
-  ['imagenet_5fdefault_5finput',['IMAGENET_DEFAULT_INPUT',['../group__deepVision.html#ga00bb3120ef3040793ad3ee25d2727f5b',1,'imageNet.h']]],
-  ['imagenet_5fdefault_5foutput',['IMAGENET_DEFAULT_OUTPUT',['../group__deepVision.html#ga74a585b96a1bd960b5201f6b69752fad',1,'imageNet.h']]],
-  ['init',['init',['../classcudaFont.html#a6887661a305e53c2f62fd01924982fb9',1,'cudaFont::init()'],['../classimageNet.html#ade8990f0353ca657578e4393a5655027',1,'imageNet::init(NetworkType networkType, uint32_t maxBatchSize)'],['../classimageNet.html#a307453b02e02f7d79e62a67db90e2347',1,'imageNet::init(const char *prototxt_path, const char *model_path, const char *mean_binary, const char *class_path, const char *input, const char *output, uint32_t maxBatchSize)']]],
-  ['initgl',['initGL',['../classglDisplay.html#a022eebf333e5acf6df0fcf2f632a470a',1,'glDisplay']]],
-  ['initwindow',['initWindow',['../classglDisplay.html#a2d545e3ad748e899a413b1c954dc06d4',1,'glDisplay']]]
+  ['hasbom',['HasBOM',['../classtinyxml2_1_1XMLDocument.html#a33fc5d159db873a179fa26338adb05bd',1,'tinyxml2::XMLDocument']]],
+  ['height',['Height',['../structdetectNet_1_1Detection.html#a2ae87aae76d065e19be1897119daba66',1,'detectNet::Detection::Height()'],['../structcudaFont_1_1GlyphInfo.html#adc968847d5a41d8a878c30f183342540',1,'cudaFont::GlyphInfo::height()']]],
+  ['homography_5fnet_5fdefault_5finput',['HOMOGRAPHY_NET_DEFAULT_INPUT',['../group__deepVision.html#ga9e1c44a4bc51820a4ae003bc7439ce5c',1,'homographyNet.h']]],
+  ['homography_5fnet_5fdefault_5foutput',['HOMOGRAPHY_NET_DEFAULT_OUTPUT',['../group__deepVision.html#ga01d17ced2d6ac4a948d6a6b77f24fbf9',1,'homographyNet.h']]],
+  ['homographynet',['homographyNet',['../classhomographyNet.html',1,'homographyNet'],['../classhomographyNet.html#ad6e8bd11b7e645b3e6019880b7d0e5bb',1,'homographyNet::homographyNet()']]],
+  ['homographynet_2eh',['homographyNet.h',['../homographyNet_8h.html',1,'']]]
 ];

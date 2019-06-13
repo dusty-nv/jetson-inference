@@ -1,11 +1,11 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
 
 # Deploying Deep Learning
-Welcome to our training guide for inference and [deep vision](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html) runtime library for NVIDIA **[Jetson Nano/TX1/TX2/Xavier](http://www.nvidia.com/object/embedded-systems.html)**.
+Welcome to our training guide for inference and [deep vision](#api-reference) runtime library for NVIDIA **[Jetson Nano/TX1/TX2/Xavier](http://www.nvidia.com/object/embedded-systems.html)**.
 
 This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for efficiently deploying neural networks onto the embedded platform, improving performance and power efficiency using graph optimizations, kernel fusion, and half-precision FP16 on the Jetson.
 
-Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for semantic segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  See the **[Deep Vision API Reference Specification](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html)** for accompanying documentation. 
+Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for semantic segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  See the **[API Reference](#api-reference)** for reference documentation. 
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
@@ -68,6 +68,10 @@ The full tutorial includes training and inference, and can take roughly two days
 	* [FCN-Alexnet Patches for TensorRT](docs/segnet-patches.md)
 	* [Running Segmentation Models on Jetson](docs/segnet-console.md)
 
+## API Reference
+
+* [C++ Libraries](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/index.html)
+* [Python Libraries](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.html)
 
 ## Extra Resources
 

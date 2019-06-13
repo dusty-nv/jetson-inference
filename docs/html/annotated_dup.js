@@ -1,14 +1,28 @@
 var annotated_dup =
 [
+    [ "tinyxml2", "namespacetinyxml2.html", "namespacetinyxml2" ],
     [ "commandLine", "classcommandLine.html", "classcommandLine" ],
     [ "cudaFont", "classcudaFont.html", "classcudaFont" ],
     [ "detectNet", "classdetectNet.html", "classdetectNet" ],
+    [ "Event", "classEvent.html", "classEvent" ],
     [ "glDisplay", "classglDisplay.html", "classglDisplay" ],
     [ "glTexture", "classglTexture.html", "classglTexture" ],
     [ "gstCamera", "classgstCamera.html", "classgstCamera" ],
+    [ "gstDecoder", "classgstDecoder.html", "classgstDecoder" ],
+    [ "gstEncoder", "classgstEncoder.html", "classgstEncoder" ],
+    [ "homographyNet", "classhomographyNet.html", "classhomographyNet" ],
     [ "imageNet", "classimageNet.html", "classimageNet" ],
+    [ "InputDevices", "classInputDevices.html", "classInputDevices" ],
+    [ "JoystickDevice", "classJoystickDevice.html", "classJoystickDevice" ],
+    [ "KeyboardDevice", "classKeyboardDevice.html", "classKeyboardDevice" ],
+    [ "Mutex", "classMutex.html", "classMutex" ],
+    [ "networkAdapter_t", "structnetworkAdapter__t.html", "structnetworkAdapter__t" ],
+    [ "Process", "classProcess.html", null ],
     [ "segNet", "classsegNet.html", "classsegNet" ],
+    [ "Socket", "classSocket.html", "classSocket" ],
+    [ "superResNet", "classsuperResNet.html", "classsuperResNet" ],
     [ "tensorNet", "classtensorNet.html", "classtensorNet" ],
+    [ "Thread", "classThread.html", "classThread" ],
     [ "v4l2_mmap", "structv4l2__mmap.html", "structv4l2__mmap" ],
     [ "v4l2Camera", "classv4l2Camera.html", "classv4l2Camera" ]
 ];

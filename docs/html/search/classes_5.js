@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['outputlayer',['outputLayer',['../structtensorNet_1_1outputLayer.html',1,'tensorNet']]]
+  ['imagenet',['imageNet',['../classimageNet.html',1,'']]],
+  ['inputdevices',['InputDevices',['../classInputDevices.html',1,'']]]
 ];

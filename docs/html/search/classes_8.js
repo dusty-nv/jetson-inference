@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tensornet',['tensorNet',['../classtensorNet.html',1,'']]]
+  ['logger',['Logger',['../classtensorNet_1_1Logger.html',1,'tensorNet']]]
 ];

@@ -34,6 +34,20 @@ typedef struct {
 } PyImageNet_Object;
 
 
+#define DOC_IMAGENET "Image Recognition DNN - classifies an image\n\n" \
+				 "Examples (found in python/examples)\n" \
+				 "     my-recognition.py\n" \
+                     "     imagenet-console.py\n" \
+				 "     imagenet-camera.py\n\n" \
+				 "__init__(...)\n" \
+				 "     Loads an image recognition model.\n\n" \
+				 "     Parameters:\n" \
+				 "       network (string) -- name of a built-in network to use\n" \
+				 "                           values can be:  'alexnet', 'googlenet', 'googlenet-12'\n" \
+				 "                           the default is 'googlenet'\n\n" \
+				 "       argv (strings) -- command line arguments passed to imageNet,\n" \
+				 "                         for loading a custom model or custom settings" 
+
 // Init
 static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *kwds )
 {
@@ -123,6 +137,14 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 }
 
 
+#define DOC_CLASSIFY "Classify an RGBA image and return the object's class and confidence.\n\n" \
+				 "Parameters:\n" \
+				 "  image  (capsule) -- CUDA memory capsule\n" \
+				 "  width  (int) -- width of the image (in pixels)\n" \
+				 "  height (int) -- height of the image (in pixels)\n\n" \
+				 "Returns:\n" \
+				 "  (int, float) -- tuple containing the object's class index and confidence"
+
 // Classify
 static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, PyObject *kwds )
 {
@@ -188,6 +210,11 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
     
 }
 
+#define DOC_GET_NETWORK_NAME "Return the name of the built-in network used by the model.\n\n" \
+					    "Parameters:  (none)\n\n" \
+					    "Returns:\n" \
+					    "  (string) -- name of the network (e.g. 'googlenet', 'alexnet')\n" \
+					    "              or 'custom' if using a custom-loaded model"
 
 // GetNetworkName
 static PyObject* PyImageNet_GetNetworkName( PyImageNet_Object* self )
@@ -202,6 +229,11 @@ static PyObject* PyImageNet_GetNetworkName( PyImageNet_Object* self )
 }
 
 
+#define DOC_GET_NUM_CLASSES "Return the number of object classes that this network model is able to classify.\n\n" \
+				 	   "Parameters:  (none)\n\n" \
+					   "Returns:\n" \
+					   "  (int) -- number of object classes that the model supports"
+
 // GetNumClasses
 static PyObject* PyImageNet_GetNumClasses( PyImageNet_Object* self )
 {
@@ -214,6 +246,12 @@ static PyObject* PyImageNet_GetNumClasses( PyImageNet_Object* self )
 	return PYLONG_FROM_UNSIGNED_LONG(self->net->GetNumClasses());
 }
 
+
+#define DOC_GET_CLASS_DESC "Return the class description for the given object class.\n\n" \
+				 	  "Parameters:\n" \
+					  "  (int) -- index of the class, between [0, GetNumClasses()]\n\n" \
+					  "Returns:\n" \
+					  "  (string) -- the text description of the object class"
 
 // GetClassDesc
 PyObject* PyImageNet_GetClassDesc( PyImageNet_Object* self, PyObject* args )
@@ -241,6 +279,13 @@ PyObject* PyImageNet_GetClassDesc( PyImageNet_Object* self, PyObject* args )
 	return Py_BuildValue("s", self->net->GetClassDesc(classIdx));
 }
 
+
+#define DOC_GET_CLASS_SYNSET "Return the synset data category string for the given class.\n" \
+					    "The synset generally maps to the class training data folder.\n\n" \
+				 	    "Parameters:\n" \
+					    "  (int) -- index of the class, between [0, GetNumClasses()]\n\n" \
+					    "Returns:\n" \
+					    "  (string) -- the synset of the class, typically 9 characters long" 
 
 // GetClassSynset
 PyObject* PyImageNet_GetClassSynset( PyImageNet_Object* self, PyObject* args )
@@ -276,11 +321,11 @@ static PyTypeObject pyImageNet_Type =
 
 static PyMethodDef pyImageNet_Methods[] = 
 {
-	{ "Classify", (PyCFunction)PyImageNet_Classify, METH_VARARGS|METH_KEYWORDS, "Classify an RGBA image and return the object class and confidence"},
-	{ "GetNetworkName", (PyCFunction)PyImageNet_GetNetworkName, METH_NOARGS, "Return the name of the build-in network used by the model, or 'custom' if using a custom-loaded model"},
-     { "GetNumClasses", (PyCFunction)PyImageNet_GetNumClasses, METH_NOARGS, "Return the number of object classes that this network model is able to classify"},
-	{ "GetClassDesc", (PyCFunction)PyImageNet_GetClassDesc, METH_VARARGS, "Return the class description for the given class index"},
-	{ "GetClassSynset", (PyCFunction)PyImageNet_GetClassSynset, METH_VARARGS, "Return the class synset dataset category for the given class index"},
+	{ "Classify", (PyCFunction)PyImageNet_Classify, METH_VARARGS|METH_KEYWORDS, DOC_CLASSIFY},
+	{ "GetNetworkName", (PyCFunction)PyImageNet_GetNetworkName, METH_NOARGS, DOC_GET_NETWORK_NAME},
+     { "GetNumClasses", (PyCFunction)PyImageNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
+	{ "GetClassDesc", (PyCFunction)PyImageNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
+	{ "GetClassSynset", (PyCFunction)PyImageNet_GetClassSynset, METH_VARARGS, DOC_GET_CLASS_SYNSET},
 	{NULL}  /* Sentinel */
 };
 
@@ -298,7 +343,7 @@ bool PyImageNet_Register( PyObject* module )
 	pyImageNet_Type.tp_new		= NULL; /*PyImageNet_New;*/
 	pyImageNet_Type.tp_init		= (initproc)PyImageNet_Init;
 	pyImageNet_Type.tp_dealloc	= NULL; /*(destructor)PyImageNet_Dealloc;*/
-	pyImageNet_Type.tp_doc		= "Image Recognition DNN";
+	pyImageNet_Type.tp_doc		= DOC_IMAGENET;
 	 
 	if( PyType_Ready(&pyImageNet_Type) < 0 )
 	{

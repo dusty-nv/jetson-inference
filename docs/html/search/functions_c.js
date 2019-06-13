@@ -1,6 +1,29 @@
 var searchData=
 [
-  ['render',['Render',['../classglTexture.html#aacbc1ed68a99930b628b41d69997227e',1,'glTexture::Render(float x, float y)'],['../classglTexture.html#a38103fc1ec96018601b21131db5144c9',1,'glTexture::Render(float x, float y, float width, float height)'],['../classglTexture.html#ab449860cc3d739a6615d93f4a1764f20',1,'glTexture::Render(const float4 &amp;rect)']]],
-  ['renderoverlay',['RenderOverlay',['../classcudaFont.html#a3fc03b40fce8ea0dd911b49934a346c9',1,'cudaFont::RenderOverlay(float4 *input, float4 *output, uint32_t width, uint32_t height, const char *str, int x, int y, const float4 &amp;color=make_float4(0, 0, 0, 255))'],['../classcudaFont.html#a90df9606a3bc6a17cab66214d8e37764',1,'cudaFont::RenderOverlay(float4 *input, float4 *output, uint32_t width, uint32_t height, const std::vector&lt; std::pair&lt; std::string, int2 &gt; &gt; &amp;text, const float4 &amp;color=make_float4(0.0f, 0.0f, 0.0f, 255.0f))']]],
-  ['reportlayertime',['reportLayerTime',['../classtensorNet_1_1Profiler.html#a509ac9582f3e2f8f386363a0d43cc51c',1,'tensorNet::Profiler']]]
+  ['mapcuda',['MapCUDA',['../classglTexture.html#ada21bdae8cf3a528577ce2da35d48e67',1,'glTexture']]],
+  ['markinuse',['MarkInUse',['../classtinyxml2_1_1XMLDocument.html#a95d28ecb4760a994556b0a51690b21be',1,'tinyxml2::XMLDocument']]],
+  ['mask',['Mask',['../classsegNet.html#a1efb45b81c82dd6f74c641ab39a41387',1,'segNet::Mask(uint8_t *output, uint32_t width, uint32_t height)'],['../classsegNet.html#a656d709bbfb00fb0b9b4d55296aae463',1,'segNet::Mask(float *output, uint32_t width, uint32_t height, FilterMode filter=FILTER_LINEAR)']]],
+  ['mat33_5fcast',['mat33_cast',['../mat33_8h.html#a2a59a3e770f0f421c2e21df6f86df48f',1,'mat33.h']]],
+  ['mat33_5fcopy',['mat33_copy',['../mat33_8h.html#a4081852912b45ee44f0243ff5718203c',1,'mat33.h']]],
+  ['mat33_5fdet',['mat33_det',['../mat33_8h.html#a337284e19938f8654d8ebf6dcf6f257b',1,'mat33.h']]],
+  ['mat33_5fidentity',['mat33_identity',['../mat33_8h.html#a984ddbe902542e96416bb22c5c824b80',1,'mat33.h']]],
+  ['mat33_5finverse',['mat33_inverse',['../mat33_8h.html#ab7c879d25c250f9b0bbf43d1ca351a84',1,'mat33.h']]],
+  ['mat33_5fmultiply',['mat33_multiply',['../mat33_8h.html#a17719324015094525794f664c86ba20d',1,'mat33.h']]],
+  ['mat33_5fprint',['mat33_print',['../mat33_8h.html#a58d12875af4d112afdc1354e66f488d2',1,'mat33.h']]],
+  ['mat33_5frank',['mat33_rank',['../mat33_8h.html#afa786e888812cb8d884c5e585914b609',1,'mat33.h']]],
+  ['mat33_5frotation',['mat33_rotation',['../mat33_8h.html#a2811064b0130de6dbdb1549e09da0658',1,'mat33_rotation(T dst[3][3], T degrees):&#160;mat33.h'],['../mat33_8h.html#a538c44222723e66a248894a05b607523',1,'mat33_rotation(T dst[3][3], T src[3][3], T degrees):&#160;mat33.h']]],
+  ['mat33_5fscale',['mat33_scale',['../mat33_8h.html#a00f088c37cb0ec42cea53fa7794457e3',1,'mat33_scale(T dst[3][3], T sx, T sy):&#160;mat33.h'],['../mat33_8h.html#a312e1174aa897fcf54da86ad85193398',1,'mat33_scale(T dst[3][3], T src[3][3], T sx, T sy):&#160;mat33.h']]],
+  ['mat33_5fshear',['mat33_shear',['../mat33_8h.html#a389b2d87bdb9ab09c3d873a6dcbf2e87',1,'mat33_shear(T dst[3][3], T sx, T sy):&#160;mat33.h'],['../mat33_8h.html#a6d183e8a21c5a0035c852ca4d0ebfb15',1,'mat33_shear(T dst[3][3], T src[3][3], T sx, T sy):&#160;mat33.h']]],
+  ['mat33_5fswap',['mat33_swap',['../mat33_8h.html#a14a2f030b3997bbf73afa1b9868534ec',1,'mat33.h']]],
+  ['mat33_5ftrace',['mat33_trace',['../mat33_8h.html#a494f9ef8df9d1e14afce204581247fa4',1,'mat33.h']]],
+  ['mat33_5ftransform',['mat33_transform',['../mat33_8h.html#a04d1860e5b931f43cb60c78ef6dfc464',1,'mat33_transform(T &amp;x_out, T &amp;y_out, const T x_in, const T y_in, const T mat[3][3]):&#160;mat33.h'],['../mat33_8h.html#a847b97f26a57cbf90f0f1cd3236eadc2',1,'mat33_transform(T dst[2], const T src[2], const T mat[3][3]):&#160;mat33.h'],['../mat33_8h.html#a3cd7f8bbd5028eb6a4c6fa3f1e83cbe0',1,'mat33_transform(T *dst, const T *src, const int N, const T mat[3][3]):&#160;mat33.h']]],
+  ['mat33_5ftranslate',['mat33_translate',['../mat33_8h.html#afc607b02cc864b8571d5a984bc3f1851',1,'mat33_translate(T dst[3][3], T x, T y):&#160;mat33.h'],['../mat33_8h.html#a4a69500377a2f20ff8ca8d269d234c27',1,'mat33_translate(T dst[3][3], T src[3][3], T x, T y):&#160;mat33.h']]],
+  ['mat33_5ftranspose',['mat33_transpose',['../mat33_8h.html#aef64fca8bb6b4a04d2b7497551719c08',1,'mat33.h']]],
+  ['mat33_5fzero',['mat33_zero',['../mat33_8h.html#af896d4d3e9b5019d367d9f3707305083',1,'mat33.h']]],
+  ['mem',['Mem',['../classtinyxml2_1_1DynArray.html#a60b33e61cf10b3fd900ee46692dc0fe9',1,'tinyxml2::DynArray::Mem() const'],['../classtinyxml2_1_1DynArray.html#a2f0842cd666e2ad951f1a8bd6561fa40',1,'tinyxml2::DynArray::Mem()']]],
+  ['mempool',['MemPool',['../classtinyxml2_1_1MemPool.html#a9101a0083d7370c85bd5aaaba7157f84',1,'tinyxml2::MemPool']]],
+  ['mempoolt',['MemPoolT',['../classtinyxml2_1_1MemPoolT.html#ac8fa6dbb403f009cf9c8a33c6f2803b3',1,'tinyxml2::MemPoolT']]],
+  ['modeltypefromstr',['modelTypeFromStr',['../group__deepVision.html#ga85f7b445f4341d24c65bb3bbc4a3204c',1,'tensorNet.h']]],
+  ['modeltypetostr',['modelTypeToStr',['../group__deepVision.html#gae771c047f44cc49238c00d0e8af48106',1,'tensorNet.h']]],
+  ['mutex',['Mutex',['../classMutex.html#a593423d868daf926c7b0d63a833ae29a',1,'Mutex']]]
 ];

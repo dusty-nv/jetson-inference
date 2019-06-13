@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['facenet',['FACENET',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aba129790ea4695b8fc94f0eeecb344de',1,'detectNet']]],
-  ['fcn_5falexnet_5faerial_5ffpv_5f720p',['FCN_ALEXNET_AERIAL_FPV_720p',['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a46829d99af463638dfd4e547b0a2a95d',1,'segNet']]],
-  ['fcn_5falexnet_5fcityscapes_5fhd',['FCN_ALEXNET_CITYSCAPES_HD',['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a909c376ffd7d5363aea65c200f2e008e',1,'segNet']]],
-  ['fcn_5falexnet_5fcityscapes_5fsd',['FCN_ALEXNET_CITYSCAPES_SD',['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a0760a67c5a08aad80d7dc732bc760e31',1,'segNet']]],
-  ['fcn_5falexnet_5fpascal_5fvoc',['FCN_ALEXNET_PASCAL_VOC',['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660adba730fd6f1caee50f8430d96603757a',1,'segNet']]],
-  ['fcn_5falexnet_5fsynthia_5fcvpr16',['FCN_ALEXNET_SYNTHIA_CVPR16',['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a3cb82f1b884ddc9dc8a51381c2cf8420',1,'segNet']]],
-  ['fcn_5falexnet_5fsynthia_5fsummer_5fhd',['FCN_ALEXNET_SYNTHIA_SUMMER_HD',['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a5808394068d715aeff04991dc34b73a8',1,'segNet']]],
-  ['fcn_5falexnet_5fsynthia_5fsummer_5fsd',['FCN_ALEXNET_SYNTHIA_SUMMER_SD',['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a245b790d2bc719d2397899bef7472da3',1,'segNet']]]
+  ['device_5fdla',['DEVICE_DLA',['../group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4aeaef16f066c95dd987fbde765b8b30b2',1,'tensorNet.h']]],
+  ['device_5fdla_5f0',['DEVICE_DLA_0',['../group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4a4950aeb02ff7fba02eb2fd2437788399',1,'tensorNet.h']]],
+  ['device_5fdla_5f1',['DEVICE_DLA_1',['../group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4a63fbbad29461776cf20c2137a3d124f0',1,'tensorNet.h']]],
+  ['device_5fgpu',['DEVICE_GPU',['../group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b',1,'tensorNet.h']]]
 ];

@@ -1,0 +1,238 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: package jetson.inference</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="jetson.html"><font color="#ffffff">jetson</font></a>.inference</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/lib/python2.7/dist-packages/jetson/inference/__init__.py">/usr/lib/python2.7/dist-packages/jetson/inference/__init__.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Package Contents</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="jetson.inference.html#tensorNet">tensorNet</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="jetson.inference.html#detectNet">detectNet</a>
+</font></dt><dt><font face="helvetica, arial"><a href="jetson.inference.html#imageNet">imageNet</a>
+</font></dt></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="detectNet">class <strong>detectNet</strong></a>(<a href="jetson.inference.html#tensorNet">tensorNet</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Object&nbsp;Detection&nbsp;DNN<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="jetson.inference.html#detectNet">detectNet</a></dd>
+<dd><a href="jetson.inference.html#tensorNet">tensorNet</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="detectNet-Detect"><strong>Detect</strong></a>(...)</dt><dd><tt>Detect&nbsp;objects&nbsp;in&nbsp;an&nbsp;RGBA&nbsp;image&nbsp;and&nbsp;optionally&nbsp;overlay&nbsp;the&nbsp;detected&nbsp;bounding&nbsp;boxes&nbsp;over&nbsp;the&nbsp;image</tt></dd></dl>
+
+<dl><dt><a name="detectNet-GetClassDesc"><strong>GetClassDesc</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;class&nbsp;description&nbsp;for&nbsp;the&nbsp;given&nbsp;class&nbsp;index</tt></dd></dl>
+
+<dl><dt><a name="detectNet-GetClassSynset"><strong>GetClassSynset</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;class&nbsp;synset&nbsp;dataset&nbsp;category&nbsp;for&nbsp;the&nbsp;given&nbsp;class&nbsp;index</tt></dd></dl>
+
+<dl><dt><a name="detectNet-GetNumClasses"><strong>GetNumClasses</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;number&nbsp;of&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;classes&nbsp;that&nbsp;this&nbsp;network&nbsp;model&nbsp;is&nbsp;able&nbsp;to&nbsp;classify</tt></dd></dl>
+
+<dl><dt><a name="detectNet-GetThreshold"><strong>GetThreshold</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;minimum&nbsp;threshold&nbsp;for&nbsp;detection</tt></dd></dl>
+
+<dl><dt><a name="detectNet-SetThreshold"><strong>SetThreshold</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;minimum&nbsp;threshold&nbsp;for&nbsp;detection</tt></dd></dl>
+
+<dl><dt><a name="detectNet-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="#detectNet-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>Detection</strong> = &lt;type 'jetson.inference.detectNet.Detection'&gt;<dd><tt>Object&nbsp;Detection&nbsp;Result</tt></dl>
+
+<hr>
+Methods inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<br>
+<dl><dt><a name="detectNet-EnableDebug"><strong>EnableDebug</strong></a>(...)</dt><dd><tt>Enable&nbsp;TensorRT&nbsp;debug&nbsp;messages&nbsp;and&nbsp;device&nbsp;synchronization</tt></dd></dl>
+
+<dl><dt><a name="detectNet-EnableLayerProfiler"><strong>EnableLayerProfiler</strong></a>(...)</dt><dd><tt>Enable&nbsp;the&nbsp;profiling&nbsp;of&nbsp;network&nbsp;layer&nbsp;execution&nbsp;times</tt></dd></dl>
+
+<dl><dt><a name="detectNet-GetModelPath"><strong>GetModelPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;model&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
+
+<dl><dt><a name="detectNet-GetModelType"><strong>GetModelType</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;type&nbsp;of&nbsp;model&nbsp;format&nbsp;(caffe,&nbsp;ONNX,&nbsp;UFF,&nbsp;or&nbsp;custom)</tt></dd></dl>
+
+<dl><dt><a name="detectNet-GetNetworkTime"><strong>GetNetworkTime</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;milliseconds)</tt></dd></dl>
+
+<dl><dt><a name="detectNet-GetPrototxtPath"><strong>GetPrototxtPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;prototxt&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
+
+<dl><dt><a name="detectNet-PrintProfilerTimes"><strong>PrintProfilerTimes</strong></a>(...)</dt><dd><tt>Print&nbsp;out&nbsp;performance&nbsp;timing&nbsp;info</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#detectNet-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="imageNet">class <strong>imageNet</strong></a>(<a href="jetson.inference.html#tensorNet">tensorNet</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Image&nbsp;Recognition&nbsp;DNN&nbsp;-&nbsp;classifies&nbsp;an&nbsp;image<br>
+&nbsp;<br>
+Examples&nbsp;(found&nbsp;in&nbsp;python/examples)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my-recognition.py<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagenet-console.py<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagenet-camera.py<br>
+&nbsp;<br>
+<a href="#imageNet-__init__">__init__</a>(...)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loads&nbsp;an&nbsp;image&nbsp;recognition&nbsp;model.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;network&nbsp;(string)&nbsp;--&nbsp;name&nbsp;of&nbsp;a&nbsp;built-in&nbsp;network&nbsp;to&nbsp;use<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;values&nbsp;can&nbsp;be:&nbsp;&nbsp;'alexnet',&nbsp;'googlenet',&nbsp;'googlenet-12'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;default&nbsp;is&nbsp;'googlenet'<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argv&nbsp;(strings)&nbsp;--&nbsp;command&nbsp;line&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;<a href="#imageNet">imageNet</a>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;loading&nbsp;a&nbsp;custom&nbsp;model&nbsp;or&nbsp;custom&nbsp;settings<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="jetson.inference.html#imageNet">imageNet</a></dd>
+<dd><a href="jetson.inference.html#tensorNet">tensorNet</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="imageNet-Classify"><strong>Classify</strong></a>(...)</dt><dd><tt>Classify&nbsp;an&nbsp;RGBA&nbsp;image&nbsp;and&nbsp;return&nbsp;the&nbsp;<a href="__builtin__.html#object">object</a>'s&nbsp;class&nbsp;and&nbsp;confidence.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;image&nbsp;&nbsp;(capsule)&nbsp;--&nbsp;CUDA&nbsp;memory&nbsp;capsule<br>
+&nbsp;&nbsp;width&nbsp;&nbsp;(int)&nbsp;--&nbsp;width&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
+&nbsp;&nbsp;height&nbsp;(int)&nbsp;--&nbsp;height&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(int,&nbsp;float)&nbsp;--&nbsp;tuple&nbsp;containing&nbsp;the&nbsp;<a href="__builtin__.html#object">object</a>'s&nbsp;class&nbsp;index&nbsp;and&nbsp;confidence</tt></dd></dl>
+
+<dl><dt><a name="imageNet-GetClassDesc"><strong>GetClassDesc</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;class&nbsp;description&nbsp;for&nbsp;the&nbsp;given&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;class.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;index&nbsp;of&nbsp;the&nbsp;class,&nbsp;between&nbsp;[0,&nbsp;<a href="#imageNet-GetNumClasses">GetNumClasses</a>()]<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(string)&nbsp;--&nbsp;the&nbsp;text&nbsp;description&nbsp;of&nbsp;the&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;class</tt></dd></dl>
+
+<dl><dt><a name="imageNet-GetClassSynset"><strong>GetClassSynset</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;synset&nbsp;data&nbsp;category&nbsp;string&nbsp;for&nbsp;the&nbsp;given&nbsp;class.<br>
+The&nbsp;synset&nbsp;generally&nbsp;maps&nbsp;to&nbsp;the&nbsp;class&nbsp;training&nbsp;data&nbsp;folder.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;index&nbsp;of&nbsp;the&nbsp;class,&nbsp;between&nbsp;[0,&nbsp;<a href="#imageNet-GetNumClasses">GetNumClasses</a>()]<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(string)&nbsp;--&nbsp;the&nbsp;synset&nbsp;of&nbsp;the&nbsp;class,&nbsp;typically&nbsp;9&nbsp;characters&nbsp;long</tt></dd></dl>
+
+<dl><dt><a name="imageNet-GetNetworkName"><strong>GetNetworkName</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;built-in&nbsp;network&nbsp;used&nbsp;by&nbsp;the&nbsp;model.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(string)&nbsp;--&nbsp;name&nbsp;of&nbsp;the&nbsp;network&nbsp;(e.g.&nbsp;'googlenet',&nbsp;'alexnet')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;'custom'&nbsp;if&nbsp;using&nbsp;a&nbsp;custom-loaded&nbsp;model</tt></dd></dl>
+
+<dl><dt><a name="imageNet-GetNumClasses"><strong>GetNumClasses</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;number&nbsp;of&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;classes&nbsp;that&nbsp;this&nbsp;network&nbsp;model&nbsp;is&nbsp;able&nbsp;to&nbsp;classify.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;number&nbsp;of&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;classes&nbsp;that&nbsp;the&nbsp;model&nbsp;supports</tt></dd></dl>
+
+<dl><dt><a name="imageNet-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="#imageNet-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<br>
+<dl><dt><a name="imageNet-EnableDebug"><strong>EnableDebug</strong></a>(...)</dt><dd><tt>Enable&nbsp;TensorRT&nbsp;debug&nbsp;messages&nbsp;and&nbsp;device&nbsp;synchronization</tt></dd></dl>
+
+<dl><dt><a name="imageNet-EnableLayerProfiler"><strong>EnableLayerProfiler</strong></a>(...)</dt><dd><tt>Enable&nbsp;the&nbsp;profiling&nbsp;of&nbsp;network&nbsp;layer&nbsp;execution&nbsp;times</tt></dd></dl>
+
+<dl><dt><a name="imageNet-GetModelPath"><strong>GetModelPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;model&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
+
+<dl><dt><a name="imageNet-GetModelType"><strong>GetModelType</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;type&nbsp;of&nbsp;model&nbsp;format&nbsp;(caffe,&nbsp;ONNX,&nbsp;UFF,&nbsp;or&nbsp;custom)</tt></dd></dl>
+
+<dl><dt><a name="imageNet-GetNetworkTime"><strong>GetNetworkTime</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;milliseconds)</tt></dd></dl>
+
+<dl><dt><a name="imageNet-GetPrototxtPath"><strong>GetPrototxtPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;prototxt&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
+
+<dl><dt><a name="imageNet-PrintProfilerTimes"><strong>PrintProfilerTimes</strong></a>(...)</dt><dd><tt>Print&nbsp;out&nbsp;performance&nbsp;timing&nbsp;info</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#imageNet-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="tensorNet">class <strong>tensorNet</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>TensorRT&nbsp;DNN&nbsp;Base&nbsp;Object<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="tensorNet-EnableDebug"><strong>EnableDebug</strong></a>(...)</dt><dd><tt>Enable&nbsp;TensorRT&nbsp;debug&nbsp;messages&nbsp;and&nbsp;device&nbsp;synchronization</tt></dd></dl>
+
+<dl><dt><a name="tensorNet-EnableLayerProfiler"><strong>EnableLayerProfiler</strong></a>(...)</dt><dd><tt>Enable&nbsp;the&nbsp;profiling&nbsp;of&nbsp;network&nbsp;layer&nbsp;execution&nbsp;times</tt></dd></dl>
+
+<dl><dt><a name="tensorNet-GetModelPath"><strong>GetModelPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;model&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
+
+<dl><dt><a name="tensorNet-GetModelType"><strong>GetModelType</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;type&nbsp;of&nbsp;model&nbsp;format&nbsp;(caffe,&nbsp;ONNX,&nbsp;UFF,&nbsp;or&nbsp;custom)</tt></dd></dl>
+
+<dl><dt><a name="tensorNet-GetNetworkTime"><strong>GetNetworkTime</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;milliseconds)</tt></dd></dl>
+
+<dl><dt><a name="tensorNet-GetPrototxtPath"><strong>GetPrototxtPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;prototxt&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
+
+<dl><dt><a name="tensorNet-PrintProfilerTimes"><strong>PrintProfilerTimes</strong></a>(...)</dt><dd><tt>Print&nbsp;out&nbsp;performance&nbsp;timing&nbsp;info</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#tensorNet-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-MyPrint"><strong>MyPrint</strong></a>(...)</dt><dd><tt>Print&nbsp;a&nbsp;string.</tt></dd></dl>
+ <dl><dt><a name="-MyString"><strong>MyString</strong></a>(...)</dt><dd><tt>Return&nbsp;a&nbsp;test&nbsp;string.</tt></dd></dl>
+ <dl><dt><a name="-MyTest"><strong>MyTest</strong></a>(...)</dt><dd><tt>Test&nbsp;function.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>VERSION</strong> = '1.0.0'</td></tr></table>
+</body></html>

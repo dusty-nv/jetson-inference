@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['timingaccumulator',['timingAccumulator',['../classtensorNet_1_1Profiler.html#a8784d561f96bfd5a02c2bf9554f0d773',1,'tensorNet::Profiler']]]
+  ['lastglyph',['LastGlyph',['../classcudaFont.html#a5ea6574bf7fab0264c8a6c8dda7254ed',1,'cudaFont']]],
+  ['left',['Left',['../structdetectNet_1_1Detection.html#a42914a705a6cad72e56a9ad4fb68b0e6',1,'detectNet::Detection']]]
 ];
