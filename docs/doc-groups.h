@@ -1,8 +1,8 @@
 
 
 /**
- * @defgroup deepVision Deep Vision Primitives
- * C/C++ runtime APIs for supporting deep vision network model primitives and inferencing with TensorRT.
+ * @defgroup deepVision DNN Vision Library (`jetson-inference`)
+ * C++ runtime library for supporting deep vision neural network models and inferencing with TensorRT.
  * Available network primitives currently include:  
  *   - \ref imageNet for image recognition
  *   - \ref detectNet for object detection + localization
@@ -12,7 +12,7 @@
  */
 
 /**
- * @defgroup util Multimedia Utilities
+ * @defgroup util Utility Library (`jetson-utils`)
  * Tools and utilities for camera streaming, codecs, display, and visualization.
  */
 

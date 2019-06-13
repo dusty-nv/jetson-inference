@@ -142,6 +142,5 @@ var searchData=
   ['mwidth',['mWidth',['../classglDisplay.html#a2dd92f37832e555d1475e5f8c2484043',1,'glDisplay::mWidth()'],['../classgstEncoder.html#a137c6c229633814af06e28b513d3d492',1,'gstEncoder::mWidth()'],['../classtensorNet.html#accab52fa354232149048440da0071573',1,'tensorNet::mWidth()']]],
   ['mwindowclosed',['mWindowClosed',['../classglDisplay.html#acd8adcb680935b9ea3ce974b141e5969',1,'glDisplay']]],
   ['mwindowclosedmsg',['mWindowClosedMsg',['../classglDisplay.html#a4d20a9b3eb655b1719c3896f9af608e4',1,'glDisplay']]],
-  ['mwindowx',['mWindowX',['../classglDisplay.html#a59861c4376b388d34c57f06c9a460e97',1,'glDisplay']]],
-  ['multimedia_20utilities',['Multimedia Utilities',['../group__util.html',1,'']]]
+  ['mwindowx',['mWindowX',['../classglDisplay.html#a59861c4376b388d34c57f06c9a460e97',1,'glDisplay']]]
 ];

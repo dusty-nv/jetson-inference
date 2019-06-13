@@ -10,5 +10,6 @@ var searchData=
   ['unused_5fxml_5ferror_5fidentifying_5ftag',['UNUSED_XML_ERROR_IDENTIFYING_TAG',['../namespacetinyxml2.html#a1fbf88509c3ac88c09117b1947414e08af3473ba767602c2c41fc4e871ba907aa',1,'tinyxml2']]],
   ['uploadcpu',['UploadCPU',['../classglTexture.html#a297a985ec595ce6b127e1490dbfe8587',1,'glTexture']]],
   ['upscalergba',['UpscaleRGBA',['../classsuperResNet.html#ac1248d34fa3b0e3c08c318088ed3c9d8',1,'superResNet::UpscaleRGBA(float *input, uint32_t inputWidth, uint32_t inputHeight, float *output, uint32_t outputWidth, uint32_t outputHeight, float maxPixelValue=255.0f)'],['../classsuperResNet.html#a3bb1be3372403fdd29f78b88490854ff',1,'superResNet::UpscaleRGBA(float *input, float *output, float maxPixelValue=255.0f)']]],
-  ['userevents',['UserEvents',['../classglDisplay.html#a12363aea016c16935833e2b58806d4c8',1,'glDisplay']]]
+  ['userevents',['UserEvents',['../classglDisplay.html#a12363aea016c16935833e2b58806d4c8',1,'glDisplay']]],
+  ['utility_20library_20_28_60jetson_2dutils_60_29',['Utility Library (`jetson-utils`)',['../group__util.html',1,'']]]
 ];

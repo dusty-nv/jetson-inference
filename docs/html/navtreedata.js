@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "Hello AI World", "index.html", [
+  [ "jetson-inference", "index.html", [
     [ "Modules", "modules.html", "modules" ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],

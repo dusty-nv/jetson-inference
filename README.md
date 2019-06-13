@@ -71,7 +71,13 @@ The full tutorial includes training and inference, and can take roughly two days
 ## API Reference
 
 * [C++ Libraries](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/index.html)
+	* [`jetson-inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__deepVision.html)
+		* [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classimageNet.html)
+	* [`jetson-utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__util.html)
 * [Python Libraries](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.html)
+	* [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html)
+		* [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet)
+	* [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html)
 
 ## Extra Resources
 

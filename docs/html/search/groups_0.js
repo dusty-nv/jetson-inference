@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['deep_20vision_20primitives',['Deep Vision Primitives',['../group__deepVision.html',1,'']]]
+  ['dnn_20vision_20library_20_28_60jetson_2dinference_60_29',['DNN Vision Library (`jetson-inference`)',['../group__deepVision.html',1,'']]]
 ];

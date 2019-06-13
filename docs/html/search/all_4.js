@@ -3,7 +3,7 @@ var searchData=
   ['debug',['Debug',['../classInputDevices.html#a53de9667014046b098706f119843f7f9',1,'InputDevices::Debug()'],['../classJoystickDevice.html#abb8cb0c120a2f76a5c8045daa954fce4',1,'JoystickDevice::Debug()'],['../classKeyboardDevice.html#af3e9570c7b0976e28e64f8ce1b57f7e2',1,'KeyboardDevice::Debug()']]],
   ['deepclone',['DeepClone',['../classtinyxml2_1_1XMLNode.html#a62c71b6bf8734b5424063b8d9a61c266',1,'tinyxml2::XMLNode']]],
   ['deepcopy',['DeepCopy',['../classtinyxml2_1_1XMLDocument.html#af592ffc91514e25a39664521ac83db45',1,'tinyxml2::XMLDocument']]],
-  ['deep_20vision_20primitives',['Deep Vision Primitives',['../group__deepVision.html',1,'']]],
+  ['dnn_20vision_20library_20_28_60jetson_2dinference_60_29',['DNN Vision Library (`jetson-inference`)',['../group__deepVision.html',1,'']]],
   ['default_5fmax_5fbatch_5fsize',['DEFAULT_MAX_BATCH_SIZE',['../group__deepVision.html#ga5a46a965749d6118e01307fd4d4865c9',1,'tensorNet.h']]],
   ['default_5ftitle',['DEFAULT_TITLE',['../classglDisplay.html#a1fc9d28ddbc0f849aea7b80e96b09a68',1,'glDisplay']]],
   ['defaultclassdesc',['defaultClassDesc',['../classdetectNet.html#a464e60c5fb80d1ab64928006c2a27702',1,'detectNet']]],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['multimedia_20utilities',['Multimedia Utilities',['../group__util.html',1,'']]]
+  ['utility_20library_20_28_60jetson_2dutils_60_29',['Utility Library (`jetson-utils`)',['../group__util.html',1,'']]]
 ];
