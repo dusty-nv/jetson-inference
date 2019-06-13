@@ -13,11 +13,11 @@ There are multiple tracks of the tutorial that you can choose to follow, includi
 
 ### Table of Contents
 
-	* [Hello AI World (Inference)](#hello-ai-world-inference-only)
-	* [Two Days to a Demo (Training + Inference)](#two-days-to-a-demo-training--inference)
-	* [API Reference Documentation](#api-reference)
-	* [Recommended System Requirements](#recommended-system-requirements)
-	* [Extra Resources](#extra-resources)
+* [Hello AI World (Inference)](#hello-ai-world-inference-only)
+* [Two Days to a Demo (Training + Inference)](#two-days-to-a-demo-training--inference)
+* [API Reference Documentation](#api-reference)
+* [Recommended System Requirements](#recommended-system-requirements)
+* [Extra Resources](#extra-resources)
 
 > &gt; &nbsp; Jetson Nano Developer Kit and JetPack 4.2 is now supported in the repo. <br/>
 > &gt; &nbsp; See our technical blog including benchmarks, [`Jetson Nano Brings AI Computing to Everyone`](https://devblogs.nvidia.com/jetson-nano-ai-computing/).
