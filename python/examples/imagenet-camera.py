@@ -63,5 +63,9 @@ while display.IsOpen():
 	display.RenderOnce(img, width, height)
 
 	# update the title bar
-	display.SetTitle("{:s} | {:.0f} FPS".format(net.GetNetworkName(), display.GetFPS()))
+	display.SetTitle("{:s} | Network {:.0f} FPS".format(net.GetNetworkName(), 1000.0 / net.GetNetworkTime()))
+
+	# print out performance info
+	net.PrintProfilerTimes()
+
 
