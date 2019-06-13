@@ -9,13 +9,15 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-There are multiple tracks of the tutorial that you can choose to follow, including Training + Inference or Inference Only:
+There are multiple tracks of the tutorial that you can choose to follow, including Training + Inference or Inference Only.
 
-* [Hello AI World (Inference)](#hello-ai-world-inference-only)
-* [Two Days to a Demo (Training + Inference)](#two-days-to-a-demo-training--inference)
-* [API Reference Documentation](#api-reference)
-* [Recommended System Requirements](#recommended-system-requirements)
-* [Extra Resources](#extra-resources)
+### Table of Contents
+
+	* [Hello AI World (Inference)](#hello-ai-world-inference-only)
+	* [Two Days to a Demo (Training + Inference)](#two-days-to-a-demo-training--inference)
+	* [API Reference Documentation](#api-reference)
+	* [Recommended System Requirements](#recommended-system-requirements)
+	* [Extra Resources](#extra-resources)
 
 > &gt; &nbsp; Jetson Nano Developer Kit and JetPack 4.2 is now supported in the repo. <br/>
 > &gt; &nbsp; See our technical blog including benchmarks, [`Jetson Nano Brings AI Computing to Everyone`](https://devblogs.nvidia.com/jetson-nano-ai-computing/).
@@ -80,26 +82,26 @@ Below are links to API reference documentation for the different C++ and Python 
 
 * [C++ Libraries](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/index.html)
 	* [`jetson-inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__deepVision.html)
-		* [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classimageNet.html) - image recognition
-		* [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) - object detection
-		* [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) - object detection
+		* [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classimageNet.html) (image recognition)
+		* [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) (object detection)
+		* [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) (semantic segmentation)
 	* [`jetson-utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__util.html)
 
 * [Python Libraries](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.html)
 	* [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html)
-		* [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) - image recognition
-		* [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) - object detection
+		* [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) (image recognition)
+		* [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) (object detection)
 	* [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html)
 
 
 ## Recommended System Requirements
 
-Training GPU:  Maxwell, Pascal, Volta, or Turing-based GPU (ideally with at least 6GB video memory)  
+**Training GPU:**  Maxwell, Pascal, Volta, or Turing-based GPU (ideally with at least 6GB video memory)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;optionally, AWS P2/P3 instance or Microsoft Azure N-series  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ubuntu 16.04/18.04 x86_64
 
-Deployment:    &nbsp;&nbsp;Jetson Nano Developer Kit with JetPack 4.2 or newer (Ubuntu 18.04 aarch64).  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jetson Xavier Developer Kit with JetPack 4.0 or newer (Ubuntu 18.04 aarch64)
+**Deployment:**    &nbsp;&nbsp;Jetson Nano Developer Kit with JetPack 4.2 or newer (Ubuntu 18.04 aarch64).  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jetson Xavier Developer Kit with JetPack 4.0 or newer (Ubuntu 18.04 aarch64)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jetson TX2 Developer Kit with JetPack 3.0 or newer (Ubuntu 16.04 aarch64).  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jetson TX1 Developer Kit with JetPack 2.3 or newer (Ubuntu 16.04 aarch64).
 
