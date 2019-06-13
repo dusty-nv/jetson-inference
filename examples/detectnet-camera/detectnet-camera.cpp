@@ -148,8 +148,6 @@ int main( int argc, char** argv )
 			}
 		}	
 
-		net->PrintProfilerTimes();
-
 		// update display
 		if( display != NULL )
 		{
@@ -158,13 +156,15 @@ int main( int argc, char** argv )
 
 			// update the status bar
 			char str[256];
-			sprintf(str, "TensorRT %i.%i.%i | %s | %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), display->GetFPS());
+			sprintf(str, "TensorRT %i.%i.%i | %s | Network %.0f FPS | Display %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), 1000.0f / net->GetNetworkTime(), display->GetFPS());
 			display->SetTitle(str);
 
 			// check if the user quit
 			if( display->IsClosed() )
 				signal_recieved = true;
 		}
+
+		net->PrintProfilerTimes();
 	}
 	
 

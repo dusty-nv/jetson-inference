@@ -145,8 +145,6 @@ int main( int argc, char** argv )
 				font->OverlayText((float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
 						        str, 5, 5, make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
 			}
-
-			net->PrintProfilerTimes();
 		}	
 
 		// update display
@@ -156,13 +154,15 @@ int main( int argc, char** argv )
 
 			// update status bar
 			char str[256];
-			sprintf(str, "TensorRT %i.%i.%i | %s | %s | Network %.0f FPS | Display %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), precisionTypeToStr(net->GetPrecision()), 1000.0f / net->GetProfilerTime(PROFILER_NETWORK, PROFILER_CUDA), display->GetFPS());
+			sprintf(str, "TensorRT %i.%i.%i | %s | %s | Network %.0f FPS | Display %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), precisionTypeToStr(net->GetPrecision()), 1000.0f / net->GetNetworkTime(), display->GetFPS());
 			display->SetTitle(str);	
 
 			// check if the user quit
 			if( display->IsClosed() )
 				signal_recieved = true;
 		}
+
+		net->PrintProfilerTimes();
 	}
 	
 	
