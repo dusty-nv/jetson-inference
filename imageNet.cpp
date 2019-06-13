@@ -339,6 +339,8 @@ bool imageNet::Process()
 
 	if( !stream )
 	{
+		//const timespec cpu_begin = timestamp();
+
 	#if 1
 		if( !mContext->execute(1, bindBuffers) )
 		{
@@ -356,6 +358,15 @@ bool imageNet::Process()
 			return false;
 		}
 	#endif	
+
+		/*const timespec cpu_end  = timestamp();
+		const timespec cpu_time = timeDiff(cpu_begin, cpu_end);
+
+		timePrint(cpu_begin, "imageNet IExecutionContext begin (CPU)  ");
+		timePrint(cpu_end, "imageNet IExecutionContext end (CPU)      ");
+		timePrint(cpu_time, "imageNet IExecutionContext elapsed (CPU) ");
+
+		printf(LOG_TRT "imageNet IExecutionContext elapsed (CPU):  %fms\n", timeFloat(cpu_time));*/
 	}
 	else
 	{

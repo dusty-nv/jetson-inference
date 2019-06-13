@@ -326,6 +326,11 @@ public:
 	inline bool IsModelType( modelType type ) const		{ return (mModelType == type); }
 
 	/**
+	 * Retrieve the network runtime (in milliseconds).
+	 */
+	inline float GetNetworkTime()										{ return GetProfilerTime(PROFILER_NETWORK, PROFILER_CUDA); }
+	
+	/**
 	 * Retrieve the profiler runtime (in milliseconds).
 	 */
 	inline float2 GetProfilerTime( profilerQuery query )	 				 { PROFILER_QUERY(query); return mProfilerTimes[query]; }
