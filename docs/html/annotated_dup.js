@@ -23,6 +23,5 @@ var annotated_dup =
     [ "superResNet", "classsuperResNet.html", "classsuperResNet" ],
     [ "tensorNet", "classtensorNet.html", "classtensorNet" ],
     [ "Thread", "classThread.html", "classThread" ],
-    [ "v4l2_mmap", "structv4l2__mmap.html", "structv4l2__mmap" ],
     [ "v4l2Camera", "classv4l2Camera.html", "classv4l2Camera" ]
 ];

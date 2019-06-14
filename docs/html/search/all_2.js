@@ -9,7 +9,6 @@ var searchData=
   ['bswap16',['bswap16',['../Endian_8h.html#a77940e89e880931aa3119867e4dad8ea',1,'Endian.h']]],
   ['bswap32',['bswap32',['../Endian_8h.html#a15cbd510c4762c0a57df38be08b47f8e',1,'Endian.h']]],
   ['bswap64',['bswap64',['../Endian_8h.html#a6e5a270d6482e0712403fd981fb863d9',1,'Endian.h']]],
-  ['buf',['buf',['../structv4l2__mmap.html#aca68b03edf7ccf47451c1dff1f6ccaa3',1,'v4l2_mmap']]],
   ['buildcapsstr',['buildCapsStr',['../classgstEncoder.html#a967e02f227d4739ead8760bba862efa1',1,'gstEncoder']]],
   ['buildlaunchstr',['buildLaunchStr',['../classgstDecoder.html#a34aa2ba174916bf11f6a6754035be07e',1,'gstDecoder::buildLaunchStr()'],['../classgstEncoder.html#a3a03a7c3f2633842618f8d9e9e21c5a0',1,'gstEncoder::buildLaunchStr()']]]
 ];

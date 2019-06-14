@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Jetson Inference: cudaRGB.h File Reference</title>
+<title>Jetson Inference: jetson-utils/cudaRGB.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -94,413 +94,44 @@ $(document).ready(function(){initNavTree('cudaRGB_8h.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gad89d17678982424019ccb687d93c5b61"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#gad89d17678982424019ccb687d93c5b61">cudaBGR8ToRGBA32</a> (uchar3 *input, float4 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:gad89d17678982424019ccb687d93c5b61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 8-bit fixed-point BGR image to 32-bit floating-point RGBA image.  <a href="group__util.html#gad89d17678982424019ccb687d93c5b61">More...</a><br /></td></tr>
+<tr class="memitem:gad89d17678982424019ccb687d93c5b61"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gad89d17678982424019ccb687d93c5b61">cudaBGR8ToRGBA32</a> (uchar3 *input, float4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gad89d17678982424019ccb687d93c5b61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 8-bit fixed-point BGR image to 32-bit floating-point RGBA image.  <a href="group__cuda.html#gad89d17678982424019ccb687d93c5b61">More...</a><br /></td></tr>
 <tr class="separator:gad89d17678982424019ccb687d93c5b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0c29ecfb8e6d243f4581ce61ae93ffad"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga0c29ecfb8e6d243f4581ce61ae93ffad">cudaRGB8ToRGBA32</a> (uchar3 *input, float4 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:ga0c29ecfb8e6d243f4581ce61ae93ffad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 8-bit fixed-point RGB image to 32-bit floating-point RGBA image.  <a href="group__util.html#ga0c29ecfb8e6d243f4581ce61ae93ffad">More...</a><br /></td></tr>
+<tr class="memitem:ga0c29ecfb8e6d243f4581ce61ae93ffad"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga0c29ecfb8e6d243f4581ce61ae93ffad">cudaRGB8ToRGBA32</a> (uchar3 *input, float4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga0c29ecfb8e6d243f4581ce61ae93ffad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 8-bit fixed-point RGB image to 32-bit floating-point RGBA image.  <a href="group__cuda.html#ga0c29ecfb8e6d243f4581ce61ae93ffad">More...</a><br /></td></tr>
 <tr class="separator:ga0c29ecfb8e6d243f4581ce61ae93ffad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad72a825f240afbc537e6fecc68c1019a"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#ad72a825f240afbc537e6fecc68c1019a">cudaRGBA32ToRGBA8</a> (float4 *input, uchar4 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:ad72a825f240afbc537e6fecc68c1019a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image.  <a href="#ad72a825f240afbc537e6fecc68c1019a">More...</a><br /></td></tr>
-<tr class="separator:ad72a825f240afbc537e6fecc68c1019a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adad6e676bc340bfd50641df5d5a82180"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#adad6e676bc340bfd50641df5d5a82180">cudaRGBA32ToRGBA8</a> (float4 *input, uchar4 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
-<tr class="memdesc:adad6e676bc340bfd50641df5d5a82180"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image, with the floating-point input range specified by the user.  <a href="#adad6e676bc340bfd50641df5d5a82180">More...</a><br /></td></tr>
-<tr class="separator:adad6e676bc340bfd50641df5d5a82180"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3093f20f23c090d30f51a8ffeebfc198"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#a3093f20f23c090d30f51a8ffeebfc198">cudaRGBA32ToBGRA8</a> (float4 *input, uchar4 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:a3093f20f23c090d30f51a8ffeebfc198"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image.  <a href="#a3093f20f23c090d30f51a8ffeebfc198">More...</a><br /></td></tr>
-<tr class="separator:a3093f20f23c090d30f51a8ffeebfc198"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20a5fd3a31d88d12cba8741172dc2b4e"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#a20a5fd3a31d88d12cba8741172dc2b4e">cudaRGBA32ToBGRA8</a> (float4 *input, uchar4 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
-<tr class="memdesc:a20a5fd3a31d88d12cba8741172dc2b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image, with the floating-point input range specified by the user.  <a href="#a20a5fd3a31d88d12cba8741172dc2b4e">More...</a><br /></td></tr>
-<tr class="separator:a20a5fd3a31d88d12cba8741172dc2b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb43620b10ddc92d5d11192ec8defc45"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#adb43620b10ddc92d5d11192ec8defc45">cudaRGBA32ToRGB8</a> (float4 *input, uchar3 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:adb43620b10ddc92d5d11192ec8defc45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGB image.  <a href="#adb43620b10ddc92d5d11192ec8defc45">More...</a><br /></td></tr>
-<tr class="separator:adb43620b10ddc92d5d11192ec8defc45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdf4e662ad6f2f4ee4d088742778151f"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#acdf4e662ad6f2f4ee4d088742778151f">cudaRGBA32ToRGB8</a> (float4 *input, uchar3 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
-<tr class="memdesc:acdf4e662ad6f2f4ee4d088742778151f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGB image, with the floating-point input range specified by the user.  <a href="#acdf4e662ad6f2f4ee4d088742778151f">More...</a><br /></td></tr>
-<tr class="separator:acdf4e662ad6f2f4ee4d088742778151f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa24a2abd9cbe86ddad50631ac7a0be41"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#aa24a2abd9cbe86ddad50631ac7a0be41">cudaRGBA32ToBGR8</a> (float4 *input, uchar3 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:aa24a2abd9cbe86ddad50631ac7a0be41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGR image.  <a href="#aa24a2abd9cbe86ddad50631ac7a0be41">More...</a><br /></td></tr>
-<tr class="separator:aa24a2abd9cbe86ddad50631ac7a0be41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ecfb33b01ba0d329330960a46797843"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#a4ecfb33b01ba0d329330960a46797843">cudaRGBA32ToBGR8</a> (float4 *input, uchar3 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
-<tr class="memdesc:a4ecfb33b01ba0d329330960a46797843"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGR image, with the floating-point input range specified by the user.  <a href="#a4ecfb33b01ba0d329330960a46797843">More...</a><br /></td></tr>
-<tr class="separator:a4ecfb33b01ba0d329330960a46797843"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad72a825f240afbc537e6fecc68c1019a"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gad72a825f240afbc537e6fecc68c1019a">cudaRGBA32ToRGBA8</a> (float4 *input, uchar4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gad72a825f240afbc537e6fecc68c1019a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image.  <a href="group__cuda.html#gad72a825f240afbc537e6fecc68c1019a">More...</a><br /></td></tr>
+<tr class="separator:gad72a825f240afbc537e6fecc68c1019a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadad6e676bc340bfd50641df5d5a82180"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gadad6e676bc340bfd50641df5d5a82180">cudaRGBA32ToRGBA8</a> (float4 *input, uchar4 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
+<tr class="memdesc:gadad6e676bc340bfd50641df5d5a82180"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image, with the floating-point input range specified by the user.  <a href="group__cuda.html#gadad6e676bc340bfd50641df5d5a82180">More...</a><br /></td></tr>
+<tr class="separator:gadad6e676bc340bfd50641df5d5a82180"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3093f20f23c090d30f51a8ffeebfc198"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga3093f20f23c090d30f51a8ffeebfc198">cudaRGBA32ToBGRA8</a> (float4 *input, uchar4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga3093f20f23c090d30f51a8ffeebfc198"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image.  <a href="group__cuda.html#ga3093f20f23c090d30f51a8ffeebfc198">More...</a><br /></td></tr>
+<tr class="separator:ga3093f20f23c090d30f51a8ffeebfc198"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga20a5fd3a31d88d12cba8741172dc2b4e">cudaRGBA32ToBGRA8</a> (float4 *input, uchar4 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
+<tr class="memdesc:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image, with the floating-point input range specified by the user.  <a href="group__cuda.html#ga20a5fd3a31d88d12cba8741172dc2b4e">More...</a><br /></td></tr>
+<tr class="separator:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadb43620b10ddc92d5d11192ec8defc45"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gadb43620b10ddc92d5d11192ec8defc45">cudaRGBA32ToRGB8</a> (float4 *input, uchar3 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gadb43620b10ddc92d5d11192ec8defc45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGB image.  <a href="group__cuda.html#gadb43620b10ddc92d5d11192ec8defc45">More...</a><br /></td></tr>
+<tr class="separator:gadb43620b10ddc92d5d11192ec8defc45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacdf4e662ad6f2f4ee4d088742778151f"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gacdf4e662ad6f2f4ee4d088742778151f">cudaRGBA32ToRGB8</a> (float4 *input, uchar3 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
+<tr class="memdesc:gacdf4e662ad6f2f4ee4d088742778151f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGB image, with the floating-point input range specified by the user.  <a href="group__cuda.html#gacdf4e662ad6f2f4ee4d088742778151f">More...</a><br /></td></tr>
+<tr class="separator:gacdf4e662ad6f2f4ee4d088742778151f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa24a2abd9cbe86ddad50631ac7a0be41"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gaa24a2abd9cbe86ddad50631ac7a0be41">cudaRGBA32ToBGR8</a> (float4 *input, uchar3 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gaa24a2abd9cbe86ddad50631ac7a0be41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGR image.  <a href="group__cuda.html#gaa24a2abd9cbe86ddad50631ac7a0be41">More...</a><br /></td></tr>
+<tr class="separator:gaa24a2abd9cbe86ddad50631ac7a0be41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4ecfb33b01ba0d329330960a46797843"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga4ecfb33b01ba0d329330960a46797843">cudaRGBA32ToBGR8</a> (float4 *input, uchar3 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
+<tr class="memdesc:ga4ecfb33b01ba0d329330960a46797843"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGR image, with the floating-point input range specified by the user.  <a href="group__cuda.html#ga4ecfb33b01ba0d329330960a46797843">More...</a><br /></td></tr>
+<tr class="separator:ga4ecfb33b01ba0d329330960a46797843"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="aa24a2abd9cbe86ddad50631ac7a0be41"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa24a2abd9cbe86ddad50631ac7a0be41">&#9670;&nbsp;</a></span>cudaRGBA32ToBGR8() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaRGBA32ToBGR8 </td>
-          <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uchar3 *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>height</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGR image. </p>
-<p>Assumes 0.0-255.0f input range, output range is 0-255. </p>
-
-</div>
-</div>
-<a id="a4ecfb33b01ba0d329330960a46797843"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ecfb33b01ba0d329330960a46797843">&#9670;&nbsp;</a></span>cudaRGBA32ToBGR8() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaRGBA32ToBGR8 </td>
-          <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uchar3 *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>height</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float2 &amp;&#160;</td>
-          <td class="paramname"><em>inputRange</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGR image, with the floating-point input range specified by the user. </p>
-<p>Output range is 0-255. </p>
-
-</div>
-</div>
-<a id="a3093f20f23c090d30f51a8ffeebfc198"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3093f20f23c090d30f51a8ffeebfc198">&#9670;&nbsp;</a></span>cudaRGBA32ToBGRA8() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaRGBA32ToBGRA8 </td>
-          <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uchar4 *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>height</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image. </p>
-<p>Assumes 0.0-255.0f input range, output range is 0-255. </p>
-
-</div>
-</div>
-<a id="a20a5fd3a31d88d12cba8741172dc2b4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a20a5fd3a31d88d12cba8741172dc2b4e">&#9670;&nbsp;</a></span>cudaRGBA32ToBGRA8() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaRGBA32ToBGRA8 </td>
-          <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uchar4 *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>height</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float2 &amp;&#160;</td>
-          <td class="paramname"><em>inputRange</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image, with the floating-point input range specified by the user. </p>
-<p>Output range is 0-255. </p>
-
-</div>
-</div>
-<a id="adb43620b10ddc92d5d11192ec8defc45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb43620b10ddc92d5d11192ec8defc45">&#9670;&nbsp;</a></span>cudaRGBA32ToRGB8() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaRGBA32ToRGB8 </td>
-          <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uchar3 *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>height</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGB image. </p>
-<p>Assumes 0.0-255.0f input range, output range is 0-255. </p>
-
-</div>
-</div>
-<a id="acdf4e662ad6f2f4ee4d088742778151f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acdf4e662ad6f2f4ee4d088742778151f">&#9670;&nbsp;</a></span>cudaRGBA32ToRGB8() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaRGBA32ToRGB8 </td>
-          <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uchar3 *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>height</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float2 &amp;&#160;</td>
-          <td class="paramname"><em>inputRange</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGB image, with the floating-point input range specified by the user. </p>
-<p>Output range is 0-255. </p>
-
-</div>
-</div>
-<a id="ad72a825f240afbc537e6fecc68c1019a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad72a825f240afbc537e6fecc68c1019a">&#9670;&nbsp;</a></span>cudaRGBA32ToRGBA8() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaRGBA32ToRGBA8 </td>
-          <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uchar4 *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>height</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image. </p>
-<p>Assumes 0.0-255.0f input range, output range is 0-255. </p>
-
-</div>
-</div>
-<a id="adad6e676bc340bfd50641df5d5a82180"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adad6e676bc340bfd50641df5d5a82180">&#9670;&nbsp;</a></span>cudaRGBA32ToRGBA8() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaRGBA32ToRGBA8 </td>
-          <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uchar4 *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>height</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float2 &amp;&#160;</td>
-          <td class="paramname"><em>inputRange</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image, with the floating-point input range specified by the user. </p>
-<p>Output range is 0-255. </p>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="cudaRGB_8h.html">cudaRGB.h</a></li>
-    <li class="footer">Generated on Fri Jun 14 2019 01:44:23 for Jetson Inference by
+    <li class="navelem"><a class="el" href="dir_54a0acf6da04fe2ed9410b4c6369bc5d.html">jetson-utils</a></li><li class="navelem"><a class="el" href="cudaRGB_8h.html">cudaRGB.h</a></li>
+    <li class="footer">Generated on Fri Jun 14 2019 20:54:48 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -2,7 +2,7 @@ var classgstCamera =
 [
     [ "~gstCamera", "classgstCamera.html#a1df842937128e70d8f140c65e88e783c", null ],
     [ "Capture", "classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5", null ],
-    [ "CaptureRGBA", "classgstCamera.html#a504773821fedabd5f76bcbc884702ee1", null ],
+    [ "CaptureRGBA", "classgstCamera.html#a93371e3811a1956ff96c154fd1da23f2", null ],
     [ "Close", "classgstCamera.html#af8043c610d01bcde93f212f5f5bb0fe1", null ],
     [ "ConvertRGBA", "classgstCamera.html#a4ca28a9fc888afe4ff0a6542de351f56", null ],
     [ "GetHeight", "classgstCamera.html#a8c0cbb34989ca19042be8b90c176fc47", null ],

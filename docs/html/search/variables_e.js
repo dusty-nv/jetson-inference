@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['screenidx',['screenIdx',['../classglDisplay.html#a987e05d68219418d2d232665d92cc1a2',1,'glDisplay']]],
-  ['size',['size',['../structtensorNet_1_1outputLayer.html#ab5c8d8f6651c9696cf5e4b15e7dc1d80',1,'tensorNet::outputLayer']]]
+  ['timingaccumulator',['timingAccumulator',['../classtensorNet_1_1Profiler.html#a8784d561f96bfd5a02c2bf9554f0d773',1,'tensorNet::Profiler']]],
+  ['top',['Top',['../structdetectNet_1_1Detection.html#a2776e71cde1e6c41676bb5e6d12b1d0d',1,'detectNet::Detection']]]
 ];

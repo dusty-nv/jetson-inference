@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['safe_5fdelete',['SAFE_DELETE',['../cudaUtility_8h.html#a4b8b2bed986c06c207ebac140ba65a7a',1,'cudaUtility.h']]],
+  ['safe_5fdelete',['SAFE_DELETE',['../group__util.html#ga4b8b2bed986c06c207ebac140ba65a7a',1,'cudaUtility.h']]],
   ['savefile',['SaveFile',['../classtinyxml2_1_1XMLDocument.html#a73ac416b4a2aa0952e841220eb3da18f',1,'tinyxml2::XMLDocument::SaveFile(const char *filename, bool compact=false)'],['../classtinyxml2_1_1XMLDocument.html#a8b95779479a0035acc67b3a61dfe1b74',1,'tinyxml2::XMLDocument::SaveFile(FILE *fp, bool compact=false)']]],
   ['saveimagergba',['saveImageRGBA',['../group__util.html#ga324cfcb15198bbf8c7578e802791d804',1,'imageIO.h']]],
   ['screenidx',['screenIdx',['../classglDisplay.html#a987e05d68219418d2d232665d92cc1a2',1,'glDisplay']]],

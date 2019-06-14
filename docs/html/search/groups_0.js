@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['dnn_20vision_20library_20_28jetson_2dinference_29',['DNN Vision Library (jetson-inference)',['../group__deepVision.html',1,'']]],
-  ['detectnet',['detectNet',['../group__detectNet.html',1,'']]]
+  ['camera_20capture',['Camera Capture',['../group__camera.html',1,'']]],
+  ['cuda',['CUDA',['../group__cuda.html',1,'']]],
+  ['cudafont',['cudaFont',['../group__cudaFont.html',1,'']]]
 ];

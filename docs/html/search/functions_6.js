@@ -59,7 +59,7 @@ var searchData=
   ['gldisplay',['glDisplay',['../classglDisplay.html#a3a192a037ecc3e0f568dc439e4b4c4af',1,'glDisplay']]],
   ['glprintfreemem',['glPrintFreeMem',['../glUtility_8h.html#ae70530a98d9a14c84fffea7e3f3083ab',1,'glUtility.h']]],
   ['gst_5fmessage_5fprint',['gst_message_print',['../gstUtility_8h.html#aea6f54b6a54dca135dc50c17d9b219f4',1,'gstUtility.h']]],
-  ['gstcamerasrctostring',['gstCameraSrcToString',['../gstCamera_8h.html#a82c0d21c049992867131001bbb9169af',1,'gstCamera.h']]],
+  ['gstcamerasrctostring',['gstCameraSrcToString',['../group__gstCamera.html#ga82c0d21c049992867131001bbb9169af',1,'gstCamera.h']]],
   ['gstdecoder',['gstDecoder',['../classgstDecoder.html#a4acad7774aba5a6f2d987a53f99a648b',1,'gstDecoder']]],
   ['gstencoder',['gstEncoder',['../classgstEncoder.html#a78c876da2d5d3b0daaa58bf807d06cc7',1,'gstEncoder']]],
   ['gstreamerinit',['gstreamerInit',['../gstUtility_8h.html#a83134d669024d557fa55cb643e0e7b10',1,'gstUtility.h']]]

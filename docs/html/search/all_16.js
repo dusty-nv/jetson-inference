@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['v4l2_5fmmap',['v4l2_mmap',['../structv4l2__mmap.html',1,'']]],
   ['v4l2camera',['v4l2Camera',['../classv4l2Camera.html',1,'']]],
   ['v4l2camera_2eh',['v4l2Camera.h',['../v4l2Camera_8h.html',1,'']]],
   ['value',['Value',['../classtinyxml2_1_1XMLNode.html#a66344989a4b436155bcda72bd6b07b82',1,'tinyxml2::XMLNode::Value()'],['../classtinyxml2_1_1XMLAttribute.html#a1aab1dd0e43ecbcfa306adbcf3a3d853',1,'tinyxml2::XMLAttribute::Value()']]],

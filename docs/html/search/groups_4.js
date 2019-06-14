@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tensornet',['tensorNet',['../group__tensorNet.html',1,'']]]
+  ['imagenet',['imageNet',['../group__imageNet.html',1,'']]]
 ];

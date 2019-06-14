@@ -78,7 +78,7 @@ var searchData=
   ['mglyphinfo',['mGlyphInfo',['../classcudaFont.html#a197f16427c97ea6bd6e38244d7487283',1,'cudaFont']]],
   ['mgpui420',['mGpuI420',['../classgstEncoder.html#ad1c4005533df56f9baf5b9eb4ead6510',1,'gstEncoder']]],
   ['mgpurgba',['mGpuRGBA',['../classgstEncoder.html#a953ceef371670a9a266d1072ab05df19',1,'gstEncoder']]],
-  ['mheight',['mHeight',['../classglDisplay.html#aee7874bab6e7f29546cd0d3ad04b424a',1,'glDisplay::mHeight()'],['../classgstEncoder.html#a9e4a3463e818b092ca40cfb8668c8cba',1,'gstEncoder::mHeight()'],['../classtensorNet.html#abc0c2b349cb27ddf6e42f668fa582a34',1,'tensorNet::mHeight()']]],
+  ['mheight',['mHeight',['../classtensorNet.html#abc0c2b349cb27ddf6e42f668fa582a34',1,'tensorNet::mHeight()'],['../classglDisplay.html#aee7874bab6e7f29546cd0d3ad04b424a',1,'glDisplay::mHeight()'],['../classgstEncoder.html#a9e4a3463e818b092ca40cfb8668c8cba',1,'gstEncoder::mHeight()']]],
   ['mid',['mID',['../classEvent.html#ae11735d4e337daa14050ddb84d6253d2',1,'Event::mID()'],['../classMutex.html#a8fc19c03aa404e9efddc2c91132ebd02',1,'Mutex::mID()']]],
   ['minfer',['mInfer',['../classtensorNet.html#a275ce2318a63dcaafc1e0120a53fe606',1,'tensorNet']]],
   ['minputblobname',['mInputBlobName',['../classtensorNet.html#ac040cf851463cd595a20a9400a5833c2',1,'tensorNet']]],
@@ -139,7 +139,7 @@ var searchData=
   ['mutex',['Mutex',['../classMutex.html',1,'Mutex'],['../classMutex.html#a593423d868daf926c7b0d63a833ae29a',1,'Mutex::Mutex()']]],
   ['mutex_2eh',['Mutex.h',['../Mutex_8h.html',1,'']]],
   ['mvisualx',['mVisualX',['../classglDisplay.html#a327c40adf83a91f4fb4916bc577ae0ab',1,'glDisplay']]],
-  ['mwidth',['mWidth',['../classglDisplay.html#a2dd92f37832e555d1475e5f8c2484043',1,'glDisplay::mWidth()'],['../classgstEncoder.html#a137c6c229633814af06e28b513d3d492',1,'gstEncoder::mWidth()'],['../classtensorNet.html#accab52fa354232149048440da0071573',1,'tensorNet::mWidth()']]],
+  ['mwidth',['mWidth',['../classtensorNet.html#accab52fa354232149048440da0071573',1,'tensorNet::mWidth()'],['../classglDisplay.html#a2dd92f37832e555d1475e5f8c2484043',1,'glDisplay::mWidth()'],['../classgstEncoder.html#a137c6c229633814af06e28b513d3d492',1,'gstEncoder::mWidth()']]],
   ['mwindowclosed',['mWindowClosed',['../classglDisplay.html#acd8adcb680935b9ea3ce974b141e5969',1,'glDisplay']]],
   ['mwindowclosedmsg',['mWindowClosedMsg',['../classglDisplay.html#a4d20a9b3eb655b1719c3896f9af608e4',1,'glDisplay']]],
   ['mwindowx',['mWindowX',['../classglDisplay.html#a59861c4376b388d34c57f06c9a460e97',1,'glDisplay']]]

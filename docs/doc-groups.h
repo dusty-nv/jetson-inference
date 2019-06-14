@@ -55,5 +55,29 @@
  * Tools and utilities for camera streaming, codecs, display, and visualization.
  */
 
+/**
+ * @defgroup camera Camera Capture
+ * Camera capture and streaming for MIPI CSI and V4L2 devices.
+ * @ingroup util
+ */
+
+/**
+ * @defgroup gstCamera gstCamera
+ * Camera capture and streaming using GStreamer for MIPI CSI and V4L2 devices.
+ * @ingroup camera
+ */
+
+/**
+ * @defgroup cuda CUDA
+ * CUDA utilities and image processing kernels.
+ * @ingroup util
+ */
+
+/**
+ * @defgroup cudaFont cudaFont
+ * TTF font rasterization and image overlay rendering using CUDA.
+ * @ingroup cuda
+ */
+
 
 

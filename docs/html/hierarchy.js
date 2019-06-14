@@ -45,7 +45,6 @@ var hierarchy =
       [ "superResNet", "classsuperResNet.html", null ]
     ] ],
     [ "Thread", "classThread.html", null ],
-    [ "v4l2_mmap", "structv4l2__mmap.html", null ],
     [ "v4l2Camera", "classv4l2Camera.html", null ],
     [ "tinyxml2::XMLAttribute", "classtinyxml2_1_1XMLAttribute.html", null ],
     [ "tinyxml2::XMLConstHandle", "classtinyxml2_1_1XMLConstHandle.html", null ],

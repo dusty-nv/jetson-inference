@@ -87,11 +87,11 @@ $(document).ready(function(){initNavTree('classgstCamera.html','');});
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classgstCamera-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">gstCamera Class Reference<div class="ingroups"><a class="el" href="group__util.html">Utilities Library (jetson-utils)</a></div></div>  </div>
+<div class="title">gstCamera Class Reference<div class="ingroups"><a class="el" href="group__util.html">Utilities Library (jetson-utils)</a> &raquo; <a class="el" href="group__camera.html">Camera Capture</a> &raquo; <a class="el" href="group__gstCamera.html">gstCamera</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>GStreamer MIPI CSI or V4L2 camera using nvarguscamerasrc (or v4l2src)  
+<p>MIPI CSI and V4L2 camera capture using GStreamer and <code>nvarguscamerasrc</code> or <code>v4l2src</code> elements.  
  <a href="classgstCamera.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="gstCamera_8h_source.html">gstCamera.h</a>&gt;</code></p>
@@ -99,44 +99,63 @@ $(document).ready(function(){initNavTree('classgstCamera.html','');});
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1df842937128e70d8f140c65e88e783c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a1df842937128e70d8f140c65e88e783c">~gstCamera</a> ()</td></tr>
+<tr class="memdesc:a1df842937128e70d8f140c65e88e783c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release the camera interface and resources.  <a href="#a1df842937128e70d8f140c65e88e783c">More...</a><br /></td></tr>
 <tr class="separator:a1df842937128e70d8f140c65e88e783c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a075aa94acb72f577f7c385e37a8c15b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a075aa94acb72f577f7c385e37a8c15b0">Open</a> ()</td></tr>
+<tr class="memdesc:a075aa94acb72f577f7c385e37a8c15b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin streaming the camera.  <a href="#a075aa94acb72f577f7c385e37a8c15b0">More...</a><br /></td></tr>
 <tr class="separator:a075aa94acb72f577f7c385e37a8c15b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8043c610d01bcde93f212f5f5bb0fe1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#af8043c610d01bcde93f212f5f5bb0fe1">Close</a> ()</td></tr>
+<tr class="memdesc:af8043c610d01bcde93f212f5f5bb0fe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop streaming the camera.  <a href="#af8043c610d01bcde93f212f5f5bb0fe1">More...</a><br /></td></tr>
 <tr class="separator:af8043c610d01bcde93f212f5f5bb0fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7142cbf3d2251c023967affa0625ac74"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a7142cbf3d2251c023967affa0625ac74">IsStreaming</a> () const</td></tr>
+<tr class="memdesc:a7142cbf3d2251c023967affa0625ac74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the camera is streaming or not.  <a href="#a7142cbf3d2251c023967affa0625ac74">More...</a><br /></td></tr>
 <tr class="separator:a7142cbf3d2251c023967affa0625ac74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ae42b24f1ccb8056252614aae6779e5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5">Capture</a> (void **cpu, void **cuda, uint64_t timeout=UINT64_MAX)</td></tr>
+<tr class="memdesc:a1ae42b24f1ccb8056252614aae6779e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture the next image frame from the camera.  <a href="#a1ae42b24f1ccb8056252614aae6779e5">More...</a><br /></td></tr>
 <tr class="separator:a1ae42b24f1ccb8056252614aae6779e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a504773821fedabd5f76bcbc884702ee1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a504773821fedabd5f76bcbc884702ee1">CaptureRGBA</a> (float **output, uint64_t timeout=UINT64_MAX, bool zeroCopy=false)</td></tr>
-<tr class="separator:a504773821fedabd5f76bcbc884702ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93371e3811a1956ff96c154fd1da23f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a93371e3811a1956ff96c154fd1da23f2">CaptureRGBA</a> (float **image, uint64_t timeout=UINT64_MAX, bool zeroCopy=false)</td></tr>
+<tr class="memdesc:a93371e3811a1956ff96c154fd1da23f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0.  <a href="#a93371e3811a1956ff96c154fd1da23f2">More...</a><br /></td></tr>
+<tr class="separator:a93371e3811a1956ff96c154fd1da23f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ca28a9fc888afe4ff0a6542de351f56"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a4ca28a9fc888afe4ff0a6542de351f56">ConvertRGBA</a> (void *input, float **output, bool zeroCopy=false)</td></tr>
+<tr class="memdesc:a4ca28a9fc888afe4ff0a6542de351f56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an image to float4 RGBA that was previously aquired with <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a>.  <a href="#a4ca28a9fc888afe4ff0a6542de351f56">More...</a><br /></td></tr>
 <tr class="separator:a4ca28a9fc888afe4ff0a6542de351f56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01e94b6f2abedad9ab760dd68b828e80"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a01e94b6f2abedad9ab760dd68b828e80">GetWidth</a> () const</td></tr>
+<tr class="memdesc:a01e94b6f2abedad9ab760dd68b828e80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the width of the camera.  <a href="#a01e94b6f2abedad9ab760dd68b828e80">More...</a><br /></td></tr>
 <tr class="separator:a01e94b6f2abedad9ab760dd68b828e80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c0cbb34989ca19042be8b90c176fc47"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a8c0cbb34989ca19042be8b90c176fc47">GetHeight</a> () const</td></tr>
+<tr class="memdesc:a8c0cbb34989ca19042be8b90c176fc47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the height of the camera.  <a href="#a8c0cbb34989ca19042be8b90c176fc47">More...</a><br /></td></tr>
 <tr class="separator:a8c0cbb34989ca19042be8b90c176fc47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe5444efa860b29c8ce2dff6e3e16dcd"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#abe5444efa860b29c8ce2dff6e3e16dcd">GetPixelDepth</a> () const</td></tr>
+<tr class="memdesc:abe5444efa860b29c8ce2dff6e3e16dcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the pixel bit depth of the camera (measured in bits).  <a href="#abe5444efa860b29c8ce2dff6e3e16dcd">More...</a><br /></td></tr>
 <tr class="separator:abe5444efa860b29c8ce2dff6e3e16dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f02cf79d67b1c204f53a1c7fa369374"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a6f02cf79d67b1c204f53a1c7fa369374">GetSize</a> () const</td></tr>
+<tr class="memdesc:a6f02cf79d67b1c204f53a1c7fa369374"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the size (in bytes) of a camera frame from <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a>.  <a href="#a6f02cf79d67b1c204f53a1c7fa369374">More...</a><br /></td></tr>
 <tr class="separator:a6f02cf79d67b1c204f53a1c7fa369374"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a92b64e08aadc48c786a8eed9022a2205"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classgstCamera.html">gstCamera</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a92b64e08aadc48c786a8eed9022a2205">Create</a> (int v4l2_device=-1)</td></tr>
+<tr class="memdesc:a92b64e08aadc48c786a8eed9022a2205"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a MIPI CSI or V4L2 camera device.  <a href="#a92b64e08aadc48c786a8eed9022a2205">More...</a><br /></td></tr>
 <tr class="separator:a92b64e08aadc48c786a8eed9022a2205"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7b22066ad6ff0bf268d0e46d2b92ef3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classgstCamera.html">gstCamera</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#ac7b22066ad6ff0bf268d0e46d2b92ef3">Create</a> (uint32_t width, uint32_t height, int v4l2_device=-1)</td></tr>
+<tr class="memdesc:ac7b22066ad6ff0bf268d0e46d2b92ef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a MIPI CSI or V4L2 camera device.  <a href="#ac7b22066ad6ff0bf268d0e46d2b92ef3">More...</a><br /></td></tr>
 <tr class="separator:ac7b22066ad6ff0bf268d0e46d2b92ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a211a6c9359a2f43054771f15e7628a5e"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a211a6c9359a2f43054771f15e7628a5e">DefaultWidth</a> = 1280</td></tr>
+<tr class="memdesc:a211a6c9359a2f43054771f15e7628a5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default camera width, unless otherwise specified during <a class="el" href="classgstCamera.html#a92b64e08aadc48c786a8eed9022a2205" title="Create a MIPI CSI or V4L2 camera device. ">Create()</a>  <a href="#a211a6c9359a2f43054771f15e7628a5e">More...</a><br /></td></tr>
 <tr class="separator:a211a6c9359a2f43054771f15e7628a5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42ab558b8ff9a0bf47b768c5122825b7"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html#a42ab558b8ff9a0bf47b768c5122825b7">DefaultHeight</a> = 720</td></tr>
+<tr class="memdesc:a42ab558b8ff9a0bf47b768c5122825b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default camera height, unless otherwise specified during <a class="el" href="classgstCamera.html#a92b64e08aadc48c786a8eed9022a2205" title="Create a MIPI CSI or V4L2 camera device. ">Create()</a>  <a href="#a42ab558b8ff9a0bf47b768c5122825b7">More...</a><br /></td></tr>
 <tr class="separator:a42ab558b8ff9a0bf47b768c5122825b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>GStreamer MIPI CSI or V4L2 camera using nvarguscamerasrc (or v4l2src) </p>
+<div class="textblock"><p>MIPI CSI and V4L2 camera capture using GStreamer and <code>nvarguscamerasrc</code> or <code>v4l2src</code> elements. </p>
+<p><a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a> supports both MIPI CSI cameras and V4L2-compliant devices like USB webcams.</p>
+<p>Examples of MIPI CSI cameras that work out of the box are the OV5693 module from the Jetson TX1/TX2 devkits, and the IMX219 sensor from the Raspberry Pi Camera Module v2.</p>
+<p>For MIPI CSI cameras, the GStreamer element <code>nvarguscamerasrc</code> will be used for capture. For V4L2 devices, the GStreamer element <code>v4l2src</code> will be used for camera capture.</p>
+<p><a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a> uses CUDA underneath for any necessary colorspace conversion, and provides the captured image frames in CUDA device memory, or zero-copy shared CPU/GPU memory. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1df842937128e70d8f140c65e88e783c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1df842937128e70d8f140c65e88e783c">&#9670;&nbsp;</a></span>~gstCamera()</h2>
@@ -152,6 +171,9 @@ Static Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Release the camera interface and resources. </p>
+<p>Destroying the camera will also <a class="el" href="classgstCamera.html#af8043c610d01bcde93f212f5f5bb0fe1" title="Stop streaming the camera. ">Close()</a> the stream if it is still open. </p>
 
 </div>
 </div>
@@ -188,10 +210,23 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Capture the next image frame from the camera. </p>
+<p>For MIPI CSI cameras, <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a> will provide an image in YUV (NV12) format. For V4L2 devices, <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a> will provide an image in RGB (24-bit) format.</p>
+<p>The captured images reside in shared CPU/GPU memory, also known as CUDA mapped memory or zero-copy memory. Hence it is unnessary to copy them to GPU. This memory is managed internally by <a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a>, so don't attempt to free it.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">cpu</td><td>Pointer that gets returned to the image in CPU address space. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">cuda</td><td>Pointer that gets returned to the image in GPU address space.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeout</td><td>The time in milliseconds for the calling thread to wait to return if a new camera frame isn't recieved by that time. If timeout is 0, the calling thread will return immediately if a new frame isn't already available. If timeout is UINT64_MAX, the calling thread will wait indefinetly for a new frame to arrive (this is the default behavior).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if a frame was successfully captured, otherwise <code>false</code> if a timeout or error occurred, or if timeout was 0 and a frame wasn't ready. </dd></dl>
+
 </div>
 </div>
-<a id="a504773821fedabd5f76bcbc884702ee1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a504773821fedabd5f76bcbc884702ee1">&#9670;&nbsp;</a></span>CaptureRGBA()</h2>
+<a id="a93371e3811a1956ff96c154fd1da23f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93371e3811a1956ff96c154fd1da23f2">&#9670;&nbsp;</a></span>CaptureRGBA()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -200,7 +235,7 @@ Static Public Attributes</h2></td></tr>
           <td class="memname">bool gstCamera::CaptureRGBA </td>
           <td>(</td>
           <td class="paramtype">float **&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
+          <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -222,6 +257,18 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0. </p>
+<p>Internally, <a class="el" href="classgstCamera.html#a93371e3811a1956ff96c154fd1da23f2" title="Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0. ">CaptureRGBA()</a> first calls <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a> and then <a class="el" href="classgstCamera.html#a4ca28a9fc888afe4ff0a6542de351f56" title="Convert an image to float4 RGBA that was previously aquired with Capture(). ">ConvertRGBA()</a>. The <a class="el" href="classgstCamera.html#a4ca28a9fc888afe4ff0a6542de351f56" title="Convert an image to float4 RGBA that was previously aquired with Capture(). ">ConvertRGBA()</a> function uses CUDA, so if you want to capture from a different thread than your CUDA device, use the <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a> and <a class="el" href="classgstCamera.html#a4ca28a9fc888afe4ff0a6542de351f56" title="Convert an image to float4 RGBA that was previously aquired with Capture(). ">ConvertRGBA()</a> functions.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">image</td><td>Pointer that gets returned to the image in GPU address space, or if the zeroCopy parameter is true, then the pointer is valid in both CPU and GPU address spaces. Do not manually free the image memory, it is managed internally. The image is in float4 RGBA format. The size of the image is: <code><a class="el" href="classgstCamera.html#a01e94b6f2abedad9ab760dd68b828e80" title="Return the width of the camera. ">GetWidth()</a> * <a class="el" href="classgstCamera.html#a8c0cbb34989ca19042be8b90c176fc47" title="Return the height of the camera. ">GetHeight()</a> * sizeof(float) * 4</code></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeout</td><td>The time in milliseconds for the calling thread to wait to return if a new camera frame isn't recieved by that time. If timeout is 0, the calling thread will return immediately if a new frame isn't already available. If timeout is UINT64_MAX, the calling thread will wait indefinetly for a new frame to arrive (this is the default behavior).</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">zeroCopy</td><td>If <code>true</code>, the image will reside in shared CPU/GPU memory. If <code>false</code>, the image will only be accessible from the GPU. You would need to set zeroCopy to <code>true</code> if you wanted to access the image pixels from the CPU. Since this isn't generally the case, the default is <code>false</code> (GPU only).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if a frame was successfully captured, otherwise <code>false</code> if a timeout or error occurred, or if timeout was 0 and a frame wasn't ready. </dd></dl>
+
 </div>
 </div>
 <a id="af8043c610d01bcde93f212f5f5bb0fe1"></a>
@@ -238,6 +285,9 @@ Static Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Stop streaming the camera. </p>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="classgstCamera.html#af8043c610d01bcde93f212f5f5bb0fe1" title="Stop streaming the camera. ">Close()</a> is automatically called by the camera's destructor when it gets deleted, so you do not explicitly need to call <a class="el" href="classgstCamera.html#af8043c610d01bcde93f212f5f5bb0fe1" title="Stop streaming the camera. ">Close()</a> before exiting the program if you delete your camera object. </dd></dl>
 
 </div>
 </div>
@@ -273,6 +323,18 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Convert an image to float4 RGBA that was previously aquired with <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a>. </p>
+<p>This function uses CUDA to perform the colorspace conversion to float4 RGBA, with pixel intensities ranging from 0.0 to 255.0.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">input</td><td>Pointer to the input image, typically the pointer from <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a>. If this is a MIPI CSI camera, it's expected to be in YUV (NV12) format. If this is a V4L2 device, it's expected to be in RGB (24-bit) format. In both cases, these are the formats that <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a> provides the image in.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>Pointer that gets returned to the image in GPU address space, or if the zeroCopy parameter is true, then the pointer is valid in both CPU and GPU address spaces. Do not manually free the image memory, it is managed internally. The image is in float4 RGBA format. The size of the image is: <code><a class="el" href="classgstCamera.html#a01e94b6f2abedad9ab760dd68b828e80" title="Return the width of the camera. ">GetWidth()</a> * <a class="el" href="classgstCamera.html#a8c0cbb34989ca19042be8b90c176fc47" title="Return the height of the camera. ">GetHeight()</a> * sizeof(float) * 4</code></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">zeroCopy</td><td>If <code>true</code>, the image will reside in shared CPU/GPU memory. If <code>false</code>, the image will only be accessible from the GPU. You would need to set zeroCopy to <code>true</code> if you wanted to access the image pixels from the CPU. Since this isn't generally the case, the default is <code>false</code> (GPU only).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> if an error occurred. </dd></dl>
+
 </div>
 </div>
 <a id="a92b64e08aadc48c786a8eed9022a2205"></a>
@@ -298,6 +360,17 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Create a MIPI CSI or V4L2 camera device. </p>
+<p><a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a> will use the <code>nvarguscamerasrc</code> GStreamer element for MIPI CSI cameras, and the <code>v4l2src</code> GStreamer element for capturing V4L2 cameras, like USB webcams.</p>
+<p>The camera will be created with a resolution indicated by <a class="el" href="classgstCamera.html#a211a6c9359a2f43054771f15e7628a5e" title="Default camera width, unless otherwise specified during Create() ">gstCamera::DefaultWidth</a> and <a class="el" href="classgstCamera.html#a42ab558b8ff9a0bf47b768c5122825b7" title="Default camera height, unless otherwise specified during Create() ">gstCamera::DefaultHeight</a> (1280x720 by default).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v4l2_device</td><td>device index of the V4L2 <code>/dev/video</code> node to use, or -1 to use the onboard MIPI CSI camera. The default is to use MIPI CSI. For example, if you wanted to use the <code>/dev/video0</code> V4L2 device, you would provide a value of <code>0</code> for this argument, or <code>1</code> for <code>/dev/video1</code>, ect.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the created <a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a> device, or NULL if there was an error. </dd></dl>
 
 </div>
 </div>
@@ -341,6 +414,18 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Create a MIPI CSI or V4L2 camera device. </p>
+<p><a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a> will use the <code>nvarguscamerasrc</code> GStreamer element for MIPI CSI cameras, and the <code>v4l2src</code> GStreamer element for capturing V4L2 cameras, like USB webcams.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>desired width (in pixels) of the camera resolution. This should be from a format that the camera supports.</td></tr>
+    <tr><td class="paramname">height</td><td>desired height (in pixels) of the camera resolution. This should be from a format that the camera supports.</td></tr>
+    <tr><td class="paramname">v4l2_device</td><td>device index of the V4L2 <code>/dev/video</code> node to use, or -1 to use the onboard MIPI CSI camera. The default is to use MIPI CSI. For example, if you wanted to use the <code>/dev/video0</code> V4L2 device, you would provide a value of <code>0</code> for this argument, or <code>1</code> for <code>/dev/video1</code>, ect.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the created <a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a> device, or NULL if there was an error. </dd></dl>
+
 </div>
 </div>
 <a id="a8c0cbb34989ca19042be8b90c176fc47"></a>
@@ -365,6 +450,8 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Return the height of the camera. </p>
 
 </div>
 </div>
@@ -391,6 +478,9 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Return the pixel bit depth of the camera (measured in bits). </p>
+<p>This will be 12 for MIPI CSI cameras (YUV NV12 format) or 24 for VL42 cameras (RGB 24-bit). </p>
+
 </div>
 </div>
 <a id="a6f02cf79d67b1c204f53a1c7fa369374"></a>
@@ -415,6 +505,9 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Return the size (in bytes) of a camera frame from <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a>. </p>
+<dl class="section note"><dt>Note</dt><dd>this is not the size of the converted float4 RGBA image from Convert(), but rather the YUV (NV12) or RGB (24-bit) image that gets aquired by the <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a> function. To calculate the size of the converted float4 RGBA image, take: <code><a class="el" href="classgstCamera.html#a01e94b6f2abedad9ab760dd68b828e80" title="Return the width of the camera. ">GetWidth()</a> * <a class="el" href="classgstCamera.html#a8c0cbb34989ca19042be8b90c176fc47" title="Return the height of the camera. ">GetHeight()</a> * sizeof(float) * 4</code> </dd></dl>
 
 </div>
 </div>
@@ -441,6 +534,8 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Return the width of the camera. </p>
+
 </div>
 </div>
 <a id="a7142cbf3d2251c023967affa0625ac74"></a>
@@ -466,6 +561,9 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Check if the camera is streaming or not. </p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the camera is streaming (open), or <code>false</code> if it's closed. </dd></dl>
+
 </div>
 </div>
 <a id="a075aa94acb72f577f7c385e37a8c15b0"></a>
@@ -482,6 +580,11 @@ Static Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Begin streaming the camera. </p>
+<p>After <a class="el" href="classgstCamera.html#a075aa94acb72f577f7c385e37a8c15b0" title="Begin streaming the camera. ">Open()</a> is called, frames from the camera will begin to be captured.</p>
+<p><a class="el" href="classgstCamera.html#a075aa94acb72f577f7c385e37a8c15b0" title="Begin streaming the camera. ">Open()</a> is not stricly necessary to call, if you call one of the <a class="el" href="classgstCamera.html#a1ae42b24f1ccb8056252614aae6779e5" title="Capture the next image frame from the camera. ">Capture()</a> functions they will first check to make sure that the stream is opened, and if not they will open it automatically for you.</p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> if an error occurred opening the stream. </dd></dl>
 
 </div>
 </div>
@@ -506,6 +609,8 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Default camera height, unless otherwise specified during <a class="el" href="classgstCamera.html#a92b64e08aadc48c786a8eed9022a2205" title="Create a MIPI CSI or V4L2 camera device. ">Create()</a> </p>
+
 </div>
 </div>
 <a id="a211a6c9359a2f43054771f15e7628a5e"></a>
@@ -528,10 +633,12 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Default camera width, unless otherwise specified during <a class="el" href="classgstCamera.html#a92b64e08aadc48c786a8eed9022a2205" title="Create a MIPI CSI or V4L2 camera device. ">Create()</a> </p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="gstCamera_8h_source.html">gstCamera.h</a></li>
+<li>jetson-utils/<a class="el" href="gstCamera_8h_source.html">gstCamera.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -539,7 +646,7 @@ Static Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classgstCamera.html">gstCamera</a></li>
-    <li class="footer">Generated on Fri Jun 14 2019 01:44:23 for Jetson Inference by
+    <li class="footer">Generated on Fri Jun 14 2019 20:54:49 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

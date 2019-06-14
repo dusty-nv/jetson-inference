@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Jetson Inference: gstCamera.h File Reference</title>
+<title>Jetson Inference: jetson-utils/gstCamera.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -99,52 +99,31 @@ $(document).ready(function(){initNavTree('gstCamera_8h.html','');});
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html">gstCamera</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">GStreamer MIPI CSI or V4L2 camera using nvarguscamerasrc (or v4l2src)  <a href="classgstCamera.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">MIPI CSI and V4L2 camera capture using GStreamer and <code>nvarguscamerasrc</code> or <code>v4l2src</code> elements.  <a href="classgstCamera.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ga785111db387205d710d3a087c2ad3091"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga785111db387205d710d3a087c2ad3091">gstCameraSrc</a> { <a class="el" href="group__util.html#gga785111db387205d710d3a087c2ad3091aa2b01206d25737bf103c037cf4925403">GST_SOURCE_NVCAMERA</a>, 
-<a class="el" href="group__util.html#gga785111db387205d710d3a087c2ad3091ad6c785a043fa1eeb687356169f6fc11e">GST_SOURCE_NVARGUS</a>, 
-<a class="el" href="group__util.html#gga785111db387205d710d3a087c2ad3091a77873b0e7f5d0ca158d898fbb90894e5">GST_SOURCE_V4L2</a>
- }<tr class="memdesc:ga785111db387205d710d3a087c2ad3091"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of camera input source methods.  <a href="group__util.html#ga785111db387205d710d3a087c2ad3091">More...</a><br /></td></tr>
+<tr class="memitem:ga785111db387205d710d3a087c2ad3091"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__gstCamera.html#ga785111db387205d710d3a087c2ad3091">gstCameraSrc</a> { <a class="el" href="group__gstCamera.html#gga785111db387205d710d3a087c2ad3091aa2b01206d25737bf103c037cf4925403">GST_SOURCE_NVCAMERA</a>, 
+<a class="el" href="group__gstCamera.html#gga785111db387205d710d3a087c2ad3091ad6c785a043fa1eeb687356169f6fc11e">GST_SOURCE_NVARGUS</a>, 
+<a class="el" href="group__gstCamera.html#gga785111db387205d710d3a087c2ad3091a77873b0e7f5d0ca158d898fbb90894e5">GST_SOURCE_V4L2</a>
+ }<tr class="memdesc:ga785111db387205d710d3a087c2ad3091"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of camera input source methods.  <a href="group__gstCamera.html#ga785111db387205d710d3a087c2ad3091">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:ga785111db387205d710d3a087c2ad3091"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a82c0d21c049992867131001bbb9169af"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gstCamera_8h.html#a82c0d21c049992867131001bbb9169af">gstCameraSrcToString</a> (<a class="el" href="group__util.html#ga785111db387205d710d3a087c2ad3091">gstCameraSrc</a> src)</td></tr>
-<tr class="memdesc:a82c0d21c049992867131001bbb9169af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Text version of gstCameraSrc enum.  <a href="#a82c0d21c049992867131001bbb9169af">More...</a><br /></td></tr>
-<tr class="separator:a82c0d21c049992867131001bbb9169af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga82c0d21c049992867131001bbb9169af"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__gstCamera.html#ga82c0d21c049992867131001bbb9169af">gstCameraSrcToString</a> (<a class="el" href="group__gstCamera.html#ga785111db387205d710d3a087c2ad3091">gstCameraSrc</a> src)</td></tr>
+<tr class="memdesc:ga82c0d21c049992867131001bbb9169af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function to convert gstCameraSrc enum to text.  <a href="group__gstCamera.html#ga82c0d21c049992867131001bbb9169af">More...</a><br /></td></tr>
+<tr class="separator:ga82c0d21c049992867131001bbb9169af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a82c0d21c049992867131001bbb9169af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82c0d21c049992867131001bbb9169af">&#9670;&nbsp;</a></span>gstCameraSrcToString()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* gstCameraSrcToString </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__util.html#ga785111db387205d710d3a087c2ad3091">gstCameraSrc</a>&#160;</td>
-          <td class="paramname"><em>src</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Text version of gstCameraSrc enum. </p>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="gstCamera_8h.html">gstCamera.h</a></li>
-    <li class="footer">Generated on Fri Jun 14 2019 01:44:23 for Jetson Inference by
+    <li class="navelem"><a class="el" href="dir_54a0acf6da04fe2ed9410b4c6369bc5d.html">jetson-utils</a></li><li class="navelem"><a class="el" href="gstCamera_8h.html">gstCamera.h</a></li>
+    <li class="footer">Generated on Fri Jun 14 2019 20:54:48 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

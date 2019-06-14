@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ptr',['ptr',['../structv4l2__mmap.html#ade3be7984657dc92049d02378f76ce1c',1,'v4l2_mmap']]]
+  ['right',['Right',['../structdetectNet_1_1Detection.html#aa008c7f9d614b314281366b7797cd00a',1,'detectNet::Detection']]]
 ];

@@ -18,7 +18,7 @@ var searchData=
   ['locatefile',['locateFile',['../filesystem_8h.html#a09605d11f78fcd2d936793371d1c2ccc',1,'locateFile(const std::string &amp;path):&#160;filesystem.h'],['../filesystem_8h.html#a0209cabb0f62f9cfec99a763b5a0bbd1',1,'locateFile(const std::string &amp;path, std::vector&lt; std::string &gt; &amp;locations):&#160;filesystem.h']]],
   ['lock',['Lock',['../classMutex.html#ae5cb54c9c45f90e29206d5679a3b1c7f',1,'Mutex']]],
   ['lockaffinity',['LockAffinity',['../classThread.html#a786ef18c62603f0fe041e95391637740',1,'Thread']]],
-  ['log_5fcuda',['LOG_CUDA',['../group__util.html#gae6c4176aa6f8270000ec2b626a2a8b3c',1,'cudaUtility.h']]],
+  ['log_5fcuda',['LOG_CUDA',['../group__cuda.html#gae6c4176aa6f8270000ec2b626a2a8b3c',1,'cudaUtility.h']]],
   ['log_5fgl',['LOG_GL',['../glUtility_8h.html#abe9ef8f3c57b226efaf58ab3059bceab',1,'glUtility.h']]],
   ['log_5fgstreamer',['LOG_GSTREAMER',['../gstUtility_8h.html#a7d4bea04aad22460cc3c9c8152c6e3ed',1,'gstUtility.h']]],
   ['log_5ftrt',['LOG_TRT',['../group__tensorNet.html#ga3c048e603c3c16fb810eb11c36242f82',1,'tensorNet.h']]],
