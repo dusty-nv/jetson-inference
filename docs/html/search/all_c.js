@@ -21,6 +21,6 @@ var searchData=
   ['log_5fcuda',['LOG_CUDA',['../group__util.html#gae6c4176aa6f8270000ec2b626a2a8b3c',1,'cudaUtility.h']]],
   ['log_5fgl',['LOG_GL',['../glUtility_8h.html#abe9ef8f3c57b226efaf58ab3059bceab',1,'glUtility.h']]],
   ['log_5fgstreamer',['LOG_GSTREAMER',['../gstUtility_8h.html#a7d4bea04aad22460cc3c9c8152c6e3ed',1,'gstUtility.h']]],
-  ['log_5ftrt',['LOG_TRT',['../group__deepVision.html#ga3c048e603c3c16fb810eb11c36242f82',1,'tensorNet.h']]],
+  ['log_5ftrt',['LOG_TRT',['../group__tensorNet.html#ga3c048e603c3c16fb810eb11c36242f82',1,'tensorNet.h']]],
   ['logger',['Logger',['../classtensorNet_1_1Logger.html',1,'tensorNet']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>jetson-inference: tensorNet.h File Reference</title>
+<title>Jetson Inference: tensorNet.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="NVLogo_2D.jpg"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">jetson-inference
+   <div id="projectname">Jetson Inference
    </div>
-   <div id="projectbrief">DNN Vision Library (Hello AI World)</div>
+   <div id="projectbrief">DNN Vision Library</div>
   </td>
  </tr>
  </tbody>
@@ -132,11 +132,11 @@ Macros</h2></td></tr>
 <tr class="separator:aca5940a61fa51e91f41d88d9198bf935"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7df0f049b87bee17d6aed394544e8979"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tensorNet_8h.html#a7df0f049b87bee17d6aed394544e8979">NV_TENSORRT_MINOR</a>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:a7df0f049b87bee17d6aed394544e8979"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5a46a965749d6118e01307fd4d4865c9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>&#160;&#160;&#160;1</td></tr>
-<tr class="memdesc:ga5a46a965749d6118e01307fd4d4865c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default maximum batch size.  <a href="group__deepVision.html#ga5a46a965749d6118e01307fd4d4865c9">More...</a><br /></td></tr>
+<tr class="memitem:ga5a46a965749d6118e01307fd4d4865c9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga5a46a965749d6118e01307fd4d4865c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default maximum batch size.  <a href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">More...</a><br /></td></tr>
 <tr class="separator:ga5a46a965749d6118e01307fd4d4865c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3c048e603c3c16fb810eb11c36242f82"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga3c048e603c3c16fb810eb11c36242f82">LOG_TRT</a>&#160;&#160;&#160;&quot;[TRT]   &quot;</td></tr>
-<tr class="memdesc:ga3c048e603c3c16fb810eb11c36242f82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prefix used for tagging printed log output from TensorRT.  <a href="group__deepVision.html#ga3c048e603c3c16fb810eb11c36242f82">More...</a><br /></td></tr>
+<tr class="memitem:ga3c048e603c3c16fb810eb11c36242f82"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga3c048e603c3c16fb810eb11c36242f82">LOG_TRT</a>&#160;&#160;&#160;&quot;[TRT]   &quot;</td></tr>
+<tr class="memdesc:ga3c048e603c3c16fb810eb11c36242f82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prefix used for tagging printed log output from TensorRT.  <a href="group__tensorNet.html#ga3c048e603c3c16fb810eb11c36242f82">More...</a><br /></td></tr>
 <tr class="separator:ga3c048e603c3c16fb810eb11c36242f82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -146,75 +146,75 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:gaac6604fd52c6e5db82877390e0378623"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> { <br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623a1a4ed47814b2f80f0e92daad5af7bc38">TYPE_DISABLED</a> = 0, 
-<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, 
-<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623a5bbefcad9ecb657a3841c2e8db6828d3">TYPE_FP32</a>, 
-<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623a085813e6021d0d8884d768725151a526">TYPE_FP16</a>, 
+<tr class="memitem:gaac6604fd52c6e5db82877390e0378623"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> { <br />
+&#160;&#160;<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1a4ed47814b2f80f0e92daad5af7bc38">TYPE_DISABLED</a> = 0, 
+<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, 
+<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a5bbefcad9ecb657a3841c2e8db6828d3">TYPE_FP32</a>, 
+<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a085813e6021d0d8884d768725151a526">TYPE_FP16</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623a12cf69049b0ce2b80538213ab4ee4908">TYPE_INT8</a>, 
-<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623ad5386697191943144fa63df529e1a310">NUM_PRECISIONS</a>
+&#160;&#160;<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a12cf69049b0ce2b80538213ab4ee4908">TYPE_INT8</a>, 
+<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623ad5386697191943144fa63df529e1a310">NUM_PRECISIONS</a>
 <br />
- }<tr class="memdesc:gaac6604fd52c6e5db82877390e0378623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration for indicating the desired precision that the network should run in, if available in hardware.  <a href="group__deepVision.html#gaac6604fd52c6e5db82877390e0378623">More...</a><br /></td></tr>
+ }<tr class="memdesc:gaac6604fd52c6e5db82877390e0378623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration for indicating the desired precision that the network should run in, if available in hardware.  <a href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:gaac6604fd52c6e5db82877390e0378623"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa5d3f9981cdbd91516c1474006a80fe4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> { <br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a> = 0, 
-<a class="el" href="group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4aeaef16f066c95dd987fbde765b8b30b2">DEVICE_DLA</a>, 
-<a class="el" href="group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4a4950aeb02ff7fba02eb2fd2437788399">DEVICE_DLA_0</a> = DEVICE_DLA, 
-<a class="el" href="group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4a63fbbad29461776cf20c2137a3d124f0">DEVICE_DLA_1</a>, 
+<tr class="memitem:gaa5d3f9981cdbd91516c1474006a80fe4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> { <br />
+&#160;&#160;<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a> = 0, 
+<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4aeaef16f066c95dd987fbde765b8b30b2">DEVICE_DLA</a>, 
+<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4a4950aeb02ff7fba02eb2fd2437788399">DEVICE_DLA_0</a> = DEVICE_DLA, 
+<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4a63fbbad29461776cf20c2137a3d124f0">DEVICE_DLA_1</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4a3025e0cdcbdfca820726c95f384ebf87">NUM_DEVICES</a>
+&#160;&#160;<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4a3025e0cdcbdfca820726c95f384ebf87">NUM_DEVICES</a>
 <br />
- }<tr class="memdesc:gaa5d3f9981cdbd91516c1474006a80fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration for indicating the desired device that the network should run on, if available in hardware.  <a href="group__deepVision.html#gaa5d3f9981cdbd91516c1474006a80fe4">More...</a><br /></td></tr>
+ }<tr class="memdesc:gaa5d3f9981cdbd91516c1474006a80fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration for indicating the desired device that the network should run on, if available in hardware.  <a href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:gaa5d3f9981cdbd91516c1474006a80fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5d4597e0e7beae7133d542e220528725"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga5d4597e0e7beae7133d542e220528725">modelType</a> { <a class="el" href="group__deepVision.html#gga5d4597e0e7beae7133d542e220528725aad94b3fe48299211488aae3c133721b1">MODEL_CUSTOM</a> = 0, 
-<a class="el" href="group__deepVision.html#gga5d4597e0e7beae7133d542e220528725af850960ce09a0b0d4b38edef40e5d0e4">MODEL_CAFFE</a>, 
-<a class="el" href="group__deepVision.html#gga5d4597e0e7beae7133d542e220528725a90e832c5673631bdfe24da7cd8eb52c9">MODEL_ONNX</a>, 
-<a class="el" href="group__deepVision.html#gga5d4597e0e7beae7133d542e220528725ad8c909322673d53ee28de66aa57bcccd">MODEL_UFF</a>
- }<tr class="memdesc:ga5d4597e0e7beae7133d542e220528725"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration indicating the format of the model that's imported in TensorRT (either caffe, ONNX, or UFF).  <a href="group__deepVision.html#ga5d4597e0e7beae7133d542e220528725">More...</a><br /></td></tr>
+<tr class="memitem:ga5d4597e0e7beae7133d542e220528725"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">modelType</a> { <a class="el" href="group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725aad94b3fe48299211488aae3c133721b1">MODEL_CUSTOM</a> = 0, 
+<a class="el" href="group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725af850960ce09a0b0d4b38edef40e5d0e4">MODEL_CAFFE</a>, 
+<a class="el" href="group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725a90e832c5673631bdfe24da7cd8eb52c9">MODEL_ONNX</a>, 
+<a class="el" href="group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725ad8c909322673d53ee28de66aa57bcccd">MODEL_UFF</a>
+ }<tr class="memdesc:ga5d4597e0e7beae7133d542e220528725"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration indicating the format of the model that's imported in TensorRT (either caffe, ONNX, or UFF).  <a href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:ga5d4597e0e7beae7133d542e220528725"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae34d45c0faa674ef4cc0fbfc8fae5809"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> { <br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a7f84ee2f6773727f3b11408e8b2e150e">PROFILER_PREPROCESS</a> = 0, 
-<a class="el" href="group__deepVision.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a624bb4adf22f078ad2804595dca02992">PROFILER_NETWORK</a>, 
-<a class="el" href="group__deepVision.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a1fbcfa83e963d20d06f7c633bb2e4904">PROFILER_POSTPROCESS</a>, 
-<a class="el" href="group__deepVision.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a8cef88bc690e0a794987ade986169ee5">PROFILER_VISUALIZE</a>, 
+<tr class="memitem:gae34d45c0faa674ef4cc0fbfc8fae5809"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> { <br />
+&#160;&#160;<a class="el" href="group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a7f84ee2f6773727f3b11408e8b2e150e">PROFILER_PREPROCESS</a> = 0, 
+<a class="el" href="group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a624bb4adf22f078ad2804595dca02992">PROFILER_NETWORK</a>, 
+<a class="el" href="group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a1fbcfa83e963d20d06f7c633bb2e4904">PROFILER_POSTPROCESS</a>, 
+<a class="el" href="group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a8cef88bc690e0a794987ade986169ee5">PROFILER_VISUALIZE</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggae34d45c0faa674ef4cc0fbfc8fae5809af9132edd0371e716aed4d46e3da5e9ea">PROFILER_TOTAL</a>
+&#160;&#160;<a class="el" href="group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809af9132edd0371e716aed4d46e3da5e9ea">PROFILER_TOTAL</a>
 <br />
- }<tr class="memdesc:gae34d45c0faa674ef4cc0fbfc8fae5809"><td class="mdescLeft">&#160;</td><td class="mdescRight">Profiling queries.  <a href="group__deepVision.html#gae34d45c0faa674ef4cc0fbfc8fae5809">More...</a><br /></td></tr>
+ }<tr class="memdesc:gae34d45c0faa674ef4cc0fbfc8fae5809"><td class="mdescLeft">&#160;</td><td class="mdescRight">Profiling queries.  <a href="group__tensorNet.html#gae34d45c0faa674ef4cc0fbfc8fae5809">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:gae34d45c0faa674ef4cc0fbfc8fae5809"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaaa4127ed22c7165a32d0474ebf97975e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gaaa4127ed22c7165a32d0474ebf97975e">profilerDevice</a> { <a class="el" href="group__deepVision.html#ggaaa4127ed22c7165a32d0474ebf97975eaf33631f978127920224cd10c937e78d5">PROFILER_CPU</a> = 0, 
-<a class="el" href="group__deepVision.html#ggaaa4127ed22c7165a32d0474ebf97975eadbfd2a2033cd2a8df5fa51e13ff528b7">PROFILER_CUDA</a>
- }<tr class="memdesc:gaaa4127ed22c7165a32d0474ebf97975e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Profiler device.  <a href="group__deepVision.html#gaaa4127ed22c7165a32d0474ebf97975e">More...</a><br /></td></tr>
+<tr class="memitem:gaaa4127ed22c7165a32d0474ebf97975e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#gaaa4127ed22c7165a32d0474ebf97975e">profilerDevice</a> { <a class="el" href="group__tensorNet.html#ggaaa4127ed22c7165a32d0474ebf97975eaf33631f978127920224cd10c937e78d5">PROFILER_CPU</a> = 0, 
+<a class="el" href="group__tensorNet.html#ggaaa4127ed22c7165a32d0474ebf97975eadbfd2a2033cd2a8df5fa51e13ff528b7">PROFILER_CUDA</a>
+ }<tr class="memdesc:gaaa4127ed22c7165a32d0474ebf97975e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Profiler device.  <a href="group__tensorNet.html#gaaa4127ed22c7165a32d0474ebf97975e">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:gaaa4127ed22c7165a32d0474ebf97975e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga1d1f73be994173912e9d964af1122ee1"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga1d1f73be994173912e9d964af1122ee1">precisionTypeToStr</a> (<a class="el" href="group__deepVision.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> type)</td></tr>
-<tr class="memdesc:ga1d1f73be994173912e9d964af1122ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns precisionType in text.  <a href="group__deepVision.html#ga1d1f73be994173912e9d964af1122ee1">More...</a><br /></td></tr>
+<tr class="memitem:ga1d1f73be994173912e9d964af1122ee1"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga1d1f73be994173912e9d964af1122ee1">precisionTypeToStr</a> (<a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> type)</td></tr>
+<tr class="memdesc:ga1d1f73be994173912e9d964af1122ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns precisionType in text.  <a href="group__tensorNet.html#ga1d1f73be994173912e9d964af1122ee1">More...</a><br /></td></tr>
 <tr class="separator:ga1d1f73be994173912e9d964af1122ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga70317416490f79e0150e9c4f46444116"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__deepVision.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga70317416490f79e0150e9c4f46444116">precisionTypeFromStr</a> (const char *str)</td></tr>
-<tr class="memdesc:ga70317416490f79e0150e9c4f46444116"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the precision type from a string.  <a href="group__deepVision.html#ga70317416490f79e0150e9c4f46444116">More...</a><br /></td></tr>
+<tr class="memitem:ga70317416490f79e0150e9c4f46444116"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga70317416490f79e0150e9c4f46444116">precisionTypeFromStr</a> (const char *str)</td></tr>
+<tr class="memdesc:ga70317416490f79e0150e9c4f46444116"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the precision type from a string.  <a href="group__tensorNet.html#ga70317416490f79e0150e9c4f46444116">More...</a><br /></td></tr>
 <tr class="separator:ga70317416490f79e0150e9c4f46444116"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga85c110403b6c661b4a7042fc319f39b0"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga85c110403b6c661b4a7042fc319f39b0">deviceTypeToStr</a> (<a class="el" href="group__deepVision.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> type)</td></tr>
-<tr class="memdesc:ga85c110403b6c661b4a7042fc319f39b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns deviceType in text.  <a href="group__deepVision.html#ga85c110403b6c661b4a7042fc319f39b0">More...</a><br /></td></tr>
+<tr class="memitem:ga85c110403b6c661b4a7042fc319f39b0"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga85c110403b6c661b4a7042fc319f39b0">deviceTypeToStr</a> (<a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> type)</td></tr>
+<tr class="memdesc:ga85c110403b6c661b4a7042fc319f39b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns deviceType in text.  <a href="group__tensorNet.html#ga85c110403b6c661b4a7042fc319f39b0">More...</a><br /></td></tr>
 <tr class="separator:ga85c110403b6c661b4a7042fc319f39b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga35c5a50fb1ab97a827b18012534fd7a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__deepVision.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga35c5a50fb1ab97a827b18012534fd7a7">deviceTypeFromStr</a> (const char *str)</td></tr>
-<tr class="memdesc:ga35c5a50fb1ab97a827b18012534fd7a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the device type from a string.  <a href="group__deepVision.html#ga35c5a50fb1ab97a827b18012534fd7a7">More...</a><br /></td></tr>
+<tr class="memitem:ga35c5a50fb1ab97a827b18012534fd7a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga35c5a50fb1ab97a827b18012534fd7a7">deviceTypeFromStr</a> (const char *str)</td></tr>
+<tr class="memdesc:ga35c5a50fb1ab97a827b18012534fd7a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the device type from a string.  <a href="group__tensorNet.html#ga35c5a50fb1ab97a827b18012534fd7a7">More...</a><br /></td></tr>
 <tr class="separator:ga35c5a50fb1ab97a827b18012534fd7a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae771c047f44cc49238c00d0e8af48106"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gae771c047f44cc49238c00d0e8af48106">modelTypeToStr</a> (<a class="el" href="group__deepVision.html#ga5d4597e0e7beae7133d542e220528725">modelType</a> type)</td></tr>
-<tr class="memdesc:gae771c047f44cc49238c00d0e8af48106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns modelType in text.  <a href="group__deepVision.html#gae771c047f44cc49238c00d0e8af48106">More...</a><br /></td></tr>
+<tr class="memitem:gae771c047f44cc49238c00d0e8af48106"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#gae771c047f44cc49238c00d0e8af48106">modelTypeToStr</a> (<a class="el" href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">modelType</a> type)</td></tr>
+<tr class="memdesc:gae771c047f44cc49238c00d0e8af48106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns modelType in text.  <a href="group__tensorNet.html#gae771c047f44cc49238c00d0e8af48106">More...</a><br /></td></tr>
 <tr class="separator:gae771c047f44cc49238c00d0e8af48106"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga85f7b445f4341d24c65bb3bbc4a3204c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__deepVision.html#ga5d4597e0e7beae7133d542e220528725">modelType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga85f7b445f4341d24c65bb3bbc4a3204c">modelTypeFromStr</a> (const char *str)</td></tr>
-<tr class="memdesc:ga85f7b445f4341d24c65bb3bbc4a3204c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the model format from a string.  <a href="group__deepVision.html#ga85f7b445f4341d24c65bb3bbc4a3204c">More...</a><br /></td></tr>
+<tr class="memitem:ga85f7b445f4341d24c65bb3bbc4a3204c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">modelType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga85f7b445f4341d24c65bb3bbc4a3204c">modelTypeFromStr</a> (const char *str)</td></tr>
+<tr class="memdesc:ga85f7b445f4341d24c65bb3bbc4a3204c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the model format from a string.  <a href="group__tensorNet.html#ga85f7b445f4341d24c65bb3bbc4a3204c">More...</a><br /></td></tr>
 <tr class="separator:ga85f7b445f4341d24c65bb3bbc4a3204c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf219ba5ec806feca1433d20367e0f049"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gaf219ba5ec806feca1433d20367e0f049">profilerQueryToStr</a> (<a class="el" href="group__deepVision.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> query)</td></tr>
-<tr class="memdesc:gaf219ba5ec806feca1433d20367e0f049"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns profilerQuery in text.  <a href="group__deepVision.html#gaf219ba5ec806feca1433d20367e0f049">More...</a><br /></td></tr>
+<tr class="memitem:gaf219ba5ec806feca1433d20367e0f049"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#gaf219ba5ec806feca1433d20367e0f049">profilerQueryToStr</a> (<a class="el" href="group__tensorNet.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> query)</td></tr>
+<tr class="memdesc:gaf219ba5ec806feca1433d20367e0f049"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns profilerQuery in text.  <a href="group__tensorNet.html#gaf219ba5ec806feca1433d20367e0f049">More...</a><br /></td></tr>
 <tr class="separator:gaf219ba5ec806feca1433d20367e0f049"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
@@ -321,7 +321,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="tensorNet_8h.html">tensorNet.h</a></li>
-    <li class="footer">Generated on Thu Jun 13 2019 21:01:15 for jetson-inference by
+    <li class="footer">Generated on Fri Jun 14 2019 01:44:23 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

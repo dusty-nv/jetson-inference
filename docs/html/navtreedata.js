@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "jetson-inference", "index.html", [
+  [ "Jetson Inference", "index.html", [
     [ "Modules", "modules.html", "modules" ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
@@ -44,7 +44,7 @@ var NAVTREEINDEX =
 "classtinyxml2_1_1MemPool.html#a0c518d49e3a94bde566f61e13b7240bb",
 "classtinyxml2_1_1XMLNode.html#a62c71b6bf8734b5424063b8d9a61c266",
 "functions_r.html",
-"mat33_8h.html#af896d4d3e9b5019d367d9f3707305083"
+"mat33_8h.html#a58d12875af4d112afdc1354e66f488d2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

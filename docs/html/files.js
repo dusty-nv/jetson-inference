@@ -57,9 +57,7 @@ var files =
     [ "randInt8Calibrator.h", "randInt8Calibrator_8h.html", null ],
     [ "segNet.h", "segNet_8h.html", "segNet_8h" ],
     [ "Socket.h", "Socket_8h.html", "Socket_8h" ],
-    [ "superResNet.h", "superResNet_8h.html", [
-      [ "superResNet", "classsuperResNet.html", "classsuperResNet" ]
-    ] ],
+    [ "superResNet.h", "superResNet_8h.html", null ],
     [ "tensorNet.h", "tensorNet_8h.html", "tensorNet_8h" ],
     [ "Thread.h", "Thread_8h.html", "Thread_8h" ],
     [ "timespec.h", "timespec_8h.html", "timespec_8h" ],

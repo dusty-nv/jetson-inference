@@ -23,7 +23,7 @@ var searchData=
   ['mem',['Mem',['../classtinyxml2_1_1DynArray.html#a60b33e61cf10b3fd900ee46692dc0fe9',1,'tinyxml2::DynArray::Mem() const'],['../classtinyxml2_1_1DynArray.html#a2f0842cd666e2ad951f1a8bd6561fa40',1,'tinyxml2::DynArray::Mem()']]],
   ['mempool',['MemPool',['../classtinyxml2_1_1MemPool.html#a9101a0083d7370c85bd5aaaba7157f84',1,'tinyxml2::MemPool']]],
   ['mempoolt',['MemPoolT',['../classtinyxml2_1_1MemPoolT.html#ac8fa6dbb403f009cf9c8a33c6f2803b3',1,'tinyxml2::MemPoolT']]],
-  ['modeltypefromstr',['modelTypeFromStr',['../group__deepVision.html#ga85f7b445f4341d24c65bb3bbc4a3204c',1,'tensorNet.h']]],
-  ['modeltypetostr',['modelTypeToStr',['../group__deepVision.html#gae771c047f44cc49238c00d0e8af48106',1,'tensorNet.h']]],
+  ['modeltypefromstr',['modelTypeFromStr',['../group__tensorNet.html#ga85f7b445f4341d24c65bb3bbc4a3204c',1,'tensorNet.h']]],
+  ['modeltypetostr',['modelTypeToStr',['../group__tensorNet.html#gae771c047f44cc49238c00d0e8af48106',1,'tensorNet.h']]],
   ['mutex',['Mutex',['../classMutex.html#a593423d868daf926c7b0d63a833ae29a',1,'Mutex']]]
 ];

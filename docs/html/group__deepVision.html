@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>jetson-inference: DNN Vision Library (`jetson-inference`)</title>
+<title>Jetson Inference: DNN Vision Library (jetson-inference)</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,9 +29,9 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="NVLogo_2D.jpg"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">jetson-inference
+   <div id="projectname">Jetson Inference
    </div>
-   <div id="projectbrief">DNN Vision Library (Hello AI World)</div>
+   <div id="projectbrief">DNN Vision Library</div>
   </td>
  </tr>
  </tbody>
@@ -82,629 +82,50 @@ $(document).ready(function(){initNavTree('group__deepVision.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#groups">Modules</a>  </div>
   <div class="headertitle">
-<div class="title">DNN Vision Library (`jetson-inference`)</div>  </div>
+<div class="title">DNN Vision Library (jetson-inference)</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>C++ runtime library for supporting deep vision neural network models and inferencing with TensorRT.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html">detectNet</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Object recognition and localization networks with TensorRT support.  <a href="classdetectNet.html#details">More...</a><br /></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
+Modules</h2></td></tr>
+<tr class="memitem:group__tensorNet"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html">tensorNet</a></td></tr>
+<tr class="memdesc:group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">DNN abstract base class that provides TensorRT functionality underneath. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhomographyNet.html">homographyNet</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Homography estimation networks with TensorRT support.  <a href="classhomographyNet.html#details">More...</a><br /></td></tr>
+<tr class="memitem:group__imageNet"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__imageNet.html">imageNet</a></td></tr>
+<tr class="memdesc:group__imageNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Image recognition DNN (GoogleNet, AlexNet, ResNet) <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html">imageNet</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Image recognition with GoogleNet/Alexnet or custom models, using TensorRT.  <a href="classimageNet.html#details">More...</a><br /></td></tr>
+<tr class="memitem:group__detectNet"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__detectNet.html">detectNet</a></td></tr>
+<tr class="memdesc:group__detectNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Object detection DNN (SSD, DetectNet) <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html">segNet</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Image segmentation with FCN-Alexnet or custom models, using TensorRT.  <a href="classsegNet.html#details">More...</a><br /></td></tr>
+<tr class="memitem:group__segNet"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__segNet.html">segNet</a></td></tr>
+<tr class="memdesc:group__segNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Semantic segmentation DNN (FCN or Fully-Convolutional Networks) <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html">tensorNet</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract class for loading a tensor network with TensorRT.  <a href="classtensorNet.html#details">More...</a><br /></td></tr>
+<tr class="memitem:group__homographyNet"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__homographyNet.html">homographyNet</a></td></tr>
+<tr class="memdesc:group__homographyNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Homography estimation DNN for registering and aligning images. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:gac824e329015dc8aed6e1112bfe21cb97"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gac824e329015dc8aed6e1112bfe21cb97">DETECTNET_DEFAULT_INPUT</a>&#160;&#160;&#160;&quot;data&quot;</td></tr>
-<tr class="memdesc:gac824e329015dc8aed6e1112bfe21cb97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default input blob for DetectNet caffe model.  <a href="#gac824e329015dc8aed6e1112bfe21cb97">More...</a><br /></td></tr>
-<tr class="separator:gac824e329015dc8aed6e1112bfe21cb97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1e79603783719e4a79f2c68f1ef47621"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga1e79603783719e4a79f2c68f1ef47621">DETECTNET_DEFAULT_COVERAGE</a>&#160;&#160;&#160;&quot;coverage&quot;</td></tr>
-<tr class="memdesc:ga1e79603783719e4a79f2c68f1ef47621"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default output blob of the coverage map for DetectNet caffe model.  <a href="#ga1e79603783719e4a79f2c68f1ef47621">More...</a><br /></td></tr>
-<tr class="separator:ga1e79603783719e4a79f2c68f1ef47621"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac8c52a38ffa041865ed71fd2ea806620"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gac8c52a38ffa041865ed71fd2ea806620">DETECTNET_DEFAULT_BBOX</a>&#160;&#160;&#160;&quot;bboxes&quot;</td></tr>
-<tr class="memdesc:gac8c52a38ffa041865ed71fd2ea806620"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default output blob of the grid of bounding boxes for DetectNet caffe model.  <a href="#gac8c52a38ffa041865ed71fd2ea806620">More...</a><br /></td></tr>
-<tr class="separator:gac8c52a38ffa041865ed71fd2ea806620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5de620e838c2ac9aec16c6de2977513f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga5de620e838c2ac9aec16c6de2977513f">DETECTNET_DEFAULT_THRESHOLD</a>&#160;&#160;&#160;0.5f</td></tr>
-<tr class="memdesc:ga5de620e838c2ac9aec16c6de2977513f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default value of the minimum detection threshold.  <a href="#ga5de620e838c2ac9aec16c6de2977513f">More...</a><br /></td></tr>
-<tr class="separator:ga5de620e838c2ac9aec16c6de2977513f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9e1c44a4bc51820a4ae003bc7439ce5c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga9e1c44a4bc51820a4ae003bc7439ce5c">HOMOGRAPHY_NET_DEFAULT_INPUT</a>&#160;&#160;&#160;&quot;input_0&quot;</td></tr>
-<tr class="memdesc:ga9e1c44a4bc51820a4ae003bc7439ce5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default input blob for <a class="el" href="classhomographyNet.html" title="Homography estimation networks with TensorRT support. ">homographyNet</a> ONNX models.  <a href="#ga9e1c44a4bc51820a4ae003bc7439ce5c">More...</a><br /></td></tr>
-<tr class="separator:ga9e1c44a4bc51820a4ae003bc7439ce5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga01d17ced2d6ac4a948d6a6b77f24fbf9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga01d17ced2d6ac4a948d6a6b77f24fbf9">HOMOGRAPHY_NET_DEFAULT_OUTPUT</a>&#160;&#160;&#160;&quot;output_0&quot;</td></tr>
-<tr class="memdesc:ga01d17ced2d6ac4a948d6a6b77f24fbf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default output blob for <a class="el" href="classhomographyNet.html" title="Homography estimation networks with TensorRT support. ">homographyNet</a> ONNX models.  <a href="#ga01d17ced2d6ac4a948d6a6b77f24fbf9">More...</a><br /></td></tr>
-<tr class="separator:ga01d17ced2d6ac4a948d6a6b77f24fbf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga00bb3120ef3040793ad3ee25d2727f5b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga00bb3120ef3040793ad3ee25d2727f5b">IMAGENET_DEFAULT_INPUT</a>&#160;&#160;&#160;&quot;data&quot;</td></tr>
-<tr class="memdesc:ga00bb3120ef3040793ad3ee25d2727f5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default input blob for <a class="el" href="classimageNet.html" title="Image recognition with GoogleNet/Alexnet or custom models, using TensorRT. ">imageNet</a> model.  <a href="#ga00bb3120ef3040793ad3ee25d2727f5b">More...</a><br /></td></tr>
-<tr class="separator:ga00bb3120ef3040793ad3ee25d2727f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga74a585b96a1bd960b5201f6b69752fad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga74a585b96a1bd960b5201f6b69752fad">IMAGENET_DEFAULT_OUTPUT</a>&#160;&#160;&#160;&quot;prob&quot;</td></tr>
-<tr class="memdesc:ga74a585b96a1bd960b5201f6b69752fad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default output confidence values for <a class="el" href="classimageNet.html" title="Image recognition with GoogleNet/Alexnet or custom models, using TensorRT. ">imageNet</a> model.  <a href="#ga74a585b96a1bd960b5201f6b69752fad">More...</a><br /></td></tr>
-<tr class="separator:ga74a585b96a1bd960b5201f6b69752fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga33b5fd20f8ed468725c55eb0bcc5af71"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga33b5fd20f8ed468725c55eb0bcc5af71">SEGNET_DEFAULT_INPUT</a>&#160;&#160;&#160;&quot;data&quot;</td></tr>
-<tr class="memdesc:ga33b5fd20f8ed468725c55eb0bcc5af71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default input blob for segmentation model.  <a href="#ga33b5fd20f8ed468725c55eb0bcc5af71">More...</a><br /></td></tr>
-<tr class="separator:ga33b5fd20f8ed468725c55eb0bcc5af71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga05c359c7dcd0c1e855543a3a9a18c422"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga05c359c7dcd0c1e855543a3a9a18c422">SEGNET_DEFAULT_OUTPUT</a>&#160;&#160;&#160;&quot;score_fr_21classes&quot;</td></tr>
-<tr class="memdesc:ga05c359c7dcd0c1e855543a3a9a18c422"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default output blob for segmentation model.  <a href="#ga05c359c7dcd0c1e855543a3a9a18c422">More...</a><br /></td></tr>
-<tr class="separator:ga05c359c7dcd0c1e855543a3a9a18c422"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5a46a965749d6118e01307fd4d4865c9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>&#160;&#160;&#160;1</td></tr>
-<tr class="memdesc:ga5a46a965749d6118e01307fd4d4865c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default maximum batch size.  <a href="#ga5a46a965749d6118e01307fd4d4865c9">More...</a><br /></td></tr>
-<tr class="separator:ga5a46a965749d6118e01307fd4d4865c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3c048e603c3c16fb810eb11c36242f82"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga3c048e603c3c16fb810eb11c36242f82">LOG_TRT</a>&#160;&#160;&#160;&quot;[TRT]   &quot;</td></tr>
-<tr class="memdesc:ga3c048e603c3c16fb810eb11c36242f82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prefix used for tagging printed log output from TensorRT.  <a href="#ga3c048e603c3c16fb810eb11c36242f82">More...</a><br /></td></tr>
-<tr class="separator:ga3c048e603c3c16fb810eb11c36242f82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:gaac6604fd52c6e5db82877390e0378623"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> { <br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623a1a4ed47814b2f80f0e92daad5af7bc38">TYPE_DISABLED</a> = 0, 
-<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, 
-<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623a5bbefcad9ecb657a3841c2e8db6828d3">TYPE_FP32</a>, 
-<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623a085813e6021d0d8884d768725151a526">TYPE_FP16</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623a12cf69049b0ce2b80538213ab4ee4908">TYPE_INT8</a>, 
-<a class="el" href="group__deepVision.html#ggaac6604fd52c6e5db82877390e0378623ad5386697191943144fa63df529e1a310">NUM_PRECISIONS</a>
-<br />
- }<tr class="memdesc:gaac6604fd52c6e5db82877390e0378623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration for indicating the desired precision that the network should run in, if available in hardware.  <a href="group__deepVision.html#gaac6604fd52c6e5db82877390e0378623">More...</a><br /></td></tr>
-</td></tr>
-<tr class="separator:gaac6604fd52c6e5db82877390e0378623"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa5d3f9981cdbd91516c1474006a80fe4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> { <br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a> = 0, 
-<a class="el" href="group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4aeaef16f066c95dd987fbde765b8b30b2">DEVICE_DLA</a>, 
-<a class="el" href="group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4a4950aeb02ff7fba02eb2fd2437788399">DEVICE_DLA_0</a> = DEVICE_DLA, 
-<a class="el" href="group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4a63fbbad29461776cf20c2137a3d124f0">DEVICE_DLA_1</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggaa5d3f9981cdbd91516c1474006a80fe4a3025e0cdcbdfca820726c95f384ebf87">NUM_DEVICES</a>
-<br />
- }<tr class="memdesc:gaa5d3f9981cdbd91516c1474006a80fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration for indicating the desired device that the network should run on, if available in hardware.  <a href="group__deepVision.html#gaa5d3f9981cdbd91516c1474006a80fe4">More...</a><br /></td></tr>
-</td></tr>
-<tr class="separator:gaa5d3f9981cdbd91516c1474006a80fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5d4597e0e7beae7133d542e220528725"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga5d4597e0e7beae7133d542e220528725">modelType</a> { <a class="el" href="group__deepVision.html#gga5d4597e0e7beae7133d542e220528725aad94b3fe48299211488aae3c133721b1">MODEL_CUSTOM</a> = 0, 
-<a class="el" href="group__deepVision.html#gga5d4597e0e7beae7133d542e220528725af850960ce09a0b0d4b38edef40e5d0e4">MODEL_CAFFE</a>, 
-<a class="el" href="group__deepVision.html#gga5d4597e0e7beae7133d542e220528725a90e832c5673631bdfe24da7cd8eb52c9">MODEL_ONNX</a>, 
-<a class="el" href="group__deepVision.html#gga5d4597e0e7beae7133d542e220528725ad8c909322673d53ee28de66aa57bcccd">MODEL_UFF</a>
- }<tr class="memdesc:ga5d4597e0e7beae7133d542e220528725"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration indicating the format of the model that's imported in TensorRT (either caffe, ONNX, or UFF).  <a href="group__deepVision.html#ga5d4597e0e7beae7133d542e220528725">More...</a><br /></td></tr>
-</td></tr>
-<tr class="separator:ga5d4597e0e7beae7133d542e220528725"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae34d45c0faa674ef4cc0fbfc8fae5809"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> { <br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a7f84ee2f6773727f3b11408e8b2e150e">PROFILER_PREPROCESS</a> = 0, 
-<a class="el" href="group__deepVision.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a624bb4adf22f078ad2804595dca02992">PROFILER_NETWORK</a>, 
-<a class="el" href="group__deepVision.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a1fbcfa83e963d20d06f7c633bb2e4904">PROFILER_POSTPROCESS</a>, 
-<a class="el" href="group__deepVision.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a8cef88bc690e0a794987ade986169ee5">PROFILER_VISUALIZE</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__deepVision.html#ggae34d45c0faa674ef4cc0fbfc8fae5809af9132edd0371e716aed4d46e3da5e9ea">PROFILER_TOTAL</a>
-<br />
- }<tr class="memdesc:gae34d45c0faa674ef4cc0fbfc8fae5809"><td class="mdescLeft">&#160;</td><td class="mdescRight">Profiling queries.  <a href="group__deepVision.html#gae34d45c0faa674ef4cc0fbfc8fae5809">More...</a><br /></td></tr>
-</td></tr>
-<tr class="separator:gae34d45c0faa674ef4cc0fbfc8fae5809"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaaa4127ed22c7165a32d0474ebf97975e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gaaa4127ed22c7165a32d0474ebf97975e">profilerDevice</a> { <a class="el" href="group__deepVision.html#ggaaa4127ed22c7165a32d0474ebf97975eaf33631f978127920224cd10c937e78d5">PROFILER_CPU</a> = 0, 
-<a class="el" href="group__deepVision.html#ggaaa4127ed22c7165a32d0474ebf97975eadbfd2a2033cd2a8df5fa51e13ff528b7">PROFILER_CUDA</a>
- }<tr class="memdesc:gaaa4127ed22c7165a32d0474ebf97975e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Profiler device.  <a href="group__deepVision.html#gaaa4127ed22c7165a32d0474ebf97975e">More...</a><br /></td></tr>
-</td></tr>
-<tr class="separator:gaaa4127ed22c7165a32d0474ebf97975e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ga1d1f73be994173912e9d964af1122ee1"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga1d1f73be994173912e9d964af1122ee1">precisionTypeToStr</a> (<a class="el" href="group__deepVision.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> type)</td></tr>
-<tr class="memdesc:ga1d1f73be994173912e9d964af1122ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns precisionType in text.  <a href="#ga1d1f73be994173912e9d964af1122ee1">More...</a><br /></td></tr>
-<tr class="separator:ga1d1f73be994173912e9d964af1122ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga70317416490f79e0150e9c4f46444116"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__deepVision.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga70317416490f79e0150e9c4f46444116">precisionTypeFromStr</a> (const char *str)</td></tr>
-<tr class="memdesc:ga70317416490f79e0150e9c4f46444116"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the precision type from a string.  <a href="#ga70317416490f79e0150e9c4f46444116">More...</a><br /></td></tr>
-<tr class="separator:ga70317416490f79e0150e9c4f46444116"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga85c110403b6c661b4a7042fc319f39b0"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga85c110403b6c661b4a7042fc319f39b0">deviceTypeToStr</a> (<a class="el" href="group__deepVision.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> type)</td></tr>
-<tr class="memdesc:ga85c110403b6c661b4a7042fc319f39b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns deviceType in text.  <a href="#ga85c110403b6c661b4a7042fc319f39b0">More...</a><br /></td></tr>
-<tr class="separator:ga85c110403b6c661b4a7042fc319f39b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga35c5a50fb1ab97a827b18012534fd7a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__deepVision.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga35c5a50fb1ab97a827b18012534fd7a7">deviceTypeFromStr</a> (const char *str)</td></tr>
-<tr class="memdesc:ga35c5a50fb1ab97a827b18012534fd7a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the device type from a string.  <a href="#ga35c5a50fb1ab97a827b18012534fd7a7">More...</a><br /></td></tr>
-<tr class="separator:ga35c5a50fb1ab97a827b18012534fd7a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae771c047f44cc49238c00d0e8af48106"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gae771c047f44cc49238c00d0e8af48106">modelTypeToStr</a> (<a class="el" href="group__deepVision.html#ga5d4597e0e7beae7133d542e220528725">modelType</a> type)</td></tr>
-<tr class="memdesc:gae771c047f44cc49238c00d0e8af48106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns modelType in text.  <a href="#gae771c047f44cc49238c00d0e8af48106">More...</a><br /></td></tr>
-<tr class="separator:gae771c047f44cc49238c00d0e8af48106"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga85f7b445f4341d24c65bb3bbc4a3204c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__deepVision.html#ga5d4597e0e7beae7133d542e220528725">modelType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#ga85f7b445f4341d24c65bb3bbc4a3204c">modelTypeFromStr</a> (const char *str)</td></tr>
-<tr class="memdesc:ga85f7b445f4341d24c65bb3bbc4a3204c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the model format from a string.  <a href="#ga85f7b445f4341d24c65bb3bbc4a3204c">More...</a><br /></td></tr>
-<tr class="separator:ga85f7b445f4341d24c65bb3bbc4a3204c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf219ba5ec806feca1433d20367e0f049"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__deepVision.html#gaf219ba5ec806feca1433d20367e0f049">profilerQueryToStr</a> (<a class="el" href="group__deepVision.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> query)</td></tr>
-<tr class="memdesc:gaf219ba5ec806feca1433d20367e0f049"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns profilerQuery in text.  <a href="#gaf219ba5ec806feca1433d20367e0f049">More...</a><br /></td></tr>
-<tr class="separator:gaf219ba5ec806feca1433d20367e0f049"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__superResNet"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__superResNet.html">superResNet</a></td></tr>
+<tr class="memdesc:group__superResNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Super resolution DNN for upscaling images. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>C++ runtime library for supporting deep vision neural network models and inferencing with TensorRT. </p>
 <p>Available network primitives currently include:</p><ul>
-<li><a class="el" href="classimageNet.html">imageNet</a> for image recognition</li>
-<li><a class="el" href="classdetectNet.html">detectNet</a> for object detection + localization</li>
-<li><a class="el" href="classsegNet.html">segNet</a> for segmentation</li>
+<li><a class="el" href="group__imageNet.html">imageNet</a> for image recognition</li>
+<li><a class="el" href="group__detectNet.html">detectNet</a> for object detection + localization</li>
+<li><a class="el" href="group__segNet.html">segNet</a> for segmentation</li>
 </ul>
-<p>The different primitives each inherit from the shared <a class="el" href="classtensorNet.html">tensorNet</a> object. </p>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ga5a46a965749d6118e01307fd4d4865c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5a46a965749d6118e01307fd4d4865c9">&#9670;&nbsp;</a></span>DEFAULT_MAX_BATCH_SIZE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEFAULT_MAX_BATCH_SIZE&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Default maximum batch size. </p>
-
-</div>
-</div>
-<a id="gac8c52a38ffa041865ed71fd2ea806620"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac8c52a38ffa041865ed71fd2ea806620">&#9670;&nbsp;</a></span>DETECTNET_DEFAULT_BBOX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DETECTNET_DEFAULT_BBOX&#160;&#160;&#160;&quot;bboxes&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Name of default output blob of the grid of bounding boxes for DetectNet caffe model. </p>
-
-</div>
-</div>
-<a id="ga1e79603783719e4a79f2c68f1ef47621"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1e79603783719e4a79f2c68f1ef47621">&#9670;&nbsp;</a></span>DETECTNET_DEFAULT_COVERAGE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DETECTNET_DEFAULT_COVERAGE&#160;&#160;&#160;&quot;coverage&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Name of default output blob of the coverage map for DetectNet caffe model. </p>
-
-</div>
-</div>
-<a id="gac824e329015dc8aed6e1112bfe21cb97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac824e329015dc8aed6e1112bfe21cb97">&#9670;&nbsp;</a></span>DETECTNET_DEFAULT_INPUT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DETECTNET_DEFAULT_INPUT&#160;&#160;&#160;&quot;data&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Name of default input blob for DetectNet caffe model. </p>
-
-</div>
-</div>
-<a id="ga5de620e838c2ac9aec16c6de2977513f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5de620e838c2ac9aec16c6de2977513f">&#9670;&nbsp;</a></span>DETECTNET_DEFAULT_THRESHOLD</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DETECTNET_DEFAULT_THRESHOLD&#160;&#160;&#160;0.5f</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Default value of the minimum detection threshold. </p>
-
-</div>
-</div>
-<a id="ga9e1c44a4bc51820a4ae003bc7439ce5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9e1c44a4bc51820a4ae003bc7439ce5c">&#9670;&nbsp;</a></span>HOMOGRAPHY_NET_DEFAULT_INPUT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HOMOGRAPHY_NET_DEFAULT_INPUT&#160;&#160;&#160;&quot;input_0&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Name of default input blob for <a class="el" href="classhomographyNet.html" title="Homography estimation networks with TensorRT support. ">homographyNet</a> ONNX models. </p>
-<dl class="section note"><dt>Note</dt><dd><a class="el" href="classhomographyNet.html" title="Homography estimation networks with TensorRT support. ">homographyNet</a> is only supported with TensorRT 5.0 and newer, as it uses ONNX models and requires ONNX import support in TensorRT. </dd></dl>
-
-</div>
-</div>
-<a id="ga01d17ced2d6ac4a948d6a6b77f24fbf9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga01d17ced2d6ac4a948d6a6b77f24fbf9">&#9670;&nbsp;</a></span>HOMOGRAPHY_NET_DEFAULT_OUTPUT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HOMOGRAPHY_NET_DEFAULT_OUTPUT&#160;&#160;&#160;&quot;output_0&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Name of default output blob for <a class="el" href="classhomographyNet.html" title="Homography estimation networks with TensorRT support. ">homographyNet</a> ONNX models. </p>
-
-</div>
-</div>
-<a id="ga00bb3120ef3040793ad3ee25d2727f5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga00bb3120ef3040793ad3ee25d2727f5b">&#9670;&nbsp;</a></span>IMAGENET_DEFAULT_INPUT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define IMAGENET_DEFAULT_INPUT&#160;&#160;&#160;&quot;data&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Name of default input blob for <a class="el" href="classimageNet.html" title="Image recognition with GoogleNet/Alexnet or custom models, using TensorRT. ">imageNet</a> model. </p>
-
-</div>
-</div>
-<a id="ga74a585b96a1bd960b5201f6b69752fad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga74a585b96a1bd960b5201f6b69752fad">&#9670;&nbsp;</a></span>IMAGENET_DEFAULT_OUTPUT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define IMAGENET_DEFAULT_OUTPUT&#160;&#160;&#160;&quot;prob&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Name of default output confidence values for <a class="el" href="classimageNet.html" title="Image recognition with GoogleNet/Alexnet or custom models, using TensorRT. ">imageNet</a> model. </p>
-
-</div>
-</div>
-<a id="ga3c048e603c3c16fb810eb11c36242f82"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3c048e603c3c16fb810eb11c36242f82">&#9670;&nbsp;</a></span>LOG_TRT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LOG_TRT&#160;&#160;&#160;&quot;[TRT]   &quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Prefix used for tagging printed log output from TensorRT. </p>
-
-</div>
-</div>
-<a id="ga33b5fd20f8ed468725c55eb0bcc5af71"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga33b5fd20f8ed468725c55eb0bcc5af71">&#9670;&nbsp;</a></span>SEGNET_DEFAULT_INPUT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SEGNET_DEFAULT_INPUT&#160;&#160;&#160;&quot;data&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Name of default input blob for segmentation model. </p>
-
-</div>
-</div>
-<a id="ga05c359c7dcd0c1e855543a3a9a18c422"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga05c359c7dcd0c1e855543a3a9a18c422">&#9670;&nbsp;</a></span>SEGNET_DEFAULT_OUTPUT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SEGNET_DEFAULT_OUTPUT&#160;&#160;&#160;&quot;score_fr_21classes&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Name of default output blob for segmentation model. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="gaa5d3f9981cdbd91516c1474006a80fe4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa5d3f9981cdbd91516c1474006a80fe4">&#9670;&nbsp;</a></span>deviceType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="group__deepVision.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Enumeration for indicating the desired device that the network should run on, if available in hardware. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b"></a>DEVICE_GPU&#160;</td><td class="fielddoc"><p>GPU (if multiple GPUs are present, a specific GPU can be selected with cudaSetDevice() </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggaa5d3f9981cdbd91516c1474006a80fe4aeaef16f066c95dd987fbde765b8b30b2"></a>DEVICE_DLA&#160;</td><td class="fielddoc"><p>Deep Learning Accelerator (DLA) Core 0 (only on Jetson Xavier) </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggaa5d3f9981cdbd91516c1474006a80fe4a4950aeb02ff7fba02eb2fd2437788399"></a>DEVICE_DLA_0&#160;</td><td class="fielddoc"><p>Deep Learning Accelerator (DLA) Core 0 (only on Jetson Xavier) </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggaa5d3f9981cdbd91516c1474006a80fe4a63fbbad29461776cf20c2137a3d124f0"></a>DEVICE_DLA_1&#160;</td><td class="fielddoc"><p>Deep Learning Accelerator (DLA) Core 1 (only on Jetson Xavier) </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggaa5d3f9981cdbd91516c1474006a80fe4a3025e0cdcbdfca820726c95f384ebf87"></a>NUM_DEVICES&#160;</td><td class="fielddoc"><p>Number of device types defined. </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<a id="ga5d4597e0e7beae7133d542e220528725"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5d4597e0e7beae7133d542e220528725">&#9670;&nbsp;</a></span>modelType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="group__deepVision.html#ga5d4597e0e7beae7133d542e220528725">modelType</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Enumeration indicating the format of the model that's imported in TensorRT (either caffe, ONNX, or UFF). </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga5d4597e0e7beae7133d542e220528725aad94b3fe48299211488aae3c133721b1"></a>MODEL_CUSTOM&#160;</td><td class="fielddoc"><p>Created directly with TensorRT API. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga5d4597e0e7beae7133d542e220528725af850960ce09a0b0d4b38edef40e5d0e4"></a>MODEL_CAFFE&#160;</td><td class="fielddoc"><p>caffemodel </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga5d4597e0e7beae7133d542e220528725a90e832c5673631bdfe24da7cd8eb52c9"></a>MODEL_ONNX&#160;</td><td class="fielddoc"><p>ONNX. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga5d4597e0e7beae7133d542e220528725ad8c909322673d53ee28de66aa57bcccd"></a>MODEL_UFF&#160;</td><td class="fielddoc"><p>UFF. </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<a id="gaac6604fd52c6e5db82877390e0378623"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaac6604fd52c6e5db82877390e0378623">&#9670;&nbsp;</a></span>precisionType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="group__deepVision.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Enumeration for indicating the desired precision that the network should run in, if available in hardware. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggaac6604fd52c6e5db82877390e0378623a1a4ed47814b2f80f0e92daad5af7bc38"></a>TYPE_DISABLED&#160;</td><td class="fielddoc"><p>Unknown, unspecified, or disabled type. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9"></a>TYPE_FASTEST&#160;</td><td class="fielddoc"><p>The fastest detected precision should be use (i.e. </p>
-<p>try INT8, then FP16, then FP32) </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggaac6604fd52c6e5db82877390e0378623a5bbefcad9ecb657a3841c2e8db6828d3"></a>TYPE_FP32&#160;</td><td class="fielddoc"><p>32-bit floating-point precision (FP32) </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggaac6604fd52c6e5db82877390e0378623a085813e6021d0d8884d768725151a526"></a>TYPE_FP16&#160;</td><td class="fielddoc"><p>16-bit floating-point half precision (FP16) </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggaac6604fd52c6e5db82877390e0378623a12cf69049b0ce2b80538213ab4ee4908"></a>TYPE_INT8&#160;</td><td class="fielddoc"><p>8-bit integer precision (INT8) </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggaac6604fd52c6e5db82877390e0378623ad5386697191943144fa63df529e1a310"></a>NUM_PRECISIONS&#160;</td><td class="fielddoc"><p>Number of precision types defined. </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<a id="gaaa4127ed22c7165a32d0474ebf97975e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaaa4127ed22c7165a32d0474ebf97975e">&#9670;&nbsp;</a></span>profilerDevice</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="group__deepVision.html#gaaa4127ed22c7165a32d0474ebf97975e">profilerDevice</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Profiler device. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggaaa4127ed22c7165a32d0474ebf97975eaf33631f978127920224cd10c937e78d5"></a>PROFILER_CPU&#160;</td><td class="fielddoc"><p>CPU walltime. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggaaa4127ed22c7165a32d0474ebf97975eadbfd2a2033cd2a8df5fa51e13ff528b7"></a>PROFILER_CUDA&#160;</td><td class="fielddoc"><p>CUDA kernel time. </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<a id="gae34d45c0faa674ef4cc0fbfc8fae5809"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae34d45c0faa674ef4cc0fbfc8fae5809">&#9670;&nbsp;</a></span>profilerQuery</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="group__deepVision.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Profiling queries. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classtensorNet.html#ad266f93035a80dca80cd84d971e4f69b" title="Retrieve the profiler runtime (in milliseconds). ">tensorNet::GetProfilerTime()</a> </dd></dl>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggae34d45c0faa674ef4cc0fbfc8fae5809a7f84ee2f6773727f3b11408e8b2e150e"></a>PROFILER_PREPROCESS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ggae34d45c0faa674ef4cc0fbfc8fae5809a624bb4adf22f078ad2804595dca02992"></a>PROFILER_NETWORK&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ggae34d45c0faa674ef4cc0fbfc8fae5809a1fbcfa83e963d20d06f7c633bb2e4904"></a>PROFILER_POSTPROCESS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ggae34d45c0faa674ef4cc0fbfc8fae5809a8cef88bc690e0a794987ade986169ee5"></a>PROFILER_VISUALIZE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ggae34d45c0faa674ef4cc0fbfc8fae5809af9132edd0371e716aed4d46e3da5e9ea"></a>PROFILER_TOTAL&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ga35c5a50fb1ab97a827b18012534fd7a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga35c5a50fb1ab97a827b18012534fd7a7">&#9670;&nbsp;</a></span>deviceTypeFromStr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__deepVision.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> deviceTypeFromStr </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>str</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Parse the device type from a string. </p>
-
-</div>
-</div>
-<a id="ga85c110403b6c661b4a7042fc319f39b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga85c110403b6c661b4a7042fc319f39b0">&#9670;&nbsp;</a></span>deviceTypeToStr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* deviceTypeToStr </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__deepVision.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a>&#160;</td>
-          <td class="paramname"><em>type</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Stringize function that returns deviceType in text. </p>
-
-</div>
-</div>
-<a id="ga85f7b445f4341d24c65bb3bbc4a3204c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga85f7b445f4341d24c65bb3bbc4a3204c">&#9670;&nbsp;</a></span>modelTypeFromStr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__deepVision.html#ga5d4597e0e7beae7133d542e220528725">modelType</a> modelTypeFromStr </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>str</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Parse the model format from a string. </p>
-
-</div>
-</div>
-<a id="gae771c047f44cc49238c00d0e8af48106"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae771c047f44cc49238c00d0e8af48106">&#9670;&nbsp;</a></span>modelTypeToStr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* modelTypeToStr </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__deepVision.html#ga5d4597e0e7beae7133d542e220528725">modelType</a>&#160;</td>
-          <td class="paramname"><em>type</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Stringize function that returns modelType in text. </p>
-
-</div>
-</div>
-<a id="ga70317416490f79e0150e9c4f46444116"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga70317416490f79e0150e9c4f46444116">&#9670;&nbsp;</a></span>precisionTypeFromStr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__deepVision.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precisionTypeFromStr </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>str</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Parse the precision type from a string. </p>
-
-</div>
-</div>
-<a id="ga1d1f73be994173912e9d964af1122ee1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1d1f73be994173912e9d964af1122ee1">&#9670;&nbsp;</a></span>precisionTypeToStr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* precisionTypeToStr </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__deepVision.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td>
-          <td class="paramname"><em>type</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Stringize function that returns precisionType in text. </p>
-
-</div>
-</div>
-<a id="gaf219ba5ec806feca1433d20367e0f049"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf219ba5ec806feca1433d20367e0f049">&#9670;&nbsp;</a></span>profilerQueryToStr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* profilerQueryToStr </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__deepVision.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a>&#160;</td>
-          <td class="paramname"><em>query</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Stringize function that returns profilerQuery in text. </p>
-
-</div>
-</div>
+<p>The different primitives each inherit from the shared <a class="el" href="group__tensorNet.html">tensorNet</a> object. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Jun 13 2019 21:01:15 for jetson-inference by
+    <li class="footer">Generated on Fri Jun 14 2019 01:44:23 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
