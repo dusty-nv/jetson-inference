@@ -11,13 +11,8 @@ project(my-recognition)
 find_package(jetson-utils)
 find_package(jetson-inference)
 
-# CUDA and Qt4 are required
+# CUDA is required
 find_package(CUDA)
-find_package(Qt4)
-
-# setup Qt4 for build
-include(${QT_USE_FILE})
-add_definitions(${QT_DEFINITIONS})
 
 # compile the my-recognition program
 cuda_add_executable(my-recognition my-recognition.cpp)
