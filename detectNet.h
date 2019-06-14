@@ -29,32 +29,32 @@
 
 /**
  * Name of default input blob for DetectNet caffe model.
- * @ingroup deepVision
+ * @ingroup detectNet
  */
 #define DETECTNET_DEFAULT_INPUT   "data"
 
 /**
  * Name of default output blob of the coverage map for DetectNet caffe model.
- * @ingroup deepVision
+ * @ingroup detectNet
  */
 #define DETECTNET_DEFAULT_COVERAGE  "coverage"
 
 /**
  * Name of default output blob of the grid of bounding boxes for DetectNet caffe model.
- * @ingroup deepVision
+ * @ingroup detectNet
  */
 #define DETECTNET_DEFAULT_BBOX  "bboxes"
 
 /**
  * Default value of the minimum detection threshold
- * @ingroup deepVision
+ * @ingroup detectNet
  */
 #define DETECTNET_DEFAULT_THRESHOLD 0.5f
 
 
 /**
  * Object recognition and localization networks with TensorRT support.
- * @ingroup deepVision
+ * @ingroup detectNet
  */
 class detectNet : public tensorNet
 {

@@ -34,6 +34,7 @@
 
 /**
  * Super Resolution Network
+ * @ingroup superResNet
  */
 class superResNet : public tensorNet
 {

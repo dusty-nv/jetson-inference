@@ -29,20 +29,20 @@
 
 /**
  * Name of default input blob for segmentation model.
- * @ingroup deepVision
+ * @ingroup segNet
  */
 #define SEGNET_DEFAULT_INPUT   "data"
 
 /**
  * Name of default output blob for segmentation model.
- * @ingroup deepVision
+ * @ingroup segNet
  */
 #define SEGNET_DEFAULT_OUTPUT  "score_fr_21classes"
 
 
 /**
  * Image segmentation with FCN-Alexnet or custom models, using TensorRT.
- * @ingroup deepVision
+ * @ingroup segNet
  */
 class segNet : public tensorNet
 {

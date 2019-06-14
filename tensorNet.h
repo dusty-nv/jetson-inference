@@ -27,9 +27,10 @@
 namespace nvinfer1 { class IInt8Calibrator; }
 
 // includes
-#include "NvInfer.h"
-#include "cudaUtility.h"
-#include "timespec.h"
+#include <NvInfer.h>
+
+#include <jetson-utils/cudaUtility.h>
+#include <jetson-utils/timespec.h>
 
 #include <vector>
 #include <sstream>
@@ -59,13 +60,13 @@ typedef nvinfer1::Dims3 Dims3;
 
 /**
  * Default maximum batch size
- * @ingroup deepVision 
+ * @ingroup tensorNet
  */
 #define DEFAULT_MAX_BATCH_SIZE  1
 
 /**
  * Prefix used for tagging printed log output from TensorRT.
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 #define LOG_TRT "[TRT]   "
 
@@ -73,7 +74,7 @@ typedef nvinfer1::Dims3 Dims3;
 /**
  * Enumeration for indicating the desired precision that
  * the network should run in, if available in hardware.
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 enum precisionType
 {
@@ -87,20 +88,20 @@ enum precisionType
 
 /**
  * Stringize function that returns precisionType in text.
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 const char* precisionTypeToStr( precisionType type );
 
 /**
  * Parse the precision type from a string.
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 precisionType precisionTypeFromStr( const char* str );
 
 /**
  * Enumeration for indicating the desired device that 
  * the network should run on, if available in hardware.
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 enum deviceType
 {
@@ -113,20 +114,20 @@ enum deviceType
 
 /**
  * Stringize function that returns deviceType in text.
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 const char* deviceTypeToStr( deviceType type );
 
 /**
  * Parse the device type from a string.
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 deviceType deviceTypeFromStr( const char* str );
 
 /**
  * Enumeration indicating the format of the model that's
  * imported in TensorRT (either caffe, ONNX, or UFF).
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 enum modelType
 {
@@ -138,20 +139,20 @@ enum modelType
 
 /**
  * Stringize function that returns modelType in text.
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 const char* modelTypeToStr( modelType type );
 
 /**
  * Parse the model format from a string.
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 modelType modelTypeFromStr( const char* str );
 
 /**
  * Profiling queries
  * @see tensorNet::GetProfilerTime()
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 enum profilerQuery
 {
@@ -164,13 +165,13 @@ enum profilerQuery
 
 /**
  * Stringize function that returns profilerQuery in text.
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 const char* profilerQueryToStr( profilerQuery query );
 
 /**
  * Profiler device
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 enum profilerDevice
 {
@@ -182,7 +183,7 @@ enum profilerDevice
 /**
  * Abstract class for loading a tensor network with TensorRT.
  * For example implementations, @see imageNet and @see detectNet
- * @ingroup deepVision
+ * @ingroup tensorNet
  */
 class tensorNet
 {

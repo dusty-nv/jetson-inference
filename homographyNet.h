@@ -27,30 +27,32 @@
 #include "tensorNet.h"
 
 
+#if NV_TENSORRT_MAJOR >= 5
 /**
+ * Defines if homographyNet DNN is available on the system or not.
  * @note homographyNet is only supported with TensorRT 5.0 and newer,
  * as it uses ONNX models and requires ONNX import support in TensorRT.
+ * @ingroup homographyNet
  */
-#if NV_TENSORRT_MAJOR >= 5
 #define HAS_HOMOGRAPHY_NET
 #endif
 
 /**
  * Name of default input blob for homographyNet ONNX models.
- * @ingroup deepVision
+ * @ingroup homographyNet
  */
 #define HOMOGRAPHY_NET_DEFAULT_INPUT   "input_0"
 
 /**
  * Name of default output blob for homographyNet ONNX models.
- * @ingroup deepVision
+ * @ingroup homographyNet
  */
 #define HOMOGRAPHY_NET_DEFAULT_OUTPUT  "output_0"
 
 
 /**
  * Homography estimation networks with TensorRT support.
- * @ingroup deepVision
+ * @ingroup homographyNet
  */
 class homographyNet : public tensorNet
 {

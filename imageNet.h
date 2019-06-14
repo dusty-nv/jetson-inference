@@ -29,20 +29,20 @@
 
 /**
  * Name of default input blob for imageNet model.
- * @ingroup deepVision
+ * @ingroup imageNet
  */
 #define IMAGENET_DEFAULT_INPUT   "data"
 
 /**
  * Name of default output confidence values for imageNet model.
- * @ingroup deepVision
+ * @ingroup imageNet
  */
 #define IMAGENET_DEFAULT_OUTPUT  "prob"
 
 
 /**
  * Image recognition with GoogleNet/Alexnet or custom models, using TensorRT.
- * @ingroup deepVision
+ * @ingroup imageNet
  */
 class imageNet : public tensorNet
 {

@@ -87,8 +87,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 
 
-# build C/C++ interface
-include_directories(${PROJECT_INCLUDE_DIR} ${GIE_PATH}/include)
+# build C/C++ library
+include_directories(${PROJECT_INCLUDE_DIR} ${PROJECT_INCLUDE_DIR}/jetson-inference ${PROJECT_INCLUDE_DIR}/jetson-utils)
 include_directories(/usr/include/gstreamer-1.0 /usr/lib/aarch64-linux-gnu/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/aarch64-linux-gnu/glib-2.0/include/)
 
 file(GLOB inferenceSources *.cpp *.cu calibration/*.cpp plugins/*.cpp)
@@ -99,9 +99,11 @@ cuda_add_library(jetson-inference SHARED ${inferenceSources})
 
 
 # transfer all headers to the include directory
+file(MAKE_DIRECTORY ${PROJECT_INCLUDE_DIR}/jetson-inference)
+
 foreach(include ${inferenceIncludes})
 	message("-- Copying ${include}")
-	configure_file(${include} ${PROJECT_INCLUDE_DIR} COPYONLY)
+	configure_file(${include} ${PROJECT_INCLUDE_DIR}/jetson-inference COPYONLY)
 endforeach()
 
 
