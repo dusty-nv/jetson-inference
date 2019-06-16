@@ -68,6 +68,12 @@
  */
 
 /**
+ * @defgroup codec Codec
+ * Hardware-accelerated video encoder and decoder (H.264/H.265) using GStreamer.
+ * @ingroup util
+ */
+ 
+/**
  * @defgroup cuda CUDA
  * CUDA utilities and image processing kernels.
  * @ingroup util
@@ -79,5 +85,56 @@
  * @ingroup cuda
  */
 
+/**
+ * @defgroup colorspace Color Conversion
+ * Colorspace conversion functions for various YUV formats, RGB, BGR, ect.
+ * @ingroup cuda
+ */
 
+/**
+ * @defgroup OpenGL OpenGL
+ * OpenGL textures and display window (X11/GLX).
+ * @ingroup util
+ */
+
+/**
+ * @defgroup image Image I/O
+ * Loading and saving image files from disk.
+ * @ingroup util
+ */
+ 
+/**
+ * @defgroup input Input
+ * HID input devices including gamepad controllers, joysticks, and keyboard.
+ * @ingroup util
+ */
+
+/**
+ * @defgroup matrix Matrix
+ * 3x3 matrix operations from `mat33.h`
+ * @ingroup util
+ */
+ 
+/**
+ * @defgroup threads Multithreading
+ * Mutex, events, threads, and process objects based on pthreads.
+ * @ingroup util
+ */
+ 
+/**
+ * @degroup network Networking
+ * TCP/UDP sockets and IP address manipulation.
+ */
+ 
+/**
+ * @defgroup filesystem Filesystem
+ * Functions for listing files in directories and manipulating file paths.
+ * @ingroup util
+ */
+
+/**
+ * @defgroup time Time
+ * Timestamping operations for measuring the timing of CPU code.
+ * @ingroup util
+ */
 

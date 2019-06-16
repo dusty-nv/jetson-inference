@@ -1,6 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"classtinyxml2_1_1MemPool.html#a0c518d49e3a94bde566f61e13b7240bb":[2,0,0,1,5],
 "classtinyxml2_1_1MemPool.html#a49e3bfac2cba2ebd6776b31e571f64f7":[2,0,0,1,4],
 "classtinyxml2_1_1MemPool.html#a4f977b5fed752c0bbfe5295f469d6449":[2,0,0,1,2],
 "classtinyxml2_1_1MemPool.html#a74fcdef9756917c8ae19fbbb4d658ed7":[2,0,0,1,3],
@@ -249,5 +248,6 @@ var NAVTREEINDEX2 =
 "classtinyxml2_1_1XMLNode.html#a3ea9884098b8379de2bb5ab3fc85c0fc":[2,0,0,11,61],
 "classtinyxml2_1_1XMLNode.html#a41c55dab9162d1eb62db2008430e376b":[2,0,0,11,46],
 "classtinyxml2_1_1XMLNode.html#a4eee3bda60c60a30e4e8cd4ea91c4c6e":[2,0,0,11,51],
-"classtinyxml2_1_1XMLNode.html#a5cef2b1dacd8c6bc61373c9221fe01a3":[2,0,0,11,29]
+"classtinyxml2_1_1XMLNode.html#a5cef2b1dacd8c6bc61373c9221fe01a3":[2,0,0,11,29],
+"classtinyxml2_1_1XMLNode.html#a62c71b6bf8734b5424063b8d9a61c266":[2,0,0,11,3]
 };

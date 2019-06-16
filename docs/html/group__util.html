@@ -99,8 +99,32 @@ Modules</h2></td></tr>
 <tr class="memitem:group__camera"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html">Camera Capture</a></td></tr>
 <tr class="memdesc:group__camera"><td class="mdescLeft">&#160;</td><td class="mdescRight">Camera capture and streaming for MIPI CSI and V4L2 devices. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__codec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html">Codec</a></td></tr>
+<tr class="memdesc:group__codec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hardware-accelerated video encoder and decoder (H.264/H.265) using GStreamer. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__cuda"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html">CUDA</a></td></tr>
 <tr class="memdesc:group__cuda"><td class="mdescLeft">&#160;</td><td class="mdescRight">CUDA utilities and image processing kernels. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__OpenGL"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OpenGL.html">OpenGL</a></td></tr>
+<tr class="memdesc:group__OpenGL"><td class="mdescLeft">&#160;</td><td class="mdescRight">OpenGL textures and display window (X11/GLX). <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__image"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html">Image I/O</a></td></tr>
+<tr class="memdesc:group__image"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loading and saving image files from disk. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__input"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html">Input</a></td></tr>
+<tr class="memdesc:group__input"><td class="mdescLeft">&#160;</td><td class="mdescRight">HID input devices including gamepad controllers, joysticks, and keyboard. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__matrix"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__matrix.html">Matrix</a></td></tr>
+<tr class="memdesc:group__matrix"><td class="mdescLeft">&#160;</td><td class="mdescRight">3x3 matrix operations from <code><a class="el" href="mat33_8h.html">mat33.h</a></code> <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__threads"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__threads.html">Multithreading</a></td></tr>
+<tr class="memdesc:group__threads"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classMutex.html" title="A lightweight mutual exclusion lock. ">Mutex</a>, events, threads, and process objects based on pthreads. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__filesystem"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html">Filesystem</a></td></tr>
+<tr class="memdesc:group__filesystem"><td class="mdescLeft">&#160;</td><td class="mdescRight">network Networking TCP/UDP sockets and IP address manipulation. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__time"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html">Time</a></td></tr>
+<tr class="memdesc:group__time"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamping operations for measuring the timing of CPU code. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -114,25 +138,101 @@ Macros</h2></td></tr>
 <tr class="memitem:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga4b8b2bed986c06c207ebac140ba65a7a">SAFE_DELETE</a>(x)&#160;&#160;&#160;if(x != NULL) { delete x; x = NULL; }</td></tr>
 <tr class="memdesc:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check for non-NULL pointer before deleting it, and then set the pointer to NULL.  <a href="#ga4b8b2bed986c06c207ebac140ba65a7a">More...</a><br /></td></tr>
 <tr class="separator:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga598a3330b3c21701223ee0ca14316eca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga598a3330b3c21701223ee0ca14316eca">PI</a>&#160;&#160;&#160;3.1415926535897932384626433832795f</td></tr>
+<tr class="memdesc:ga598a3330b3c21701223ee0ca14316eca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant representing PI.  <a href="#ga598a3330b3c21701223ee0ca14316eca">More...</a><br /></td></tr>
+<tr class="separator:ga598a3330b3c21701223ee0ca14316eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3b947f4b635461030ff2d87833e5049e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga3b947f4b635461030ff2d87833e5049e">TWO_PI</a>&#160;&#160;&#160;6.283185307179586476925286766559f</td></tr>
+<tr class="memdesc:ga3b947f4b635461030ff2d87833e5049e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant representing two PI.  <a href="#ga3b947f4b635461030ff2d87833e5049e">More...</a><br /></td></tr>
+<tr class="separator:ga3b947f4b635461030ff2d87833e5049e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadadbae7d9856635bbacdc4c9f546ef81"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#gadadbae7d9856635bbacdc4c9f546ef81">PI_OVER_TWO</a>&#160;&#160;&#160;1.5707963267948966192313216916398f;</td></tr>
+<tr class="memdesc:gadadbae7d9856635bbacdc4c9f546ef81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant representing PI over two.  <a href="#gadadbae7d9856635bbacdc4c9f546ef81">More...</a><br /></td></tr>
+<tr class="separator:gadadbae7d9856635bbacdc4c9f546ef81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga212460e743fecb084d717bb2180c5a56"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga212460e743fecb084d717bb2180c5a56">DEG_TO_RAD</a>&#160;&#160;&#160;0.017453292519943295769236907684886f</td></tr>
+<tr class="memdesc:ga212460e743fecb084d717bb2180c5a56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant for converting from degrees to radians.  <a href="#ga212460e743fecb084d717bb2180c5a56">More...</a><br /></td></tr>
+<tr class="separator:ga212460e743fecb084d717bb2180c5a56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga89e47af0449640d4f15191aba5ca24c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga89e47af0449640d4f15191aba5ca24c6">RAD_TO_DEG</a>&#160;&#160;&#160;57.295779513082320876798154814105f</td></tr>
+<tr class="memdesc:ga89e47af0449640d4f15191aba5ca24c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant for converting from radians to degrees.  <a href="#ga89e47af0449640d4f15191aba5ca24c6">More...</a><br /></td></tr>
+<tr class="separator:ga89e47af0449640d4f15191aba5ca24c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga144a95bc7f1c58aeda68cc135355acac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga144a95bc7f1c58aeda68cc135355acac">loadImageRGBA</a> (const char *filename, float4 **cpu, float4 **gpu, int *width, int *height, const float4 &amp;mean_pixel=make_float4(0, 0, 0, 0))</td></tr>
-<tr class="memdesc:ga144a95bc7f1c58aeda68cc135355acac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-255.  <a href="#ga144a95bc7f1c58aeda68cc135355acac">More...</a><br /></td></tr>
-<tr class="separator:ga144a95bc7f1c58aeda68cc135355acac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga324cfcb15198bbf8c7578e802791d804"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga324cfcb15198bbf8c7578e802791d804">saveImageRGBA</a> (const char *filename, float4 *cpu, int width, int height, float max_pixel=255.0f, int quality=100)</td></tr>
-<tr class="memdesc:ga324cfcb15198bbf8c7578e802791d804"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save a float4 RGBA image to disk.  <a href="#ga324cfcb15198bbf8c7578e802791d804">More...</a><br /></td></tr>
-<tr class="separator:ga324cfcb15198bbf8c7578e802791d804"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga111365a53f058201561e472e1780829e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga111365a53f058201561e472e1780829e">loadImageRGB</a> (const char *filename, float3 **cpu, float3 **gpu, int *width, int *height, const float3 &amp;mean_pixel=make_float3(0, 0, 0))</td></tr>
-<tr class="memdesc:ga111365a53f058201561e472e1780829e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a color image from disk into CUDA memory, in float3 RGB format with pixel values 0-255.  <a href="#ga111365a53f058201561e472e1780829e">More...</a><br /></td></tr>
-<tr class="separator:ga111365a53f058201561e472e1780829e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab0f496972aab71df789fe6ec2da13f5f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#gab0f496972aab71df789fe6ec2da13f5f">loadImageBGR</a> (const char *filename, float3 **cpu, float3 **gpu, int *width, int *height, const float3 &amp;mean=make_float3(0, 0, 0))</td></tr>
-<tr class="memdesc:gab0f496972aab71df789fe6ec2da13f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a color image from disk into CUDA memory, in float3 BGR format with pixel values 0-255.  <a href="#gab0f496972aab71df789fe6ec2da13f5f">More...</a><br /></td></tr>
-<tr class="separator:gab0f496972aab71df789fe6ec2da13f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafee76bb8d269f1ccb369264fd28540f6"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#gafee76bb8d269f1ccb369264fd28540f6">randf</a> (float range_min=0.0f, float range_max=1.0f)</td></tr>
+<tr class="memdesc:gafee76bb8d269f1ccb369264fd28540f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a floating-point random number within the specified range.  <a href="#gafee76bb8d269f1ccb369264fd28540f6">More...</a><br /></td></tr>
+<tr class="separator:gafee76bb8d269f1ccb369264fd28540f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga38e36f1fb5c8d8bc2dd5b502f17d9be4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga38e36f1fb5c8d8bc2dd5b502f17d9be4">rand</a> (int range_min, int range_max)</td></tr>
+<tr class="memdesc:ga38e36f1fb5c8d8bc2dd5b502f17d9be4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a random integer within the specified range.  <a href="#ga38e36f1fb5c8d8bc2dd5b502f17d9be4">More...</a><br /></td></tr>
+<tr class="separator:ga38e36f1fb5c8d8bc2dd5b502f17d9be4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37406669812e75c559cfa401d0c2f623"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga37406669812e75c559cfa401d0c2f623">srand_time</a> ()</td></tr>
+<tr class="memdesc:ga37406669812e75c559cfa401d0c2f623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Seed the random number generator based on the system time.  <a href="#ga37406669812e75c559cfa401d0c2f623">More...</a><br /></td></tr>
+<tr class="separator:ga37406669812e75c559cfa401d0c2f623"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Tools and utilities for camera streaming, codecs, display, and visualization. </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga212460e743fecb084d717bb2180c5a56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga212460e743fecb084d717bb2180c5a56">&#9670;&nbsp;</a></span>DEG_TO_RAD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEG_TO_RAD&#160;&#160;&#160;0.017453292519943295769236907684886f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constant for converting from degrees to radians. </p>
+
+</div>
+</div>
+<a id="ga598a3330b3c21701223ee0ca14316eca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga598a3330b3c21701223ee0ca14316eca">&#9670;&nbsp;</a></span>PI</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PI&#160;&#160;&#160;3.1415926535897932384626433832795f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constant representing PI. </p>
+
+</div>
+</div>
+<a id="gadadbae7d9856635bbacdc4c9f546ef81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadadbae7d9856635bbacdc4c9f546ef81">&#9670;&nbsp;</a></span>PI_OVER_TWO</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PI_OVER_TWO&#160;&#160;&#160;1.5707963267948966192313216916398f;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constant representing PI over two. </p>
+
+</div>
+</div>
+<a id="ga89e47af0449640d4f15191aba5ca24c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga89e47af0449640d4f15191aba5ca24c6">&#9670;&nbsp;</a></span>RAD_TO_DEG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RAD_TO_DEG&#160;&#160;&#160;57.295779513082320876798154814105f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constant for converting from radians to degrees. </p>
+
+</div>
+</div>
 <a id="ga4b8b2bed986c06c207ebac140ba65a7a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga4b8b2bed986c06c207ebac140ba65a7a">&#9670;&nbsp;</a></span>SAFE_DELETE</h2>
 
@@ -153,246 +253,81 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ga3b947f4b635461030ff2d87833e5049e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3b947f4b635461030ff2d87833e5049e">&#9670;&nbsp;</a></span>TWO_PI</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TWO_PI&#160;&#160;&#160;6.283185307179586476925286766559f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constant representing two PI. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gab0f496972aab71df789fe6ec2da13f5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab0f496972aab71df789fe6ec2da13f5f">&#9670;&nbsp;</a></span>loadImageBGR()</h2>
+<a id="ga38e36f1fb5c8d8bc2dd5b502f17d9be4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga38e36f1fb5c8d8bc2dd5b502f17d9be4">&#9670;&nbsp;</a></span>rand()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool loadImageBGR </td>
+          <td class="memname">int rand </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float3 **&#160;</td>
-          <td class="paramname"><em>cpu</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float3 **&#160;</td>
-          <td class="paramname"><em>gpu</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int *&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int *&#160;</td>
-          <td class="paramname"><em>height</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float3 &amp;&#160;</td>
-          <td class="paramname"><em>mean</em> = <code>make_float3(0,&#160;0,&#160;0)</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Load a color image from disk into CUDA memory, in float3 BGR format with pixel values 0-255. </p>
-<p>Supported image file formats include: JPEG, PNG, TGA, BMP, GIF, PSD, HDR, PIC, and PNM (PPM/PGM binary). This function loads the image into shared CPU/GPU memory, using the functions from <a class="el" href="cudaMappedMemory_8h.html">cudaMappedMemory.h</a></p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>Path to the image file to load from disk. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">cpu</td><td>Reference to pointer that will be set to the CPU buffer containing the image that will be allocated. This buffer will be allocated by <a class="el" href="group__util.html#ga144a95bc7f1c58aeda68cc135355acac" title="Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-2...">loadImageRGBA()</a> in CUDA mapped memory, so it is shared between CPU/GPU. cpu will be the pointer to this shared buffer in the CPU's address space. There is physically one buffer in memory. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">gpu</td><td>Reference to pointer that will be set to the GPU buffer containing the image that will be allocated. This buffer will be allocated by <a class="el" href="group__util.html#ga144a95bc7f1c58aeda68cc135355acac" title="Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-2...">loadImageRGBA()</a> in CUDA mapped memory, so it is shared between CPU/GPU. gpu will be the pointer to this shared buffer in the GPU's address space. There is physically one buffer in memory. </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">width</td><td>Pointer to int variable that gets set to the width of the image in pixels. If the width variable contains a non-zero value when it's passed in, the image is resized to this desired width. Otherwise if the value of width is 0, the image will be loaded with it's dimensions from the file on disk. </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">height</td><td>Pointer to int variable that gets set to the height of the image in pixels. If the height variable contains a non-zero value when it's passed in, the image is resized to this desired height. Otherwise if the value of height is 0, the image will be loaded with it's dimensions from the file on disk. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">mean_pixel</td><td>Mean pixel subtraction is applied using this specified color (mean pixel subtraction is typically performed before processing an image with neural networks). By default the value is zero, so no mean pixel subtraction is done. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ga111365a53f058201561e472e1780829e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga111365a53f058201561e472e1780829e">&#9670;&nbsp;</a></span>loadImageRGB()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool loadImageRGB </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float3 **&#160;</td>
-          <td class="paramname"><em>cpu</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float3 **&#160;</td>
-          <td class="paramname"><em>gpu</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int *&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int *&#160;</td>
-          <td class="paramname"><em>height</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float3 &amp;&#160;</td>
-          <td class="paramname"><em>mean_pixel</em> = <code>make_float3(0,&#160;0,&#160;0)</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Load a color image from disk into CUDA memory, in float3 RGB format with pixel values 0-255. </p>
-<p>Supported image file formats include: JPEG, PNG, TGA, BMP, GIF, PSD, HDR, PIC, and PNM (PPM/PGM binary). This function loads the image into shared CPU/GPU memory, using the functions from <a class="el" href="cudaMappedMemory_8h.html">cudaMappedMemory.h</a></p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>Path to the image file to load from disk. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">cpu</td><td>Reference to pointer that will be set to the CPU buffer containing the image that will be allocated. This buffer will be allocated by <a class="el" href="group__util.html#ga144a95bc7f1c58aeda68cc135355acac" title="Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-2...">loadImageRGBA()</a> in CUDA mapped memory, so it is shared between CPU/GPU. cpu will be the pointer to this shared buffer in the CPU's address space. There is physically one buffer in memory. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">gpu</td><td>Reference to pointer that will be set to the GPU buffer containing the image that will be allocated. This buffer will be allocated by <a class="el" href="group__util.html#ga144a95bc7f1c58aeda68cc135355acac" title="Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-2...">loadImageRGBA()</a> in CUDA mapped memory, so it is shared between CPU/GPU. gpu will be the pointer to this shared buffer in the GPU's address space. There is physically one buffer in memory. </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">width</td><td>Pointer to int variable that gets set to the width of the image in pixels. If the width variable contains a non-zero value when it's passed in, the image is resized to this desired width. Otherwise if the value of width is 0, the image will be loaded with it's dimensions from the file on disk. </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">height</td><td>Pointer to int variable that gets set to the height of the image in pixels. If the height variable contains a non-zero value when it's passed in, the image is resized to this desired height. Otherwise if the value of height is 0, the image will be loaded with it's dimensions from the file on disk. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">mean_pixel</td><td>Mean pixel subtraction is applied using this specified color (mean pixel subtraction is typically performed before processing an image with neural networks). By default the value is zero, so no mean pixel subtraction is done. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ga144a95bc7f1c58aeda68cc135355acac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga144a95bc7f1c58aeda68cc135355acac">&#9670;&nbsp;</a></span>loadImageRGBA()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool loadImageRGBA </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float4 **&#160;</td>
-          <td class="paramname"><em>cpu</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float4 **&#160;</td>
-          <td class="paramname"><em>gpu</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int *&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int *&#160;</td>
-          <td class="paramname"><em>height</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float4 &amp;&#160;</td>
-          <td class="paramname"><em>mean_pixel</em> = <code>make_float4(0,&#160;0,&#160;0,&#160;0)</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-255. </p>
-<p>Supported image file formats include: JPEG, PNG, TGA, BMP, GIF, PSD, HDR, PIC, and PNM (PPM/PGM binary). This function loads the image into shared CPU/GPU memory, using the functions from <a class="el" href="cudaMappedMemory_8h.html">cudaMappedMemory.h</a></p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>Path to the image file to load from disk. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">cpu</td><td>Reference to pointer that will be set to the CPU buffer containing the image that will be allocated. This buffer will be allocated by <a class="el" href="group__util.html#ga144a95bc7f1c58aeda68cc135355acac" title="Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-2...">loadImageRGBA()</a> in CUDA mapped memory, so it is shared between CPU/GPU. cpu will be the pointer to this shared buffer in the CPU's address space. There is physically one buffer in memory. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">gpu</td><td>Reference to pointer that will be set to the GPU buffer containing the image that will be allocated. This buffer will be allocated by <a class="el" href="group__util.html#ga144a95bc7f1c58aeda68cc135355acac" title="Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-2...">loadImageRGBA()</a> in CUDA mapped memory, so it is shared between CPU/GPU. gpu will be the pointer to this shared buffer in the GPU's address space. There is physically one buffer in memory. </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">width</td><td>Pointer to int variable that gets set to the width of the image in pixels. If the width variable contains a non-zero value when it's passed in, the image is resized to this desired width. Otherwise if the value of width is 0, the image will be loaded with it's dimensions from the file on disk. </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">height</td><td>Pointer to int variable that gets set to the height of the image in pixels. If the height variable contains a non-zero value when it's passed in, the image is resized to this desired height. Otherwise if the value of height is 0, the image will be loaded with it's dimensions from the file on disk. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">mean_pixel</td><td>Mean pixel subtraction is applied using this specified color (mean pixel subtraction is typically performed before processing an image with neural networks). By default the value is zero, so no mean pixel subtraction is done. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ga324cfcb15198bbf8c7578e802791d804"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga324cfcb15198bbf8c7578e802791d804">&#9670;&nbsp;</a></span>saveImageRGBA()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool saveImageRGBA </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>cpu</em>, </td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>range_min</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
+          <td class="paramname"><em>range_max</em>&#160;</td>
         </tr>
         <tr>
-          <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>height</em>, </td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generate a random integer within the specified range. </p>
+
+</div>
+</div>
+<a id="gafee76bb8d269f1ccb369264fd28540f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafee76bb8d269f1ccb369264fd28540f6">&#9670;&nbsp;</a></span>randf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float randf </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>range_min</em> = <code>0.0f</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>max_pixel</em> = <code>255.0f</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>quality</em> = <code>100</code>&#160;</td>
+          <td class="paramname"><em>range_max</em> = <code>1.0f</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -400,20 +335,41 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Save a float4 RGBA image to disk. </p>
-<p>Supported image file formats include: JPEG, PNG, TGA, BMP, and HDR. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">filename</td><td>Desired path of the image file to save to disk. </td></tr>
-    <tr><td class="paramname">cpu</td><td>Pointer to the buffer containing the image in CPU address space. </td></tr>
-    <tr><td class="paramname">width</td><td>Width of the image in pixels. </td></tr>
-    <tr><td class="paramname">height</td><td>Height of the image in pixels. </td></tr>
-    <tr><td class="paramname">max_pixel</td><td>The maximum pixel value of this image, by default it's 255 for images in the range of 0-255. If your image is in the range of 0-1, pass 1.0 as this value. Then the pixel values of the image will be rescaled appropriately to be stored on disk (which expects a range of 0-255). </td></tr>
-    <tr><td class="paramname">quality</td><td>Indicates the compression quality level (between 1 and 100) to be applied for JPEG and PNG images. A level of 1 correponds to reduced quality and maximum compression. A level of 100 corresponds to maximum quality and reduced compression. By default a level of 100 is used for maximum quality and reduced compression. Note that this quality parameter only applies to JPEG and PNG, other formats will ignore it. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Generate a floating-point random number within the specified range. </p>
+
+</div>
+</div>
+<a id="ga37406669812e75c559cfa401d0c2f623"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga37406669812e75c559cfa401d0c2f623">&#9670;&nbsp;</a></span>srand_time()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void srand_time </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Seed the random number generator based on the system time. </p>
 
 </div>
 </div>
@@ -422,7 +378,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jun 14 2019 20:54:49 for Jetson Inference by
+    <li class="footer">Generated on Sun Jun 16 2019 02:47:22 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

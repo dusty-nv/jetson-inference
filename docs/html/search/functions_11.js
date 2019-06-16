@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['rand',['rand',['../rand_8h.html#a38e36f1fb5c8d8bc2dd5b502f17d9be4',1,'rand.h']]],
-  ['randf',['randf',['../rand_8h.html#afee76bb8d269f1ccb369264fd28540f6',1,'rand.h']]],
+  ['rand',['rand',['../group__util.html#ga38e36f1fb5c8d8bc2dd5b502f17d9be4',1,'rand.h']]],
+  ['randf',['randf',['../group__util.html#gafee76bb8d269f1ccb369264fd28540f6',1,'rand.h']]],
   ['readbom',['ReadBOM',['../classtinyxml2_1_1XMLUtil.html#a81aa94479982fe76cfbcfe0dea26ec23',1,'tinyxml2::XMLUtil']]],
   ['recieve',['Recieve',['../classSocket.html#a30b5c0d94e1477859a1b05ce9cd2bedf',1,'Socket::Recieve(uint8_t *buffer, size_t size, uint32_t *remoteIP=NULL, uint16_t *remotePort=NULL)'],['../classSocket.html#abf5d5e11719d38cc656cd36e8c8dd9be',1,'Socket::Recieve(uint8_t *buffer, size_t size, uint32_t *remoteIP, uint16_t *remotePort, uint32_t *localIP)']]],
   ['render',['Render',['../classglDisplay.html#a528c58b4fcecd7d3d516f44de3233538',1,'glDisplay::Render(glTexture *texture, float x=5.0f, float y=30.0f)'],['../classglDisplay.html#a1390428740909686cb8de18986cad565',1,'glDisplay::Render(float *image, uint32_t width, uint32_t height, float x=5.0f, float y=30.0f, bool normalize=true)'],['../classglTexture.html#aacbc1ed68a99930b628b41d69997227e',1,'glTexture::Render(float x, float y)'],['../classglTexture.html#a38103fc1ec96018601b21131db5144c9',1,'glTexture::Render(float x, float y, float width, float height)'],['../classglTexture.html#ab449860cc3d739a6615d93f4a1764f20',1,'glTexture::Render(const float4 &amp;rect)']]],

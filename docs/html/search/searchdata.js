@@ -10,8 +10,8 @@ var indexSectionsWithContent =
   7: "defgmnopswx",
   8: "acdfgimnopstuwx",
   9: "x",
-  10: "dgilnprt",
-  11: "cdghistu"
+  10: "dgint",
+  11: "cdfghimostu"
 };
 
 var indexSectionNames =

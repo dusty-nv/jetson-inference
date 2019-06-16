@@ -1,6 +1,7 @@
 var group__cuda =
 [
     [ "cudaFont", "group__cudaFont.html", "group__cudaFont" ],
+    [ "Color Conversion", "group__colorspace.html", null ],
     [ "CUDA", "group__cuda.html#ga5af54ef2b094a11a88feb67b327e1d19", null ],
     [ "CUDA_FAILED", "group__cuda.html#gad12b27627f04dd0ecf3eb9e2468a846e", null ],
     [ "CUDA_SUCCESS", "group__cuda.html#ga83cbda41b1503ffc548dadc3a10e12af", null ],

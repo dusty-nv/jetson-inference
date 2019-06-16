@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['rad_5fto_5fdeg',['RAD_TO_DEG',['../pi_8h.html#a89e47af0449640d4f15191aba5ca24c6',1,'pi.h']]],
-  ['rand',['rand',['../rand_8h.html#a38e36f1fb5c8d8bc2dd5b502f17d9be4',1,'rand.h']]],
+  ['rad_5fto_5fdeg',['RAD_TO_DEG',['../group__util.html#ga89e47af0449640d4f15191aba5ca24c6',1,'pi.h']]],
+  ['rand',['rand',['../group__util.html#ga38e36f1fb5c8d8bc2dd5b502f17d9be4',1,'rand.h']]],
   ['rand_2eh',['rand.h',['../rand_8h.html',1,'']]],
-  ['randf',['randf',['../rand_8h.html#afee76bb8d269f1ccb369264fd28540f6',1,'rand.h']]],
+  ['randf',['randf',['../group__util.html#gafee76bb8d269f1ccb369264fd28540f6',1,'rand.h']]],
   ['randint8calibrator_2eh',['randInt8Calibrator.h',['../randInt8Calibrator_8h.html',1,'']]],
   ['readbom',['ReadBOM',['../classtinyxml2_1_1XMLUtil.html#a81aa94479982fe76cfbcfe0dea26ec23',1,'tinyxml2::XMLUtil']]],
   ['recieve',['Recieve',['../classSocket.html#a30b5c0d94e1477859a1b05ce9cd2bedf',1,'Socket::Recieve(uint8_t *buffer, size_t size, uint32_t *remoteIP=NULL, uint16_t *remotePort=NULL)'],['../classSocket.html#abf5d5e11719d38cc656cd36e8c8dd9be',1,'Socket::Recieve(uint8_t *buffer, size_t size, uint32_t *remoteIP, uint16_t *remotePort, uint32_t *localIP)']]],

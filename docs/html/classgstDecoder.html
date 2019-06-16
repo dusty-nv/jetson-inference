@@ -88,24 +88,24 @@ $(document).ready(function(){initNavTree('classgstDecoder.html','');});
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classgstDecoder-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">gstDecoder Class Reference</div>  </div>
+<div class="title">gstDecoder Class Reference<div class="ingroups"><a class="el" href="group__util.html">Utilities Library (jetson-utils)</a> &raquo; <a class="el" href="group__codec.html">Codec</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>HW-accelerated H.264/H.265 video decoder for Jetson using GStreamer.  
+<p>Hardware-accelerated H.264/H.265 video decoder for Jetson using GStreamer.  
  <a href="classgstDecoder.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="gstDecoder_8h_source.html">gstDecoder.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2879faf419ed79ba7bd7e023fe7579b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classgstDecoder.html">gstDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a2879faf419ed79ba7bd7e023fe7579b0">Create</a> (<a class="el" href="gstUtility_8h.html#a32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a> codec, const char *filename)</td></tr>
+<tr class="memitem:a2879faf419ed79ba7bd7e023fe7579b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classgstDecoder.html">gstDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a2879faf419ed79ba7bd7e023fe7579b0">Create</a> (<a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a> codec, const char *filename)</td></tr>
 <tr class="memdesc:a2879faf419ed79ba7bd7e023fe7579b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an decoder instance that reads from a video file on disk.  <a href="#a2879faf419ed79ba7bd7e023fe7579b0">More...</a><br /></td></tr>
 <tr class="separator:a2879faf419ed79ba7bd7e023fe7579b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b93c61892c70fbb29c51818a4a57f96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classgstDecoder.html">gstDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a5b93c61892c70fbb29c51818a4a57f96">Create</a> (<a class="el" href="gstUtility_8h.html#a32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a> codec, uint16_t port)</td></tr>
+<tr class="memitem:a5b93c61892c70fbb29c51818a4a57f96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classgstDecoder.html">gstDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a5b93c61892c70fbb29c51818a4a57f96">Create</a> (<a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a> codec, uint16_t port)</td></tr>
 <tr class="memdesc:a5b93c61892c70fbb29c51818a4a57f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an decoder instance that streams over the network.  <a href="#a5b93c61892c70fbb29c51818a4a57f96">More...</a><br /></td></tr>
 <tr class="separator:a5b93c61892c70fbb29c51818a4a57f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7406da2c43ae42526c4ff2e200ab0f96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classgstDecoder.html">gstDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a7406da2c43ae42526c4ff2e200ab0f96">Create</a> (<a class="el" href="gstUtility_8h.html#a32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a> codec, const char *multicastIP, uint16_t port)</td></tr>
+<tr class="memitem:a7406da2c43ae42526c4ff2e200ab0f96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classgstDecoder.html">gstDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a7406da2c43ae42526c4ff2e200ab0f96">Create</a> (<a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a> codec, const char *multicastIP, uint16_t port)</td></tr>
 <tr class="memdesc:a7406da2c43ae42526c4ff2e200ab0f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an decoder instance that streams over the network using multicast.  <a href="#a7406da2c43ae42526c4ff2e200ab0f96">More...</a><br /></td></tr>
 <tr class="separator:a7406da2c43ae42526c4ff2e200ab0f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e13e2625f959c1e612cb90e3d5720d0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a0e13e2625f959c1e612cb90e3d5720d0">~gstDecoder</a> ()</td></tr>
@@ -122,7 +122,7 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a93a0f91ee9efba125384da10160b6d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34aa2ba174916bf11f6a6754035be07e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a34aa2ba174916bf11f6a6754035be07e">buildLaunchStr</a> ()</td></tr>
 <tr class="separator:a34aa2ba174916bf11f6a6754035be07e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36df59115f792f7a45d423a0367f2d33"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a36df59115f792f7a45d423a0367f2d33">init</a> (<a class="el" href="gstUtility_8h.html#a32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a> codec, const char *filename, const char *multicastIP, uint16_t port)</td></tr>
+<tr class="memitem:a36df59115f792f7a45d423a0367f2d33"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a36df59115f792f7a45d423a0367f2d33">init</a> (<a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a> codec, const char *filename, const char *multicastIP, uint16_t port)</td></tr>
 <tr class="separator:a36df59115f792f7a45d423a0367f2d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
@@ -142,7 +142,7 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a373c13d58980e4b64b728d20d933077c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a588ff0205aa5767aaf8ec85e9928b172"><td class="memItemLeft" align="right" valign="top">_GstElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a588ff0205aa5767aaf8ec85e9928b172">mPipeline</a></td></tr>
 <tr class="separator:a588ff0205aa5767aaf8ec85e9928b172"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7d8ce4a4a5ff1dc67cf3db85e5dbcf9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="gstUtility_8h.html#a32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#ae7d8ce4a4a5ff1dc67cf3db85e5dbcf9">mCodec</a></td></tr>
+<tr class="memitem:ae7d8ce4a4a5ff1dc67cf3db85e5dbcf9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#ae7d8ce4a4a5ff1dc67cf3db85e5dbcf9">mCodec</a></td></tr>
 <tr class="separator:ae7d8ce4a4a5ff1dc67cf3db85e5dbcf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c556168206ada4fd590786368a70c1b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html#a1c556168206ada4fd590786368a70c1b">mLaunchStr</a></td></tr>
 <tr class="separator:a1c556168206ada4fd590786368a70c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,7 +154,7 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ad5af5b918c6d042649300ec22d71ac18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>HW-accelerated H.264/H.265 video decoder for Jetson using GStreamer. </p>
+<div class="textblock"><p>Hardware-accelerated H.264/H.265 video decoder for Jetson using GStreamer. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0e13e2625f959c1e612cb90e3d5720d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0e13e2625f959c1e612cb90e3d5720d0">&#9670;&nbsp;</a></span>~gstDecoder()</h2>
@@ -285,7 +285,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="classgstDecoder.html">gstDecoder</a>* gstDecoder::Create </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gstUtility_8h.html#a32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a>&#160;</td>
           <td class="paramname"><em>codec</em>, </td>
         </tr>
         <tr>
@@ -315,7 +315,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="classgstDecoder.html">gstDecoder</a>* gstDecoder::Create </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gstUtility_8h.html#a32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a>&#160;</td>
           <td class="paramname"><em>codec</em>, </td>
         </tr>
         <tr>
@@ -345,7 +345,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="classgstDecoder.html">gstDecoder</a>* gstDecoder::Create </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gstUtility_8h.html#a32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a>&#160;</td>
           <td class="paramname"><em>codec</em>, </td>
         </tr>
         <tr>
@@ -384,7 +384,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">bool gstDecoder::init </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="gstUtility_8h.html#a32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a>&#160;</td>
           <td class="paramname"><em>codec</em>, </td>
         </tr>
         <tr>
@@ -583,7 +583,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="gstUtility_8h.html#a32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a> gstDecoder::mCodec</td>
+          <td class="memname"><a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a> gstDecoder::mCodec</td>
         </tr>
       </table>
   </td>
@@ -714,7 +714,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classgstDecoder.html">gstDecoder</a></li>
-    <li class="footer">Generated on Fri Jun 14 2019 20:54:49 for Jetson Inference by
+    <li class="footer">Generated on Sun Jun 16 2019 02:47:22 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

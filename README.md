@@ -5,7 +5,7 @@ Welcome to our training guide for inference and realtime [DNN vision](#api-refer
 
 This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for efficiently deploying neural networks onto the embedded Jetson platform, improving performance and power efficiency using graph optimizations, kernel fusion, and FP16/INT8 precision.
 
-Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for semantic segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  See the **[API Reference](#api-reference)** for detailed reference documentation. 
+Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`detectNet`](detectNet.h) for object localization, and [`segNet`](segNet.h) for semantic segmentation, inherit from the shared [`tensorNet`](tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images from disk.  See the **[API Reference](#api-reference)** section for detailed reference documentation of the C++ and Python libraries. 
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
@@ -78,7 +78,7 @@ The full tutorial includes training and inference, and can take roughly two days
 
 ## API Reference
 
-Below are links to API reference documentation for the different C++ and Python libraries from the repo:
+Below are links to reference documentation for the C++ and Python libraries from the repo:
 
 * [C++ Libraries](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/index.html)
 	* [`jetson-inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__deepVision.html)
@@ -110,12 +110,11 @@ Note that TensorRT samples from the repo are intended for deployment onboard Jet
 
 ## Extra Resources
 
-In this area, links and resources for deep learning developers are listed:
+In this area, links and resources for deep learning are listed:
 
-* [Appendix](docs/aux-contents.md)
-	* [ros_deep_learning](http://www.github.com/dusty-nv/ros_deep_learning) - TensorRT inference ROS nodes
-     * [NVIDIA AI IoT](https://github.com/NVIDIA-AI-IOT) - NVIDIA Jetson GitHub repositories
-     * [Jetson eLinux Wiki](https://www.eLinux.org/Jetson) - Jetson eLinux Wiki
+* [ros_deep_learning](http://www.github.com/dusty-nv/ros_deep_learning) - TensorRT inference ROS nodes
+* [NVIDIA AI IoT](https://github.com/NVIDIA-AI-IOT) - NVIDIA Jetson GitHub repositories
+* [Jetson eLinux Wiki](https://www.eLinux.org/Jetson) - Jetson eLinux Wiki
 
 ## Legacy Links
 

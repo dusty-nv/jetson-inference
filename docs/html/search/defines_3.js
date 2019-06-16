@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['log_5fgl',['LOG_GL',['../glUtility_8h.html#abe9ef8f3c57b226efaf58ab3059bceab',1,'glUtility.h']]],
-  ['log_5fgstreamer',['LOG_GSTREAMER',['../gstUtility_8h.html#a7d4bea04aad22460cc3c9c8152c6e3ed',1,'gstUtility.h']]]
+  ['nv_5ftensorrt_5fmajor',['NV_TENSORRT_MAJOR',['../tensorNet_8h.html#aca5940a61fa51e91f41d88d9198bf935',1,'tensorNet.h']]],
+  ['nv_5ftensorrt_5fminor',['NV_TENSORRT_MINOR',['../tensorNet_8h.html#a7df0f049b87bee17d6aed394544e8979',1,'tensorNet.h']]]
 ];
