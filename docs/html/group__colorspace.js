@@ -1,4 +1,4 @@
-var cudaRGB_8h =
+var group__colorspace =
 [
     [ "cudaBGR8ToRGBA32", "group__colorspace.html#gad89d17678982424019ccb687d93c5b61", null ],
     [ "cudaRGB8ToRGBA32", "group__colorspace.html#ga0c29ecfb8e6d243f4581ce61ae93ffad", null ],
