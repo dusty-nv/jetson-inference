@@ -92,6 +92,12 @@
  */
 
 /**
+ * @defgroup warping Warping
+ * Various image warps and matrix transforms.
+ * @ingroup cuda
+ */
+ 
+/**
  * @defgroup OpenGL OpenGL
  * OpenGL textures and display window (X11/GLX).
  * @ingroup util
