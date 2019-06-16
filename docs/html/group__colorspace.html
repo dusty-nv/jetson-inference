@@ -90,37 +90,106 @@ $(document).ready(function(){initNavTree('group__colorspace.html','');});
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
-RGB/BGR &lt;-&gt; RGBA</h2></td></tr>
-<tr class="memitem:gad89d17678982424019ccb687d93c5b61"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gad89d17678982424019ccb687d93c5b61">cudaBGR8ToRGBA32</a> (uchar3 *input, float4 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:gad89d17678982424019ccb687d93c5b61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 8-bit fixed-point BGR image to 32-bit floating-point RGBA image.  <a href="#gad89d17678982424019ccb687d93c5b61">More...</a><br /></td></tr>
-<tr class="separator:gad89d17678982424019ccb687d93c5b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+8-bit RGB/BGR to floating-point RGBA</h2></td></tr>
 <tr class="memitem:ga0c29ecfb8e6d243f4581ce61ae93ffad"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga0c29ecfb8e6d243f4581ce61ae93ffad">cudaRGB8ToRGBA32</a> (uchar3 *input, float4 *output, size_t width, size_t height)</td></tr>
 <tr class="memdesc:ga0c29ecfb8e6d243f4581ce61ae93ffad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 8-bit fixed-point RGB image to 32-bit floating-point RGBA image.  <a href="#ga0c29ecfb8e6d243f4581ce61ae93ffad">More...</a><br /></td></tr>
 <tr class="separator:ga0c29ecfb8e6d243f4581ce61ae93ffad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad72a825f240afbc537e6fecc68c1019a"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gad72a825f240afbc537e6fecc68c1019a">cudaRGBA32ToRGBA8</a> (float4 *input, uchar4 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:gad72a825f240afbc537e6fecc68c1019a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image.  <a href="#gad72a825f240afbc537e6fecc68c1019a">More...</a><br /></td></tr>
-<tr class="separator:gad72a825f240afbc537e6fecc68c1019a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadad6e676bc340bfd50641df5d5a82180"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gadad6e676bc340bfd50641df5d5a82180">cudaRGBA32ToRGBA8</a> (float4 *input, uchar4 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
-<tr class="memdesc:gadad6e676bc340bfd50641df5d5a82180"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image, with the floating-point input range specified by the user.  <a href="#gadad6e676bc340bfd50641df5d5a82180">More...</a><br /></td></tr>
-<tr class="separator:gadad6e676bc340bfd50641df5d5a82180"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3093f20f23c090d30f51a8ffeebfc198"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga3093f20f23c090d30f51a8ffeebfc198">cudaRGBA32ToBGRA8</a> (float4 *input, uchar4 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:ga3093f20f23c090d30f51a8ffeebfc198"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image.  <a href="#ga3093f20f23c090d30f51a8ffeebfc198">More...</a><br /></td></tr>
-<tr class="separator:ga3093f20f23c090d30f51a8ffeebfc198"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga20a5fd3a31d88d12cba8741172dc2b4e">cudaRGBA32ToBGRA8</a> (float4 *input, uchar4 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
-<tr class="memdesc:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image, with the floating-point input range specified by the user.  <a href="#ga20a5fd3a31d88d12cba8741172dc2b4e">More...</a><br /></td></tr>
-<tr class="separator:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad89d17678982424019ccb687d93c5b61"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gad89d17678982424019ccb687d93c5b61">cudaBGR8ToRGBA32</a> (uchar3 *input, float4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gad89d17678982424019ccb687d93c5b61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 8-bit fixed-point BGR image to 32-bit floating-point RGBA image.  <a href="#gad89d17678982424019ccb687d93c5b61">More...</a><br /></td></tr>
+<tr class="separator:gad89d17678982424019ccb687d93c5b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+Floating-point RGBA to 8-bit RGB/RGBA</h2></td></tr>
 <tr class="memitem:gadb43620b10ddc92d5d11192ec8defc45"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gadb43620b10ddc92d5d11192ec8defc45">cudaRGBA32ToRGB8</a> (float4 *input, uchar3 *output, size_t width, size_t height)</td></tr>
 <tr class="memdesc:gadb43620b10ddc92d5d11192ec8defc45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGB image.  <a href="#gadb43620b10ddc92d5d11192ec8defc45">More...</a><br /></td></tr>
 <tr class="separator:gadb43620b10ddc92d5d11192ec8defc45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacdf4e662ad6f2f4ee4d088742778151f"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gacdf4e662ad6f2f4ee4d088742778151f">cudaRGBA32ToRGB8</a> (float4 *input, uchar3 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
 <tr class="memdesc:gacdf4e662ad6f2f4ee4d088742778151f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGB image, with the floating-point input range specified by the user.  <a href="#gacdf4e662ad6f2f4ee4d088742778151f">More...</a><br /></td></tr>
 <tr class="separator:gacdf4e662ad6f2f4ee4d088742778151f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad72a825f240afbc537e6fecc68c1019a"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gad72a825f240afbc537e6fecc68c1019a">cudaRGBA32ToRGBA8</a> (float4 *input, uchar4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gad72a825f240afbc537e6fecc68c1019a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image.  <a href="#gad72a825f240afbc537e6fecc68c1019a">More...</a><br /></td></tr>
+<tr class="separator:gad72a825f240afbc537e6fecc68c1019a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadad6e676bc340bfd50641df5d5a82180"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gadad6e676bc340bfd50641df5d5a82180">cudaRGBA32ToRGBA8</a> (float4 *input, uchar4 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
+<tr class="memdesc:gadad6e676bc340bfd50641df5d5a82180"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image, with the floating-point input range specified by the user.  <a href="#gadad6e676bc340bfd50641df5d5a82180">More...</a><br /></td></tr>
+<tr class="separator:gadad6e676bc340bfd50641df5d5a82180"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+Floating-point RGBA to 8-bit BGR/BGRA</h2></td></tr>
 <tr class="memitem:gaa24a2abd9cbe86ddad50631ac7a0be41"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gaa24a2abd9cbe86ddad50631ac7a0be41">cudaRGBA32ToBGR8</a> (float4 *input, uchar3 *output, size_t width, size_t height)</td></tr>
 <tr class="memdesc:gaa24a2abd9cbe86ddad50631ac7a0be41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGR image.  <a href="#gaa24a2abd9cbe86ddad50631ac7a0be41">More...</a><br /></td></tr>
 <tr class="separator:gaa24a2abd9cbe86ddad50631ac7a0be41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4ecfb33b01ba0d329330960a46797843"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga4ecfb33b01ba0d329330960a46797843">cudaRGBA32ToBGR8</a> (float4 *input, uchar3 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
 <tr class="memdesc:ga4ecfb33b01ba0d329330960a46797843"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGR image, with the floating-point input range specified by the user.  <a href="#ga4ecfb33b01ba0d329330960a46797843">More...</a><br /></td></tr>
 <tr class="separator:ga4ecfb33b01ba0d329330960a46797843"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3093f20f23c090d30f51a8ffeebfc198"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga3093f20f23c090d30f51a8ffeebfc198">cudaRGBA32ToBGRA8</a> (float4 *input, uchar4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga3093f20f23c090d30f51a8ffeebfc198"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image.  <a href="#ga3093f20f23c090d30f51a8ffeebfc198">More...</a><br /></td></tr>
+<tr class="separator:ga3093f20f23c090d30f51a8ffeebfc198"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga20a5fd3a31d88d12cba8741172dc2b4e">cudaRGBA32ToBGRA8</a> (float4 *input, uchar4 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
+<tr class="memdesc:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image, with the floating-point input range specified by the user.  <a href="#ga20a5fd3a31d88d12cba8741172dc2b4e">More...</a><br /></td></tr>
+<tr class="separator:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+RGBA to YUV 4:2:0 planar (I420 &amp; YV12)</h2></td></tr>
+<tr class="memitem:ga07e7948adfdc5d54aa7ad66a07594436"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga07e7948adfdc5d54aa7ad66a07594436">cudaRGBAToI420</a> (uchar4 *input, uint8_t *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga07e7948adfdc5d54aa7ad66a07594436"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an RGBA uchar4 buffer into YUV I420 planar.  <a href="#ga07e7948adfdc5d54aa7ad66a07594436">More...</a><br /></td></tr>
+<tr class="separator:ga07e7948adfdc5d54aa7ad66a07594436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaef00003322b391987423ea231f3b9a2a"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gaef00003322b391987423ea231f3b9a2a">cudaRGBAToI420</a> (uchar4 *input, size_t inputPitch, uint8_t *output, size_t outputPitch, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gaef00003322b391987423ea231f3b9a2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an RGBA uchar4 texture into YUV I420 planar.  <a href="#gaef00003322b391987423ea231f3b9a2a">More...</a><br /></td></tr>
+<tr class="separator:gaef00003322b391987423ea231f3b9a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga11d4f50d51f628b87065a0eae51bf74c"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga11d4f50d51f628b87065a0eae51bf74c">cudaRGBAToYV12</a> (uchar4 *input, uint8_t *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga11d4f50d51f628b87065a0eae51bf74c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an RGBA uchar4 buffer into YUV YV12 planar.  <a href="#ga11d4f50d51f628b87065a0eae51bf74c">More...</a><br /></td></tr>
+<tr class="separator:ga11d4f50d51f628b87065a0eae51bf74c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaba305a2d1de9a6af1421ff69ca52d1a"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gaaba305a2d1de9a6af1421ff69ca52d1a">cudaRGBAToYV12</a> (uchar4 *input, size_t inputPitch, uint8_t *output, size_t outputPitch, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gaaba305a2d1de9a6af1421ff69ca52d1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an RGBA uchar4 texture into YUV YV12 planar.  <a href="#gaaba305a2d1de9a6af1421ff69ca52d1a">More...</a><br /></td></tr>
+<tr class="separator:gaaba305a2d1de9a6af1421ff69ca52d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+YUV 4:2:2 packed (UYVY &amp; YUYV) to RGBA</h2></td></tr>
+<tr class="memitem:gab5f3d84261b776f48516d042cf0c8e36"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gab5f3d84261b776f48516d042cf0c8e36">cudaUYVYToRGBA</a> (uchar2 *input, uchar4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gab5f3d84261b776f48516d042cf0c8e36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a UYVY 422 packed image into RGBA uchar4.  <a href="#gab5f3d84261b776f48516d042cf0c8e36">More...</a><br /></td></tr>
+<tr class="separator:gab5f3d84261b776f48516d042cf0c8e36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8616c8a7b08ce54489e9d80749514cf9"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga8616c8a7b08ce54489e9d80749514cf9">cudaUYVYToRGBA</a> (uchar2 *input, size_t inputPitch, uchar4 *output, size_t outputPitch, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga8616c8a7b08ce54489e9d80749514cf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a UYVY 422 packed image into RGBA uchar4.  <a href="#ga8616c8a7b08ce54489e9d80749514cf9">More...</a><br /></td></tr>
+<tr class="separator:ga8616c8a7b08ce54489e9d80749514cf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga72ff96aa79c763ff7a352c0160d797a4"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga72ff96aa79c763ff7a352c0160d797a4">cudaYUYVToRGBA</a> (uchar2 *input, uchar4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga72ff96aa79c763ff7a352c0160d797a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a YUYV 422 packed image into RGBA uchar4.  <a href="#ga72ff96aa79c763ff7a352c0160d797a4">More...</a><br /></td></tr>
+<tr class="separator:ga72ff96aa79c763ff7a352c0160d797a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga23a13ae822b173d060721641dcd97e20"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga23a13ae822b173d060721641dcd97e20">cudaYUYVToRGBA</a> (uchar2 *input, size_t inputPitch, uchar4 *output, size_t outputPitch, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga23a13ae822b173d060721641dcd97e20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a YUYV 422 packed image into RGBA uchar4.  <a href="#ga23a13ae822b173d060721641dcd97e20">More...</a><br /></td></tr>
+<tr class="separator:ga23a13ae822b173d060721641dcd97e20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+UYUV 4:2:2 packed (UYVY &amp; YUYV) to grayscale</h2></td></tr>
+<tr class="memitem:ga6d8b6042d82b4b8865447d8b562bfc40"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga6d8b6042d82b4b8865447d8b562bfc40">cudaUYVYToGray</a> (uchar2 *input, float *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga6d8b6042d82b4b8865447d8b562bfc40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a UYVY 422 packed image into a floating-point grayscale image.  <a href="#ga6d8b6042d82b4b8865447d8b562bfc40">More...</a><br /></td></tr>
+<tr class="separator:ga6d8b6042d82b4b8865447d8b562bfc40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9209621b9a1638e34aed08f067f61271"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga9209621b9a1638e34aed08f067f61271">cudaUYVYToGray</a> (uchar2 *input, size_t inputPitch, float *output, size_t outputPitch, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga9209621b9a1638e34aed08f067f61271"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a UYVY 422 packed image into a floating-point grayscale image.  <a href="#ga9209621b9a1638e34aed08f067f61271">More...</a><br /></td></tr>
+<tr class="separator:ga9209621b9a1638e34aed08f067f61271"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga964d1cd8eefa841fa86447c1886289e3"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga964d1cd8eefa841fa86447c1886289e3">cudaYUYVToGray</a> (uchar2 *input, float *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga964d1cd8eefa841fa86447c1886289e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a YUYV 422 packed image into a floating-point grayscale image.  <a href="#ga964d1cd8eefa841fa86447c1886289e3">More...</a><br /></td></tr>
+<tr class="separator:ga964d1cd8eefa841fa86447c1886289e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf6783748deee34af1ab479b6b52eee86"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gaf6783748deee34af1ab479b6b52eee86">cudaYUYVToGray</a> (uchar2 *input, size_t inputPitch, float *output, size_t outputPitch, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gaf6783748deee34af1ab479b6b52eee86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a YUYV 422 packed image into a floating-point grayscale image.  <a href="#gaf6783748deee34af1ab479b6b52eee86">More...</a><br /></td></tr>
+<tr class="separator:gaf6783748deee34af1ab479b6b52eee86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+YUV NV12 to RGBA</h2></td></tr>
+<tr class="memitem:gad2e9cd00d56bd95d4786a04ed37ba56d"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gad2e9cd00d56bd95d4786a04ed37ba56d">cudaNV12ToRGBA</a> (uint8_t *input, uchar4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gad2e9cd00d56bd95d4786a04ed37ba56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an NV12 texture (semi-planar 4:2:0) to RGBA uchar4 format.  <a href="#gad2e9cd00d56bd95d4786a04ed37ba56d">More...</a><br /></td></tr>
+<tr class="separator:gad2e9cd00d56bd95d4786a04ed37ba56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0eadad6bfffcba0f1f5962afbb758d0f"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga0eadad6bfffcba0f1f5962afbb758d0f">cudaNV12ToRGBA</a> (uint8_t *input, size_t inputPitch, uchar4 *output, size_t outputPitch, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga0eadad6bfffcba0f1f5962afbb758d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an NV12 texture (semi-planar 4:2:0) to RGBA uchar4 format.  <a href="#ga0eadad6bfffcba0f1f5962afbb758d0f">More...</a><br /></td></tr>
+<tr class="separator:ga0eadad6bfffcba0f1f5962afbb758d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa446eddda53e5c7ba8ae6e8b86f3a90"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gaaa446eddda53e5c7ba8ae6e8b86f3a90">cudaNV12ToRGBA32</a> (uint8_t *input, float4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:gaaa446eddda53e5c7ba8ae6e8b86f3a90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an NV12 texture (semi-planar 4:2:0) to RGBA float4 format.  <a href="#gaaa446eddda53e5c7ba8ae6e8b86f3a90">More...</a><br /></td></tr>
+<tr class="separator:gaaa446eddda53e5c7ba8ae6e8b86f3a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga63ee6b21e016acf97e5f31808e01b1ac"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga63ee6b21e016acf97e5f31808e01b1ac">cudaNV12ToRGBA32</a> (uint8_t *input, size_t inputPitch, float4 *output, size_t outputPitch, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga63ee6b21e016acf97e5f31808e01b1ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an NV12 texture (semi-planar 4:2:0) to RGBA float4 format.  <a href="#ga63ee6b21e016acf97e5f31808e01b1ac">More...</a><br /></td></tr>
+<tr class="separator:ga63ee6b21e016acf97e5f31808e01b1ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga078315cf961e65a9b6f33a5018c46911"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga078315cf961e65a9b6f33a5018c46911">cudaNV12SetupColorspace</a> (float hue=0.0f)</td></tr>
+<tr class="memdesc:ga078315cf961e65a9b6f33a5018c46911"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup NV12 color conversion constants.  <a href="#ga078315cf961e65a9b6f33a5018c46911">More...</a><br /></td></tr>
+<tr class="separator:ga078315cf961e65a9b6f33a5018c46911"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Colorspace conversion functions for various YUV formats, RGB, BGR, ect. </p>
@@ -164,6 +233,223 @@ RGB/BGR &lt;-&gt; RGBA</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Convert 8-bit fixed-point BGR image to 32-bit floating-point RGBA image. </p>
+
+</div>
+</div>
+<a id="ga078315cf961e65a9b6f33a5018c46911"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga078315cf961e65a9b6f33a5018c46911">&#9670;&nbsp;</a></span>cudaNV12SetupColorspace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaNV12SetupColorspace </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>hue</em> = <code>0.0f</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Setup NV12 color conversion constants. </p>
+<p><a class="el" href="group__colorspace.html#ga078315cf961e65a9b6f33a5018c46911" title="Setup NV12 color conversion constants. ">cudaNV12SetupColorspace()</a> isn't necessary for the user to call, it will be called automatically by <a class="el" href="group__colorspace.html#gad2e9cd00d56bd95d4786a04ed37ba56d" title="Convert an NV12 texture (semi-planar 4:2:0) to RGBA uchar4 format. ">cudaNV12ToRGBA()</a> with a hue of 0.0. However if you want to setup custom constants (ie with a hue different than 0), then you can call <a class="el" href="group__colorspace.html#ga078315cf961e65a9b6f33a5018c46911" title="Setup NV12 color conversion constants. ">cudaNV12SetupColorspace()</a> at any time, overriding the default. </p>
+
+</div>
+</div>
+<a id="gad2e9cd00d56bd95d4786a04ed37ba56d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad2e9cd00d56bd95d4786a04ed37ba56d">&#9670;&nbsp;</a></span>cudaNV12ToRGBA() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaNV12ToRGBA </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert an NV12 texture (semi-planar 4:2:0) to RGBA uchar4 format. </p>
+<p>NV12 = 8-bit Y plane followed by an interleaved U/V plane with 2x2 subsampling. </p>
+
+</div>
+</div>
+<a id="ga0eadad6bfffcba0f1f5962afbb758d0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0eadad6bfffcba0f1f5962afbb758d0f">&#9670;&nbsp;</a></span>cudaNV12ToRGBA() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaNV12ToRGBA </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>inputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>outputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert an NV12 texture (semi-planar 4:2:0) to RGBA uchar4 format. </p>
+<p>NV12 = 8-bit Y plane followed by an interleaved U/V plane with 2x2 subsampling. </p>
+
+</div>
+</div>
+<a id="gaaa446eddda53e5c7ba8ae6e8b86f3a90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaa446eddda53e5c7ba8ae6e8b86f3a90">&#9670;&nbsp;</a></span>cudaNV12ToRGBA32() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaNV12ToRGBA32 </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert an NV12 texture (semi-planar 4:2:0) to RGBA float4 format. </p>
+<p>NV12 = 8-bit Y plane followed by an interleaved U/V plane with 2x2 subsampling. </p>
+
+</div>
+</div>
+<a id="ga63ee6b21e016acf97e5f31808e01b1ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga63ee6b21e016acf97e5f31808e01b1ac">&#9670;&nbsp;</a></span>cudaNV12ToRGBA32() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaNV12ToRGBA32 </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>inputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>outputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert an NV12 texture (semi-planar 4:2:0) to RGBA float4 format. </p>
+<p>NV12 = 8-bit Y plane followed by an interleaved U/V plane with 2x2 subsampling. </p>
 
 </div>
 </div>
@@ -577,12 +863,588 @@ RGB/BGR &lt;-&gt; RGBA</h2></td></tr>
 
 </div>
 </div>
+<a id="ga07e7948adfdc5d54aa7ad66a07594436"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga07e7948adfdc5d54aa7ad66a07594436">&#9670;&nbsp;</a></span>cudaRGBAToI420() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBAToI420 </td>
+          <td>(</td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert an RGBA uchar4 buffer into YUV I420 planar. </p>
+
+</div>
+</div>
+<a id="gaef00003322b391987423ea231f3b9a2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaef00003322b391987423ea231f3b9a2a">&#9670;&nbsp;</a></span>cudaRGBAToI420() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBAToI420 </td>
+          <td>(</td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>inputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>outputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert an RGBA uchar4 texture into YUV I420 planar. </p>
+
+</div>
+</div>
+<a id="ga11d4f50d51f628b87065a0eae51bf74c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga11d4f50d51f628b87065a0eae51bf74c">&#9670;&nbsp;</a></span>cudaRGBAToYV12() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBAToYV12 </td>
+          <td>(</td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert an RGBA uchar4 buffer into YUV YV12 planar. </p>
+
+</div>
+</div>
+<a id="gaaba305a2d1de9a6af1421ff69ca52d1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaba305a2d1de9a6af1421ff69ca52d1a">&#9670;&nbsp;</a></span>cudaRGBAToYV12() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBAToYV12 </td>
+          <td>(</td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>inputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>outputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert an RGBA uchar4 texture into YUV YV12 planar. </p>
+
+</div>
+</div>
+<a id="ga6d8b6042d82b4b8865447d8b562bfc40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6d8b6042d82b4b8865447d8b562bfc40">&#9670;&nbsp;</a></span>cudaUYVYToGray() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaUYVYToGray </td>
+          <td>(</td>
+          <td class="paramtype">uchar2 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a UYVY 422 packed image into a floating-point grayscale image. </p>
+
+</div>
+</div>
+<a id="ga9209621b9a1638e34aed08f067f61271"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9209621b9a1638e34aed08f067f61271">&#9670;&nbsp;</a></span>cudaUYVYToGray() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaUYVYToGray </td>
+          <td>(</td>
+          <td class="paramtype">uchar2 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>inputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>outputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a UYVY 422 packed image into a floating-point grayscale image. </p>
+
+</div>
+</div>
+<a id="gab5f3d84261b776f48516d042cf0c8e36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab5f3d84261b776f48516d042cf0c8e36">&#9670;&nbsp;</a></span>cudaUYVYToRGBA() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaUYVYToRGBA </td>
+          <td>(</td>
+          <td class="paramtype">uchar2 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a UYVY 422 packed image into RGBA uchar4. </p>
+
+</div>
+</div>
+<a id="ga8616c8a7b08ce54489e9d80749514cf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8616c8a7b08ce54489e9d80749514cf9">&#9670;&nbsp;</a></span>cudaUYVYToRGBA() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaUYVYToRGBA </td>
+          <td>(</td>
+          <td class="paramtype">uchar2 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>inputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>outputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a UYVY 422 packed image into RGBA uchar4. </p>
+
+</div>
+</div>
+<a id="ga964d1cd8eefa841fa86447c1886289e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga964d1cd8eefa841fa86447c1886289e3">&#9670;&nbsp;</a></span>cudaYUYVToGray() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaYUYVToGray </td>
+          <td>(</td>
+          <td class="paramtype">uchar2 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a YUYV 422 packed image into a floating-point grayscale image. </p>
+
+</div>
+</div>
+<a id="gaf6783748deee34af1ab479b6b52eee86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf6783748deee34af1ab479b6b52eee86">&#9670;&nbsp;</a></span>cudaYUYVToGray() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaYUYVToGray </td>
+          <td>(</td>
+          <td class="paramtype">uchar2 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>inputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>outputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a YUYV 422 packed image into a floating-point grayscale image. </p>
+
+</div>
+</div>
+<a id="ga72ff96aa79c763ff7a352c0160d797a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga72ff96aa79c763ff7a352c0160d797a4">&#9670;&nbsp;</a></span>cudaYUYVToRGBA() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaYUYVToRGBA </td>
+          <td>(</td>
+          <td class="paramtype">uchar2 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a YUYV 422 packed image into RGBA uchar4. </p>
+
+</div>
+</div>
+<a id="ga23a13ae822b173d060721641dcd97e20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga23a13ae822b173d060721641dcd97e20">&#9670;&nbsp;</a></span>cudaYUYVToRGBA() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaYUYVToRGBA </td>
+          <td>(</td>
+          <td class="paramtype">uchar2 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>inputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>outputPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a YUYV 422 packed image into RGBA uchar4. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Jun 16 2019 02:59:44 for Jetson Inference by
+    <li class="footer">Generated on Sun Jun 16 2019 03:16:54 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

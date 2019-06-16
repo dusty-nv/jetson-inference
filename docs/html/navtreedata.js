@@ -43,8 +43,8 @@ var NAVTREEINDEX =
 "classglDisplay.html#acd8adcb680935b9ea3ce974b141e5969",
 "classtinyxml2_1_1MemPool.html#a49e3bfac2cba2ebd6776b31e571f64f7",
 "classtinyxml2_1_1XMLNode.html#a66344989a4b436155bcda72bd6b07b82",
-"globals_c.html",
-"group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4"
+"globals_type.html",
+"group__tensorNet.html#ga1d1f73be994173912e9d964af1122ee1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
