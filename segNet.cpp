@@ -137,10 +137,10 @@ segNet* segNet::Create( int argc, char** argv )
 
 	if( !modelName )
 	{
-		modelName = "fcn-alexnet-cityscapes-hd";
+		modelName = cmdLine.GetString("network", "fcn-alexnet-cityscapes-sd");
 
-		if( argc > 3 )
-			modelName = argv[3];	
+		/*if( argc > 3 )
+			modelName = argv[3];*/	
 
 		segNet::NetworkType type = segNet::SEGNET_CUSTOM;
 

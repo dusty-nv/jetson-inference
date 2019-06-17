@@ -189,10 +189,15 @@ homographyNet* homographyNet::Create( int argc, char** argv )
 {
 	commandLine cmdLine(argc, argv);
 
-	const char* model = cmdLine.GetString("model");	
+	const char* model = cmdLine.GetString("network");
 
 	if( !model )
-		return homographyNet::Create();
+	{
+		model = cmdLine.GetString("model");
+
+		if( !model )
+			return homographyNet::Create();
+	}
 
 	homographyNet::NetworkType type = NetworkTypeFromStr(model);
 

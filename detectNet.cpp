@@ -490,9 +490,12 @@ detectNet* detectNet::Create( int argc, char** argv )
 {
 	commandLine cmdLine(argc, argv);
 
-	const char* modelName = cmdLine.GetString("model");
-
+	const char* modelName = cmdLine.GetString("network");
+	
 	if( !modelName )
+		modelName = cmdLine.GetString("model", "pednet");
+
+	/*if( !modelName )
 	{
 		if( argc == 2 )
 			modelName = argv[1];
@@ -500,7 +503,7 @@ detectNet* detectNet::Create( int argc, char** argv )
 			modelName = argv[3];
 		else
 			modelName = "pednet";
-	}
+	}*/
 
 	float threshold = cmdLine.GetFloat("threshold");
 	
