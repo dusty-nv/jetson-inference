@@ -22,6 +22,7 @@
 
 #include "imageNet.h"
 
+#include "commandLine.h"
 #include "loadImage.h"
 #include "cudaFont.h"
 
@@ -30,24 +31,20 @@
 // main entry point
 int main( int argc, char** argv )
 {
-	printf("imagenet-console\n  args (%i):  ", argc);
-	
-	for( int i=0; i < argc; i++ )
-		printf("%i [%s]  ", i, argv[i]);
-		
-	printf("\n\n");
+	printf("imagenet-console\n");
 	
 	
 	// retrieve filename argument
-	if( argc < 2 )
+	commandLine cmdLine(argc, argv);
+	const char* imgFilename = cmdLine.GetPosition(0);
+
+	if( !imgFilename )
 	{
 		printf("imagenet-console:   input image filename required\n");
 		return 0;
 	}
 	
-	const char* imgFilename = argv[1];
 	
-
 	// create imageNet
 	imageNet* net = imageNet::Create(argc, argv);
 
@@ -82,10 +79,10 @@ int main( int argc, char** argv )
 	{
 		printf("imagenet-console:  '%s' -> %2.5f%% class #%i (%s)\n", imgFilename, confidence * 100.0f, img_class, net->GetClassDesc(img_class));
 	
-		if( argc > 2 )
+		const char* outputFilename = cmdLine.GetPosition(1);
+		
+		if( outputFilename != NULL )
 		{
-			const char* outputFilename = argv[2];
-			
 			// overlay the classification on the image
 			cudaFont* font = cudaFont::Create(adaptFontSize(imgWidth));
 			

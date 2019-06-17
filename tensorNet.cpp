@@ -790,7 +790,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 						 output_blobs, maxBatchSize, precision, device, 
 						 allowGPUFallback, calibrator, gieModelStream) )
 		{
-			printf("device %s, failed to load %s\n", deviceTypeToStr(device), model_path.c_str());
+			printf(LOG_TRT "device %s, failed to load %s\n", deviceTypeToStr(device), model_path_);
 			return 0;
 		}
 	
