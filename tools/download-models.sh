@@ -189,7 +189,7 @@ function download_archive()
 #
 function download_alexnet()
 {
-	echo "$LOG Downloading Alexnet..."
+	echo "$LOG Downloading AlexNet..."
 
 	download_file "bvlc_alexnet.caffemodel" "https://nvidia.box.com/shared/static/5j264j7mky11q8emy4q14w3r8hl5v6zh.caffemodel"
 	download_file "alexnet.prototxt" "https://nvidia.box.com/shared/static/c84wp3axbtv4e2gybn40jprdquav9azm.prototxt"
@@ -198,7 +198,7 @@ function download_alexnet()
 
 function download_googlenet()
 {
-	echo "$LOG Downloading Googlenet..."
+	echo "$LOG Downloading GoogleNet..."
 
 	download_file "bvlc_googlenet.caffemodel" "https://nvidia.box.com/shared/static/at8b1105ww1c5h7p30j5ko8qfnxrs0eg.caffemodel" 
 	download_file "googlenet.prototxt" "https://nvidia.box.com/shared/static/5z3l76p8ap4n0o6rk7lyasdog9f14gc7.prototxt"
@@ -207,8 +207,32 @@ function download_googlenet()
 
 function download_googlenet12()
 {
-	echo "$LOG Downloading Googlenet-12..."
+	echo "$LOG Downloading GoogleNet-12..."
 	download_archive "GoogleNet-ILSVRC12-subset.tar.gz" "https://nvidia.box.com/shared/static/zb8i3zcg39sdjjxfty7o5935hpbd64y4.gz" 
+}
+
+function download_resnet18()
+{
+	echo "$LOG Downloading ResNet-18..."
+	download_archive "ResNet-18.tar.gz" "https://nvidia.box.com/shared/static/gph1qfor89vh498op8cicvwc13zltu3h.gz" 
+}
+
+function download_resnet50()
+{
+	echo "$LOG Downloading ResNet-50..."
+	download_archive "ResNet-50.tar.gz" "https://nvidia.box.com/shared/static/ht46fmnwvow0o0n0ke92x6bzkht8g5xb.gz" 
+}
+
+function download_resnet101()
+{
+	echo "$LOG Downloading ResNet-101..."
+	download_archive "ResNet-101.tar.gz" "https://nvidia.box.com/shared/static/7zog25pu70nxjh2irni49e5ujlg4dl82.gz" 
+}
+
+function download_resnet152()
+{
+	echo "$LOG Downloading ResNet-152..."
+	download_archive "ResNet-152.tar.gz" "https://nvidia.box.com/shared/static/6t621ru1i054vscvhx3rqck8597es7w8.gz" 
 }
 
 function download_recognition()
@@ -218,6 +242,10 @@ function download_recognition()
 	download_alexnet
 	download_googlenet
 	download_googlenet12
+	download_resnet18
+	download_resnet50
+	download_resnet101
+	download_resnet152
 
 	ALL_RECOGNITION=1
 }
@@ -465,32 +493,36 @@ while true; do
 							  --colors \
 							  --checklist "Keys:\n  ↑↓  Navigate Menu\n  Space to Select Models \n  Enter to Continue" 20 80 10 \
 							  --output-fd 1 \
-							  1 "\ZbImage Recognition - all models  (340 MB)\Zn" off \
-							  2 "   > Alexnet                    (244 MB)" off \
-							  3 "   > Googlenet                  (54 MB)" on \
-							  4 "   > Googlenet-12               (42 MB)" off \
-							  5 "\ZbObject Detection - all models   (395 MB)\Zn" off \
-							  6 "   > SSD-Mobilenet-v1           (27 MB)" off \
-							  7 "   > SSD-Mobilenet-v2           (68 MB)" on \
-							  8 "   > SSD-Inception-v2           (100 MB)" off \
-							  9 "   > PedNet                     (30 MB)" on \
-							  10 "   > MultiPed                   (30 MB)" off \
-							  11 "   > FaceNet                    (24 MB)" on \
-							  12 "   > DetectNet-COCO-Dog         (29 MB)" on \
-							  13 "   > DetectNet-COCO-Bottle      (29 MB)" off \
-							  14 "   > DetectNet-COCO-Chair       (29 MB)" off \
-							  15 "   > DetectNet-COCO-Airplane    (29 MB)" off \
-							  16 "\ZbSemantic Segmentation - all     (1.4 GB)\Zn" off \
-							  17 "   > FCN-Alexnet-Cityscapes-SD  (235 MB)" off \
-							  18 "   > FCN-Alexnet-Cityscapes-HD  (235 MB)" off \
-							  19 "   > FCN-Alexnet-Aerial-FPV     (7 MB)" on \
-							  20 "   > FCN-Alexnet-Pascal-VOC     (235 MB)" off \
-							  21 "   > FCN-Alexnet-Synthia-CVPR   (235 MB)" off \
-							  22 "   > FCN-Alexnet-Synthia-Summer-SD (235 MB)" off \
-							  23 "   > FCN-Alexnet-Synthia-Summer-HD (235 MB)" off \
-							  24 "\ZbImage Processing - all models   (138 MB)\Zn" off \
-							  25 "   > Deep-Homography-COCO       (137 MB)" off \
-							  26 "   > Super-Resolution-BSD500    (1 MB)" off )
+							  1 "\ZbImage Recognition - all models  (910 MB)\Zn" off \
+							  2 "   > AlexNet                    (244 MB)" off \
+							  3 "   > GoogleNet                  (54 MB)" on \
+							  4 "   > GoogleNet-12               (42 MB)" off \
+							  5 "   > ResNet-18                  (47 MB)" on \
+							  6 "   > ResNet-50                  (102 MB)" off \
+							  7 "   > ResNet-101                 (179 MB)" off \
+							  8 "   > ResNet-152                 (242 MB)" off \
+							  9 "\ZbObject Detection - all models   (395 MB)\Zn" off \
+							  10 "   > SSD-Mobilenet-v1           (27 MB)" off \
+							  11 "   > SSD-Mobilenet-v2           (68 MB)" on \
+							  12 "   > SSD-Inception-v2           (100 MB)" off \
+							  13 "   > PedNet                     (30 MB)" on \
+							  14 "   > MultiPed                   (30 MB)" off \
+							  15 "   > FaceNet                    (24 MB)" on \
+							  16 "   > DetectNet-COCO-Dog         (29 MB)" on \
+							  17 "   > DetectNet-COCO-Bottle      (29 MB)" off \
+							  18 "   > DetectNet-COCO-Chair       (29 MB)" off \
+							  19 "   > DetectNet-COCO-Airplane    (29 MB)" off \
+							  20 "\ZbSemantic Segmentation - all     (1.4 GB)\Zn" off \
+							  21 "   > FCN-Alexnet-Cityscapes-SD  (235 MB)" off \
+							  22 "   > FCN-Alexnet-Cityscapes-HD  (235 MB)" off \
+							  23 "   > FCN-Alexnet-Aerial-FPV     (7 MB)" on \
+							  24 "   > FCN-Alexnet-Pascal-VOC     (235 MB)" off \
+							  25 "   > FCN-Alexnet-Synthia-CVPR   (235 MB)" off \
+							  26 "   > FCN-Alexnet-Synthia-Summer-SD (235 MB)" off \
+							  27 "   > FCN-Alexnet-Synthia-Summer-HD (235 MB)" off \
+							  28 "\ZbImage Processing - all models   (138 MB)\Zn" off \
+							  29 "   > Deep-Homography-COCO       (137 MB)" off \
+							  30 "   > Super-Resolution-BSD500    (1 MB)" off )
 
 	model_selection_status=$?
 	clear
@@ -514,49 +546,57 @@ while true; do
 					download_googlenet
 				elif [ $model = 4 ] && [ -z $ALL_RECOGNITION ]; then
 					download_googlenet12
-				elif [ $model = 5 ]; then
+				elif [ $model = 5 ] && [ -z $ALL_RECOGNITION ]; then
+					download_resnet18
+				elif [ $model = 6 ] && [ -z $ALL_RECOGNITION ]; then
+					download_resnet50
+				elif [ $model = 7 ] && [ -z $ALL_RECOGNITION ]; then
+					download_resnet101
+				elif [ $model = 8 ] && [ -z $ALL_RECOGNITION ]; then
+					download_resnet152
+				elif [ $model = 9 ]; then
 					download_detection
-				elif [ $model = 6 ] && [ -z $ALL_DETECTION ]; then
-					download_ssd_mobilenet_v1
-				elif [ $model = 7 ] && [ -z $ALL_DETECTION ]; then
-					download_ssd_mobilenet_v2
-				elif [ $model = 8 ] && [ -z $ALL_DETECTION ]; then
-					download_ssd_inception_v2
-				elif [ $model = 9 ] && [ -z $ALL_DETECTION ]; then
-					download_pednet
 				elif [ $model = 10 ] && [ -z $ALL_DETECTION ]; then
-					download_multiped
+					download_ssd_mobilenet_v1
 				elif [ $model = 11 ] && [ -z $ALL_DETECTION ]; then
-					download_facenet
+					download_ssd_mobilenet_v2
 				elif [ $model = 12 ] && [ -z $ALL_DETECTION ]; then
-					download_detectnet_coco_dog
+					download_ssd_inception_v2
 				elif [ $model = 13 ] && [ -z $ALL_DETECTION ]; then
-					download_detectnet_coco_bottle
+					download_pednet
 				elif [ $model = 14 ] && [ -z $ALL_DETECTION ]; then
-					download_detectnet_coco_chair
+					download_multiped
 				elif [ $model = 15 ] && [ -z $ALL_DETECTION ]; then
+					download_facenet
+				elif [ $model = 16 ] && [ -z $ALL_DETECTION ]; then
+					download_detectnet_coco_dog
+				elif [ $model = 17 ] && [ -z $ALL_DETECTION ]; then
+					download_detectnet_coco_bottle
+				elif [ $model = 18 ] && [ -z $ALL_DETECTION ]; then
+					download_detectnet_coco_chair
+				elif [ $model = 19 ] && [ -z $ALL_DETECTION ]; then
 					download_detectnet_coco_airplane
-				elif [ $model = 16 ]; then
+				elif [ $model = 20 ]; then
 					download_segmentation
-				elif [ $model = 17 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_cityscapes_sd
-				elif [ $model = 18 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_cityscapes_hd
-				elif [ $model = 19 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_aerial_fpv
-				elif [ $model = 20 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_pascal_voc
 				elif [ $model = 21 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_synthia_cvpr
+					download_fcn_cityscapes_sd
 				elif [ $model = 22 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_synthia_summer_sd
+					download_fcn_cityscapes_hd
 				elif [ $model = 23 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_aerial_fpv
+				elif [ $model = 24 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_pascal_voc
+				elif [ $model = 25 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_synthia_cvpr
+				elif [ $model = 26 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_synthia_summer_sd
+				elif [ $model = 27 ] && [ -z $ALL_SEGMENTATION ]; then
 					download_fcn_synthia_summer_hd
-				elif [ $model = 24 ]; then
+				elif [ $model = 28 ]; then
 					download_image_processing
-				elif [ $model = 25 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
+				elif [ $model = 29 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
 					download_deep_homography_coco
-				elif [ $model = 26 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
+				elif [ $model = 30 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
 					download_super_resolution_bsd500
 				fi
 			done

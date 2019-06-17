@@ -53,9 +53,13 @@ public:
 	enum NetworkType
 	{
 		CUSTOM,
-		ALEXNET,		/**< 1000-class ILSVR12 */
-		GOOGLENET,	/**< 1000-class ILSVR12 */
-		GOOGLENET_12	/**< 12-class subset of ImageNet ILSVR12 from the tutorial */
+		ALEXNET,		/**< AlexNet trained on 1000-class ILSVRC12 */
+		GOOGLENET,	/**< GoogleNet trained 1000-class ILSVRC12 */
+		GOOGLENET_12,	/**< GoogleNet trained on 12-class subset of ImageNet ILSVRC12 from the tutorial */
+		RESNET_18,	/**< ResNet-18 trained on 1000-class ILSVRC12 */
+		RESNET_50,	/**< ResNet-50 trained on 1000-class ILSVRC12 */
+		RESNET_101,	/**< ResNet-101 trained on 1000-class ILSVRC12 */
+		RESNET_152,	/**< ResNet-50 trained on 1000-class ILSVRC12 */
 	};
 
 

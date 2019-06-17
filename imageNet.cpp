@@ -96,6 +96,14 @@ bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize,
 		return init( "networks/googlenet.prototxt", "networks/bvlc_googlenet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == imageNet::GOOGLENET_12 )
 		return init( "networks/GoogleNet-ILSVRC12-subset/deploy.prototxt", "networks/GoogleNet-ILSVRC12-subset/snapshot_iter_184080.caffemodel", NULL, "networks/GoogleNet-ILSVRC12-subset/labels.txt", IMAGENET_DEFAULT_INPUT, "softmax", maxBatchSize, precision, device, allowGPUFallback );
+	else if( networkType == imageNet::RESNET_18 )
+		return init( "networks/ResNet-18/deploy.prototxt", "networks/ResNet-18/ResNet-18.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );	
+	else if( networkType == imageNet::RESNET_50 )
+		return init( "networks/ResNet-50/deploy.prototxt", "networks/ResNet-50/ResNet-50.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );	
+	else if( networkType == imageNet::RESNET_101 )
+		return init( "networks/ResNet-101/deploy.prototxt", "networks/ResNet-101/ResNet-101.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
+	else if( networkType == imageNet::RESNET_152 )
+		return init( "networks/ResNet-152/deploy.prototxt", "networks/ResNet-152/ResNet-152.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
 	else
 		return NULL;
 }
@@ -124,7 +132,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 	if( !tensorNet::LoadNetwork( prototxt_path, model_path, mean_binary, input, output, 
 						    maxBatchSize, precision, device, allowGPUFallback ) )
 	{
-		printf("failed to load %s\n", model_path);
+		printf(LOG_TRT "failed to load %s\n", model_path);
 		return false;
 	}
 
@@ -160,6 +168,14 @@ imageNet::NetworkType imageNet::NetworkTypeFromStr( const char* modelName )
 		type = imageNet::GOOGLENET;
 	else if( strcasecmp(modelName, "googlenet-12") == 0 || strcasecmp(modelName, "googlenet_12") == 0 )
 		type = imageNet::GOOGLENET_12;
+	else if( strcasecmp(modelName, "resnet-18") == 0 || strcasecmp(modelName, "resnet_18") == 0 || strcasecmp(modelName, "resnet18") == 0 )
+		type = imageNet::RESNET_18;
+	else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 )
+		type = imageNet::RESNET_50;
+	else if( strcasecmp(modelName, "resnet-101") == 0 || strcasecmp(modelName, "resnet_101") == 0 || strcasecmp(modelName, "resnet101") == 0 )
+		type = imageNet::RESNET_101;
+	else if( strcasecmp(modelName, "resnet-152") == 0 || strcasecmp(modelName, "resnet_152") == 0 || strcasecmp(modelName, "resnet152") == 0 )
+		type = imageNet::RESNET_152;
 	else
 		type = imageNet::CUSTOM;
 
@@ -191,21 +207,9 @@ imageNet* imageNet::Create( int argc, char** argv )
 	//if( argc > 3 )
 	//	modelName = argv[3];	
 
-	imageNet::NetworkType type = imageNet::GOOGLENET;
+	const imageNet::NetworkType type = NetworkTypeFromStr(modelName);
 
-	if( strcasecmp(modelName, "alexnet") == 0 )
-	{
-		type = imageNet::ALEXNET;
-	}
-	else if( strcasecmp(modelName, "googlenet") == 0 )
-	{
-		type = imageNet::GOOGLENET;
-	}
-	else if( strcasecmp(modelName, "googlenet-12") == 0 || strcasecmp(modelName, "googlenet_12") == 0 )
-	{
-		type = imageNet::GOOGLENET_12;
-	}
-	else
+	if( type == imageNet::CUSTOM )
 	{
 		const char* prototxt = cmdLine.GetString("prototxt");
 		const char* labels   = cmdLine.GetString("labels");
