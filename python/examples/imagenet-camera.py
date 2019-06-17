@@ -33,7 +33,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--network", type=str, default="googlenet", help="model to use, can be:  alexnet, googlenet, googlenet-12")
 parser.add_argument("--width", type=int, default=1280, help="desired width of camera stream (default is 1280 pixels)")
 parser.add_argument("--height", type=int, default=720, help="desired height of camera stream (default is 720 pixels)")
-parser.add_argument("--v4l2_device", type=int, default=-1, help="if using VL42 camera, index of the desired /dev/video node")
+parser.add_argument("--camera", type=string, default=None, help="index of the MIPI CSI camera to use (NULL for CSI camera 0), or for VL42 cameras the /dev/video node to use (e.g. /dev/video0).  By default, MIPI CSI camera 0 will be used.")
 
 opt, argv = parser.parse_known_args()
 
@@ -42,7 +42,7 @@ net = jetson.inference.imageNet(opt.network, argv)
 
 # create the camera and display
 font = jetson.utils.cudaFont()
-camera = jetson.utils.gstCamera(opt.width, opt.height, opt.v4l2_device)
+camera = jetson.utils.gstCamera(opt.width, opt.height, opt.camera)
 display = jetson.utils.glDisplay()
 
 # process frames until user exits
