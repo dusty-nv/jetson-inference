@@ -29,17 +29,6 @@
 #include "commandLine.h"
 #include "mat33.h"
 
-#include <sys/time.h>
-#include <iostream>
-
-
-// retrieve current timestamp
-uint64_t current_timestamp() {
-    struct timeval te; 
-    gettimeofday(&te, NULL); // get current time
-    return te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
-}
-
 
 // print usage
 int print_usage()
@@ -85,7 +74,7 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	net->EnableLayerProfiler();
+	//net->EnableLayerProfiler();
 
 
 	/* 
@@ -154,7 +143,11 @@ int main( int argc, char** argv )
 			return 0;
 		}
 
+		// wait for GPU to complete work			
 		CUDA(cudaDeviceSynchronize());
+
+		// print out performance info
+		net->PrintProfilerTimes();
 
 		// save the warped image to disk
 		if( !saveImageRGBA(imgWarpedPath, imgWarpedCPU, imgWidth[0], imgHeight[0]) )
@@ -164,8 +157,7 @@ int main( int argc, char** argv )
 		}
 	}
 	
-
-	delete net;
+	SAFE_DELETE(net);
 	return 0;
 }
 

@@ -21,24 +21,16 @@
  */
 
 #include "gstCamera.h"
-
 #include "glDisplay.h"
-#include "glTexture.h"
 
-#include <stdio.h>
-#include <signal.h>
-#include <unistd.h>
-
-#include "cudaMappedMemory.h"
-#include "cudaNormalize.h"
 #include "cudaWarp.h"
+#include "cudaMappedMemory.h"
+#include "commandLine.h"
 
 #include "homographyNet.h"
 #include "mat33.h"
 
-
-#define DEFAULT_CAMERA 1	// -1 for onboard camera, or change to index of /dev/video V4L2 camera (>=0)	
-
+#include <signal.h>
 
 
 bool signal_recieved = false;
@@ -55,6 +47,8 @@ void sig_handler(int signo)
 
 int main( int argc, char** argv )
 {
+	commandLine cmdLine(argc, argv);
+
 	/*
 	 * setup exit signal handler
 	 */
@@ -65,18 +59,20 @@ int main( int argc, char** argv )
 	/*
 	 * create the camera device
 	 */
-	gstCamera* camera = gstCamera::Create(DEFAULT_CAMERA);
-	
+	gstCamera* camera = gstCamera::Create(cmdLine.GetInt("width", gstCamera::DefaultWidth),
+								   cmdLine.GetInt("height", gstCamera::DefaultHeight),
+								   cmdLine.GetString("camera"));
+
 	if( !camera )
 	{
-		printf("\nhomography-camera:  failed to initialize video device\n");
+		printf("\nhomography-camera:  failed to initialize camera device\n");
 		return 0;
 	}
 	
 	const uint32_t imgWidth  = camera->GetWidth();
 	const uint32_t imgHeight = camera->GetHeight();
 
-	printf("\nhomography-camera:  successfully initialized video device\n");
+	printf("\nhomography-camera:  successfully initialized camera device\n");
 	printf("    width:  %u\n", imgWidth);
 	printf("   height:  %u\n", imgHeight);
 	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
@@ -111,30 +107,21 @@ int main( int argc, char** argv )
 	 * create openGL window
 	 */
 	glDisplay* display = glDisplay::Create();
-	glTexture* texture = NULL;
 	
-	if( !display ) {
-		printf("\nhomography-camera:  failed to create openGL display\n");
-	}
-	else
-	{
-		texture = glTexture::Create(imgWidth, imgHeight, GL_RGBA32F_ARB/*GL_RGBA8*/);
-
-		if( !texture )
-			printf("homography-camera:  failed to create openGL texture\n");
-	}
-
+	if( !display )
+		printf("homography-camera:  failed to create openGL display\n");
+	
 
 	/*
 	 * start streaming
 	 */
 	if( !camera->Open() )
 	{
-		printf("\nhomography-camera:  failed to open camera for streaming\n");
+		printf("homography-camera:  failed to open camera for streaming\n");
 		return 0;
 	}
 	
-	printf("\nhomography-camera:  camera open for streaming\n");
+	printf("homography-camera:  camera open for streaming\n");
 	
 	
 	/*
@@ -147,20 +134,11 @@ int main( int argc, char** argv )
 	
 	while( !signal_recieved )
 	{
-		void* imgCPU  = NULL;
-		void* imgCUDA = NULL;
-		
-		// get the latest frame
-		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
-			printf("\nhomography-camera:  failed to capture frame\n");
-
-
-		// convert from YUV to RGBA
+		// capture RGBA image
 		float* imgRGBA = NULL;
-		
-		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA) )
-			printf("homography-camera:  failed to convert camera to RGBA\n");
 
+		if( !camera->CaptureRGBA(&imgRGBA, 1000) )
+			printf("homography-camera:  failed to capture frame\n");
 
 		// make sure we have 2 frames to use
 		if( !lastImg )
@@ -168,7 +146,6 @@ int main( int argc, char** argv )
 			lastImg = imgRGBA;
 			continue;
 		}
-
 
 		// find the displacement
 		float displacement[8];
@@ -179,11 +156,9 @@ int main( int argc, char** argv )
 			continue;
 		}
 
-
 		// smooth the displacement
 		for( uint32_t n=0; n < 8; n++ )
 			displacementAvg[n] = displacement[n] * displacementAvgFactor + displacementAvg[n] * (1.0f - displacementAvgFactor);
-
 
 		// find the homography
 		float H[3][3];
@@ -198,7 +173,6 @@ int main( int argc, char** argv )
 		mat33_print(H, "H");
 		mat33_print(H_inv, "H_inv");
 
-
 		// stabilize the latest frame by warping it by H_inverse to align with the previous frame
 		if( CUDA_FAILED(cudaWarpPerspective((float4*)imgRGBA, imgWarpedCUDA, imgWidth, imgHeight, H_inv, false)) )
 		{
@@ -206,63 +180,36 @@ int main( int argc, char** argv )
 			continue;
 		}
 
-
 		// update display
 		if( display != NULL )
 		{
-			display->BeginRender();
+			// render the image
+			display->RenderOnce((float*)imgWarpedCUDA, imgWidth, imgHeight);
 
-			if( texture != NULL )
-			{
-				// rescale image pixel intensities for display
-				CUDA(cudaNormalizeRGBA((float4*)imgWarpedCUDA, make_float2(0.0f, 255.0f), 
-								   (float4*)imgWarpedCUDA, make_float2(0.0f, 1.0f), 
-		 						   imgWidth, imgHeight));
-
-				// map from CUDA to openGL using GL interop
-				void* tex_map = texture->MapCUDA();
-
-				if( tex_map != NULL )
-				{
-					cudaMemcpy(tex_map, imgWarpedCUDA, texture->GetSize(), cudaMemcpyDeviceToDevice);
-					texture->Unmap();
-				}
-
-				// draw the texture
-				texture->Render(100,100);		
-			}
-
-			display->EndRender();
-
-			// update title bar info
+			// update the status bar
 			char str[256];
-			sprintf(str, "TensorRT %i.%i.%i | %s | %04.1f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), display->GetFPS());
-			display->SetTitle(str);	
+			sprintf(str, "TensorRT %i.%i.%i | %s | Network %.0f FPS | Display %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), 1000.0f / net->GetNetworkTime(), display->GetFPS());
+			display->SetTitle(str);
+
+			// check if the user quit
+			if( display->IsClosed() )
+				signal_recieved = true;	
 		}
 
 		lastImg = imgRGBA;
 	}
 	
-	printf("\nhomography-camera:  un-initializing video device\n");
-	
 	
 	/*
-	 * shutdown the camera device
+	 * destroy resources
 	 */
-	if( camera != NULL )
-	{
-		delete camera;
-		camera = NULL;
-	}
-
-	if( display != NULL )
-	{
-		delete display;
-		display = NULL;
-	}
+	printf("\nhomography-camera:  shutting down...\n");
 	
-	printf("homography-camera:  video device has been un-initialized.\n");
-	printf("homography-camera:  this concludes the test of the video device.\n");
+	SAFE_DELETE(camera);
+	SAFE_DELETE(display);
+	SAFE_DELETE(net);
+
+	printf("homography-camera:  shutdown complete.\n");
 	return 0;
 }
 

@@ -26,45 +26,28 @@
 #include "commandLine.h"
 #include "cudaMappedMemory.h"
 
-#include <sys/time.h>
 
-
-uint64_t current_timestamp() {
-    struct timeval te; 
-    gettimeofday(&te, NULL); // get current time
-    return te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
-}
-
-
-// main entry point
 int main( int argc, char** argv )
 {
-	printf("segnet-console\n  args (%i):  ", argc);
-	
-	for( int i=0; i < argc; i++ )
-		printf("%i [%s]  ", i, argv[i]);
-		
-	printf("\n\n");
+	commandLine cmdLine(argc, argv);
 	
 	
-	// retrieve filename arguments
-	if( argc < 2 )
+	/*
+	 * parse filename arguments
+	 */
+	const char* imgFilename = cmdLine.GetPosition(0);
+	const char* outFilename = cmdLine.GetPosition(1);
+
+	if( !imgFilename || !outFilename )
 	{
-		printf("segnet-console:   input image filename required\n");
+		printf("segnet-console:   input and output image filenames required\n");
 		return 0;
 	}
 
-	if( argc < 3 )
-	{
-		printf("segnet-console:   output image filename required\n");
-		return 0;
-	}
-	
-	const char* imgFilename = argv[1];
-	const char* outFilename = argv[2];
 
-
-	// create the segNet from pretrained or custom model by parsing the command line
+	/*
+	 * create segmentation network
+	 */
 	segNet* net = segNet::Create(argc, argv);
 
 	if( !net )
@@ -73,10 +56,12 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
-	// enable layer timings for the console application
-	net->EnableLayerProfiler();
+	//net->EnableLayerProfiler();
 
-	// load image from file on disk
+
+	/*
+	 * load image from disk
+	 */
 	float* imgCPU    = NULL;
 	float* imgCUDA   = NULL;
 	int    imgWidth  = 0;
@@ -88,7 +73,10 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	// allocate output image
+
+	/*
+	 * allocate output image
+	 */
 	float* outCPU  = NULL;
 	float* outCUDA = NULL;
 
@@ -102,17 +90,14 @@ int main( int argc, char** argv )
 	net->SetGlobalAlpha(120);
 
 
-	// process the segmentation network
-	printf("segnet-console:  beginning processing (%zu)\n", current_timestamp());
-
+	/*
+	 * perform the segmentation
+	 */
 	if( !net->Process(imgCUDA, imgWidth, imgHeight) )
 	{
 		printf("segnet-console:  failed to process segmentation\n");
 		return 0;
 	}
-
-	printf("segnet-console:  finished processing (%zu)\n", current_timestamp());
-
 
 	// generate image overlay
 	if( !net->Overlay(outCUDA, imgWidth, imgHeight, segNet::FILTER_LINEAR) )
@@ -121,18 +106,31 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
+	// wait for GPU to complete work			
 	CUDA(cudaDeviceSynchronize());
 
-	// save output image
+	// print out performance info
+	net->PrintProfilerTimes();
+
+
+	/*
+	 * save output image
+	 */
 	if( !saveImageRGBA(outFilename, (float4*)outCPU, imgWidth, imgHeight) )
 		printf("segnet-console:  failed to save output image to '%s'\n", outFilename);
 	else
 		printf("segnet-console:  completed saving '%s'\n", outFilename);
 
 	
-	printf("\nshutting down...\n");
+	/*
+	 * destroy resources
+	 */
+	printf("\nsegnet-console:  shutting down...\n");
+
 	CUDA(cudaFreeHost(imgCPU));
 	CUDA(cudaFreeHost(outCPU));
-	delete net;
+	SAFE_DELETE(net);
+
+	printf("segnet-console:  shutdown complete\n");
 	return 0;
 }

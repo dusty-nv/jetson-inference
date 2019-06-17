@@ -22,22 +22,14 @@
 
 #include "gstCamera.h"
 #include "glDisplay.h"
-
 #include "cudaFont.h"
+
 #include "imageNet.h"
+#include "commandLine.h"
 
-#include "Thread.h"
-
-#include <stdio.h>
 #include <signal.h>
-#include <unistd.h>
 
 
-#define DEFAULT_CAMERA -1		// -1 for onboard CSI camera, or change to index of /dev/video V4L2 camera (>=0)	
-#define DEFAULT_CAMERA_WIDTH 1280	// default camera width is 1280 pixels, change this if you want a different size
-#define DEFAULT_CAMERA_HEIGHT 720	// default camera height is 720 pixels, change this is you want a different size
-
-		
 bool signal_recieved = false;
 
 void sig_handler(int signo)
@@ -52,16 +44,8 @@ void sig_handler(int signo)
 
 int main( int argc, char** argv )
 {
-	//Thread::SetAffinity(0);
-
-	printf("imagenet-camera\n  args (%i):  ", argc);
-
-	for( int i=0; i < argc; i++ )
-		printf("%i [%s]  ", i, argv[i]);
-		
-	printf("\n\n");
+	commandLine cmdLine(argc, argv);
 	
-
 	/*
 	 * attach signal handler
 	 */
@@ -72,22 +56,24 @@ int main( int argc, char** argv )
 	/*
 	 * create the camera device
 	 */
-	gstCamera* camera = gstCamera::Create(DEFAULT_CAMERA_WIDTH, DEFAULT_CAMERA_HEIGHT, DEFAULT_CAMERA);
+	gstCamera* camera = gstCamera::Create(cmdLine.GetInt("width", gstCamera::DefaultWidth),
+								   cmdLine.GetInt("height", gstCamera::DefaultHeight),
+								   cmdLine.GetString("camera"));
 	
 	if( !camera )
 	{
-		printf("\nimagenet-camera:  failed to initialize video device\n");
+		printf("\nimagenet-camera:  failed to initialize camera device\n");
 		return 0;
 	}
 	
-	printf("\nimagenet-camera:  successfully initialized video device\n");
+	printf("\nimagenet-camera:  successfully initialized camera device\n");
 	printf("    width:  %u\n", camera->GetWidth());
 	printf("   height:  %u\n", camera->GetHeight());
 	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
 	
 
 	/*
-	 * create imageNet
+	 * create recognition network
 	 */
 	imageNet* net = imageNet::Create(argc, argv);
 	

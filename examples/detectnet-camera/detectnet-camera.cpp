@@ -21,23 +21,12 @@
  */
 
 #include "gstCamera.h"
-
 #include "glDisplay.h"
-#include "glTexture.h"
-
-#include <stdio.h>
-#include <signal.h>
-#include <unistd.h>
-
-#include "cudaMappedMemory.h"
-#include "cudaNormalize.h"
 
 #include "detectNet.h"
+#include "commandLine.h"
 
-
-#define DEFAULT_CAMERA -1		// -1 for onboard CSI camera, or change to index of /dev/video V4L2 camera (>=0)	
-#define DEFAULT_CAMERA_WIDTH 1280	// default camera width is 1280 pixels, change this if you want a different size
-#define DEFAULT_CAMERA_HEIGHT 720	// default camera height is 720 pixels, change this is you want a different size
+#include <signal.h>
 
 
 bool signal_recieved = false;
@@ -54,13 +43,7 @@ void sig_handler(int signo)
 
 int main( int argc, char** argv )
 {
-	printf("detectnet-camera\n  args (%i):  ", argc);
-
-	for( int i=0; i < argc; i++ )
-		printf("%i [%s]  ", i, argv[i]);
-		
-	printf("\n\n");
-	
+	commandLine cmdLine(argc, argv);
 
 	/*
 	 * attach signal handler
@@ -72,22 +55,24 @@ int main( int argc, char** argv )
 	/*
 	 * create the camera device
 	 */
-	gstCamera* camera = gstCamera::Create(DEFAULT_CAMERA_WIDTH, DEFAULT_CAMERA_HEIGHT, DEFAULT_CAMERA);
-	
+	gstCamera* camera = gstCamera::Create(cmdLine.GetInt("width", gstCamera::DefaultWidth),
+								   cmdLine.GetInt("height", gstCamera::DefaultHeight),
+								   cmdLine.GetString("camera"));
+
 	if( !camera )
 	{
-		printf("\ndetectnet-camera:  failed to initialize video device\n");
+		printf("\ndetectnet-camera:  failed to initialize camera device\n");
 		return 0;
 	}
 	
-	printf("\ndetectnet-camera:  successfully initialized video device\n");
+	printf("\ndetectnet-camera:  successfully initialized camera device\n");
 	printf("    width:  %u\n", camera->GetWidth());
 	printf("   height:  %u\n", camera->GetHeight());
 	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
 	
 
 	/*
-	 * create detectNet
+	 * create detection network
 	 */
 	detectNet* net = detectNet::Create(argc, argv);
 	
@@ -132,7 +117,7 @@ int main( int argc, char** argv )
 		if( !camera->CaptureRGBA(&imgRGBA, 1000) )
 			printf("detectnet-camera:  failed to capture RGBA image from camera\n");
 
-		// classify image with detectNet
+		// detect objects in the frame
 		detectNet::Detection* detections = NULL;
 	
 		const int numDetections = net->Detect(imgRGBA, camera->GetWidth(), camera->GetHeight(), &detections);
@@ -152,7 +137,7 @@ int main( int argc, char** argv )
 		if( display != NULL )
 		{
 			// render the image
-			display->RenderOnce((float*)imgRGBA, camera->GetWidth(), camera->GetHeight());
+			display->RenderOnce(imgRGBA, camera->GetWidth(), camera->GetHeight());
 
 			// update the status bar
 			char str[256];
@@ -164,6 +149,7 @@ int main( int argc, char** argv )
 				signal_recieved = true;
 		}
 
+		// print out timing info
 		net->PrintProfilerTimes();
 	}
 	

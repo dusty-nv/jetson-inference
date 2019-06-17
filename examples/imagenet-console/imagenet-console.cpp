@@ -31,11 +31,11 @@
 // main entry point
 int main( int argc, char** argv )
 {
-	printf("imagenet-console\n");
-	
-	
-	// retrieve filename argument
 	commandLine cmdLine(argc, argv);
+
+	/*
+	 * parse input filename
+	 */
 	const char* imgFilename = cmdLine.GetPosition(0);
 
 	if( !imgFilename )
@@ -45,7 +45,9 @@ int main( int argc, char** argv )
 	}
 	
 	
-	// create imageNet
+	/*
+	 * create recognition network
+	 */
 	imageNet* net = imageNet::Create(argc, argv);
 
 	if( !net )
@@ -57,7 +59,9 @@ int main( int argc, char** argv )
 	//net->EnableLayerProfiler();
 	
 
-	// load image from file on disk
+	/*
+	 * load image from disk
+	 */
 	float* imgCPU    = NULL;
 	float* imgCUDA   = NULL;
 	int    imgWidth  = 0;
@@ -69,11 +73,13 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
-	// classify image
+
+	/*
+	 * classify image
+	 */
 	float confidence = 0.0f;
 	const int img_class = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
 	
-
 	// overlay the classification on the image
 	if( img_class >= 0 )
 	{
@@ -83,7 +89,7 @@ int main( int argc, char** argv )
 		
 		if( outputFilename != NULL )
 		{
-			// overlay the classification on the image
+			// use font to draw the class description
 			cudaFont* font = cudaFont::Create(adaptFontSize(imgWidth));
 			
 			if( font != NULL )
@@ -101,6 +107,7 @@ int main( int argc, char** argv )
 			// print out performance info
 			net->PrintProfilerTimes();
 
+			// save the output image to disk
 			printf("imagenet-console:  attempting to save output image to '%s'\n", outputFilename);
 			
 			if( !saveImageRGBA(outputFilename, (float4*)imgCPU, imgWidth, imgHeight) )
@@ -112,8 +119,16 @@ int main( int argc, char** argv )
 	else
 		printf("imagenet-console:  failed to classify '%s'  (result=%i)\n", imgFilename, img_class);
 	
-	printf("\nshutting down...\n");
+
+	/*
+	 * destroy resources
+	 */
+	printf("\nimagenet-console:  shutting down...\n");
+
 	CUDA(cudaFreeHost(imgCPU));
-	delete net;
+	SAFE_DELETE(net);
+
+	printf("imagenet-console:  shutdown complete\n");
 	return 0;
 }
+

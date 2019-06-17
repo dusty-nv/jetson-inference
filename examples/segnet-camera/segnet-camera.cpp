@@ -21,23 +21,15 @@
  */
 
 #include "gstCamera.h"
-
 #include "glDisplay.h"
-#include "glTexture.h"
 
-#include <stdio.h>
-#include <signal.h>
-#include <unistd.h>
-
+#include "commandLine.h"
 #include "cudaMappedMemory.h"
-#include "cudaNormalize.h"
-#include "cudaFont.h"
 
 #include "segNet.h"
 
+#include <signal.h>
 
-#define DEFAULT_CAMERA -1	// -1 for onboard camera, or change to index of /dev/video V4L2 camera (>=0)	
-		
 
 bool signal_recieved = false;
 
@@ -53,14 +45,11 @@ void sig_handler(int signo)
 
 int main( int argc, char** argv )
 {
-	printf("segnet-camera\n  args (%i):  ", argc);
-
-	for( int i=0; i < argc; i++ )
-		printf("%i [%s]  ", i, argv[i]);
-		
-	printf("\n\n");
+	commandLine cmdLine(argc, argv);
 	
-	
+	/*
+	 * attach signal handler
+	 */
 	if( signal(SIGINT, sig_handler) == SIG_ERR )
 		printf("\ncan't catch SIGINT\n");
 
@@ -68,22 +57,24 @@ int main( int argc, char** argv )
 	/*
 	 * create the camera device
 	 */
-	gstCamera* camera = gstCamera::Create(DEFAULT_CAMERA);
-	
+	gstCamera* camera = gstCamera::Create(cmdLine.GetInt("width", gstCamera::DefaultWidth),
+								   cmdLine.GetInt("height", gstCamera::DefaultHeight),
+								   cmdLine.GetString("camera"));
+
 	if( !camera )
 	{
-		printf("\nsegnet-camera:  failed to initialize video device\n");
+		printf("\nsegnet-camera:  failed to initialize camera device\n");
 		return 0;
 	}
 	
-	printf("\nsegnet-camera:  successfully initialized video device\n");
+	printf("\nsegnet-camera:  successfully initialized camera device\n");
 	printf("    width:  %u\n", camera->GetWidth());
 	printf("   height:  %u\n", camera->GetHeight());
 	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
 	
 
 	/*
-	 * create segNet
+	 * create segmentation network
 	 */
 	segNet* net = segNet::Create(argc, argv);
 	
@@ -111,18 +102,9 @@ int main( int argc, char** argv )
 	 * create openGL window
 	 */
 	glDisplay* display = glDisplay::Create();
-	glTexture* texture = NULL;
 	
-	if( !display ) {
-		printf("\nsegnet-camera:  failed to create openGL display\n");
-	}
-	else
-	{
-		texture = glTexture::Create(camera->GetWidth(), camera->GetHeight(), GL_RGBA32F_ARB/*GL_RGBA8*/);
-
-		if( !texture )
-			printf("segnet-camera:  failed to create openGL texture\n");
-	}
+	if( !display )
+		printf("segnet-camera:  failed to create openGL display\n");
 	
 
 	/*
@@ -130,11 +112,11 @@ int main( int argc, char** argv )
 	 */
 	if( !camera->Open() )
 	{
-		printf("\nsegnet-camera:  failed to open camera for streaming\n");
+		printf("segnet-camera:  failed to open camera for streaming\n");
 		return 0;
 	}
 	
-	printf("\nsegnet-camera:  camera open for streaming\n");
+	printf("segnet-camera:  camera open for streaming\n");
 	
 	
 	/*
@@ -144,17 +126,10 @@ int main( int argc, char** argv )
 	
 	while( !signal_recieved )
 	{
-		void* imgCPU  = NULL;
-		void* imgCUDA = NULL;
-		
-		// get the latest frame
-		if( !camera->Capture(&imgCPU, &imgCUDA, 1000) )
-			printf("\nsegnet-camera:  failed to capture frame\n");
-
-		// convert from YUV to RGBA
+		// capture RGBA image
 		float* imgRGBA = NULL;
 		
-		if( !camera->ConvertRGBA(imgCUDA, &imgRGBA, true) )
+		if( !camera->CaptureRGBA(&imgRGBA, 1000, true) )
 			printf("segnet-camera:  failed to convert from NV12 to RGBA\n");
 
 		// process the segmentation network
@@ -174,57 +149,31 @@ int main( int argc, char** argv )
 		// update display
 		if( display != NULL )
 		{
+			// render the image
+			display->RenderOnce((float*)imgRGBA, camera->GetWidth(), camera->GetHeight());
+
+			// update the status bar
 			char str[256];
-			sprintf(str, "TensorRT %i.%i.%i | %s | %04.1f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), display->GetFPS());
-			display->SetTitle(str);	
-	
-			// next frame in the window
-			display->BeginRender();
+			sprintf(str, "TensorRT %i.%i.%i | %s | Network %.0f FPS | Display %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), 1000.0f / net->GetNetworkTime(), display->GetFPS());
+			display->SetTitle(str);
 
-			if( texture != NULL )
-			{
-				// rescale image pixel intensities for display
-				CUDA(cudaNormalizeRGBA((float4*)outCUDA, make_float2(0.0f, 255.0f), 
-								   (float4*)outCUDA, make_float2(0.0f, 1.0f), 
-		 						   camera->GetWidth(), camera->GetHeight()));
-
-				// map from CUDA to openGL using GL interop
-				void* tex_map = texture->MapCUDA();
-
-				if( tex_map != NULL )
-				{
-					cudaMemcpy(tex_map, outCUDA, texture->GetSize(), cudaMemcpyDeviceToDevice);
-					texture->Unmap();
-				}
-
-				// draw the texture
-				texture->Render(10, 10);		
-			}
-
-			display->EndRender();
+			// check if the user quit
+			if( display->IsClosed() )
+				signal_recieved = true;
 		}
 	}
 	
-	printf("\nsegnet-camera:  un-initializing video device\n");
-	
-	
-	/*
-	 * shutdown the camera device
-	 */
-	if( camera != NULL )
-	{
-		delete camera;
-		camera = NULL;
-	}
 
-	if( display != NULL )
-	{
-		delete display;
-		display = NULL;
-	}
+	/*
+	 * destroy resources
+	 */
+	printf("\nsegnet-camera:  shutting down...\n");
 	
-	printf("segnet-camera:  video device has been un-initialized.\n");
-	printf("segnet-camera:  this concludes the use of the device.\n");
+	SAFE_DELETE(camera);
+	SAFE_DELETE(display);
+	SAFE_DELETE(net);
+
+	printf("segnet-camera:  shutdown complete.\n");
 	return 0;
 }
 

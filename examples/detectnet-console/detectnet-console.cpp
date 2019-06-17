@@ -23,41 +23,30 @@
 #include "detectNet.h"
 #include "loadImage.h"
 
+#include "commandLine.h"
 #include "cudaMappedMemory.h"
-
-
-#include <sys/time.h>
-
-
-uint64_t current_timestamp() {
-    struct timeval te; 
-    gettimeofday(&te, NULL); // get current time
-    return te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
-}
 
 
 // main entry point
 int main( int argc, char** argv )
 {
-	printf("detectnet-console\n  args (%i):  ", argc);
+	commandLine cmdLine(argc, argv);
 	
-	for( int i=0; i < argc; i++ )
-		printf("%i [%s]  ", i, argv[i]);
-		
-	printf("\n\n");
-	
-	
-	// retrieve filename argument
-	if( argc < 2 )
+	/*
+	 * parse input filename
+	 */
+	const char* imgFilename = cmdLine.GetPosition(0);
+
+	if( !imgFilename )
 	{
 		printf("detectnet-console:   input image filename required\n");
 		return 0;
 	}
-	
-	const char* imgFilename = argv[1];
-	
 
-	// create detectNet
+
+	/*
+	 * create detection network
+	 */
 	detectNet* net = detectNet::Create(argc, argv);
 
 	if( !net )
@@ -69,7 +58,9 @@ int main( int argc, char** argv )
 	//net->EnableLayerProfiler();
 	
 	
-	// load image from file on disk
+	/*
+	 * load image from disk
+	 */
 	float* imgCPU    = NULL;
 	float* imgCUDA   = NULL;
 	int    imgWidth  = 0;
@@ -82,42 +73,51 @@ int main( int argc, char** argv )
 	}
 	
 
-	// classify image
+	/*
+	 * detect objects in image
+	 */
 	detectNet::Detection* detections = NULL;
 
-	printf("detectnet-console:  beginning processing network + overlay (%zu)\n", current_timestamp());
 	const int numDetections = net->Detect(imgCUDA, imgWidth, imgHeight, &detections);
-	printf("detectnet-console:  finished processing network + overlay  (%zu)\n", current_timestamp());
 
-	if( numDetections >= 0 && argc > 2 )		// if the user supplied an output filename
+	// print out the detection results
+	printf("%i objects detected\n", numDetections);
+	
+	for( int n=0; n < numDetections; n++ )
 	{
-		printf("%i bounding boxes detected\n", numDetections);
-		
-		for( int n=0; n < numDetections; n++ )
-		{
-			printf("detected obj %u  class #%u (%s)  confidence=%f\n", detections[n].Instance, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence);
-			printf("bounding box %u  (%f, %f)  (%f, %f)  w=%f  h=%f\n", detections[n].Instance, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
-		}
-		
-		// wait for the GPU to finish		
-		CUDA(cudaDeviceSynchronize());
+		printf("detected obj %u  class #%u (%s)  confidence=%f\n", detections[n].Instance, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence);
+		printf("bounding box %u  (%f, %f)  (%f, %f)  w=%f  h=%f\n", detections[n].Instance, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
+	}
+	
+	// wait for the GPU to finish		
+	CUDA(cudaDeviceSynchronize());
 
-		// print out timing info
-		net->PrintProfilerTimes();
-		
-		// save image to disk
+	// print out timing info
+	net->PrintProfilerTimes();
+	
+	// save image to disk
+	const char* outputFilename = cmdLine.GetPosition(1);
+	
+	if( outputFilename != NULL )
+	{
 		printf("detectnet-console:  writing %ix%i image to '%s'\n", imgWidth, imgHeight, argv[2]);
 		
 		if( !saveImageRGBA(argv[2], (float4*)imgCPU, imgWidth, imgHeight, 255.0f) )
 			printf("detectnet-console:  failed saving %ix%i image to '%s'\n", imgWidth, imgHeight, argv[2]);
 		else	
 			printf("detectnet-console:  successfully wrote %ix%i image to '%s'\n", imgWidth, imgHeight, argv[2]);
-		
 	}
 
-	printf("\nshutting down...\n");
+
+	/*
+	 * destroy resources
+	 */
+	printf("\ndetectnet-console:  shutting down...\n");
+
 	CUDA(cudaFreeHost(imgCPU));
-	delete net;
+	SAFE_DELETE(net);
+
+	printf("detectnet-console:  shutdown complete\n");
 	return 0;
 }
 
