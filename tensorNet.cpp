@@ -47,6 +47,11 @@
 	#define CREATE_INFER_RUNTIME createInferRuntime
 #endif
 
+#define LOG_DOWNLOADER_TOOL "        if loading a built-in model, maybe it wasn't downloaded before.\n\n"    \
+					   "        Run the Model Downloader tool again and select it for download:\n\n"   \
+					   "           $ cd <jetson-inference>/tools\n" 	  	\
+					   "           $ ./download-models.sh\n"
+
 
 //---------------------------------------------------------------------
 const char* precisionTypeToStr( precisionType type )
@@ -786,6 +791,13 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	{
 		printf(LOG_TRT "cache file not found, profiling network model on device %s\n", deviceTypeToStr(device));
 	
+		if( model_path.size() == 0 )
+		{
+			printf("\nerror:  model file '%s' was not found.\n", model_path_);
+			printf("%s\n", LOG_DOWNLOADER_TOOL);
+			return 0;
+		}
+
 		if( !ProfileModel(prototxt_path, model_path, input_blob, input_dims,
 						 output_blobs, maxBatchSize, precision, device, 
 						 allowGPUFallback, calibrator, gieModelStream) )
