@@ -22,7 +22,7 @@ As with the previous examples, provided are a console program and a camera strea
 
 ### Detecting Objects from the Command Line
 
-The [`detectnet-console`](../detectnet-console/detectnet-console.cpp) program can be used to find objects in images.  To load one of the pretrained object detection models that comes with the repo, you can specify the pretrained model name as the 3rd argument to `detectnet-console`:
+The [`detectnet-console`](../examples/detectnet-console/detectnet-console.cpp) program can be used to find objects in images.  To load one of the pretrained object detection models that comes with the repo, you can specify the pretrained model name as the 3rd argument to `detectnet-console`:
 
 ``` bash
 $ ./detectnet-console dog_1.jpg output_1.jpg coco-dog

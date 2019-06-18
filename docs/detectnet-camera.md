@@ -5,7 +5,7 @@
 
 # Running the Live Camera Detection Demo
 
-Similar to the previous example, [`detectnet-camera`](../detectnet-camera/detectnet-camera.cpp) runs the object detection networks on live video feed from the Jetson onboard camera.  Launch it from command line along with the type of desired network:
+Similar to the previous example, [`detectnet-camera`](../examples/detectnet-camera/detectnet-camera.cpp) runs the object detection networks on live video feed from the Jetson onboard camera.  Launch it from command line along with the type of desired network:
 
 ``` bash
 $ ./detectnet-camera facenet        # run using facial recognition network
@@ -21,7 +21,7 @@ $ ./detectnet-camera                # by default, program will run using multipe
 
 <br/>
 
-> **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`detectnet-camera.cpp`](../detectnet-camera/detectnet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera and recompile.  The webcam model it's tested with is Logitech C920.  
+> **note**:  by default, the Jetson's onboard CSI camera will be used as the video source.  If you wish to use a USB webcam instead, change the `DEFAULT_CAMERA` define at the top of [`detectnet-camera.cpp`](../examples/detectnet-camera/detectnet-camera.cpp) to reflect the /dev/video V4L2 device of your USB camera and recompile.  The webcam model it's tested with is Logitech C920.  
 
 <br/>
 

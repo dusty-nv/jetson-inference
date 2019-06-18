@@ -5,7 +5,7 @@
 
 # Running Segmentation Models on Jetson
 
-To test a custom segmentation network model snapshot on the Jetson, use the command line interface to [`segnet-console`](../segnet-console/segnet-console.cpp)  
+To test a custom segmentation network model snapshot on the Jetson, use the command line interface to [`segnet-console`](../examples/segnet-console/segnet-console.cpp)  
 
 First, for convienience, set the path to your extracted snapshot into a `$NET` variable:
 
