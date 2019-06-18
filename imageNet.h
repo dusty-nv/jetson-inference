@@ -56,20 +56,26 @@ public:
 		ALEXNET,		/**< AlexNet trained on 1000-class ILSVRC12 */
 		GOOGLENET,	/**< GoogleNet trained 1000-class ILSVRC12 */
 		GOOGLENET_12,	/**< GoogleNet trained on 12-class subset of ImageNet ILSVRC12 from the tutorial */
-		RESNET_18,	/**< ResNet-18 trained on 1000-class ILSVRC12 */
-		RESNET_50,	/**< ResNet-50 trained on 1000-class ILSVRC12 */
-		RESNET_101,	/**< ResNet-101 trained on 1000-class ILSVRC12 */
-		RESNET_152,	/**< ResNet-50 trained on 1000-class ILSVRC12 */
+		RESNET_18,	/**< ResNet-18 trained on 1000-class ILSVRC15 */
+		RESNET_50,	/**< ResNet-50 trained on 1000-class ILSVRC15 */
+		RESNET_101,	/**< ResNet-101 trained on 1000-class ILSVRC15 */
+		RESNET_152,	/**< ResNet-50 trained on 1000-class ILSVRC15 */
+		VGG_16,		/**< VGG-16 trained on 1000-class ILSVRC14 */
+		VGG_19,		/**< VGG-19 trained on 1000-class ILSVRC14 */
+		INCEPTION_V4,	/**< Inception-v4 trained on 1000-class ILSVRC12 */
 	};
-
 
 	/**
 	 * Parse a string to one of the built-in pretrained models.
-	 * Valid names are "alexnet", "googlenet", "googlenet-12", or "googlenet_12".
+	 * Valid names are "alexnet", "googlenet", "googlenet-12", or "googlenet_12", ect.
 	 * @returns one of the imageNet::NetworkType enums, or imageNet::CUSTOM on invalid string.
 	 */
 	static NetworkType NetworkTypeFromStr( const char* model_name );
 
+	/**
+	 * Convert a NetworkType enum to a string.
+	 */
+	static const char* NetworkTypeToStr( NetworkType network );
 
 	/**
 	 * Load a new network instance
@@ -165,7 +171,7 @@ public:
 	/**
  	 * Retrieve a string describing the network name.
 	 */
-	inline const char* GetNetworkName() const					{ if(mNetworkType == GOOGLENET) return "googlenet"; else if(mNetworkType == GOOGLENET_12) return "googlenet_12"; else if(mNetworkType == ALEXNET) return "alexnet"; else return "custom"; }
+	inline const char* GetNetworkName() const					{ NetworkTypeToStr(mNetworkType); }
 
 protected:
 	imageNet();

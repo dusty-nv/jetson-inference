@@ -21,6 +21,7 @@
  */
  
 #include "detectNet.h"
+#include "imageNet.cuh"
 
 #include "cudaMappedMemory.h"
 #include "cudaFont.h"
@@ -569,12 +570,6 @@ inline static bool rectOverlap(const float6& r1, const float6& r2)
 #endif
 
 
-// from imageNet.cu
-cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, cudaStream_t stream );	
-cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value, cudaStream_t stream );
-cudaError_t cudaPreImageNetNorm( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float2& range, cudaStream_t stream );
-
-
 // Detect
 int detectNet::Detect( float* input, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay )
 {
@@ -603,10 +598,9 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
-	// downsample and convert to band-sequential BGR
 	if( IsModelType(MODEL_UFF) )
 	{
-		if( CUDA_FAILED(cudaPreImageNetNorm((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
+		if( CUDA_FAILED(cudaPreImageNetNormBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
 										  make_float2(-1.0f, 1.0f), GetStream())) )
 		{
 			printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNetNorm() failed\n");
@@ -617,7 +611,7 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 	{
 		if( mMeanPixel != 0.0f )
 		{
-			if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
+			if( CUDA_FAILED(cudaPreImageNetMeanBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
 										  make_float3(mMeanPixel, mMeanPixel, mMeanPixel), GetStream())) )
 			{
 				printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNetMean() failed\n");
@@ -626,7 +620,7 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 		}
 		else
 		{
-			if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
+			if( CUDA_FAILED(cudaPreImageNetBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
 			{
 				printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNet() failed\n");
 				return -1;

@@ -235,17 +235,42 @@ function download_resnet152()
 	download_archive "ResNet-152.tar.gz" "https://nvidia.box.com/shared/static/6t621ru1i054vscvhx3rqck8597es7w8.gz" 
 }
 
+function download_vgg16()
+{
+	echo "$LOG Downloading VGG-16..."
+	download_archive "VGG-16.tar.gz" "https://nvidia.box.com/shared/static/ar2ttdpnw1drzxnvpw0umzkw67fka3h0.gz" 
+}
+
+function download_vgg19()
+{
+	echo "$LOG Downloading VGG-19..."
+	download_archive "VGG-19.tar.gz" "https://nvidia.box.com/shared/static/1ubk73f1akhh4h7mo0iq7erars7j5yyu.gz" 
+}
+
+function download_inception_v4()
+{
+	echo "$LOG Downloading Inception-v4..."
+	download_archive "Inception-v4.tar.gz" "https://nvidia.box.com/shared/static/maidbjiwkg6bz2bk7drwq7rj8v4whdl9.gz" 
+}
+
 function download_recognition()
 {
 	echo "$LOG Downloading all Image Recognition models..."
 
 	download_alexnet
+
 	download_googlenet
 	download_googlenet12
+
 	download_resnet18
 	download_resnet50
 	download_resnet101
 	download_resnet152
+
+	download_vgg16
+	download_vgg19
+
+	download_inception_v4
 
 	ALL_RECOGNITION=1
 }
@@ -493,7 +518,7 @@ while true; do
 							  --colors \
 							  --checklist "Keys:\n  ↑↓  Navigate Menu\n  Space to Select Models \n  Enter to Continue" 20 80 10 \
 							  --output-fd 1 \
-							  1 "\ZbImage Recognition - all models  (910 MB)\Zn" off \
+							  1 "\ZbImage Recognition - all models  (2.2 GB)\Zn" off \
 							  2 "   > AlexNet                    (244 MB)" off \
 							  3 "   > GoogleNet                  (54 MB)" on \
 							  4 "   > GoogleNet-12               (42 MB)" off \
@@ -501,28 +526,31 @@ while true; do
 							  6 "   > ResNet-50                  (102 MB)" off \
 							  7 "   > ResNet-101                 (179 MB)" off \
 							  8 "   > ResNet-152                 (242 MB)" off \
-							  9 "\ZbObject Detection - all models   (395 MB)\Zn" off \
-							  10 "   > SSD-Mobilenet-v1           (27 MB)" off \
-							  11 "   > SSD-Mobilenet-v2           (68 MB)" on \
-							  12 "   > SSD-Inception-v2           (100 MB)" off \
-							  13 "   > PedNet                     (30 MB)" on \
-							  14 "   > MultiPed                   (30 MB)" off \
-							  15 "   > FaceNet                    (24 MB)" on \
-							  16 "   > DetectNet-COCO-Dog         (29 MB)" on \
-							  17 "   > DetectNet-COCO-Bottle      (29 MB)" off \
-							  18 "   > DetectNet-COCO-Chair       (29 MB)" off \
-							  19 "   > DetectNet-COCO-Airplane    (29 MB)" off \
-							  20 "\ZbSemantic Segmentation - all     (1.4 GB)\Zn" off \
-							  21 "   > FCN-Alexnet-Cityscapes-SD  (235 MB)" off \
-							  22 "   > FCN-Alexnet-Cityscapes-HD  (235 MB)" off \
-							  23 "   > FCN-Alexnet-Aerial-FPV     (7 MB)" on \
-							  24 "   > FCN-Alexnet-Pascal-VOC     (235 MB)" off \
-							  25 "   > FCN-Alexnet-Synthia-CVPR   (235 MB)" off \
-							  26 "   > FCN-Alexnet-Synthia-Summer-SD (235 MB)" off \
-							  27 "   > FCN-Alexnet-Synthia-Summer-HD (235 MB)" off \
-							  28 "\ZbImage Processing - all models   (138 MB)\Zn" off \
-							  29 "   > Deep-Homography-COCO       (137 MB)" off \
-							  30 "   > Super-Resolution-BSD500    (1 MB)" off )
+							  9 "   > VGG-16                     (554 MB)" off \
+							  10 "   > VGG-19                     (575 MB)" off \
+							  11 "   > Inception-v4               (172 MB)" off \
+							  12 "\ZbObject Detection - all models   (395 MB)\Zn" off \
+							  13 "   > SSD-Mobilenet-v1           (27 MB)" off \
+							  14 "   > SSD-Mobilenet-v2           (68 MB)" on \
+							  15 "   > SSD-Inception-v2           (100 MB)" off \
+							  16 "   > PedNet                     (30 MB)" on \
+							  17 "   > MultiPed                   (30 MB)" off \
+							  18 "   > FaceNet                    (24 MB)" on \
+							  19 "   > DetectNet-COCO-Dog         (29 MB)" on \
+							  20 "   > DetectNet-COCO-Bottle      (29 MB)" off \
+							  21 "   > DetectNet-COCO-Chair       (29 MB)" off \
+							  22 "   > DetectNet-COCO-Airplane    (29 MB)" off \
+							  23 "\ZbSemantic Segmentation - all     (1.4 GB)\Zn" off \
+							  24 "   > FCN-Alexnet-Cityscapes-SD  (235 MB)" off \
+							  25 "   > FCN-Alexnet-Cityscapes-HD  (235 MB)" off \
+							  26 "   > FCN-Alexnet-Aerial-FPV     (7 MB)" on \
+							  27 "   > FCN-Alexnet-Pascal-VOC     (235 MB)" off \
+							  28 "   > FCN-Alexnet-Synthia-CVPR   (235 MB)" off \
+							  29 "   > FCN-Alexnet-Synthia-Summer-SD (235 MB)" off \
+							  30 "   > FCN-Alexnet-Synthia-Summer-HD (235 MB)" off \
+							  31 "\ZbImage Processing - all models   (138 MB)\Zn" off \
+							  32 "   > Deep-Homography-COCO       (137 MB)" off \
+							  33 "   > Super-Resolution-BSD500    (1 MB)" off )
 
 	model_selection_status=$?
 	clear
@@ -554,49 +582,55 @@ while true; do
 					download_resnet101
 				elif [ $model = 8 ] && [ -z $ALL_RECOGNITION ]; then
 					download_resnet152
-				elif [ $model = 9 ]; then
+				elif [ $model = 9 ] && [ -z $ALL_RECOGNITION ]; then
+					download_vgg16
+				elif [ $model = 10 ] && [ -z $ALL_RECOGNITION ]; then
+					download_vgg19
+				elif [ $model = 8 ] && [ -z $ALL_RECOGNITION ]; then
+					download_inception_v4
+				elif [ $model = 12 ]; then
 					download_detection
-				elif [ $model = 10 ] && [ -z $ALL_DETECTION ]; then
-					download_ssd_mobilenet_v1
-				elif [ $model = 11 ] && [ -z $ALL_DETECTION ]; then
-					download_ssd_mobilenet_v2
-				elif [ $model = 12 ] && [ -z $ALL_DETECTION ]; then
-					download_ssd_inception_v2
 				elif [ $model = 13 ] && [ -z $ALL_DETECTION ]; then
-					download_pednet
+					download_ssd_mobilenet_v1
 				elif [ $model = 14 ] && [ -z $ALL_DETECTION ]; then
-					download_multiped
+					download_ssd_mobilenet_v2
 				elif [ $model = 15 ] && [ -z $ALL_DETECTION ]; then
-					download_facenet
+					download_ssd_inception_v2
 				elif [ $model = 16 ] && [ -z $ALL_DETECTION ]; then
-					download_detectnet_coco_dog
+					download_pednet
 				elif [ $model = 17 ] && [ -z $ALL_DETECTION ]; then
-					download_detectnet_coco_bottle
+					download_multiped
 				elif [ $model = 18 ] && [ -z $ALL_DETECTION ]; then
-					download_detectnet_coco_chair
+					download_facenet
 				elif [ $model = 19 ] && [ -z $ALL_DETECTION ]; then
+					download_detectnet_coco_dog
+				elif [ $model = 20 ] && [ -z $ALL_DETECTION ]; then
+					download_detectnet_coco_bottle
+				elif [ $model = 21 ] && [ -z $ALL_DETECTION ]; then
+					download_detectnet_coco_chair
+				elif [ $model = 22 ] && [ -z $ALL_DETECTION ]; then
 					download_detectnet_coco_airplane
-				elif [ $model = 20 ]; then
+				elif [ $model = 23 ]; then
 					download_segmentation
-				elif [ $model = 21 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_cityscapes_sd
-				elif [ $model = 22 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_cityscapes_hd
-				elif [ $model = 23 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_aerial_fpv
 				elif [ $model = 24 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_pascal_voc
+					download_fcn_cityscapes_sd
 				elif [ $model = 25 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_synthia_cvpr
+					download_fcn_cityscapes_hd
 				elif [ $model = 26 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_synthia_summer_sd
+					download_fcn_aerial_fpv
 				elif [ $model = 27 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_pascal_voc
+				elif [ $model = 28 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_synthia_cvpr
+				elif [ $model = 29 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_synthia_summer_sd
+				elif [ $model = 30 ] && [ -z $ALL_SEGMENTATION ]; then
 					download_fcn_synthia_summer_hd
-				elif [ $model = 28 ]; then
+				elif [ $model = 31 ]; then
 					download_image_processing
-				elif [ $model = 29 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
+				elif [ $model = 32 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
 					download_deep_homography_coco
-				elif [ $model = 30 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
+				elif [ $model = 33 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
 					download_super_resolution_bsd500
 				fi
 			done

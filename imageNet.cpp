@@ -21,6 +21,7 @@
  */
  
 #include "imageNet.h"
+#include "imageNet.cuh"
 
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
@@ -104,6 +105,12 @@ bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize,
 		return init( "networks/ResNet-101/deploy.prototxt", "networks/ResNet-101/ResNet-101.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
 	else if( networkType == imageNet::RESNET_152 )
 		return init( "networks/ResNet-152/deploy.prototxt", "networks/ResNet-152/ResNet-152.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
+	else if( networkType == imageNet::VGG_16 )
+		return init( "networks/VGG-16/deploy.prototxt", "networks/VGG-16/VGG-16.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );
+	else if( networkType == imageNet::VGG_19 )
+		return init( "networks/VGG-19/deploy.prototxt", "networks/VGG-19/VGG-19.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
+	else if( networkType == imageNet::INCEPTION_V4 )
+		return init( "networks/Inception-v4/deploy.prototxt", "networks/Inception-v4/Inception-v4.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );	
 	else
 		return NULL;
 }
@@ -176,12 +183,38 @@ imageNet::NetworkType imageNet::NetworkTypeFromStr( const char* modelName )
 		type = imageNet::RESNET_101;
 	else if( strcasecmp(modelName, "resnet-152") == 0 || strcasecmp(modelName, "resnet_152") == 0 || strcasecmp(modelName, "resnet152") == 0 )
 		type = imageNet::RESNET_152;
+	else if( strcasecmp(modelName, "vgg-16") == 0 || strcasecmp(modelName, "vgg_16") == 0 || strcasecmp(modelName, "vgg16") == 0 )
+		type = imageNet::VGG_16;
+	else if( strcasecmp(modelName, "vgg-19") == 0 || strcasecmp(modelName, "vgg_19") == 0 || strcasecmp(modelName, "vgg19") == 0 )
+		type = imageNet::VGG_19;
+	else if( strcasecmp(modelName, "inception-v4") == 0 || strcasecmp(modelName, "inception_v4") == 0 || strcasecmp(modelName, "inceptionv4") == 0 )
+		type = imageNet::INCEPTION_V4;
 	else
 		type = imageNet::CUSTOM;
 
 	return type;
 }
 
+
+// NetworkTypeToStr
+const char* imageNet::NetworkTypeToStr( imageNet::NetworkType network )
+{
+	switch(network)
+	{
+		case imageNet::ALEXNET:		return "AlexNet";
+		case imageNet::GOOGLENET:	return "GoogleNet";
+		case imageNet::GOOGLENET_12:	return "GoogleNet-12";
+		case imageNet::RESNET_18:	return "ResNet-18";
+		case imageNet::RESNET_50:	return "ResNet-50";
+		case imageNet::RESNET_101:	return "ResNet-101";
+		case imageNet::RESNET_152:	return "ResNet-152";
+		case imageNet::VGG_16:		return "VGG-16";
+		case imageNet::VGG_19:		return "VGG-19";
+		case imageNet::INCEPTION_V4:	return "Inception-v4";
+	}
+
+	return "Custom";
+}
 
 
 // Create
@@ -305,11 +338,6 @@ bool imageNet::loadClassInfo( const char* filename )
 }
 
 
-
-// from imageNet.cu
-cudaError_t cudaPreImageNetMean( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float3& mean_value, cudaStream_t stream );
-					
-
 // PreProcess
 bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 {
@@ -322,13 +350,25 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
-	// downsample and convert to band-sequential BGR
-	if( CUDA_FAILED(cudaPreImageNetMean((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
-								 make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f),
-								 GetStream())) )
+	if( mNetworkType == imageNet::INCEPTION_V4 )
 	{
-		printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetMean() failed\n");
-		return false;
+		// downsample, convert to band-sequential RGB, and apply pixel normalization
+		if( CUDA_FAILED(cudaPreImageNetNormRGB((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, make_float2(-1.0f, 1.0f), GetStream())) )
+		{
+			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetMean() failed\n");
+			return false;
+		}
+	}
+	else
+	{
+		// downsample, convert to band-sequential BGR, and apply mean pixel subtraction 
+		if( CUDA_FAILED(cudaPreImageNetMeanBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
+									    make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f),
+									    GetStream())) )
+		{
+			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetMean() failed\n");
+			return false;
+		}
 	}
 
 	PROFILER_END(PROFILER_PREPROCESS);

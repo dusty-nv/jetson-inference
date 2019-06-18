@@ -74,12 +74,12 @@ superResNet* superResNet::Create()
 }
 
 
-// cudaPreSuperResNet
+// cudaPreSuperResNet (from superResNet.cu)
 cudaError_t cudaPreSuperResNet( float4* input, size_t inputWidth, size_t inputHeight,
 				            float* output, size_t outputWidth, size_t outputHeight,
 					       float maxPixelValue, cudaStream_t stream );
 
-// cudaPostSuperResNet
+// cudaPostSuperResNet (from superResNet.cu)
 cudaError_t cudaPostSuperResNet( float* input, size_t inputWidth, size_t inputHeight,
 				             float4* output, size_t outputWidth, size_t outputHeight,
 					        float maxPixelValue, cudaStream_t stream );

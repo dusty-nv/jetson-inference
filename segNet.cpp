@@ -21,6 +21,7 @@
  */
  
 #include "segNet.h"
+#include "imageNet.cuh"
 
 #include "cudaMappedMemory.h"
 #include "cudaOverlay.h"
@@ -414,12 +415,6 @@ int segNet::FindClassID( const char* label_name )
 }
 
 
-
-// declaration from imageNet.cu
-cudaError_t cudaPreImageNet( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, cudaStream_t stream );	
-
-
-
 // Process
 bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* ignore_class )
 {
@@ -432,7 +427,7 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
 	// downsample and convert to band-sequential BGR
-	if( CUDA_FAILED(cudaPreImageNet((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
+	if( CUDA_FAILED(cudaPreImageNetBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
 	{
 		printf("segNet::Process() -- cudaPreImageNet failed\n");
 		return false;
