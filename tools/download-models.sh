@@ -54,7 +54,7 @@ function retry_prompt()
 			  --extra-label "Next" \
 			  --cancel-label "Quit" \
 			  --ok-label "Retry" \
-			  --yesno "\nFailed to download '$1' (error code=$2)\n\nWould you like to try downloading it again?\n\n\ZbNote:\Zn  if this error keeps occuring, make sure\n       that you can connect to Box.com" 12 60
+			  --yesno "\nFailed to download '$1' (error code=$2)\n\nWould you like to try downloading it again?\n\n\ZbNote:\Zn  if this error keeps occuring, see here:\n https://github.com/dusty-nv/jetson-inference/releases" 12 60
 
 	local retry_status=$?
 	clear
