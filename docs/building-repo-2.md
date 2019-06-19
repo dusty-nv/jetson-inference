@@ -181,7 +181,7 @@ public:
 	/**
 	 * Retrieve the description of a particular class.
 	 */
-	inline const char* GetClassDesc( uint32_t index )	const          { return mClassDesc[index].c_str(); }
+	inline const char* GetClassDesc( uint32_t index ) const          { return mClassDesc[index].c_str(); }
 };
 ```
 
