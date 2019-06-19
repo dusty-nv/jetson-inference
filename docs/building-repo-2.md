@@ -104,7 +104,7 @@ Depending on architecture, the project will be built to either `aarch64` or `arm
 
 In the build tree, you can find the binaries residing in `build/aarch64/bin/`, headers in `build/aarch64/include/`, and libraries in `build/aarch64/lib/`.  These also get installed under `/usr/local/` during the `sudo make install` step.
 
-The Python bindings for the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) packages also get installed during this `sudo make install` step under `/usr/lib/python*/dist-packages/`.
+The Python bindings for the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) packages also get installed during the `sudo make install` step under `/usr/lib/python*/dist-packages/`.  If you update the code, remember to run it again.
  
 
 ### Digging Into the Code
@@ -113,9 +113,7 @@ See the **[API Reference](../README.md#api-reference)** documentation for the vi
 
 #### C++
 
-Below is a partial listing of the [`imageNet`](../imageNet.h) C++ class that we'll use in upcoming steps of the tutorial.
-
-The main functions to use are `Create()` and `Classify()`, followed by `GetClassDesc()` to get the object description.
+Below is a partial listing of the [`imageNet`](../imageNet.h) C++ class that we'll use in upcoming steps of the tutorial:
 
 ``` c++
 class imageNet : public tensorNet
@@ -207,8 +205,7 @@ jetson.inference.imageNet = class imageNet(tensorNet)
  |  
  |         argv (strings) -- command line arguments passed to imageNet,
  |                           for loading a custom model or custom settings
- |  Methods defined here:
- |  
+ |
  |  Classify(...)
  |      Classify an RGBA image and return the object's class and confidence.
  |      
