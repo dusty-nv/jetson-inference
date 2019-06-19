@@ -33,9 +33,9 @@ Next, let's classify an example image with the `imagenet-console` program, using
 
 `imagenet-console` accepts 3 command-line arguments:  
 
-- the path to the input image
-- the path to the output image
-- an optional `--network` flag which changes the classificaton model being used (the default network is GoogleNet).  
+- the path to the input image  (jpg, png, tga, or bmp)
+- optional path to the output image  (jpg, png, tga, or bmp)
+- optional `--network` flag which changes the classificaton model being used (the default network is GoogleNet).  
 
 These command line parameters are the same between the C++ and Python versions.  Note that you can launch either applications with the `--help` flag to recieve more info about using them, in addition to seeing the [`Examples`](../README.md#Examples) readme.
 
