@@ -8,11 +8,20 @@ There are multiple types of deep learning networks available, including recognit
 
 [`imageNet`](../imageNet.h) accepts an input image and outputs the probability for each class.  Having been trained on the ImageNet ILSVRC dataset of **[1000 objects](../data/networks/ilsvrc12_synset_words.txt)**, the GoogleNet and ResNet-18 models were automatically downloaded during the build step.  See below for other classification models that can be downloaded and used as well.
 
-As examples of using [`imageNet`](../imageNet.h) we provide versions of a command-line interface for C++ and Python called [`imagenet-console.cpp`](../examples/imagenet-console/imagenet-console.cpp) (C++) and [`imagenet-console.py`](../python/examples/imagenet-console.py) (Python).  There's also versions of a live camera recognition program for C++ and Python called [`imagenet-camera.cpp`](../examples/imagenet-camera/imagenet-camera.cpp) and [`imagenet-camera.py`](../python/examples/imagenet-camera.py).
+As examples of using [`imageNet`](../imageNet.h) we provide versions of a command-line interface for C++ and Python:
+
+    * [`imagenet-console.cpp`](../examples/imagenet-console/imagenet-console.cpp) (C++) 
+    * [`imagenet-console.py`](../python/examples/imagenet-console.py) (Python) 
+
+Later in the tutorial, we'll also cover versions of a live camera recognition program for C++ and Python:
+
+    * [`imagenet-camera.cpp`](../examples/imagenet-camera/imagenet-camera.cpp)
+    * [`imagenet-camera.py`](../python/examples/imagenet-camera.py)
+
 
 ### Using the Console Program on Jetson
 
-First, try using the [`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) program to test imageNet recognition on some example images.  It loads an image, uses TensorRT and the [`imageNet`](../imageNet.h) class to perform the inference, then overlays the classification result and saves the output image.
+First, let's try using the `imagenet-console` program to test imageNet recognition on some example images.  It loads an image, uses TensorRT and the `imageNet` class to perform the inference, then overlays the classification result and saves the output image.  The repo comes with some sample images for you to use.
 
 After [building](#building-repo-2.md) the repo, make sure your terminal is located in the `aarch64/bin` directory:
 
@@ -20,9 +29,9 @@ After [building](#building-repo-2.md) the repo, make sure your terminal is locat
 $ cd jetson-inference/build/aarch64/bin
 ```
 
-Next, let's classify an example image with the [`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) program, using either the C++ or Python variants.  
+Next, let's classify an example image with the `imagenet-console` program, using either the [C++](../examples/imagenet-console/imagenet-console.cpp) or [Python](../python/examples/imagenet-console.py) variants.  
 
-[`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) accepts 3 command-line arguments:  the path to the input image and path to the output image, along with an optional `--network` flag which changes the classificaton model being used (the default network is GoogleNet).  These command line parameters are the same between the C++ and Python versions.  Note that you can launch either with the `--help` flag to recieve more info about using them.
+`imagenet-console` accepts 3 command-line arguments:  the path to the input image and path to the output image, along with an optional `--network` flag which changes the classificaton model being used (the default network is GoogleNet).  These command line parameters are the same between the C++ and Python versions.  Note that you can launch either with the `--help` flag to recieve more info about using them.
 
 #### C++
 ``` bash
@@ -79,7 +88,7 @@ Generally the more complex networks can have greater accuracy, with increased ru
 
 ### Using Different Classification Models
 
-You can specify which model to use at runtime by setting the `--network` flag on the command line.
+You can specify which model to use at runtime by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.
 
 Below are some examples of using the ResNet-18 model:
 
