@@ -52,7 +52,7 @@ public:
 	 */
 	enum NetworkType
 	{
-		CUSTOM,
+		CUSTOM,        /**< Custom model provided by the user */
 		ALEXNET,		/**< AlexNet trained on 1000-class ILSVRC12 */
 		GOOGLENET,	/**< GoogleNet trained 1000-class ILSVRC12 */
 		GOOGLENET_12,	/**< GoogleNet trained on 12-class subset of ImageNet ILSVRC12 from the tutorial */

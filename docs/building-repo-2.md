@@ -26,33 +26,34 @@ $ git submodule update --init
 
 ### Python Development Packages
 
-The Python functionality of this project is implemented through Python extension modules that provide bindings to the the native C++ code using the Python C API.  While building these Python bindings, the repo will search for versions of Python that have development packages installed, and build the bindings for each version of Python that's present (e.g. Python 2.7, 3.6, and 3.7).  It will also build bindings for versions of numpy that are installed.
+The Python functionality of this project is implemented through Python extension modules that provide bindings to the native C++ code using the Python C API.  While building these Python bindings, the repo searches for versions of Python that have development packages installed, and will then build the bindings for each version of Python that's present (e.g. Python 2.7, 3.6, and 3.7).  It will also build numpy bindings for versions of numpy that are installed.
 
-By default, Ubuntu comes with the `libpython-dev` and `python-numpy` packages pre-installed (which are for Python 2.7).  Although the Python 3.6 interpreter is pre-installed by Ubuntu, the Python 3.6 development packages (`libpython3-dev`) and `python3-numpy` are not.  These development packages are required for the bindings to use the Python C API.  So if you want the project to build bindings for Python 3.6, install these packages before proceeding:
+By default, Ubuntu comes with the `libpython-dev` and `python-numpy` packages pre-installed (which are for Python 2.7).  Although the Python 3.6 interpreter is pre-installed by Ubuntu, the Python 3.6 development packages (`libpython3-dev`) and `python3-numpy` are not.  These development packages are required for the bindings to build using the Python C API.  So if you want the project to have bindings created for Python 3.6, install these packages before proceeding:
 
 ``` bash
 $ sudo apt-get install libpython3-dev python3-numpy
 ``` 
 
-These additional packages will enable the repo to build the bindings for Python 3.6, in addition to Python 2.7 (which is already pre-installed).  Building these bindings will install the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) packages to use within your Python environments.
+Installing these additional packages will enable the repo to build the bindings for Python 3.6, in addition to Python 2.7 (which is already pre-installed).  Then after the build process, the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) packages will be available to use within your Python environments.
 
 
 ### Configuring with CMake
 
-Next, create a build directory and run `cmake` to configure the project.  When `cmake` is run, a special pre-installation script ([`CMakePreBuild.sh`](../CMakePreBuild.sh)) is run and will automatically install any dependencies, in addition to running the Model Downloader tool ([`download-models.sh`](../tools/download-models.sh)).
+Next, create a build directory within the project and run `cmake` to configure the build.  When `cmake` is run, a special pre-installation script ([`CMakePreBuild.sh`](../CMakePreBuild.sh)) is run and will automatically install any dependencies, in addition to running the [Model Downloader](#downloading-models) tool.
 
 ``` bash
+$ cd jetson-inference    # omit if pwd is already jetson-inference from above
 $ mkdir build
 $ cd build
 $ cmake ../
 ```
 
-> **note**: this command will launch the `CMakePreBuild.sh` script which asks for sudo privileges while installing some prerequisite packages on the Jetson. The script also downloads pre-trained networks from web services.
+> **note**: this command will launch the [`CMakePreBuild.sh`](../CMakePreBuild.sh) script which asks for sudo privileges while installing some prerequisite packages on the Jetson. The script also downloads pre-trained networks from web services.
 
 
 ### Downloading Models
 
-The repo comes with many pre-trained networks that can you can choose to have downloaded and installed through the ([Model Downloader](../tools/download-models.sh)) tool.  By default, not all of the models are selected for download to save disk space.  You are welcome to select the models you wish, or run the tool again later to download more models at a later date.
+The repo comes with many pre-trained networks that can you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are selected for download to save disk space.  You are welcome to select the models you wish, or run the tool again later to download more models at a later date.
 
 When initially configuring the repo, `cmake` will automatically run the downloader tool for you:
 
@@ -70,7 +71,9 @@ $ ./download-models.sh
 
 ### Compiling the Project
 
-Make sure you are still in the jetson-inference/build directory, created above in step #2.
+Make sure you are still in the `jetson-inference/build` directory, created above in step #3.
+
+Then run `make` followed by `sudo make install` to build the code:
 
 ``` bash
 $ cd jetson-inference/build			# omit if pwd is already /build from above
@@ -97,7 +100,7 @@ In the build tree, you can find the binaries residing in `build/aarch64/bin`, he
 
 ### Digging Into the Code
 
-See the [`API Reference`](../README.md#api-reference) for the available vision primitives, including `imageNet` for image recognition, `detectNet` for object localization, and `segNet` for semantic segmentation.  Familiarize yourself with the C++ or Python versions of these objects, depending on which language you prefer to use.
+See the **[API Reference](../README.md#api-reference)** for the available vision primitives, including `imageNet` for image recognition, `detectNet` for object localization, and `segNet` for semantic segmentation.  Familiarize yourself with the C++ or Python versions of these objects, depending on which language you prefer to use.
 
 #### C++
 
@@ -112,8 +115,8 @@ public:
 	 */
 	enum NetworkType
 	{
-		CUSTOM,
-		ALEXNET,		/**< AlexNet trained on 1000-class ILSVRC12 */
+		CUSTOM,        /**< Custom model provided by the user */
+		ALEXNET,       /**< AlexNet trained on 1000-class ILSVRC12 */
 		GOOGLENET,	/**< GoogleNet trained 1000-class ILSVRC12 */
 		GOOGLENET_12,	/**< GoogleNet trained on 12-class subset of ImageNet ILSVRC12 from the tutorial */
 		RESNET_18,	/**< ResNet-18 trained on 1000-class ILSVRC15 */
@@ -164,12 +167,12 @@ public:
 	/**
 	 * Retrieve the number of image recognition classes (typically 1000)
 	 */
-	inline uint32_t GetNumClasses() const						{ return mOutputClasses; }
+	inline uint32_t GetNumClasses() const                            { return mOutputClasses; }
 	
 	/**
 	 * Retrieve the description of a particular class.
 	 */
-	inline const char* GetClassDesc( uint32_t index )	const		{ return mClassDesc[index].c_str(); }
+	inline const char* GetClassDesc( uint32_t index )	const          { return mClassDesc[index].c_str(); }
 };
 ```
 
@@ -179,7 +182,7 @@ All of the DNN objects in the repo inherit from the shared [`tensorNet`](../tens
 
 Below is the abbreviated pydoc output of the Python [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) object from the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) package:
 
-``` python
+```
 jetson.inference.imageNet = class imageNet(tensorNet)
  |  Image Recognition DNN - classifies an image
  |  
