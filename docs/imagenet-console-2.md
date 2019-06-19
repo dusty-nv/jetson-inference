@@ -73,7 +73,7 @@ $ ./imagenet-console.py granny_smith_1.jpg output_1.jpg
 
 By default, the repo is set to download the GoogleNet and ResNet-18 networks during the build step.
 
-There are other pre-trained models that you can use as well, if you choose to download them:
+There are other pre-trained models that you can use as well, if you choose to [download](building-repo-2.md#downloading-models) them:
 
 | Network       | CLI argument   | NetworkType enum |
 | --------------|----------------|------------------|
