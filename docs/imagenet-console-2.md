@@ -32,10 +32,10 @@ $ ./imagenet-console --network=googlenet orange_0.jpg output_0.jpg  # --network 
 $ ./imagenet-console.py --network=googlenet orange_0.jpg output_0.jpg  # --network flag is optional
 ```
 
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="500">
+
 > **note**:  the first time you run the program, TensorRT may take up to a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is cached to disk after the first run, so future runs will load faster.
-
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="500">
 
 #### C++
 ``` bash
@@ -86,10 +86,10 @@ $ ./imagenet-console --network=resnet-18 jellyfish.jpg output_jellyfish.jpg
 
 #### Python
 ``` bash
-$ ./imagenet-console --network=resnet-18 jellyfish.jpg output_jellyfish.jpg
+$ ./imagenet-console.py --network=resnet-18 jellyfish.jpg output_jellyfish.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/imagenet-jellyfish.jpg" width="500">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_jellyfish.jpg" width="500">
 
 #### C++
 ``` bash
@@ -98,22 +98,22 @@ $ ./imagenet-console --network=resnet-18 stingray.jpg output_stingray.jpg
 
 #### Python
 ``` bash
-$ ./imagenet-console --network=resnet-18 stingray.jpg output_stingray.jpg
+$ ./imagenet-console.py --network=resnet-18 stingray.jpg output_stingray.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/imagenet-stingray.jpg" width="500">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet-stingray.jpg" width="500">
 
 #### C++
 ``` bash
-$ ./imagenet-console --network=resnet-18 coral.jpg output_coral.jpg
+$ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
 ```
 
 #### Python
 ``` bash
-$ ./imagenet-console --network=resnet-18 coral.jpg output_coral.jpg
+$ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/imagenet-coral.jpg" width="500">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet-coral.jpg" width="500">
 
 
 Next, we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
