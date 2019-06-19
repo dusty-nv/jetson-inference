@@ -5,7 +5,7 @@
 
 # Building the Project from Source
 
-Provided along with this repo are TensorRT-enabled deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  The code is intended to be built & run on the Jetson, and includes support for both C++ and Python.  Various pre-trained models are automatically downloaded to get you up and running quickly.  It's also setup to accept customized network models that you may have trained yourself.
+Provided with this repo is a library of TensorRT-accelerated deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  This inferencing library (`libjetson-inference`) is intended to be built & run on the Jetson, and includes support for both C++ and Python.  Various pre-trained models are automatically downloaded to get you up and running quickly.  It's also setup to accept customized network models that you may have trained yourself.
 
 The latest source can be obtained from [GitHub](http://github.com/dusty-nv/jetson-inference) and compiled onboard Jetson Nano, Jetson TX1/TX2, and Jetson AGX Xavier.
       
@@ -73,7 +73,7 @@ $ ./download-models.sh
 
 Make sure you are still in the `jetson-inference/build` directory, created above in step #3.
 
-Then run `make` followed by `sudo make install` to build the code:
+Then run `make` followed by `sudo make install` to build the libraries and code samples:
 
 ``` bash
 $ cd jetson-inference/build			# omit if pwd is already /build from above
@@ -81,26 +81,30 @@ $ make
 $ sudo make install
 ```
 
-Depending on architecture, the package will be built to either armhf or aarch64, with the following directory structure:
+This will build the libraries (`libjetson-inference` and `libjetson-utils`) and Python bindings, along with several example applications that we'll use throughout the tutorial.
+
+Depending on architecture, the project will be built to either `aarch64` or `armhf`, with the following directory structure:
 
 ```
 |-build
    \aarch64         (64-bit)
       \bin             where the sample binaries are built to
       \include         where the headers reside
-      \lib		   where the libraries are build to
+      \lib             where the libraries are build to
    \armhf           (32-bit)
       \bin		   where the sample binaries are built to
       \include		   where the headers reside
-      \lib		   where the libraries are build to
+      \lib             where the libraries are build to
 ```
 
-In the build tree, you can find the binaries residing in `build/aarch64/bin`, headers in `build/aarch64/include`, and libraries in `build/aarch64/lib`.  These also get installed under `/usr` during the `sudo make install` step run above.  The Python bindings for the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) packages also get installed during this `sudo make install` step.
+In the build tree, you can find the binaries residing in `build/aarch64/bin/`, headers in `build/aarch64/include/`, and libraries in `build/aarch64/lib/`.  These also get installed under `/usr/local/` during the `sudo make install` step run above.  
+
+The Python bindings for the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) packages also get installed during this `sudo make install` step under `/usr/lib/python*/dist-packages/`.
  
 
 ### Digging Into the Code
 
-See the **[API Reference](../README.md#api-reference)** for the available vision primitives, including `imageNet` for image recognition, `detectNet` for object localization, and `segNet` for semantic segmentation.  Familiarize yourself with the C++ or Python versions of these objects, depending on which language you prefer to use.
+See the **[API Reference](../README.md#api-reference)** documentation available for the vision primitives, including `imageNet` for image recognition, `detectNet` for object localization, and `segNet` for semantic segmentation.  Familiarize yourself with the C++ or Python versions of these objects, depending on which language you prefer to use.
 
 #### C++
 
@@ -228,7 +232,7 @@ jetson.inference.imageNet = class imageNet(tensorNet)
 ----------------------------------------------------------------------
 ```
 
-Next, we'll use the `imageNet` object to perform image recognition.
+Next, we'll use the `imageNet` object to perform image recognition in Python or C++.
 
 ##
 <p align="right">Next | <b><a href="imagenet-console-2.md">Classifying Images with ImageNet</a></b>
