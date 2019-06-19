@@ -4,9 +4,9 @@
 <sup>Image Recognition</sup></p>  
 
 # Classifying Images with ImageNet
-There are multiple types of deep learning networks available, including recognition, detection/localization, and semantic segmentation.  The first deep learning capability we're highlighting in this tutorial is **image recognition** using image classifcation networks that have been trained to identify scenes and objects.
+There are multiple types of deep learning networks available, including recognition, detection/localization, and semantic segmentation.  The first deep learning capability we're highlighting in this tutorial is **image recognition** using classifcation networks that have been trained to identify scenes and objects.
 
-[`imageNet`](../imageNet.h) accepts an input image and outputs the probability for each class.  Having been trained on the ImageNet ILSVRC dataset of **[1000 objects](../data/networks/ilsvrc12_synset_words.txt)**, the GoogleNet and ResNet-18 models were automatically downloaded during the build step.  See below for other classification models that can be downloaded and used as well.
+[`imageNet`](../imageNet.h) accepts an input image and outputs the probability for each class.  Having been trained on the ImageNet ILSVRC dataset of **[1000 objects](../data/networks/ilsvrc12_synset_words.txt)**, the GoogleNet and ResNet-18 models were automatically downloaded during the build step.  See [below](#downloading-other-classification-models) for other classification models that can be downloaded and used as well.
 
 As examples of using [`imageNet`](../imageNet.h) we provide versions of a command-line interface for C++ and Python:
 
@@ -96,7 +96,7 @@ Generally the more complex networks can have greater accuracy, with increased ru
 
 ### Using Different Classification Models
 
-You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, GoogleNet is loaded if the `--network` flag isn't specified.
+You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, GoogleNet is loaded if the optional `--network` flag isn't specified.
 
 Below are some examples of using the ResNet-18 model:
 
