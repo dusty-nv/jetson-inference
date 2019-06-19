@@ -22,13 +22,11 @@ $ cd jetson-inference/build/aarch64/bin
 
 Then, classify an example image with the [`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) program.  [`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) accepts 3 command-line arguments:  the path to the input image and path to the output image, along with an optional `--network` flag which changes the classificaton model being used (the default network is GoogleNet).
 
-#### C++
 ``` bash
+# C++
 $ ./imagenet-console --network=googlenet orange_0.jpg output_0.jpg  # --network flag is optional
-```
 
-#### Python
-``` bash
+# Python
 $ ./imagenet-console.py --network=googlenet orange_0.jpg output_0.jpg  # --network flag is optional
 ```
 
@@ -37,13 +35,11 @@ $ ./imagenet-console.py --network=googlenet orange_0.jpg output_0.jpg  # --netwo
 > **note**:  the first time you run the program, TensorRT may take up to a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is cached to disk after the first run, so future runs will load faster.
 
-#### C++
 ``` bash
+# C++
 $ ./imagenet-console granny_smith_1.jpg output_1.jpg
-```
 
-#### Python
-``` bash
+# Python
 $ ./imagenet-console.py granny_smith_1.jpg output_1.jpg
 ```
 
@@ -101,7 +97,7 @@ $ ./imagenet-console --network=resnet-18 stingray.jpg output_stingray.jpg
 $ ./imagenet-console.py --network=resnet-18 stingray.jpg output_stingray.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet-stingray.jpg" width="500">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_stingray.jpg" width="500">
 
 #### C++
 ``` bash
@@ -113,7 +109,7 @@ $ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
 $ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet-coral.jpg" width="500">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="500">
 
 
 Next, we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
