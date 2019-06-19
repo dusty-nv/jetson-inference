@@ -13,18 +13,21 @@ The latest source can be obtained from [GitHub](http://github.com/dusty-nv/jetso
       
 ### Cloning the Repo
 
-To obtain the repository, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed locally:
+To download the code, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed:
 
 ``` bash
 $ sudo apt-get install git cmake
 ```
 
-Then clone the jetson-inference repo:
+Then clone the `jetson-inference` repo:
+
 ``` bash
 $ git clone https://github.com/dusty-nv/jetson-inference
 $ cd jetson-inference
 $ git submodule update --init
 ```
+
+Remember to run the `git submodule update --init` step for necessary git sub-modules (or clone with the `--recursive` flag).
 
 ### Python Development Packages
 
