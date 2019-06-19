@@ -80,37 +80,31 @@ You can specify which model to use at runtime by setting the `--network` flag on
 
 Below are some examples of using the ResNet-18 model:
 
-#### C++
 ``` bash
+# C++
 $ ./imagenet-console --network=resnet-18 jellyfish.jpg output_jellyfish.jpg
-```
 
-#### Python
-``` bash
+# Python
 $ ./imagenet-console.py --network=resnet-18 jellyfish.jpg output_jellyfish.jpg
 ```
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_jellyfish.jpg" width="650">
 
-#### C++
 ``` bash
+# C++
 $ ./imagenet-console --network=resnet-18 stingray.jpg output_stingray.jpg
-```
 
-#### Python
-``` bash
+# Python
 $ ./imagenet-console.py --network=resnet-18 stingray.jpg output_stingray.jpg
 ```
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_stingray.jpg" width="650">
 
-#### C++
 ``` bash
+# C++
 $ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
-```
 
-#### Python
-``` bash
+# Python
 $ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
 ```
 
