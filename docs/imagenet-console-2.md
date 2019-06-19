@@ -10,13 +10,13 @@ There are multiple types of deep learning networks available, including recognit
 
 As examples of using [`imageNet`](../imageNet.h) we provide versions of a command-line interface for C++ and Python:
 
-    * [`imagenet-console.cpp`](../examples/imagenet-console/imagenet-console.cpp) (C++) 
-    * [`imagenet-console.py`](../python/examples/imagenet-console.py) (Python) 
+- [`imagenet-console.cpp`](../examples/imagenet-console/imagenet-console.cpp) (C++) 
+- [`imagenet-console.py`](../python/examples/imagenet-console.py) (Python) 
 
 Later in the tutorial, we'll also cover versions of a live camera recognition program for C++ and Python:
 
-    * [`imagenet-camera.cpp`](../examples/imagenet-camera/imagenet-camera.cpp)
-    * [`imagenet-camera.py`](../python/examples/imagenet-camera.py)
+- [`imagenet-camera.cpp`](../examples/imagenet-camera/imagenet-camera.cpp)
+- [`imagenet-camera.py`](../python/examples/imagenet-camera.py)
 
 
 ### Using the Console Program on Jetson
