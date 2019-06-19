@@ -92,7 +92,7 @@ There are other pre-trained models that you can use as well, if you choose to [d
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
 
-Generally the more complex networks can have greater accuracy, with increased runtime.
+Generally the more complex networks can have greater classification accuracy, with increased runtime.
 
 ### Using Different Classification Models
 
@@ -130,6 +130,7 @@ $ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="650">
 
+Feel free to experiment with using the different models and see how their accuracies and performance differ.
 
 Next, we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
 
