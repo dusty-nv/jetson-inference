@@ -22,11 +22,13 @@ $ cd jetson-inference/build/aarch64/bin
 
 Then, classify an example image with the [`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) program.  [`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) accepts 3 command-line arguments:  the path to the input image and path to the output image, along with an optional `--network` flag which changes the classificaton model being used (the default network is GoogleNet).
 
+#### C++
 ``` bash
-# C++
 $ ./imagenet-console --network=googlenet orange_0.jpg output_0.jpg  # --network flag is optional
+```
 
-# Python
+#### Python
+``` bash
 $ ./imagenet-console.py --network=googlenet orange_0.jpg output_0.jpg  # --network flag is optional
 ```
 
@@ -35,18 +37,19 @@ $ ./imagenet-console.py --network=googlenet orange_0.jpg output_0.jpg  # --netwo
 > **note**:  the first time you run the program, TensorRT may take up to a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is cached to disk after the first run, so future runs will load faster.
 
+#### C++
 ``` bash
-# C++
 $ ./imagenet-console granny_smith_1.jpg output_1.jpg
+```
 
-# Python
+#### Python
+``` bash
 $ ./imagenet-console.py granny_smith_1.jpg output_1.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple.jpg" width="500">
 
 
-### Using Different Classification Models
 
 By default, the repo is set to download the GoogleNet and ResNet-18 networks during the build step.
 
@@ -65,11 +68,13 @@ There are others that you can use as well, if you choose to download them:
 | VGG-19        | `vgg-19`       | `VGG-19`         |
 | Inception-v4  | `inception-v4` | `INCEPTION_V4`   |
 
-Generally the more complex networks can have greater accuracy, with increased runtime.
-
 > **note**:  to download additional networks, run the [`download-models.sh`](../tools/download-models.sh) script:  <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
+
+Generally the more complex networks can have greater accuracy, with increased runtime.
+
+### Using Different Classification Models
 
 You can specify which model to use at runtime by setting the `--network` flag on the command line.
 
@@ -85,7 +90,7 @@ $ ./imagenet-console --network=resnet-18 jellyfish.jpg output_jellyfish.jpg
 $ ./imagenet-console.py --network=resnet-18 jellyfish.jpg output_jellyfish.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_jellyfish.jpg" width="500">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_jellyfish.jpg" width="650">
 
 #### C++
 ``` bash
@@ -97,7 +102,7 @@ $ ./imagenet-console --network=resnet-18 stingray.jpg output_stingray.jpg
 $ ./imagenet-console.py --network=resnet-18 stingray.jpg output_stingray.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_stingray.jpg" width="500">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_stingray.jpg" width="650">
 
 #### C++
 ``` bash
@@ -109,7 +114,7 @@ $ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
 $ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="500">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="650">
 
 
 Next, we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
