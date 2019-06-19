@@ -346,6 +346,7 @@ public:
 	 */
 	inline void PrintProfilerTimes()
 	{
+		printf("\n");
 		printf(LOG_TRT "----------------------------------------------\n");
 		printf(LOG_TRT "Timing Report %s\n", GetModelPath());
 		printf(LOG_TRT "----------------------------------------------\n");
@@ -358,7 +359,17 @@ public:
 				printf(LOG_TRT "%-12s  CPU %8.5fms  CUDA %8.5fms\n", profilerQueryToStr(query), mProfilerTimes[n].x, mProfilerTimes[n].y);
 		}
 
-		printf(LOG_TRT "----------------------------------------------\n");
+		printf(LOG_TRT "----------------------------------------------\n\n");
+
+		static bool first_run=true;
+
+		if( first_run )
+		{
+			printf(LOG_TRT "note -- when processing a single image, run 'sudo jetson_clocks' before\n"
+				  "                to disable DVFS for more accurate profiling/timing measurements\n\n");
+			
+			first_run = false;
+		}
 	}
 
 protected:
