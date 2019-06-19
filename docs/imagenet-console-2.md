@@ -37,7 +37,7 @@ Next, let's classify an example image with the `imagenet-console` program, using
 - the path to the output image
 - an optional `--network` flag which changes the classificaton model being used (the default network is GoogleNet).  
 
-These command line parameters are the same between the C++ and Python versions.  Note that you can launch either applications with the `--help` flag to recieve more info about using them, in addition to seeing the [`Examples`](../README.md#Examples) section of the readme.
+These command line parameters are the same between the C++ and Python versions.  Note that you can launch either applications with the `--help` flag to recieve more info about using them, in addition to seeing the [`Examples`](../README.md#Examples) readme.
 
 Here are a couple examples of running the program in Python or C++:
 
