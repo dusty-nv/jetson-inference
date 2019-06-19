@@ -96,7 +96,7 @@ Generally the more complex networks can have greater accuracy, with increased ru
 
 ### Using Different Classification Models
 
-You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  GoogleNet is loaded by default without the `--network` flag.
+You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, GoogleNet is loaded if the `--network` flag isn't specified.
 
 Below are some examples of using the ResNet-18 model:
 
