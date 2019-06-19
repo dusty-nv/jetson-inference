@@ -27,19 +27,21 @@ $ cd jetson-inference
 $ git submodule update --init
 ```
 
-Remember to run the `git submodule update --init` step for necessary git sub-modules (or clone with the `--recursive` flag).
+Remember to run the `git submodule update --init` step (or clone with the `--recursive` flag).
 
 ### Python Development Packages
 
-The Python functionality of this project is implemented through Python extension modules that provide bindings to the native C++ code using the Python C API.  While building these Python bindings, the repo searches for versions of Python that have development packages installed, and will then build the bindings for each version of Python that's present (e.g. Python 2.7, 3.6, and 3.7).  It will also build numpy bindings for versions of numpy that are installed.
+The Python functionality of this project is implemented through Python extension modules that provide bindings to the native C++ code using the Python C API.  While configuring the project, the repo searches for versions of Python that have development packages installed on the system, and will then build the bindings for each version of Python that's present (e.g. Python 2.7, 3.6, and 3.7).  It will also build numpy bindings for versions of numpy that are installed.
 
-By default, Ubuntu comes with the `libpython-dev` and `python-numpy` packages pre-installed (which are for Python 2.7).  Although the Python 3.6 interpreter is pre-installed by Ubuntu, the Python 3.6 development packages (`libpython3-dev`) and `python3-numpy` are not.  These development packages are required for the bindings to build using the Python C API.  So if you want the project to have bindings created for Python 3.6, install these packages before proceeding:
+By default, Ubuntu comes with the `libpython-dev` and `python-numpy` packages pre-installed (which are for Python 2.7).  Although the Python 3.6 interpreter is pre-installed by Ubuntu, the Python 3.6 development packages (`libpython3-dev`) and `python3-numpy` are not.  These development packages are required for the bindings to build using the Python C API.  
+
+So if you want the project to create bindings for Python 3.6, install these packages before proceeding:
 
 ``` bash
 $ sudo apt-get install libpython3-dev python3-numpy
 ``` 
 
-Installing these additional packages will enable the repo to build the bindings for Python 3.6, in addition to Python 2.7 (which is already pre-installed).  Then after the build process, the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) packages will be available to use within your Python environments.
+Installing these additional packages will enable the repo to build the extension bindings for Python 3.6, in addition to Python 2.7 (which is already pre-installed).  Then after the build process, the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) packages will be available to use within your Python environments.
 
 
 ### Configuring with CMake
@@ -58,7 +60,7 @@ $ cmake ../
 
 ### Downloading Models
 
-The repo comes with many pre-trained networks that can you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are selected for download to save disk space.  You are welcome to select the models you wish, or run the tool again later to download more models at a later date.
+The repo comes with many pre-trained networks that can you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are selected for download to save disk space.  You are welcome to select the models you want, or run the tool again later to download more models at another time.
 
 When initially configuring the repo, `cmake` will automatically run the downloader tool for you:
 
@@ -78,15 +80,13 @@ $ ./download-models.sh
 
 Make sure you are still in the `jetson-inference/build` directory, created above in step #3.
 
-Then run `make` followed by `sudo make install` to build the libraries and code samples:
+Then run `make` followed by `sudo make install` to build the libraries, Python extension bindings, and code samples:
 
 ``` bash
 $ cd jetson-inference/build			# omit if pwd is already /build from above
 $ make
 $ sudo make install
 ```
-
-This will build the libraries (`libjetson-inference` and `libjetson-utils`) and Python bindings, along with several example applications that we'll use throughout the tutorial.
 
 Depending on architecture, the project will be built to either `aarch64` or `armhf`, with the following directory structure:
 
@@ -102,7 +102,7 @@ Depending on architecture, the project will be built to either `aarch64` or `arm
       \lib             where the libraries are build to
 ```
 
-In the build tree, you can find the binaries residing in `build/aarch64/bin/`, headers in `build/aarch64/include/`, and libraries in `build/aarch64/lib/`.  These also get installed under `/usr/local/` during the `sudo make install` step run above.  
+In the build tree, you can find the binaries residing in `build/aarch64/bin/`, headers in `build/aarch64/include/`, and libraries in `build/aarch64/lib/`.  These also get installed under `/usr/local/` during the `sudo make install` step.
 
 The Python bindings for the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) packages also get installed during this `sudo make install` step under `/usr/lib/python*/dist-packages/`.
  
