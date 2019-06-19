@@ -15,8 +15,8 @@ As examples of using [`imageNet`](../imageNet.h) we provide versions of a comman
 
 Later in the tutorial, we'll also cover versions of a live camera recognition program for C++ and Python:
 
-- [`imagenet-camera.cpp`](../examples/imagenet-camera/imagenet-camera.cpp)
-- [`imagenet-camera.py`](../python/examples/imagenet-camera.py)
+- [`imagenet-camera.cpp`](../examples/imagenet-camera/imagenet-camera.cpp) (C++)
+- [`imagenet-camera.py`](../python/examples/imagenet-camera.py) (Python) 
 
 
 ### Using the Console Program on Jetson
@@ -31,7 +31,15 @@ $ cd jetson-inference/build/aarch64/bin
 
 Next, let's classify an example image with the `imagenet-console` program, using either the [C++](../examples/imagenet-console/imagenet-console.cpp) or [Python](../python/examples/imagenet-console.py) variants.  
 
-`imagenet-console` accepts 3 command-line arguments:  the path to the input image and path to the output image, along with an optional `--network` flag which changes the classificaton model being used (the default network is GoogleNet).  These command line parameters are the same between the C++ and Python versions.  Note that you can launch either with the `--help` flag to recieve more info about using them.
+`imagenet-console` accepts 3 command-line arguments:  
+
+- the path to the input image
+- the path to the output image
+- an optional `--network` flag which changes the classificaton model being used (the default network is GoogleNet).  
+
+These command line parameters are the same between the C++ and Python versions.  Note that you can launch either with the `--help` flag to recieve more info about using them.
+
+Here are a couple examples of launching the program in Python or C++:
 
 #### C++
 ``` bash
@@ -43,10 +51,10 @@ $ ./imagenet-console --network=googlenet orange_0.jpg output_0.jpg  # --network 
 $ ./imagenet-console.py --network=googlenet orange_0.jpg output_0.jpg  # --network flag is optional
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="500">
-
 > **note**:  the first time you run the program, TensorRT may take up to a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is cached to disk after the first run, so future runs will load faster.
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="500">
 
 #### C++
 ``` bash
