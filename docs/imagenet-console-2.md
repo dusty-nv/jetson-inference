@@ -14,13 +14,15 @@ As examples of using [`imageNet`](../imageNet.h) we provide versions of a comman
 
 First, try using the [`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) program to test imageNet recognition on some example images.  It loads an image, uses TensorRT and the [`imageNet`](../imageNet.h) class to perform the inference, then overlays the classification result and saves the output image.
 
-After [building](#building-repo-2.md), make sure your terminal is located in the aarch64/bin directory:
+After [building](#building-repo-2.md) the repo, make sure your terminal is located in the `aarch64/bin` directory:
 
 ``` bash
 $ cd jetson-inference/build/aarch64/bin
 ```
 
-Then, classify an example image with the [`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) program.  [`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) accepts 3 command-line arguments:  the path to the input image and path to the output image, along with an optional `--network` flag which changes the classificaton model being used (the default network is GoogleNet).
+Next, let's classify an example image with the [`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) program, using either the C++ or Python variants.  
+
+[`imagenet-console`](../examples/imagenet-console/imagenet-console.cpp) accepts 3 command-line arguments:  the path to the input image and path to the output image, along with an optional `--network` flag which changes the classificaton model being used (the default network is GoogleNet).  These command line parameters are the same between the C++ and Python versions.  Note that you can launch either with the `--help` flag to recieve more info about using them.
 
 #### C++
 ``` bash
@@ -50,6 +52,7 @@ $ ./imagenet-console.py granny_smith_1.jpg output_1.jpg
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple.jpg" width="500">
 
 
+### Downloading Other Classification Models
 
 By default, the repo is set to download the GoogleNet and ResNet-18 networks during the build step.
 
