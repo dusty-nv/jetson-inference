@@ -157,7 +157,7 @@ int main( int argc, char** argv )
 	/*
 	 * destroy resources
 	 */
-	printf("\ndetectnet-camera:  shutting down...\n");
+	printf("detectnet-camera:  shutting down...\n");
 	
 	SAFE_DELETE(camera);
 	SAFE_DELETE(display);

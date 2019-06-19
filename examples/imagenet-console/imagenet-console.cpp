@@ -123,7 +123,7 @@ int main( int argc, char** argv )
 	/*
 	 * destroy resources
 	 */
-	printf("\nimagenet-console:  shutting down...\n");
+	printf("imagenet-console:  shutting down...\n");
 
 	CUDA(cudaFreeHost(imgCPU));
 	SAFE_DELETE(net);

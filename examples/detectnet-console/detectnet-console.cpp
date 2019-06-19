@@ -112,7 +112,7 @@ int main( int argc, char** argv )
 	/*
 	 * destroy resources
 	 */
-	printf("\ndetectnet-console:  shutting down...\n");
+	printf("detectnet-console:  shutting down...\n");
 
 	CUDA(cudaFreeHost(imgCPU));
 	SAFE_DELETE(net);

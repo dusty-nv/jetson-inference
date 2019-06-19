@@ -203,7 +203,7 @@ int main( int argc, char** argv )
 	/*
 	 * destroy resources
 	 */
-	printf("\nhomography-camera:  shutting down...\n");
+	printf("homography-camera:  shutting down...\n");
 	
 	SAFE_DELETE(camera);
 	SAFE_DELETE(display);

@@ -58,7 +58,7 @@ int main( int argc, char** argv )
 	}
 
 	// load the GoogleNet image recognition network with TensorRT
-	// you can use imageNet::ALEXNET to load AlexNet model instead
+	// you can use imageNet::RESNET_18 to load ResNet-18 model instead
 	imageNet* net = imageNet::Create(imageNet::GOOGLENET);
 
 	// check to make sure that the network model loaded properly

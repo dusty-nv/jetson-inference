@@ -125,7 +125,7 @@ int main( int argc, char** argv )
 	/*
 	 * destroy resources
 	 */
-	printf("\nsegnet-console:  shutting down...\n");
+	printf("segnet-console:  shutting down...\n");
 
 	CUDA(cudaFreeHost(imgCPU));
 	CUDA(cudaFreeHost(outCPU));
