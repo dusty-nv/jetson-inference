@@ -5,9 +5,11 @@
 
 # Building the Project from Source
 
-Provided with this repo is a library of TensorRT-accelerated deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  This inferencing library (`libjetson-inference`) is intended to be built & run on the Jetson, and includes support for both C++ and Python.  Various pre-trained models are automatically downloaded to get you up and running quickly.  It's also setup to accept customized network models that you may have trained yourself.
+Provided with this repo is a library of TensorRT-accelerated deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  This inferencing library (`libjetson-inference`) is intended to be built & run on the Jetson, and includes support for both C++ and Python.  
 
-The latest source can be obtained from [GitHub](http://github.com/dusty-nv/jetson-inference) and compiled onboard Jetson Nano, Jetson TX1/TX2, and Jetson AGX Xavier.
+Various pre-trained models are automatically downloaded to get you up and running quickly.  It's also setup to accept customized network models that you may have trained yourself, including support for Caffe models, TensorFlow UFF, and ONNX.
+
+The latest source can be obtained from [GitHub](http://github.com/dusty-nv/jetson-inference) and compiled onboard Jetson Nano, Jetson TX1/TX2, and Jetson AGX Xavier once they have been [flashed with JetPack](jetpack-setup-2.md) or setup with the [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write).
       
 ### Cloning the Repo
 
