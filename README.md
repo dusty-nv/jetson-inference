@@ -27,7 +27,7 @@ There are multiple tracks of the tutorial that you can choose to follow, includi
 If you would like to only do the inference portion of the tutorial, which can be run on your Jetson in roughly two hours, these modules are available below:
 
 * [Setting up Jetson with JetPack](docs/jetpack-setup-2.md)
-* [Building the Repo from Source](docs/building-repo-2.md)
+* [Building the Project from Source](docs/building-repo-2.md)
 * [Classifying Images with ImageNet](docs/imagenet-console-2.md)
 	* [Using the Console Program on Jetson](docs/imagenet-console-2.md#using-the-console-program-on-jetson)
 	* [Coding Your Own Image Recognition Program](docs/imagenet-example-2.md)
@@ -43,7 +43,7 @@ The full tutorial includes training and inference, and can take roughly two days
 * [DIGITS Workflow](docs/digits-workflow.md) 
 * [DIGITS System Setup](docs/digits-setup.md)
 * [Setting up Jetson with JetPack](docs/jetpack-setup.md)
-* [Building the Repo from Source](docs/building-repo.md)
+* [Building the Project from Source](docs/building-repo.md)
 * [Classifying Images with ImageNet](docs/imagenet-console.md)
 	* [Using the Console Program on Jetson](docs/imagenet-console.md#using-the-console-program-on-jetson)
 	* [Coding Your Own Image Recognition Program](docs/imagenet-example.md)

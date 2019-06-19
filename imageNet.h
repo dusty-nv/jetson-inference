@@ -41,7 +41,7 @@
 
 
 /**
- * Image recognition with GoogleNet/Alexnet or custom models, using TensorRT.
+ * Image recognition with classification networks, using TensorRT.
  * @ingroup imageNet
  */
 class imageNet : public tensorNet
@@ -89,8 +89,9 @@ public:
 	 * @param prototxt_path File path to the deployable network prototxt
 	 * @param model_path File path to the caffemodel
 	 * @param mean_binary File path to the mean value binary proto (can be NULL)
-	 * @param class_info File path to list of class name labels
+	 * @param class_labels File path to list of class name labels
 	 * @param input Name of the input layer blob.
+	 * @param output Name of the output layer blob.
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
 	static imageNet* Create( const char* prototxt_path, const char* model_path, 

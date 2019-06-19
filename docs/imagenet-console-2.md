@@ -73,7 +73,7 @@ $ ./imagenet-console.py granny_smith_1.jpg output_1.jpg
 
 By default, the repo is set to download the GoogleNet and ResNet-18 networks during the build step.
 
-There are others that you can use as well, if you choose to download them:
+There are other pre-trained models that you can use as well, if you choose to download them:
 
 | Network       | CLI argument   | NetworkType enum |
 | --------------|----------------|------------------|
@@ -88,7 +88,7 @@ There are others that you can use as well, if you choose to download them:
 | VGG-19        | `vgg-19`       | `VGG-19`         |
 | Inception-v4  | `inception-v4` | `INCEPTION_V4`   |
 
-> **note**:  to download additional networks, run the [`download-models.sh`](../tools/download-models.sh) script:  <br/>
+> **note**:  to download additional networks, run the [Model Downloader](building-repo-2.md#downloading-models) tool:  <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
 
