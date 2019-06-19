@@ -7,7 +7,7 @@
 
 Provided with this repo is a library of TensorRT-accelerated deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  This inferencing library (`libjetson-inference`) is intended to be built & run on the Jetson, and includes support for both C++ and Python.  
 
-Various pre-trained network models are automatically downloaded to get you up and running quickly.  It's also setup to accept customized models that you may have trained yourself, including support for Caffe, TensorFlow UFF, and ONNX.
+Various pre-trained DNN models are automatically downloaded to get you up and running quickly.  It's also setup to accept customized models that you may have trained yourself, including support for Caffe, TensorFlow UFF, and ONNX.
 
 The latest source can be obtained from [GitHub](http://github.com/dusty-nv/jetson-inference) and compiled onboard Jetson Nano, Jetson TX1/TX2, and Jetson AGX Xavier once they have been [flashed with JetPack](jetpack-setup-2.md) or setup with the pre-populated [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) for Jetson Nano.
       
@@ -46,7 +46,7 @@ Installing these additional packages will enable the repo to build the extension
 
 ### Configuring with CMake
 
-Next, create a build directory within the project and run `cmake` to configure the build.  When `cmake` is run, a special pre-installation script ([`CMakePreBuild.sh`](../CMakePreBuild.sh)) is run and will automatically install any dependencies, in addition to running the [Model Downloader](#downloading-models) tool.
+Next, create a build directory within the project and run `cmake` to configure the build.  When `cmake` is run, a script is started ([`CMakePreBuild.sh`](../CMakePreBuild.sh)) that will install any dependencies and download DNN models for you.
 
 ``` bash
 $ cd jetson-inference    # omit if pwd is already jetson-inference from above
