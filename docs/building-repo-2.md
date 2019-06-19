@@ -46,7 +46,7 @@ Installing these additional packages will enable the repo to build the extension
 
 ### Configuring with CMake
 
-Next, create a build directory within the project and run `cmake` to configure the build.  When `cmake` is run, a script is started ([`CMakePreBuild.sh`](../CMakePreBuild.sh)) that will install any dependencies and download DNN models for you.
+Next, create a build directory within the project and run `cmake` to configure the build.  When `cmake` is run, a script is launched ([`CMakePreBuild.sh`](../CMakePreBuild.sh)) that will install any required dependencies and download DNN models for you.
 
 ``` bash
 $ cd jetson-inference    # omit if pwd is already jetson-inference from above
@@ -60,7 +60,7 @@ $ cmake ../
 
 ### Downloading Models
 
-The repo comes with many pre-trained networks that can you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are selected for download to save disk space.  You are welcome to select the models you want, or run the tool again later to download more models at another time.
+The repo comes with many pre-trained networks that can you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are initially selected for download to save disk space.  You can select the models you want, or run the tool again later to download more models another time.
 
 When initially configuring the repo, `cmake` will automatically run the downloader tool for you:
 
@@ -83,7 +83,7 @@ Make sure you are still in the `jetson-inference/build` directory, created above
 Then run `make` followed by `sudo make install` to build the libraries, Python extension bindings, and code samples:
 
 ``` bash
-$ cd jetson-inference/build			# omit if pwd is already /build from above
+$ cd jetson-inference/build          # omit if pwd is already /build from above
 $ make
 $ sudo make install
 ```
@@ -109,11 +109,13 @@ The Python bindings for the [`jetson.inference`](https://rawgit.com/dusty-nv/jet
 
 ### Digging Into the Code
 
-See the **[API Reference](../README.md#api-reference)** documentation available for the vision primitives, including `imageNet` for image recognition, `detectNet` for object localization, and `segNet` for semantic segmentation.  Familiarize yourself with the C++ or Python versions of these objects, depending on which language you prefer to use.
+See the **[API Reference](../README.md#api-reference)** documentation for the vision primitives available in `libjetson-inference`, including `imageNet` for image recognition, `detectNet` for object localization, and `segNet` for semantic segmentation.  Familiarize yourself with the C++ or Python versions of these objects, depending on which language you prefer to use.
 
 #### C++
 
-Below is a partial listing of the [`imageNet`](../imageNet.h) C++ class that we'll use in upcoming steps of the tutorial:
+Below is a partial listing of the [`imageNet`](../imageNet.h) C++ class that we'll use in upcoming steps of the tutorial.
+
+The main functions to use are `Create()` and `Classify()`, followed by `GetClassDesc()` to get the object description.
 
 ``` c++
 class imageNet : public tensorNet
@@ -141,8 +143,8 @@ public:
 	 * Load a new network instance
 	 */
 	static imageNet* Create( NetworkType networkType=GOOGLENET, uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
-						precisionType precision=TYPE_FASTEST,
-				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
+                              precisionType precision=TYPE_FASTEST,
+                              deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
 	 * Load a new network instance
@@ -155,12 +157,12 @@ public:
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
 	static imageNet* Create( const char* prototxt_path, const char* model_path, 
-						const char* mean_binary, const char* class_labels, 
-						const char* input=IMAGENET_DEFAULT_INPUT, 
-						const char* output=IMAGENET_DEFAULT_OUTPUT, 
-						uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
-						precisionType precision=TYPE_FASTEST,
-				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
+                              const char* mean_binary, const char* class_labels, 
+                              const char* input=IMAGENET_DEFAULT_INPUT, 
+                              const char* output=IMAGENET_DEFAULT_OUTPUT, 
+                              uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+                              precisionType precision=TYPE_FASTEST,
+                              deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 
 	/**
 	 * Determine the maximum likelihood image class.
