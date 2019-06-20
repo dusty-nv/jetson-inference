@@ -53,7 +53,7 @@ $ ./detectnet-camera.py --width=640 --height=480 # using PedNet,  default MIPI C
 
 <br/>
 Displayed in the OpenGL window are the live camera stream overlayed with the bounding boxes of the detected objects.  Note that the SSD-based models currently have the highest performance.  Here is one using the `coco-dog` model:
-
+<br/>
 ``` bash
 # C++
 $ ./detectnet-camera --network=coco-dog
