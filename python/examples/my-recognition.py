@@ -30,7 +30,7 @@ import argparse
 # parse the command line
 parser = argparse.ArgumentParser()
 parser.add_argument("filename", type=str, help="filename of the image to process")
-parser.add_argument("--network", type=str, default="googlenet", help="model to use, can be:  alexnet, googlenet, googlenet-12")
+parser.add_argument("--network", type=str, default="googlenet", help="model to use, can be:  googlenet, resnet-18, ect. (see --help for others)")
 opt = parser.parse_args()
 
 # load an image (into shared CPU/GPU memory)
