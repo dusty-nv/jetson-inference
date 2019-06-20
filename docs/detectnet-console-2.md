@@ -6,7 +6,7 @@
 # Locating Object Coordinates using DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image recognition, object detection networks are capable of detecting multiple independent objects per frame.
 
-The `detectNet` object for accepts as input a 2D image, and outputs a list of coordinates of the detected bounding boxes along with their confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../detectNet.h).  Various detection networks are included, see below for models available for download. 
+The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../detectNet.h).  See [below](#pretrained-detection-models-available) for various pre-trained detection models available for download. 
 
 As examples of using `detectNet` we provide versions of a command-line interface for C++ and Python:
 
@@ -27,7 +27,7 @@ The `detectnet-console` program can be used to locate objects in static images. 
 - optional path to output image  (`jpg, png, tga, bmp`)
 - optional `--network` flag which changes the detection model being used (the default network is PedNet).  
 
-Here is an example of locating humans in an image with the default PedNet model:
+Here's an example of locating humans in an image with the default PedNet model:
 
 #### C++
 
@@ -46,7 +46,7 @@ $ ./detectnet-console.py peds-004.jpg output.jpg
 
 ### Pretrained Detection Models Available
 
-Below is a table of the pretrained object detection networks available for [download](building-repo-2.md#downloading-models) and the associated argument to `detectnet-console` used for loading the pretrained model:
+Below is a table of the pretrained object detection networks available for [download](building-repo-2.md#downloading-models), and the associated argument to `detectnet-console` used for loading the pretrained model:
 
 | Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
@@ -66,68 +66,52 @@ Below is a table of the pretrained object detection networks available for [down
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
 
 
-#### Running Other Detection Models
+### Running Other Detection Models
 
 You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, PedNet is loaded (pedestrian detection) if the optional `--network` flag isn't specified.
 
 Let's try running some of the other COCO models:
 
-#### C++
-
 ``` bash
+# C++
 $ ./detectnet-console --network=coco-dog dog_1.jpg output_1.jpg
-```
 
-#### Python
-
-``` bash
+# Python
 $ ./detectnet-console.py --network=coco-dog dog_1.jpg output_1.jpg
 ```
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-dog-1.jpg)
 
-#### C++
-
 ``` bash
+# C++
 $ ./detectnet-console --network=coco-bottle bottle_0.jpg output_2.jpg
-```
 
-#### Python
-
-``` bash
+# Python
 $ ./detectnet-console.py --network=coco-bottle bottle_0.jpg output_2.jpg
 ```
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-bottle-0.jpg)
 
-#### C++
-
 ``` bash
+# C++
 $ ./detectnet-console --network=coco-airplane airplane_0.jpg output_3.jpg 
-```
 
-#### Python
-
-``` bash
+# Python
 $ ./detectnet-console.py --network=coco-airplane airplane_0.jpg output_3.jpg
 ```
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-airplane-0.jpg)
 
 
-#### Multi-class Object Detection Models
+### Multi-class Object Detection Models
 
 Some of the model support the detection of multiple different types of objects.  For example, when using the `multiped` model on images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
 
-#### C++
-
 ``` bash
+# C++
 $ ./detectnet-console --network=multiped peds-003.jpg output_4.jpg
-```
 
-#### Python
-
-``` bash
+# Python
 $ ./detectnet-console.py --network=multiped peds-003.jpg output_4.jpg
 ```
 
