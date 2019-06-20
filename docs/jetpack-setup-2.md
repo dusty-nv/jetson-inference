@@ -23,7 +23,7 @@ Before attempting to build the repo, make sure that your Jetson has been setup w
 
 The recommended install method for the Jetson Nano Developer Kit is to use the **[SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write)**.  
 
-It comes pre-populated with the JetPack components already installed.  If you haven't already, follow the [Jetson Nano Getting Started Guide](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) to setup your Nano and flash the SD card image.
+It comes pre-populated with the JetPack components already installed and can be flashed from a Windows, Mac, or Linux PC.  If you haven't already, follow the [Jetson Nano Getting Started Guide](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) to flash the SD card image and setup your Nano and.
 
 ### Jetson TX1/TX2/Xavier
 
