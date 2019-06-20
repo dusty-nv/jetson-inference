@@ -31,19 +31,19 @@ You can combine the usage of these flags as needed.  Below are some typical scen
 #### C++
 
 ``` bash
-$ ./detectnet-camera                          # using PedNet, default MIPI CSI camera (1280x720)
+$ ./detectnet-camera                          # using PedNet,  default MIPI CSI camera (1280x720)
 $ ./detectnet-camera --network=facenet        # using FaceNet, default MIPI CSI camera (1280x720)
-$ ./detectnet-camera --camera=/dev/video0     # using GoogleNet, V4L2 camera /dev/video0 (1280x720)
-$ ./detectnet-camera --width=640 --height=480 # using GoogleNet, default MIPI CSI camera (640x480)
+$ ./detectnet-camera --camera=/dev/video0     # using PedNet,  V4L2 camera /dev/video0 (1280x720)
+$ ./detectnet-camera --width=640 --height=480 # using PedNet,  default MIPI CSI camera (640x480)
 ```
 
 #### Python
 
 ``` bash
-$ ./detectnet-camera.py                          # using PedNet, default MIPI CSI camera (1280x720)
+$ ./detectnet-camera.py                          # using PedNet,  default MIPI CSI camera (1280x720)
 $ ./detectnet-camera.py --network=facenet        # using FaceNet, default MIPI CSI camera (1280x720)
-$ ./detectnet-camera.py --camera=/dev/video0     # using PedNet, V4L2 camera /dev/video0 (1280x720)
-$ ./detectnet-camera.py --width=640 --height=480 # using PedNet, default MIPI CSI camera (640x480)
+$ ./detectnet-camera.py --camera=/dev/video0     # using PedNet,  V4L2 camera /dev/video0 (1280x720)
+$ ./detectnet-camera.py --width=640 --height=480 # using PedNet,  default MIPI CSI camera (640x480)
 ```
 
 > **note**:  for example cameras to use, see these sections of the Jetson Wiki: <br/>
@@ -51,7 +51,15 @@ $ ./detectnet-camera.py --width=640 --height=480 # using PedNet, default MIPI CS
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Xavier:  [`https://eLinux.org/Jetson_AGX_Xavier#Ecosystem_Products_.26_Cameras`](https://elinux.org/Jetson_AGX_Xavier#Ecosystem_Products_.26_Cameras) <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- TX1/TX2:  developer kits include an onboard MIPI CSI sensor module (0V5693)<br/>
 
-Displayed in the OpenGL window are the live camera stream overlayed with the bounding boxes of the detected objects.  Note that the SSD-based models currently have the highest performance.
+Displayed in the OpenGL window are the live camera stream overlayed with the bounding boxes of the detected objects.  Note that the SSD-based models currently have the highest performance.  Here is one using `coco-dog` model:
+
+``` bash
+# C++
+$ ./detectnet-camera --network=coco-dog
+
+# Python
+$ ./detectnet-camera.py --network=coco-dog
+```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/detectnet_camera_dog.jpg" width="800">
 
@@ -64,7 +72,7 @@ This is the last step of the *Hello AI World* tutorial, which covers inferencing
 To recap, together we've covered:
 
 * Using image recognition networks to classify images
-* Coding your own image recognition program in C++
+* Coding your own image recognition programs in Python and C++
 * Classifying video from a live camera stream
 * Performing object detection to locate object coordinates
 
