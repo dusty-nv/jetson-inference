@@ -104,7 +104,7 @@ Note that the image is loaded in `float4` RGBA format, with pixel values between
 
 #### Loading the Image Recognition Network
 
-Using the [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) object, the following code will load the desired classification model with TensorRT.  Unless you specified a different network using the `--network` flag, by default it will load GoogleNet, which was already downloaded when you initially [built the `jetson-inference` repo](building-repo-2.md#compiling-the-project) (the `ResNet-18` model was also selected by default to be downloaded).
+Using the [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) object, the following code will load the desired classification model with TensorRT.  Unless you specified a different network using the `--network` flag, by default it will load GoogleNet, which was already downloaded when you initially [built the `jetson-inference` repo](building-repo-2.md#downloading-models) (the `ResNet-18` model was also selected by default to be downloaded).
 
 All of the available classification models are pre-trained on the ImageNet ILSVRC dataset, which can recognize up to [1000 different classes](../data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many different species of animals, along with everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
 

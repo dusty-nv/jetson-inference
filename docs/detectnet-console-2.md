@@ -4,83 +4,131 @@
 <sup>Object Detection</sup></s></p>
 
 # Locating Object Coordinates using DetectNet
-The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
+The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image recognition, object detection networks are capable of detecting multiple independent objects per frame.
 
-The [`detectNet`](../detectNet.h) object accepts as input the 2D image, and outputs a list of coordinates of the detected bounding boxes.  To train the object detection model, first a pretrained ImageNet recognition model (like Googlenet) is used with bounding coordinate labels included in the training dataset in addition to the source imagery.
+The `detectNet` object for accepts as input a 2D image, and outputs a list of coordinates of the detected bounding boxes along with their confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../detectNet.h).  Various detection networks are included, see below for models available for download. 
 
-The following pretrained DetectNet models are included with the tutorial:
+As examples of using `detectNet` we provide versions of a command-line interface for C++ and Python:
 
-1. **ped-100**        (single-class pedestrian detector)
-2. **multiped-500**   (multi-class pedestrian + baggage detector)
-3. **facenet-120**    (single-class facial recognition detector)
-4. **coco-airplane**  (MS COCO airplane class)
-5. **coco-bottle**    (MS COCO bottle class)
-6. **coco-chair**     (MS COCO chair class)
-7. **coco-dog**       (MS COCO dog class)
+- [`detectnet-console.cpp`](../examples/detectnet-console/detectnet-console.cpp) (C++) 
+- [`detectnet-console.py`](../python/examples/detectnet-console.py) (Python) 
 
-As with the previous examples, provided are a console program and a camera streaming program for using detectNet.
+Later in the tutorial, we'll also cover object detection on live camera streams from C++ and Python:
+
+- [`detectnet-camera.cpp`](../examples/detectnet-camera/detectnet-camera.cpp) (C++)
+- [`detectnet-camera.py`](../python/examples/detectnet-camera.py) (Python) 
+
 
 ### Detecting Objects from the Command Line
 
-The [`detectnet-console`](../examples/detectnet-console/detectnet-console.cpp) program can be used to find objects in images.  To load one of the pretrained object detection models that comes with the repo, you can specify the pretrained model name as the 3rd argument to `detectnet-console`:
+The `detectnet-console` program can be used to locate objects in static images.  It accepts 3 command line parameters:
+
+- the path to an input image  (`jpg, png, tga, bmp`)
+- optional path to output image  (`jpg, png, tga, bmp`)
+- optional `--network` flag which changes the detection model being used (the default network is PedNet).  
+
+Here is an example of locating humans in an image with the default PedNet model:
+
+#### C++
 
 ``` bash
-$ ./detectnet-console dog_1.jpg output_1.jpg coco-dog
+$ ./detectnet-console peds-004.jpg output.jpg
 ```
 
-The above command will process dog_1.jpg, saving it to output_1.jpg, using the pretrained DetectNet-COCO-Dog model.  This is a shortcut of sorts so you don't need to train the model yourself if you don't want to.
-
-![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-dog-1.jpg)
-
-### Pretrained DetectNet Models Available
-
-Below is a table of the pretrained DetectNet snapshots downloaded with the repo (located in the `data/networks` directory after running `cmake` step) and the associated argument to `detectnet-console` used for loading the pretrained model:
-
-| DIGITS model            | CLI argument    | classes              |
-| ------------------------|-----------------|----------------------|
-| DetectNet-COCO-Airplane | `coco-airplane` | airplanes            |
-| DetectNet-COCO-Bottle   | `coco-bottle`   | bottles              |
-| DetectNet-COCO-Chair    | `coco-chair`    | chairs               |
-| DetectNet-COCO-Dog      | `coco-dog`      | dogs                 |
-| ped-100                 | `pednet`        | pedestrians          |
-| multiped-500            | `multiped`      | pedestrians, luggage |
-| facenet-120             | `facenet`       | faces                |
-
-These all also have the python layer patch above already applied.
-
-#### Running Other MS-COCO Models on Jetson
-
-Let's try running some of the other COCO models.  The training data for these are all included in the dataset downloaded above.  Although the DIGITS training example above was for the coco-dog model, the same procedure can be followed to train DetectNet on the other classes included in the sample COCO dataset.
+#### Python
 
 ``` bash
-$ ./detectnet-console bottle_0.jpg output_2.jpg coco-bottle
-```
-
-![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-bottle-0.jpg)
-
-
-``` bash
-$ ./detectnet-console airplane_0.jpg output_3.jpg coco-airplane
-```
-
-![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-airplane-0.jpg)
-
-#### Running Pedestrian Models on Jetson
-
-Included in the repo are also DetectNet models pretrained to detect humans.  The `pednet` and `multiped` models recognized pedestrians while `facenet` recognizes faces (from [FDDB](http://vis-www.cs.umass.edu/fddb/)).  Here's an example of detecting multiple humans simultaneously in a crowded space:
-
-
-``` bash
-$ ./detectnet-console peds-004.jpg output-4.jpg multiped
+$ ./detectnet-console.py peds-004.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-00.jpg" width="900">
 
-#### Multi-class Object Detection Models
-When using the multiped model (`PEDNET_MULTI`), for images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
+
+### Pretrained Detection Models Available
+
+Below is a table of the pretrained object detection networks available for [download](building-repo-2.md#downloading-models) and the associated argument to `detectnet-console` used for loading the pretrained model:
+
+| Model                   | CLI argument       | NetworkType enum   | Object classes       |
+| ------------------------|--------------------|--------------------|----------------------|
+| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO list](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
+| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO list](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
+| SSD-Inception-v2        | `ssd-inception-v1` | `SSD_INCEPTION_V2` | 91 ([COCO list](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
+| DetectNet-COCO-Dog      | `coco-dog`         | `COCO_DOG`         | dogs                 |
+| DetectNet-COCO-Bottle   | `coco-bottle`      | `COCO_BOTTLE`      | bottles              |
+| DetectNet-COCO-Chair    | `coco-chair`       | `COCO_CHAIR`       | chairs               |
+| DetectNet-COCO-Airplane | `coco-airplane`    | `COCO_AIRPLANE`    | airplanes            |
+| ped-100                 | `pednet`           | `PEDNET`           | pedestrians          |
+| multiped-500            | `multiped`         | `PEDNET_MULTI`     | pedestrians, luggage |
+| facenet-120             | `facenet`          | `FACENET`          | faces                |
+
+> **note**:  to download additional networks, run the [Model Downloader](building-repo-2.md#downloading-models) tool:  <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
+
+
+#### Running Other Detection Models
+
+You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, PedNet is loaded (pedestrian detection) if the optional `--network` flag isn't specified.
+
+Let's try running some of the other COCO models:
+
+#### C++
 
 ``` bash
-$ ./detectnet-console peds-003.jpg output-3.jpg multiped
+$ ./detectnet-console --network=coco-dog dog_1.jpg output_1.jpg
+```
+
+#### Python
+
+``` bash
+$ ./detectnet-console.py --network=coco-dog dog_1.jpg output_1.jpg
+```
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-dog-1.jpg)
+
+#### C++
+
+``` bash
+$ ./detectnet-console --network=coco-bottle bottle_0.jpg output_2.jpg
+```
+
+#### Python
+
+``` bash
+$ ./detectnet-console.py --network=coco-bottle bottle_0.jpg output_2.jpg
+```
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-bottle-0.jpg)
+
+#### C++
+
+``` bash
+$ ./detectnet-console --network=coco-airplane airplane_0.jpg output_3.jpg 
+```
+
+#### Python
+
+``` bash
+$ ./detectnet-console.py --network=coco-airplane airplane_0.jpg output_3.jpg
+```
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-airplane-0.jpg)
+
+
+#### Multi-class Object Detection Models
+
+Some of the model support the detection of multiple different types of objects.  For example, when using the `multiped` model on images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
+
+#### C++
+
+``` bash
+$ ./detectnet-console --network=multiped peds-003.jpg output_4.jpg
+```
+
+#### Python
+
+``` bash
+$ ./detectnet-console.py --network=multiped peds-003.jpg output_4.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-01.jpg" width="900">

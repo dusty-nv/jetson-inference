@@ -110,11 +110,11 @@ The image is loaded in `float4` RGBA format, with pixel values between 0.0 and 2
 
 #### Loading the Image Recognition Network
 
-Using the [`imageNet::Create()`](../imageNet.h#L70) function, the following code will load the GoogleNet model with TensorRT, which was already downloaded when you initially [built the jetson-inference repo](building-repo-2.md#compiling-the-project).  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](../data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many different species of animals, along with everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
+Using the [`imageNet::Create()`](../imageNet.h#L70) function, the following code will load the GoogleNet model with TensorRT, which was already downloaded when you initially [built the `jetson-inference` repo](building-repo-2.md#downloading-models).  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](../data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many different species of animals, along with everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
 
 ``` cpp
 	// load the GoogleNet image recognition network with TensorRT
-	// you can use imageNet::ALEXNET to load AlexNet model instead
+	// you can use imageNet::RESNET_18 to load ResNet-18 instead
 	imageNet* net = imageNet::Create(imageNet::GOOGLENET);
 
 	// check to make sure that the network model loaded properly
@@ -125,9 +125,8 @@ Using the [`imageNet::Create()`](../imageNet.h#L70) function, the following code
 	}
 ```
 
-If desired, you can load the AlexNet model instead of GoogleNet by calling [`imageNet::Create(imageNet::ALEXNET)`](../imageNet.h#L70).  
+If desired, you can load other pre-trained models by changing the enum passed to `imageNet::Create()` to one of the ones listed in [this table](imagenet-console-2.md#downloading-other-classification-models).  ResNet-18 (`imageNet::RESNET_18`) is available by default to use along with GoogleNet.  For the others, you may need to go back and [download](imagenet-console-2.md#downloading-other-classification-models) models that you didn't initially select during the build process.
 
-The AlexNet model is also trained on the same 1000 classes of objects from ILSVRC12.  
 
 #### Classifying the Image
 

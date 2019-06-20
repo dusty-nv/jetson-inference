@@ -6,7 +6,7 @@
 # Classifying Images with ImageNet
 There are multiple types of deep learning networks available, including recognition, detection/localization, and semantic segmentation.  The first deep learning capability we're highlighting in this tutorial is **image recognition** using classifcation networks that have been trained to identify scenes and objects.
 
-[`imageNet`](../imageNet.h) accepts an input image and outputs the probability for each class.  Having been trained on the ImageNet ILSVRC dataset of **[1000 objects](../data/networks/ilsvrc12_synset_words.txt)**, the GoogleNet and ResNet-18 models were automatically downloaded during the build step.  See [below](#downloading-other-classification-models) for other classification models that can be downloaded and used as well.
+The [`imageNet`](../imageNet.h) object accepts an input image and outputs the probability for each class.  Having been trained on the ImageNet ILSVRC dataset of **[1000 objects](../data/networks/ilsvrc12_synset_words.txt)**, the GoogleNet and ResNet-18 models were automatically downloaded during the build step.  See [below](#downloading-other-classification-models) for other classification models that can be downloaded and used as well.
 
 As examples of using [`imageNet`](../imageNet.h) we provide versions of a command-line interface for C++ and Python:
 
@@ -73,7 +73,7 @@ $ ./imagenet-console.py granny_smith_1.jpg output_1.jpg
 
 By default, the repo is set to download the GoogleNet and ResNet-18 networks during the build step.
 
-There are other pre-trained models that you can use as well, if you choose to [download](building-repo-2.md#downloading-models) them:
+There are other pre-trained models that you can use as well, should you choose to [download](building-repo-2.md#downloading-models) them:
 
 | Network       | CLI argument   | NetworkType enum |
 | --------------|----------------|------------------|
