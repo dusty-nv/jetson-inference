@@ -49,10 +49,10 @@ First, include a couple of headers that we'll need:
 // include loadImage header for loading images
 #include <jetson-utils/loadImage.h>
 ```
-> **note**:  these headers are installed under `/usr/local/include` during the `sudo make install` step of [building the repo](building-repo-2.md#compiling-the-project)  
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these headers won't be found when we go to compile the example.  
+> **note**:  these headers are installed under `/usr/local/include` during the `sudo make install` step of [the build](building-repo-2.md#compiling-the-project).  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these headers won't be found when we compile the example.  
 
-#### Declaring `main()` and Parsing the Command Line
+#### Declaring main() and Parsing the Command Line
 
 Next, declare your `main()` method and verify that the program was launched with the image filename as an argument on the command line:  
 
@@ -233,7 +233,7 @@ In the future you can use this CMakeLists as a template for compiling your own p
 		target_link_libraries(my-recognition jetson-inference)
 	```
 
-> **note**:  these libraries are installed under `/usr/local/lib` during the `sudo make install` step of [the build](building-repo-2.md#compiling-the-project)  
+> **note**:  these libraries are installed under `/usr/local/lib` during the `sudo make install` step of [the build](building-repo-2.md#compiling-the-project).  
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these libraries won't be found when we compile the example.  
 
 ## Building the Example
@@ -277,5 +277,5 @@ This is the conclusion of this section of the tutorial.  Next, we'll classify a 
 ##
 <p align="right">Next | <b><a href="imagenet-camera-2.md">Running the Live Camera Recognition Demo</a></b>
 <br/>
-Back | <b><a href="imagenet-console-python-2.md">Coding Your Own Image Recognition Program (Python)</a></b></p>
+Back | <b><a href="imagenet-example-python-2.md">Coding Your Own Image Recognition Program (Python)</a></b></p>
 <p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Table of Contents</sup></a></p>
