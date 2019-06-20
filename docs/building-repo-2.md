@@ -104,7 +104,7 @@ Depending on architecture, the project will be built to either `aarch64` or `arm
 
 In the build tree, you can find the binaries residing in `build/aarch64/bin/`, headers in `build/aarch64/include/`, and libraries in `build/aarch64/lib/`.  These also get installed under `/usr/local/` during the `sudo make install` step.
 
-The Python bindings for the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) packages also get installed during the `sudo make install` step under `/usr/lib/python*/dist-packages/`.  If you update the code, remember to run it again.
+The Python bindings for the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) modules also get installed during the `sudo make install` step under `/usr/lib/python*/dist-packages/`.  If you update the code, remember to run it again.
  
 
 ### Digging Into the Code

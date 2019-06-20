@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="building-repo-2.md">Back</a> | <a href="imagenet-example-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Contents</sup></a>
+<p align="right"><sup><a href="building-repo-2.md">Back</a> | <a href="imagenet-example-python-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
 
@@ -135,7 +135,7 @@ Feel free to experiment with using the different models and see how their accura
 Next, we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
 
 ##
-<p align="right">Next | <b><a href="imagenet-example-2.md">Coding Your Own Image Recognition Program</a></b>
+<p align="right">Next | <b><a href="imagenet-example-python-2.md">Coding Your Own Image Recognition Program (Python)</a></b>
 <br/>
 Back | <b><a href="building-repo-2.md">Building the Repo from Source</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Table of Contents</sup></a></p>
