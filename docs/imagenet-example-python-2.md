@@ -140,11 +140,11 @@ print("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence".format
 
 `imageNet.Classify()` returns the index of the recognized object class (between `0` and `999` for these models that were trained on ILSVRC).  Given the class index, the `imageNet.GetClassDesc()` function will then return the string containing the text description of that class.  These descriptions are automatically loaded from [`ilsvrc12_synset_words.txt`](../data/networks/ilsvrc12_synset_words.txt).
 
-That's it!  That is all the code we need.
+That's it!  That is all the Python code we need for image classification.
 
 ### Source Listing
 
-For completeness, here is the full source of the Python script that we just created.  You can also find it in the repo at [`python/examples/my-recognition.py`](../python/examples/my-recognition.py).
+For completeness, here is the full source of the Python script that we just created.  You can also find it in the repo at [`python/examples/my-recognition.py`](../python/examples/my-recognition.py)
 
 ``` python
 #!/usr/bin/python
@@ -194,15 +194,15 @@ image is recognized as 'brown bear, bruin, Ursus arctos' (class #294) with 99.92
 
 
 ``` bash
-$ ./my-recognition black_bear.jpg
+$ ./my-recognition.py black_bear.jpg
 image is recognized as 'American black bear, black bear, Ursus americanus, Euarctos americanus' (class #295) with 98.898628% confidence
 ```
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/data/images/black_bear.jpg" width="400">
 
-You can also use a [different network](imagenet-console-2.md#downloading-other-classification-models) by specifying the `--network` flag, like so:
+You can also choose to use a [different network](imagenet-console-2.md#downloading-other-classification-models) by specifying the `--network` flag, like so:
 
 ``` bash
-$ ./my-recognition --network=resnet-18 polar_bear.jpg
+$ ./my-recognition.py --network=resnet-18 polar_bear.jpg
 image is recognized as 'ice bear, polar bear, Ursus Maritimus, Thalarctos maritimus' (class #296) with 99.743396% confidence
 ```
 
