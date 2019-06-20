@@ -46,13 +46,13 @@ $ ./detectnet-console.py peds-004.jpg output.jpg
 
 ### Pretrained Detection Models Available
 
-Below is a table of the pretrained object detection networks available for [download](building-repo-2.md#downloading-models), and the associated argument to `detectnet-console` used for loading the pretrained model:
+Below is a table of the pretrained object detection networks available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `detectnet-console` used for loading the pretrained model:
 
 | Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
-| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO list](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
-| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO list](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
-| SSD-Inception-v2        | `ssd-inception-v1` | `SSD_INCEPTION_V2` | 91 ([COCO list](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
+| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
+| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
+| SSD-Inception-v2        | `ssd-inception-v1` | `SSD_INCEPTION_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
 | DetectNet-COCO-Dog      | `coco-dog`         | `COCO_DOG`         | dogs                 |
 | DetectNet-COCO-Bottle   | `coco-bottle`      | `COCO_BOTTLE`      | bottles              |
 | DetectNet-COCO-Chair    | `coco-chair`       | `COCO_CHAIR`       | chairs               |
@@ -105,7 +105,7 @@ $ ./detectnet-console.py --network=coco-airplane airplane_0.jpg output_3.jpg
 
 ### Multi-class Object Detection Models
 
-Some of the model support the detection of multiple different types of objects.  For example, when using the `multiped` model on images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay.
+Some models support the detection of multiple types of objects.  For example, when using the `multiped` model on images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay:
 
 ``` bash
 # C++
