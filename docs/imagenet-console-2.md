@@ -88,7 +88,7 @@ There are other pre-trained models that you can use as well, should you choose t
 | VGG-19        | `vgg-19`       | `VGG-19`         |
 | Inception-v4  | `inception-v4` | `INCEPTION_V4`   |
 
-> **note**:  to download additional networks, run the [Model Downloader](building-repo-2.md#downloading-models) tool:  <br/>
+> **note**:  to download additional networks, run the [Model Downloader](building-repo-2.md#downloading-models) tool<br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
 
