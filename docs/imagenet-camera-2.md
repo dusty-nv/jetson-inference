@@ -14,12 +14,10 @@ Similar to the previous [`imagenet-console`](imagenet-console-2.md) example, the
 
 - `--network` flag setting the classification model (default is GoogleNet)
 	- See [Downloading Other Classification Models](imagenet-console-2.md#downloading-other-classification-models) for the networks available to use.
-
 - `--camera` flag setting the camera device to use
 	- MIPI CSI cameras are used by specifying the sensor index (`0` or `1`, ect.)
 	- V4L2 USB cameras are used by specifying their `/dev/video` node (`/dev/video0`, `/dev/video1`, ect.)
 	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
-
 - `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
 	- The resolution should be set to a format that the camera supports.
      - Query the available formats with the following commands: <br/>
