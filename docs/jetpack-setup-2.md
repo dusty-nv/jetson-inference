@@ -5,7 +5,7 @@
 
 # Setting up Jetson with JetPack
 
-> **note**:  if your Jetson Nano has already been setup with the [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) (which includes the JetPack components), or your Jetson has already been setup with JetPack, you can skip this step and continue to [`Building the Repo`](building-repo-2.md)
+> **note**:  if your Jetson Nano has already been setup with the [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) (which includes the JetPack components), or your Jetson has already been setup with JetPack, you can skip this step and continue to [`Building the Project`](building-repo-2.md)
 
 NVIDIA **[JetPack](https://developer.nvidia.com/embedded/jetpack)** is a comprehensive SDK for Jetson for both developing and deploying AI and computer vision applications.  JetPack simplifies installation of the OS and drivers and contains the following components:
 
@@ -34,7 +34,7 @@ Other Jetson's should be flashed by downloading the [NVIDIA SDK Manager](https:/
 For more details, please refer to the **[NVIDIA SDK Manager Documentation](https://docs.nvidia.com/sdk-manager/index.html)**.
 
 ##
-<p align="right">Next | <b><a href="building-repo-2.md">Building the Repo from Source</a></b>
+<p align="right">Next | <b><a href="building-repo-2.md">Building the Project from Source</a></b>
 <br/>
 Back | <b><a href="../README.md#hello-ai-world-inference-only">Overview</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Table of Contents</sup></a></p>
