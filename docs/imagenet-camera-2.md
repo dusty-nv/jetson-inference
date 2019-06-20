@@ -13,13 +13,17 @@ Next we have a realtime image recognition camera demo available for C++ and Pyth
 Similar to the previous [`imagenet-console`](imagenet-console-2.md) example, the camera applications are built to the `/aarch64/bin` directory. They run on a live camera stream with OpenGL rendering and accept 4 optional command-line arguments:
 
 - `--network` flag setting the classification model (default is GoogleNet)
-	- See [Downloading Other Classification Models](imagenet-console-2.md#downloading-other-classification-models) for the networks available to use
+	- See [Downloading Other Classification Models](imagenet-console-2.md#downloading-other-classification-models) for the networks available to use.
 - optional `--camera` flag setting the camera device to use
 	- MIPI CSI cameras are used by specifying the sensor index (`0` or `1`, ect.)
 	- V4L2 USB cameras are used by specifying their `/dev/video` node (`/dev/video0`, `/dev/video1`, ect.)
 	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
 - `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
-	- The resolution should be set to a format that the camera supports
+	- The resolution should be set to a format that the camera supports:
+	- ```bash
+       $ sudo apt-get install v4l-utils
+       $ v4l2-ctl --list-formats-ext
+	  ```
 
 You can combine the usage of these flags as needed.  Below are some typical scenarios for launching the programs:
 
