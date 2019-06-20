@@ -84,7 +84,7 @@ The desired image filename to be loaded should be substituted for `my_image.jpg`
 $ ./my-recognition.py --network=resnet-18 my_image.jpg
 ```
 
-See the [Downloading Other Classification Models](imagenet-console-2.md#downloading-other-classification-models] section from the previous page for more information about downloading other recognition networks.
+See the [Downloading Other Classification Models](imagenet-console-2.md#downloading-other-classification-models) section from the previous page for more information about downloading other recognition networks.
 
 
 #### Loading the Image from Disk
