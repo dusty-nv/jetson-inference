@@ -19,13 +19,14 @@ Similar to the previous [`imagenet-console`](imagenet-console-2.md) example, the
 	- V4L2 USB cameras are used by specifying their `/dev/video` node (`/dev/video0`, `/dev/video1`, ect.)
 	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
 - `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
-	- The resolution should be set to a format that the camera supports:
-	- ```bash
+	- The resolution should be set to a format that the camera supports. <br/>
+       You can query these formats with the following commands: <br/>
+	  ```bash
        $ sudo apt-get install v4l-utils
        $ v4l2-ctl --list-formats-ext
 	  ```
 
-You can combine the usage of these flags as needed.  Below are some typical scenarios for launching the programs:
+You can combine the usage of these flags as needed.  Below are some typical scenarios for launching the program:
 
 #### C++
 
@@ -46,7 +47,7 @@ $ ./imagenet-camera.py --width=640 --height=480 # using GoogleNet, default MIPI 
 ```
 
 > **note**:  for example cameras to use, see these sections of the Jetson Wiki: <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Nano:  [`https://eLinux.org/Jetson_Nano#Cameras`](https://elinux.org/Jetson_Nano#Cameras) <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Nano:&nbsp;&nbsp;[`https://eLinux.org/Jetson_Nano#Cameras`](https://elinux.org/Jetson_Nano#Cameras) <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Xavier:  [`https://eLinux.org/Jetson_AGX_Xavier#Ecosystem_Products_.26_Cameras`](https://elinux.org/Jetson_AGX_Xavier#Ecosystem_Products_.26_Cameras) <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- TX1/TX2:  developer kits include an onboard MIPI CSI sensor module (0V5693)<br/>
 
