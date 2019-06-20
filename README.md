@@ -9,7 +9,8 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-There are multiple tracks of the tutorial that you can choose to follow, including Training + Inference or Inference Only.
+There are multiple tracks of the tutorial that you can choose to follow, including Training + Inference or Inference Only.  
+It's recommended to follow the [Hello AI World](#hello-ai-world-inference-only) for inference first before proceeding to training.
 
 ### Table of Contents
 
@@ -20,7 +21,7 @@ There are multiple tracks of the tutorial that you can choose to follow, includi
 * [Extra Resources](#extra-resources)
 
 > &gt; &nbsp; Jetson Nano Developer Kit and JetPack 4.2 is now supported in the repo. <br/>
-> &gt; &nbsp; See our technical blog including benchmarks, [`Jetson Nano Brings AI Computing to Everyone`](https://devblogs.nvidia.com/jetson-nano-ai-computing/).
+> &gt; &nbsp; See our latest technical blog including benchmarks, [`Jetson Nano Brings AI Computing to Everyone`](https://devblogs.nvidia.com/jetson-nano-ai-computing/).
 
 ## Hello AI World (Inference Only)
 
