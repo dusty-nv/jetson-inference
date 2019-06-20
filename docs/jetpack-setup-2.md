@@ -7,7 +7,7 @@
 
 > **note**:  if your Jetson Nano has already been setup with the [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) (which includes the JetPack components), or your Jetson has already been setup with JetPack, you can skip this step and continue to [`Building the Repo`](building-repo-2.md)
 
-NVIDIA **[JetPack](https://developer.nvidia.com/embedded/jetpack)** is an SDK bundle for Jetson that contains the following components:
+NVIDIA **[JetPack](https://developer.nvidia.com/embedded/jetpack)** is an SDK bundle for Jetson that simplifies installation of the OS and drivers.  It contains the following components for AI and computer vision application development:
 
 - L4T Kernel / BSP
 - CUDA Toolkit
