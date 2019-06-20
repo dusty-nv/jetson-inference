@@ -10,7 +10,7 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
 There are multiple tracks of the tutorial that you can choose to follow, including Training + Inference or Inference Only.  
-It's recommended to follow the [Hello AI World](#hello-ai-world-inference-only) for to familiarize yourself with inference first before proceeding to training.
+It's recommended to follow [Hello AI World](#hello-ai-world-inference-only) first to familiarize yourself with inference before proceeding to training.
 
 ### Table of Contents
 
