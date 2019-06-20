@@ -7,7 +7,7 @@
 
 > **note**:  if your Jetson Nano has already been setup with the [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) (which includes the JetPack components), or your Jetson has already been setup with JetPack, you can skip this step and continue to [`Building the Repo`](building-repo-2.md)
 
-NVIDIA **[JetPack](https://developer.nvidia.com/embedded/jetpack)** is an SDK bundle for Jetson that simplifies installation of the OS and drivers.  It contains the following components for AI and computer vision application development:
+NVIDIA **[JetPack](https://developer.nvidia.com/embedded/jetpack)** is a comprehensive SDK for Jetson for both developing and deploying AI and computer vision applications.  JetPack simplifies installation of the OS and drivers and contains the following components:
 
 - L4T Kernel / BSP
 - CUDA Toolkit
@@ -21,17 +21,17 @@ Before attempting to build the repo, make sure that your Jetson has been setup w
 
 ### Jetson Nano
 
-The recommended install method for the Jetson Nano Developer Kit is to use the [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write).  It comes pre-populated with the JetPack components already installed.
+The recommended install method for the Jetson Nano Developer Kit is to use the **[SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write)**.  
 
-If you haven't already, follow the [Jetson Nano Getting Started Guide](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) to setup your Nano and flash the SD card image.
+It comes pre-populated with the JetPack components already installed.  If you haven't already, follow the [Jetson Nano Getting Started Guide](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) to setup your Nano and flash the SD card image.
 
 ### Jetson TX1/TX2/Xavier
 
-Other Jetson's should be flashed by downloading the [NVIDIA SDK Manager](https://developer.nvidia.com/embedded/dlc/nv-sdk-manager) to a host PC running Ubuntu 16.04 x86_64 or Ubuntu 18.04 x86_64.  
+Other Jetson's should be flashed by downloading the [NVIDIA SDK Manager](https://developer.nvidia.com/embedded/dlc/nv-sdk-manager) to a host PC running Ubuntu 16.04 x86_64 or Ubuntu 18.04 x86_64.  Connect the Micro-USB port to your host PC and enter the device into Recovery Mode.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/nvsdkm.png" width="650">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/nvsdkm.png" width="800">
 
-For more details, please refer to the [NVIDIA SDK Manager Documentation](https://docs.nvidia.com/sdk-manager/index.html).
+For more details, please refer to the **[NVIDIA SDK Manager Documentation](https://docs.nvidia.com/sdk-manager/index.html)**.
 
 ##
 <p align="right">Next | <b><a href="building-repo-2.md">Building the Repo from Source</a></b>
