@@ -14,12 +14,12 @@ Similar to the previous [`imagenet-console`](imagenet-console-2.md) example, the
 
 - `--network` flag setting the classification model (default is GoogleNet)
 	- See [Downloading Other Classification Models](imagenet-console-2.md#downloading-other-classification-models) for the networks available to use.
-<br/>
-- optional `--camera` flag setting the camera device to use
+
+- `--camera` flag setting the camera device to use
 	- MIPI CSI cameras are used by specifying the sensor index (`0` or `1`, ect.)
 	- V4L2 USB cameras are used by specifying their `/dev/video` node (`/dev/video0`, `/dev/video1`, ect.)
 	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
-<br/>
+
 - `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
 	- The resolution should be set to a format that the camera supports.
      - Query the available formats with the following commands: <br/>
@@ -49,7 +49,7 @@ $ ./imagenet-camera.py --width=640 --height=480 # using GoogleNet, default MIPI 
 ```
 
 > **note**:  for example cameras to use, see these sections of the Jetson Wiki: <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Nano:&nbsp;&nbsp;&nbsp;[`https://eLinux.org/Jetson_Nano#Cameras`](https://elinux.org/Jetson_Nano#Cameras) <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Nano:&nbsp;&nbsp;[`https://eLinux.org/Jetson_Nano#Cameras`](https://elinux.org/Jetson_Nano#Cameras) <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Xavier:  [`https://eLinux.org/Jetson_AGX_Xavier#Ecosystem_Products_.26_Cameras`](https://elinux.org/Jetson_AGX_Xavier#Ecosystem_Products_.26_Cameras) <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- TX1/TX2:  developer kits include an onboard MIPI CSI sensor module (0V5693)<br/>
 
