@@ -51,6 +51,32 @@
  */
 #define DETECTNET_DEFAULT_THRESHOLD 0.5f
 
+/**
+ * Command-line options able to be passed to imageNet::Create()
+ * @ingroup imageNet
+ */
+#define DETECTNET_USAGE_STRING  "detectNet arguments: \n" 								\
+		  "  --network NETWORK     pre-trained model to load, one of the following:\n" 		\
+		  "                            * pednet (default)\n" 							\
+		  "                            * multiped\n" 								\
+		  "                            * facenet\n" 									\
+		  "                            * ssd-mobilenet-v1\n" 							\
+		  "                            * ssd-mobilenet-v2\n" 							\
+		  "                            * ssd-inception-v2\n" 							\
+		  "                            * coco-airplane\n" 							\
+		  "                            * coco-bottle\n" 								\
+		  "                            * coco-chair\n" 								\
+		  "                            * coco-dog\n" 								\
+		  "  --model MODEL         path to custom model to load (.caffemodel, .uff, or .onnx)\n" 					\
+		  "  --prototxt PROTOTXT   path to custom prototxt to load (for .caffemodel only)\n" 					\
+		  "  --class_labels LABELS path to text file containing the labels for each class\n" 					\
+		  "  --threshold THRESHOLD minimum threshold for detection (default is 0.5)\n"							\
+		  "  --input_blob INPUT    name of the input layer (default is '" DETECTNET_DEFAULT_INPUT "')\n" 			\
+		  "  --output_cvg COVERAGE name of the coverge output layer (default is '" DETECTNET_DEFAULT_COVERAGE "')\n" 	\
+		  "  --output_bbox BOXES   name of the bounding output layer (default is '" DETECTNET_DEFAULT_BBOX "')\n" 	\
+		  "  --mean_pixel PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
+		  "  --batch_size BATCH    maximum batch size (default is 1)\n"
+
 
 /**
  * Object recognition and localization networks with TensorRT support.
@@ -134,9 +160,9 @@ public:
 		PEDNET_MULTI,		/**< Multi-class pedestrian + baggage detector */
 
 #if NV_TENSORRT_MAJOR > 4
-		SSD_INCEPTION_V2,	/**< SSD Inception-v2 UFF model, trained on MS-COCO */
 		SSD_MOBILENET_V1,	/**< SSD Mobilenet-v1 UFF model, trained on MS-COCO */
-		SSD_MOBILENET_V2	/**< SSD Mobilenet-v2 UFF model, trained on MS-COCO */
+		SSD_MOBILENET_V2,	/**< SSD Mobilenet-v2 UFF model, trained on MS-COCO */
+		SSD_INCEPTION_V2	/**< SSD Inception-v2 UFF model, trained on MS-COCO */
 #endif
 	};
 
@@ -223,6 +249,11 @@ public:
 	 */
 	static detectNet* Create( int argc, char** argv );
 	
+	/**
+	 * Usage string for command line arguments to Create()
+	 */
+	static inline const char* Usage() 		{ return DETECTNET_USAGE_STRING; }
+
 	/**
 	 * Destory
 	 */

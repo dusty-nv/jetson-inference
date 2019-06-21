@@ -263,8 +263,8 @@ imageNet* imageNet::Create( int argc, char** argv )
 	// create from pretrained model
 	return imageNet::Create(type);
 }
-				 
 
+			 
 // loadClassInfo
 bool imageNet::loadClassInfo( const char* filename )
 {
