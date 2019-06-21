@@ -25,19 +25,27 @@ import jetson.inference
 import jetson.utils
 
 import argparse
+import sys
 
 
 # parse the command line
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description="Locate objects in an image using an object detection DNN.", 
+						   formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.detectNet.Usage())
 
 parser.add_argument("file_in", type=str, help="filename of the input image to process")
 parser.add_argument("file_out", type=str, default=None, nargs='?', help="filename of the output image to save")
-parser.add_argument("--network", type=str, default="pednet", help="model to use, can be:  pednet, multiped, facenet, coco-dog, coco-bottle, coco-chair, coco-airplane")
+parser.add_argument("--network", type=str, default="pednet", help="pre-trained model to load, see below for options")
 parser.add_argument("--threshold", type=float, default=0.5, help="minimum detection threshold to use")
 parser.add_argument("--profile", type=bool, default=False, help="enable performance profiling and multiple runs of the model")
 parser.add_argument("--runs", type=int, default=15, help="if profiling is enabling, the number of iterations to run")
 
-opt, argv = parser.parse_known_args()
+try:
+	opt, argv = parser.parse_known_args()
+except:
+	print("")
+	parser.print_help()
+	sys.exit(0)
+
 
 # load an image (into shared CPU/GPU memory)
 img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
@@ -65,6 +73,9 @@ for i in range(opt.runs):
 	for detection in detections:
 		print(detection)
 	
+	# wait for GPU to complete work
+	jetson.utils.cudaDeviceSynchronize()
+
 	# print out timing info
 	net.PrintProfilerTimes()
 

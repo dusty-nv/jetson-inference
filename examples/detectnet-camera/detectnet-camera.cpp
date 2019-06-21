@@ -40,10 +40,33 @@ void sig_handler(int signo)
 	}
 }
 
+int usage()
+{
+	printf("usage: detectnet-camera [-h] [--network NETWORK] [--camera CAMERA]\n");
+	printf("                        [--width WIDTH] [--height HEIGHT]\n\n");
+	printf("Locate objects in a live camera stream using an object detection DNN.\n\n");
+	printf("optional arguments:\n");
+	printf("  --help           show this help message and exit\n");
+	printf("  --camera CAMERA  index of the MIPI CSI camera to use (NULL for CSI camera 0),\n");
+	printf("                   or for VL42 cameras the /dev/video node to use (/dev/video0).\n");
+     printf("                   by default, MIPI CSI camera 0 will be used.\n");
+	printf("  --width WIDTH    desired width of camera stream (default is 1280 pixels)\n");
+	printf("  --height HEIGHT  desired height of camera stream (default is 720 pixels)\n\n");
+	printf("%s\n", detectNet::Usage());
+
+	return 0;
+}
 
 int main( int argc, char** argv )
 {
+	/*
+	 * parse command line
+	 */
 	commandLine cmdLine(argc, argv);
+
+	if( cmdLine.GetFlag("help") )
+		return usage();
+
 
 	/*
 	 * attach signal handler

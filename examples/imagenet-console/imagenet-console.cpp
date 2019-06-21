@@ -27,21 +27,41 @@
 #include "cudaFont.h"
 
 
+int usage()
+{
+	printf("usage: imagenet-console [h] [--network NETWORK]\n");
+	printf("                        file_in [file_out]\n\n");
+	printf("Classify an image using an image recognition DNN.\n\n");
+	printf("positional arguments:\n");
+	printf("  file_in              filename of the input image to process\n");
+	printf("  file_out             filename of the output image to save (optional)\n\n");
+	printf("optional arguments:\n");
+	printf("  --help               show this help message and exit\n\n");
+	printf("%s\n", imageNet::Usage());
 
-// main entry point
+	return 0;
+}
+
 int main( int argc, char** argv )
 {
+	/*
+	 * parse command line
+	 */
 	commandLine cmdLine(argc, argv);
 
+	if( cmdLine.GetFlag("help") )
+		return usage();
+
+
 	/*
-	 * parse input filename
+	 * check input filename
 	 */
 	const char* imgFilename = cmdLine.GetPosition(0);
 
 	if( !imgFilename )
 	{
-		printf("imagenet-console:   input image filename required\n");
-		return 0;
+		printf("imagenet-console:   input image filename required\n\n");
+		return usage();
 	}
 	
 	

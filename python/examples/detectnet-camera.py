@@ -28,13 +28,14 @@ import argparse
 
 
 # parse the command line
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description="Locate objects in a live camera stream using an object detection DNN.", 
+						   formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.detectNet.Usage())
 
-parser.add_argument("--network", type=str, default="pednet", help="model to use, can be:  pednet, multiped, facenet, coco-dog, coco-bottle, coco-chair, coco-airplane")
+parser.add_argument("--network", type=str, default="pednet", help="pre-trained model to load, see below for options")
 parser.add_argument("--threshold", type=float, default=0.5, help="minimum detection threshold to use")
+parser.add_argument("--camera", type=str, default="0", help="index of the MIPI CSI camera to use (NULL for CSI camera 0)\nor for VL42 cameras the /dev/video node to use.\nby default, MIPI CSI camera 0 will be used.")
 parser.add_argument("--width", type=int, default=1280, help="desired width of camera stream (default is 1280 pixels)")
 parser.add_argument("--height", type=int, default=720, help="desired height of camera stream (default is 720 pixels)")
-parser.add_argument("--camera", type=str, default="0", help="index of the MIPI CSI camera to use (NULL for CSI camera 0), or for VL42 cameras the /dev/video node to use (e.g. /dev/video0).  By default, MIPI CSI camera 0 will be used.")
 
 opt, argv = parser.parse_known_args()
 
