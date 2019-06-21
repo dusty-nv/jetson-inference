@@ -101,14 +101,13 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 
 C++ and Python samples for running the networks on static images and live camera streams can be found in the repo here:
 
-| C++ ([`examples`](examples/README.md)) | Images | Camera |
+|                   | Images              | Camera              |
 |-------------------|---------------------|---------------------|
+| **C++ ([`examples`](examples/README.md))** | |
 | Image Recognition | [`imagenet-console`](examples/imagenet-console/imagenet-console.cpp) | [`imagenet-camera`](examples/imagenet-camera/imagenet-camera.cpp) |
 | Object Detection  | [`detectnet-console`](examples/detectnet-console/detectnet-console.cpp) | [`detectnet-camera`](examples/detectnet-camera/detectnet-camera.cpp))
 | Segmentation      | [`segnet-console`](examples/segnet-console/segnet-console.cpp) | [`segnet-camera`](examples/segnet-camera/segnet-camera.cpp) |
-
-| Python ([`python/examples`](python/examples/README.md)) | Images | Camera |
-|-------------------|---------------------|---------------------|
+| **Python ([`python/examples`](python/examples/README.md))** | | |
 | Image Recognition | [`imagenet-console.py`](python/examples/imagenet-console.py) | [`imagenet-camera.py`](python/examples/imagenet-camera.py) |
 | Object Detection  | [`detectnet-console.py`](python/examples/detectnet-console.py) | [`detectnet-camera.py`](python/examples/detectnet-camera.py))
 
