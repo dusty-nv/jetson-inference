@@ -82,7 +82,7 @@ The full tutorial includes training and inference, and can take roughly two days
 
 Below are links to reference documentation for the [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/index.html) and [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.html) libraries from the repo:
 
-* jetson-inference
+#### jetson-inference
 
 |                   | [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) |
 |-------------------|--------------|--------------|
@@ -90,9 +90,10 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 | Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet)
 | Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classsegNet.html) | (coming soon) |
 
-* jetson-utils
-     * [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__util.html)
-     * [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html)
+#### jetson-utils
+
+* [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__util.html)
+* [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html)
 
 
 * [C++ Libraries](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/index.html)
