@@ -17,6 +17,8 @@ It's recommended to follow [Hello AI World](#hello-ai-world-inference-only) firs
 * [Hello AI World (Inference)](#hello-ai-world-inference-only)
 * [Two Days to a Demo (Training + Inference)](#two-days-to-a-demo-training--inference)
 * [API Reference Documentation](#api-reference)
+* [Code Examples](#code-examples)
+* [Pre-trained Models](#pre-trained-models)
 * [Recommended System Requirements](#recommended-system-requirements)
 * [Extra Resources](#extra-resources)
 
@@ -95,20 +97,48 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 * [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__util.html)
 * [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html)
 
+## Code Examples
 
-* [C++ Libraries](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/index.html)
-	* [`jetson-inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__deepVision.html)
-		* [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classimageNet.html) (image recognition)
-		* [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) (object detection)
-		* [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) (semantic segmentation)
-	* [`jetson-utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__util.html)
+C++ and Python samples for running the networks on images and live camera streams can be found in the repo here:
 
-* [Python Libraries](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.html)
-	* [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html)
-		* [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) (image recognition)
-		* [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) (object detection)
-	* [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html)
+|        | Location |
+|--------|----------|
+| C++    | [`examples`](examples/README.md) |
+| Python | [`python/examples`](python/examples/README.md) |
 
+## Pre-trained Models
+
+The project comes with a number of pre-trained models that are available for [download](building-repo-2.md#downloading-models):
+
+#### Image Recognition
+
+| Network       | CLI argument   | NetworkType enum |
+| --------------|----------------|------------------|
+| AlexNet       | `alexnet`      | `ALEXNET`        |
+| GoogleNet     | `googlenet`    | `GOOGLENET`      |
+| GoogleNet-12  | `googlenet-12` | `GOOGLENET_12`   |
+| ResNet-18     | `resnet-18`    | `RESNET_18`      |
+| ResNet-50     | `resnet-50`    | `RESNET_50`      |
+| ResNet-101    | `resnet-101`   | `RESNET_101`     |
+| ResNet-152    | `resnet-152`   | `RESNET_152`     |
+| VGG-16        | `vgg-16`       | `VGG-16`         |
+| VGG-19        | `vgg-19`       | `VGG-19`         |
+| Inception-v4  | `inception-v4` | `INCEPTION_V4`   |
+
+#### Object Detection
+
+| Network                 | CLI argument       | NetworkType enum   | Object classes       |
+| ------------------------|--------------------|--------------------|----------------------|
+| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
+| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
+| SSD-Inception-v2        | `ssd-inception-v1` | `SSD_INCEPTION_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
+| DetectNet-COCO-Dog      | `coco-dog`         | `COCO_DOG`         | dogs                 |
+| DetectNet-COCO-Bottle   | `coco-bottle`      | `COCO_BOTTLE`      | bottles              |
+| DetectNet-COCO-Chair    | `coco-chair`       | `COCO_CHAIR`       | chairs               |
+| DetectNet-COCO-Airplane | `coco-airplane`    | `COCO_AIRPLANE`    | airplanes            |
+| ped-100                 | `pednet`           | `PEDNET`           | pedestrians          |
+| multiped-500            | `multiped`         | `PEDNET_MULTI`     | pedestrians, luggage |
+| facenet-120             | `facenet`          | `FACENET`          | faces                |
 
 ## Recommended System Requirements
 
