@@ -101,10 +101,10 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 
 C++ and Python samples for running the networks on images and live camera streams can be found in the repo here:
 
-|        | Location |
-|--------|----------|
-| C++    | [`examples`](examples/README.md) |
-| Python | [`python/examples`](python/examples/README.md) |
+* C++ ([`examples`](examples/README.md))
+* Python ([`python/examples`](python/examples/README.md))
+
+These examples are able to run any of the pre-trained models listed below.
 
 ## Pre-trained Models
 
