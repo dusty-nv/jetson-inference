@@ -16,10 +16,10 @@ It's recommended to follow [Hello AI World](#hello-ai-world-inference-only) firs
 
 * [Hello AI World (Inference)](#hello-ai-world-inference-only)
 * [Two Days to a Demo (Training + Inference)](#two-days-to-a-demo-training--inference)
-* [API Reference Documentation](#api-reference)
+* [API Reference](#api-reference)
 * [Code Examples](#code-examples)
 * [Pre-trained Models](#pre-trained-models)
-* [Recommended System Requirements](#recommended-system-requirements)
+* [System Requirements](#recommended-system-requirements)
 * [Extra Resources](#extra-resources)
 
 > &gt; &nbsp; Jetson Nano Developer Kit and JetPack 4.2 is now supported in the repo. <br/>
@@ -115,7 +115,7 @@ These examples are able to run the pre-trained models listed below or custom mod
 
 ## Pre-trained Models
 
-The project comes with a number of pre-trained models that are available for [download](building-repo-2.md#downloading-models):
+The project comes with a number of pre-trained models that are available through the [**Model Downloader**](docs/building-repo-2.md#downloading-models) tool:
 
 #### Image Recognition
 
