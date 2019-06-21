@@ -4,7 +4,14 @@ var classimageNet =
       [ "CUSTOM", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a9237dcd407a6df5b51f027b47053b013", null ],
       [ "ALEXNET", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a3e774168f30b16946773a737a6c354cf", null ],
       [ "GOOGLENET", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470ab013750d9b65eacdae3c587dd42550c0", null ],
-      [ "GOOGLENET_12", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470af4a7d4831db43dda4de80c2a395f3ebb", null ]
+      [ "GOOGLENET_12", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470af4a7d4831db43dda4de80c2a395f3ebb", null ],
+      [ "RESNET_18", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a41ccbd9480e0072ed579da95eb6a479d", null ],
+      [ "RESNET_50", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470aa940343d369f0026258f0a42188a405b", null ],
+      [ "RESNET_101", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a3bc3f084f3ef071585caf9629e64e24b", null ],
+      [ "RESNET_152", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a91e56faa59f440c7aeb42f37363f27c4", null ],
+      [ "VGG_16", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a4a1ff14a90c30b505d6a2e563ad02bdc", null ],
+      [ "VGG_19", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470ab44362ca647faaeb0b4a3124aef6a6fa", null ],
+      [ "INCEPTION_V4", "classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a196d67c5fe33ca0e6724b0dfdff0a8e0", null ]
     ] ],
     [ "~imageNet", "classimageNet.html#af6bd86e81ff9e67ffe19b575c17ed104", null ],
     [ "imageNet", "classimageNet.html#a0ea17be1ce78b3e0758af46c970a968c", null ],

@@ -8,6 +8,8 @@ var searchData=
   ['imagenet_2eh',['imageNet.h',['../imageNet_8h.html',1,'']]],
   ['imagenet_5fdefault_5finput',['IMAGENET_DEFAULT_INPUT',['../group__imageNet.html#ga00bb3120ef3040793ad3ee25d2727f5b',1,'imageNet.h']]],
   ['imagenet_5fdefault_5foutput',['IMAGENET_DEFAULT_OUTPUT',['../group__imageNet.html#ga74a585b96a1bd960b5201f6b69752fad',1,'imageNet.h']]],
+  ['imagenet_5fusage_5fstring',['IMAGENET_USAGE_STRING',['../group__imageNet.html#gab0d359b9760ffe34b09adbb31d8fed54',1,'imageNet.h']]],
+  ['inception_5fv4',['INCEPTION_V4',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a196d67c5fe33ca0e6724b0dfdff0a8e0',1,'imageNet']]],
   ['init',['init',['../classdetectNet.html#a4d9b1b0fadbefe2b8e06e555906ae6ec',1,'detectNet::init()'],['../classimageNet.html#a84dd4bae637b43560c6a1ca71e1df3fe',1,'imageNet::init(NetworkType networkType, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback)'],['../classimageNet.html#aa5321e8082e2dc35f5982882fa284181',1,'imageNet::init(const char *prototxt_path, const char *model_path, const char *mean_binary, const char *class_path, const char *input, const char *output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback)'],['../classcudaFont.html#ad7ee4d6a42f34ead54c0875c4441fb45',1,'cudaFont::init()'],['../classgstDecoder.html#a36df59115f792f7a45d423a0367f2d33',1,'gstDecoder::init()'],['../classgstEncoder.html#a4a3b60cb47c408ed1aa7be2ab023e0a5',1,'gstEncoder::init()']]],
   ['initgl',['initGL',['../classglDisplay.html#a022eebf333e5acf6df0fcf2f632a470a',1,'glDisplay']]],
   ['initrealtime',['InitRealtime',['../classThread.html#ac1bccfcc9119d0c9f8dc95ef13175c74',1,'Thread']]],

@@ -46,7 +46,46 @@
 <font color="#000000" face="helvetica, arial"><a name="detectNet">class <strong>detectNet</strong></a>(<a href="jetson.inference.html#tensorNet">tensorNet</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt>Object&nbsp;Detection&nbsp;DNN<br>&nbsp;</tt></td></tr>
+<td colspan=2><tt>Object&nbsp;Detection&nbsp;DNN&nbsp;-&nbsp;locates&nbsp;objects&nbsp;in&nbsp;an&nbsp;image<br>
+&nbsp;<br>
+Examples&nbsp;(jetson-inference/python/examples)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detectnet-console.py<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detectnet-camera.py<br>
+&nbsp;<br>
+<a href="#detectNet-__init__">__init__</a>(...)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loads&nbsp;an&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;detection&nbsp;model.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;network&nbsp;(string)&nbsp;--&nbsp;name&nbsp;of&nbsp;a&nbsp;built-in&nbsp;network&nbsp;to&nbsp;use<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;below&nbsp;for&nbsp;available&nbsp;options.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argv&nbsp;(strings)&nbsp;--&nbsp;command&nbsp;line&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;<a href="#imageNet">imageNet</a>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;below&nbsp;for&nbsp;available&nbsp;options.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threshold&nbsp;(float)&nbsp;--&nbsp;minimum&nbsp;detection&nbsp;threshold.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default&nbsp;value&nbsp;is&nbsp;0.5<br>
+&nbsp;<br>
+<a href="#detectNet">detectNet</a>&nbsp;arguments:&nbsp;<br>
+&nbsp;&nbsp;--network&nbsp;NETWORK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pre-trained&nbsp;model&nbsp;to&nbsp;load,&nbsp;one&nbsp;of&nbsp;the&nbsp;following:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;pednet&nbsp;(default)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;multiped<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;facenet<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-mobilenet-v1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-mobilenet-v2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-inception-v2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-airplane<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-bottle<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-chair<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-dog<br>
+&nbsp;&nbsp;--model&nbsp;MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(.caffemodel,&nbsp;.uff,&nbsp;or&nbsp;.onnx)<br>
+&nbsp;&nbsp;--prototxt&nbsp;PROTOTXT&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
+&nbsp;&nbsp;--class_labels&nbsp;LABELS&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
+&nbsp;&nbsp;--threshold&nbsp;THRESHOLD&nbsp;minimum&nbsp;threshold&nbsp;for&nbsp;detection&nbsp;(default&nbsp;is&nbsp;0.5)<br>
+&nbsp;&nbsp;--input_blob&nbsp;INPUT&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'data')<br>
+&nbsp;&nbsp;--output_cvg&nbsp;COVERAGE&nbsp;name&nbsp;of&nbsp;the&nbsp;coverge&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'coverage')<br>
+&nbsp;&nbsp;--output_bbox&nbsp;BOXES&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;bounding&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'bboxes')<br>
+&nbsp;&nbsp;--mean_pixel&nbsp;PIXEL&nbsp;&nbsp;&nbsp;&nbsp;mean&nbsp;pixel&nbsp;value&nbsp;to&nbsp;subtract&nbsp;from&nbsp;input&nbsp;(default&nbsp;is&nbsp;0.0)<br>
+&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="jetson.inference.html#detectNet">detectNet</a></dd>
@@ -55,23 +94,105 @@
 </dl>
 <hr>
 Methods defined here:<br>
-<dl><dt><a name="detectNet-Detect"><strong>Detect</strong></a>(...)</dt><dd><tt>Detect&nbsp;objects&nbsp;in&nbsp;an&nbsp;RGBA&nbsp;image&nbsp;and&nbsp;optionally&nbsp;overlay&nbsp;the&nbsp;detected&nbsp;bounding&nbsp;boxes&nbsp;over&nbsp;the&nbsp;image</tt></dd></dl>
+<dl><dt><a name="detectNet-Detect"><strong>Detect</strong></a>(...)</dt><dd><tt>Detect&nbsp;objects&nbsp;in&nbsp;an&nbsp;RGBA&nbsp;image&nbsp;and&nbsp;return&nbsp;a&nbsp;list&nbsp;of&nbsp;detections.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;image&nbsp;&nbsp;&nbsp;(capsule)&nbsp;--&nbsp;CUDA&nbsp;memory&nbsp;capsule<br>
+&nbsp;&nbsp;width&nbsp;&nbsp;&nbsp;(int)&nbsp;&nbsp;--&nbsp;width&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
+&nbsp;&nbsp;height&nbsp;&nbsp;(int)&nbsp;&nbsp;--&nbsp;height&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
+&nbsp;&nbsp;overlay&nbsp;(bool)&nbsp;--&nbsp;true&nbsp;to&nbsp;overlay&nbsp;the&nbsp;bounding&nbsp;boxes&nbsp;(default&nbsp;is&nbsp;true)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;[Detections]&nbsp;--&nbsp;list&nbsp;containing&nbsp;the&nbsp;detected&nbsp;objects&nbsp;(see&nbsp;<a href="#detectNet">detectNet</a>.Detection)</tt></dd></dl>
 
-<dl><dt><a name="detectNet-GetClassDesc"><strong>GetClassDesc</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;class&nbsp;description&nbsp;for&nbsp;the&nbsp;given&nbsp;class&nbsp;index</tt></dd></dl>
+<dl><dt><a name="detectNet-GetClassDesc"><strong>GetClassDesc</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;class&nbsp;description&nbsp;for&nbsp;the&nbsp;given&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;class.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;index&nbsp;of&nbsp;the&nbsp;class,&nbsp;between&nbsp;[0,&nbsp;<a href="#detectNet-GetNumClasses">GetNumClasses</a>()]<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(string)&nbsp;--&nbsp;the&nbsp;text&nbsp;description&nbsp;of&nbsp;the&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;class</tt></dd></dl>
 
-<dl><dt><a name="detectNet-GetClassSynset"><strong>GetClassSynset</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;class&nbsp;synset&nbsp;dataset&nbsp;category&nbsp;for&nbsp;the&nbsp;given&nbsp;class&nbsp;index</tt></dd></dl>
+<dl><dt><a name="detectNet-GetClassSynset"><strong>GetClassSynset</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;synset&nbsp;data&nbsp;category&nbsp;string&nbsp;for&nbsp;the&nbsp;given&nbsp;class.<br>
+The&nbsp;synset&nbsp;generally&nbsp;maps&nbsp;to&nbsp;the&nbsp;class&nbsp;training&nbsp;data&nbsp;folder.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;index&nbsp;of&nbsp;the&nbsp;class,&nbsp;between&nbsp;[0,&nbsp;<a href="#detectNet-GetNumClasses">GetNumClasses</a>()]<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(string)&nbsp;--&nbsp;the&nbsp;synset&nbsp;of&nbsp;the&nbsp;class,&nbsp;typically&nbsp;9&nbsp;characters&nbsp;long</tt></dd></dl>
 
-<dl><dt><a name="detectNet-GetNumClasses"><strong>GetNumClasses</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;number&nbsp;of&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;classes&nbsp;that&nbsp;this&nbsp;network&nbsp;model&nbsp;is&nbsp;able&nbsp;to&nbsp;classify</tt></dd></dl>
+<dl><dt><a name="detectNet-GetNumClasses"><strong>GetNumClasses</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;number&nbsp;of&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;classes&nbsp;that&nbsp;this&nbsp;network&nbsp;model&nbsp;is&nbsp;able&nbsp;to&nbsp;detect.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;number&nbsp;of&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;classes&nbsp;that&nbsp;the&nbsp;model&nbsp;supports</tt></dd></dl>
 
-<dl><dt><a name="detectNet-GetThreshold"><strong>GetThreshold</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;minimum&nbsp;threshold&nbsp;for&nbsp;detection</tt></dd></dl>
+<dl><dt><a name="detectNet-GetThreshold"><strong>GetThreshold</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;minimum&nbsp;detection&nbsp;threshold.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(float)&nbsp;--&nbsp;the&nbsp;threshold&nbsp;for&nbsp;detection</tt></dd></dl>
 
-<dl><dt><a name="detectNet-SetThreshold"><strong>SetThreshold</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;minimum&nbsp;threshold&nbsp;for&nbsp;detection</tt></dd></dl>
+<dl><dt><a name="detectNet-SetThreshold"><strong>SetThreshold</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;minimum&nbsp;detection&nbsp;threshold.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;(float)&nbsp;--&nbsp;detection&nbsp;threshold<br>
+&nbsp;<br>
+Returns:&nbsp;&nbsp;(none)</tt></dd></dl>
 
 <dl><dt><a name="detectNet-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="#detectNet-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
 
 <hr>
+Static methods defined here:<br>
+<dl><dt><a name="detectNet-Usage"><strong>Usage</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;command&nbsp;line&nbsp;parameters&nbsp;accepted&nbsp;by&nbsp;<a href="#detectNet-__init__">__init__</a>()<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(string)&nbsp;--&nbsp;usage&nbsp;string&nbsp;documenting&nbsp;command-line&nbsp;options</tt></dd></dl>
+
+<hr>
 Data and other attributes defined here:<br>
-<dl><dt><strong>Detection</strong> = &lt;type 'jetson.inference.detectNet.Detection'&gt;<dd><tt>Object&nbsp;Detection&nbsp;Result</tt></dl>
+<dl><dt><strong>Detection</strong> = &lt;type 'jetson.inference.detectNet.Detection'&gt;<dd><tt>Object&nbsp;Detection&nbsp;Result<br>
+&nbsp;<br>
+----------------------------------------------------------------------<br>
+Data&nbsp;descriptors&nbsp;defined&nbsp;here:<br>
+&nbsp;<br>
+Area<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Area&nbsp;of&nbsp;bounding&nbsp;box<br>
+&nbsp;<br>
+Bottom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Bottom&nbsp;bounding&nbsp;box&nbsp;coordinate<br>
+&nbsp;<br>
+Center<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Center&nbsp;(x,y)&nbsp;coordinate&nbsp;of&nbsp;bounding&nbsp;box<br>
+&nbsp;<br>
+ClassID<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Class&nbsp;index&nbsp;of&nbsp;the&nbsp;detected&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Confidence<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Confidence&nbsp;value&nbsp;of&nbsp;the&nbsp;detected&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Height<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Height&nbsp;of&nbsp;bounding&nbsp;box<br>
+&nbsp;<br>
+Instance<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Instance&nbsp;index&nbsp;of&nbsp;the&nbsp;detected&nbsp;<a href="__builtin__.html#object">object</a><br>
+&nbsp;<br>
+Left<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;bounding&nbsp;box&nbsp;coordinate<br>
+&nbsp;<br>
+Right<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;bounding&nbsp;box&nbsp;coordinate<br>
+&nbsp;<br>
+Top<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Top&nbsp;bounding&nbsp;box&nbsp;coordinate<br>
+&nbsp;<br>
+Width<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width&nbsp;of&nbsp;bounding&nbsp;box</tt></dl>
 
 <hr>
 Methods inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<br>
@@ -102,7 +223,7 @@ Data and other attributes inherited from <a href="jetson.inference.html#tensorNe
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt>Image&nbsp;Recognition&nbsp;DNN&nbsp;-&nbsp;classifies&nbsp;an&nbsp;image<br>
 &nbsp;<br>
-Examples&nbsp;(found&nbsp;in&nbsp;python/examples)<br>
+Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my-recognition.py<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagenet-console.py<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagenet-camera.py<br>
@@ -111,12 +232,30 @@ Examples&nbsp;(found&nbsp;in&nbsp;python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loads&nbsp;an&nbsp;image&nbsp;recognition&nbsp;model.<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parameters:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;network&nbsp;(string)&nbsp;--&nbsp;name&nbsp;of&nbsp;a&nbsp;built-in&nbsp;network&nbsp;to&nbsp;use<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;values&nbsp;can&nbsp;be:&nbsp;&nbsp;'alexnet',&nbsp;'googlenet',&nbsp;'googlenet-12'<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;default&nbsp;is&nbsp;'googlenet'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;network&nbsp;(string)&nbsp;--&nbsp;name&nbsp;of&nbsp;a&nbsp;built-in&nbsp;network&nbsp;to&nbsp;use,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;below&nbsp;for&nbsp;available&nbsp;options.<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argv&nbsp;(strings)&nbsp;--&nbsp;command&nbsp;line&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;<a href="#imageNet">imageNet</a>,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;loading&nbsp;a&nbsp;custom&nbsp;model&nbsp;or&nbsp;custom&nbsp;settings<br>&nbsp;</tt></td></tr>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;below&nbsp;for&nbsp;available&nbsp;options.<br>
+&nbsp;<br>
+<a href="#imageNet">imageNet</a>&nbsp;arguments:&nbsp;<br>
+&nbsp;&nbsp;--network&nbsp;NETWORK&nbsp;&nbsp;&nbsp;&nbsp;pre-trained&nbsp;model&nbsp;to&nbsp;load,&nbsp;one&nbsp;of&nbsp;the&nbsp;following:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;alexnet<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;googlenet&nbsp;(default)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;googlenet-12<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;resnet-18<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;resnet-50<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;resnet-101<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;resnet-152<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;vgg-16<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;vgg-19<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;inception-v4<br>
+&nbsp;&nbsp;--model&nbsp;MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(.caffemodel,&nbsp;.uff,&nbsp;or&nbsp;.onnx)<br>
+&nbsp;&nbsp;--prototxt&nbsp;PROTOTXT&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
+&nbsp;&nbsp;--labels&nbsp;LABELS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
+&nbsp;&nbsp;--input_blob&nbsp;INPUT&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'data')<br>
+&nbsp;&nbsp;--output_blob&nbsp;OUTPUT&nbsp;name&nbsp;of&nbsp;the&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'prob')<br>
+&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="jetson.inference.html#imageNet">imageNet</a></dd>
@@ -170,6 +309,15 @@ Returns:<br>
 <dl><dt><a name="imageNet-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="#imageNet-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
 
 <hr>
+Static methods defined here:<br>
+<dl><dt><a name="imageNet-Usage"><strong>Usage</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;command&nbsp;line&nbsp;parameters&nbsp;accepted&nbsp;by&nbsp;<a href="#imageNet-__init__">__init__</a>()<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(string)&nbsp;--&nbsp;usage&nbsp;string&nbsp;documenting&nbsp;command-line&nbsp;options</tt></dd></dl>
+
+<hr>
 Methods inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<br>
 <dl><dt><a name="imageNet-EnableDebug"><strong>EnableDebug</strong></a>(...)</dt><dd><tt>Enable&nbsp;TensorRT&nbsp;debug&nbsp;messages&nbsp;and&nbsp;device&nbsp;synchronization</tt></dd></dl>
 
@@ -218,16 +366,6 @@ Data and other attributes defined here:<br>
 <dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#tensorNet-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
 
 </td></tr></table></td></tr></table><p>
-<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
-<tr bgcolor="#eeaa77">
-<td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
-    
-<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-MyPrint"><strong>MyPrint</strong></a>(...)</dt><dd><tt>Print&nbsp;a&nbsp;string.</tt></dd></dl>
- <dl><dt><a name="-MyString"><strong>MyString</strong></a>(...)</dt><dd><tt>Return&nbsp;a&nbsp;test&nbsp;string.</tt></dd></dl>
- <dl><dt><a name="-MyTest"><strong>MyTest</strong></a>(...)</dt><dd><tt>Test&nbsp;function.</tt></dd></dl>
-</td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#55aa55">
 <td colspan=3 valign=bottom>&nbsp;<br>

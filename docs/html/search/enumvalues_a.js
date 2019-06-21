@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['segnet_5fcustom',['SEGNET_CUSTOM',['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a95a81cd526c1ada9d225f6142f5f0f41',1,'segNet']]],
-  ['socket_5ftcp',['SOCKET_TCP',['../Socket_8h.html#aa78c7398fa81f7f62aa233159d4d8d97a2843397fd39bd96681bca78a8aa03096',1,'Socket.h']]],
-  ['socket_5fudp',['SOCKET_UDP',['../Socket_8h.html#aa78c7398fa81f7f62aa233159d4d8d97a180747545a72ff6d0fd0569e781aefd5',1,'Socket.h']]]
+  ['resnet_5f101',['RESNET_101',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a3bc3f084f3ef071585caf9629e64e24b',1,'imageNet']]],
+  ['resnet_5f152',['RESNET_152',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a91e56faa59f440c7aeb42f37363f27c4',1,'imageNet']]],
+  ['resnet_5f18',['RESNET_18',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a41ccbd9480e0072ed579da95eb6a479d',1,'imageNet']]],
+  ['resnet_5f50',['RESNET_50',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470aa940343d369f0026258f0a42188a405b',1,'imageNet']]]
 ];

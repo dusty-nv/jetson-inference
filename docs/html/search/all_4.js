@@ -26,6 +26,7 @@ var searchData=
   ['detectnet_5fdefault_5fcoverage',['DETECTNET_DEFAULT_COVERAGE',['../group__detectNet.html#ga1e79603783719e4a79f2c68f1ef47621',1,'detectNet.h']]],
   ['detectnet_5fdefault_5finput',['DETECTNET_DEFAULT_INPUT',['../group__detectNet.html#gac824e329015dc8aed6e1112bfe21cb97',1,'detectNet.h']]],
   ['detectnet_5fdefault_5fthreshold',['DETECTNET_DEFAULT_THRESHOLD',['../group__detectNet.html#ga5de620e838c2ac9aec16c6de2977513f',1,'detectNet.h']]],
+  ['detectnet_5fusage_5fstring',['DETECTNET_USAGE_STRING',['../group__imageNet.html#gad5f43885a04689f10c6f9d297ab88a8d',1,'detectNet.h']]],
   ['device_5fdla',['DEVICE_DLA',['../group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4aeaef16f066c95dd987fbde765b8b30b2',1,'tensorNet.h']]],
   ['device_5fdla_5f0',['DEVICE_DLA_0',['../group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4a4950aeb02ff7fba02eb2fd2437788399',1,'tensorNet.h']]],
   ['device_5fdla_5f1',['DEVICE_DLA_1',['../group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4a63fbbad29461776cf20c2137a3d124f0',1,'tensorNet.h']]],

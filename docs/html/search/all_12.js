@@ -11,6 +11,10 @@ var searchData=
   ['renderonce',['RenderOnce',['../classglDisplay.html#a616a3220a6575d31bad5de69eca71e0f',1,'glDisplay']]],
   ['reportlayertime',['reportLayerTime',['../classtensorNet_1_1Profiler.html#a509ac9582f3e2f8f386363a0d43cc51c',1,'tensorNet::Profiler']]],
   ['reset',['Reset',['../structdetectNet_1_1Detection.html#a15b1dafa33b267e1ee2cba6eba0a9ae1',1,'detectNet::Detection::Reset()'],['../classEvent.html#afed31be0b4f98fb83163a4d725886e81',1,'Event::Reset()'],['../classtinyxml2_1_1StrPair.html#a80c1b3bd99bf62ae85c94a29ce537125',1,'tinyxml2::StrPair::Reset()']]],
+  ['resnet_5f101',['RESNET_101',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a3bc3f084f3ef071585caf9629e64e24b',1,'imageNet']]],
+  ['resnet_5f152',['RESNET_152',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a91e56faa59f440c7aeb42f37363f27c4',1,'imageNet']]],
+  ['resnet_5f18',['RESNET_18',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a41ccbd9480e0072ed579da95eb6a479d',1,'imageNet']]],
+  ['resnet_5f50',['RESNET_50',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470aa940343d369f0026258f0a42188a405b',1,'imageNet']]],
   ['right',['Right',['../structdetectNet_1_1Detection.html#aa008c7f9d614b314281366b7797cd00a',1,'detectNet::Detection']]],
   ['rootelement',['RootElement',['../classtinyxml2_1_1XMLDocument.html#ad2b70320d3c2a071c2f36928edff3e1c',1,'tinyxml2::XMLDocument::RootElement()'],['../classtinyxml2_1_1XMLDocument.html#a2be8ef9d6346bdef34311f91529afae4',1,'tinyxml2::XMLDocument::RootElement() const']]],
   ['run',['Run',['../classThread.html#ac852bc49c5bf8c2f448e4df85b1a4cae',1,'Thread']]]

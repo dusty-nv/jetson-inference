@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('classcommandLine.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="classcommandLine.html" title="commandLine parser class ">commandLine</a> parser class  
+<p>Command line parser class.  
  <a href="classcommandLine.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="commandLine_8h_source.html">commandLine.h</a>&gt;</code></p>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('classcommandLine.html','');});
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af365794845587db8e89aea0687b1c6f7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#af365794845587db8e89aea0687b1c6f7">commandLine</a> (const int <a class="el" href="classcommandLine.html#a7e44bdf5e5dcafee061bd3827002117a">argc</a>, char **<a class="el" href="classcommandLine.html#adb4c762405ba4b6bb81d99daa85f98bf">argv</a>)</td></tr>
-<tr class="memdesc:af365794845587db8e89aea0687b1c6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor  <a href="#af365794845587db8e89aea0687b1c6f7">More...</a><br /></td></tr>
+<tr class="memdesc:af365794845587db8e89aea0687b1c6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor, takes the command line from <code>main()</code>  <a href="#af365794845587db8e89aea0687b1c6f7">More...</a><br /></td></tr>
 <tr class="separator:af365794845587db8e89aea0687b1c6f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbce4973201d2353e6cd963220d3dbe3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#afbce4973201d2353e6cd963220d3dbe3">GetFlag</a> (const char *argName)</td></tr>
 <tr class="memdesc:afbce4973201d2353e6cd963220d3dbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks to see whether the specified flag was included on the command line.  <a href="#afbce4973201d2353e6cd963220d3dbe3">More...</a><br /></td></tr>
@@ -109,9 +109,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7f90663ccf7e3d63ed5bffd043564e9a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a7f90663ccf7e3d63ed5bffd043564e9a">GetInt</a> (const char *argName, int defaultValue=0)</td></tr>
 <tr class="memdesc:a7f90663ccf7e3d63ed5bffd043564e9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get integer argument.  <a href="#a7f90663ccf7e3d63ed5bffd043564e9a">More...</a><br /></td></tr>
 <tr class="separator:a7f90663ccf7e3d63ed5bffd043564e9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08bab5208f82fb918fd78e56bfa5c0d8"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a08bab5208f82fb918fd78e56bfa5c0d8">GetString</a> (const char *argName)</td></tr>
-<tr class="memdesc:a08bab5208f82fb918fd78e56bfa5c0d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get string argument.  <a href="#a08bab5208f82fb918fd78e56bfa5c0d8">More...</a><br /></td></tr>
-<tr class="separator:a08bab5208f82fb918fd78e56bfa5c0d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77b9289d32c7b949b38a0c6e45c4091e"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a77b9289d32c7b949b38a0c6e45c4091e">GetString</a> (const char *argName, const char *defaultValue=NULL)</td></tr>
+<tr class="memdesc:a77b9289d32c7b949b38a0c6e45c4091e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get string argument.  <a href="#a77b9289d32c7b949b38a0c6e45c4091e">More...</a><br /></td></tr>
+<tr class="separator:a77b9289d32c7b949b38a0c6e45c4091e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a2c75a34d87d7e930f7a49c1b2a2369"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a3a2c75a34d87d7e930f7a49c1b2a2369">GetPosition</a> (unsigned int position, const char *defaultValue=NULL)</td></tr>
+<tr class="memdesc:a3a2c75a34d87d7e930f7a49c1b2a2369"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get positional string argument.  <a href="#a3a2c75a34d87d7e930f7a49c1b2a2369">More...</a><br /></td></tr>
+<tr class="separator:a3a2c75a34d87d7e930f7a49c1b2a2369"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75409f56ac1ef63a77eb500c6561b2a1"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a75409f56ac1ef63a77eb500c6561b2a1">GetPositionArgs</a> ()</td></tr>
+<tr class="memdesc:a75409f56ac1ef63a77eb500c6561b2a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of positional arguments in the command line.  <a href="#a75409f56ac1ef63a77eb500c6561b2a1">More...</a><br /></td></tr>
+<tr class="separator:a75409f56ac1ef63a77eb500c6561b2a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -121,7 +127,7 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:adb4c762405ba4b6bb81d99daa85f98bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="classcommandLine.html" title="commandLine parser class ">commandLine</a> parser class </p>
+<div class="textblock"><p>Command line parser class. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af365794845587db8e89aea0687b1c6f7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af365794845587db8e89aea0687b1c6f7">&#9670;&nbsp;</a></span>commandLine()</h2>
@@ -149,7 +155,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>constructor </p>
+<p>Constructor, takes the command line from <code>main()</code> </p>
 
 </div>
 </div>
@@ -171,8 +177,8 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Checks to see whether the specified flag was included on the command line. </p>
-<p>For example, if argv contained "--foo", then GetFlag("foo") would return true.</p>
-<dl class="section return"><dt>Returns</dt><dd>true, if the flag with argName was found false, if the flag with argName was not found </dd></dl>
+<p>For example, if argv contained <code>--foo</code>, then <code>GetFlag("foo")</code> would return <code>true</code></p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code>, if the flag with argName was found <code>false</code>, if the flag with argName was not found </dd></dl>
 
 </div>
 </div>
@@ -203,8 +209,8 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get float argument. </p>
-<p>For example if argv contained "--foo=3.14159", then GetInt("foo") would return 3.14159.0f</p>
-<dl class="section return"><dt>Returns</dt><dd>defaultValue, if the argumentcould not be found. Otherwise, returns the value of the argument. </dd></dl>
+<p>For example if argv contained <code>--foo=3.14159</code>, then <code>GetInt("foo")</code> would return <code>3.14159f</code></p>
+<dl class="section return"><dt>Returns</dt><dd><code>defaultValue</code> if the argument couldn't be found. (<code>0.0</code> by default). Otherwise, returns the value of the argument. </dd></dl>
 
 </div>
 </div>
@@ -235,13 +241,65 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get integer argument. </p>
-<p>For example if argv contained "--foo=100", then GetInt("foo") would return 100.</p>
-<dl class="section return"><dt>Returns</dt><dd>defaultValue, if the argument could not be found. Otherwise, returns the value of the argument. </dd></dl>
+<p>For example if argv contained <code>--foo=100</code>, then <code>GetInt("foo")</code> would return <code>100</code></p>
+<dl class="section return"><dt>Returns</dt><dd><code>defaultValue</code> if the argument couldn't be found (<code>0</code> by default). Otherwise, returns the value of the argument. </dd></dl>
 
 </div>
 </div>
-<a id="a08bab5208f82fb918fd78e56bfa5c0d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08bab5208f82fb918fd78e56bfa5c0d8">&#9670;&nbsp;</a></span>GetString()</h2>
+<a id="a3a2c75a34d87d7e930f7a49c1b2a2369"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a2c75a34d87d7e930f7a49c1b2a2369">&#9670;&nbsp;</a></span>GetPosition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* commandLine::GetPosition </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>defaultValue</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get positional string argument. </p>
+<p>Positional arguments aren't named, but rather referenced by their index in the list. For example if the command line contained <code>my-program --foo=bar /path/to/my_file.txt</code>, then <code>GetString(0)</code> would return `"/path/to/my_file.txt"</p>
+<dl class="section return"><dt>Returns</dt><dd><code>defaultValue</code> if the argument couldn't be found (<code>NULL</code> by default). Otherwise, returns a pointer to the argument value string from the <code>argv</code> array. </dd></dl>
+
+</div>
+</div>
+<a id="a75409f56ac1ef63a77eb500c6561b2a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75409f56ac1ef63a77eb500c6561b2a1">&#9670;&nbsp;</a></span>GetPositionArgs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int commandLine::GetPositionArgs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the number of positional arguments in the command line. </p>
+<p>Positional arguments are those that don't have a name. </p>
+
+</div>
+</div>
+<a id="a77b9289d32c7b949b38a0c6e45c4091e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77b9289d32c7b949b38a0c6e45c4091e">&#9670;&nbsp;</a></span>GetString()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -250,15 +308,25 @@ Protected Attributes</h2></td></tr>
           <td class="memname">const char* commandLine::GetString </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>argName</em></td><td>)</td>
+          <td class="paramname"><em>argName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>defaultValue</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Get string argument. </p>
-<p>For example if argv contained "--foo=bar", then GetString("foo") would return "bar".</p>
-<dl class="section return"><dt>Returns</dt><dd>NULL, if the argument could not be found. Otherwise, returns a pointer to the argument value string from the argv array. </dd></dl>
+<p>For example if argv contained <code>--foo=bar</code>, then <code>GetString("foo")</code> would return <code>"bar"</code></p>
+<dl class="section return"><dt>Returns</dt><dd><code>defaultValue</code> if the argument couldn't be found (<code>NULL</code> by default). Otherwise, returns a pointer to the argument value string from the <code>argv</code> array. </dd></dl>
 
 </div>
 </div>
@@ -316,7 +384,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classcommandLine.html">commandLine</a></li>
-    <li class="footer">Generated on Sun Jun 16 2019 03:23:33 for Jetson Inference by
+    <li class="footer">Generated on Fri Jun 21 2019 15:53:21 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

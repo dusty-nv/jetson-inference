@@ -8,7 +8,7 @@ var searchData=
   ['webcam_5f320',['WEBCAM_320',['../classhomographyNet.html#aac3f2e070bad0f23758b901859e4dc82adf0f6683443f835709d064d1772d82fe',1,'homographyNet']]],
   ['whitespace',['Whitespace',['../namespacetinyxml2.html#a7f91d00f77360f850fd5da0861e27dd5',1,'tinyxml2']]],
   ['whitespacemode',['WhitespaceMode',['../classtinyxml2_1_1XMLDocument.html#a810ce508e6e0365497c2a9deb83c9ca7',1,'tinyxml2::XMLDocument']]],
-  ['width',['Width',['../structdetectNet_1_1Detection.html#aeb58c09e547bd40f3a0e33cdd4c7640e',1,'detectNet::Detection::Width()'],['../structcudaFont_1_1GlyphInfo.html#a64aa81eadb2b744ecc6a573bc189347f',1,'cudaFont::GlyphInfo::width()']]],
+  ['width',['width',['../structcudaFont_1_1GlyphInfo.html#a64aa81eadb2b744ecc6a573bc189347f',1,'cudaFont::GlyphInfo::width()'],['../structdetectNet_1_1Detection.html#aeb58c09e547bd40f3a0e33cdd4c7640e',1,'detectNet::Detection::Width()']]],
   ['workingdirectory',['WorkingDirectory',['../classProcess.html#a7583374b94084e2126cef41f12fcfa4b',1,'Process::WorkingDirectory()'],['../group__filesystem.html#ga7587e5be3b694cbb4d0003eeb64ed365',1,'workingDirectory():&#160;filesystem.h']]],
   ['write',['Write',['../classtinyxml2_1_1XMLPrinter.html#aff363b7634a27538fd691ae62adbda63',1,'tinyxml2::XMLPrinter::Write(const char *data, size_t size)'],['../classtinyxml2_1_1XMLPrinter.html#a4bd7f0cabca77ac95c299103fa9592f1',1,'tinyxml2::XMLPrinter::Write(const char *data)']]]
 ];
