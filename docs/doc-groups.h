@@ -7,6 +7,8 @@
  *   - \ref imageNet for image recognition
  *   - \ref detectNet for object detection + localization
  *   - \ref segNet for segmentation
+ *   - \ref homographyNet for homography estimation
+ *   - \ref superResNet for super-resolution upsampling
  *
  * The different primitives each inherit from the shared \ref tensorNet object.
  */
