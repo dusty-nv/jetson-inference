@@ -27,39 +27,9 @@
 #include "PyDetectNet.h"
 
 
-extern "C"
-PyObject* PyInference_Test( PyObject* self, PyObject* args )
-{
-	printf("hello from Test!!\n");
-	Py_RETURN_NONE;
-}
-
-extern "C"
-PyObject* PyInference_String( PyObject* self, PyObject* args )
-{
-	return Py_BuildValue("s", "hello, this is a string from MyString()");
-}
-
-extern "C"
-PyObject* PyInference_Print( PyObject* self, PyObject* args )
-{
-	const char* text = NULL;
-
-	printf("hello from Print!!\n");
-
-	if( !PyArg_ParseTuple(args, "s", &text) )
-		return NULL;
-
-	printf("PyInference:  %s\n", text);
-	Py_RETURN_NONE;
-}
-
 
 static PyMethodDef pyInferenceFunctions[] =
 {
-	{ "MyTest", PyInference_Test, METH_VARARGS, "Test function." },
-	{ "MyPrint", PyInference_Print, METH_VARARGS, "Print a string." },
-	{ "MyString", PyInference_String, METH_VARARGS, "Return a test string." },
 	{ NULL, NULL, 0, NULL }
 };
 

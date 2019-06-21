@@ -34,6 +34,32 @@ typedef struct {
 } PyDetection_Object;
 
 
+#define DOC_DETECTION "Object Detection Result\n\n" \
+				  "----------------------------------------------------------------------\n" \
+				  "Data descriptors defined here:\n\n" \
+				  "Area\n" \
+				  "    Area of bounding box\n\n" \
+				  "Bottom\n" \
+				  "    Bottom bounding box coordinate\n\n" \
+				  "Center\n" \
+				  "    Center (x,y) coordinate of bounding box\n\n" \
+				  "ClassID\n" \
+				  "    Class index of the detected object\n\n" \
+				  "Confidence\n" \
+				  "    Confidence value of the detected object\n\n" \
+				  "Height\n" \
+				  "    Height of bounding box\n\n" \
+				  "Instance\n" \
+				  "    Instance index of the detected object\n\n" \
+				  "Left\n" \
+				  "    Left bounding box coordinate\n\n" \
+				  "Right\n" \
+				  "    Right bounding box coordinate\n\n" \
+				  "Top\n" \
+				  "    Top bounding box coordinate\n\n" \
+				  "Width\n" \
+				  "     Width of bounding box\n\n"
+
 // New
 static PyObject* PyDetection_New( PyTypeObject* type, PyObject* args, PyObject* kwds )
 {
@@ -414,6 +440,22 @@ typedef struct {
 } PyDetectNet_Object;
 
 
+#define DOC_DETECTNET "Object Detection DNN - locates objects in an image\n\n" \
+				  "Examples (jetson-inference/python/examples)\n" \
+                      "     detectnet-console.py\n" \
+				  "     detectnet-camera.py\n\n" \
+				  "__init__(...)\n" \
+				  "     Loads an object detection model.\n\n" \
+				  "     Parameters:\n" \
+				  "       network (string) -- name of a built-in network to use\n" \
+				  "                           see below for available options.\n\n" \
+				  "       argv (strings) -- command line arguments passed to imageNet,\n" \
+				  "                         see below for available options.\n\n" \
+				  "       threshold (float) -- minimum detection threshold.\n" \
+				  "                            default value is 0.5\n\n" \
+ 				  DETECTNET_USAGE_STRING
+
+
 // Init
 static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject *kwds )
 {
@@ -504,6 +546,15 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 }
 
 
+#define DOC_DETECT   "Detect objects in an RGBA image and return a list of detections.\n\n" \
+				 "Parameters:\n" \
+				 "  image   (capsule) -- CUDA memory capsule\n" \
+				 "  width   (int)  -- width of the image (in pixels)\n" \
+				 "  height  (int)  -- height of the image (in pixels)\n" \
+				 "  overlay (bool) -- true to overlay the bounding boxes (default is true)\n\n" \
+				 "Returns:\n" \
+				 "  [Detections] -- list containing the detected objects (see detectNet.Detection)"
+
 // Detect
 static PyObject* PyDetectNet_Detect( PyDetectNet_Object* self, PyObject* args, PyObject *kwds )
 {
@@ -576,6 +627,11 @@ static PyObject* PyDetectNet_Detect( PyDetectNet_Object* self, PyObject* args, P
 }
 
 
+#define DOC_GET_THRESHOLD  "Return the minimum detection threshold.\n\n" \
+				 	  "Parameters:  (none)\n\n" \
+					  "Returns:\n" \
+					  "  (float) -- the threshold for detection"
+
 // GetThreshold
 static PyObject* PyDetectNet_GetThreshold( PyDetectNet_Object* self )
 {
@@ -589,6 +645,10 @@ static PyObject* PyDetectNet_GetThreshold( PyDetectNet_Object* self )
 }
 
 
+#define DOC_SET_THRESHOLD  "Return the minimum detection threshold.\n\n" \
+				 	  "Parameters:\n" \
+					  "  (float) -- detection threshold\n\n" \
+					  "Returns:  (none)"
 
 // SetThreshold
 PyObject* PyDetectNet_SetThreshold( PyDetectNet_Object* self, PyObject* args )
@@ -612,6 +672,10 @@ PyObject* PyDetectNet_SetThreshold( PyDetectNet_Object* self, PyObject* args )
 }
 
 
+#define DOC_GET_NUM_CLASSES "Return the number of object classes that this network model is able to detect.\n\n" \
+				 	   "Parameters:  (none)\n\n" \
+					   "Returns:\n" \
+					   "  (int) -- number of object classes that the model supports"
 
 // GetNumClasses
 static PyObject* PyDetectNet_GetNumClasses( PyDetectNet_Object* self )
@@ -625,6 +689,12 @@ static PyObject* PyDetectNet_GetNumClasses( PyDetectNet_Object* self )
 	return PYLONG_FROM_UNSIGNED_LONG(self->net->GetNumClasses());
 }
 
+
+#define DOC_GET_CLASS_DESC "Return the class description for the given object class.\n\n" \
+				 	  "Parameters:\n" \
+					  "  (int) -- index of the class, between [0, GetNumClasses()]\n\n" \
+					  "Returns:\n" \
+					  "  (string) -- the text description of the object class"
 
 // GetClassDesc
 PyObject* PyDetectNet_GetClassDesc( PyDetectNet_Object* self, PyObject* args )
@@ -653,6 +723,13 @@ PyObject* PyDetectNet_GetClassDesc( PyDetectNet_Object* self, PyObject* args )
 }
 
 
+#define DOC_GET_CLASS_SYNSET "Return the synset data category string for the given class.\n" \
+					    "The synset generally maps to the class training data folder.\n\n" \
+				 	    "Parameters:\n" \
+					    "  (int) -- index of the class, between [0, GetNumClasses()]\n\n" \
+					    "Returns:\n" \
+					    "  (string) -- the synset of the class, typically 9 characters long" 
+
 // GetClassSynset
 PyObject* PyDetectNet_GetClassSynset( PyDetectNet_Object* self, PyObject* args )
 {
@@ -680,6 +757,17 @@ PyObject* PyDetectNet_GetClassSynset( PyDetectNet_Object* self, PyObject* args )
 }
 
 
+#define DOC_USAGE_STRING     "Return the command line parameters accepted by __init__()\n\n" \
+					    "Parameters:  (none)\n\n" \
+					    "Returns:\n" \
+					    "  (string) -- usage string documenting command-line options\n"
+
+// Usage
+static PyObject* PyDetectNet_Usage( PyDetectNet_Object* self )
+{
+	return Py_BuildValue("s", detectNet::Usage());
+}
+
 //-------------------------------------------------------------------------------
 static PyTypeObject pyDetectNet_Type = 
 {
@@ -688,12 +776,13 @@ static PyTypeObject pyDetectNet_Type =
 
 static PyMethodDef pyDetectNet_Methods[] = 
 {
-	{ "Detect", (PyCFunction)PyDetectNet_Detect, METH_VARARGS|METH_KEYWORDS, "Detect objects in an RGBA image and optionally overlay the detected bounding boxes over the image"},
-	{ "GetThreshold", (PyCFunction)PyDetectNet_GetThreshold, METH_NOARGS, "Return the minimum threshold for detection"},
-	{ "SetThreshold", (PyCFunction)PyDetectNet_SetThreshold, METH_VARARGS, "Set the minimum threshold for detection"},     
-	{ "GetNumClasses", (PyCFunction)PyDetectNet_GetNumClasses, METH_NOARGS, "Return the number of object classes that this network model is able to classify"},
-	{ "GetClassDesc", (PyCFunction)PyDetectNet_GetClassDesc, METH_VARARGS, "Return the class description for the given class index"},
-	{ "GetClassSynset", (PyCFunction)PyDetectNet_GetClassSynset, METH_VARARGS, "Return the class synset dataset category for the given class index"},
+	{ "Detect", (PyCFunction)PyDetectNet_Detect, METH_VARARGS|METH_KEYWORDS, DOC_DETECT},
+	{ "GetThreshold", (PyCFunction)PyDetectNet_GetThreshold, METH_NOARGS, DOC_GET_THRESHOLD},
+	{ "SetThreshold", (PyCFunction)PyDetectNet_SetThreshold, METH_VARARGS, DOC_SET_THRESHOLD},     
+	{ "GetNumClasses", (PyCFunction)PyDetectNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
+	{ "GetClassDesc", (PyCFunction)PyDetectNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
+	{ "GetClassSynset", (PyCFunction)PyDetectNet_GetClassSynset, METH_VARARGS, DOC_GET_CLASS_SYNSET},
+	{ "Usage", (PyCFunction)PyDetectNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},	
 	{NULL}  /* Sentinel */
 };
 
@@ -716,7 +805,7 @@ bool PyDetectNet_Register( PyObject* module )
 	pyDetection_Type.tp_init		= (initproc)PyDetection_Init;
 	pyDetection_Type.tp_dealloc	= (destructor)PyDetection_Dealloc;
 	pyDetection_Type.tp_str		= (reprfunc)PyDetection_ToString;
-	pyDetection_Type.tp_doc		= "Object Detection Result";
+	pyDetection_Type.tp_doc		= DOC_DETECTION;
 
 	if( PyType_Ready(&pyDetection_Type) < 0 )
 	{
@@ -738,7 +827,7 @@ bool PyDetectNet_Register( PyObject* module )
 	pyDetectNet_Type.tp_new		= NULL; /*PyDetectNet_New;*/
 	pyDetectNet_Type.tp_init		= (initproc)PyDetectNet_Init;
 	pyDetectNet_Type.tp_dealloc	= NULL; /*(destructor)PyDetectNet_Dealloc;*/
-	pyDetectNet_Type.tp_doc		= "Object Detection DNN";
+	pyDetectNet_Type.tp_doc		= DOC_DETECTNET;
 	 
 	// setup Detection as inner class for detectNet object
 	pyDetectNet_Type.tp_dict = PyDict_New();

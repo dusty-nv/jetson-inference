@@ -35,18 +35,19 @@ typedef struct {
 
 
 #define DOC_IMAGENET "Image Recognition DNN - classifies an image\n\n" \
-				 "Examples (found in python/examples)\n" \
+				 "Examples (jetson-inference/python/examples)\n" \
 				 "     my-recognition.py\n" \
                      "     imagenet-console.py\n" \
 				 "     imagenet-camera.py\n\n" \
 				 "__init__(...)\n" \
 				 "     Loads an image recognition model.\n\n" \
 				 "     Parameters:\n" \
-				 "       network (string) -- name of a built-in network to use\n" \
-				 "                           values can be:  'alexnet', 'googlenet', 'googlenet-12'\n" \
-				 "                           the default is 'googlenet'\n\n" \
+				 "       network (string) -- name of a built-in network to use,\n" \
+				 "                           see below for available options.\n\n" \
 				 "       argv (strings) -- command line arguments passed to imageNet,\n" \
-				 "                         for loading a custom model or custom settings" 
+				 "                         see below for available options.\n\n" \
+ 				 IMAGENET_USAGE_STRING
+
 
 // Init
 static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *kwds )
@@ -210,6 +211,7 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
     
 }
 
+
 #define DOC_GET_NETWORK_NAME "Return the name of the built-in network used by the model.\n\n" \
 					    "Parameters:  (none)\n\n" \
 					    "Returns:\n" \
@@ -313,6 +315,18 @@ PyObject* PyImageNet_GetClassSynset( PyImageNet_Object* self, PyObject* args )
 	return Py_BuildValue("s", self->net->GetClassSynset(classIdx));
 }
 
+
+#define DOC_USAGE_STRING     "Return the command line parameters accepted by __init__()\n\n" \
+					    "Parameters:  (none)\n\n" \
+					    "Returns:\n" \
+					    "  (string) -- usage string documenting command-line options\n"
+
+// Usage
+static PyObject* PyImageNet_Usage( PyImageNet_Object* self )
+{
+	return Py_BuildValue("s", imageNet::Usage());
+}
+
 //-------------------------------------------------------------------------------
 static PyTypeObject pyImageNet_Type = 
 {
@@ -326,6 +340,7 @@ static PyMethodDef pyImageNet_Methods[] =
      { "GetNumClasses", (PyCFunction)PyImageNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
 	{ "GetClassDesc", (PyCFunction)PyImageNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassSynset", (PyCFunction)PyImageNet_GetClassSynset, METH_VARARGS, DOC_GET_CLASS_SYNSET},
+	{ "Usage", (PyCFunction)PyImageNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},
 	{NULL}  /* Sentinel */
 };
 
