@@ -99,19 +99,18 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 
 ## Code Examples
 
-C++ and Python samples for running the networks on images and live camera streams can be found in the repo here:
+C++ and Python samples for running the networks on static images and live camera streams can be found in the repo here:
 
-| C++ ([`examples`](examples/README.md)) | [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) |
-|-------------------|--------------|--------------|
-| Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) |
-| Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet)
-| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classsegNet.html) | (coming soon) |
+| C++ ([`examples`](examples/README.md)) | Images | Camera |
+|-------------------|---------------------|---------------------|
+| Image Recognition | [`imagenet-console`](examples/imagenet-console/imagenet-console.cpp) | [`imagenet-camera`](examples/imagenet-camera/imagenet-camera.cpp) |
+| Object Detection  | [`detectnet-console`](examples/detectnet-console/detectnet-console.cpp) | [`detectnet-camera`](examples/detectnet-camera/detectnet-camera.cpp))
+| Segmentation      | [`segnet-console`](examples/segnet-console/segnet-console.cpp) | [`segnet-camera`](examples/segnet-camera/segnet-camera.cpp) |
 
-| Python ([`python/examples`](python/examples/README.md)) | [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) |
-|-------------------|--------------|--------------|
-| Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) |
-| Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet)
-| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classsegNet.html) | (coming soon) |
+| Python ([`python/examples`](python/examples/README.md)) | Images | Camera |
+|-------------------|---------------------|---------------------|
+| Image Recognition | [`imagenet-console.py`](python/examples/imagenet-console.py) | [`imagenet-camera.py`](python/examples/imagenet-camera.py) |
+| Object Detection  | [`detectnet-console.py`](python/examples/detectnet-console.py) | [`detectnet-camera.py`](python/examples/detectnet-camera.py))
 
 These examples are able to run the pre-trained models listed below or custom models provided by the user.
 
