@@ -37,7 +37,7 @@ Next, let's classify an example image with the `imagenet-console` program, using
 - optional path to output image  (`jpg, png, tga, bmp`)
 - optional `--network` flag which changes the classification model being used (the default network is GoogleNet).  
 
-Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Examples`](../README.md#Examples) readme.
+Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Code Examples`](../README.md#code-examples) readme.
 
 Here are a couple examples of running the program in C++ or Python:
 

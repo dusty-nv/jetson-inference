@@ -26,7 +26,7 @@ Similar to the previous [`imagenet-console`](imagenet-console-2.md) example, the
           $ v4l2-ctl --list-formats-ext
           ```
 
-You can combine the usage of these flags as needed, and there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info, or see the [`Examples`](../README.md#Examples) readme.
+You can combine the usage of these flags as needed, and there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info, or see the [`Examples`](../README.md#code-examples) readme.
 
 Below are some typical scenarios for launching the program:
 
