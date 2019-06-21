@@ -103,13 +103,15 @@ C++ and Python samples for running the networks on static images and live camera
 
 |                   | Images              | Camera              |
 |-------------------|---------------------|---------------------|
-| **C++ ([`examples`](examples/README.md))** | |
+| **C++ ([`examples`](examples/))** | |
 | &nbsp;&nbsp;&nbsp;Image Recognition | [`imagenet-console`](examples/imagenet-console/imagenet-console.cpp) | [`imagenet-camera`](examples/imagenet-camera/imagenet-camera.cpp) |
 | &nbsp;&nbsp;&nbsp;Object Detection  | [`detectnet-console`](examples/detectnet-console/detectnet-console.cpp) | [`detectnet-camera`](examples/detectnet-camera/detectnet-camera.cpp)
 | &nbsp;&nbsp;&nbsp;Segmentation      | [`segnet-console`](examples/segnet-console/segnet-console.cpp) | [`segnet-camera`](examples/segnet-camera/segnet-camera.cpp) |
-| **Python ([`python/examples`](python/examples/README.md))** | | |
+| **Python ([`python/examples`](python/examples/))** | | |
 | &nbsp;&nbsp;&nbsp;Image Recognition | [`imagenet-console.py`](python/examples/imagenet-console.py) | [`imagenet-camera.py`](python/examples/imagenet-camera.py) |
 | &nbsp;&nbsp;&nbsp;Object Detection  | [`detectnet-console.py`](python/examples/detectnet-console.py) | [`detectnet-camera.py`](python/examples/detectnet-camera.py)
+
+> **note**:  for working with numpy arrays, see [`cuda-from-numpy.py`](utils/python/examples/cuda-from-numpy.py) and [`cuda-to-numpy.py`](utils/python/examples/cuda-to-numpy.py)
 
 These examples are able to run the pre-trained models listed below or custom models provided by the user.
 
