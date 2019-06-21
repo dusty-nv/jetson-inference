@@ -23,7 +23,7 @@ Later in the tutorial, we'll also cover versions of a live camera recognition pr
 
 First, let's try using the `imagenet-console` program to test imageNet recognition on some example images.  It loads an image, uses TensorRT and the `imageNet` class to perform the inference, then overlays the classification result and saves the output image.  The repo comes with some sample images for you to use.
 
-After [building](#building-repo-2.md) the repo, make sure your terminal is located in the `aarch64/bin` directory:
+After [building](building-repo-2.md) the repo, make sure your terminal is located in the `aarch64/bin` directory:
 
 ``` bash
 $ cd jetson-inference/build/aarch64/bin
@@ -37,9 +37,9 @@ Next, let's classify an example image with the `imagenet-console` program, using
 - optional path to output image  (`jpg, png, tga, bmp`)
 - optional `--network` flag which changes the classification model being used (the default network is GoogleNet).  
 
-There are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Examples`](../README.md#Examples) readme.
+Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Examples`](../README.md#Examples) readme.
 
-Here are a couple examples of running the program in Python or C++:
+Here are a couple examples of running the program in C++ or Python:
 
 #### C++
 ``` bash

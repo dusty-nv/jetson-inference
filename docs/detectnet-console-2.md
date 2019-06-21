@@ -27,7 +27,7 @@ The `detectnet-console` program can be used to locate objects in static images. 
 - optional path to output image  (`jpg, png, tga, bmp`)
 - optional `--network` flag which changes the detection model being used (the default network is PedNet).  
 
-There are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Examples`](../README.md#Examples) readme.
+Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Examples`](../README.md#Examples) readme.
 
 Here's an example of locating humans in an image with the default PedNet model:
 
