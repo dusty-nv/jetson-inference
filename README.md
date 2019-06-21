@@ -102,9 +102,15 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 C++ and Python samples for running the networks on images and live camera streams can be found in the repo here:
 
 * C++ ([`examples`](examples/README.md))
+|                   | [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) |
+|-------------------|--------------|--------------|
+| Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) |
+| Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet)
+| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classsegNet.html) | (coming soon) |
+
 * Python ([`python/examples`](python/examples/README.md))
 
-These examples are able to run any of the pre-trained models listed below.
+These examples are able to run the pre-trained models listed below or custom models provided by the user.
 
 ## Pre-trained Models
 
