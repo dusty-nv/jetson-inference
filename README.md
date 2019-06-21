@@ -149,6 +149,19 @@ The project comes with a number of pre-trained models that are available through
 | multiped-500            | `multiped`         | `PEDNET_MULTI`     | pedestrians, luggage |
 | facenet-120             | `facenet`          | `FACENET`          | faces                |
 
+#### Semantic Segmentation
+
+| Network                 | CLI argument                    | NetworkType enum                | Classes |
+| ------------------------|---------------------------------|---------------------------------|---------|
+| Cityscapes (2048x2048)  | `fcn-alexnet-cityscapes-hd`     | `FCN_ALEXNET_CITYSCAPES_HD`     |    21   |
+| Cityscapes (1024x1024)  | `fcn-alexnet-cityscapes-sd`     | `FCN_ALEXNET_CITYSCAPES_SD`     |    21   |
+| Pascal VOC (500x356)    | `fcn-alexnet-pascal-voc`        | `FCN_ALEXNET_PASCAL_VOC`        |    21   |
+| Synthia (CVPR16)        | `fcn-alexnet-synthia-cvpr`      | `FCN_ALEXNET_SYNTHIA_CVPR`      |    14   |
+| Synthia (Summer-HD)     | `fcn-alexnet-synthia-summer-hd` | `FCN_ALEXNET_SYNTHIA_SUMMER_HD` |    14   |
+| Synthia (Summer-SD)     | `fcn-alexnet-synthia-summer-sd` | `FCN_ALEXNET_SYNTHIA_SUMMER_SD` |    14   |
+| Aerial-FPV (1280x720)   | `fcn-alexnet-aerial-fpv-720p`   | `FCN_ALEXNET_AERIAL_FPV_720p`   |     2   |
+
+
 ## Recommended System Requirements
 
 **Training GPU:**  Maxwell, Pascal, Volta, or Turing-based GPU (ideally with at least 6GB video memory)  
