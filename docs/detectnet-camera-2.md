@@ -20,7 +20,7 @@ Similar to the previous [`detectnet-console`](detectnet-console-2.md) example, t
 	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
 - `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
 	- The resolution should be set to a format that the camera supports.
-     - Query the available formats with the following commands: <br/>
+     - Query the available formats with the following commands:  
 ``` bash
 $ sudo apt-get install v4l-utils
 $ v4l2-ctl --list-formats-ext
