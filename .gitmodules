@@ -2,3 +2,7 @@
 	path = utils
 	url = https://github.com/dusty-nv/jetson-utils
 	branch = master
+[submodule "python/training/imagenet"]
+	path = python/training/imagenet
+	url = https://github.com/dusty-nv/pytorch-imagenet
+	branch = master
