@@ -99,7 +99,12 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 
 ## Code Examples
 
-C++ and Python samples for running the networks on static images and live camera streams can be found in the repo here:
+Introductory code walkthroughs are covered during these steps of the Hello AI World tutorial:
+
+* [Coding Your Own Image Recognition Program (Python)](docs/imagenet-example-python-2.md)
+* [Coding Your Own Image Recognition Program (C++)](docs/imagenet-example-2.md)
+
+Additional C++ and Python samples for running the networks on static images and live camera streams can be found here:
 
 |                   | Images              | Camera              |
 |-------------------|---------------------|---------------------|
