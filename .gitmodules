@@ -6,3 +6,7 @@
 	path = python/training/imagenet
 	url = https://github.com/dusty-nv/pytorch-imagenet
 	branch = master
+[submodule "tools/camera-collection"]
+	path = tools/camera-collection
+	url = https://github.com/dusty-nv/camera-collection
+	branch = master
