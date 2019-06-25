@@ -99,7 +99,7 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 
 ## Code Examples
 
-Introductory code walkthroughs of using the library are covered during these steps of the Hello AI World tutorial:
+Introductory code walkthroughs of using the library are covered during these steps of the **Hello AI World** tutorial:
 
 * [Coding Your Own Image Recognition Program (Python)](docs/imagenet-example-python-2.md)
 * [Coding Your Own Image Recognition Program (C++)](docs/imagenet-example-2.md)
