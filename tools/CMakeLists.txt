@@ -1,6 +1,6 @@
 
 # build subdirectories
-add_subdirectory(camera-collection)
+add_subdirectory(camera-capture)
 add_subdirectory(trt-bench)
 add_subdirectory(trt-console)
 
