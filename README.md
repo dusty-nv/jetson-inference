@@ -118,7 +118,7 @@ Additional C++ and Python samples for running the networks on static images and 
 
 > **note**:  for working with numpy arrays, see [`cuda-from-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-numpy.py) and [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-numpy.py)
 
-These examples are able to run the pre-trained models listed below or custom models provided by the user.
+These examples will automatically be compiled while [Building the Project from Source](docs/building-repo-2.md), and are able to run the pre-trained models listed below in addition to custom models provided by the user.  Launch each example with the `--help` flag for more info.
 
 ## Pre-trained Models
 
