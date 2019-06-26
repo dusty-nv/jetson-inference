@@ -33,10 +33,8 @@
 // constructor
 imageNet::imageNet() : tensorNet()
 {
-	mCustomClasses = 0;
 	mOutputClasses = 0;
-
-	mNetworkType = CUSTOM;
+	mNetworkType   = CUSTOM;
 }
 
 
@@ -264,9 +262,9 @@ imageNet* imageNet::Create( int argc, char** argv )
 	return imageNet::Create(type);
 }
 
-			 
-// loadClassInfo
-bool imageNet::loadClassInfo( const char* filename )
+
+// LoadClassInfo
+bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets )
 {
 	if( !filename )
 		return false;
@@ -289,8 +287,12 @@ bool imageNet::loadClassInfo( const char* filename )
 		return false;
 	}
 	
+	descriptions.clear();
+	synsets.clear();
+
 	// read class descriptions
 	char str[512];
+	uint32_t customClasses = 0;
 
 	while( fgets(str, 512, f) != NULL )
 	{
@@ -307,33 +309,51 @@ bool imageNet::loadClassInfo( const char* filename )
 	
 			//printf("a=%s b=%s\n", a.c_str(), b.c_str());
 
-			mClassSynset.push_back(a);
-			mClassDesc.push_back(b);
+			synsets.push_back(a);
+			descriptions.push_back(b);
 		}
 		else if( len > 0 )	// no 9-character synset prefix (i.e. from DIGITS snapshot)
 		{
 			char a[10];
-			sprintf(a, "n%08u", mCustomClasses);
+			sprintf(a, "n%08u", customClasses);
 
 			//printf("a=%s b=%s (custom non-synset)\n", a, str);
-			mCustomClasses++;
+			customClasses++;
 
 			if( str[len-1] == '\n' )
 				str[len-1] = 0;
 
-			mClassSynset.push_back(a);
-			mClassDesc.push_back(str);
+			synsets.push_back(a);
+			descriptions.push_back(str);
 		}
 	}
 	
 	fclose(f);
 	
-	printf("imageNet -- loaded %zu class info entries\n", mClassSynset.size());
+	printf("imageNet -- loaded %zu class info entries\n", synsets.size());
 	
-	if( mClassSynset.size() == 0 )
+	if( synsets.size() == 0 )
 		return false;
 
-	mClassPath = path;	
+	return true;
+}
+
+
+// LoadClassInfo
+bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& descriptions )
+{
+	std::vector<std::string> synsets;
+	return LoadClassInfo(filename, descriptions, synsets);
+}
+
+	 
+// loadClassInfo
+bool imageNet::loadClassInfo( const char* filename )
+{
+	if( !LoadClassInfo(filename, mClassDesc, mClassSynset) )
+		return false;
+
+	mClassPath = filename;	
 	return true;
 }
 

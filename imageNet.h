@@ -203,6 +203,16 @@ public:
 	 */
 	inline const char* GetNetworkName() const					{ NetworkTypeToStr(mNetworkType); }
 
+	/**
+	 * Load class descriptions from a label file.
+	 */
+	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions );
+
+	/**
+	 * Load class descriptions and synset strings from a label file.
+	 */
+	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets );
+
 protected:
 	imageNet();
 	
@@ -210,7 +220,6 @@ protected:
 	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool loadClassInfo( const char* filename );
 	
-	uint32_t mCustomClasses;
 	uint32_t mOutputClasses;
 	
 	std::vector<std::string> mClassSynset;	// 1000 class ID's (ie n01580077, n04325704)
