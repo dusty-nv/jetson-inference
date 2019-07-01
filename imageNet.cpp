@@ -119,7 +119,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 				const char* input, const char* output, uint32_t maxBatchSize,
 				precisionType precision, deviceType device, bool allowGPUFallback )
 {
-	if( !prototxt_path || !model_path || !class_path || !input || !output )
+	if( /*!prototxt_path ||*/ !model_path || !class_path || !input || !output )
 		return false;
 
 	printf("\n");
