@@ -28,10 +28,12 @@ __global__ void gpuPreImageNetRGB( float2 scale, float4* input, int iWidth, floa
 {
 	const int x = blockIdx.x * blockDim.x + threadIdx.x;
 	const int y = blockIdx.y * blockDim.y + threadIdx.y;
-	const int n = oWidth * oHeight;
-	
+
 	if( x >= oWidth || y >= oHeight )
 		return;
+
+	const int n = oWidth * oHeight;
+	const int m = y * oWidth + x;
 
 	const int dx = ((float)x * scale.x);
 	const int dy = ((float)y * scale.y);
@@ -39,9 +41,9 @@ __global__ void gpuPreImageNetRGB( float2 scale, float4* input, int iWidth, floa
 	const float4 px  = input[ dy * iWidth + dx ];
 	const float3 bgr = make_float3(px.x, px.y, px.z);
 	
-	output[n * 0 + y * oWidth + x] = bgr.x;
-	output[n * 1 + y * oWidth + x] = bgr.y;
-	output[n * 2 + y * oWidth + x] = bgr.z;
+	output[n * 0 + m] = bgr.x;
+	output[n * 1 + m] = bgr.y;
+	output[n * 2 + m] = bgr.z;
 }
 
 
@@ -74,10 +76,12 @@ __global__ void gpuPreImageNetBGR( float2 scale, float4* input, int iWidth, floa
 {
 	const int x = blockIdx.x * blockDim.x + threadIdx.x;
 	const int y = blockIdx.y * blockDim.y + threadIdx.y;
-	const int n = oWidth * oHeight;
-	
+
 	if( x >= oWidth || y >= oHeight )
 		return;
+
+	const int n = oWidth * oHeight;
+	const int m = y * oWidth + x;
 
 	const int dx = ((float)x * scale.x);
 	const int dy = ((float)y * scale.y);
@@ -85,9 +89,9 @@ __global__ void gpuPreImageNetBGR( float2 scale, float4* input, int iWidth, floa
 	const float4 px  = input[ dy * iWidth + dx ];
 	const float3 bgr = make_float3(px.z, px.y, px.x);
 	
-	output[n * 0 + y * oWidth + x] = bgr.x;
-	output[n * 1 + y * oWidth + x] = bgr.y;
-	output[n * 2 + y * oWidth + x] = bgr.z;
+	output[n * 0 + m] = bgr.x;
+	output[n * 1 + m] = bgr.y;
+	output[n * 2 + m] = bgr.z;
 }
 
 
@@ -120,21 +124,22 @@ __global__ void gpuPreImageNetMeanRGB( float2 scale, float4* input, int iWidth, 
 {
 	const int x = blockIdx.x * blockDim.x + threadIdx.x;
 	const int y = blockIdx.y * blockDim.y + threadIdx.y;
-	const int n = oWidth * oHeight;
-	
+
 	if( x >= oWidth || y >= oHeight )
 		return;
 
-	const int dx = ((float)x * scale.x);
+	const int n = oWidth * oHeight;
+	const int m = y * oWidth + x;
 
+	const int dx = ((float)x * scale.x);
 	const int dy = ((float)y * scale.y);
 
 	const float4 px  = input[ dy * iWidth + dx ];
 	const float3 bgr = make_float3(px.x - mean_value.x, px.y - mean_value.y, px.z - mean_value.z);
 	
-	output[n * 0 + y * oWidth + x] = bgr.x;
-	output[n * 1 + y * oWidth + x] = bgr.y;
-	output[n * 2 + y * oWidth + x] = bgr.z;
+	output[n * 0 + m] = bgr.x;
+	output[n * 1 + m] = bgr.y;
+	output[n * 2 + m] = bgr.z;
 }
 
 
@@ -167,10 +172,12 @@ __global__ void gpuPreImageNetMeanBGR( float2 scale, float4* input, int iWidth, 
 {
 	const int x = blockIdx.x * blockDim.x + threadIdx.x;
 	const int y = blockIdx.y * blockDim.y + threadIdx.y;
-	const int n = oWidth * oHeight;
-	
+
 	if( x >= oWidth || y >= oHeight )
 		return;
+
+	const int n = oWidth * oHeight;
+	const int m = y * oWidth + x;
 
 	const int dx = ((float)x * scale.x);
 	const int dy = ((float)y * scale.y);
@@ -178,9 +185,9 @@ __global__ void gpuPreImageNetMeanBGR( float2 scale, float4* input, int iWidth, 
 	const float4 px  = input[ dy * iWidth + dx ];
 	const float3 bgr = make_float3(px.z - mean_value.x, px.y - mean_value.y, px.x - mean_value.z);
 	
-	output[n * 0 + y * oWidth + x] = bgr.x;
-	output[n * 1 + y * oWidth + x] = bgr.y;
-	output[n * 2 + y * oWidth + x] = bgr.z;
+	output[n * 0 + m] = bgr.x;
+	output[n * 1 + m] = bgr.y;
+	output[n * 2 + m] = bgr.z;
 }
 
 
@@ -213,10 +220,12 @@ __global__ void gpuPreImageNetNormRGB( float2 scale, float4* input, int iWidth, 
 {
 	const int x = blockIdx.x * blockDim.x + threadIdx.x;
 	const int y = blockIdx.y * blockDim.y + threadIdx.y;
-	const int n = oWidth * oHeight;
-	
+
 	if( x >= oWidth || y >= oHeight )
 		return;
+
+	const int n = oWidth * oHeight;
+	const int m = y * oWidth + x;
 
 	const int dx = ((float)x * scale.x);
 	const int dy = ((float)y * scale.y);
@@ -224,9 +233,9 @@ __global__ void gpuPreImageNetNormRGB( float2 scale, float4* input, int iWidth, 
 	const float4 px  = input[ dy * iWidth + dx ];
 	const float3 bgr = make_float3(px.x, px.y, px.z);
 	
-	output[n * 0 + y * oWidth + x] = bgr.x * multiplier + min_value;
-	output[n * 1 + y * oWidth + x] = bgr.y * multiplier + min_value;
-	output[n * 2 + y * oWidth + x] = bgr.z * multiplier + min_value;
+	output[n * 0 + m] = bgr.x * multiplier + min_value;
+	output[n * 1 + m] = bgr.y * multiplier + min_value;
+	output[n * 2 + m] = bgr.z * multiplier + min_value;
 }
 
 
@@ -263,10 +272,12 @@ __global__ void gpuPreImageNetNormBGR( float2 scale, float4* input, int iWidth, 
 {
 	const int x = blockIdx.x * blockDim.x + threadIdx.x;
 	const int y = blockIdx.y * blockDim.y + threadIdx.y;
-	const int n = oWidth * oHeight;
-	
+
 	if( x >= oWidth || y >= oHeight )
 		return;
+
+	const int n = oWidth * oHeight;
+	const int m = y * oWidth + x;
 
 	const int dx = ((float)x * scale.x);
 	const int dy = ((float)y * scale.y);
@@ -274,9 +285,9 @@ __global__ void gpuPreImageNetNormBGR( float2 scale, float4* input, int iWidth, 
 	const float4 px  = input[ dy * iWidth + dx ];
 	const float3 bgr = make_float3(px.z, px.y, px.x);
 	
-	output[n * 0 + y * oWidth + x] = bgr.x * multiplier + min_value;
-	output[n * 1 + y * oWidth + x] = bgr.y * multiplier + min_value;
-	output[n * 2 + y * oWidth + x] = bgr.z * multiplier + min_value;
+	output[n * 0 + m] = bgr.x * multiplier + min_value;
+	output[n * 1 + m] = bgr.y * multiplier + min_value;
+	output[n * 2 + m] = bgr.z * multiplier + min_value;
 }
 
 
@@ -307,6 +318,102 @@ cudaError_t cudaPreImageNetNormBGR( float4* input, size_t inputWidth, size_t inp
 	return CUDA(cudaGetLastError());
 }
 
+
+
+// gpuPreImageNetNormMeanRGB
+__global__ void gpuPreImageNetNormMeanRGB( float2 scale, float4* input, int iWidth, float* output, int oWidth, int oHeight, float multiplier, float min_value, const float3 mean, const float3 stdDev )
+{
+	const int x = blockIdx.x * blockDim.x + threadIdx.x;
+	const int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+	if( x >= oWidth || y >= oHeight )
+		return;
+
+	const int n = oWidth * oHeight;
+	const int m = y * oWidth + x;
+
+	const int dx = ((float)x * scale.x);
+	const int dy = ((float)y * scale.y);
+
+	const float4 px  = input[ dy * iWidth + dx ];
+	const float3 bgr = make_float3(px.x * multiplier + min_value, px.y * multiplier + min_value, px.z * multiplier + min_value);
+	
+	output[n * 0 + m] = (bgr.x - mean.x) / stdDev.x;
+	output[n * 1 + m] = (bgr.y - mean.y) / stdDev.y;
+	output[n * 2 + m] = (bgr.z - mean.z) / stdDev.z;
+}
+
+
+// cudaPreImageNetNormMeanRGB
+cudaError_t cudaPreImageNetNormMeanRGB( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float2& range, const float3& mean, const float3& stdDev, cudaStream_t stream )
+{
+	if( !input || !output )
+		return cudaErrorInvalidDevicePointer;
+
+	if( inputWidth == 0 || outputWidth == 0 || inputHeight == 0 || outputHeight == 0 )
+		return cudaErrorInvalidValue;
+
+	const float2 scale = make_float2( float(inputWidth) / float(outputWidth),
+							    float(inputHeight) / float(outputHeight) );
+
+	const float multiplier = (range.y - range.x) / 255.0f;
+	
+	// launch kernel
+	const dim3 blockDim(8, 8);
+	const dim3 gridDim(iDivUp(outputWidth,blockDim.x), iDivUp(outputHeight,blockDim.y));
+
+	gpuPreImageNetNormMeanRGB<<<gridDim, blockDim, 0, stream>>>(scale, input, inputWidth, output, outputWidth, outputHeight, multiplier, range.x, mean, stdDev);
+
+	return CUDA(cudaGetLastError());
+}
+
+
+// gpuPreImageNetNormMeanBGR
+__global__ void gpuPreImageNetNormMeanBGR( float2 scale, float4* input, int iWidth, float* output, int oWidth, int oHeight, float multiplier, float min_value, const float3 mean, const float3 stdDev )
+{
+	const int x = blockIdx.x * blockDim.x + threadIdx.x;
+	const int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+	if( x >= oWidth || y >= oHeight )
+		return;
+
+	const int n = oWidth * oHeight;
+	const int m = y * oWidth + x;
+
+	const int dx = ((float)x * scale.x);
+	const int dy = ((float)y * scale.y);
+
+	const float4 px  = input[ dy * iWidth + dx ];
+	const float3 bgr = make_float3(px.z * multiplier + min_value, px.y * multiplier + min_value, px.x * multiplier + min_value);
+	
+	output[n * 0 + m] = (bgr.x - mean.x) / stdDev.x;
+	output[n * 1 + m] = (bgr.y - mean.y) / stdDev.y;
+	output[n * 2 + m] = (bgr.z - mean.z) / stdDev.z;
+}
+
+
+// cudaPreImageNetNormMeanBGR
+cudaError_t cudaPreImageNetNormMeanBGR( float4* input, size_t inputWidth, size_t inputHeight, float* output, size_t outputWidth, size_t outputHeight, const float2& range, const float3& mean, const float3& stdDev, cudaStream_t stream )
+{
+	if( !input || !output )
+		return cudaErrorInvalidDevicePointer;
+
+	if( inputWidth == 0 || outputWidth == 0 || inputHeight == 0 || outputHeight == 0 )
+		return cudaErrorInvalidValue;
+
+	const float2 scale = make_float2( float(inputWidth) / float(outputWidth),
+							    float(inputHeight) / float(outputHeight) );
+
+	const float multiplier = (range.y - range.x) / 255.0f;
+	
+	// launch kernel
+	const dim3 blockDim(8, 8);
+	const dim3 gridDim(iDivUp(outputWidth,blockDim.x), iDivUp(outputHeight,blockDim.y));
+
+	gpuPreImageNetNormMeanBGR<<<gridDim, blockDim, 0, stream>>>(scale, input, inputWidth, output, outputWidth, outputHeight, multiplier, range.x, mean, stdDev);
+
+	return CUDA(cudaGetLastError());
+}
 
 
 

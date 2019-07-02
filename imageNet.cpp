@@ -148,7 +148,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 	 */
 	mOutputClasses = DIMS_C(mOutputs[0].dims);
 	
-	if( !loadClassInfo(class_path) || mClassSynset.size() != mOutputClasses || mClassDesc.size() != mOutputClasses )
+	if( !loadClassInfo(class_path, mOutputClasses) || mClassSynset.size() != mOutputClasses || mClassDesc.size() != mOutputClasses )
 	{
 		printf("imageNet -- failed to load synset class descriptions  (%zu / %zu of %u)\n", mClassSynset.size(), mClassDesc.size(), mOutputClasses);
 		return false;
@@ -264,7 +264,7 @@ imageNet* imageNet::Create( int argc, char** argv )
 
 
 // LoadClassInfo
-bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets )
+bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses )
 {
 	if( !filename )
 		return false;
@@ -332,25 +332,50 @@ bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& de
 	
 	printf("imageNet -- loaded %zu class info entries\n", synsets.size());
 	
-	if( synsets.size() == 0 )
+	const int numLoaded = descriptions.size();
+
+	if( numLoaded == 0 )
 		return false;
+
+	if( expectedClasses > 0 )
+	{
+		if( numLoaded != expectedClasses )
+			printf("imageNet -- didn't load expected number of class descriptions  (%i of %i)\n", numLoaded, expectedClasses);
+
+		if( numLoaded < expectedClasses )
+		{
+			printf("imageNet -- filling in remaining %i class descriptions with default labels\n", (expectedClasses - numLoaded));
+ 
+			for( int n=numLoaded; n < expectedClasses; n++ )
+			{
+				char synset[10];
+				sprintf(synset, "n%08i", n);
+
+				char desc[64];
+				sprintf(desc, "Class #%i", n);
+
+				synsets.push_back(synset);
+				descriptions.push_back(desc);
+			}
+		}
+	}
 
 	return true;
 }
 
 
 // LoadClassInfo
-bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& descriptions )
+bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, int expectedClasses )
 {
 	std::vector<std::string> synsets;
-	return LoadClassInfo(filename, descriptions, synsets);
+	return LoadClassInfo(filename, descriptions, synsets, expectedClasses);
 }
 
 	 
 // loadClassInfo
-bool imageNet::loadClassInfo( const char* filename )
+bool imageNet::loadClassInfo( const char* filename, int expectedClasses )
 {
-	if( !LoadClassInfo(filename, mClassDesc, mClassSynset) )
+	if( !LoadClassInfo(filename, mClassDesc, mClassSynset, expectedClasses) )
 		return false;
 
 	mClassPath = filename;	
@@ -373,7 +398,22 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 	if( mNetworkType == imageNet::INCEPTION_V4 )
 	{
 		// downsample, convert to band-sequential RGB, and apply pixel normalization
-		if( CUDA_FAILED(cudaPreImageNetNormRGB((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, make_float2(-1.0f, 1.0f), GetStream())) )
+		if( CUDA_FAILED(cudaPreImageNetNormRGB((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, 
+									    make_float2(-1.0f, 1.0f), 
+									    GetStream())) )
+		{
+			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetMean() failed\n");
+			return false;
+		}
+	}
+	else if( IsModelType(MODEL_ONNX) )
+	{
+		// downsample, convert to band-sequential RGB, and apply pixel normalization, mean pixel subtraction and standard deviation
+		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, 
+										   make_float2(0.0f, 1.0f), 
+										   make_float3(0.485f, 0.456f, 0.406f),
+										   make_float3(0.229f, 0.224f, 0.225f), 
+										   GetStream())) )
 		{
 			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetMean() failed\n");
 			return false;
@@ -497,9 +537,11 @@ int imageNet::Classify( float* confidence )
 	int classIndex = -1;
 	float classMax = -1.0f;
 	
+	const float valueScale = IsModelType(MODEL_ONNX) ? 0.01f : 1.0f;
+
 	for( size_t n=0; n < mOutputClasses; n++ )
 	{
-		const float value = mOutputs[0].CPU[n];
+		const float value = mOutputs[0].CPU[n] * valueScale;
 		
 		if( value >= 0.01f )
 			printf("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());

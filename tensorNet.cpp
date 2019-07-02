@@ -121,6 +121,9 @@ static inline const char* dataTypeToStr( nvinfer1::DataType type )
 		case nvinfer1::DataType::kINT8:	return "INT8";
 		case nvinfer1::DataType::kINT32:	return "INT32";
 	}
+
+	printf(LOG_TRT "warning -- unknown nvinfer1::DataType (%i)\n", (int)type);
+	return "UNKNOWN";
 }
 
 static inline const char* dimensionTypeToStr( nvinfer1::DimensionType type )
@@ -132,6 +135,9 @@ static inline const char* dimensionTypeToStr( nvinfer1::DimensionType type )
 		case nvinfer1::DimensionType::kINDEX:	 return "INDEX";
 		case nvinfer1::DimensionType::kSEQUENCE: return "SEQUENCE";
 	}
+
+	printf(LOG_TRT "warning -- unknown nvinfer1::DimensionType (%i)\n", (int)type);
+	return "UNKNOWN";
 }
 #endif
 

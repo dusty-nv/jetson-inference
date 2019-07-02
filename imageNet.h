@@ -206,19 +206,19 @@ public:
 	/**
 	 * Load class descriptions from a label file.
 	 */
-	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions );
+	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, int expectedClasses=-1 );
 
 	/**
 	 * Load class descriptions and synset strings from a label file.
 	 */
-	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets );
+	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses=-1 );
 
 protected:
 	imageNet();
 	
 	bool init( NetworkType networkType, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
-	bool loadClassInfo( const char* filename );
+	bool loadClassInfo( const char* filename, int expectedClasses=-1 );
 	
 	uint32_t mOutputClasses;
 	
