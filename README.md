@@ -9,13 +9,13 @@ Vision primitives, such as [`imageNet`](imageNet.h) for image recognition, [`det
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-There are multiple tracks of the tutorial that you can choose to follow, including Training + Inference or Inference Only.  
-It's recommended to follow [Hello AI World](#hello-ai-world-inference-only) first to familiarize yourself with inference before proceeding to training.
+There are multiple tracks of the tutorial that you can choose to follow, including [Hello AI World](#hello-ai-world) for running inference and transfer learning onboard your Jetson with live camera inputs, or the full [Two Days to a Demo](#two-days-to-a-demo-digits) tutorial for training on a PC or cloud instance with DIGITS.  
+It's recommended to walk through the Hello AI World module first to familiarize yourself with machine learning and inference with TensorRT, before proceeding to training in the cloud with DIGITS.
 
 ### Table of Contents
 
-* [Hello AI World (Inference)](#hello-ai-world-inference-only)
-* [Two Days to a Demo (Training + Inference)](#two-days-to-a-demo-training--inference)
+* [Hello AI World](#hello-ai-world)
+* [Two Days to a Demo](#two-days-to-a-demo-digits)
 * [API Reference](#api-reference)
 * [Code Examples](#code-examples)
 * [Pre-trained Models](#pre-trained-models)
@@ -25,9 +25,9 @@ It's recommended to follow [Hello AI World](#hello-ai-world-inference-only) firs
 > &gt; &nbsp; Jetson Nano Developer Kit and JetPack 4.2 is now supported in the repo. <br/>
 > &gt; &nbsp; See our latest technical blog including benchmarks, [`Jetson Nano Brings AI Computing to Everyone`](https://devblogs.nvidia.com/jetson-nano-ai-computing/).
 
-## Hello AI World (Inference Only)
+## Hello AI World
 
-If you would like to only do the inference portion of the tutorial, which can be run on your Jetson in roughly two hours, these modules are available below:
+Hello AI World can be run completely onboard your Jetson, including inferencing with TensorRT and transfer learning with PyTorch.  The inference portion of Hello AI World - which includes coding your own image classification application for C++ or Python, object detection, and live camera demos - can be run on your Jetson in roughly two hours or less, while transfer learning is best to leave running overnight.
 
 * [Setting up Jetson with JetPack](docs/jetpack-setup-2.md)
 * [Building the Project from Source](docs/building-repo-2.md)
@@ -36,13 +36,14 @@ If you would like to only do the inference portion of the tutorial, which can be
 	* [Coding Your Own Image Recognition Program (Python)](docs/imagenet-example-python-2.md)
 	* [Coding Your Own Image Recognition Program (C++)](docs/imagenet-example-2.md)
 	* [Running the Live Camera Recognition Demo](docs/imagenet-camera-2.md)
-* [Locating Object Coordinates using DetectNet](docs/detectnet-console-2.md)
+* [Locating Objects with DetectNet](docs/detectnet-console-2.md)
 	* [Detecting Objects from the Command Line](docs/detectnet-console-2.md#detecting-objects-from-the-command-line)
 	* [Running the Live Camera Detection Demo](docs/detectnet-camera-2.md)
+* [Transfer Learning with PyTorch](docs/pytorch-transfer-learning.md)
 
-## Two Days to a Demo (Training + Inference)
+## Two Days to a Demo (DIGITS)
 
-The full tutorial includes training and inference, and can take roughly two days or more depending on system setup, downloading the datasets, and the training speed of your GPU.
+The full tutorial includes training in the cloud or PC, and inference on the Jetson with TensorRT, and can take roughly two days or more depending on system setup, downloading the datasets, and the training speed of your GPU.
 
 * [DIGITS Workflow](docs/digits-workflow.md) 
 * [DIGITS System Setup](docs/digits-setup.md)
@@ -60,7 +61,7 @@ The full tutorial includes training and inference, and can take roughly two days
 	* [Testing Classification Model in DIGITS](docs/imagenet-training.md#testing-classification-model-in-digits)
 	* [Downloading Model Snapshot to Jetson](docs/imagenet-snapshot.md)
 	* [Loading Custom Models on Jetson](docs/imagenet-custom.md)
-* [Locating Object Coordinates using DetectNet](docs/detectnet-training.md)
+* [Locating Objects with DetectNet](docs/detectnet-training.md)
 	* [Detection Data Formatting in DIGITS](docs/detectnet-training.md#detection-data-formatting-in-digits)
 	* [Downloading the Detection Dataset](docs/detectnet-training.md#downloading-the-detection-dataset)
 	* [Importing the Detection Dataset into DIGITS](docs/detectnet-training.md#importing-the-detection-dataset-into-digits)

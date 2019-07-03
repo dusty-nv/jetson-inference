@@ -3,7 +3,7 @@
 <br/>
 <sup>Object Detection</sup></s></p>
 
-# Locating Object Coordinates using DetectNet
+# Locating Objects with DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image recognition, object detection networks are capable of detecting multiple independent objects per frame.
 
 The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../detectNet.h).  See [below](#pretrained-detection-models-available) for various pre-trained detection models available for download. 
