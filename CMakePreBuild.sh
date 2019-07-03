@@ -25,4 +25,8 @@ sudo apt-get update
 ./download-models.sh
 
 
+# run the pytorch installer
+./install-pytorch.sh
+
+
 echo "[Pre-build]  Finished CMakePreBuild script"
