@@ -537,11 +537,11 @@ int imageNet::Classify( float* confidence )
 	int classIndex = -1;
 	float classMax = -1.0f;
 	
-	const float valueScale = IsModelType(MODEL_ONNX) ? 0.01f : 1.0f;
+	//const float valueScale = IsModelType(MODEL_ONNX) ? 0.01f : 1.0f;
 
 	for( size_t n=0; n < mOutputClasses; n++ )
 	{
-		const float value = mOutputs[0].CPU[n] * valueScale;
+		const float value = mOutputs[0].CPU[n] /** valueScale*/;
 		
 		if( value >= 0.01f )
 			printf("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
