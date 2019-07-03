@@ -27,9 +27,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-write-strings")	# -std=g
 set(BUILD_DEPS "YES" CACHE BOOL "If YES, will install dependencies into sandbox.  Automatically reset to NO after dependencies are installed.")
 
 
-# model downloader tool
+# copy configuration tools to build dir
 file(COPY "tools/download-models.sh" DESTINATION ${PROJECT_BINARY_DIR})
 file(COPY "tools/download-models.rc" DESTINATION ${PROJECT_BINARY_DIR})
+file(COPY "tools/install-pytorch.sh" DESTINATION ${PROJECT_BINARY_DIR})
+file(COPY "tools/install-pytorch.rc" DESTINATION ${PROJECT_BINARY_DIR})
 
 
 # if this is the first time running cmake, perform pre-build dependency install script (or if the user manually triggers re-building the dependencies)
