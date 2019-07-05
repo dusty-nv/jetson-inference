@@ -9,7 +9,8 @@ Vision primitives, such as [`imageNet`](c/imageNet.h) for image recognition, [`d
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-There are multiple tracks of the tutorial that you can choose to follow, including [Hello AI World](#hello-ai-world) for running inference and transfer learning onboard your Jetson with live camera inputs, or the full [Two Days to a Demo](#two-days-to-a-demo-digits) tutorial for training on a PC or cloud instance with DIGITS.  
+There are multiple tracks of the tutorial that you can choose to follow, including [Hello AI World](#hello-ai-world) for running inference and transfer learning onboard your Jetson, or full [Two Days to a Demo](#two-days-to-a-demo-digits) tutorial for training on a PC or server with DIGITS.  
+
 It's recommended to walk through the Hello AI World module first to familiarize yourself with machine learning and inference with TensorRT, before proceeding to training in the cloud with DIGITS.
 
 ### Table of Contents
