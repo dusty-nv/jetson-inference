@@ -36,7 +36,7 @@ function exit_message()
 	if [ $1 = 0 ]; then
 		echo "$LOG installation complete, exiting with status code $1"
 	else
-		echo "$LOG errors encountered during installation, exiting with status code $1"
+		echo "$LOG errors encountered during installation, exiting with code $1"
 	fi
 
 	echo "$LOG to run this tool again, use the following commands:"
@@ -284,6 +284,63 @@ function install_pytorch_v110_python36()
 }
 
 
+#
+# check L4T version
+#
+function check_L4T_version()
+{
+	JETSON_L4T_STRING=$(head -n 1 /etc/nv_tegra_release)
+
+	if [ -z $2 ]; then
+		echo "$LOG reading L4T version from \"dpkg-query --show nvidia-l4t-core\""
+
+		JETSON_L4T_STRING=$(dpkg-query --showformat='${Version}' --show nvidia-l4t-core)
+		local JETSON_L4T_ARRAY=(${JETSON_L4T_STRING//./ })	
+
+		#echo ${JETSON_L4T_ARRAY[@]}
+		#echo ${#JETSON_L4T_ARRAY[@]}
+
+		JETSON_L4T_RELEASE=${JETSON_L4T_ARRAY[0]}
+		JETSON_L4T_REVISION=${JETSON_L4T_ARRAY[1]}
+	else
+		echo "$LOG reading L4T version from /etc/nv_tegra_release"
+
+		JETSON_L4T_RELEASE=$(echo $JETSON_L4T_STRING | cut -f 2 -d ' ' | grep -Po '(?<=R)[^;]+')
+		JETSON_L4T_REVISION=$(echo $JETSON_L4T_STRING | cut -f 2 -d ',' | grep -Po '(?<=REVISION: )[^;]+')
+	fi
+
+	JETSON_L4T_VERSION="$JETSON_L4T_RELEASE.$JETSON_L4T_REVISION"
+	echo "$LOG Jetson BSP Version:  L4T R$JETSON_L4T_VERSION"
+
+	if [ $JETSON_L4T_RELEASE -lt 32 ]; then
+		dialog --backtitle "$APP_TITLE" \
+		  --title "PyTorch Automated Install requires JetPack ≥4.2" \
+		  --colors \
+		  --msgbox "\nThis script to install PyTorch from pre-built binaries\nrequires \ZbJetPack 4.2 or newer\Zn (L4T R32.1 or newer).\n\nThe version of L4T on your system is:  \ZbL4T R${JETSON_L4T_VERSION}\Zn\n\nIf you wish to install PyTorch for training on Jetson,\nplease upgrade to JetPack 4.2 or newer, or see these\ninstructions to build PyTorch from source:\n\n          \Zbhttps://eLinux.org/Jetson_Zoo\Zn\n\nNote that PyTorch isn't required to build the repo,\njust for re-training networks onboard your Jetson.\nYou can proceed following Hello AI World without it,\nexcept for the parts on Transfer Learning with PyTorch." 20 60
+
+		clear
+		echo " "
+		echo "[jetson-inference]  this script to install PyTorch from pre-built binaries"
+		echo "                    requires JetPack 4.2 or newer (L4T R32.1 or newer).  "
+		echo "                    the version of L4T on your system is:  L4T R${JETSON_L4T_VERSION}"
+		echo " "
+		echo "                    if you wish to install PyTorch for training on Jetson,"
+		echo "                    please upgrade to JetPack 4.2 or newer, or see these"
+		echo "                    instructions to build PyTorch from source:"
+		echo " "
+		echo "                        > https://eLinux.org/Jetson_Zoo"
+		echo " "
+		echo "                    note that PyTorch isn't required to build the repo,"
+		echo "                    just for re-training networks onboard your Jetson."
+		echo " "
+		echo "                    you can proceed following Hello AI World without it,"
+		echo "                    except for the parts on Transfer Learning with PyTorch."
+
+		exit_message 1
+	fi
+}
+
+
 # check for dialog package
 install_deb_package "dialog" FOUND_DIALOG
 echo "$LOG FOUND_DIALOG=$FOUND_DIALOG"
@@ -291,17 +348,8 @@ echo "$LOG FOUND_DIALOG=$FOUND_DIALOG"
 # use customized RC config
 export DIALOGRC=./install-pytorch.rc
 
-
 # check L4T version
-JETSON_L4T_STRING=$(head -n 1 /etc/nv_tegra_release)
-
-JETSON_L4T_RELEASE=$(echo $JETSON_L4T_STRING | cut -f 2 -d ' ' | grep -Po '(?<=R)[^;]+')
-JETSON_L4T_REVISION=$(echo $JETSON_L4T_STRING | cut -f 2 -d ',' | grep -Po '(?<=REVISION: )[^;]+')
-
-JETSON_L4T="$JETSON_L4T_RELEASE.$JETSON_L4T_REVISION"
-
-echo "$LOG Jetson L4T BSP Version:  L4T R$JETSON_L4T"
-
+check_L4T_version
 
 
 #
@@ -310,7 +358,7 @@ echo "$LOG Jetson L4T BSP Version:  L4T R$JETSON_L4T"
 while true; do
 
 	packages_selected=$(dialog --backtitle "$APP_TITLE" \
-							  --title "PyTorch Installer" \
+							  --title "PyTorch Installer (L4T R$JETSON_L4T_VERSION)" \
 							  --cancel-label "Quit" \
 							  --colors \
 							  --checklist "If you want to train DNN models on your Jetson, this tool will download and install PyTorch.  Select the desired versions of pre-built packages below, or see \Zbhttp://eLinux.org/Jetson_Zoo\Zn for instructions to build from source. \n\nYou can skip this step and select Quit if you don't want to install PyTorch.\n\n\ZbKeys:\Zn\n  ↑↓ Navigate Menu\n  Space to Select \n  Enter to Continue\n\n\ZbPackages to Install:\Zn" 20 80 2 \
