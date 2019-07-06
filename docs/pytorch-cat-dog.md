@@ -3,7 +3,7 @@
 <br/>
 <sup>Transfer Learning</sup></s></p>
 
-# Re-training with the Cat/Dog Dataset
+# Re-training on the Cat/Dog Dataset
 
 The first model that we'll be re-training is a simple model that recognizes two classes:  cat or dog.
 
@@ -90,15 +90,15 @@ To stop training at any time, you can press `Ctrl+C`.  You can also restart the 
 
 On this dataset of 5000 images, training ResNet-18 takes approximately ~7-8 minutes per epoch on Jetson Nano, or around 4 hours to train the model to 35 epochs and 80% accuracy.  Below is a graph for analyzing the progression of training epochs versus model accuracy:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat-dog-training.jpg" width="700">
+<p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat-dog-training.jpg" width="700"></p>
 
 At around epoch 30, the ResNet-18 model reaches 80% accuracy, and at epoch 65 it converges on 82.5% accuracy.  With additional training time, uou could further improve the accuracy by increasing the size of the dataset (see the [Generating More Data](#generating-more-data) section below) or by trying more complex models.
 
-By default the script is set to run for 35 epochs, but if you don't wish to wait that long to test out your model, you can exit training early and proceed to the next step (optionally re-starting the training again later from where you left off).  You can also download this completed model that was trained for the full 100 epochs from here:
+By default the script is set to run for 35 epochs, but if you don't wish to wait that long to test out your model, you can exit training early and proceed to the next step (optionally re-starting the training again later from where you left off).  You can also download this completed model that was trained for a full 100 epochs from here:
 
 * <a href="https://nvidia.box.com/s/zlvb4y43djygotpjn6azjhwu0r3j0yxc">https://nvidia.box.com/s/zlvb4y43djygotpjn6azjhwu0r3j0yxc</a>
 
-Note that the models are saved under `jetson-inference/python/training/imagenet/cat_dog/`, including the latest checkpoint and the best-performing model.  You can change the directory the models are saved to by changing the `--model-dir` flag.
+Note that the models are saved under `jetson-inference/python/training/imagenet/cat_dog/`, including the latest checkpoint and the best-performing model.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
 
 ## Converting the Model to ONNX
 
@@ -114,7 +114,7 @@ This will create a model called `resnet18.onnx` under `jetson-inference/python/t
 
 ## Processing Images with TensorRT
 
-To process some test images, we'll use the extended command-line parameters to the `imagenet-console` programs that we used previously to load our custom model:
+To process some test images, we'll use the extended command-line parameters to `imagenet-console` to load our custom model:
 
 ```bash
 DATASET=/media/SSD_EVO860/datasets/cat_dog
@@ -127,7 +127,19 @@ DATASET=/media/SSD_EVO860/datasets/cat_dog
 
 ## Generating More Data
 
-The images from the Cat/Dog dataset were randomly pulled from a larger <a href="https://drive.google.com/open?id=1LsxHT9HX5gM2wMVqPUfILgrqVlGtqX1o">subset of ILSCRV12</a> (22.5GB), using the [`cat-dog-dataset.sh`](../tools/cat-dog-dataset.sh) script. The images are made up of many different breeds of dogs and cats, including large felines like tigers and mountain lions since the diversity among cats was a bit lower than dogs.  Some of the images also picture humans, which the detector is essentially trained to ignore and focus on the cat vs dog content.  We purposely kept this first dataset smaller to keep the training time down, but using the script above you can re-generate the dataset with more images to create a more robust model. 
+The images from the Cat/Dog dataset were randomly pulled from a larger <a href="https://drive.google.com/open?id=1LsxHT9HX5gM2wMVqPUfILgrqVlGtqX1o">subset of ILSCRV12</a> (22.5GB) with the [`cat-dog-dataset.sh`](../tools/cat-dog-dataset.sh) script. The images are made up of many different breeds of dogs and cats, including large felines like tigers and mountain lions since the diversity among cats was a bit lower than dogs.  Some of the images also picture humans, which the detector is essentially trained to ignore and focus on the cat vs dog content.  
+
+This first dataset is smaller to keep the training time down, but using the script above you can re-generate it with additional images to create a more robust model.  Larger datasets take more time to train, so you can proceed to the [next example](pytorch-plants.md) awhile, but if you were to want to expand the Cat/Dog dataset, first download the source data from:
+
+* <a href="https://drive.google.com/open?id=1LsxHT9HX5gM2wMVqPUfILgrqVlGtqX1o">https://drive.google.com/open?id=1LsxHT9HX5gM2wMVqPUfILgrqVlGtqX1o</a>
+
+After extracting this archive, edit [`tools/cat-dog-dataset.sh`](../tools/cat-dog-dataset.sh) with the following modifications:
+
+* Substitue the location of the extracted `ilsvrc12_subset` in the `IMAGENET_DIR` variable
+* Then create an empty folder somewhere for cat_dog, and substitue that location in `OUTPUT_DIR`
+* Change the size of the dataset by modifying `NUM_TRAIN`, `NUM_VAL`, and `NUM_TEST` variables
+
+The script will create subdirectories for train, val, and test underneath the `OUTPUT_DIR`, and then fill those directories with the specified number of images for each.  Then you can [train the model](#train-the-model) the same way as above.
 
 <p align="right">Next | <b><a href="pytorch-cat-dog.md">Training the Cat/Dog Dataset</a></b>
 <br/>
