@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="pytorch-cat-dog.md">Back</a> | <a href="pytorch-capture.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="pytorch-plants.md">Back</a> | <a href="../README.md#hello-ai-world">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Transfer Learning</sup></s></p>
 
@@ -11,6 +11,7 @@ The next model that we'll be re-training is capable of classifying 20 different 
 
 Provided below is a 1.5GB dataset that includes 10,475 training images, 1,155 validation images, and 30 test images across 20 classes of plants and trees.  The classes were selected from PlantCLEF 2017 from classes that had at least 500 training images in the original dataset:
 
+```
 • ash
 • beech
 • cat-tail
@@ -31,6 +32,7 @@ Provided below is a 1.5GB dataset that includes 10,475 training images, 1,155 va
 • sycamore
 • trout lily
 • tulip tree
+```
 
 To get started, first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch), then download the dataset below and kick off the training script.
 
@@ -41,14 +43,14 @@ To download and extract the data:
 ``` bash
 # UPDATE URL
 $ cd ~/datasets
-$ wget https://nvidia.box.com/shared/static/o577zd8yp3lmxf5zhm38svrbrv45am3y.gz -O PlantCLEF_Subset.tar.gz
+$ wget https://nvidia.box.com/shared/static/vbsywpw5iqy7r38j78xs0ctalg7jrg79.gz -O PlantCLEF_Subset.tar.gz
 $ tar xvzf PlantCLEF_Subset.tar.gz
 ```
 
 Mirrors of the dataset are available here:
-### UPDATE URLs
-* <a href="https://drive.google.com/file/d/16E3yFvVS2DouwgIl4TPFJvMlhGpnYWKF/view?usp=sharing">https://drive.google.com/file/d/16E3yFvVS2DouwgIl4TPFJvMlhGpnYWKF/view?usp=sharing</a>
-* <a href="https://nvidia.box.com/s/o577zd8yp3lmxf5zhm38svrbrv45am3y">https://nvidia.box.com/s/o577zd8yp3lmxf5zhm38svrbrv45am3y</a>
+
+* <a href="https://drive.google.com/file/d/14pUv-ZLHtRR-zCYjznr78mytFcnuR_1D/view?usp=sharing">https://drive.google.com/file/d/14pUv-ZLHtRR-zCYjznr78mytFcnuR_1D/view?usp=sharing</a>
+* <a href="https://nvidia.box.com/s/vbsywpw5iqy7r38j78xs0ctalg7jrg79">https://nvidia.box.com/s/vbsywpw5iqy7r38j78xs0ctalg7jrg79</a>
 
 ## Re-training ResNet-18 Model
 
@@ -185,7 +187,5 @@ imagenet-camera.py --model=plants/resnet18.onnx --input_blob=input_0 --output_bl
 
 Next, we're going to cover a camera-based tool for collecting and labelling your own data captured from a live video.  
 
-<p align="right">Next | <b><a href="pytorch-collect.md">Collecting your own Datasets</a></b>
-<br/>
-Back | <b><a href="pytorch-cat-dog.md">Re-training on the Cat/Dog Dataset</a></p>
+Back | <b><a href="pytorch-plants.md">Re-training on the Cat/Dog Dataset</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
