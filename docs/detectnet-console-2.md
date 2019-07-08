@@ -46,9 +46,9 @@ $ ./detectnet-console.py peds-004.jpg output.jpg
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-00.jpg" width="900">
 
 
-### Pretrained Detection Models Available
+### Pre-trained Detection Models Available
 
-Below is a table of the pretrained object detection networks available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `detectnet-console` used for loading the pretrained model:
+Below is a table of the pre-trained object detection networks available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `detectnet-console` used for loading the pre-trained models:
 
 | Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
@@ -68,7 +68,7 @@ Below is a table of the pretrained object detection networks available for [down
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
 
 
-### Running Other Detection Models
+### Running Different Detection Models
 
 You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, PedNet is loaded (pedestrian detection) if the optional `--network` flag isn't specified.
 

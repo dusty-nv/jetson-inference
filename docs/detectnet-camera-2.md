@@ -13,7 +13,7 @@ Up next we have a realtime object detection camera demo available for C++ and Py
 Similar to the previous [`detectnet-console`](detectnet-console-2.md) example, these camera applications use detection networks, except that they process a live video feed from a camera.  `detectnet-camera` accepts 4 optional command-line parameters:
 
 - `--network` flag setting the classification model (default is PedNet)
-	- See [Pretrained Detection Models Available](detectnet-console-2.md#pretrained-detection-models-available) for the networks available to use.
+	- See [Pre-trained Detection Models Available](detectnet-console-2.md#pre-trained-detection-models-available) for the networks available to use.
 - `--camera` flag setting the camera device to use
 	- MIPI CSI cameras are used by specifying the sensor index (`0` or `1`, ect.)
 	- V4L2 USB cameras are used by specifying their `/dev/video` node (`/dev/video0`, `/dev/video1`, ect.)

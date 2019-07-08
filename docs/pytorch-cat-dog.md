@@ -11,6 +11,8 @@ The first model that we'll be re-training is a simple model that recognizes two 
 
 Provided below is a 750MB dataset that includes 5000 training images, 1000 validation images, and 200 test images, each split evenly between the cat and dog classes.  The set of training images is used for transfer learning, while the validation set is used to evaluate model performance during training, and the test images are to be used by us after training completes.  The network is never directly trained on the validation and test sets, only the training set.
 
+The images are made up of many different breeds of dogs and cats, including large felines like tigers and mountain lions since the diversity among cats was a bit lower than dogs.  Some of the images also picture humans, which the detector is essentially trained to ignore and focus on the cat vs dog content.
+
 To get started, first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch), then download the dataset and kick off the training script.
 
 ## Downloading the Data
@@ -92,7 +94,7 @@ On this dataset of 5000 images, training ResNet-18 takes approximately ~7-8 minu
 
 <p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat-dog-training.jpg" width="700"></p>
 
-At around epoch 30, the ResNet-18 model reaches 80% accuracy, and at epoch 65 it converges on 82.5% accuracy.  With additional training time, uou could further improve the accuracy by increasing the size of the dataset (see the [Generating More Data](#generating-more-data) section below) or by trying more complex models.
+At around epoch 30, the ResNet-18 model reaches 80% accuracy, and at epoch 65 it converges on 82.5% accuracy.  With additional training time, uou could further improve the accuracy by increasing the size of the dataset (see the [Generating More Data](#generating-more-data-optional) section below) or by trying more complex models.
 
 By default the script is set to run for 35 epochs, but if you don't wish to wait that long to test out your model, you can exit training early and proceed to the next step (optionally re-starting the training again later from where you left off).  You can also download this completed model that was trained for a full 100 epochs from here:
 
@@ -102,7 +104,7 @@ Note that the models are saved under `jetson-inference/python/training/imagenet/
 
 ## Converting the Model to ONNX
 
-To run our trained model with TensorRT for testing and realtime inference, first we need to convert the PyTorch model into ONNX format so that TensorRT can load it.  <a href="https://onnx.ai/">ONNX</a> is an open model format that supports many of the popular ML frameworks, including PyTorch, TensorFlow, TensorRT, and others, so it simplifies transferring models between tools.
+To run our re-trained ResNet-18 model with TensorRT for testing and realtime inference, first we need to convert the PyTorch model into ONNX format so that TensorRT can load it.  <a href="https://onnx.ai/">ONNX</a> is an open model format that supports many of the popular ML frameworks, including PyTorch, TensorFlow, TensorRT, and others, so it simplifies transferring models between tools.
 
 PyTorch comes with built-in support for exporting PyTorch models to ONNX, so run the following command to convert our Cat/Dog model with the `onnx_export.py` script:
 
@@ -114,22 +116,52 @@ This will create a model called `resnet18.onnx` under `jetson-inference/python/t
 
 ## Processing Images with TensorRT
 
-To process some test images, we'll use the extended command-line parameters to `imagenet-console` to load our custom model:
+To process some test images, we'll use the extended command-line parameters to `imagenet-console` to load our customized re-trained ResNet-18 model.  To run these commands, the working directory of your terminal should still be:  `jetson-inference/python/training/imagenet/`
 
 ```bash
-DATASET=/media/SSD_EVO860/datasets/cat_dog
+DATASET=~/datasets/cat_dog
 
 # C++
+imagenet-console --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
 
 # Python
+imagenet-console.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
 ```
 
+<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat.jpg">
 
-## Generating More Data
+```bash
+# C++
+imagenet-console --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
 
-The images from the Cat/Dog dataset were randomly pulled from a larger <a href="https://drive.google.com/open?id=1LsxHT9HX5gM2wMVqPUfILgrqVlGtqX1o">subset of ILSCRV12</a> (22.5GB) with the [`cat-dog-dataset.sh`](../tools/cat-dog-dataset.sh) script. The images are made up of many different breeds of dogs and cats, including large felines like tigers and mountain lions since the diversity among cats was a bit lower than dogs.  Some of the images also picture humans, which the detector is essentially trained to ignore and focus on the cat vs dog content.  
+# Python
+imagenet-console.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
+```
 
-This first dataset is smaller to keep the training time down, but using the script above you can re-generate it with additional images to create a more robust model.  Larger datasets take more time to train, so you can proceed to the [next example](pytorch-plants.md) awhile, but if you were to want to expand the Cat/Dog dataset, first download the source data from:
+<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-dog.jpg">
+
+There are 100 test images provided for both cat and dog classes, or you can download your own test images to try.
+
+## Running the Live Camera Program
+
+If you have a furry friend at home, you can run the camera program and see how it works!  Like the previous step, `imagenet-camera` supports extended command-line parameters for loading customized models:
+
+```bash
+DATASET=~/datasets/cat_dog
+
+# C++
+imagenet-camera --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
+
+# Python
+imagenet-camera.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
+```
+<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-otto.jpg" width="500">
+
+## Generating More Data (Optional)
+
+The images from the Cat/Dog dataset were randomly pulled from a larger <a href="https://drive.google.com/open?id=1LsxHT9HX5gM2wMVqPUfILgrqVlGtqX1o">subset of ILSCRV12</a> (22.5GB) with the [`cat-dog-dataset.sh`](../tools/cat-dog-dataset.sh) script.   
+
+This first Cat/Dog dataset is intentionally kept smaller to keep the training time down, but using the script above you can re-generate it with additional images to create a more robust model.  Larger datasets take more time to train, so you can proceed to the [next example](pytorch-plants.md) awhile, but if you were to want to expand the Cat/Dog dataset, first download the source data from here:
 
 * <a href="https://drive.google.com/open?id=1LsxHT9HX5gM2wMVqPUfILgrqVlGtqX1o">https://drive.google.com/open?id=1LsxHT9HX5gM2wMVqPUfILgrqVlGtqX1o</a>
 
