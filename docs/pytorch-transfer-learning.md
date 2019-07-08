@@ -37,13 +37,13 @@ Now your swap file will automatically be mounted after reboots.  To check the us
  
 ## Training Datasets
 
-Below are step-by-step instructions to re-training models on some example datasets with transfer learning, in addition to capturing your own data to create customized models: 
+Below are step-by-step instructions to re-training models on some example datasets with transfer learning, in addition to collecting your own data to create your own customized models: 
 
-* [Re-training on the Cat/Dog Dataset](pytorch-cat-dog.md)
-* [Re-training on the PlantCLEF Dataset](pytorch-plants.md)
-* [Capturing your own Datasets](pytorch-capture.md)
+* [Re-training on Cat/Dog Dataset](pytorch-cat-dog.md)
+* [Re-training on PlantCLEF Dataset](pytorch-plants.md)
+* [Collecting your own Datasets](pytorch-collect.md)
 
-<p align="right">Next | <b><a href="pytorch-cat-dog.md">Training the Cat/Dog Dataset</a></b>
+<p align="right">Next | <b><a href="pytorch-cat-dog.md">Re-training on the Cat/Dog Dataset</a></b>
 <br/>
 Back | <b><a href="detectnet-camera-2.md">Running the Live Camera Detection Demo</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

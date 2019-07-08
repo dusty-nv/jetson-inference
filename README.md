@@ -41,6 +41,9 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 	* [Detecting Objects from the Command Line](docs/detectnet-console-2.md#detecting-objects-from-the-command-line)
 	* [Running the Live Camera Detection Demo](docs/detectnet-camera-2.md)
 * [Transfer Learning with PyTorch](docs/pytorch-transfer-learning.md)
+	* [Re-training on Cat/Dog Dataset](pytorch-cat-dog.md)
+	* [Re-training on PlantCLEF Dataset](pytorch-plants.md)
+	* [Collecting your own Datasets](pytorch-collect.md)
 
 ## Two Days to a Demo (DIGITS)
 

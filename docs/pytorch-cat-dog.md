@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="pytorch-transfer-learning.md">Back</a> | <a href="pytorch-cat-dog.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="pytorch-transfer-learning.md">Back</a> | <a href="pytorch-plants.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Transfer Learning</sup></s></p>
 
@@ -9,11 +9,11 @@ The first model that we'll be re-training is a simple model that recognizes two 
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat-dog.jpg" width="700">
 
-Provided below is a 750MB dataset that includes 5000 training images, 1000 validation images, and 200 test images, each split evenly between the cat and dog classes.  The set of training images is used for transfer learning, while the validation set is used to evaluate model performance during training, and the test images are to be used by us after training completes.  The network is never directly trained on the validation and test sets, only the training set.
+Provided below is an 800MB dataset that includes 5000 training images, 1000 validation images, and 200 test images, each split evenly between the cat and dog classes.  The set of training images is used for transfer learning, while the validation set is used to evaluate model performance during training, and the test images are to be used by us after training completes.  The network is never directly trained on the validation and test sets, only the training set.
 
 The images are made up of many different breeds of dogs and cats, including large felines like tigers and mountain lions since the diversity among cats was a bit lower than dogs.  Some of the images also picture humans, which the detector is essentially trained to ignore and focus on the cat vs dog content.
 
-To get started, first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch), then download the dataset and kick off the training script.
+To get started, first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch), then download the dataset below and kick off the training script.
 
 ## Downloading the Data
 
@@ -36,7 +36,7 @@ Mirrors of the dataset are available here:
 * <a href="https://drive.google.com/file/d/16E3yFvVS2DouwgIl4TPFJvMlhGpnYWKF/view?usp=sharing">https://drive.google.com/file/d/16E3yFvVS2DouwgIl4TPFJvMlhGpnYWKF/view?usp=sharing</a>
 * <a href="https://nvidia.box.com/s/o577zd8yp3lmxf5zhm38svrbrv45am3y">https://nvidia.box.com/s/o577zd8yp3lmxf5zhm38svrbrv45am3y</a>
 
-## Training the Model
+## Re-training ResNet-18 Model
 
 The PyTorch training scripts are located in the repo under <a href="https://github.com/dusty-nv/jetson-inference/tree/master/python/training/imagenet">`jetson-inference/python/training/imagenet/`</a>.  These scripts aren't specific to any one dataset, so we'll use the same PyTorch code for each of the example datasets from the tutorial.  By default it's set to train a ResNet-18 model, but you can change that with the `--arch` flag.
 
@@ -67,7 +67,11 @@ Epoch: [0][ 90/625]	Time  0.083 ( 0.098)	Data  0.000 ( 0.008)	Loss 7.3421e+00 (8
 Epoch: [0][100/625]	Time  0.093 ( 0.097)	Data  0.000 ( 0.008)	Loss 7.4379e-01 (7.8715e+00)	Acc@1  50.00 ( 50.12)	Acc@5 100.00 (100.00)
 ```
 
-This output corresponds to the following info:
+To stop training at any time, you can press `Ctrl+C`.  You can also restart the training again later using the `--resume` and `--epoch-start` flags, so you don't need to wait for training to complete before testing out the model.  Run `python train.py --help` for more information about each option that's available for you to use, including other networks that you can try with the `--arch` flag.
+
+### Training Statistics
+
+The statistics output above during the training process correspond to the following info:
 
 * Epoch:  an epoch is one complete training pass over the data
 	* `Epoch: [N]` means you are currently on epoch 0, 1, 2, ect.
@@ -78,7 +82,7 @@ This output corresponds to the following info:
 	* Multiply the numbers in brackets by the batch size (i.e. batch `[100/625]` -> image `[800/5000]`)
 * Time:  processing time of the current image batch (in seconds)
 * Data:  disk loading time of the current image batch (in seconds)
-* Loss:  the accumulated errors that the model made (expected vs. predicated)
+* Loss:  the accumulated errors that the model made (expected vs. predicted)
 * `Acc@1`:  the Top-1 classification accuracy over the batch
 	* Top-1 meaning that the model predicted exactly the correct class
 * `Acc@5`:  the Top-5 classification accuracy over the batch
@@ -86,17 +90,17 @@ This output corresponds to the following info:
 	* Since this Cat/Dog example only has 2 classes (Cat and Dog), Top-5 is always 100%
 	* Other datasets from the tutorial have more than 5 classes, where Top-5 is valid 
 
-To stop training at any time, you can press `Ctrl+C`.  You can also restart the training again later using the `--resume` and `--epoch-start` flags, so you don't need to wait for training to complete before testing out the model.  Run `python train.py --help` for more information about each option that's available for you to use, including other networks that you can try with the `--arch` flag.
+You can keep an eye on these statistics during training to gauge how well the model is trained and if you want to keep going or stop and test.  As mentioned above, you can restart training again later if you desire.
 
 ### Model Accuracy
 
-On this dataset of 5000 images, training ResNet-18 takes approximately ~7-8 minutes per epoch on Jetson Nano, or around 4 hours to train the model to 35 epochs and 80% accuracy.  Below is a graph for analyzing the progression of training epochs versus model accuracy:
+On this dataset of 5000 images, training ResNet-18 takes approximately ~7-8 minutes per epoch on Jetson Nano, or around 4 hours to train the model to 35 epochs and 80% accuracy.  Below is a graph for analyzing the training progression of epochs versus model accuracy:
 
 <p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat-dog-training.jpg" width="700"></p>
 
 At around epoch 30, the ResNet-18 model reaches 80% accuracy, and at epoch 65 it converges on 82.5% accuracy.  With additional training time, uou could further improve the accuracy by increasing the size of the dataset (see the [Generating More Data](#generating-more-data-optional) section below) or by trying more complex models.
 
-By default the script is set to run for 35 epochs, but if you don't wish to wait that long to test out your model, you can exit training early and proceed to the next step (optionally re-starting the training again later from where you left off).  You can also download this completed model that was trained for a full 100 epochs from here:
+By default the training script is set to run for 35 epochs, but if you don't wish to wait that long to test out your model, you can exit training early and proceed to the next step (optionally re-starting the training again later from where you left off).  You can also download this completed model that was trained for a full 100 epochs from here:
 
 * <a href="https://nvidia.box.com/s/zlvb4y43djygotpjn6azjhwu0r3j0yxc">https://nvidia.box.com/s/zlvb4y43djygotpjn6azjhwu0r3j0yxc</a>
 
@@ -116,7 +120,7 @@ This will create a model called `resnet18.onnx` under `jetson-inference/python/t
 
 ## Processing Images with TensorRT
 
-To process some test images, we'll use the extended command-line parameters to `imagenet-console` to load our customized re-trained ResNet-18 model.  To run these commands, the working directory of your terminal should still be:  `jetson-inference/python/training/imagenet/`
+To process some test images, we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be:  `jetson-inference/python/training/imagenet/`
 
 ```bash
 DATASET=~/datasets/cat_dog
@@ -140,7 +144,7 @@ imagenet-console.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-dog.jpg">
 
-There are 100 test images provided for both cat and dog classes, or you can download your own test images to try.
+There are 100 test images included with the dataset for both cat and dog classes, or you can download your own test images to try.
 
 ## Running the Live Camera Program
 
@@ -173,7 +177,7 @@ After extracting this archive, edit [`tools/cat-dog-dataset.sh`](../tools/cat-do
 
 The script will create subdirectories for train, val, and test underneath the `OUTPUT_DIR`, and then fill those directories with the specified number of images for each.  Then you can [train the model](#train-the-model) the same way as above.
 
-<p align="right">Next | <b><a href="pytorch-cat-dog.md">Training the Cat/Dog Dataset</a></b>
+<p align="right">Next | <b><a href="pytorch-plants.md">Re-training on the PlantCLEF Dataset</a></b>
 <br/>
 Back | <b><a href="pytorch-transfer-learning.md">Transfer Learning with PyTorch</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
