@@ -9,7 +9,7 @@ In order to collect your own datasets for training customized models to classify
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-collection.jpg" >
 
-The tool will create the dataset with the following directory structure on disk:
+The tool will create datasets with the following directory structure on disk:
 
 ```
 ‣ train/
@@ -28,7 +28,7 @@ The tool will create the dataset with the following directory structure on disk:
 
 where `class-A`, `class-B`, ect. will be subdirectories containing the data for each object class that you've defined in a class label file.  The names of these class subdirectories will match the class label names that we'll create below.  These subdirectories will automatically be populated by the tool for the `train`, `val`, and `test` sets from the classes listed in the label file, and a sequence of JPEG images will be saved under each.
 
-Note that above is the organization structure expected by the PyTorch training script that we've been using.  If you inspect the Cat/Dog and PlantCLEF datasets, they are also organized in the same way.
+Note that above is the organization structure expected by the PyTorch training script that we've been using.  If you inspect the Cat/Dog and PlantCLEF datasets, they're also organized in the same way.
 
 ## Creating the Label File
 
@@ -71,7 +71,7 @@ Next, we'll cover the command-line options for starting the tool.
 
 ## Launching the Tool
 
-The source for the `camera-capture` tool can be found under [`jetson-inference/tools/camera-capture/`](../tools/camera-capture), and like the other programs from the repo it gets built to the `aarch64/bin` directory and installed under `/usr/local/bin/`.  
+The source for the `camera-capture` tool can be found under [`jetson-inference/tools/camera-capture/`](../tools/camera-capture), and like the other programs from the repo it gets built to the `aarch64/bin` directory and installed under `/usr/local/bin/`  
 
 The `camera-capture` tool accepts 3 optional command-line arguments:
 
@@ -171,5 +171,5 @@ For more examples to inspire your creativity, see the **[Jetson Projects](https:
 You can also follow our **[Two Days to a Demo](https://github.com/dusty-nv/jetson-inference#two-days-to-a-demo-DIGITS)** tutorial, which covers training of even larger datasets in the cloud or on a PC using discrete NVIDIA GPU(s).  Two Days to a Demo also covers semantic segmentation, which is like image classification, but on a per-pixel level instead of predicting one class for the entire image.
 
 
-<p align="right">Back | <b><a href="pytorch-cat-dog.md">Re-training on the PlantCLEF Dataset</a></p>
+<p align="right">Back | <b><a href="pytorch-plants.md">Re-training on the PlantCLEF Dataset</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

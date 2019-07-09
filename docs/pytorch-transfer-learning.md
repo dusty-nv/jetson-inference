@@ -78,6 +78,16 @@ Below are step-by-step instructions to re-training models on some example datase
 * [Re-training on the PlantCLEF Dataset](pytorch-plants.md)
 * [Collecting your own Datasets](pytorch-collect.md)
 
+This table contains a summary of the datasets and their associated training times:
+
+| Dataset   | Classes | Training Images | Time per Epoch* | Training Time** |
+|-----------|---------|-----------------|-----------------|-----------------|
+| Cat/Dog   |    2    |      5,000      |   ~7-8 minutes  |    ~4 hours     |
+| PlantCLEF |   20    |     10,475      |    ~15 minutes  |    ~8 hours     |
+
+*&nbsp;&nbsp;Approximate time for one complete training pass over the dataset with Jetson Nano
+** Approximate time for training the model for 35 epochs with Jetson Nano
+
 <p align="right">Next | <b><a href="pytorch-cat-dog.md">Re-training on the Cat/Dog Dataset</a></b>
 <br/>
 Back | <b><a href="detectnet-camera-2.md">Running the Live Camera Detection Demo</a></p>

@@ -13,7 +13,7 @@ Provided below is an 800MB dataset that includes 5000 training images, 1000 vali
 
 The images from the dataset are made up of many different breeds of dogs and cats, including large felines like tigers and mountain lions since the amount of cat images available was a bit lower than dogs.  Some of the images also picture humans, which the detector is essentially trained to ignore as background and focus on the cat vs. dog content.
 
-To get started, first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) on your Jetson, then download the dataset below and kick off the training script.  After that, we'll test the re-trained model in TensorRT by classifying some static test images and also on a live camera stream. 
+To get started, first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) on your Jetson, then download the dataset below and kick off the training script.  After that, we'll test the re-trained model in TensorRT on some static images and a live camera feed. 
 
 ## Downloading the Data
 
@@ -177,9 +177,9 @@ After extracting this archive, edit [`tools/cat-dog-dataset.sh`](../tools/cat-do
 * Then create an empty folder somewhere for cat_dog, and substitue that location in `OUTPUT_DIR`
 * Change the size of the dataset by modifying `NUM_TRAIN`, `NUM_VAL`, and `NUM_TEST` variables
 
-The script creates subdirectories for train, val, and test underneath the `OUTPUT_DIR`, and will then fill those directories with the specified number of images for each.  Then you can [train the model](#train-the-model) the same way as above, optionally using the `--resume` and `--epoch-start` flags to pick up training where you left off (if you don't want to restart training from the beginning).  Remember to re-export the model to ONNX after re-training. 
+The script creates subdirectories for train, val, and test underneath the `OUTPUT_DIR`, and will then fill those directories with the specified number of images for each.  Then you can [train the model](#re-training-resnet-18-model) the same way as above, optionally using the `--resume` and `--epoch-start` flags to pick up training where you left off (if you don't want to restart training from the beginning).  Remember to re-export the model to ONNX after re-training. 
 
-In the following example, we'll train a 20-class model on a datset of plants and trees.
+In the following example, we'll train another model on a datset of plants and trees that supports 20 object classes.
 
 <p align="right">Next | <b><a href="pytorch-plants.md">Re-training on the PlantCLEF Dataset</a></b>
 <br/>
