@@ -5,13 +5,30 @@
 
 # Detecting Objects from the Command Line
 
-The `detectnet-console` program can be used to locate objects in static images.  It accepts 3 command line parameters:
+To process test images with [`detectNet`](../detectNet.h) and TensorRT on the Jetson, we can use the [`detectnet-console`](../detectnet-console/detectnet-console.cpp) program.  
 
-- the path to an input image  (`jpg, png, tga, bmp`)
-- optional path to output image  (`jpg, png, tga, bmp`)
-- optional `--network` flag which changes the detection model being used (the default network is PedNet).  
+[`detectnet-console`](../detectnet-console/detectnet-console.cpp) accepts command-line arguments representing the path to the input image and path to the output image (with the bounding box overlays rendered).  Some test images are also included with the repo.
 
-Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Code Examples`](../README.md#code-examples) readme.
+To specify your model that you downloaded from DIGITS in the previous step, use the syntax to `detectnet-console` below.  First, for convienience, set the path to your extracted snapshot into a `$NET` variable:
+
+``` bash
+$ NET=20170504-190602-879f_epoch_100
+
+$ ./detectnet-console dog_0.jpg output_0.jpg \
+--prototxt=$NET/deploy.prototxt \
+--model=$NET/snapshot_iter_38600.caffemodel \
+--input_blob=data \ 
+--output_cvg=coverage \
+--output_bbox=bboxes
+```
+
+> **note:**  the `input_blob`, `output_cvg`, and `output_bbox` arguments may be omitted if your DetectNet layer names match the defaults above (i.e. if you are using the prototxt from following this tutorial). These optional command line parameters are provided if you are using a customized DetectNet with different layer names.
+
+![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-dog-0.jpg)
+
+### Launching With a Pretrained Model
+
+Alternatively, to load one of the pretrained snapshots that comes with the repo, you can specify the optional `--network` flag which changes the detection model being used (the default network is PedNet).  
 
 Here's an example of locating humans in an image with the default PedNet model:
 
