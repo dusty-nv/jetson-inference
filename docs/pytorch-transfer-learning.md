@@ -25,7 +25,7 @@ $ ./install-pytorch.sh
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/pytorch-installer.jpg" width="650">
 
 > **note**: the automated PyTorch installation tool requires JetPack 4.2 or newer.<br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for other versions, see [`http://eLinux.org/Jetson_Zoo`](https://elinux.org/Jetson_Zoo#PyTorch_.28Caffe2.29) to build from source.
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for other versions, see [`http://eLinux.org/Jetson_Zoo`](https://elinux.org/Jetson_Zoo#PyTorch_.28Caffe2.29) to build from source.
 
 ### Verifying PyTorch
 
@@ -85,7 +85,7 @@ This table contains a summary of the datasets and their associated training time
 | [Cat/Dog](pytorch-cat-dog.md)   | 800MB |    2    |      5,000      |  ~7-8 minutes   |    ~4 hours     |
 | [PlantCLEF](pytorch-plants.md) | 1.5GB |   20    |     10,475      | ~15 minutes     |    ~8 hours     |
 
-*&nbsp;&nbsp;Approximate time for one complete training pass over the dataset with Jetson Nano  
+*&nbsp;&nbsp;&nbsp;Approximate time for one complete training pass over the dataset with Jetson Nano  
 ** Approximate time for training the model for 35 epochs with Jetson Nano
 
 <p align="right">Next | <b><a href="pytorch-cat-dog.md">Re-training on the Cat/Dog Dataset</a></b>

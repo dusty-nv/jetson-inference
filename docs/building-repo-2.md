@@ -85,7 +85,7 @@ If desired, select the PyTorch package versions for Python 2.7 and/or Python 3.6
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/pytorch-installer.jpg" width="650">
 
 > **note**: the automated PyTorch installation tool requires JetPack 4.2 or newer.<br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for other versions, see [`http://eLinux.org/Jetson_Zoo`](https://elinux.org/Jetson_Zoo#PyTorch_.28Caffe2.29) to build from source.
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for other versions, see [`http://eLinux.org/Jetson_Zoo`](https://elinux.org/Jetson_Zoo#PyTorch_.28Caffe2.29) to build from source.
 
 You can also run this tool again later if you decide that you want to install PyTorch at another time:
 
