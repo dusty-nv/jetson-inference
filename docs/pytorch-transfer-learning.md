@@ -80,12 +80,12 @@ Below are step-by-step instructions to re-training models on some example datase
 
 This table contains a summary of the datasets and their associated training times:
 
-| Dataset   | Size  |  Classes | Training Images | Time per Epoch* | Training Time** |
-|-----------|-------|----------|-----------------|-----------------|-----------------|
-| [Cat/Dog](pytorch-cat-dog.md)   | 800MB |    2    |      5,000      |  ~7-8 minutes   |    ~4 hours     |
-| [PlantCLEF](pytorch-plants.md) | 1.5GB |   20    |     10,475      | ~15 minutes     |    ~8 hours     |
+| Dataset   |  Classes | Size  | Training Images | Time per Epoch* | Training Time** |
+|-----------|----------|-------|-----------------|-----------------|-----------------|
+| [`Cat/Dog`](pytorch-cat-dog.md)   |    2    | 800MB |      5,000      |  ~7-8 minutes   |    ~4 hours     |
+| [`PlantCLEF`](pytorch-plants.md) |   20    | 1.5GB |     10,475      | ~15 minutes     |    ~8 hours     |
 
-*&nbsp;&nbsp;&nbsp;Approximate time for one complete training pass over the dataset with Jetson Nano  
+*&nbsp;&nbsp;Approximate time for one complete training pass over the dataset with Jetson Nano  
 ** Approximate time for training the model for 35 epochs with Jetson Nano
 
 <p align="right">Next | <b><a href="pytorch-cat-dog.md">Re-training on the Cat/Dog Dataset</a></b>
