@@ -67,21 +67,10 @@ $ ./detectnet-camera.py --network=coco-dog
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/detectnet_camera_dog.jpg" width="800">
 
-<br/>
-
-## What's Next
-
-This is the last step of the *Hello AI World* tutorial, which covers inferencing on Jetson with TensorRT.  
-
-To recap, together we've covered:
-
-* Using image recognition networks to classify images
-* Coding your own image recognition programs in Python and C++
-* Classifying video from a live camera stream
-* Performing object detection to locate object coordinates
-
-Next, we encourage you to follow our full **[Training + Inference](https://github.com/dusty-nv/jetson-inference#two-days-to-a-demo-training--inference)** tutorial, which also covers the re-training of these networks on custom datasets.  This way, you can collect your own data and have the models recognize objects specific to your applications.  The full tutorial also covers semantic segmentation, which is like image classification, but on a per-pixel level instead of predicting one class for the entire image.  Good luck!
+Next, we're going to introduce the concepts of [Transfer Learning](pytorch-transfer-learning.md) and train some example DNN models on our Jetson using PyTorch.
 
 ##
-<p align="right">Back | <b><a href="detectnet-console-2.md">Detecting Objects from the Command Line</a></p>
+<p align="right">Next | <b><a href="pytorch-transfer-learning.md">Transfer Learning with PyTorch</a></b>
+<br/>
+Back | <b><a href="detectnet-console-2.md">Detecting Objects from the Command Line</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Table of Contents</sup></a></p>
