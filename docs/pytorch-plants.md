@@ -5,7 +5,7 @@
 
 # Re-training on the PlantCLEF Dataset
 
-Next, we'll be re-training a model capable of classifying 20 different varieties of plants and trees based on a subset of the <a href="https://www.imageclef.org/lifeclef/2017/plant">PlantCLEF</a> dataset.
+Next, we'll re-train a model capable of classifying 20 different varieties of plants and trees from the <a href="https://www.imageclef.org/lifeclef/2017/plant">PlantCLEF</a> dataset.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants.jpg" >
 
@@ -34,14 +34,13 @@ Provided below is a 1.5GB dataset that includes 10,475 training images, 1,155 va
 • tulip tree
 ```
 
-To get started, first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch), then download the dataset below and kick off the training script.
+To get started, first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) on your Jetson, then download the dataset below and kick off the training script.  After that, we'll test the re-trained model in TensorRT by classifying some static test images and also on a live camera stream. 
 
 ## Downloading the Data
 
-To download and extract the data:
+Run these commands to download and extract the prepared PlantCLEF dataset:
 
 ``` bash
-# UPDATE URL
 $ cd ~/datasets
 $ wget https://nvidia.box.com/shared/static/vbsywpw5iqy7r38j78xs0ctalg7jrg79.gz -O PlantCLEF_Subset.tar.gz
 $ tar xvzf PlantCLEF_Subset.tar.gz
@@ -54,7 +53,7 @@ Mirrors of the dataset are available here:
 
 ## Re-training ResNet-18 Model
 
-We'll use the same training script that we did from the previous example, located under <a href="https://github.com/dusty-nv/jetson-inference/tree/master/python/training/imagenet">`jetson-inference/python/training/imagenet/`</a>.  By default it's set to train a ResNet-18 model, but you can change that with the `--arch` flag.
+We'll use the same training script that we did from the previous example, located under <a href="https://github.com/dusty-nv/jetson-inference/tree/master/python/training/imagenet">`python/training/imagenet/`</a>.  By default it's set to train a ResNet-18 model, but you can change that with the `--arch` flag.
 
 To launch the training, run the following commands:
 
@@ -83,7 +82,7 @@ Epoch: [0][  90/1307]	Time  0.770 ( 1.314)	Data  0.000 ( 0.048)	Loss 2.4494e+00 
 Epoch: [0][ 100/1307]	Time  0.801 ( 1.261)	Data  0.001 ( 0.048)	Loss 2.6449e+00 (8.4769e+00)	Acc@1  25.00 ( 10.40)	Acc@5  62.50 ( 37.00)
 ```
 
-See the [Training Statistics](pytorch-cat-dog.md#training-statistics) from the previous page for a description of the output above.
+See the [Training Metrics](pytorch-cat-dog.md#training-metrics) from the previous page for a description of the statistics from the output above.
 
 ### Model Accuracy
 
@@ -97,7 +96,7 @@ By default the training script is set to run for 35 epochs, but if you don't wis
 
 * <a href="https://nvidia.box.com/s/dslt9b0hqq7u71o6mzvy07w0onn0tw66">https://nvidia.box.com/s/dslt9b0hqq7u71o6mzvy07w0onn0tw66</a>
 
-Note that the models are saved under `jetson-inference/python/training/imagenet/plants/`, including the latest checkpoint and the best-performing model.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
+Note that the models are saved under `jetson-inference/python/training/imagenet/plants/`, including a checkpoint from the latest epoch and the best-performing model that has the highest classification accuracy.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
 
 ## Converting the Model to ONNX
 
@@ -107,11 +106,11 @@ Just like with the Cat/Dog example, next we need to convert our trained model fr
 python onnx_export.py --model-dir=plants
 ```
 
-This will create a model called `resnet18.onnx` under `jetson-inference/python/training/imagenet/plants/`.
+This will create a model called `resnet18.onnx` under `jetson-inference/python/training/imagenet/plants/`
 
 ## Processing Images with TensorRT
 
-To classify some test images, like before we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be:  `jetson-inference/python/training/imagenet/`
+To classify some static test images, like before we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/imagenet/`
 
 ```bash
 DATASET=~/datasets/PlantCLEF_Subset
@@ -145,7 +144,7 @@ imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-juniper.jpg" width="500">
 
-There are a bunch of test images included with the dataset, or you can download your own test images to try.
+There are a bunch of test images included with the dataset, or you can download your own pictures to try.
 
 ### Processing all the Test Images
 
@@ -153,7 +152,6 @@ If you want to classify all of the test images without having to do them individ
 
 ```bash
 #!/bin/bash  
-
 NET="~/jetson-inference/python/training/imagenet/plants"
 DATASET="~/datasets/PlantCLEF_Subset"
 
@@ -166,7 +164,7 @@ cd $DATA
 
 for f in $FILES
 do
-	echo "Processing $f"
+     echo "Processing $f"
      imagenet-console --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/../labels.txt $f $f
 done
 ```
@@ -189,7 +187,11 @@ imagenet-camera.py --model=plants/resnet18.onnx --input_blob=input_0 --output_bl
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-poison-ivy.jpg" width="500">
 
-Looks like I should watch out for poison ivy!  Next, we're going to cover a camera-based tool for collecting and labelling your own data captured from a live video.  
+Looks like I should watch out for poison ivy!  
 
+Next, we're going to cover a camera-based tool for collecting and labelling your own data captured from a live video.  
+
+<p align="right">Next | <b><a href="pytorch-collect.md">Collecting your own Datasets</a></b>
+<br/>
 Back | <b><a href="pytorch-plants.md">Re-training on the Cat/Dog Dataset</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
