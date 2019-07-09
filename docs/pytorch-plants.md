@@ -5,11 +5,11 @@
 
 # Re-training on the PlantCLEF Dataset
 
-The next model that we'll be re-training is capable of classifying 20 different species of plants and trees based on a subset of the <a href="https://www.imageclef.org/lifeclef/2017/plant">PlantCLEF</a> dataset.
+Next, we'll be re-training a model capable of classifying 20 different varieties of plants and trees based on a subset of the <a href="https://www.imageclef.org/lifeclef/2017/plant">PlantCLEF</a> dataset.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants.jpg" >
 
-Provided below is a 1.5GB dataset that includes 10,475 training images, 1,155 validation images, and 30 test images across 20 classes of plants and trees.  The classes were selected from PlantCLEF 2017 from classes that had at least 500 training images in the original dataset:
+Provided below is a 1.5GB dataset that includes 10,475 training images, 1,155 validation images, and 30 test images across 20 classes of plants and trees.  The classes were selected from PlantCLEF 2017 from categories that had at least 500 training images in the original dataset:
 
 ```
 • ash
@@ -91,7 +91,7 @@ On the PlantCLEF dataset of 10,475 images, training ResNet-18 takes approximatel
 
 <p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-training.jpg" width="700"></p>
 
-At around epoch 30, the ResNet-18 model reaches 75% Top-5 accuracy, and at epoch 65 it converges on 85% Top-5 accuracy.  Interestingly these points of stability and convergence for the model occur at similiar times for ResNet-18 that they did for the previous Cat/Dog model.  The model's Top-1 accuracy is 55%, which we'll find to be quite effective in practice, given the diversity and challenging content from the PlantCLEF dataset (i.e. there are many pictures of leaves and tree trunks that are virtually indistinguishable from one another).  
+At around epoch 30, the ResNet-18 model reaches 75% Top-5 accuracy, and at epoch 65 it converges on 85% Top-5 accuracy.  Interestingly these points of stability and convergence for the model occur at similiar times for ResNet-18 that they did for the previous Cat/Dog model.  The model's Top-1 accuracy is 55%, which we'll find to be quite effective in practice, given the diversity and challenging content from the PlantCLEF dataset (i.e. multiple overlapping varieties of plants per image and many pictures of leaves and tree trunks that are virtually indistinguishable from one another).  
 
 By default the training script is set to run for 35 epochs, but if you don't wish to wait that long to test out your model, you can exit training early and proceed to the next step (optionally re-starting the training again later from where you left off).  You can also download this completed model that was trained for a full 100 epochs from here:
 
@@ -111,7 +111,7 @@ This will create a model called `resnet18.onnx` under `jetson-inference/python/t
 
 ## Processing Images with TensorRT
 
-To process some test images, like before we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be:  `jetson-inference/python/training/imagenet/`
+To classify some test images, like before we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be:  `jetson-inference/python/training/imagenet/`
 
 ```bash
 DATASET=~/datasets/PlantCLEF_Subset
@@ -149,7 +149,7 @@ There are a bunch of test images included with the dataset, or you can download 
 
 ### Processing all the Test Images
 
-If you want to process all of the test images without having to do them individually, you can create a simple script like below that loops over them and outputs to the `test_output` directory under the dataset:
+If you want to classify all of the test images without having to do them individually, you can create a simple script like below that loops over them and outputs to the `test_output` directory under the dataset:
 
 ```bash
 #!/bin/bash  
@@ -173,7 +173,7 @@ done
 
 ## Running the Live Camera Program
 
-You can also try running your re-trained model on a live camera feed like below:
+You can also try running your re-trained plant model on a live camera feed like below:
 
 ```bash
 DATASET=~/datasets/PlantCLEF_Subset
@@ -185,7 +185,11 @@ imagenet-camera --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=
 imagenet-camera.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
 ```
 
-Next, we're going to cover a camera-based tool for collecting and labelling your own data captured from a live video.  
+<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-fern.jpg" width="500">
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-poison-ivy.jpg" width="500">
+
+Looks like I should watch out for poison ivy!  Next, we're going to cover a camera-based tool for collecting and labelling your own data captured from a live video.  
 
 Back | <b><a href="pytorch-plants.md">Re-training on the Cat/Dog Dataset</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

@@ -142,7 +142,8 @@ imagenet-camera --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output
 imagenet-camera.py --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
 ```
 
-Have fun, and go back and collect more training data and re-train your model again if you need to.  You can restart the again and pick up where you left off using the `--resume` and `--epoch-start` flags (run `python train.py --help` for more info).
+If you need to, go back and collect more training data and re-train your model again.  You can restart the again and pick up where you left off using the `--resume` and `--epoch-start` flags (run `python train.py --help` for more info).  Remember to re-export the model to ONNX after re-training.
+
 
 ## What's Next
 
@@ -157,7 +158,17 @@ To recap, together we've covered:
 * Re-training models with PyTorch using transfer learning
 * Collecting your own datasets and training your own models
 
-Next, we encourage you to follow our **[Two Days to a Demo](https://github.com/dusty-nv/jetson-inference#two-days-to-a-demo-DIGITS)** tutorial, which also covers training of even larger datasets in the cloud or on a PC using a discrete NVIDIA GPU.  This tutorial also covers semantic segmentation, which is like image classification, but on a per-pixel level instead of predicting one class for the entire image.  Good luck!
+Next we encourage you to experiment and apply what you've learned to other projects, perhaps taking advantage of Jetson's embedded form-factor - for example an autonomous robot or intelligent camera-based system.  Here are some example ideas that you could play around with:
+
+* use GPIO to trigger external actuators or LEDs when an object is detected
+* an autonomous robot that can find or follow an object
+* a handheld battery-powered camera + Jetson + mini-display 
+* an interactive toy or treat dispenser for your pet
+* a smart doorbell camera that greets your guests
+
+For more examples to inspire your creativity, see the **[Jetson Projects](https://developer.nvidia.com/embedded/community/jetson-projects)** page.  Have fun and good luck!
+
+You can also follow our **[Two Days to a Demo](https://github.com/dusty-nv/jetson-inference#two-days-to-a-demo-DIGITS)** tutorial, which covers training of even larger datasets in the cloud or on a PC using discrete NVIDIA GPU(s).  Two Days to a Demo also covers semantic segmentation, which is like image classification, but on a per-pixel level instead of predicting one class for the entire image.
 
 
 <p align="right">Next | <b><a href="pytorch-collect.md">Collecting your own Datasets</a></b>

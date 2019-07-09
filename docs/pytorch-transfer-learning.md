@@ -15,7 +15,41 @@ Although training is typically performed on a PC, server, or cloud instance with
 
 ## Installing PyTorch
 
-If you chose to install PyTorch when you [built the repo](building-repo-2.md), then 
+If you optionally chose to install PyTorch when you [built the repo](building-repo-2.md#installing-pytorch), then it should already be installed on your Jetson for you.  Otherwise, if you want to proceed with transfer learning, you can install it now:
+
+``` bash
+$ cd jetson-inference/build
+$ ./install-pytorch.sh
+```
+
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/download-models.jpg" width="650">
+
+> **note**: the automated PyTorch installation tool requires JetPack 4.2 or newer<br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for other versions, see [`http://eLinux.org/Jetson_Zoo`](https://elinux.org/Jetson_Zoo#PyTorch_.28Caffe2.29) to build from source.
+
+### Verifying PyTorch
+
+You can test that PyTorch was installed correctly and detects your Jetson's GPU by running these commands from a Python interactive shell:
+
+``` bash
+$ python	 # substitute 'python3' for Python 3.6
+>>> import torch
+>>> print(torch.__version__)
+>>> print('CUDA available: ' + str(torch.cuda.is_available()))
+>>> a = torch.cuda.FloatTensor(2).zero_()
+>>> print('Tensor a = ' + str(a))
+>>> b = torch.randn(2).cuda()
+>>> print('Tensor b = ' + str(b))
+>>> c = a + b
+>>> print('Tensor c = ' + str(c))
+```
+
+``` bash
+>>> import torchvision
+>>> print(torchvision.__version__)
+```
+
+The torch version should be reported as `1.1.0` and the torchvision version should be `0.3.0`.
 
 ## Mounting Swap
 

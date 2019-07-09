@@ -76,6 +76,26 @@ $ cd jetson-inference/tools
 $ ./download-models.sh
 ```
 
+### Installing PyTorch
+
+Next, if you are on JetPack 4.2 or newer, another tool will optionally install PyTorch on your Jetson if you want to re-train networks with [transfer learning](pytorch-transfer-learning.md) later in the tutorial.  This step is optional, and if you don't wish to do the transfer learning steps, you don't need to install PyTorch.
+
+Select the desired PyTorch package versions for Python 2.7 and/or Python 3.6 and hit `Enter` to continue.  Otherwise, leave the options un-selected, and it will skip the installation of PyTorch. 
+
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/download-models.jpg" width="650">
+
+> **note**: the automated PyTorch installation tool requires JetPack 4.2 or newer<br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for other versions, see [`http://eLinux.org/Jetson_Zoo`](https://elinux.org/Jetson_Zoo#PyTorch_.28Caffe2.29) to build from source.
+
+You can also run this tool again later if you decide that you want to install PyTorch at another time:
+
+``` bash
+$ cd jetson-inference/build
+$ ./install-pytorch.sh
+```
+
+Running these commands will prompt you with the same dialog as seen above.
+
 ### Compiling the Project
 
 Make sure you are still in the `jetson-inference/build` directory, created above in step #3.

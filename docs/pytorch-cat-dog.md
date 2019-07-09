@@ -94,7 +94,7 @@ You can keep an eye on these statistics during training to gauge how well the mo
 
 ### Model Accuracy
 
-On this dataset of 5000 images, training ResNet-18 takes approximately ~7-8 minutes per epoch on Jetson Nano, or around 4 hours to train the model to 35 epochs and 80% accuracy.  Below is a graph for analyzing the training progression of epochs versus model accuracy:
+On this dataset of 5000 images, training ResNet-18 takes approximately ~7-8 minutes per epoch on Jetson Nano, or around 4 hours to train the model to 35 epochs and 80% classification accuracy.  Below is a graph for analyzing the training progression of epochs versus model accuracy:
 
 <p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat-dog-training.jpg" width="700"></p>
 
@@ -120,7 +120,7 @@ This will create a model called `resnet18.onnx` under `jetson-inference/python/t
 
 ## Processing Images with TensorRT
 
-To process some test images, we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be:  `jetson-inference/python/training/imagenet/`
+To classify some test images, we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be:  `jetson-inference/python/training/imagenet/`
 
 ```bash
 DATASET=~/datasets/cat_dog
@@ -175,7 +175,7 @@ After extracting this archive, edit [`tools/cat-dog-dataset.sh`](../tools/cat-do
 * Then create an empty folder somewhere for cat_dog, and substitue that location in `OUTPUT_DIR`
 * Change the size of the dataset by modifying `NUM_TRAIN`, `NUM_VAL`, and `NUM_TEST` variables
 
-The script will create subdirectories for train, val, and test underneath the `OUTPUT_DIR`, and then fill those directories with the specified number of images for each.  Then you can [train the model](#train-the-model) the same way as above.
+The script creates subdirectories for train, val, and test underneath the `OUTPUT_DIR`, and will then fill those directories with the specified number of images for each.  Then you can [train the model](#train-the-model) the same way as above, optionally using the `--resume` and `--epoch-start` flags to pick up training where you left off, if you don't want to restart training from the beginning.  Remember to re-export the model to ONNX after re-training. 
 
 <p align="right">Next | <b><a href="pytorch-plants.md">Re-training on the PlantCLEF Dataset</a></b>
 <br/>
