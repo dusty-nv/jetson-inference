@@ -5,11 +5,11 @@
 
 # Re-training on the PlantCLEF Dataset
 
-Next, we'll re-train a model capable of classifying 20 different varieties of plants and trees from the <a href="https://www.imageclef.org/lifeclef/2017/plant">PlantCLEF</a> dataset.
+Next, we'll train a model capable of classifying 20 different varieties of plants and trees from the <a href="https://www.imageclef.org/lifeclef/2017/plant">PlantCLEF</a> dataset:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants.jpg" >
+<a href="https://www.imageclef.org/lifeclef/2017/plant"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants.jpg"></a>
 
-Provided below is a 1.5GB dataset that includes 10,475 training images, 1,155 validation images, and 30 test images across 20 classes of plants and trees.  The classes were selected from PlantCLEF 2017 from categories that had at least 500 training images in the original dataset:
+Provided below is a 1.5GB subset that includes 10,475 training images, 1,155 validation images, and 30 test images across 20 classes of plants and trees.  The classes were selected from PlantCLEF 2017 from categories that had at least 500 training images in the original dataset:
 
 ```
 • ash
