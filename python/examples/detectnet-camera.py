@@ -66,6 +66,10 @@ while display.IsOpen():
 	# update the title bar
 	display.SetTitle("{:s} | Network {:.0f} FPS".format(opt.network, 1000.0 / net.GetNetworkTime()))
 
+	# synchronize with the GPU
+	if len(detections) > 0:
+		jetson.utils.cudaDeviceSynchronize()
+
 	# print out performance info
 	net.PrintProfilerTimes()
 
