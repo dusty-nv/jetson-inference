@@ -9,7 +9,7 @@ Vision primitives, such as [`imageNet`](c/imageNet.h) for image recognition, [`d
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-There are multiple tracks of the tutorial that you can choose to follow, including [Hello AI World](#hello-ai-world) for running inference and transfer learning onboard your Jetson, or full [Two Days to a Demo](#two-days-to-a-demo-digits) tutorial for training on a PC or server with DIGITS.  
+There are multiple tracks of the tutorial that you can choose to follow, including [Hello AI World](#hello-ai-world) for running inference and transfer learning onboard your Jetson, or the full [Two Days to a Demo](#two-days-to-a-demo-digits) tutorial for training on a PC or server with DIGITS.  
 
 It's recommended to walk through the Hello AI World module first to familiarize yourself with machine learning and inference with TensorRT, before proceeding to training in the cloud with DIGITS.
 
@@ -24,7 +24,8 @@ It's recommended to walk through the Hello AI World module first to familiarize 
 * [Extra Resources](#extra-resources)
 
 > &gt; &nbsp; Jetson Nano Developer Kit and JetPack 4.2 is now supported in the repo. <br/>
-> &gt; &nbsp; See our latest technical blog including benchmarks, [`Jetson Nano Brings AI Computing to Everyone`](https://devblogs.nvidia.com/jetson-nano-ai-computing/).
+> &gt; &nbsp; See our latest technical blog including benchmarks, [`Jetson Nano Brings AI Computing to Everyone`](https://devblogs.nvidia.com/jetson-nano-ai-computing/). <br/>
+> &gt; &nbsp; Hello AI World now supports Python and onboard training with PyTorch!
 
 ## Hello AI World
 
@@ -101,6 +102,8 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 
 * [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__util.html)
 * [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html)
+
+These libraries are able to be used in external projects by linking to `libjetson-inference` and `libjetson-utils`.
 
 ## Code Examples
 
