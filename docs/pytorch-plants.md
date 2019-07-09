@@ -187,9 +187,9 @@ imagenet-camera.py --model=plants/resnet18.onnx --input_blob=input_0 --output_bl
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-poison-ivy.jpg" width="500">
 
-Looks like I should watch out for poison ivy!  
+Looks like I should be watching out for poison ivy!  
 
-Next, we're going to cover a camera-based tool for collecting and labelling your own data captured from a live video.  
+Next, we're going to cover a camera-based tool for collecting and labelling your own datasets captured from live video.  
 
 <p align="right">Next | <b><a href="pytorch-collect.md">Collecting your own Datasets</a></b>
 <br/>
