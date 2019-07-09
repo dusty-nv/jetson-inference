@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="digits-setup.md">Back</a> | <a href="building-repo.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="digits-setup.md">Back</a> | <a href="building-repo.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Contents</sup></a>
 <br/>
 <sup>System Setup</sup></p> 
 
@@ -39,4 +39,4 @@ Please refer to the **[JetPack Install Guide](http://docs.nvidia.com/jetpack-l4t
 <p align="right">Next | <b><a href="building-repo.md">Building the Repo from Source</a></b>
 <br/>
 Back | <b><a href="digits-setup.md">DIGITS System Setup</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Table of Contents</sup></a></p>

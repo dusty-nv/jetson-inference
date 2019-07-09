@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="detectnet-camera.md">Back</a> | <a href="segnet-pretrained.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="detectnet-camera.md">Back</a> | <a href="segnet-pretrained.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Contents</sup></a>
 <br/>
 <sup>Semantic Segmentation</sup></s></p>
 
@@ -9,7 +9,7 @@ The third deep learning capability we're highlighting in this tutorial is semant
 
 ![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/segmentation-cityscapes.jpg)
 
-The [`segNet`](../segNet.h) object accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.
+The [`segNet`](../c/segNet.h) object accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.
 
 > **note**:  see the DIGITS [semantic segmentation](https://github.com/NVIDIA/DIGITS/tree/master/examples/semantic-segmentation) example for more background info on segmentation.
 
@@ -59,4 +59,4 @@ Name the dataset whatever you choose and click the `Create` button at the bottom
 <p align="right">Next | <b><a href="segnet-pretrained.md">Generating Pretrained FCN-Alexnet</a></b>
 <br/>
 Back | <b><a href="detectnet-camera.md">Running the Live Camera Detection Demo</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Table of Contents</sup></a></p>

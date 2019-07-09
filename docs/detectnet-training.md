@@ -1,12 +1,12 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="imagenet-custom.md">Back</a> | <a href="detectnet-snapshot.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="imagenet-custom.md">Back</a> | <a href="detectnet-snapshot.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></p> 
 
 # Locating Objects with DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is detecting objects, and finding where in the video those objects are located (i.e. extracting their bounding boxes).  This is performed using a 'detectNet' - or object detection / localization network.
 
-The [`detectNet`](../detectNet.h) object accepts as input the 2D image, and outputs a list of coordinates of the detected bounding boxes.  To train the object detection model, first a pretrained ImageNet recognition model (like Googlenet) is used with bounding coordinate labels included in the training dataset in addition to the source imagery.
+The [`detectNet`](../c/detectNet.h) object accepts as input the 2D image, and outputs a list of coordinates of the detected bounding boxes.  To train the object detection model, first a pretrained ImageNet recognition model (like Googlenet) is used with bounding coordinate labels included in the training dataset in addition to the source imagery.
 
 The following pretrained DetectNet models are included with the tutorial:
 
@@ -153,4 +153,4 @@ Next, we will deploy our DetectNet model to Jetson and run the inference there.
 <p align="right">Next | <b><a href="detectnet-snapshot.md">Downloading the Detection Model to Jetson</a></b>
 <br/>
 Back | <b><a href="imagenet-custom.md">Loading Custom Models on Jetson</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Table of Contents</sup></a></p>

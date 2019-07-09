@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="digits-workflow.md">Back</a> | <a href="digits-workflow.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="digits-workflow.md">Back</a> | <a href="digits-workflow.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Contents</sup></a>
 <br/>
 <sup>Overview</sup></p> 
 
@@ -39,4 +39,4 @@ Using it's trained weights, the network evaluates live data at runtime.  Called 
 
 ##
 <p align="right">Next | <b><a href="digits-workflow.md">DIGITS Workflow</a></b></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Table of Contents</sup></a></p>

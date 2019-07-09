@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="imagenet-example-python-2.md">Back</a> | <a href="imagenet-camera-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Contents</sup></a>
+<p align="right"><sup><a href="imagenet-example-python-2.md">Back</a> | <a href="imagenet-camera-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
 
@@ -36,7 +36,7 @@ Next, we'll add the code for the program to the empty source files we created he
 
 Open up `my-recognition.cpp` in your editor of choice (or run `gedit my-recognition.cpp`).  
 
-Let's start adding the necessary code to use the [`imageNet`](../imageNet.h) class for recognizing images.
+Let's start adding the necessary code to use the [`imageNet`](../c/imageNet.h) class for recognizing images.
 
 #### Includes
 
@@ -110,7 +110,7 @@ The image is loaded in `float4` RGBA format, with pixel values between 0.0 and 2
 
 #### Loading the Image Recognition Network
 
-Using the [`imageNet::Create()`](../imageNet.h#L70) function, the following code will load the GoogleNet model with TensorRT, which was already downloaded when you initially [built the `jetson-inference` repo](building-repo-2.md#downloading-models).  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](../data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many different species of animals, along with everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
+Using the [`imageNet::Create()`](../c/imageNet.h#L70) function, the following code will load the GoogleNet model with TensorRT, which was already downloaded when you initially [built the `jetson-inference` repo](building-repo-2.md#downloading-models).  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](../data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many different species of animals, along with everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
 
 ``` cpp
 	// load the GoogleNet image recognition network with TensorRT
@@ -130,7 +130,7 @@ If desired, you can load other pre-trained models by changing the enum passed to
 
 #### Classifying the Image
 
-Next, we are going to classify the image with the image recognition network using the [`imageNet::Classify()`](../imageNet.h#L103) function:  
+Next, we are going to classify the image with the image recognition network using the [`imageNet::Classify()`](../c/imageNet.h#L103) function:  
 
 ``` cpp
 	// this variable will store the confidence of the classification (between 0 and 1)
@@ -141,13 +141,13 @@ Next, we are going to classify the image with the image recognition network usin
 	const int classIndex = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
 ```
 
-[`imageNet::Classify()`](../imageNet.h#L103) accepts an image pointer in GPU memory, and performs the inferencing with TensorRT.  
+[`imageNet::Classify()`](../c/imageNet.h#L103) accepts an image pointer in GPU memory, and performs the inferencing with TensorRT.  
 
 It returns the index of the object class that the image was recognized as, along with the confidence value of the result.
 
 #### Interpreting the Results
 
-Unless the call to [`imageNet::Classify()`](../imageNet.h#L103) resulted in an error, let's print out the classification info of the recognized object:   
+Unless the call to [`imageNet::Classify()`](../c/imageNet.h#L103) resulted in an error, let's print out the classification info of the recognized object:   
 
 ``` cpp
 	// make sure a valid classification result was returned	
@@ -167,7 +167,7 @@ Unless the call to [`imageNet::Classify()`](../imageNet.h#L103) resulted in an e
 	}
 ```
 
-Since [`imageNet::Classify()`](../imageNet.h#L103) returns an integer-based index of the object class (between 0 and 1000 for ILSVRC12), we use the [`imageNet::GetClassDesc()`](../imageNet.h#L140) function to retrieve a human-readable description of the object.  
+Since [`imageNet::Classify()`](../c/imageNet.h#L103) returns an integer-based index of the object class (between 0 and 1000 for ILSVRC12), we use the [`imageNet::GetClassDesc()`](../c/imageNet.h#L140) function to retrieve a human-readable description of the object.  
 
 These descriptions of the 1000 classes are parsed from [`ilsvrc12_synset_words.txt`](../data/networks/ilsvrc12_synset_words.txt) when the network gets loaded (this file was previously downloaded when the jetson-inference repo was built).  
 
@@ -277,4 +277,4 @@ This is the conclusion of this section of the tutorial.  Next, we'll classify a 
 <p align="right">Next | <b><a href="imagenet-camera-2.md">Running the Live Camera Recognition Demo</a></b>
 <br/>
 Back | <b><a href="imagenet-example-python-2.md">Coding Your Own Image Recognition Program (Python)</a></b></p>
-<p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Table of Contents</sup></a></p>
+<p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

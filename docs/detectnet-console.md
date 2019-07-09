@@ -1,11 +1,11 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="detectnet-snapshot.md">Back</a> | <a href="detectnet-camera.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="detectnet-snapshot.md">Back</a> | <a href="detectnet-camera.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></s></p>
 
 # Detecting Objects from the Command Line
 
-To process test images with [`detectNet`](../detectNet.h) and TensorRT on the Jetson, we can use the [`detectnet-console`](../detectnet-console/detectnet-console.cpp) program.  
+To process test images with [`detectNet`](../c/detectNet.h) and TensorRT on the Jetson, we can use the [`detectnet-console`](../detectnet-console/detectnet-console.cpp) program.  
 
 [`detectnet-console`](../detectnet-console/detectnet-console.cpp) accepts command-line arguments representing the path to the input image and path to the output image (with the bounding box overlays rendered).  Some test images are also included with the repo.
 
@@ -127,4 +127,4 @@ Next, we'll run object detection on a live camera stream.
 <p align="right">Next | <b><a href="detectnet-camera.md">Running the Live Camera Detection Demo</a></b>
 <br/>
 Back | <b><a href="detectnet-snapshot.md">Downloading the Detection Model to Jetson</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Table of Contents</sup></a></p>

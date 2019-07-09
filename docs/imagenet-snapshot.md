@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="imagenet-training.md">Back</a> | <a href="imagenet-custom.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Contents</sup></a>
+<p align="right"><sup><a href="imagenet-training.md">Back</a> | <a href="imagenet-custom.md">Next</a> | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p> 
 
@@ -25,4 +25,4 @@ Next, we will load our custom snapshot into TensorRT, running on the Jetson.
 <p align="right">Next | <b><a href="imagenet-custom.md">Loading Custom Models on Jetson</a></b>
 <br/>
 Back | <b><a href="imagenet-training.md">Re-Training the Recognition Network</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-training--inference"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#two-days-to-a-demo-digits"><sup>Table of Contents</sup></a></p>

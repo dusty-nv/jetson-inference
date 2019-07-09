@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="jetpack-setup-2.md">Back</a> | <a href="imagenet-console-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Contents</sup></a>
+<p align="right"><sup><a href="jetpack-setup-2.md">Back</a> | <a href="imagenet-console-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>System Setup</sup></p>   
 
@@ -133,7 +133,7 @@ See the **[API Reference](../README.md#api-reference)** documentation for the vi
 
 #### C++
 
-Below is a partial listing of the [`imageNet`](../imageNet.h) C++ class that we'll use in upcoming steps of the tutorial:
+Below is a partial listing of the [`imageNet`](../c/imageNet.h) C++ class that we'll use in upcoming steps of the tutorial:
 
 ``` c++
 class imageNet : public tensorNet
@@ -205,7 +205,7 @@ public:
 };
 ```
 
-All of the DNN objects in the repo inherit from the shared [`tensorNet`](../tensorNet.h) object, which contains the common TensorRT code.
+All of the DNN objects in the repo inherit from the shared [`tensorNet`](../c/tensorNet.h) object, which contains the common TensorRT code.
 
 #### Python
 
@@ -262,4 +262,4 @@ Next, we'll use the `imageNet` object to perform image recognition in Python or 
 <p align="right">Next | <b><a href="imagenet-console-2.md">Classifying Images with ImageNet</a></b>
 <br/>
 Back | <b><a href="jetpack-setup-2.md">Setting up Jetson with JetPack</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

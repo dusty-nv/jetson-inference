@@ -1,14 +1,14 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="building-repo-2.md">Back</a> | <a href="imagenet-example-python-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Contents</sup></a>
+<p align="right"><sup><a href="building-repo-2.md">Back</a> | <a href="imagenet-example-python-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
 
 # Classifying Images with ImageNet
 There are multiple types of deep learning networks available, including recognition, detection/localization, and semantic segmentation.  The first deep learning capability we're highlighting in this tutorial is **image recognition** using classifcation networks that have been trained to identify scenes and objects.
 
-The [`imageNet`](../imageNet.h) object accepts an input image and outputs the probability for each class.  Having been trained on the ImageNet ILSVRC dataset of **[1000 objects](../data/networks/ilsvrc12_synset_words.txt)**, the GoogleNet and ResNet-18 models were automatically downloaded during the build step.  See [below](#downloading-other-classification-models) for other classification models that can be downloaded and used as well.
+The [`imageNet`](../c/imageNet.h) object accepts an input image and outputs the probability for each class.  Having been trained on the ImageNet ILSVRC dataset of **[1000 objects](../data/networks/ilsvrc12_synset_words.txt)**, the GoogleNet and ResNet-18 models were automatically downloaded during the build step.  See [below](#downloading-other-classification-models) for other classification models that can be downloaded and used as well.
 
-As examples of using [`imageNet`](../imageNet.h) we provide versions of a command-line interface for C++ and Python:
+As examples of using [`imageNet`](../c/imageNet.h) we provide versions of a command-line interface for C++ and Python:
 
 - [`imagenet-console.cpp`](../examples/imagenet-console/imagenet-console.cpp) (C++) 
 - [`imagenet-console.py`](../python/examples/imagenet-console.py) (Python) 
@@ -138,4 +138,4 @@ Next, we'll go through the steps to code your own image recognition program from
 <p align="right">Next | <b><a href="imagenet-example-python-2.md">Coding Your Own Image Recognition Program (Python)</a></b>
 <br/>
 Back | <b><a href="building-repo-2.md">Building the Repo from Source</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

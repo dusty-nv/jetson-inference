@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="../README.md#hello-ai-world-inference-only">Back</a> | <a href="building-repo-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Contents</sup></a>
+<p align="right"><sup><a href="../README.md#hello-ai-world">Back</a> | <a href="building-repo-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>System Setup</sup></p> 
 
@@ -36,5 +36,5 @@ For more details, please refer to the **[NVIDIA SDK Manager Documentation](https
 ##
 <p align="right">Next | <b><a href="building-repo-2.md">Building the Project from Source</a></b>
 <br/>
-Back | <b><a href="../README.md#hello-ai-world-inference-only">Overview</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Table of Contents</sup></a></p>
+Back | <b><a href="../README.md#hello-ai-world">Overview</a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

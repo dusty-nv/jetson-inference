@@ -1,12 +1,12 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="imagenet-camera-2.md">Back</a> | <a href="detectnet-camera-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Contents</sup></a>
+<p align="right"><sup><a href="imagenet-camera-2.md">Back</a> | <a href="detectnet-camera-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></s></p>
 
 # Locating Objects with DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image recognition, object detection networks are capable of detecting multiple independent objects per frame.
 
-The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../detectNet.h).  See [below](#pretrained-detection-models-available) for various pre-trained detection models available for download. 
+The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See [below](#pretrained-detection-models-available) for various pre-trained detection models available for download. 
 
 As examples of using `detectNet` we provide versions of a command-line interface for C++ and Python:
 
@@ -125,4 +125,4 @@ Next, we'll run object detection on a live camera stream.
 <p align="right">Next | <b><a href="detectnet-camera-2.md">Running the Live Camera Detection Demo</a></b>
 <br/>
 Back | <b><a href="imagenet-camera-2.md">Running the Live Camera Recognition Demo</a></p>
-</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world-inference-only"><sup>Table of Contents</sup></a></p>
+</b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
