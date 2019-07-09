@@ -85,7 +85,7 @@ This table contains a summary of the datasets and their associated training time
 | Cat/Dog   |    2    |      5,000      |   ~7-8 minutes  |    ~4 hours     |
 | PlantCLEF |   20    |     10,475      |    ~15 minutes  |    ~8 hours     |
 
-*&nbsp;&nbsp;Approximate time for one complete training pass over the dataset with Jetson Nano
+*&nbsp;&nbsp;Approximate time for one complete training pass over the dataset with Jetson Nano  
 ** Approximate time for training the model for 35 epochs with Jetson Nano
 
 <p align="right">Next | <b><a href="pytorch-cat-dog.md">Re-training on the Cat/Dog Dataset</a></b>
