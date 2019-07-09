@@ -1,6 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
 
-# Deploying Deep Learning
+## Notice - this branch has been merged with [master](https://github.com/dusty-nv/jetson-inference/) and is no longer being maintained 
+
 Welcome to our training guide for inference and realtime [DNN vision](#api-reference) library for NVIDIA **[Jetson Nano/TX1/TX2/Xavier](http://www.nvidia.com/object/embedded-systems.html)**.
 
 This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for efficiently deploying neural networks onto the embedded Jetson platform, improving performance and power efficiency using graph optimizations, kernel fusion, and FP16/INT8 precision.
