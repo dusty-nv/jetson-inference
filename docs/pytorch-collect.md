@@ -108,7 +108,7 @@ Below is the `Data Capture Control` window, which allows you to pick the desired
 
 First, open the dataset path and class labels.  The tool will then create the dataset structure discussed above (unless these subdirectories already exist), and you will see your object labels populated inside the `Current Class` drop-down.  
 
-Then position the camera at the object or scene you have currently selected in the drop-down, and click the `Capture` button (or press the spacebar) when you're ready to take an image.  The images will be saved under that class subdirectory in either the train, val, or test set.  The status bar will display how many images have been saved under that category.
+Then position the camera at the object or scene you have currently selected in the drop-down, and click the `Capture` button (or press the spacebar) when you're ready to take an image.  The images will be saved under that class subdirectory in the train, val, or test set.  The status bar displays how many images have been saved under that category.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-capture-brontosaurus.gif" >
 
@@ -171,5 +171,5 @@ For more examples to inspire your creativity, see the **[Jetson Projects](https:
 You can also follow our **[Two Days to a Demo](https://github.com/dusty-nv/jetson-inference#two-days-to-a-demo-DIGITS)** tutorial, which covers training of even larger datasets in the cloud or on a PC using discrete NVIDIA GPU(s).  Two Days to a Demo also covers semantic segmentation, which is like image classification, but on a per-pixel level instead of predicting one class for the entire image.
 
 
-Back | <b><a href="pytorch-cat-dog.md">Re-training on the PlantCLEF Dataset</a></p>
+<p align="right">Back | <b><a href="pytorch-cat-dog.md">Re-training on the PlantCLEF Dataset</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

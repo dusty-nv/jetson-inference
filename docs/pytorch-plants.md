@@ -34,7 +34,7 @@ Provided below is a 1.5GB dataset that includes 10,475 training images, 1,155 va
 • tulip tree
 ```
 
-To get started, first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) on your Jetson, then download the dataset below and kick off the training script.  After that, we'll test the re-trained model in TensorRT by classifying some static test images and also on a live camera stream. 
+To get started, first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) on your Jetson, then download the dataset below and kick off the training script.  After that, we'll test the re-trained model in TensorRT on some static images and with a live camera. 
 
 ## Downloading the Data
 
@@ -171,7 +171,7 @@ done
 
 ## Running the Live Camera Program
 
-You can also try running your re-trained plant model on a live camera feed like below:
+You can also try running your re-trained plant model on a live camera stream like below:
 
 ```bash
 DATASET=~/datasets/PlantCLEF_Subset
