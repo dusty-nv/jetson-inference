@@ -174,9 +174,11 @@ function find_deb_package()
 
 	if [ "$HAS_PKG" == "" ]; then
 		echo "$LOG Checking for '$PKG_NAME' deb package...not installed"
+		return 1
 	else
 		echo "$LOG Checking for '$PKG_NAME' deb package...installed"
 		eval "$2=INSTALLED"
+		return 0
 	fi
 }
 
@@ -193,8 +195,10 @@ function install_deb_package()
 	# check to see if the package is already installed
 	find_deb_package $PKG_NAME $2
 
+	local pkg_status=$?
+
 	# if not, install the package
-	if [ -z $2 ]; then
+	if [ $pkg_status != 0 ]; then
 		echo "$LOG Missing '$PKG_NAME' deb package...installing '$PKG_NAME' package."
 		sudo apt-get --force-yes --yes install $PKG_NAME
 	else
@@ -204,7 +208,9 @@ function install_deb_package()
 	# verify that the package was installed
 	find_deb_package $PKG_NAME $2
 	
-	if [ -z $2 ]; then
+	local install_status=$?
+
+	if [ $install_status != 0 ]; then
 		echo "$LOG Failed to install '$PKG_NAME' deb package."
 		exit_message 1
 		#return 1
