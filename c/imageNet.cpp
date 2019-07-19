@@ -402,7 +402,7 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 									    make_float2(-1.0f, 1.0f), 
 									    GetStream())) )
 		{
-			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetMean() failed\n");
+			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetNormRGB() failed\n");
 			return false;
 		}
 	}
@@ -415,7 +415,7 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 										   make_float3(0.229f, 0.224f, 0.225f), 
 										   GetStream())) )
 		{
-			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetMean() failed\n");
+			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetNormMeanRGB() failed\n");
 			return false;
 		}
 	}
@@ -426,7 +426,7 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 									    make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f),
 									    GetStream())) )
 		{
-			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetMean() failed\n");
+			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetMeanBGR() failed\n");
 			return false;
 		}
 	}
