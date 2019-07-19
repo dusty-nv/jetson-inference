@@ -234,21 +234,24 @@ detectNet* detectNet::Create( const char* model, const char* class_labels, float
 // allocDetections
 bool detectNet::allocDetections()
 {
-	// determine the number of classes
-	if( !IsModelType(MODEL_UFF) )
-	{
-		mNumClasses = DIMS_C(mOutputs[OUTPUT_CVG].dims);
-		printf("detectNet -- number object classes:   %u\n", mNumClasses);
-	}
-
 	// determine max detections
 	if( IsModelType(MODEL_UFF) )	// TODO:  fixme
 	{
 		printf("W = %u  H = %u  C = %u\n", DIMS_W(mOutputs[OUTPUT_UFF].dims), DIMS_H(mOutputs[OUTPUT_UFF].dims), DIMS_C(mOutputs[OUTPUT_UFF].dims));
 		mMaxDetections = DIMS_H(mOutputs[OUTPUT_UFF].dims) * DIMS_C(mOutputs[OUTPUT_UFF].dims);
+	}
+	else if( IsModelType(MODEL_ONNX) )
+	{
+		mMaxDetections = 1;
+		mNumClasses = 1;
+		printf("detectNet -- using ONNX model\n");
 	}	
 	else
+	{
 		mMaxDetections = DIMS_W(mOutputs[OUTPUT_CVG].dims) * DIMS_H(mOutputs[OUTPUT_CVG].dims) /** DIMS_C(mOutputs[OUTPUT_CVG].dims)*/ * mNumClasses;
+		mNumClasses = DIMS_C(mOutputs[OUTPUT_CVG].dims);
+		printf("detectNet -- number object classes:   %u\n", mNumClasses);
+	}
 
 	printf("detectNet -- maximum bounding boxes:  %u\n", mMaxDetections);
 
@@ -540,17 +543,24 @@ detectNet* detectNet::Create( int argc, char** argv )
 	{
 		const char* prototxt     = cmdLine.GetString("prototxt");
 		const char* input        = cmdLine.GetString("input_blob");
+		const char* out_blob     = cmdLine.GetString("output_blob");
 		const char* out_cvg      = cmdLine.GetString("output_cvg");
 		const char* out_bbox     = cmdLine.GetString("output_bbox");
 		const char* class_labels = cmdLine.GetString("class_labels");
 
-		if( !input ) 	input     = DETECTNET_DEFAULT_INPUT;
-		if( !out_cvg )  out_cvg  = DETECTNET_DEFAULT_COVERAGE;
-		if( !out_bbox ) out_bbox = DETECTNET_DEFAULT_BBOX;
-		
+		if( !input ) 	
+			input = DETECTNET_DEFAULT_INPUT;
+
+		if( !out_blob )
+		{
+			if( !out_cvg )  out_cvg  = DETECTNET_DEFAULT_COVERAGE;
+			if( !out_bbox ) out_bbox = DETECTNET_DEFAULT_BBOX;
+		}
+
 		float meanPixel = cmdLine.GetFloat("mean_pixel");
 
-		return detectNet::Create(prototxt, modelName, meanPixel, class_labels, threshold, input, out_cvg, out_bbox, maxBatchSize);
+		return detectNet::Create(prototxt, modelName, meanPixel, class_labels, threshold, input, 
+							out_blob ? NULL : out_cvg, out_blob ? out_blob : out_bbox, maxBatchSize);
 	}
 
 	// create segnet from pretrained model
@@ -605,6 +615,19 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 		{
 			printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNetNorm() failed\n");
 			return -1;
+		}
+	}
+	else if( IsModelType(MODEL_ONNX) )
+	{
+		// downsample, convert to band-sequential RGB, and apply pixel normalization, mean pixel subtraction and standard deviation
+		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, 
+										   make_float2(0.0f, 1.0f), 
+										   make_float3(0.485f, 0.456f, 0.406f),
+										   make_float3(0.229f, 0.224f, 0.225f), 
+										   GetStream())) )
+		{
+			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetNormMeanRGB() failed\n");
+			return false;
 		}
 	}
 	else
@@ -679,6 +702,27 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 
 			numDetections++;
 		}
+	}
+	else if( IsModelType(MODEL_ONNX) )
+	{
+		float* coord = mOutputs[0].CPU;
+
+		coord[0] = ((coord[0] + 1.0f) * 0.5f) * float(width);
+		coord[1] = ((coord[1] + 1.0f) * 0.5f) * float(height);
+		coord[2] = ((coord[2] + 1.0f) * 0.5f) * float(width);
+		coord[3] = ((coord[3] + 1.0f) * 0.5f) * float(height);
+
+		printf(LOG_TRT "detectNet::Detect() -- ONNX -- coord (%f, %f) (%f, %f)  image %ux%u\n", coord[0], coord[1], coord[2], coord[3], width, height);
+
+		detections[numDetections].Instance   = numDetections;
+		detections[numDetections].ClassID    = 0;
+		detections[numDetections].Confidence = 1;
+		detections[numDetections].Left       = coord[0];
+		detections[numDetections].Top        = coord[1];
+		detections[numDetections].Right      = coord[2];
+		detections[numDetections].Bottom	  = coord[3];	
+	
+		numDetections++;
 	}
 	else
 	{
