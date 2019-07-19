@@ -23,13 +23,13 @@ It's recommended to walk through the Hello AI World module first to familiarize 
 * [System Requirements](#recommended-system-requirements)
 * [Extra Resources](#extra-resources)
 
-> &gt; &nbsp; Jetson Nano Developer Kit and JetPack 4.2 is now supported in the repo. <br/>
+> &gt; &nbsp; Jetson Nano Developer Kit and JetPack 4.2.1 is now supported in the repo. <br/>
 > &gt; &nbsp; See our latest technical blog including benchmarks, [`Jetson Nano Brings AI Computing to Everyone`](https://devblogs.nvidia.com/jetson-nano-ai-computing/). <br/>
 > &gt; &nbsp; Hello AI World now supports Python and onboard training with PyTorch!
 
 ## Hello AI World
 
-Hello AI World can be run completely onboard your Jetson, including inferencing with TensorRT and transfer learning with PyTorch.  The inference portion of Hello AI World - which includes coding your own image classification application for C++ or Python, object detection, and live camera demos - can be run on your Jetson in roughly two hours or less, while transfer learning is best to leave running overnight.
+Hello AI World can be run completely onboard your Jetson, including inferencing with TensorRT and transfer learning with PyTorch.  The inference portion of Hello AI World - which includes coding your own image classification application for C++ or Python, object detection, and live camera demos - can be run on your Jetson in roughly two hours or less, while transfer learning is best left to leave running overnight.
 
 * [Setting up Jetson with JetPack](docs/jetpack-setup-2.md)
 * [Building the Project from Source](docs/building-repo-2.md)
