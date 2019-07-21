@@ -248,8 +248,8 @@ bool detectNet::allocDetections()
 	}	
 	else
 	{
-		mMaxDetections = DIMS_W(mOutputs[OUTPUT_CVG].dims) * DIMS_H(mOutputs[OUTPUT_CVG].dims) /** DIMS_C(mOutputs[OUTPUT_CVG].dims)*/ * mNumClasses;
 		mNumClasses = DIMS_C(mOutputs[OUTPUT_CVG].dims);
+		mMaxDetections = DIMS_W(mOutputs[OUTPUT_CVG].dims) * DIMS_H(mOutputs[OUTPUT_CVG].dims) /** DIMS_C(mOutputs[OUTPUT_CVG].dims)*/ * mNumClasses;
 		printf("detectNet -- number object classes:   %u\n", mNumClasses);
 	}
 
