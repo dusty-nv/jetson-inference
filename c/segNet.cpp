@@ -249,9 +249,9 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 		return NULL;
 
 	// load class info
-	net->loadClassColors(colors_path);
 	net->loadClassLabels(labels_path);
-	
+	net->loadClassColors(colors_path);
+
 	return net;
 }
 
@@ -426,11 +426,27 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
-	// downsample and convert to band-sequential BGR
-	if( CUDA_FAILED(cudaPreImageNetBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
+	if( IsModelType(MODEL_ONNX) )
 	{
-		printf("segNet::Process() -- cudaPreImageNet failed\n");
-		return false;
+		// downsample, convert to band-sequential RGB, and apply pixel normalization, mean pixel subtraction and standard deviation
+		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, 
+										   make_float2(0.0f, 1.0f), 
+										   make_float3(0.485f, 0.456f, 0.406f),
+										   make_float3(0.229f, 0.224f, 0.225f), 
+										   GetStream())) )
+		{
+			printf(LOG_TRT "segNet::Process() -- cudaPreImageNetNormMeanRGB() failed\n");
+			return false;
+		}
+	}
+	else
+	{
+		// downsample and convert to band-sequential BGR
+		if( CUDA_FAILED(cudaPreImageNetBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
+		{
+			printf("segNet::Process() -- cudaPreImageNetBGR() failed\n");
+			return false;
+		}
 	}
 
 	PROFILER_END(PROFILER_PREPROCESS);
@@ -513,6 +529,7 @@ bool segNet::classify( const char* ignore_class )
 			}
 
 			classMap[y * s_w + x] = c_max;
+			//printf("(%u, %u) -> class %i\n", x, y, (uint32_t)c_max);
 		}
 	}
 
