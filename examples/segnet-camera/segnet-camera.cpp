@@ -150,7 +150,7 @@ int main( int argc, char** argv )
 		if( display != NULL )
 		{
 			// render the image
-			display->RenderOnce((float*)imgRGBA, camera->GetWidth(), camera->GetHeight());
+			display->RenderOnce((float*)outCUDA, camera->GetWidth(), camera->GetHeight());
 
 			// update the status bar
 			char str[256];
