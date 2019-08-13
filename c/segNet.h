@@ -39,6 +39,21 @@
  */
 #define SEGNET_DEFAULT_OUTPUT  "score_fr_21classes"
 
+/**
+ * Command-line options able to be passed to segNet::Create()
+ * @ingroup segNet
+ */
+#define SEGNET_USAGE_STRING  "segNet arguments: \n" 							\
+		  "  --network NETWORK    pre-trained model to load, one of the following:\n" 	\
+		  "                           * fcn-resnet18 (default)\n"					\
+		  "                           * fcn-alexnet\n" 							\
+		  "  --model MODEL        path to custom model to load (.caffemodel, .uff, or .onnx)\n" 			\
+		  "  --prototxt PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
+		  "  --labels LABELS      path to text file containing the labels for each class\n" 				\
+		  "  --colors COLORS      path to text file containing the colors for each class\n" 				\
+		  "  --input_blob INPUT   name of the input layer (default is '" SEGNET_DEFAULT_INPUT "')\n" 	\
+		  "  --output_blob OUTPUT name of the output layer (default is '" SEGNET_DEFAULT_OUTPUT "')\n" 	\
+		  "  --batch_size BATCH   maximum batch size (default is 1)\n"
 
 /**
  * Image segmentation with FCN-Alexnet or custom models, using TensorRT.
@@ -81,6 +96,12 @@ public:
 	static NetworkType NetworkTypeFromStr( const char* model_name );
 
 	/**
+	 * Convert a NetworkType enum to a human-readable string.
+	 * @returns stringized version of the provided NetworkType enum.
+	 */
+	static const char* NetworkTypeToStr( NetworkType networkType );
+
+	/**
 	 * Parse a string from one of the FilterMode values.
 	 * Valid strings are "point", and "linear"
 	 * @returns one of the segNet::FilterMode enums, or default segNet::FILTER_LINEAR on an error.
@@ -117,6 +138,11 @@ public:
 	 */
 	static segNet* Create( int argc, char** argv );
 	
+	/**
+	 * Usage string for command line arguments to Create()
+	 */
+	static inline const char* Usage() 		{ return SEGNET_USAGE_STRING; }
+
 	/**
 	 * Destroy
 	 */
@@ -168,7 +194,7 @@ public:
 	/**
 	 * Retrieve the description of a particular class.
 	 */
-	inline const char* GetClassLabel( uint32_t id )	const		{ return id < mClassLabels.size() ? mClassLabels[id].c_str() : NULL; }
+	inline const char* GetClassDesc( uint32_t id ) const			{ return id < mClassLabels.size() ? mClassLabels[id].c_str() : NULL; }
 	
 	/**
 	 * Retrieve the class synset category of a particular class.
@@ -211,7 +237,7 @@ public:
 	/**
  	 * Retrieve a string describing the network name.
 	 */
-	inline const char* GetNetworkName() const					{ return (mNetworkType != SEGNET_CUSTOM ? "FCN_Alexnet" : "segNet"); }
+	inline const char* GetNetworkName() const					{ return NetworkTypeToStr(mNetworkType); }
 
 protected:
 	segNet();

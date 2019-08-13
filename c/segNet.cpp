@@ -78,7 +78,7 @@ segNet::NetworkType segNet::NetworkTypeFromStr( const char* modelName )
 
 	segNet::NetworkType type = segNet::FCN_ALEXNET_CITYSCAPES_HD;
 
-	if( strcasecmp(modelName, "cityscapes-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes-sd") == 0 )
+	if( strcasecmp(modelName, "cityscapes-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes") == 0 )
 		type = segNet::FCN_ALEXNET_CITYSCAPES_SD;
 	else if( strcasecmp(modelName, "cityscapes") == 0 || strcasecmp(modelName, "cityscapes-hd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes-hd") == 0 )
 		type = segNet::FCN_ALEXNET_CITYSCAPES_HD;
@@ -96,6 +96,16 @@ segNet::NetworkType segNet::NetworkTypeFromStr( const char* modelName )
 		type = segNet::SEGNET_CUSTOM;
 
 	return type;
+}
+
+
+// NetworkTypeToStr
+const char* segNet::NetworkTypeToStr( segNet::NetworkType type )
+{
+	if( type == segNet::SEGNET_CUSTOM )
+		return "segNet";
+
+	return "FCN_Alexnet";
 }
 
 
@@ -137,37 +147,11 @@ segNet* segNet::Create( int argc, char** argv )
 	const char* modelName = cmdLine.GetString("model");
 
 	if( !modelName )
-	{
 		modelName = cmdLine.GetString("network", "fcn-alexnet-cityscapes-sd");
 
-		/*if( argc > 3 )
-			modelName = argv[3];*/	
+	const segNet::NetworkType type = NetworkTypeFromStr(modelName);
 
-		segNet::NetworkType type = segNet::SEGNET_CUSTOM;
-
-		if( strcasecmp(modelName, "fcn-alexnet-cityscapes-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes") == 0 )
-			type = segNet::FCN_ALEXNET_CITYSCAPES_SD;
-		else if( strcasecmp(modelName, "fcn-alexnet-cityscapes-hd") == 0 )
-			type = segNet::FCN_ALEXNET_CITYSCAPES_HD;
-		else if( strcasecmp(modelName, "fcn-alexnet-pascal-voc") == 0 )
-			type = segNet::FCN_ALEXNET_PASCAL_VOC;
-		else if( strcasecmp(modelName, "fcn-alexnet-synthia-cvpr16") == 0 )
-			type = segNet::FCN_ALEXNET_SYNTHIA_CVPR16;
-		else if( strcasecmp(modelName, "fcn-alexnet-synthia-summer-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-synthia-summer") == 0)
-			type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_SD;
-		else if( strcasecmp(modelName, "fcn-alexnet-synthia-summer-hd") == 0 )
-			type = segNet::FCN_ALEXNET_SYNTHIA_SUMMER_HD;
-		else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p") == 0 )
-			type = segNet::FCN_ALEXNET_AERIAL_FPV_720p;
-		/*else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p-4ch") == 0 )
-			type = segNet::FCN_ALEXNET_AERIAL_FPV_720p_4ch;
-		else if( strcasecmp(modelName, "fcn-alexnet-aerial-fpv-720p-21ch") == 0 )
-			type = segNet::FCN_ALEXNET_AERIAL_FPV_720p_21ch;*/
-
-		// create segnet from pretrained model
-		return segNet::Create(type);
-	}
-	else
+	if( type == SEGNET_CUSTOM )
 	{
 		const char* prototxt = cmdLine.GetString("prototxt");
 		const char* labels   = cmdLine.GetString("labels");
@@ -185,6 +169,9 @@ segNet* segNet::Create( int argc, char** argv )
 		
 		return segNet::Create(prototxt, modelName, labels, colors, input, output, maxBatchSize);
 	}
+
+	// create segnet from pretrained model
+	return segNet::Create(type);
 }
 
 
