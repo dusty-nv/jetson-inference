@@ -126,7 +126,7 @@ segNet* segNet::Create( NetworkType networkType, uint32_t maxBatchSize,
 	else if( networkType == FCN_ALEXNET_CITYSCAPES_HD )
 		net = Create("networks/FCN-Alexnet-Cityscapes-HD/deploy.prototxt", "networks/FCN-Alexnet-Cityscapes-HD/snapshot_iter_367568.caffemodel", "networks/FCN-Alexnet-Cityscapes-HD/cityscapes-labels.txt", "networks/FCN-Alexnet-Cityscapes-HD/cityscapes-deploy-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );	
 	else if( networkType == FCN_ALEXNET_CITYSCAPES_SD )
-		net = Create("networks/FCN-Alexnet-Cityscapes-SD/deploy.prototxt", "networks/FCN-Alexnet-Cityscapes-SD/snapshot_iter_114860.caffemodel", "networks/FCN-Alexnet-Cityscapes-SD/cityscapes-labels.txt", "networks/FCN-Alexnet-Cityscapes-SD/cityscapes-deploy-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
+		net = Create("networks/FCN-Alexnet-Cityscapes-SD/deploy.prototxt", "networks/FCN-Alexnet-Cityscapes-SD/snapshot_iter_2756640.caffemodel", "networks/FCN-Alexnet-Cityscapes-SD/cityscapes-labels.txt", "networks/FCN-Alexnet-Cityscapes-SD/cityscapes-deploy-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
 	//else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p_4ch )
 	//	net = Create("FCN-Alexnet-Aerial-FPV-4ch-720p/deploy.prototxt", "FCN-Alexnet-Aerial-FPV-4ch-720p/snapshot_iter_1777146.caffemodel", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-labels.txt", "FCN-Alexnet-Aerial-FPV-4ch-720p/fpv-deploy-colors.txt", "data", "score_fr_4classes", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize );			
 	else if( networkType == FCN_ALEXNET_AERIAL_FPV_720p )
