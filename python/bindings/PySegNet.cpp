@@ -29,8 +29,8 @@
 
 
 typedef struct {
-    PyTensorNet_Object base;
-    segNet* net;	// object instance
+	PyTensorNet_Object base;
+	segNet* net;	// object instance
 } PySegNet_Object;
 
 
@@ -52,7 +52,7 @@ typedef struct {
 static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds )
 {
 	printf(LOG_PY_INFERENCE "PySegNet_Init()\n");
-	
+
 	// parse arguments
 	PyObject* argList     = NULL;
 	const char* network   = "fcn-alexnet-cityscapes-sd";
@@ -137,6 +137,23 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 }
 
 
+// Deallocate
+static void PySegNet_Dealloc( PySegNet_Object* self )
+{
+	printf(LOG_PY_INFERENCE "PySegNet_Dealloc()\n");
+
+	// free the network
+	if( self->net != NULL )
+	{
+		delete self->net;
+		self->net = NULL;
+	}
+
+	// free the container
+	Py_TYPE(self)->tp_free((PyObject*)self);
+}
+
+
 #define DOC_PROCESS  "Perform the initial inferencing processing of the segmentation.\n" \
                      "The results can then be visualized using the Overlay() and Mask() functions.\n\n" \
 				 "Parameters:\n" \
@@ -146,7 +163,7 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 				 "  ignore_class (string) -- optional label name of class to ignore in the classification (default: 'void')\n" \
 				 "Returns:  (none)"
 
-// Classify
+// Process
 static PyObject* PySegNet_Process( PySegNet_Object* self, PyObject* args, PyObject *kwds )
 {
 	if( !self || !self->net )
@@ -193,6 +210,156 @@ static PyObject* PySegNet_Process( PySegNet_Object* self, PyObject* args, PyObje
 	if( !result )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Process() encountered an error segmenting the image");
+		return NULL;
+	}
+
+	Py_RETURN_NONE;
+}
+
+
+#define DOC_OVERLAY  "Produce the segmentation overlay alpha blended on top of the original image.\n\n" \
+				 "Parameters:\n" \
+				 "  image  (capsule) -- output CUDA memory capsule\n" \
+				 "  width  (int) -- width of the image (in pixels)\n" \
+				 "  height (int) -- height of the image (in pixels)\n" \
+				 "  filter_mode (string) -- optional string indicating the filter mode, 'point' or 'linear' (default: 'linear')\n" \
+				 "Returns:  (none)"
+
+// Overlay
+static PyObject* PySegNet_Overlay( PySegNet_Object* self, PyObject* args, PyObject *kwds )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid object instance");
+		return NULL;
+	}
+	
+	// parse arguments
+	PyObject* capsule = NULL;
+
+	int width = 0;
+	int height = 0;
+
+	const char* filter_str = "linear";
+	static char* kwlist[] = {"image", "width", "height", "filter_mode", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "Oii|s", kwlist, &capsule, &width, &height, &filter_str))
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Overlay() failed to parse args tuple");
+		printf(LOG_PY_INFERENCE "segNet.Overlay() failed to parse args tuple\n");
+		return NULL;
+	}
+
+	// verify dimensions
+	if( width <= 0 || height <= 0 )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Overlay() image dimensions are invalid");
+		return NULL;
+	}
+
+	// verify filter mode
+	segNet::FilterMode filterMode;
+
+	if( strcmp(filter_str, "linear") == 0 )
+		filterMode = segNet::FILTER_LINEAR;
+	else if( strcmp(filter_str, "point") == 0 )
+		filterMode = segNet::FILTER_POINT;
+	else
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Overlay() invalid filter_mode parameter");
+		return NULL;
+	}
+
+	// get pointer to image data
+	void* img = PyCUDA_GetPointer(capsule);
+
+	if( !img )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Overlay() failed to get image pointer from PyCapsule container");
+		return NULL;
+	}
+
+	// visualize the image
+	const bool result = self->net->Overlay((float*)img, width, height, filterMode);
+
+	if( !result )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Overlay() encountered an error segmenting the image");
+		return NULL;
+	}
+
+	Py_RETURN_NONE;
+}
+
+
+#define DOC_MASK     "Produce a colorized RGBA segmentation mask of the output.\n\n" \
+				 "Parameters:\n" \
+				 "  image  (capsule) -- output CUDA memory capsule\n" \
+				 "  width  (int) -- width of the image (in pixels)\n" \
+				 "  height (int) -- height of the image (in pixels)\n" \
+				 "  filter_mode (string) -- optional string indicating the filter mode, 'point' or 'linear' (default: 'linear')\n" \
+				 "Returns:  (none)"
+
+// Overlay
+static PyObject* PySegNet_Mask( PySegNet_Object* self, PyObject* args, PyObject *kwds )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid object instance");
+		return NULL;
+	}
+	
+	// parse arguments
+	PyObject* capsule = NULL;
+
+	int width = 0;
+	int height = 0;
+
+	const char* filter_str = "linear";
+	static char* kwlist[] = {"image", "width", "height", "filter_mode", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "Oii|s", kwlist, &capsule, &width, &height, &filter_str))
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() failed to parse args tuple");
+		printf(LOG_PY_INFERENCE "segNet.Mask() failed to parse args tuple\n");
+		return NULL;
+	}
+
+	// verify dimensions
+	if( width <= 0 || height <= 0 )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() image dimensions are invalid");
+		return NULL;
+	}
+
+	// verify filter mode
+	segNet::FilterMode filterMode;
+
+	if( strcmp(filter_str, "linear") == 0 )
+		filterMode = segNet::FILTER_LINEAR;
+	else if( strcmp(filter_str, "point") == 0 )
+		filterMode = segNet::FILTER_POINT;
+	else
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() invalid filter_mode parameter");
+		return NULL;
+	}
+
+	// get pointer to image data
+	void* img = PyCUDA_GetPointer(capsule);
+
+	if( !img )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() failed to get image pointer from PyCapsule container");
+		return NULL;
+	}
+
+	// visualize the image
+	const bool result = self->net->Mask((float*)img, width, height, filterMode);
+
+	if( !result )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() encountered an error segmenting the image");
 		return NULL;
 	}
 
@@ -290,6 +457,8 @@ static PyTypeObject PySegNet_Type =
 static PyMethodDef PySegNet_Methods[] = 
 {
 	{ "Process", (PyCFunction)PySegNet_Process, METH_VARARGS|METH_KEYWORDS, DOC_PROCESS},
+	{ "Overlay", (PyCFunction)PySegNet_Overlay, METH_VARARGS|METH_KEYWORDS, DOC_OVERLAY},
+	{ "Mask", (PyCFunction)PySegNet_Mask, METH_VARARGS|METH_KEYWORDS, DOC_MASK},	
 	{ "GetNetworkName", (PyCFunction)PySegNet_GetNetworkName, METH_NOARGS, DOC_GET_NETWORK_NAME},
      { "GetNumClasses", (PyCFunction)PySegNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
 	{ "GetClassDesc", (PyCFunction)PySegNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
@@ -310,7 +479,7 @@ bool PySegNet_Register( PyObject* module )
 	PySegNet_Type.tp_methods		= PySegNet_Methods;
 	PySegNet_Type.tp_new		= NULL; /*PySegNet_New;*/
 	PySegNet_Type.tp_init		= (initproc)PySegNet_Init;
-	PySegNet_Type.tp_dealloc		= NULL; /*(destructor)PySegNet_Dealloc;*/
+	PySegNet_Type.tp_dealloc		= (destructor)PySegNet_Dealloc;
 	PySegNet_Type.tp_doc		= DOC_SEGNET;
 	 
 	if( PyType_Ready(&PySegNet_Type) < 0 )

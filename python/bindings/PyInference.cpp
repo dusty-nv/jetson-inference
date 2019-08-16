@@ -25,7 +25,7 @@
 #include "PyTensorNet.h"
 #include "PyImageNet.h"
 #include "PyDetectNet.h"
-
+#include "PySegNet.h"
 
 
 static PyMethodDef pyInferenceFunctions[] =
@@ -47,6 +47,9 @@ bool PyInference_Register( PyObject* module )
 	
 	if( !PyDetectNet_Register(module) )
 		printf(LOG_PY_INFERENCE "failed to register detectNet type\n");
+
+	if( !PySegNet_Register(module) )
+		printf(LOG_PY_INFERENCE "failed to register segNet type\n");
 
 	printf(LOG_PY_INFERENCE "done registering module types\n");
 	return true;
