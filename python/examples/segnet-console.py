@@ -39,6 +39,7 @@ parser.add_argument("--network", type=str, default="fcn-alexnet-cityscapes-sd", 
 parser.add_argument("--visualize", type=str, default="overlay", choices=["overlay", "mask"], help="visualization mode for the output image, valid values are:  'overlay' and 'mask' (default: 'overlay')")
 parser.add_argument("--filter-mode", type=str, default="linear", choices=["point", "linear"], help="filtering mode used during visualization, valid values are:  'point' and 'linear' (default: 'linear')")
 parser.add_argument("--ignore-class", type=str, default="void", help="optional name of class to ignore in the visualization results (default: 'void')")
+parser.add_argument("--alpha", type=float, default=175.0, help="global alpha value to use during overlay blending of visualization, between 0.0 and 255.0 (default: 175.0)")
 parser.add_argument("--profile", type=bool, default=False, help="enable performance profiling and multiple runs of the model")
 parser.add_argument("--runs", type=int, default=15, help="if profiling is enabling, the number of iterations to run")
 
@@ -58,6 +59,9 @@ img_output = jetson.utils.cudaAllocMapped(width * height * 4 * ctypes.sizeof(cty
 
 # load the segmentation network
 net = jetson.inference.segNet(opt.network, argv)
+
+# set the alpha blending value
+net.SetGlobalAlpha(opt.alpha)
 
 # enable model profiling
 if opt.profile is True:
