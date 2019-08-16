@@ -437,6 +437,46 @@ PyObject* PySegNet_GetClassDesc( PySegNet_Object* self, PyObject* args )
 }
 
 
+#define DOC_SET_GLOBAL_ALPHA "Set the global alpha value used during overlay blending for all classes\n\n" \
+				 	  "Parameters:\n" \
+					  "  alpha (float) -- desired alpha value, between 0.0 and 255.0\n" \
+					  "  explicit_exempt (optional, bool) -- if True, the global alpha doesn't apply to classes that have an alpha value explicitly set in the colors file (default: True)\n" \
+					  "Returns:  (none)"
+
+// SetGlobalAlpha
+PyObject* PySegNet_SetGlobalAlpha( PySegNet_Object* self, PyObject* args, PyObject *kwds )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid object instance");
+		return NULL;
+	}
+	
+	float alpha = 0.0f;
+	int exempt = 1;
+
+	static char* kwlist[] = {"alpha", "explicit_exempt", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "f|i", kwlist, &alpha, &exempt) )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.SetGlobalAlpha() failed to parse arguments");
+		return NULL;
+	}
+		
+	if( alpha < 0.0f || alpha > 255.0f )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.SetGlobalAlpha() -- provided alpha value is out-of-range");
+		return NULL;
+	}
+
+	const bool explicit_exempt = (exempt <= 0) ? false : true;
+
+	self->net->SetGlobalAlpha(alpha, explicit_exempt);
+
+	Py_RETURN_NONE;
+}
+
+
 #define DOC_USAGE_STRING     "Return the command line parameters accepted by __init__()\n\n" \
 					    "Parameters:  (none)\n\n" \
 					    "Returns:\n" \
@@ -462,6 +502,7 @@ static PyMethodDef PySegNet_Methods[] =
 	{ "GetNetworkName", (PyCFunction)PySegNet_GetNetworkName, METH_NOARGS, DOC_GET_NETWORK_NAME},
      { "GetNumClasses", (PyCFunction)PySegNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
 	{ "GetClassDesc", (PyCFunction)PySegNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
+	{ "SetGlobalAlpha", (PyCFunction)PySegNet_SetGlobalAlpha, METH_VARARGS|METH_KEYWORDS, DOC_SET_GLOBAL_ALPHA},
 	{ "Usage", (PyCFunction)PySegNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},
 	{NULL}  /* Sentinel */
 };
