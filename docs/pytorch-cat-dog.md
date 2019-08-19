@@ -38,12 +38,12 @@ Mirrors of the dataset are available here:
 
 ## Re-training ResNet-18 Model
 
-The PyTorch training scripts are located in the repo under <a href="https://github.com/dusty-nv/jetson-inference/tree/master/python/training/imagenet">`jetson-inference/python/training/imagenet/`</a>.  These scripts aren't specific to any one dataset, so we'll use the same PyTorch code with each of the example datasets from this tutorial.  By default it's set to train a ResNet-18 model, but you can change that with the `--arch` flag.
+The PyTorch training scripts are located in the repo under <a href="https://github.com/dusty-nv/jetson-inference/tree/master/python/training/classification">`jetson-inference/python/training/classification/`</a>.  These scripts aren't specific to any one dataset, so we'll use the same PyTorch code with each of the example datasets from this tutorial.  By default it's set to train a ResNet-18 model, but you can change that with the `--arch` flag.
 
 To launch the training, run the following commands:
 
 ``` bash
-$ cd jetson-inference/python/training/imagenet
+$ cd jetson-inference/python/training/classification
 $ python train.py --model-dir=cat_dog ~/datasets/cat_dog
 ```
 
@@ -106,7 +106,7 @@ By default the training script is set to run for 35 epochs, but if you don't wis
 
 * <a href="https://nvidia.box.com/s/zlvb4y43djygotpjn6azjhwu0r3j0yxc">https://nvidia.box.com/s/zlvb4y43djygotpjn6azjhwu0r3j0yxc</a>
 
-Note that the models are saved under `jetson-inference/python/training/imagenet/cat_dog/`, including a checkpoint from the latest epoch and the best-performing model that has the highest classification accuracy.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
+Note that the models are saved under `jetson-inference/python/training/classification/cat_dog/`, including a checkpoint from the latest epoch and the best-performing model that has the highest classification accuracy.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
 
 ## Converting the Model to ONNX
 
@@ -118,11 +118,11 @@ PyTorch comes with built-in support for exporting PyTorch models to ONNX, so run
 python onnx_export.py --model-dir=cat_dog
 ```
 
-This will create a model called `resnet18.onnx` under `jetson-inference/python/training/imagenet/cat_dog/`
+This will create a model called `resnet18.onnx` under `jetson-inference/python/training/classification/cat_dog/`
 
 ## Processing Images with TensorRT
 
-To classify some static test images, we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/imagenet/`
+To classify some static test images, we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/classification/`
 
 ```bash
 DATASET=~/datasets/cat_dog

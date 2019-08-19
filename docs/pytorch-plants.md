@@ -53,12 +53,12 @@ Mirrors of the dataset are available here:
 
 ## Re-training ResNet-18 Model
 
-We'll use the same training script that we did from the previous example, located under <a href="https://github.com/dusty-nv/jetson-inference/tree/master/python/training/imagenet">`python/training/imagenet/`</a>.  By default it's set to train a ResNet-18 model, but you can change that with the `--arch` flag.
+We'll use the same training script that we did from the previous example, located under <a href="https://github.com/dusty-nv/jetson-inference/tree/master/python/training/classification">`python/training/classification/`</a>.  By default it's set to train a ResNet-18 model, but you can change that with the `--arch` flag.
 
 To launch the training, run the following commands:
 
 ``` bash
-$ cd jetson-inference/python/training/imagenet
+$ cd jetson-inference/python/training/classification
 $ python train.py --model-dir=plants ~/datasets/PlantCLEF_Subset
 ```
 
@@ -96,7 +96,7 @@ By default the training script is set to run for 35 epochs, but if you don't wis
 
 * <a href="https://nvidia.box.com/s/dslt9b0hqq7u71o6mzvy07w0onn0tw66">https://nvidia.box.com/s/dslt9b0hqq7u71o6mzvy07w0onn0tw66</a>
 
-Note that the models are saved under `jetson-inference/python/training/imagenet/plants/`, including a checkpoint from the latest epoch and the best-performing model that has the highest classification accuracy.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
+Note that the models are saved under `jetson-inference/python/training/classification/plants/`, including a checkpoint from the latest epoch and the best-performing model that has the highest classification accuracy.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
 
 ## Converting the Model to ONNX
 
@@ -106,11 +106,11 @@ Just like with the Cat/Dog example, next we need to convert our trained model fr
 python onnx_export.py --model-dir=plants
 ```
 
-This will create a model called `resnet18.onnx` under `jetson-inference/python/training/imagenet/plants/`
+This will create a model called `resnet18.onnx` under `jetson-inference/python/training/classification/plants/`
 
 ## Processing Images with TensorRT
 
-To classify some static test images, like before we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/imagenet/`
+To classify some static test images, like before we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/classification/`
 
 ```bash
 DATASET=~/datasets/PlantCLEF_Subset
@@ -152,7 +152,7 @@ If you want to classify all of the test images without having to do them individ
 
 ```bash
 #!/bin/bash  
-NET="~/jetson-inference/python/training/imagenet/plants"
+NET="~/jetson-inference/python/training/classification/plants"
 DATASET="~/datasets/PlantCLEF_Subset"
 
 cd $DATASET

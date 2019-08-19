@@ -122,7 +122,7 @@ It's important that your data is collected from varying object orientations, cam
 When you've collected a bunch of data, then you can try training a model on it, just like we've done before.  The training process is the same as the previous examples, and the same PyTorch scripts are used:
 
 ```bash
-$ cd jetson-inference/python/training/imagenet
+$ cd jetson-inference/python/training/classification
 $ python train.py --model-dir=<YOUR-MODEL> <PATH-TO-YOUR-DATASET>
 ```
 
