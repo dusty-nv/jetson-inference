@@ -14,3 +14,7 @@
 	path = python/training/detection
 	url = https://github.com/dusty-nv/pytorch-detection
 	branch = master
+[submodule "python/training/segmentation"]
+	path = python/training/segmentation
+	url = https://github.com/dusty-nv/pytorch-segmentation
+	branch = master
