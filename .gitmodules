@@ -6,3 +6,7 @@
 	path = tools/camera-capture
 	url = https://github.com/dusty-nv/camera-capture
 	branch = master
+[submodule "python/training/classification"]
+	path = python/training/classification
+	url = https://github.com/dusty-nv/pytorch-classification
+	branch = master
