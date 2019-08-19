@@ -47,12 +47,12 @@
 		  "  --network NETWORK    pre-trained model to load, one of the following:\n" 	\
 		  "                           * fcn-resnet18 (default)\n"					\
 		  "                           * fcn-alexnet\n" 							\
-		  "  --model MODEL        path to custom model to load (.caffemodel, .uff, or .onnx)\n" 			\
+		  "  --model MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
 		  "  --prototxt PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
 		  "  --labels LABELS      path to text file containing the labels for each class\n" 				\
 		  "  --colors COLORS      path to text file containing the colors for each class\n" 				\
-		  "  --input_blob INPUT   name of the input layer (default is '" SEGNET_DEFAULT_INPUT "')\n" 	\
-		  "  --output_blob OUTPUT name of the output layer (default is '" SEGNET_DEFAULT_OUTPUT "')\n" 	\
+		  "  --input_blob INPUT   name of the input layer (default: '" SEGNET_DEFAULT_INPUT "')\n" 	\
+		  "  --output_blob OUTPUT name of the output layer (default: '" SEGNET_DEFAULT_OUTPUT "')\n" 	\
 		  "  --batch_size BATCH   maximum batch size (default is 1)\n"
 
 /**

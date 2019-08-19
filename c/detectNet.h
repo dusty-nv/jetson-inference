@@ -67,7 +67,7 @@
 		  "                            * coco-bottle\n" 								\
 		  "                            * coco-chair\n" 								\
 		  "                            * coco-dog\n" 								\
-		  "  --model MODEL         path to custom model to load (.caffemodel, .uff, or .onnx)\n" 					\
+		  "  --model MODEL         path to custom model to load (caffemodel, uff, or onnx)\n" 					\
 		  "  --prototxt PROTOTXT   path to custom prototxt to load (for .caffemodel only)\n" 					\
 		  "  --class_labels LABELS path to text file containing the labels for each class\n" 					\
 		  "  --threshold THRESHOLD minimum threshold for detection (default is 0.5)\n"							\

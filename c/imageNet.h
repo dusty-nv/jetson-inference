@@ -56,7 +56,7 @@
 		  "                           * vgg-16\n" 								\
 		  "                           * vgg-19\n" 								\
 		  "                           * inception-v4\n" 							\
-		  "  --model MODEL        path to custom model to load (.caffemodel, .uff, or .onnx)\n" 			\
+		  "  --model MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
 		  "  --prototxt PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
 		  "  --labels LABELS      path to text file containing the labels for each class\n" 				\
 		  "  --input_blob INPUT   name of the input layer (default is '" IMAGENET_DEFAULT_INPUT "')\n" 	\

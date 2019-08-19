@@ -36,10 +36,10 @@ parser = argparse.ArgumentParser(description="Segment an image using an semantic
 parser.add_argument("file_in", type=str, help="filename of the input image to process")
 parser.add_argument("file_out", type=str, default=None, nargs='?', help="filename of the output image to save")
 parser.add_argument("--network", type=str, default="fcn-alexnet-cityscapes-sd", help="pre-trained model to load, see below for options")
-parser.add_argument("--visualize", type=str, default="overlay", choices=["overlay", "mask"], help="visualization mode for the output image, valid values are:  'overlay' and 'mask' (default: 'overlay')")
-parser.add_argument("--filter-mode", type=str, default="linear", choices=["point", "linear"], help="filtering mode used during visualization, valid values are:  'point' and 'linear' (default: 'linear')")
+parser.add_argument("--visualize", type=str, default="overlay", choices=["overlay", "mask"], help="visualization mode for the output image, options are:  'overlay' or 'mask' (default: 'overlay')")
+parser.add_argument("--filter-mode", type=str, default="linear", choices=["point", "linear"], help="filtering mode used during visualization, options are:  'point' or 'linear' (default: 'linear')")
 parser.add_argument("--ignore-class", type=str, default="void", help="optional name of class to ignore in the visualization results (default: 'void')")
-parser.add_argument("--alpha", type=float, default=175.0, help="global alpha value to use during overlay blending of visualization, between 0.0 and 255.0 (default: 175.0)")
+parser.add_argument("--alpha", type=float, default=175.0, help="alpha blending value to use during overlay, between 0.0 and 255.0 (default: 175.0)")
 parser.add_argument("--profile", type=bool, default=False, help="enable performance profiling and multiple runs of the model")
 parser.add_argument("--runs", type=int, default=15, help="if profiling is enabling, the number of iterations to run")
 

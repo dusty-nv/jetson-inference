@@ -42,10 +42,40 @@ void sig_handler(int signo)
 	}
 }
 
+int usage()
+{
+	printf("usage: segnet-camera [-h] [--network NETWORK] [--camera CAMERA]\n");
+	printf("                     [--width WIDTH] [--height HEIGHT]\n");
+	printf("                     [--alpha ALPHA] [--filter-mode MODE]\n");
+	printf("                     [--ignore-class CLASS]\n\n");
+	printf("Segment and classify a live camera stream using a semantic segmentation DNN.\n\n");
+	printf("optional arguments:\n");
+	printf("  --help           show this help message and exit\n");
+	printf("  --camera CAMERA  index of the MIPI CSI camera to use (NULL for CSI camera 0),\n");
+	printf("                   or for VL42 cameras the /dev/video node to use (/dev/video0).\n");
+     printf("                   by default, MIPI CSI camera 0 will be used.\n");
+	printf("  --width WIDTH    desired width of camera stream (default: 1280 pixels)\n");
+	printf("  --height HEIGHT  desired height of camera stream (default: 720 pixels)\n");
+	printf("  --alpha ALPHA    overlay alpha blending value, range 0-255 (default: 120)\n");
+	printf("  --filter-mode MODE   filtering mode used during visualization,\n");
+	printf("                       options are 'point' or 'linear' (default: 'linear')\n");
+	printf("  --ignore-class CLASS optional name of class to ignore when classifying\n");
+	printf("                       the visualization results (default: 'void')\n\n");
+	printf("%s\n", segNet::Usage());
+
+	return 0;
+}
 
 int main( int argc, char** argv )
 {
+	/*
+	 * parse command line
+	 */
 	commandLine cmdLine(argc, argv);
+
+	if( cmdLine.GetFlag("help") )
+		return usage();
+
 	
 	/*
 	 * attach signal handler
@@ -67,9 +97,12 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
+	const uint32_t width = camera->GetWidth();
+	const uint32_t height = camera->GetHeight();
+
 	printf("\nsegnet-camera:  successfully initialized camera device\n");
-	printf("    width:  %u\n", camera->GetWidth());
-	printf("   height:  %u\n", camera->GetHeight());
+	printf("    width:  %u\n", width);
+	printf("   height:  %u\n", height);
 	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
 	
 
@@ -85,19 +118,34 @@ int main( int argc, char** argv )
 	}
 
 	// set alpha blending value for classes that don't explicitly already have an alpha	
-	net->SetGlobalAlpha(120);
+	net->SetGlobalAlpha(cmdLine.GetFloat("alpha", 120.0f));
 
-	// allocate segmentation overlay output buffer
-	float* outCPU  = NULL;
-	float* outCUDA = NULL;
+	// get the desired alpha blend filtering mode
+	const segNet::FilterMode filterMode = segNet::FilterModeFromStr(cmdLine.GetString("filter-mode", "linear"));
 
-	if( !cudaAllocMapped((void**)&outCPU, (void**)&outCUDA, camera->GetWidth() * camera->GetHeight() * sizeof(float) * 4) )
+	// get the object class to ignore (if any)
+	const char* ignoreClass = cmdLine.GetString("ignore-class", "void");
+
+	
+	/*
+	 * allocate segmentation overlay output buffers
+ 	 */
+	float* imgOverlay = NULL;
+	float* imgMask    = NULL;
+
+	if( !cudaAllocMapped((void**)&imgOverlay, width * height * sizeof(float) * 4) )
 	{
-		printf("segnet-camera:  failed to allocate CUDA memory for output image (%ux%u)\n", camera->GetWidth(), camera->GetHeight());
+		printf("segnet-camera:  failed to allocate CUDA memory for overlay image (%ux%u)\n", width, height);
 		return 0;
 	}
 
+	if( !cudaAllocMapped((void**)&imgMask, width/2 * height/2 * sizeof(float) * 4) )
+	{
+		printf("segnet-camera:  failed to allocate CUDA memory for mask image\n");
+		return 0;
+	}
 	
+
 	/*
 	 * create openGL window
 	 */
@@ -133,34 +181,54 @@ int main( int argc, char** argv )
 			printf("segnet-camera:  failed to convert from NV12 to RGBA\n");
 
 		// process the segmentation network
-		if( !net->Process(imgRGBA, camera->GetWidth(), camera->GetHeight()) )
+		if( !net->Process(imgRGBA, width, height, ignoreClass) )
 		{
 			printf("segnet-console:  failed to process segmentation\n");
 			continue;
 		}
-
+		
 		// generate overlay
-		if( !net->Overlay(outCUDA, camera->GetWidth(), camera->GetHeight(), segNet::FILTER_LINEAR) )
+		if( !net->Overlay(imgOverlay, width, height, filterMode) )
 		{
 			printf("segnet-console:  failed to process segmentation overlay.\n");
+			continue;
+		}
+
+		// generate mask
+		if( !net->Mask(imgMask, width/2, height/2, filterMode) )
+		{
+			printf("segnet-console:  failed to process segmentation mask.\n");
 			continue;
 		}
 		
 		// update display
 		if( display != NULL )
 		{
-			// render the image
-			display->RenderOnce((float*)imgRGBA, camera->GetWidth(), camera->GetHeight());
+			// begin the frame
+			display->BeginRender();
+
+			// render the images
+			display->Render(imgOverlay, width, height);
+			display->Render(imgMask, width/2, height/2, width);
 
 			// update the status bar
 			char str[256];
-			sprintf(str, "TensorRT %i.%i.%i | %s | Network %.0f FPS | Display %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), 1000.0f / net->GetNetworkTime(), display->GetFPS());
+			sprintf(str, "TensorRT %i.%i.%i | %s | %s | Network %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), precisionTypeToStr(net->GetPrecision()), 1000.0f / net->GetNetworkTime());
 			display->SetTitle(str);
+
+			// present the frame
+			display->EndRender();
 
 			// check if the user quit
 			if( display->IsClosed() )
 				signal_recieved = true;
 		}
+
+		// wait for the GPU to finish		
+		CUDA(cudaDeviceSynchronize());
+
+		// print out timing info
+		net->PrintProfilerTimes();
 	}
 	
 

@@ -27,10 +27,40 @@
 #include "cudaMappedMemory.h"
 
 
+int usage()
+{
+	printf("usage: segnet-console [-h] [--network NETWORK]\n");
+	printf("                      [--visualize VISUAL] [--alpha ALPHA]\n");
+	printf("                      [--filter-mode MODE] [--ignore-class CLASS]\n\n");
+	printf("                      file_in file_out\n\n");
+	printf("Segment and classify an image using a semantic segmentation DNN.\n\n");
+	printf("positional arguments:\n");
+	printf("  file_in              filename of the input image to process\n");
+	printf("  file_out             filename of the output image to save\n\n");
+	printf("optional arguments:\n");
+	printf("  --help               show this help message and exit\n");
+	printf("  --profile PROFILE    enable layer profiling in TensorRT\n");
+	printf("  --visualize VISUAL   visualization mode, options are: 'mask' or 'overlay'\n");
+	printf("  --alpha ALPHA        overlay alpha blending, range 0-255 (default: 120)\n");
+	printf("  --filter-mode MODE   filtering mode used during visualization,\n");
+	printf("                       options are 'point' or 'linear' (default: 'linear')\n");
+	printf("  --ignore-class CLASS optional name of class to ignore when classifying\n");
+	printf("                       the visualization results (default: 'void')\n\n");
+	printf("%s\n", segNet::Usage());
+
+	return 0;
+}
+
 int main( int argc, char** argv )
 {
+	/*
+	 * parse command line
+	 */
 	commandLine cmdLine(argc, argv);
-	
+
+	if( cmdLine.GetFlag("help") )
+		return usage();
+
 	
 	/*
 	 * parse filename arguments
@@ -41,7 +71,7 @@ int main( int argc, char** argv )
 	if( !imgFilename || !outFilename )
 	{
 		printf("segnet-console:   input and output image filenames required\n");
-		return 0;
+		return usage();
 	}
 
 
@@ -55,8 +85,22 @@ int main( int argc, char** argv )
 		printf("segnet-console:   failed to initialize segnet\n");
 		return 0;
 	}
-	
-	//net->EnableLayerProfiler();
+
+	// set alpha blending value for classes that don't explicitly already have an alpha	
+	net->SetGlobalAlpha(cmdLine.GetFloat("alpha", 120.0f));
+
+	// get the desired alpha blend filtering mode
+	const segNet::FilterMode filterMode = segNet::FilterModeFromStr(cmdLine.GetString("filter-mode", "linear"));
+
+	// get the object class to ignore (if any)
+	const char* ignoreClass = cmdLine.GetString("ignore-class", "void");
+
+	// get the visualization mode (mask or overlay)
+	const char* visualization = cmdLine.GetString("visualize", "overlay");
+
+	// enable layer profiling if desired
+	if( cmdLine.GetFlag("profile") )
+		net->EnableLayerProfiler();
 
 
 	/*
@@ -86,24 +130,32 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	// set alpha blending value for classes that don't explicitly already have an alpha	
-	net->SetGlobalAlpha(120);
-
 
 	/*
 	 * perform the segmentation
 	 */
-	if( !net->Process(imgCUDA, imgWidth, imgHeight) )
+	if( !net->Process(imgCUDA, imgWidth, imgHeight, ignoreClass) )
 	{
 		printf("segnet-console:  failed to process segmentation\n");
 		return 0;
 	}
 
 	// generate image overlay
-	if( !net->Overlay(outCUDA, imgWidth, imgHeight, segNet::FILTER_LINEAR) )
+	if( strcasecmp(visualization, "mask") == 0 )
 	{
-		printf("segnet-console:  failed to generate overlay.\n");
-		return 0;
+		if( !net->Mask(outCUDA, imgWidth, imgHeight, filterMode) )
+		{
+			printf("segnet-console:  failed to generate overlay.\n");
+			return 0;
+		}
+	}
+	else
+	{
+		if( !net->Overlay(outCUDA, imgWidth, imgHeight, filterMode) )
+		{
+			printf("segnet-console:  failed to generate overlay.\n");
+			return 0;
+		}
 	}
 
 	// wait for GPU to complete work			
@@ -129,6 +181,7 @@ int main( int argc, char** argv )
 
 	CUDA(cudaFreeHost(imgCPU));
 	CUDA(cudaFreeHost(outCPU));
+
 	SAFE_DELETE(net);
 
 	printf("segnet-console:  shutdown complete\n");
