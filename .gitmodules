@@ -10,3 +10,7 @@
 	path = python/training/classification
 	url = https://github.com/dusty-nv/pytorch-classification
 	branch = master
+[submodule "python/training/detection"]
+	path = python/training/detection
+	url = https://github.com/dusty-nv/pytorch-detection
+	branch = master
