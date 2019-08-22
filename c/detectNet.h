@@ -175,6 +175,14 @@ public:
 	static NetworkType NetworkTypeFromStr( const char* model_name );
 
 	/**
+	 * Parse a string sequence into OverlayFlags enum.
+	 * Valid flags are "none", "box", and "label", and it is possible to combine multiple flags
+	 * (bitwise OR) together with commas or pipe (|) symbol.  For example, the string sequences
+	 * "box,label" and "box|label" would return the flags OVERLAY_BOX|OVERLAY_LABEL.
+	 */
+	static uint32_t OverlayFlagsFromStr( const char* flags );
+
+	/**
 	 * Load a new network instance
 	 * @param networkType type of pre-supported network to load
 	 * @param threshold default minimum threshold for detection

@@ -884,6 +884,56 @@ bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t h
 }
 
 
+// OverlayFlagsFromStr
+uint32_t detectNet::OverlayFlagsFromStr( const char* str_user )
+{
+	if( !str_user )
+		return OVERLAY_BOX;
+
+	// copy the input string into a temporary array,
+	// because strok modifies the string
+	const size_t str_length = strlen(str_user);
+
+	if( str_length == 0 )
+		return OVERLAY_BOX;
+
+	char* str = (char*)malloc(str_length + 1);
+
+	if( !str )
+		return OVERLAY_BOX;
+
+	strcpy(str, str_user);
+
+	// tokenize string by delimiters ',' and '|'
+	const char* delimiters = ",|";
+	char* token = strtok(str, delimiters);
+
+	if( !token )
+	{
+		free(str);
+		return OVERLAY_BOX;
+	}
+
+	// look for the tokens:  "box", "label", and "none"
+	uint32_t flags = OVERLAY_NONE;
+
+	while( token != NULL )
+	{
+		printf("%s\n", token);
+
+		if( strcasecmp(token, "box") == 0 )
+			flags |= OVERLAY_BOX;
+		else if( strcasecmp(token, "label") == 0 || strcasecmp(token, "labels") == 0 )
+			flags |= OVERLAY_LABEL;
+
+		token = strtok(NULL, delimiters);
+	}	
+
+	free(str);
+	return flags;
+}
+
+
 // SetClassColor
 void detectNet::SetClassColor( uint32_t classIndex, float r, float g, float b, float a )
 {

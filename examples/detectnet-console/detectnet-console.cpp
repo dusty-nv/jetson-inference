@@ -36,7 +36,10 @@ int usage()
 	printf("  file_in              filename of the input image to process\n");
 	printf("  file_out             filename of the output image to save (optional)\n\n");
 	printf("optional arguments:\n");
-	printf("  --help               show this help message and exit\n\n");
+	printf("  --help               show this help message and exit\n");
+	printf("  --profile PROFILE    enable layer profiling in TensorRT\n");
+	printf("  --overlay OVERLAY    overlay flags (e.g. --overlay=box,labels)\n");
+	printf("                       valid flags are:  'box', 'labels', 'none'\n\n");
 	printf("%s\n", detectNet::Usage());
 
 	return 0;
@@ -76,7 +79,13 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	//net->EnableLayerProfiler();
+	// parse overlay flags
+	const uint32_t overlayFlags = detectNet::OverlayFlagsFromStr(cmdLine.GetString("overlay", "box"));
+	
+	// enable layer profiling if desired
+	if( cmdLine.GetFlag("profile") )
+		net->EnableLayerProfiler();
+	
 	
 	
 	/*
@@ -99,7 +108,7 @@ int main( int argc, char** argv )
 	 */
 	detectNet::Detection* detections = NULL;
 
-	const int numDetections = net->Detect(imgCUDA, imgWidth, imgHeight, &detections);
+	const int numDetections = net->Detect(imgCUDA, imgWidth, imgHeight, &detections, overlayFlags);
 
 	// print out the detection results
 	printf("%i objects detected\n", numDetections);

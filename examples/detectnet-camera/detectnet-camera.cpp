@@ -51,7 +51,9 @@ int usage()
 	printf("                   or for VL42 cameras the /dev/video node to use (/dev/video0).\n");
      printf("                   by default, MIPI CSI camera 0 will be used.\n");
 	printf("  --width WIDTH    desired width of camera stream (default is 1280 pixels)\n");
-	printf("  --height HEIGHT  desired height of camera stream (default is 720 pixels)\n\n");
+	printf("  --height HEIGHT  desired height of camera stream (default is 720 pixels)\n");
+	printf("  --overlay OVERLAY overlay flags (e.g. --overlay=box,labels)\n");
+	printf("                    valid flags are:  'box', 'labels', 'none'\n\n");
 	printf("%s\n", detectNet::Usage());
 
 	return 0;
@@ -105,6 +107,9 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
+	// parse overlay flags
+	const uint32_t overlayFlags = detectNet::OverlayFlagsFromStr(cmdLine.GetString("overlay", "box"));
+	
 
 	/*
 	 * create openGL window
@@ -143,7 +148,7 @@ int main( int argc, char** argv )
 		// detect objects in the frame
 		detectNet::Detection* detections = NULL;
 	
-		const int numDetections = net->Detect(imgRGBA, camera->GetWidth(), camera->GetHeight(), &detections);
+		const int numDetections = net->Detect(imgRGBA, camera->GetWidth(), camera->GetHeight(), &detections, overlayFlags);
 		
 		if( numDetections > 0 )
 		{
@@ -171,6 +176,9 @@ int main( int argc, char** argv )
 			if( display->IsClosed() )
 				signal_recieved = true;
 		}
+
+		// wait for GPU to complete work			
+		CUDA(cudaDeviceSynchronize());
 
 		// print out timing info
 		net->PrintProfilerTimes();
