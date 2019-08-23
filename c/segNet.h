@@ -45,8 +45,13 @@
  */
 #define SEGNET_USAGE_STRING  "segNet arguments: \n" 							\
 		  "  --network NETWORK    pre-trained model to load, one of the following:\n" 	\
-		  "                           * fcn-resnet18 (default)\n"					\
-		  "                           * fcn-alexnet\n" 							\
+		  "                           * fcn-resnet18-pascal-voc-320x320 (default)\n"	\
+		  "                           * fcn-resnet18-pascal-voc-512x320\n"			\
+		  "                           * fcn-resnet18-cityscapes-512x256\n"			\
+		  "                           * fcn-resnet18-cityscapes-1024x512\n"			\
+		  "                           * fcn-resnet18-cityscapes-2048x1024\n"			\
+		  "                           * fcn-resnet18-mhp-512x320\n"					\
+		  "                           * fcn-resnet18-mhp-640x360\n"					\
 		  "  --model MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
 		  "  --prototxt PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
 		  "  --labels LABELS      path to text file containing the labels for each class\n" 				\
