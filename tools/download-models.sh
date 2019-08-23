@@ -365,43 +365,43 @@ function download_detection()
 #
 function download_fcn_pascal_voc_320x320()
 {
-	echo "$LOG Downloading FCN-ResNet18-Pascal-VOC-320x320.tar.gz..."
+	echo "$LOG Downloading FCN-ResNet18-Pascal-VOC-320x320..."
 	download_archive "FCN-ResNet18-Pascal-VOC-320x320.tar.gz" "https://nvidia.box.com/shared/static/p63pgrr6tm33tn23913gq6qvaiarydaj.gz" 
 }
 
 function download_fcn_pascal_voc_512x320()
 {
-	echo "$LOG Downloading FCN-ResNet18-Pascal-VOC-512x320.tar.gz..."
+	echo "$LOG Downloading FCN-ResNet18-Pascal-VOC-512x320..."
 	download_archive "FCN-ResNet18-Pascal-VOC-512x320.tar.gz" "https://nvidia.box.com/shared/static/njup7f3vu4mgju89kfre98olwljws5pk.gz" 
 }
 
 function download_fcn_cityscapes_512x256()
 {
-	echo "$LOG Downloading FCN-ResNet18-Cityscapes-512x256.tar.gz..."
+	echo "$LOG Downloading FCN-ResNet18-Cityscapes-512x256..."
 	download_archive "FCN-ResNet18-Cityscapes-512x256.gz" "https://nvidia.box.com/shared/static/k7s7gdgi098309fndm2xbssj553vf71s.gz" 
 }
 
 function download_fcn_cityscapes_1024x512()
 {
-	echo "$LOG Downloading FCN-ResNet18-Cityscapes-1024x512.tar.gz..."
+	echo "$LOG Downloading FCN-ResNet18-Cityscapes-1024x512..."
 	download_archive "FCN-ResNet18-Cityscapes-1024x512.gz" "https://nvidia.box.com/shared/static/33mb06vciynpaqtspmdo2tj308q7ezbp.gz" 
 }
 
 function download_fcn_cityscapes_2048x1024()
 {
-	echo "$LOG Downloading FCN-ResNet18-Cityscapes-2048x1024.tar.gz..."
+	echo "$LOG Downloading FCN-ResNet18-Cityscapes-2048x1024..."
 	download_archive "FCN-ResNet18-Cityscapes-2048x1024.gz" "https://nvidia.box.com/shared/static/ylh3d2qk8qvitalq8sy803o7avrb6w0h.gz" 
 }
 
 function download_fcn_mhp_512x320()
 {
-	echo "$LOG Downloading FCN-ResNet18-MHP-512x320.tar.gz..."
+	echo "$LOG Downloading FCN-ResNet18-MHP-512x320..."
 	download_archive "FCN-ResNet18-MHP-512x320.gz" "https://nvidia.box.com/shared/static/dgaw0ave3bdws1t5ed333ftx5dbpt9zv.gz" 
 }
 
 function download_fcn_mhp_640x360()
 {
-	echo "$LOG Downloading FCN-ResNet18-MHP-640x360.tar.gz..."
+	echo "$LOG Downloading FCN-ResNet18-MHP-640x360..."
 	download_archive "FCN-ResNet18-MHP-640x360.gz" "https://nvidia.box.com/shared/static/50mvlrjwbq9ugkmnnqp1sm99g2j21sfn.gz" 
 }
 
