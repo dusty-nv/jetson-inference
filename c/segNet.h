@@ -67,13 +67,22 @@ public:
 	 */
 	enum NetworkType
 	{
-		FCN_ALEXNET_PASCAL_VOC,		    /**< FCN-Alexnet trained on Pascal VOC dataset. */
-		FCN_ALEXNET_SYNTHIA_CVPR16,	    /**< FCN-Alexnet trained on SYNTHIA CVPR16 dataset. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
-		FCN_ALEXNET_SYNTHIA_SUMMER_HD,    /**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
-		FCN_ALEXNET_SYNTHIA_SUMMER_SD,    /**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
-		FCN_ALEXNET_CITYSCAPES_HD,	    /**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. */
-		FCN_ALEXNET_CITYSCAPES_SD,	    /**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
-		FCN_ALEXNET_AERIAL_FPV_720p, 	    /**< FCN-Alexnet trained on aerial first-person view of the horizon line for drones, 1280x720 and 21 output classes */
+		FCN_RESNET18_PASCAL_VOC_320x320,   /**< FCN-ResNet18 trained on Pascal VOC dataset (320x320) */
+		FCN_RESNET18_PASCAL_VOC_512x320,   /**< FCN-ResNet18 trained on Pascal VOC dataset (512x320) */
+		FCN_RESNET18_CITYSCAPES_512x256,   /**< FCN-ResNet18 trained on Cityscapes dataset (512x256) */
+		FCN_RESNET18_CITYSCAPES_1024x512,  /**< FCN-ResNet18 trained on Cityscapes dataset (1024x512) */
+		FCN_RESNET18_CITYSCAPES_2048x1024, /**< FCN-ResNet18 trained on Cityscapes dataset (2048x1024) */
+		FCN_RESNET18_MHP_512x320,	     /**< FCN-ResNet18 trained on Multi-Human Parsing dataset (512x320) */
+		FCN_RESNET18_MHP_640x360,	     /**< FCN-ResNet18 trained on Multi-Human Parsing dataset (640x360) */		
+
+		/* legacy models */
+		FCN_ALEXNET_PASCAL_VOC,		     /**< FCN-Alexnet trained on Pascal VOC dataset. */
+		FCN_ALEXNET_SYNTHIA_CVPR16,	     /**< FCN-Alexnet trained on SYNTHIA CVPR16 dataset. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
+		FCN_ALEXNET_SYNTHIA_SUMMER_HD,     /**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
+		FCN_ALEXNET_SYNTHIA_SUMMER_SD,     /**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
+		FCN_ALEXNET_CITYSCAPES_HD,	     /**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. */
+		FCN_ALEXNET_CITYSCAPES_SD,	     /**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
+		FCN_ALEXNET_AERIAL_FPV_720p, 	     /**< FCN-Alexnet trained on aerial first-person view of the horizon line for drones, 1280x720 and 21 output classes */
 		
 		/* add new models here */
 		SEGNET_CUSTOM
