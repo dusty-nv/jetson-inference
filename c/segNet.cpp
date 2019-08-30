@@ -76,22 +76,33 @@ segNet::NetworkType segNet::NetworkTypeFromStr( const char* modelName )
 	if( !modelName )
 		return segNet::SEGNET_CUSTOM;
 
-	segNet::NetworkType type = segNet::FCN_RESNET18_PASCAL_VOC_320x320;
+	segNet::NetworkType type = segNet::FCN_RESNET18_VOC_320x320;
 
-	if( strcasecmp(modelName, "fcn-resnet18-pascal-voc-320x320") == 0 )
-		type = segNet::FCN_RESNET18_PASCAL_VOC_320x320;
-	else if( strcasecmp(modelName, "fcn-resnet18-pascal-voc-512x320") == 0 )
-		type = segNet::FCN_RESNET18_PASCAL_VOC_512x320;
-	else if( strcasecmp(modelName, "fcn-resnet18-cityscapes-512x256") == 0 )
+	// ONNX models
+	if( strcasecmp(modelName, "fcn-resnet18-cityscapes-512x256") == 0 || strcasecmp(modelName, "fcn-resnet18-cityscapes") == 0 )
 		type = segNet::FCN_RESNET18_CITYSCAPES_512x256;
 	else if( strcasecmp(modelName, "fcn-resnet18-cityscapes-1024x512") == 0 )
 		type = segNet::FCN_RESNET18_CITYSCAPES_1024x512;
 	else if( strcasecmp(modelName, "fcn-resnet18-cityscapes-2048x1024") == 0 )
 		type = segNet::FCN_RESNET18_CITYSCAPES_2048x1024;
-	else if( strcasecmp(modelName, "fcn-resnet18-mhp-512x320") == 0 )
+	else if( strcasecmp(modelName, "fcn-resnet18-deepscene-576x320") == 0 || strcasecmp(modelName, "fcn-resnet18-deepscene") == 0)
+		type = segNet::FCN_RESNET18_DEEPSCENE_576x320;
+	else if( strcasecmp(modelName, "fcn-resnet18-deepscene-864x480") == 0 )
+		type = segNet::FCN_RESNET18_DEEPSCENE_864x480;
+	else if( strcasecmp(modelName, "fcn-resnet18-mhp-512x320") == 0 || strcasecmp(modelName, "fcn-resnet18-mhp") == 0 )
 		type = segNet::FCN_RESNET18_MHP_512x320;
 	else if( strcasecmp(modelName, "fcn-resnet18-mhp-640x360") == 0 )
 		type = segNet::FCN_RESNET18_MHP_640x360;
+	else if( strcasecmp(modelName, "fcn-resnet18-voc-320x320") == 0 || strcasecmp(modelName, "fcn-resnet18-pascal-voc-320x320") == 0 || strcasecmp(modelName, "fcn-resnet18-voc") == 0 || strcasecmp(modelName, "fcn-resnet18-pascal-voc") == 0 )
+		type = segNet::FCN_RESNET18_VOC_320x320;
+	else if( strcasecmp(modelName, "fcn-resnet18-voc-512x320") == 0 || strcasecmp(modelName, "fcn-resnet18-pascal-voc-512x320") == 0 )
+		type = segNet::FCN_RESNET18_VOC_512x320;
+	else if( strcasecmp(modelName, "fcn-resnet18-sunrgb-512x400") == 0 || strcasecmp(modelName, "fcn-resnet18-sunrgb") == 0 )
+		type = segNet::FCN_RESNET18_SUNRGB_512x400;
+	else if( strcasecmp(modelName, "fcn-resnet18-sunrgb-640x512") == 0 )
+		type = segNet::FCN_RESNET18_SUNRGB_640x512;
+
+	// legacy models
 	else if( strcasecmp(modelName, "fcn-alexnet-cityscapes-sd") == 0 || strcasecmp(modelName, "fcn-alexnet-cityscapes") == 0 )
 		type = segNet::FCN_ALEXNET_CITYSCAPES_SD;
 	else if( strcasecmp(modelName, "fcn-alexnet-cityscapes-hd") == 0 )
@@ -118,13 +129,20 @@ const char* segNet::NetworkTypeToStr( segNet::NetworkType type )
 {
 	switch(type)
 	{
-		case FCN_RESNET18_PASCAL_VOC_320x320:	return "fcn-resnet18-pascal-voc-320x320";
-		case FCN_RESNET18_PASCAL_VOC_512x320:	return "fcn-resnet18-pascal-voc-512x320";
+		// ONNX models
 		case FCN_RESNET18_CITYSCAPES_512x256:	return "fcn-resnet18-cityscapes-512x256";
 		case FCN_RESNET18_CITYSCAPES_1024x512:	return "fcn-resnet18-cityscapes-1024x512";
 		case FCN_RESNET18_CITYSCAPES_2048x1024:	return "fcn-resnet18-cityscapes-2048x1024";
+		case FCN_RESNET18_DEEPSCENE_576x320:	return "fcn-resnet18-deepscene-576x320";
+		case FCN_RESNET18_DEEPSCENE_864x480:	return "fcn-resnet18-deepscene-864x480";
 		case FCN_RESNET18_MHP_512x320:		return "fcn-resnet18-mhp-512x320";
 		case FCN_RESNET18_MHP_640x360:		return "fcn-resnet18-mhp-640x360";
+		case FCN_RESNET18_VOC_320x320:		return "fcn-resnet18-voc-320x320";
+		case FCN_RESNET18_VOC_512x320:		return "fcn-resnet18-voc-512x320";
+		case FCN_RESNET18_SUNRGB_512x400:		return "fcn-resnet18-sunrgb-512x400";
+		case FCN_RESNET18_SUNRGB_640x512:		return "fcn-resnet18-sunrgb-640x512";
+
+		// legacy models
 		case FCN_ALEXNET_PASCAL_VOC:			return "fcn-alexnet-pascal-voc";
 		case FCN_ALEXNET_SYNTHIA_CVPR16:		return "fcn-alexnet-synthia-cvpr16";
 		case FCN_ALEXNET_SYNTHIA_SUMMER_HD:	return "fcn-alexnet-synthia-summer-hd";
@@ -145,20 +163,31 @@ segNet* segNet::Create( NetworkType networkType, uint32_t maxBatchSize,
 
 	#define LOAD_ONNX(x) Create(NULL, "networks/" x "/fcn_resnet18.onnx", "networks/" x "/classes.txt", "networks/" x "/colors.txt", "input_0", "output_0", maxBatchSize, precision, device, allowGPUFallback )
 
-	if( networkType == FCN_RESNET18_PASCAL_VOC_320x320 )
-		net = LOAD_ONNX("FCN-ResNet18-Pascal-VOC-320x320");
-	else if( networkType == FCN_RESNET18_PASCAL_VOC_512x320 )
-		net = LOAD_ONNX("FCN-ResNet18-Pascal-VOC-512x320");
-	else if( networkType == FCN_RESNET18_CITYSCAPES_512x256 )
+	// ONNX models
+	if( networkType == FCN_RESNET18_CITYSCAPES_512x256 )
 		net = LOAD_ONNX("FCN-ResNet18-Cityscapes-512x256");
 	else if( networkType == FCN_RESNET18_CITYSCAPES_1024x512 )
 		net = LOAD_ONNX("FCN-ResNet18-Cityscapes-1024x512");
 	else if( networkType == FCN_RESNET18_CITYSCAPES_2048x1024 )
 		net = LOAD_ONNX("FCN-ResNet18-Cityscapes-2048x1024");
+	else if( networkType == FCN_RESNET18_DEEPSCENE_576x320 )
+		net = LOAD_ONNX("FCN-ResNet18-DeepScene-576x320");
+	else if( networkType == FCN_RESNET18_DEEPSCENE_864x480 )
+		net = LOAD_ONNX("FCN-ResNet18-DeepScene-864x480");
 	else if( networkType == FCN_RESNET18_MHP_512x320 )
 		net = LOAD_ONNX("FCN-ResNet18-MHP-512x320");
 	else if( networkType == FCN_RESNET18_MHP_640x360 )
 		net = LOAD_ONNX("FCN-ResNet18-MHP-640x360");
+	else if( networkType == FCN_RESNET18_VOC_320x320 )
+		net = LOAD_ONNX("FCN-ResNet18-Pascal-VOC-320x320");
+	else if( networkType == FCN_RESNET18_VOC_512x320 )
+		net = LOAD_ONNX("FCN-ResNet18-Pascal-VOC-512x320");
+	else if( networkType == FCN_RESNET18_SUNRGB_512x400 )
+		net = LOAD_ONNX("FCN-ResNet18-SUN-RGBD-512x400");
+	else if( networkType == FCN_RESNET18_SUNRGB_640x512 )
+		net = LOAD_ONNX("FCN-ResNet18-SUN-RGBD-640x512");
+
+	// legacy models
 	else if( networkType == FCN_ALEXNET_PASCAL_VOC )
 		net = Create("networks/FCN-Alexnet-Pascal-VOC/deploy.prototxt", "networks/FCN-Alexnet-Pascal-VOC/snapshot_iter_146400.caffemodel", "networks/FCN-Alexnet-Pascal-VOC/pascal-voc-classes.txt", "networks/FCN-Alexnet-Pascal-VOC/pascal-voc-colors.txt", SEGNET_DEFAULT_INPUT, SEGNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == FCN_ALEXNET_SYNTHIA_CVPR16 )
@@ -191,7 +220,7 @@ segNet* segNet::Create( int argc, char** argv )
 	const char* modelName = cmdLine.GetString("model");
 
 	if( !modelName )
-		modelName = cmdLine.GetString("network", "fcn-alexnet-cityscapes-sd");
+		modelName = cmdLine.GetString("network", "fcn-resnet18-voc-320x320");
 
 	const segNet::NetworkType type = NetworkTypeFromStr(modelName);
 

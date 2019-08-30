@@ -45,13 +45,17 @@
  */
 #define SEGNET_USAGE_STRING  "segNet arguments: \n" 							\
 		  "  --network NETWORK    pre-trained model to load, one of the following:\n" 	\
-		  "                           * fcn-resnet18-pascal-voc-320x320 (default)\n"	\
-		  "                           * fcn-resnet18-pascal-voc-512x320\n"			\
 		  "                           * fcn-resnet18-cityscapes-512x256\n"			\
 		  "                           * fcn-resnet18-cityscapes-1024x512\n"			\
 		  "                           * fcn-resnet18-cityscapes-2048x1024\n"			\
+		  "                           * fcn-resnet18-deepscene-576x320\n"			\
+		  "                           * fcn-resnet18-deepscene-864x480\n"			\
 		  "                           * fcn-resnet18-mhp-512x320\n"					\
 		  "                           * fcn-resnet18-mhp-640x360\n"					\
+		  "                           * fcn-resnet18-voc-320x320 (default)\n"			\
+		  "                           * fcn-resnet18-voc-512x320\n"					\
+		  "                           * fcn-resnet18-sunrgb-512x400\n"				\
+		  "                           * fcn-resnet18-sunrgb-640x512\n"                  \
 		  "  --model MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
 		  "  --prototxt PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
 		  "  --labels LABELS      path to text file containing the labels for each class\n" 				\
@@ -72,15 +76,19 @@ public:
 	 */
 	enum NetworkType
 	{
-		FCN_RESNET18_PASCAL_VOC_320x320,   /**< FCN-ResNet18 trained on Pascal VOC dataset (320x320) */
-		FCN_RESNET18_PASCAL_VOC_512x320,   /**< FCN-ResNet18 trained on Pascal VOC dataset (512x320) */
 		FCN_RESNET18_CITYSCAPES_512x256,   /**< FCN-ResNet18 trained on Cityscapes dataset (512x256) */
 		FCN_RESNET18_CITYSCAPES_1024x512,  /**< FCN-ResNet18 trained on Cityscapes dataset (1024x512) */
 		FCN_RESNET18_CITYSCAPES_2048x1024, /**< FCN-ResNet18 trained on Cityscapes dataset (2048x1024) */
+		FCN_RESNET18_DEEPSCENE_576x320,	/**< FCN-ResNet18 trained on DeepScene Forest dataset (576x320) */
+		FCN_RESNET18_DEEPSCENE_864x480,	/**< FCN-ResNet18 trained on DeepScene Forest dataset (864x480) */
 		FCN_RESNET18_MHP_512x320,	     /**< FCN-ResNet18 trained on Multi-Human Parsing dataset (512x320) */
 		FCN_RESNET18_MHP_640x360,	     /**< FCN-ResNet18 trained on Multi-Human Parsing dataset (640x360) */		
+		FCN_RESNET18_VOC_320x320,   		/**< FCN-ResNet18 trained on Pascal VOC dataset (320x320) */
+		FCN_RESNET18_VOC_512x320,   		/**< FCN-ResNet18 trained on Pascal VOC dataset (512x320) */
+		FCN_RESNET18_SUNRGB_512x400,		/**< FCN-ResNet18 trained on SUN RGB-D dataset (512x400) */
+		FCN_RESNET18_SUNRGB_640x512,		/**< FCN-ResNet18 trained on SUN RGB-D dataset (640x512) */
 
-		/* legacy models */
+		/* legacy models (deprecated) */
 		FCN_ALEXNET_PASCAL_VOC,		     /**< FCN-Alexnet trained on Pascal VOC dataset. */
 		FCN_ALEXNET_SYNTHIA_CVPR16,	     /**< FCN-Alexnet trained on SYNTHIA CVPR16 dataset. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
 		FCN_ALEXNET_SYNTHIA_SUMMER_HD,     /**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
