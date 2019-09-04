@@ -372,7 +372,7 @@ function download_fcn_resnet18_cityscapes_512x256()
 function download_fcn_resnet18_cityscapes_1024x512()
 {
 	echo "$LOG Downloading FCN-ResNet18-Cityscapes-1024x512..."
-	download_archive "FCN-ResNet18-Cityscapes-1024x512.tar.gz" "https://nvidia.box.com/shared/static/33mb06vciynpaqtspmdo2tj308q7ezbp.gz" 
+	download_archive "FCN-ResNet18-Cityscapes-1024x512.tar.gz" "https://nvidia.box.com/shared/static/9aqg4gpjmk7ipz4z0raa5mvs35om6emy.gz" 
 }
 
 function download_fcn_resnet18_cityscapes_2048x1024()
@@ -452,43 +452,43 @@ function download_segmentation()
 #
 # SEMANTIC SEGMENTATION (legacy)
 #
-function download_fcn_cityscapes_sd()
+function download_fcn_alexnet_cityscapes_sd()
 {
 	echo "$LOG Downloading FCN-Alexnet-Cityscapes-SD..."
 	download_archive "FCN-Alexnet-Cityscapes-SD.tar.gz" "https://nvidia.box.com/shared/static/pa5d338t9ntca5chfbymnur53aykhall.gz" 
 }
 
-function download_fcn_cityscapes_hd()
+function download_fcn_alexnet_cityscapes_hd()
 {
 	echo "$LOG Downloading FCN-Alexnet-Cityscapes-HD..."
 	download_archive "FCN-Alexnet-Cityscapes-HD.tar.gz" "https://nvidia.box.com/shared/static/mh121fvmveemujut7d8c9cbmglq18vz3.gz" 
 }
 
-function download_fcn_aerial_fpv()
+function download_fcn_alexnet_aerial_fpv()
 {
 	echo "$LOG Downloading FCN-Alexnet-Aerial-FPV..."
 	download_archive "FCN-Alexnet-Aerial-FPV-720p.tar.gz" "https://nvidia.box.com/shared/static/y1mzlwkmytzwg2m7akt7tcbsd33f9opz.gz" 
 }
 
-function download_fcn_pascal_voc()
+function download_fcn_alexnet_pascal_voc()
 {
 	echo "$LOG Downloading FCN-Alexnet-Pascal-VOC..."
 	download_archive "FCN-Alexnet-Pascal-VOC.tar.gz" "https://nvidia.box.com/shared/static/xj20b6qopfwkkpqm12ffiuaekk6bs8op.gz" 
 }
 
-function download_fcn_synthia_cvpr()
+function download_fcn_alexnet_synthia_cvpr()
 {
 	echo "$LOG Downloading FCN-Alexnet-Synthia-CVPR..."
 	download_archive "FCN-Alexnet-SYNTHIA-CVPR16.tar.gz" "https://nvidia.box.com/shared/static/u5ey2ws0nbtzyqyftkuqazx1honw6wry.gz" 
 }
 
-function download_fcn_synthia_summer_sd()
+function download_fcn_alexnet_synthia_summer_sd()
 {
 	echo "$LOG Downloading FCN-Alexnet-Synthia-Summer-SD..."
 	download_archive "FCN-Alexnet-SYNTHIA-Summer-SD.tar.gz" "https://nvidia.box.com/shared/static/vbk5ofu1x2hwp9luanbg4o0vrfub3a7j.gz" 
 }
 
-function download_fcn_synthia_summer_hd()
+function download_fcn_alexnet_synthia_summer_hd()
 {
 	echo "$LOG Downloading FCN-Alexnet-Synthia-Summer-HD..."
 	download_archive "FCN-Alexnet-SYNTHIA-Summer-HD.tar.gz" "https://nvidia.box.com/shared/static/ydgmqgdhbvul6q9avoc9flxr3fdoa8pw.gz" 
@@ -498,13 +498,13 @@ function download_segmentation_legacy()
 {
 	echo "$LOG Downloading all Semantic Segmentation (Legacy) models..."
 
-	download_fcn_cityscapes_sd
-	download_fcn_cityscapes_hd
-	download_fcn_aerial_fpv
-	download_fcn_pascal_voc
-	download_fcn_synthia_cvpr
-	download_fcn_synthia_summer_sd
-	download_fcn_synthia_summer_hd
+	download_fcn_alexnet_cityscapes_sd
+	download_fcn_alexnet_cityscapes_hd
+	download_fcn_alexnet_aerial_fpv
+	download_fcn_alexnet_pascal_voc
+	download_fcn_alexnet_synthia_cvpr
+	download_fcn_alexnet_synthia_summer_sd
+	download_fcn_alexnet_synthia_summer_hd
 
 	ALL_SEGMENTATION_LEGACY=1
 }
@@ -738,19 +738,19 @@ while true; do
 				elif [ $model = 35 ]; then
 					download_segmentation_legacy
 				elif [ $model = 36 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_cityscapes_sd
+					download_fcn_alexnet_cityscapes_sd
 				elif [ $model = 37 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_cityscapes_hd
+					download_fcn_alexnet_cityscapes_hd
 				elif [ $model = 38 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_aerial_fpv
+					download_fcn_alexnet_aerial_fpv
 				elif [ $model = 39 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_pascal_voc
+					download_fcn_alexnet_pascal_voc
 				elif [ $model = 40 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_synthia_cvpr
+					download_fcn_alexnet_synthia_cvpr
 				elif [ $model = 41 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_synthia_summer_sd
+					download_fcn_alexnet_synthia_summer_sd
 				elif [ $model = 42 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_synthia_summer_hd
+					download_fcn_alexnet_synthia_summer_hd
 				elif [ $model = 43 ]; then
 					download_image_processing
 				elif [ $model = 44 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
