@@ -700,6 +700,9 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 				detections[numDetections].ClassID = 0;
 			}
 
+			if( strcmp(GetClassDesc(detections[numDetections].ClassID), "void") == 0 )
+				continue;
+
 			numDetections++;
 		}
 	}
