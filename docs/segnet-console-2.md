@@ -43,7 +43,7 @@ Below is a table of the pre-trained semantic segmentation models available for [
 > **note**:  to download additional networks, run the [Model Downloader](building-repo-2.md#downloading-models) tool<br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
-
+<br/>
 
 ### Segmenting Images from the Command Line
 
@@ -75,7 +75,6 @@ $ ./segnet-console.py --network=<model> input.jpg output.jpg                  # 
 $ ./segnet-console.py --network=<model> --alpha=200 input.jpg output.jpg      # make the overlay less opaque
 $ ./segnet-console.py --network=<model> --visualize=mask input.jpg output.jpg # output the solid segmentation mask
 ```
-
 <br/>
 
 ### Cityscapes
