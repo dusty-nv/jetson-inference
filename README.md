@@ -96,7 +96,7 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 |-------------------|--------------|--------------|
 | Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) |
 | Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet)
-| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classsegNet.html) | (coming soon) |
+| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet |
 
 #### jetson-utils
 
@@ -122,7 +122,8 @@ Additional C++ and Python samples for running the networks on static images and 
 | &nbsp;&nbsp;&nbsp;Segmentation      | [`segnet-console`](examples/segnet-console/segnet-console.cpp) | [`segnet-camera`](examples/segnet-camera/segnet-camera.cpp) |
 | **Python ([`python/examples`](python/examples/))** | | |
 | &nbsp;&nbsp;&nbsp;Image Recognition | [`imagenet-console.py`](python/examples/imagenet-console.py) | [`imagenet-camera.py`](python/examples/imagenet-camera.py) |
-| &nbsp;&nbsp;&nbsp;Object Detection  | [`detectnet-console.py`](python/examples/detectnet-console.py) | [`detectnet-camera.py`](python/examples/detectnet-camera.py)
+| &nbsp;&nbsp;&nbsp;Object Detection  | [`detectnet-console.py`](python/examples/detectnet-console.py) | [`detectnet-camera.py`](python/examples/detectnet-camera.py) |
+| &nbsp;&nbsp;&nbsp;Segmentation      | [`segnet-console.py`](python/examples/segnet-console.py) | [`segnet-camera.py`](python/examples/segnet-camera.py) |
 
 > **note**:  for working with numpy arrays, see [`cuda-from-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-numpy.py) and [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-numpy.py)
 
@@ -163,6 +164,26 @@ The project comes with a number of pre-trained models that are available through
 | facenet-120             | `facenet`          | `FACENET`          | faces                |
 
 #### Semantic Segmentation
+
+| Dataset      | Resolution | CLI argument | Accuracy | Jetson Nano | Jetson Xavier |
+| -------------|------------|--------------|----------|-------------|---------------|
+| [Cityscapes](https://www.cityscapes-dataset.com/) | 512x256 | `fcn-resnet18-cityscapes-512x256` | 83.3% | 48 FPS | 480 FPS |
+| [Cityscapes](https://www.cityscapes-dataset.com/) | 1024x512 | `fcn-resnet18-cityscapes-1024x512` | 87.3% | 12 FPS | 175 FPS |
+| [Cityscapes](https://www.cityscapes-dataset.com/) | 2048x1024 | `fcn-resnet18-cityscapes-2048x1024` | 89.6% | 3 FPS | 47 FPS |
+| [DeepScene](http://deepscene.cs.uni-freiburg.de/) | 576x320 | `fcn-resnet18-deepscene-576x320` | 96.4% | 26 FPS | 360 FPS |
+| [DeepScene](http://deepscene.cs.uni-freiburg.de/) | 864x480 | `fcn-resnet18-deepscene-864x480` | 96.9% | 14 FPS | 190 FPS |
+| [Multi-Human](https://lv-mhp.github.io/) | 512x320 | `fcn-resnet18-mhp-512x320` | 86.5% | 34 FPS | 370 FPS |
+| [Multi-Human](https://lv-mhp.github.io/) | 640x360 | `fcn-resnet18-mhp-512x320` | 87.1% | 23 FPS | 325 FPS |
+| [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/) | 320x320 | `fcn-resnet18-voc-320x320` | 85.9% | 45 FPS | 508 FPS |
+| [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/) | 512x320 | `fcn-resnet18-voc-512x320` | 88.5% | 34 FPS | 375 FPS |
+| [SUN RGB-D](http://rgbd.cs.princeton.edu/) | 512x400 | `fcn-resnet18-voc-512x320` | 64.3% | 28 FPS | 340 FPS |
+| [SUN RGB-D](http://rgbd.cs.princeton.edu/) | 512x400 | `fcn-resnet18-voc-512x320` | 65.1% | 17 FPS | 224 FPS |
+
+* Accuracy indicates the pixel classification accuracy across the model's validation dataset
+* Performance is measured for GPU FP16 mode with JetPack 4.2.1, `nvpmodel 0` (MAX-N)
+
+<details>
+<summary>Legacy Segmentation Models</summary>
 
 | Network                 | CLI argument                    | NetworkType enum                | Classes |
 | ------------------------|---------------------------------|---------------------------------|---------|
