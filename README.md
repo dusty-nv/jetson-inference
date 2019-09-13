@@ -185,7 +185,7 @@ The project comes with a number of pre-trained models that are available through
 <details>
 <summary>Legacy Segmentation Models</summary>
 
-| Network                 | CLI argument                    | NetworkType enum                | Classes |
+| Network                 | CLI Argument                    | NetworkType enum                | Classes |
 | ------------------------|---------------------------------|---------------------------------|---------|
 | Cityscapes (2048x2048)  | `fcn-alexnet-cityscapes-hd`     | `FCN_ALEXNET_CITYSCAPES_HD`     |    21   |
 | Cityscapes (1024x1024)  | `fcn-alexnet-cityscapes-sd`     | `FCN_ALEXNET_CITYSCAPES_SD`     |    21   |

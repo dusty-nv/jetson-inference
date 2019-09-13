@@ -23,7 +23,7 @@ Later in the tutorial, we'll also cover segmentation on live camera streams from
 
 Below is a table of the pre-trained semantic segmentation models available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `segnet-console` used for loading them.  They're based on the 21-class FCN-ResNet18 network and have been trained on various datasets and input resolutions using [PyTorch](https://github.com/dusty-nv/pytorch-segmentation), and have been exported to ONNX format to be loaded with TensorRT.
 
-| Dataset      | Resolution | CLI argument | Accuracy | Jetson Nano | Jetson Xavier |
+| Dataset      | Resolution | CLI Argument | Accuracy | Jetson Nano | Jetson Xavier |
 | -------------|------------|--------------|----------|-------------|---------------|
 | [Cityscapes](https://www.cityscapes-dataset.com/) | 512x256 | `fcn-resnet18-cityscapes-512x256` | 83.3% | 48 FPS | 480 FPS |
 | [Cityscapes](https://www.cityscapes-dataset.com/) | 1024x512 | `fcn-resnet18-cityscapes-1024x512` | 87.3% | 12 FPS | 175 FPS |
