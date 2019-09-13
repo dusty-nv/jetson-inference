@@ -195,6 +195,7 @@ The project comes with a number of pre-trained models that are available through
 | Synthia (Summer-SD)     | `fcn-alexnet-synthia-summer-sd` | `FCN_ALEXNET_SYNTHIA_SUMMER_SD` |    14   |
 | Aerial-FPV (1280x720)   | `fcn-alexnet-aerial-fpv-720p`   | `FCN_ALEXNET_AERIAL_FPV_720p`   |     2   |
 
+</details>
 
 ## Recommended System Requirements
 
