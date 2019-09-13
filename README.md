@@ -165,8 +165,8 @@ The project comes with a number of pre-trained models that are available through
 
 #### Semantic Segmentation
 
-| Dataset      | Resolution | CLI argument | Accuracy | Jetson Nano | Jetson Xavier |
-| -------------|------------|--------------|----------|-------------|---------------|
+| Dataset      | Resolution | CLI Argument | Accuracy | Jetson Nano | Jetson Xavier |
+|:------------:|:----------:|--------------|:--------:|:-----------:|:-------------:|
 | [Cityscapes](https://www.cityscapes-dataset.com/) | 512x256 | `fcn-resnet18-cityscapes-512x256` | 83.3% | 48 FPS | 480 FPS |
 | [Cityscapes](https://www.cityscapes-dataset.com/) | 1024x512 | `fcn-resnet18-cityscapes-1024x512` | 87.3% | 12 FPS | 175 FPS |
 | [Cityscapes](https://www.cityscapes-dataset.com/) | 2048x1024 | `fcn-resnet18-cityscapes-2048x1024` | 89.6% | 3 FPS | 47 FPS |
