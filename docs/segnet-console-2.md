@@ -24,7 +24,7 @@ Later in the tutorial, we'll also cover segmentation on live camera streams from
 Below is a table of the pre-trained semantic segmentation models available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `segnet-console` used for loading them.  They're based on the 21-class FCN-ResNet18 network and have been trained on various datasets and input resolutions using [PyTorch](https://github.com/dusty-nv/pytorch-segmentation), and have been exported to ONNX format to be loaded with TensorRT.
 
 | Dataset      | Resolution | CLI Argument | Accuracy | Jetson Nano | Jetson Xavier |
-| -------------|------------|--------------|----------|-------------|---------------|
+|:------------:|:----------:|--------------|:--------:|------------:|--------------:|
 | [Cityscapes](https://www.cityscapes-dataset.com/) | 512x256 | `fcn-resnet18-cityscapes-512x256` | 83.3% | 48 FPS | 480 FPS |
 | [Cityscapes](https://www.cityscapes-dataset.com/) | 1024x512 | `fcn-resnet18-cityscapes-1024x512` | 87.3% | 12 FPS | 175 FPS |
 | [Cityscapes](https://www.cityscapes-dataset.com/) | 2048x1024 | `fcn-resnet18-cityscapes-2048x1024` | 89.6% | 3 FPS | 47 FPS |
@@ -97,32 +97,29 @@ $ ./segnet-console.py --network=fcn-resnet18-cityscapes-512x256 city-0.jpg outpu
 
 #### Cityscapes Classes
 
-| Class ID |    Name    |  Color  |
-| ---------|------------|---------|
-|    0     |   `void`   | <span style="color:rgb(0,0,0);"></span>███ |
-
-```
-ego_vehicle
-ground
-road
-sidewalk
-building
-wall
-fence
-pole
-traffic_light
-traffic_sign
-vegetation
-terrain
-sky
-person
-car
-truck
-bus
-train
-motorcycle
-bicycle
-```
+| ID |       Name      |  Color  |
+|:--:|:---------------:|:-------:|
+| 0  | `void`          | <span style="color:rgb(0,0,0);"></span>███ |
+| 1  | `ego vehicle`   | <span style="color:rgb(128,64,128);"></span>███ |
+| 2  | `ground`        | <span style="color:rgb(81,0,81);"></span>███ |
+| 3  | `road`          | <span style="color:rgb(128,64,128);"></span>███ |
+| 4  | `sidewalk`      | <span style="color:rgb(150,75,200);"></span>███ |
+| 5  | `building`      | <span style="color:rgb(70,70,70);"></span>███ |
+| 6  | `wall`          | <span style="color:rgb(102,102,156);"></span>███ |
+| 7  | `fence`         | <span style="color:rgb(190,153,153);"></span>███ |
+| 8  | `pole`          | <span style="color:rgb(153,153,153);"></span>███ |
+| 9  | `traffic light` | <span style="color:rgb(250,170,30);"></span>███ |
+| 10 | `traffic sign`  | <span style="color:rgb(250,170,30);"></span>███ |
+| 11 | `vegetation`    | <span style="color:rgb(107,142,35);"></span>███ |
+| 12 | `terrain`       | <span style="color:rgb(152,251,152);"></span>███ |
+| 13 | `sky`           | <span style="color:rgb(70,130,180);"></span>███ |
+| 14 | `person`        | <span style="color:rgb(220,20,60);"></span>███ |
+| 15 | `car`           | <span style="color:rgb(0,0,142);"></span>███ |
+| 16 | `truck`         | <span style="color:rgb(0,0,70);"></span>███ |
+| 17 | `bus`           | <span style="color:rgb(0,60,100);"></span>███ |
+| 18 | `train`         | <span style="color:rgb(0,80,100);"></span>███ |
+| 19 | `motorcycle`    | <span style="color:rgb(0,0,230);"></span>███ |
+| 20 | `bicycle`       | <span style="color:rgb(119,11,32);"></span>███ |
 
 
 Next, we'll run semantic segmentation on a live camera stream.
