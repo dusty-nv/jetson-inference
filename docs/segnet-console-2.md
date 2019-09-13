@@ -63,19 +63,20 @@ Here are some example usages of the program:
 #### C++
 
 ``` bash
-$ ./segnet-console --network=<model> input.jpg output.jpg   # overlay segmentation on original
-$ ./segnet-console --network=<model> --alpha=200 input.jpg output.jpg   # make the overlay less opaque
-$ ./segnet-console --network=<model> --visualize=mask input.jpg output.jpg   # output the solid segmentation mask
+$ ./segnet-console --network=<model> input.jpg output.jpg                  # overlay segmentation on original
+$ ./segnet-console --network=<model> --alpha=200 input.jpg output.jpg      # make the overlay less opaque
+$ ./segnet-console --network=<model> --visualize=mask input.jpg output.jpg # output the solid segmentation mask
 ```
 
 #### Python
 
 ``` bash
-$ ./segnet-console.py --network=<model> input.jpg output.jpg   # overlay segmentation on original
-$ ./segnet-console.py --network=<model> --alpha=200 input.jpg output.jpg   # make the overlay less opaque
-$ ./segnet-console.py --network=<model> --visualize=mask input.jpg output.jpg   # output the solid segmentation mask
+$ ./segnet-console.py --network=<model> input.jpg output.jpg                  # overlay segmentation on original
+$ ./segnet-console.py --network=<model> --alpha=200 input.jpg output.jpg      # make the overlay less opaque
+$ ./segnet-console.py --network=<model> --visualize=mask input.jpg output.jpg # output the solid segmentation mask
 ```
 
+<br/>
 
 ### Cityscapes
 
