@@ -100,7 +100,7 @@ $ ./segnet-console.py --network=fcn-resnet18-cityscapes-512x256 city-0.jpg outpu
 | ID |       Name      |  Color  |
 |:--:|:---------------:|:-------:|
 | 0  | `void`          | <span style="color:rgb(0,0,0);">███</span> |
-| 1  | `ego vehicle`   | <span style="color:rgb(128,64,128);">███</span> |
+| 1  | `ego vehicle`   | ```html <span style="color:Blue;">███</span> ``` |
 | 2  | `ground`        | <span style="color:rgb(81,0,81);">███</span> |
 | 3  | `road`          | <span style="color:rgb(128,64,128);">███</span> |
 | 4  | `sidewalk`      | <span style="color:rgb(150,75,200);">███</span> |
