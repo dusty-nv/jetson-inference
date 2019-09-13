@@ -97,6 +97,10 @@ $ ./segnet-console.py --network=fcn-resnet18-cityscapes-512x256 city-0.jpg outpu
 
 #### Cityscapes Classes
 
+| Class ID |    Name    |  Color  |
+| ---------|------------|---------|
+|    0     |   `void`   | <span style="color:rgb(0,0,0);"></span>███ |
+
 ```
 ego_vehicle
 ground
