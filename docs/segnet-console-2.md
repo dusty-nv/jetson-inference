@@ -81,7 +81,7 @@ $ ./segnet-console.py --network=<model> --visualize=mask input.jpg output.jpg # 
 
 ### Cityscapes
 
-Here's an example of segmenting an urban city street scene with the Cityscapes model:
+Here's an example of segmenting an urban city street scene with the [Cityscapes](https://www.cityscapes-dataset.com/) model:
 
 ``` bash
 # C++
@@ -118,6 +118,26 @@ $ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail-0.
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-overlay.jpg" width="850">
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-mask.jpg">
 
+### Multi-Human Parsing
+
+[Multi-Human Parsing](https://lv-mhp.github.io/) (MHP) provides dense labeling of body parts, like arms, legs, head, and various types of clothing.
+ 
+See the handful of test images `people-*.jpg` included with the repo for trying the MHP model:
+
+``` bash
+# C++
+$ ./segnet-console --network=fcn-resnet18-mhp people-0.jpg output.jpg
+
+# Python
+$ ./segnet-console.py --network=fcn-resnet18-mhp people-0.jpg output.jpg
+```
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-mhp-0.jpg" width="825">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-mhp-1.jpg" width="825">
+
+#### MHP Classes
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-mhp-legend.jpg">
 
 
 
