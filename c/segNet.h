@@ -54,8 +54,8 @@
 		  "                           * fcn-resnet18-mhp-640x360\n"					\
 		  "                           * fcn-resnet18-voc-320x320 (default)\n"			\
 		  "                           * fcn-resnet18-voc-512x320\n"					\
-		  "                           * fcn-resnet18-sunrgb-512x400\n"				\
-		  "                           * fcn-resnet18-sunrgb-640x512\n"                  \
+		  "                           * fcn-resnet18-sun-512x400\n"					\
+		  "                           * fcn-resnet18-sun-640x512\n"                  	\
 		  "  --model MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
 		  "  --prototxt PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
 		  "  --labels LABELS      path to text file containing the labels for each class\n" 				\
@@ -271,7 +271,8 @@ protected:
 	
 	bool loadClassColors( const char* filename );
 	bool loadClassLabels( const char* filename );
-	
+	bool saveClassLegend( const char* filename );
+
 	std::vector<std::string> mClassLabels;
 	std::string mClassPath;
 

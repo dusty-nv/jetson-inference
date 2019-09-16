@@ -26,9 +26,11 @@
 #include "cudaMappedMemory.h"
 #include "cudaOverlay.h"
 #include "cudaResize.h"
+#include "cudaFont.h"
 
 #include "commandLine.h"
 #include "filesystem.h"
+#include "imageIO.h"
 
 
 // constructor
@@ -97,9 +99,9 @@ segNet::NetworkType segNet::NetworkTypeFromStr( const char* modelName )
 		type = segNet::FCN_RESNET18_VOC_320x320;
 	else if( strcasecmp(modelName, "fcn-resnet18-voc-512x320") == 0 || strcasecmp(modelName, "fcn-resnet18-pascal-voc-512x320") == 0 )
 		type = segNet::FCN_RESNET18_VOC_512x320;
-	else if( strcasecmp(modelName, "fcn-resnet18-sunrgb-512x400") == 0 || strcasecmp(modelName, "fcn-resnet18-sunrgb") == 0 )
+	else if( strcasecmp(modelName, "fcn-resnet18-sun-512x400") == 0 || strcasecmp(modelName, "fcn-resnet18-sun-rgbd-512x400") == 0 || strcasecmp(modelName, "fcn-resnet18-sunrgb") == 0 )
 		type = segNet::FCN_RESNET18_SUNRGB_512x400;
-	else if( strcasecmp(modelName, "fcn-resnet18-sunrgb-640x512") == 0 )
+	else if( strcasecmp(modelName, "fcn-resnet18-sun-640x512") == 0 || strcasecmp(modelName, "fcn-resnet18-sun-rgbd-640x512") == 0 )
 		type = segNet::FCN_RESNET18_SUNRGB_640x512;
 
 	// legacy models
@@ -139,8 +141,8 @@ const char* segNet::NetworkTypeToStr( segNet::NetworkType type )
 		case FCN_RESNET18_MHP_640x360:		return "fcn-resnet18-mhp-640x360";
 		case FCN_RESNET18_VOC_320x320:		return "fcn-resnet18-voc-320x320";
 		case FCN_RESNET18_VOC_512x320:		return "fcn-resnet18-voc-512x320";
-		case FCN_RESNET18_SUNRGB_512x400:		return "fcn-resnet18-sunrgb-512x400";
-		case FCN_RESNET18_SUNRGB_640x512:		return "fcn-resnet18-sunrgb-640x512";
+		case FCN_RESNET18_SUNRGB_512x400:		return "fcn-resnet18-sun-512x400";
+		case FCN_RESNET18_SUNRGB_640x512:		return "fcn-resnet18-sun-640x512";
 
 		// legacy models
 		case FCN_ALEXNET_PASCAL_VOC:			return "fcn-alexnet-pascal-voc";
@@ -215,6 +217,9 @@ segNet* segNet::Create( NetworkType networkType, uint32_t maxBatchSize,
 // Create
 segNet* segNet::Create( int argc, char** argv )
 {
+	segNet* net = NULL;
+
+	// obtain the model name
 	commandLine cmdLine(argc, argv);
 
 	const char* modelName = cmdLine.GetString("model");
@@ -222,6 +227,7 @@ segNet* segNet::Create( int argc, char** argv )
 	if( !modelName )
 		modelName = cmdLine.GetString("network", "fcn-resnet18-voc-320x320");
 
+	// parse the model name
 	const segNet::NetworkType type = NetworkTypeFromStr(modelName);
 
 	if( type == SEGNET_CUSTOM )
@@ -240,11 +246,24 @@ segNet* segNet::Create( int argc, char** argv )
 		if( maxBatchSize < 1 )
 			maxBatchSize = DEFAULT_MAX_BATCH_SIZE;
 		
-		return segNet::Create(prototxt, modelName, labels, colors, input, output, maxBatchSize);
+		net = segNet::Create(prototxt, modelName, labels, colors, input, output, maxBatchSize);
+	}
+	else
+	{
+		// create segnet from pretrained model
+		net = segNet::Create(type);
 	}
 
-	// create segnet from pretrained model
-	return segNet::Create(type);
+	if( !net )
+		return NULL;
+
+	// save the legend if desired
+	const char* legend = cmdLine.GetString("legend");
+
+	if( legend != NULL )
+		net->saveClassLegend(legend);
+
+	return net;
 }
 
 
@@ -426,6 +445,101 @@ bool segNet::loadClassLabels( const char* filename )
 	
 	mClassPath = path;
 	return true;
+}
+
+
+// saveClassLegend
+bool segNet::saveClassLegend( const char* filename )
+{
+	const int2 colorSize = make_int2(50,25);
+	const int2 xyPadding = make_int2(10,5);
+
+	const float4 bgColor = make_float4(255,255,255,255);
+	const float4 fgColor = make_float4(0,0,0,255);
+
+	// validate arguments
+	if( !filename )
+		return false;
+
+	const uint32_t numClasses = GetNumClasses();
+
+	if( numClasses == 0 )
+		return false;
+
+	// load the font
+	cudaFont* font = cudaFont::Create(16);
+
+	if( !font )
+		return false;
+
+	// determine the max size of class labels
+	int2 maxTextExtents = make_int2(0,0);
+
+	for( uint32_t n=0; n < numClasses; n++ )
+	{
+		char str[256];
+		sprintf(str, "%2d %s", n, GetClassDesc(n));
+
+		const int4 textExtents = font->TextExtents(str);
+
+		if( textExtents.z > maxTextExtents.x )
+			maxTextExtents.x = textExtents.z;
+
+		if( textExtents.w > maxTextExtents.y )
+			maxTextExtents.y = textExtents.w;
+	}
+
+	//if( colorSize.y > maxTextExtents.y )
+	//	maxTextExtents.y = colorSize.y;
+
+	// allocate image to store the legend
+	const int imgWidth = maxTextExtents.x + colorSize.x + xyPadding.x * 3;
+	const int imgHeight = (colorSize.y + xyPadding.y) * numClasses + xyPadding.y * 2;
+	
+	float4* img = NULL;
+
+	if( !cudaAllocMapped((void**)&img, imgWidth * imgHeight * 4 * sizeof(float)) )
+		return false;
+
+	// fill the legend's background color
+	#define FILL_RECT(color, x1, y1, x2, y2) \
+		for( int y=y1; y < y2; y++ )		 \
+			for( int x=x1; x < x2; x++ )	 \
+				img[y*imgWidth+x] = color;
+
+	FILL_RECT(bgColor, 0, 0, imgWidth, imgHeight);
+
+	// render each class entry
+	int yPosition = xyPadding.y * 2;
+
+	for( uint32_t n=0; n < numClasses; n++ )
+	{
+		char str[256];
+		sprintf(str, "%2d %s", n, GetClassDesc(n));
+
+		// render the class text
+		font->OverlayText(img, imgWidth, imgHeight, str, xyPadding.x, yPosition);
+		CUDA(cudaDeviceSynchronize());
+
+		// fill the class color
+		float* classColor  = GetClassColor(n);
+		const float4 color = make_float4(classColor[0], classColor[1], classColor[2], 255);
+		
+		const int colorX = maxTextExtents.x + xyPadding.x * 2;
+		const int colorY = yPosition - ((colorSize.y - maxTextExtents.y) / 2);
+
+		FILL_RECT(color, colorX, colorY, colorX + colorSize.x, colorY + colorSize.y);
+
+		// advance the position
+		yPosition += colorSize.y + xyPadding.y;
+	}
+
+	// save the image
+	const bool result = saveImageRGBA(filename, img, imgWidth, imgHeight);
+
+	CUDA(cudaFreeHost(img));
+	delete font;
+	return result;
 }
 
 
