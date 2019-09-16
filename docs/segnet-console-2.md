@@ -34,8 +34,8 @@ Below is a table of the pre-trained semantic segmentation models available for [
 | [Multi-Human](https://lv-mhp.github.io/) | 640x360 | `fcn-resnet18-mhp-512x320` | 87.1% | 23 FPS | 325 FPS |
 | [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/) | 320x320 | `fcn-resnet18-voc-320x320` | 85.9% | 45 FPS | 508 FPS |
 | [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/) | 512x320 | `fcn-resnet18-voc-512x320` | 88.5% | 34 FPS | 375 FPS |
-| [SUN RGB-D](http://rgbd.cs.princeton.edu/) | 512x400 | `fcn-resnet18-voc-512x320` | 64.3% | 28 FPS | 340 FPS |
-| [SUN RGB-D](http://rgbd.cs.princeton.edu/) | 512x400 | `fcn-resnet18-voc-512x320` | 65.1% | 17 FPS | 224 FPS |
+| [SUN RGB-D](http://rgbd.cs.princeton.edu/) | 512x400 | `fcn-resnet18-sun-512x400` | 64.3% | 28 FPS | 340 FPS |
+| [SUN RGB-D](http://rgbd.cs.princeton.edu/) | 640x512 | `fcn-resnet18-sun-640x512` | 65.1% | 17 FPS | 224 FPS |
 
 * Accuracy indicates the pixel classification accuracy across the model's validation dataset
 * Performance is measured for GPU FP16 mode with JetPack 4.2.1, `nvpmodel 0` (MAX-N)
@@ -81,15 +81,11 @@ $ ./segnet-console.py --network=<model> --visualize=mask input.jpg output.jpg # 
 
 Here's an example of segmenting an urban city street scene with the Cityscapes model:
 
-#### C++
-
 ``` bash
+# C++
 $ ./segnet-console --network=fcn-resnet18-cityscapes-512x256 city-0.jpg output.jpg
-```
 
-#### Python
-
-``` bash
+# Python
 $ ./segnet-console.py --network=fcn-resnet18-cityscapes-512x256 city-0.jpg output.jpg
 ```
 
@@ -97,29 +93,7 @@ $ ./segnet-console.py --network=fcn-resnet18-cityscapes-512x256 city-0.jpg outpu
 
 #### Cityscapes Classes
 
-| ID |       Name      |  Color  |
-|:--:|:---------------:|:-------:|
-| 0  | `void`          | <span style="color:rgb(0,0,0);">███</span> |
-| 1  | `ego vehicle`   | <span style="color:Blue;">███</span> |
-| 2  | `ground`        | <span style="color:rgb(81,0,81);">███</span> |
-| 3  | `road`          | <span style="color:rgb(128,64,128);">███</span> |
-| 4  | `sidewalk`      | <span style="color:rgb(150,75,200);">███</span> |
-| 5  | `building`      | <span style="color:rgb(70,70,70);">███</span> |
-| 6  | `wall`          | <span style="color:rgb(102,102,156);">███</span> |
-| 7  | `fence`         | <span style="color:rgb(190,153,153);">███</span> |
-| 8  | `pole`          | <span style="color:rgb(153,153,153);">███</span> |
-| 9  | `traffic light` | <span style="color:rgb(250,170,30);">███</span> |
-| 10 | `traffic sign`  | <span style="color:rgb(250,170,30);">███</span> |
-| 11 | `vegetation`    | <span style="color:rgb(107,142,35);">███</span> |
-| 12 | `terrain`       | <span style="color:rgb(152,251,152);">███</span> |
-| 13 | `sky`           | <span style="color:rgb(70,130,180);">███</span> |
-| 14 | `person`        | <span style="color:rgb(220,20,60);">███</span> |
-| 15 | `car`           | <span style="color:rgb(0,0,142);">███</span> |
-| 16 | `truck`         | <span style="color:rgb(0,0,70);">███</span> |
-| 17 | `bus`           | <span style="color:rgb(0,60,100);">███</span> |
-| 18 | `train`         | <span style="color:rgb(0,80,100);">███</span> |
-| 19 | `motorcycle`    | <span style="color:rgb(0,0,230);">███</span> |
-| 20 | `bicycle`       | <span style="color:rgb(119,11,32);">███</span> |
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-cityscapes-legend.jpg">
 
 
 Next, we'll run semantic segmentation on a live camera stream.
