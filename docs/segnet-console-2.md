@@ -98,25 +98,24 @@ $ ./segnet-console.py --network=fcn-resnet18-cityscapes city-0.jpg output.jpg
 
 ### DeepScene
 
-The [DeepScene dataset](http://deepscene.cs.uni-freiburg.de/) contains imagery of off-road forest trails and vegetation, aiding in path-following for outdoor robots. 
+The [DeepScene dataset](http://deepscene.cs.uni-freiburg.de/) consists of off-road forest trails and vegetation, aiding in path-following for outdoor robots. 
 
 Here's an example of generating the segmentation overlay and mask by specifying the `--visualize` argument:
 
 #### C++
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-deepscene trail-0.jpg output-overlay.jpg # overlay
-$ ./segnet-console --network=fcn-resnet18-deepscene --visualize=mask trail-0.jpg output-mask.jpg       # mask
+$ ./segnet-console --network=fcn-resnet18-deepscene trail-0.jpg output-overlay.jpg                   # overlay
+$ ./segnet-console --network=fcn-resnet18-deepscene --visualize=mask trail-0.jpg output-mask.jpg     # mask
 ```
 
 #### Python
 ``` bash
-$ ./segnet-console.py --network=fcn-resnet18-deepscene trail-0.jpg output-overlay.jpg # overlay
-$ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail-0.jpg output-mask.jpg       # mask
+$ ./segnet-console.py --network=fcn-resnet18-deepscene trail-0.jpg output-overlay.jpg                # overlay
+$ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail-0.jpg output-mask.jpg  # mask
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-overlay.jpg" width="850">
-
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-mask.jpg">
 
 
