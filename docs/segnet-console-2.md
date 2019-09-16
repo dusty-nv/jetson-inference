@@ -37,6 +37,7 @@ Below is a table of the pre-trained semantic segmentation models available for [
 | [SUN RGB-D](http://rgbd.cs.princeton.edu/) | 512x400 | `fcn-resnet18-sun-512x400` | 64.3% | 28 FPS | 340 FPS |
 | [SUN RGB-D](http://rgbd.cs.princeton.edu/) | 640x512 | `fcn-resnet18-sun-640x512` | 65.1% | 17 FPS | 224 FPS |
 
+* If the resolution is omitted from the CLI argument, the lowest resolution model is loaded
 * Accuracy indicates the pixel classification accuracy across the model's validation dataset
 * Performance is measured for GPU FP16 mode with JetPack 4.2.1, `nvpmodel 0` (MAX-N)
 
@@ -83,10 +84,10 @@ Here's an example of segmenting an urban city street scene with the Cityscapes m
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-cityscapes-512x256 city-0.jpg output.jpg
+$ ./segnet-console --network=fcn-resnet18-cityscapes city-0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-cityscapes-512x256 city-0.jpg output.jpg
+$ ./segnet-console.py --network=fcn-resnet18-cityscapes city-0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-city-0.jpg" width="900">
@@ -97,25 +98,25 @@ $ ./segnet-console.py --network=fcn-resnet18-cityscapes-512x256 city-0.jpg outpu
 
 ### DeepScene
 
-The [DeepScene dataset](http://deepscene.cs.uni-freiburg.de/) contains off-road imagery of forest trails and vegetation. 
+The [DeepScene dataset](http://deepscene.cs.uni-freiburg.de/) contains off-road imagery of forest trails and vegetation: 
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-legend.jpg">
 
-Here's an example of generating the segmentation overlay and mask with the DeepScene model by changing the `--visualize` argument:
+Here's an example of generating the segmentation overlay and mask by changing the `--visualize` argument:
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-deepscene-576x320 --visualize=overlay trail-0.jpg output-overlay.jpg # overlay
-$ ./segnet-console --network=fcn-resnet18-deepscene-576x320 --visualize=mask trail-0.jpg output-mask.jpg       # mask
+$ ./segnet-console --network=fcn-resnet18-deepscene --visualize=overlay trail-0.jpg output-overlay.jpg # overlay
+$ ./segnet-console --network=fcn-resnet18-deepscene --visualize=mask trail-0.jpg output-mask.jpg       # mask
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-deepscene-576x320 --visualize=overlay trail-0.jpg output-overlay.jpg # overlay
-$ ./segnet-console.py --network=fcn-resnet18-deepscene-576x320 --visualize=mask trail-0.jpg output-mask.jpg       # mask
+$ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=overlay trail-0.jpg output-overlay.jpg # overlay
+$ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail-0.jpg output-mask.jpg       # mask
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-overlay.jpg" width="850">
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-mask.jpg" width="850">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-mask.jpg" width="425">
 
 
 
