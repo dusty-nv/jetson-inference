@@ -81,7 +81,7 @@ $ ./segnet-console.py --network=<model> --visualize=mask input.jpg output.jpg # 
 
 ### Cityscapes
 
-Here's an example of segmenting an urban city street scene with the [Cityscapes](https://www.cityscapes-dataset.com/) model:
+Let's look at some different scenarios.  Here's an example of segmenting an urban city street scene with the [Cityscapes](https://www.cityscapes-dataset.com/) model:
 
 ``` bash
 # C++
@@ -120,7 +120,7 @@ $ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail-0.
 ### Multi-Human Parsing (MHP)
 
 [Multi-Human Parsing](https://lv-mhp.github.io/) provides dense labeling of body parts, like arms, legs, head, and different types of clothing.  
- See the handful of test images called `people-*.jpg` included with the repo for trying out the MHP model:
+ See the handful of test images named `people-*.jpg` included with the repo for trying out the MHP model:
 
 ``` bash
 # C++
@@ -137,6 +137,25 @@ $ ./segnet-console.py --network=fcn-resnet18-mhp people-0.jpg output.jpg
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-mhp-legend.jpg">
 
+### Pascal VOC
+
+[Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/) is one of the original datasets used for semantic segmentation, containing various people, animals, vehicles, and household objects.  There are some test images included named `object-*.jpg` for testing out the Pascal VOC model:
+
+``` bash
+# C++
+$ ./segnet-console --network=fcn-resnet18-voc object-0.jpg output.jpg
+
+# Python
+$ ./segnet-console.py --network=fcn-resnet18-voc object-0.jpg output.jpg
+```
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc-0.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc-1.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc-2.jpg">
+
+#### MHP Classes
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc-legend.jpg">
 
 
 Next, we'll run semantic segmentation on a live camera stream.
