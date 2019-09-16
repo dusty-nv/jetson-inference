@@ -110,13 +110,27 @@ Inheritance diagram for segNet:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:ab561d3c9e3c733e785aaa790f0f2f660"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">NetworkType</a> { <br />
-&#160;&#160;<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660adba730fd6f1caee50f8430d96603757a">FCN_ALEXNET_PASCAL_VOC</a>, 
-<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a3cb82f1b884ddc9dc8a51381c2cf8420">FCN_ALEXNET_SYNTHIA_CVPR16</a>, 
+&#160;&#160;<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a9f47a73353b92070d7108e096fc630f3">FCN_RESNET18_CITYSCAPES_512x256</a>, 
+<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a156f0fff24330aa26b9b7f75472cf271">FCN_RESNET18_CITYSCAPES_1024x512</a>, 
+<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660afcc3561ab0b94de59b26972f0e433a87">FCN_RESNET18_CITYSCAPES_2048x1024</a>, 
+<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a4ca12fae4b07ccf560ac438b983815be">FCN_RESNET18_DEEPSCENE_576x320</a>, 
+<br />
+&#160;&#160;<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a14b564880562ccc65d411d28f99bcf2c">FCN_RESNET18_DEEPSCENE_864x480</a>, 
+<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660ab7809e2db8d2c7267ef5c8a6e9a219bd">FCN_RESNET18_MHP_512x320</a>, 
+<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a94360b1c71cdc41d3372977c18f1337c">FCN_RESNET18_MHP_640x360</a>, 
+<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660af69e8adf542ca9c0f40c634746477355">FCN_RESNET18_VOC_320x320</a>, 
+<br />
+&#160;&#160;<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a8727641036c4a99365d8ccdc8c5eedfe">FCN_RESNET18_VOC_512x320</a>, 
+<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a9a8ac433e34a0331c2b75476883408bd">FCN_RESNET18_SUNRGB_512x400</a>, 
+<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a40ba49922f939a4a549d8b2352cdab49">FCN_RESNET18_SUNRGB_640x512</a>, 
+<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660adba730fd6f1caee50f8430d96603757a">FCN_ALEXNET_PASCAL_VOC</a>, 
+<br />
+&#160;&#160;<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a3cb82f1b884ddc9dc8a51381c2cf8420">FCN_ALEXNET_SYNTHIA_CVPR16</a>, 
 <a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a5808394068d715aeff04991dc34b73a8">FCN_ALEXNET_SYNTHIA_SUMMER_HD</a>, 
 <a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a245b790d2bc719d2397899bef7472da3">FCN_ALEXNET_SYNTHIA_SUMMER_SD</a>, 
+<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a909c376ffd7d5363aea65c200f2e008e">FCN_ALEXNET_CITYSCAPES_HD</a>, 
 <br />
-&#160;&#160;<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a909c376ffd7d5363aea65c200f2e008e">FCN_ALEXNET_CITYSCAPES_HD</a>, 
-<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a0760a67c5a08aad80d7dc732bc760e31">FCN_ALEXNET_CITYSCAPES_SD</a>, 
+&#160;&#160;<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a0760a67c5a08aad80d7dc732bc760e31">FCN_ALEXNET_CITYSCAPES_SD</a>, 
 <a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a46829d99af463638dfd4e547b0a2a95d">FCN_ALEXNET_AERIAL_FPV_720p</a>, 
 <a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a95a81cd526c1ada9d225f6142f5f0f41">SEGNET_CUSTOM</a>
 <br />
@@ -152,9 +166,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a31e8118b2a38e330b6e087cf6c98396e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a31e8118b2a38e330b6e087cf6c98396e">GetNumClasses</a> () const</td></tr>
 <tr class="memdesc:a31e8118b2a38e330b6e087cf6c98396e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of object classes supported in the detector.  <a href="#a31e8118b2a38e330b6e087cf6c98396e">More...</a><br /></td></tr>
 <tr class="separator:a31e8118b2a38e330b6e087cf6c98396e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a895252269f201c23e8887d2774ec5ac4"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a895252269f201c23e8887d2774ec5ac4">GetClassLabel</a> (uint32_t id) const</td></tr>
-<tr class="memdesc:a895252269f201c23e8887d2774ec5ac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the description of a particular class.  <a href="#a895252269f201c23e8887d2774ec5ac4">More...</a><br /></td></tr>
-<tr class="separator:a895252269f201c23e8887d2774ec5ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af35b6253e85cfe6c30ac0a1a7ca3fcc8"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#af35b6253e85cfe6c30ac0a1a7ca3fcc8">GetClassDesc</a> (uint32_t id) const</td></tr>
+<tr class="memdesc:af35b6253e85cfe6c30ac0a1a7ca3fcc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the description of a particular class.  <a href="#af35b6253e85cfe6c30ac0a1a7ca3fcc8">More...</a><br /></td></tr>
+<tr class="separator:af35b6253e85cfe6c30ac0a1a7ca3fcc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07e9a40b797f22ed0f0e83479be57d17"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a07e9a40b797f22ed0f0e83479be57d17">GetClassColor</a> (uint32_t id) const</td></tr>
 <tr class="memdesc:a07e9a40b797f22ed0f0e83479be57d17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the class synset category of a particular class.  <a href="#a07e9a40b797f22ed0f0e83479be57d17">More...</a><br /></td></tr>
 <tr class="separator:a07e9a40b797f22ed0f0e83479be57d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -249,6 +263,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a586492c234d2dc924458e99d6026dbb4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">NetworkType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a586492c234d2dc924458e99d6026dbb4">NetworkTypeFromStr</a> (const char *model_name)</td></tr>
 <tr class="memdesc:a586492c234d2dc924458e99d6026dbb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a string from one of the built-in pretrained models.  <a href="#a586492c234d2dc924458e99d6026dbb4">More...</a><br /></td></tr>
 <tr class="separator:a586492c234d2dc924458e99d6026dbb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f3335012ce9fb7538271b27f2482329"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a8f3335012ce9fb7538271b27f2482329">NetworkTypeToStr</a> (<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">NetworkType</a> networkType)</td></tr>
+<tr class="memdesc:a8f3335012ce9fb7538271b27f2482329"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a NetworkType enum to a human-readable string.  <a href="#a8f3335012ce9fb7538271b27f2482329">More...</a><br /></td></tr>
+<tr class="separator:a8f3335012ce9fb7538271b27f2482329"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a299e7f53cde4e3e25cd00829dc181a10"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a299e7f53cde4e3e25cd00829dc181a10">FilterModeFromStr</a> (const char *str, <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a> default_value=<a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a>)</td></tr>
 <tr class="memdesc:a299e7f53cde4e3e25cd00829dc181a10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a string from one of the FilterMode values.  <a href="#a299e7f53cde4e3e25cd00829dc181a10">More...</a><br /></td></tr>
 <tr class="separator:a299e7f53cde4e3e25cd00829dc181a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -261,6 +278,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aa4186752e1402963fdde8e2d6f2613d7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html">segNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#aa4186752e1402963fdde8e2d6f2613d7">Create</a> (int argc, char **argv)</td></tr>
 <tr class="memdesc:aa4186752e1402963fdde8e2d6f2613d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance by parsing the command line.  <a href="#aa4186752e1402963fdde8e2d6f2613d7">More...</a><br /></td></tr>
 <tr class="separator:aa4186752e1402963fdde8e2d6f2613d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e11d4bd854120f1709c306e91e44389"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a0e11d4bd854120f1709c306e91e44389">Usage</a> ()</td></tr>
+<tr class="memdesc:a0e11d4bd854120f1709c306e91e44389"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="classsegNet.html#a0679f72dbced85d919d01af841c67db9" title="Load a new network instance. ">Create()</a>  <a href="#a0e11d4bd854120f1709c306e91e44389">More...</a><br /></td></tr>
+<tr class="separator:a0e11d4bd854120f1709c306e91e44389"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_methods_classtensorNet"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classtensorNet')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classtensorNet.html">tensorNet</a></td></tr>
 <tr class="memitem:abe33fae5332296e2d917cb4ce435e255 inherit pub_static_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#abe33fae5332296e2d917cb4ce435e255">FindFastestPrecision</a> (<a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowInt8=true)</td></tr>
 <tr class="memdesc:abe33fae5332296e2d917cb4ce435e255 inherit pub_static_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the fastest native precision on a device.  <a href="classtensorNet.html#abe33fae5332296e2d917cb4ce435e255">More...</a><br /></td></tr>
@@ -289,6 +309,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a218a2c71cb4d59476070385c7370f789"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31d2bd6ddf05ce178a8e6c5b88247075"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a31d2bd6ddf05ce178a8e6c5b88247075">loadClassLabels</a> (const char *filename)</td></tr>
 <tr class="separator:a31d2bd6ddf05ce178a8e6c5b88247075"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eabed9f0e8aa5a8ddad078ada771ad7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a4eabed9f0e8aa5a8ddad078ada771ad7">saveClassLegend</a> (const char *filename)</td></tr>
+<tr class="separator:a4eabed9f0e8aa5a8ddad078ada771ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classtensorNet"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classtensorNet')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classtensorNet.html">tensorNet</a></td></tr>
 <tr class="memitem:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#ab6e617d96e5542bef023ee9d4c96388a">tensorNet</a> ()</td></tr>
 <tr class="memdesc:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classtensorNet.html#ab6e617d96e5542bef023ee9d4c96388a">More...</a><br /></td></tr>
@@ -433,7 +455,29 @@ Protected Attributes</h2></td></tr>
 
 <p>Enumeration of pretrained/built-in network models. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660adba730fd6f1caee50f8430d96603757a"></a>FCN_ALEXNET_PASCAL_VOC&#160;</td><td class="fielddoc"><p>FCN-Alexnet trained on Pascal VOC dataset. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660a9f47a73353b92070d7108e096fc630f3"></a>FCN_RESNET18_CITYSCAPES_512x256&#160;</td><td class="fielddoc"><p>FCN-ResNet18 trained on Cityscapes dataset (512x256) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660a156f0fff24330aa26b9b7f75472cf271"></a>FCN_RESNET18_CITYSCAPES_1024x512&#160;</td><td class="fielddoc"><p>FCN-ResNet18 trained on Cityscapes dataset (1024x512) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660afcc3561ab0b94de59b26972f0e433a87"></a>FCN_RESNET18_CITYSCAPES_2048x1024&#160;</td><td class="fielddoc"><p>FCN-ResNet18 trained on Cityscapes dataset (2048x1024) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660a4ca12fae4b07ccf560ac438b983815be"></a>FCN_RESNET18_DEEPSCENE_576x320&#160;</td><td class="fielddoc"><p>FCN-ResNet18 trained on DeepScene Forest dataset (576x320) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660a14b564880562ccc65d411d28f99bcf2c"></a>FCN_RESNET18_DEEPSCENE_864x480&#160;</td><td class="fielddoc"><p>FCN-ResNet18 trained on DeepScene Forest dataset (864x480) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660ab7809e2db8d2c7267ef5c8a6e9a219bd"></a>FCN_RESNET18_MHP_512x320&#160;</td><td class="fielddoc"><p>FCN-ResNet18 trained on Multi-Human Parsing dataset (512x320) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660a94360b1c71cdc41d3372977c18f1337c"></a>FCN_RESNET18_MHP_640x360&#160;</td><td class="fielddoc"><p>FCN-ResNet18 trained on Multi-Human Parsing dataset (640x360) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660af69e8adf542ca9c0f40c634746477355"></a>FCN_RESNET18_VOC_320x320&#160;</td><td class="fielddoc"><p>FCN-ResNet18 trained on Pascal VOC dataset (320x320) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660a8727641036c4a99365d8ccdc8c5eedfe"></a>FCN_RESNET18_VOC_512x320&#160;</td><td class="fielddoc"><p>FCN-ResNet18 trained on Pascal VOC dataset (512x320) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660a9a8ac433e34a0331c2b75476883408bd"></a>FCN_RESNET18_SUNRGB_512x400&#160;</td><td class="fielddoc"><p>FCN-ResNet18 trained on SUN RGB-D dataset (512x400) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660a40ba49922f939a4a549d8b2352cdab49"></a>FCN_RESNET18_SUNRGB_640x512&#160;</td><td class="fielddoc"><p>FCN-ResNet18 trained on SUN RGB-D dataset (640x512) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660adba730fd6f1caee50f8430d96603757a"></a>FCN_ALEXNET_PASCAL_VOC&#160;</td><td class="fielddoc"><p>FCN-Alexnet trained on Pascal VOC dataset. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ab561d3c9e3c733e785aaa790f0f2f660a3cb82f1b884ddc9dc8a51381c2cf8420"></a>FCN_ALEXNET_SYNTHIA_CVPR16&#160;</td><td class="fielddoc"><p>FCN-Alexnet trained on SYNTHIA CVPR16 dataset. </p>
 <dl class="section note"><dt>Note</dt><dd>To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh </dd></dl>
@@ -827,8 +871,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a895252269f201c23e8887d2774ec5ac4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a895252269f201c23e8887d2774ec5ac4">&#9670;&nbsp;</a></span>GetClassLabel()</h2>
+<a id="af35b6253e85cfe6c30ac0a1a7ca3fcc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af35b6253e85cfe6c30ac0a1a7ca3fcc8">&#9670;&nbsp;</a></span>GetClassDesc()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -837,7 +881,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const char* segNet::GetClassLabel </td>
+          <td class="memname">const char* segNet::GetClassDesc </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>id</em></td><td>)</td>
@@ -1178,6 +1222,35 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a8f3335012ce9fb7538271b27f2482329"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f3335012ce9fb7538271b27f2482329">&#9670;&nbsp;</a></span>NetworkTypeToStr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const char* segNet::NetworkTypeToStr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">NetworkType</a>&#160;</td>
+          <td class="paramname"><em>networkType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert a NetworkType enum to a human-readable string. </p>
+<dl class="section return"><dt>Returns</dt><dd>stringized version of the provided NetworkType enum. </dd></dl>
+
+</div>
+</div>
 <a id="a3a670c08ad8b13db6ee092c59efe88b8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3a670c08ad8b13db6ee092c59efe88b8">&#9670;&nbsp;</a></span>Overlay()</h2>
 
@@ -1415,6 +1488,32 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a4eabed9f0e8aa5a8ddad078ada771ad7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4eabed9f0e8aa5a8ddad078ada771ad7">&#9670;&nbsp;</a></span>saveClassLegend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool segNet::saveClassLegend </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a2a9108ad71f4d5f1995ac58282a10b88"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2a9108ad71f4d5f1995ac58282a10b88">&#9670;&nbsp;</a></span>SetClassColor()</h2>
 
@@ -1490,6 +1589,33 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set a global alpha value for all classes (between 0-255), (optionally except for those that have been explicitly set). </p>
+
+</div>
+</div>
+<a id="a0e11d4bd854120f1709c306e91e44389"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e11d4bd854120f1709c306e91e44389">&#9670;&nbsp;</a></span>Usage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const char* segNet::Usage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Usage string for command line arguments to <a class="el" href="classsegNet.html#a0679f72dbced85d919d01af841c67db9" title="Load a new network instance. ">Create()</a> </p>
 
 </div>
 </div>
@@ -1691,7 +1817,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classsegNet.html">segNet</a></li>
-    <li class="footer">Generated on Fri Jun 21 2019 16:23:15 for Jetson Inference by
+    <li class="footer">Generated on Mon Sep 16 2019 13:38:14 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

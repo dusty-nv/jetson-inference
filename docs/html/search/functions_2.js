@@ -26,7 +26,7 @@ var searchData=
   ['createstream',['CreateStream',['../classtensorNet.html#a78cecfb7505be0ea59d29041abc85cbb',1,'tensorNet']]],
   ['cstr',['CStr',['../classtinyxml2_1_1XMLPrinter.html#a180671d73844f159f2d4aafbc11d106e',1,'tinyxml2::XMLPrinter']]],
   ['cstrsize',['CStrSize',['../classtinyxml2_1_1XMLPrinter.html#a3256cf3523d4898b91abb18b924be04c',1,'tinyxml2::XMLPrinter']]],
-  ['cudaallocmapped',['cudaAllocMapped',['../group__cuda.html#ga08121b272362dcd6f06d71a5a660c1e9',1,'cudaMappedMemory.h']]],
+  ['cudaallocmapped',['cudaAllocMapped',['../group__cuda.html#ga08121b272362dcd6f06d71a5a660c1e9',1,'cudaAllocMapped(void **cpuPtr, void **gpuPtr, size_t size):&#160;cudaMappedMemory.h'],['../group__cuda.html#gaebaf526c95c617fba65d29943b88333d',1,'cudaAllocMapped(void **ptr, size_t size):&#160;cudaMappedMemory.h']]],
   ['cudabgr8torgba32',['cudaBGR8ToRGBA32',['../group__colorspace.html#gad89d17678982424019ccb687d93c5b61',1,'cudaRGB.h']]],
   ['cudacheckerror',['cudaCheckError',['../group__cuda.html#ga1bab99bd137e538276d8c75a12779f61',1,'cudaUtility.h']]],
   ['cudafont',['cudaFont',['../classcudaFont.html#ada0e9c0490565bcb61e5d9b2434184fb',1,'cudaFont']]],

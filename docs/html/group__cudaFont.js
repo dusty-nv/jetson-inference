@@ -15,6 +15,7 @@ var group__cudaFont =
       [ "init", "classcudaFont.html#ad7ee4d6a42f34ead54c0875c4441fb45", null ],
       [ "OverlayText", "classcudaFont.html#a760fe2fac4668374143199f97455b9be", null ],
       [ "OverlayText", "classcudaFont.html#a95a0b6cc1d264f3b2f5f835befefd57c", null ],
+      [ "TextExtents", "classcudaFont.html#afadb0093101fb2f95f0929191c59c47d", null ],
       [ "mCmdIndex", "classcudaFont.html#ab1d7083d733b1ca684888cc97e37447d", null ],
       [ "mCommandCPU", "classcudaFont.html#aa348453013b144fd061ce6a1f42865f5", null ],
       [ "mCommandGPU", "classcudaFont.html#ab6f303ca3b608da66d48d206add16396", null ],

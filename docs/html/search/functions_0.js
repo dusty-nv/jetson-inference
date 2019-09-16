@@ -5,6 +5,7 @@ var searchData=
   ['adaptfontsize',['adaptFontSize',['../group__cudaFont.html#ga26e3d9ad213aa668fc53772aed0a1fa7',1,'cudaFont.h']]],
   ['alloc',['Alloc',['../classtinyxml2_1_1MemPool.html#a4f977b5fed752c0bbfe5295f469d6449',1,'tinyxml2::MemPool::Alloc()'],['../classtinyxml2_1_1MemPoolT.html#a810fd2b0caf56b8b688e55f2768f96c7',1,'tinyxml2::MemPoolT::Alloc()']]],
   ['allocdetections',['allocDetections',['../classdetectNet.html#acb367fb540a1dfb719c44ae0e4cdb045',1,'detectNet']]],
+  ['alloctexture',['allocTexture',['../classglDisplay.html#a6553b4eee50dfa0ddedd0960123583df',1,'glDisplay']]],
   ['allowgpufallback',['AllowGPUFallback',['../classtensorNet.html#a7d0ec0d8504ac8b26c5ab4a6136599ca',1,'tensorNet']]],
   ['area',['Area',['../structdetectNet_1_1Detection.html#a239620621f33ed918d2f86a678a68c16',1,'detectNet::Detection']]],
   ['attemptlock',['AttemptLock',['../classMutex.html#a87f92bea41231778680c392668b4ad6f',1,'Mutex']]],

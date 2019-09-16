@@ -18,6 +18,7 @@ var searchData=
   ['overlay_5flabel',['OVERLAY_LABEL',['../classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a7eb5454e7a6dd53d90c2ddd33b00d049',1,'detectNet']]],
   ['overlay_5fnone',['OVERLAY_NONE',['../classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf',1,'detectNet']]],
   ['overlayflags',['OverlayFlags',['../classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6',1,'detectNet']]],
+  ['overlayflagsfromstr',['OverlayFlagsFromStr',['../classdetectNet.html#a2bb2b446e26a466c9e355f1472f68e4c',1,'detectNet']]],
   ['overlaylinear',['overlayLinear',['../classsegNet.html#a1365e866302f49f6fe7f9fe95cbe6a72',1,'segNet']]],
   ['overlaypoint',['overlayPoint',['../classsegNet.html#a3691c49b64e20993bb2440129a7cd81e',1,'segNet']]],
   ['overlaytext',['OverlayText',['../classcudaFont.html#a760fe2fac4668374143199f97455b9be',1,'cudaFont::OverlayText(float4 *image, uint32_t width, uint32_t height, const char *str, int x, int y, const float4 &amp;color=make_float4(0, 0, 0, 255), const float4 &amp;background=make_float4(0, 0, 0, 0), int backgroundPadding=5)'],['../classcudaFont.html#a95a0b6cc1d264f3b2f5f835befefd57c',1,'cudaFont::OverlayText(float4 *image, uint32_t width, uint32_t height, const std::vector&lt; std::pair&lt; std::string, int2 &gt; &gt; &amp;text, const float4 &amp;color=make_float4(0, 0, 0, 255), const float4 &amp;background=make_float4(0, 0, 0, 0), int backgroundPadding=5)']]]

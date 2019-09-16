@@ -13,7 +13,7 @@ var searchData=
   ['networkhostname',['networkHostname',['../NetworkAdapter_8h.html#a5a28e78074e7cd736f75123c93a4a3f6',1,'NetworkAdapter.h']]],
   ['networktype',['NetworkType',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4',1,'detectNet::NetworkType()'],['../classhomographyNet.html#aac3f2e070bad0f23758b901859e4dc82',1,'homographyNet::NetworkType()'],['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470',1,'imageNet::NetworkType()'],['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660',1,'segNet::NetworkType()']]],
   ['networktypefromstr',['NetworkTypeFromStr',['../classdetectNet.html#ae3b1e96eef852854c0152d168f454f09',1,'detectNet::NetworkTypeFromStr()'],['../classhomographyNet.html#a2cd472fc782dfe59880591e369067931',1,'homographyNet::NetworkTypeFromStr()'],['../classimageNet.html#a911888acec5ff79f63e42ecdaed4d9c5',1,'imageNet::NetworkTypeFromStr()'],['../classsegNet.html#a586492c234d2dc924458e99d6026dbb4',1,'segNet::NetworkTypeFromStr()']]],
-  ['networktypetostr',['NetworkTypeToStr',['../classimageNet.html#a0a6ed78a812c2c8847aec7e2c9c7ecab',1,'imageNet']]],
+  ['networktypetostr',['NetworkTypeToStr',['../classimageNet.html#a0a6ed78a812c2c8847aec7e2c9c7ecab',1,'imageNet::NetworkTypeToStr()'],['../classsegNet.html#a8f3335012ce9fb7538271b27f2482329',1,'segNet::NetworkTypeToStr()']]],
   ['newcomment',['NewComment',['../classtinyxml2_1_1XMLDocument.html#ade4874bcb439954972ef2b3723ff3259',1,'tinyxml2::XMLDocument']]],
   ['newdeclaration',['NewDeclaration',['../classtinyxml2_1_1XMLDocument.html#aee2eb3435923f5494dcc70ac225b60a2',1,'tinyxml2::XMLDocument']]],
   ['newelement',['NewElement',['../classtinyxml2_1_1XMLDocument.html#a8aa7817d4a1001364b06373763ab99d6',1,'tinyxml2::XMLDocument']]],

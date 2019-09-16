@@ -248,6 +248,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a7629a888728ef94bf35e573a96ebe4bd"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#a7629a888728ef94bf35e573a96ebe4bd">Usage</a> ()</td></tr>
 <tr class="memdesc:a7629a888728ef94bf35e573a96ebe4bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="classimageNet.html#a27823449de3babc8b6eff1e916aff745" title="Load a new network instance. ">Create()</a>  <a href="#a7629a888728ef94bf35e573a96ebe4bd">More...</a><br /></td></tr>
 <tr class="separator:a7629a888728ef94bf35e573a96ebe4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a874e53e6172211c555031e50c6391f98"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#a874e53e6172211c555031e50c6391f98">LoadClassInfo</a> (const char *filename, std::vector&lt; std::string &gt; &amp;descriptions, int expectedClasses=-1)</td></tr>
+<tr class="memdesc:a874e53e6172211c555031e50c6391f98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load class descriptions from a label file.  <a href="#a874e53e6172211c555031e50c6391f98">More...</a><br /></td></tr>
+<tr class="separator:a874e53e6172211c555031e50c6391f98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab21eae64422a301712bf84252ede634d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#ab21eae64422a301712bf84252ede634d">LoadClassInfo</a> (const char *filename, std::vector&lt; std::string &gt; &amp;descriptions, std::vector&lt; std::string &gt; &amp;synsets, int expectedClasses=-1)</td></tr>
+<tr class="memdesc:ab21eae64422a301712bf84252ede634d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load class descriptions and synset strings from a label file.  <a href="#ab21eae64422a301712bf84252ede634d">More...</a><br /></td></tr>
+<tr class="separator:ab21eae64422a301712bf84252ede634d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_methods_classtensorNet"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classtensorNet')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classtensorNet.html">tensorNet</a></td></tr>
 <tr class="memitem:abe33fae5332296e2d917cb4ce435e255 inherit pub_static_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#abe33fae5332296e2d917cb4ce435e255">FindFastestPrecision</a> (<a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowInt8=true)</td></tr>
 <tr class="memdesc:abe33fae5332296e2d917cb4ce435e255 inherit pub_static_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the fastest native precision on a device.  <a href="classtensorNet.html#abe33fae5332296e2d917cb4ce435e255">More...</a><br /></td></tr>
@@ -270,8 +276,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a84dd4bae637b43560c6a1ca71e1df3fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5321e8082e2dc35f5982882fa284181"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#aa5321e8082e2dc35f5982882fa284181">init</a> (const char *prototxt_path, const char *model_path, const char *mean_binary, const char *class_path, const char *input, const char *output, uint32_t maxBatchSize, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device, bool allowGPUFallback)</td></tr>
 <tr class="separator:aa5321e8082e2dc35f5982882fa284181"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaaa0971ae45b2089aa1b2ed2048032d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#aeaaa0971ae45b2089aa1b2ed2048032d">loadClassInfo</a> (const char *filename)</td></tr>
-<tr class="separator:aeaaa0971ae45b2089aa1b2ed2048032d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6beef2c8d0972eaadad37abc89e74f95"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#a6beef2c8d0972eaadad37abc89e74f95">loadClassInfo</a> (const char *filename, int expectedClasses=-1)</td></tr>
+<tr class="separator:a6beef2c8d0972eaadad37abc89e74f95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classtensorNet"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classtensorNet')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classtensorNet.html">tensorNet</a></td></tr>
 <tr class="memitem:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#ab6e617d96e5542bef023ee9d4c96388a">tensorNet</a> ()</td></tr>
 <tr class="memdesc:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classtensorNet.html#ab6e617d96e5542bef023ee9d4c96388a">More...</a><br /></td></tr>
@@ -291,8 +297,6 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:ad5100ca715de83a14d8675d7e5ed174e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#ad5100ca715de83a14d8675d7e5ed174e">mCustomClasses</a></td></tr>
-<tr class="separator:ad5100ca715de83a14d8675d7e5ed174e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80749925c9b6edf6b49043e8a0f507e3"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#a80749925c9b6edf6b49043e8a0f507e3">mOutputClasses</a></td></tr>
 <tr class="separator:a80749925c9b6edf6b49043e8a0f507e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd00b812a1f39a0bd23c43a8807d6193"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageNet.html#abd00b812a1f39a0bd23c43a8807d6193">mClassSynset</a></td></tr>
@@ -1039,8 +1043,102 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aeaaa0971ae45b2089aa1b2ed2048032d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeaaa0971ae45b2089aa1b2ed2048032d">&#9670;&nbsp;</a></span>loadClassInfo()</h2>
+<a id="a874e53e6172211c555031e50c6391f98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a874e53e6172211c555031e50c6391f98">&#9670;&nbsp;</a></span>LoadClassInfo() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool imageNet::LoadClassInfo </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>descriptions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>expectedClasses</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load class descriptions from a label file. </p>
+
+</div>
+</div>
+<a id="ab21eae64422a301712bf84252ede634d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab21eae64422a301712bf84252ede634d">&#9670;&nbsp;</a></span>LoadClassInfo() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool imageNet::LoadClassInfo </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>descriptions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>synsets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>expectedClasses</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load class descriptions and synset strings from a label file. </p>
+
+</div>
+</div>
+<a id="a6beef2c8d0972eaadad37abc89e74f95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6beef2c8d0972eaadad37abc89e74f95">&#9670;&nbsp;</a></span>loadClassInfo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1052,8 +1150,18 @@ Protected Attributes</h2></td></tr>
           <td class="memname">bool imageNet::loadClassInfo </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>expectedClasses</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -1273,28 +1381,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad5100ca715de83a14d8675d7e5ed174e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad5100ca715de83a14d8675d7e5ed174e">&#9670;&nbsp;</a></span>mCustomClasses</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t imageNet::mCustomClasses</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="aef7f06f334699634c33b1243c4352fc9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aef7f06f334699634c33b1243c4352fc9">&#9670;&nbsp;</a></span>mNetworkType</h2>
 
@@ -1348,7 +1434,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classimageNet.html">imageNet</a></li>
-    <li class="footer">Generated on Fri Jun 21 2019 16:23:15 for Jetson Inference by
+    <li class="footer">Generated on Mon Sep 16 2019 13:38:14 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

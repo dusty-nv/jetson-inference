@@ -1,6 +1,7 @@
 var searchData=
 [
   ['safe_5fdelete',['SAFE_DELETE',['../group__util.html#ga4b8b2bed986c06c207ebac140ba65a7a',1,'cudaUtility.h']]],
+  ['saveclasslegend',['saveClassLegend',['../classsegNet.html#a4eabed9f0e8aa5a8ddad078ada771ad7',1,'segNet']]],
   ['savefile',['SaveFile',['../classtinyxml2_1_1XMLDocument.html#a73ac416b4a2aa0952e841220eb3da18f',1,'tinyxml2::XMLDocument::SaveFile(const char *filename, bool compact=false)'],['../classtinyxml2_1_1XMLDocument.html#a8b95779479a0035acc67b3a61dfe1b74',1,'tinyxml2::XMLDocument::SaveFile(FILE *fp, bool compact=false)']]],
   ['saveimagergba',['saveImageRGBA',['../group__image.html#ga324cfcb15198bbf8c7578e802791d804',1,'imageIO.h']]],
   ['screenidx',['screenIdx',['../classglDisplay.html#a987e05d68219418d2d232665d92cc1a2',1,'glDisplay']]],
@@ -10,6 +11,7 @@ var searchData=
   ['segnet_5fcustom',['SEGNET_CUSTOM',['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a95a81cd526c1ada9d225f6142f5f0f41',1,'segNet']]],
   ['segnet_5fdefault_5finput',['SEGNET_DEFAULT_INPUT',['../group__segNet.html#ga33b5fd20f8ed468725c55eb0bcc5af71',1,'segNet.h']]],
   ['segnet_5fdefault_5foutput',['SEGNET_DEFAULT_OUTPUT',['../group__segNet.html#ga05c359c7dcd0c1e855543a3a9a18c422',1,'segNet.h']]],
+  ['segnet_5fusage_5fstring',['SEGNET_USAGE_STRING',['../group__segNet.html#ga1b784139a64e71b3698a234d83ae2cf8',1,'segNet.h']]],
   ['send',['Send',['../classSocket.html#a899ae7dea24300c0c11ffc908f428f76',1,'Socket']]],
   ['set',['Set',['../classtinyxml2_1_1StrPair.html#a4f05549373394266a1eecba26813c166',1,'tinyxml2::StrPair']]],
   ['setaffinity',['SetAffinity',['../classThread.html#a8b944c18ba34a7fdb04dd65c754b6366',1,'Thread']]],
@@ -36,7 +38,7 @@ var searchData=
   ['setvalue',['SetValue',['../classtinyxml2_1_1XMLNode.html#a09dd68cf9eae137579f6e50f36487513',1,'tinyxml2::XMLNode']]],
   ['shallowclone',['ShallowClone',['../classtinyxml2_1_1XMLNode.html#a8402cbd3129d20e9e6024bbcc0531283',1,'tinyxml2::XMLNode::ShallowClone()'],['../classtinyxml2_1_1XMLText.html#af3a81ed4dd49d5151c477b3f265a3011',1,'tinyxml2::XMLText::ShallowClone()'],['../classtinyxml2_1_1XMLComment.html#a08991cc63fadf7e95078ac4f9ea1b073',1,'tinyxml2::XMLComment::ShallowClone()'],['../classtinyxml2_1_1XMLDeclaration.html#a118d47518dd9e522644e42efa259aed7',1,'tinyxml2::XMLDeclaration::ShallowClone()'],['../classtinyxml2_1_1XMLUnknown.html#a0125f41c89763dea06619b5fd5246b4c',1,'tinyxml2::XMLUnknown::ShallowClone()'],['../classtinyxml2_1_1XMLElement.html#ac035742d68b0c50c3f676374e59fe750',1,'tinyxml2::XMLElement::ShallowClone()'],['../classtinyxml2_1_1XMLDocument.html#aa37cc1709d7e1e988bc17dcfb24a69b8',1,'tinyxml2::XMLDocument::ShallowClone()']]],
   ['shallowequal',['ShallowEqual',['../classtinyxml2_1_1XMLNode.html#a7ce18b751c3ea09eac292dca264f9226',1,'tinyxml2::XMLNode::ShallowEqual()'],['../classtinyxml2_1_1XMLText.html#ae0fff8a24e2de7eb073fd192e9db0331',1,'tinyxml2::XMLText::ShallowEqual()'],['../classtinyxml2_1_1XMLComment.html#a6f7d227b25afa8cc3c763b7cc8833739',1,'tinyxml2::XMLComment::ShallowEqual()'],['../classtinyxml2_1_1XMLDeclaration.html#aa26b70011694e9b9e9480b929e9b78d6',1,'tinyxml2::XMLDeclaration::ShallowEqual()'],['../classtinyxml2_1_1XMLUnknown.html#a0715ab2c05d7f74845c188122213b116',1,'tinyxml2::XMLUnknown::ShallowEqual()'],['../classtinyxml2_1_1XMLElement.html#ad9ea913a460b48979bd83cf9871c99f6',1,'tinyxml2::XMLElement::ShallowEqual()'],['../classtinyxml2_1_1XMLDocument.html#a6fe5ef18699091844fcf64b56ffa5bf9',1,'tinyxml2::XMLDocument::ShallowEqual()']]],
-  ['size',['size',['../structtensorNet_1_1outputLayer.html#ab5c8d8f6651c9696cf5e4b15e7dc1d80',1,'tensorNet::outputLayer::size()'],['../classtinyxml2_1_1DynArray.html#a67614d80847eb92cab330f1a5849a9a2',1,'tinyxml2::DynArray::Size()']]],
+  ['size',['Size',['../classtinyxml2_1_1DynArray.html#a67614d80847eb92cab330f1a5849a9a2',1,'tinyxml2::DynArray::Size()'],['../structtensorNet_1_1outputLayer.html#ab5c8d8f6651c9696cf5e4b15e7dc1d80',1,'tensorNet::outputLayer::size()']]],
   ['skipwhitespace',['SkipWhiteSpace',['../classtinyxml2_1_1XMLUtil.html#ab626a194b3523a5ba8b9dbaa2a165202',1,'tinyxml2::XMLUtil::SkipWhiteSpace(const char *p, int *curLineNumPtr)'],['../classtinyxml2_1_1XMLUtil.html#abb6cb3e71f88efca82cb7157367fd91e',1,'tinyxml2::XMLUtil::SkipWhiteSpace(char *p, int *curLineNumPtr)']]],
   ['sleepms',['sleepMs',['../group__time.html#gadc10da23418dffce632d3bd16000bc5a',1,'timespec.h']]],
   ['sleepns',['sleepNs',['../group__time.html#gade2df9f88a694448445740eca02343b9',1,'timespec.h']]],

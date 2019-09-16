@@ -106,6 +106,9 @@ Macros</h2></td></tr>
 <tr class="memitem:ga05c359c7dcd0c1e855543a3a9a18c422"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__segNet.html#ga05c359c7dcd0c1e855543a3a9a18c422">SEGNET_DEFAULT_OUTPUT</a>&#160;&#160;&#160;&quot;score_fr_21classes&quot;</td></tr>
 <tr class="memdesc:ga05c359c7dcd0c1e855543a3a9a18c422"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default output blob for segmentation model.  <a href="#ga05c359c7dcd0c1e855543a3a9a18c422">More...</a><br /></td></tr>
 <tr class="separator:ga05c359c7dcd0c1e855543a3a9a18c422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1b784139a64e71b3698a234d83ae2cf8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__segNet.html#ga1b784139a64e71b3698a234d83ae2cf8">SEGNET_USAGE_STRING</a></td></tr>
+<tr class="memdesc:ga1b784139a64e71b3698a234d83ae2cf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command-line options able to be passed to <a class="el" href="classsegNet.html#a0679f72dbced85d919d01af841c67db9" title="Load a new network instance. ">segNet::Create()</a>  <a href="#ga1b784139a64e71b3698a234d83ae2cf8">More...</a><br /></td></tr>
+<tr class="separator:ga1b784139a64e71b3698a234d83ae2cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Semantic segmentation DNN (FCN or Fully-Convolutional Networks) </p>
@@ -142,12 +145,30 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a id="ga1b784139a64e71b3698a234d83ae2cf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1b784139a64e71b3698a234d83ae2cf8">&#9670;&nbsp;</a></span>SEGNET_USAGE_STRING</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SEGNET_USAGE_STRING</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="stringliteral">&quot;segNet arguments: \n&quot;</span>                                                  \</div><div class="line">                  <span class="stringliteral">&quot;  --network NETWORK    pre-trained model to load, one of the following:\n&quot;</span>   \</div><div class="line">                  <span class="stringliteral">&quot;                           * fcn-resnet18-cityscapes-512x256\n&quot;</span>                      \</div><div class="line">                  <span class="stringliteral">&quot;                           * fcn-resnet18-cityscapes-1024x512\n&quot;</span>                     \</div><div class="line">                  <span class="stringliteral">&quot;                           * fcn-resnet18-cityscapes-2048x1024\n&quot;</span>                    \</div><div class="line">                  <span class="stringliteral">&quot;                           * fcn-resnet18-deepscene-576x320\n&quot;</span>                       \</div><div class="line">                  <span class="stringliteral">&quot;                           * fcn-resnet18-deepscene-864x480\n&quot;</span>                       \</div><div class="line">                  <span class="stringliteral">&quot;                           * fcn-resnet18-mhp-512x320\n&quot;</span>                                     \</div><div class="line">                  <span class="stringliteral">&quot;                           * fcn-resnet18-mhp-640x360\n&quot;</span>                                     \</div><div class="line">                  <span class="stringliteral">&quot;                           * fcn-resnet18-voc-320x320 (default)\n&quot;</span>                   \</div><div class="line">                  <span class="stringliteral">&quot;                           * fcn-resnet18-voc-512x320\n&quot;</span>                                     \</div><div class="line">                  <span class="stringliteral">&quot;                           * fcn-resnet18-sun-512x400\n&quot;</span>                                     \</div><div class="line">                  <span class="stringliteral">&quot;                           * fcn-resnet18-sun-640x512\n&quot;</span>                     \</div><div class="line">                  <span class="stringliteral">&quot;  --model MODEL        path to custom model to load (caffemodel, uff, or onnx)\n&quot;</span>                    \</div><div class="line">                  <span class="stringliteral">&quot;  --prototxt PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n&quot;</span>                             \</div><div class="line">                  <span class="stringliteral">&quot;  --labels LABELS      path to text file containing the labels for each class\n&quot;</span>                             \</div><div class="line">                  <span class="stringliteral">&quot;  --colors COLORS      path to text file containing the colors for each class\n&quot;</span>                             \</div><div class="line">                  <span class="stringliteral">&quot;  --input_blob INPUT   name of the input layer (default: &#39;&quot;</span> <a class="code" href="group__segNet.html#ga33b5fd20f8ed468725c55eb0bcc5af71">SEGNET_DEFAULT_INPUT</a> <span class="stringliteral">&quot;&#39;)\n&quot;</span>      \</div><div class="line">                  <span class="stringliteral">&quot;  --output_blob OUTPUT name of the output layer (default: &#39;&quot;</span> <a class="code" href="group__segNet.html#ga05c359c7dcd0c1e855543a3a9a18c422">SEGNET_DEFAULT_OUTPUT</a> <span class="stringliteral">&quot;&#39;)\n&quot;</span>    \</div><div class="line">                  <span class="stringliteral">&quot;  --batch_size BATCH   maximum batch size (default is 1)\n&quot;</span></div><div class="ttc" id="group__segNet_html_ga33b5fd20f8ed468725c55eb0bcc5af71"><div class="ttname"><a href="group__segNet.html#ga33b5fd20f8ed468725c55eb0bcc5af71">SEGNET_DEFAULT_INPUT</a></div><div class="ttdeci">#define SEGNET_DEFAULT_INPUT</div><div class="ttdoc">Name of default input blob for segmentation model. </div><div class="ttdef"><b>Definition:</b> segNet.h:34</div></div>
+<div class="ttc" id="group__segNet_html_ga05c359c7dcd0c1e855543a3a9a18c422"><div class="ttname"><a href="group__segNet.html#ga05c359c7dcd0c1e855543a3a9a18c422">SEGNET_DEFAULT_OUTPUT</a></div><div class="ttdeci">#define SEGNET_DEFAULT_OUTPUT</div><div class="ttdoc">Name of default output blob for segmentation model. </div><div class="ttdef"><b>Definition:</b> segNet.h:40</div></div>
+</div><!-- fragment -->
+<p>Command-line options able to be passed to <a class="el" href="classsegNet.html#a0679f72dbced85d919d01af841c67db9" title="Load a new network instance. ">segNet::Create()</a> </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jun 21 2019 16:23:15 for Jetson Inference by
+    <li class="footer">Generated on Mon Sep 16 2019 13:38:14 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

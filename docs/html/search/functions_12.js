@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['saveclasslegend',['saveClassLegend',['../classsegNet.html#a4eabed9f0e8aa5a8ddad078ada771ad7',1,'segNet']]],
   ['savefile',['SaveFile',['../classtinyxml2_1_1XMLDocument.html#a73ac416b4a2aa0952e841220eb3da18f',1,'tinyxml2::XMLDocument::SaveFile(const char *filename, bool compact=false)'],['../classtinyxml2_1_1XMLDocument.html#a8b95779479a0035acc67b3a61dfe1b74',1,'tinyxml2::XMLDocument::SaveFile(FILE *fp, bool compact=false)']]],
   ['saveimagergba',['saveImageRGBA',['../group__image.html#ga324cfcb15198bbf8c7578e802791d804',1,'imageIO.h']]],
   ['sealelementifjustopened',['SealElementIfJustOpened',['../classtinyxml2_1_1XMLPrinter.html#ac6e2c72c5d796f5b4de6ce81ca95e3fa',1,'tinyxml2::XMLPrinter']]],

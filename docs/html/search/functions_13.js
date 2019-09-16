@@ -1,6 +1,7 @@
 var searchData=
 [
   ['tensornet',['tensorNet',['../classtensorNet.html#ab6e617d96e5542bef023ee9d4c96388a',1,'tensorNet']]],
+  ['textextents',['TextExtents',['../classcudaFont.html#afadb0093101fb2f95f0929191c59c47d',1,'cudaFont']]],
   ['thread',['Thread',['../classThread.html#a95c703fb8f2f27cb64f475a8c940864a',1,'Thread']]],
   ['timeadd',['timeAdd',['../group__time.html#gaf087d50741339d18a1c4101985b30a8a',1,'timespec.h']]],
   ['timecmp',['timeCmp',['../group__time.html#ga86c3f22b9c909bb11014c38634c29778',1,'timespec.h']]],

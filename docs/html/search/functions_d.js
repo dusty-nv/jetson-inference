@@ -7,7 +7,7 @@ var searchData=
   ['networkadapters',['networkAdapters',['../NetworkAdapter_8h.html#a652cb8426e61fdd01babddb28ebcd85e',1,'NetworkAdapter.h']]],
   ['networkhostname',['networkHostname',['../NetworkAdapter_8h.html#a5a28e78074e7cd736f75123c93a4a3f6',1,'NetworkAdapter.h']]],
   ['networktypefromstr',['NetworkTypeFromStr',['../classdetectNet.html#ae3b1e96eef852854c0152d168f454f09',1,'detectNet::NetworkTypeFromStr()'],['../classhomographyNet.html#a2cd472fc782dfe59880591e369067931',1,'homographyNet::NetworkTypeFromStr()'],['../classimageNet.html#a911888acec5ff79f63e42ecdaed4d9c5',1,'imageNet::NetworkTypeFromStr()'],['../classsegNet.html#a586492c234d2dc924458e99d6026dbb4',1,'segNet::NetworkTypeFromStr()']]],
-  ['networktypetostr',['NetworkTypeToStr',['../classimageNet.html#a0a6ed78a812c2c8847aec7e2c9c7ecab',1,'imageNet']]],
+  ['networktypetostr',['NetworkTypeToStr',['../classimageNet.html#a0a6ed78a812c2c8847aec7e2c9c7ecab',1,'imageNet::NetworkTypeToStr()'],['../classsegNet.html#a8f3335012ce9fb7538271b27f2482329',1,'segNet::NetworkTypeToStr()']]],
   ['newcomment',['NewComment',['../classtinyxml2_1_1XMLDocument.html#ade4874bcb439954972ef2b3723ff3259',1,'tinyxml2::XMLDocument']]],
   ['newdeclaration',['NewDeclaration',['../classtinyxml2_1_1XMLDocument.html#aee2eb3435923f5494dcc70ac225b60a2',1,'tinyxml2::XMLDocument']]],
   ['newelement',['NewElement',['../classtinyxml2_1_1XMLDocument.html#a8aa7817d4a1001364b06373763ab99d6',1,'tinyxml2::XMLDocument']]],

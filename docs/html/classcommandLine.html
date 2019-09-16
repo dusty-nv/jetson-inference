@@ -83,7 +83,7 @@ $(document).ready(function(){initNavTree('classcommandLine.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classcommandLine-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">commandLine Class Reference<div class="ingroups"><a class="el" href="group__util.html">Utilities Library (jetson-utils)</a></div></div>  </div>
@@ -100,30 +100,32 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af365794845587db8e89aea0687b1c6f7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#af365794845587db8e89aea0687b1c6f7">commandLine</a> (const int <a class="el" href="classcommandLine.html#a7e44bdf5e5dcafee061bd3827002117a">argc</a>, char **<a class="el" href="classcommandLine.html#adb4c762405ba4b6bb81d99daa85f98bf">argv</a>)</td></tr>
 <tr class="memdesc:af365794845587db8e89aea0687b1c6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor, takes the command line from <code>main()</code>  <a href="#af365794845587db8e89aea0687b1c6f7">More...</a><br /></td></tr>
 <tr class="separator:af365794845587db8e89aea0687b1c6f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbce4973201d2353e6cd963220d3dbe3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#afbce4973201d2353e6cd963220d3dbe3">GetFlag</a> (const char *argName)</td></tr>
-<tr class="memdesc:afbce4973201d2353e6cd963220d3dbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks to see whether the specified flag was included on the command line.  <a href="#afbce4973201d2353e6cd963220d3dbe3">More...</a><br /></td></tr>
-<tr class="separator:afbce4973201d2353e6cd963220d3dbe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1de397bc3cd20c1d475facd89640fb0"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#af1de397bc3cd20c1d475facd89640fb0">GetFloat</a> (const char *argName, float defaultValue=0.0f)</td></tr>
-<tr class="memdesc:af1de397bc3cd20c1d475facd89640fb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get float argument.  <a href="#af1de397bc3cd20c1d475facd89640fb0">More...</a><br /></td></tr>
-<tr class="separator:af1de397bc3cd20c1d475facd89640fb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f90663ccf7e3d63ed5bffd043564e9a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a7f90663ccf7e3d63ed5bffd043564e9a">GetInt</a> (const char *argName, int defaultValue=0)</td></tr>
-<tr class="memdesc:a7f90663ccf7e3d63ed5bffd043564e9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get integer argument.  <a href="#a7f90663ccf7e3d63ed5bffd043564e9a">More...</a><br /></td></tr>
-<tr class="separator:a7f90663ccf7e3d63ed5bffd043564e9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77b9289d32c7b949b38a0c6e45c4091e"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a77b9289d32c7b949b38a0c6e45c4091e">GetString</a> (const char *argName, const char *defaultValue=NULL)</td></tr>
-<tr class="memdesc:a77b9289d32c7b949b38a0c6e45c4091e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get string argument.  <a href="#a77b9289d32c7b949b38a0c6e45c4091e">More...</a><br /></td></tr>
-<tr class="separator:a77b9289d32c7b949b38a0c6e45c4091e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a2c75a34d87d7e930f7a49c1b2a2369"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a3a2c75a34d87d7e930f7a49c1b2a2369">GetPosition</a> (unsigned int position, const char *defaultValue=NULL)</td></tr>
-<tr class="memdesc:a3a2c75a34d87d7e930f7a49c1b2a2369"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get positional string argument.  <a href="#a3a2c75a34d87d7e930f7a49c1b2a2369">More...</a><br /></td></tr>
-<tr class="separator:a3a2c75a34d87d7e930f7a49c1b2a2369"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75409f56ac1ef63a77eb500c6561b2a1"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a75409f56ac1ef63a77eb500c6561b2a1">GetPositionArgs</a> ()</td></tr>
-<tr class="memdesc:a75409f56ac1ef63a77eb500c6561b2a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of positional arguments in the command line.  <a href="#a75409f56ac1ef63a77eb500c6561b2a1">More...</a><br /></td></tr>
-<tr class="separator:a75409f56ac1ef63a77eb500c6561b2a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac55413fb0d401c0cb6c81e2a4f679bea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#ac55413fb0d401c0cb6c81e2a4f679bea">GetFlag</a> (const char *argName) const</td></tr>
+<tr class="memdesc:ac55413fb0d401c0cb6c81e2a4f679bea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks to see whether the specified flag was included on the command line.  <a href="#ac55413fb0d401c0cb6c81e2a4f679bea">More...</a><br /></td></tr>
+<tr class="separator:ac55413fb0d401c0cb6c81e2a4f679bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cef3f58471a2d5c6b8ab7b1ab8340d0"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a8cef3f58471a2d5c6b8ab7b1ab8340d0">GetFloat</a> (const char *argName, float defaultValue=0.0f) const</td></tr>
+<tr class="memdesc:a8cef3f58471a2d5c6b8ab7b1ab8340d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get float argument.  <a href="#a8cef3f58471a2d5c6b8ab7b1ab8340d0">More...</a><br /></td></tr>
+<tr class="separator:a8cef3f58471a2d5c6b8ab7b1ab8340d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa275b52f8e88591a97616069210c7dc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#aaa275b52f8e88591a97616069210c7dc">GetInt</a> (const char *argName, int defaultValue=0) const</td></tr>
+<tr class="memdesc:aaa275b52f8e88591a97616069210c7dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get integer argument.  <a href="#aaa275b52f8e88591a97616069210c7dc">More...</a><br /></td></tr>
+<tr class="separator:aaa275b52f8e88591a97616069210c7dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42243477fcd1bcb8cb9675fbd83abf58"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a42243477fcd1bcb8cb9675fbd83abf58">GetString</a> (const char *argName, const char *defaultValue=NULL) const</td></tr>
+<tr class="memdesc:a42243477fcd1bcb8cb9675fbd83abf58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get string argument.  <a href="#a42243477fcd1bcb8cb9675fbd83abf58">More...</a><br /></td></tr>
+<tr class="separator:a42243477fcd1bcb8cb9675fbd83abf58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5de00debc91a7ef79014a301a9b4a9f"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#ab5de00debc91a7ef79014a301a9b4a9f">GetPosition</a> (unsigned int position, const char *defaultValue=NULL) const</td></tr>
+<tr class="memdesc:ab5de00debc91a7ef79014a301a9b4a9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get positional string argument.  <a href="#ab5de00debc91a7ef79014a301a9b4a9f">More...</a><br /></td></tr>
+<tr class="separator:ab5de00debc91a7ef79014a301a9b4a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfb9272579250ddfde6f817417d0a7d8"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#abfb9272579250ddfde6f817417d0a7d8">GetPositionArgs</a> () const</td></tr>
+<tr class="memdesc:abfb9272579250ddfde6f817417d0a7d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of positional arguments in the command line.  <a href="#abfb9272579250ddfde6f817417d0a7d8">More...</a><br /></td></tr>
+<tr class="separator:abfb9272579250ddfde6f817417d0a7d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
 <tr class="memitem:a7e44bdf5e5dcafee061bd3827002117a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a7e44bdf5e5dcafee061bd3827002117a">argc</a></td></tr>
+<tr class="memdesc:a7e44bdf5e5dcafee061bd3827002117a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The argument count that the object was created with from main()  <a href="#a7e44bdf5e5dcafee061bd3827002117a">More...</a><br /></td></tr>
 <tr class="separator:a7e44bdf5e5dcafee061bd3827002117a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb4c762405ba4b6bb81d99daa85f98bf"><td class="memItemLeft" align="right" valign="top">char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#adb4c762405ba4b6bb81d99daa85f98bf">argv</a></td></tr>
+<tr class="memdesc:adb4c762405ba4b6bb81d99daa85f98bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The argument strings that the object was created with from main()  <a href="#adb4c762405ba4b6bb81d99daa85f98bf">More...</a><br /></td></tr>
 <tr class="separator:adb4c762405ba4b6bb81d99daa85f98bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -160,8 +162,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="afbce4973201d2353e6cd963220d3dbe3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afbce4973201d2353e6cd963220d3dbe3">&#9670;&nbsp;</a></span>GetFlag()</h2>
+<a id="ac55413fb0d401c0cb6c81e2a4f679bea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac55413fb0d401c0cb6c81e2a4f679bea">&#9670;&nbsp;</a></span>GetFlag()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,7 +173,7 @@ Protected Attributes</h2></td></tr>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>argName</em></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -182,8 +184,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af1de397bc3cd20c1d475facd89640fb0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1de397bc3cd20c1d475facd89640fb0">&#9670;&nbsp;</a></span>GetFloat()</h2>
+<a id="a8cef3f58471a2d5c6b8ab7b1ab8340d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cef3f58471a2d5c6b8ab7b1ab8340d0">&#9670;&nbsp;</a></span>GetFloat()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -203,7 +205,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -214,8 +216,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a7f90663ccf7e3d63ed5bffd043564e9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f90663ccf7e3d63ed5bffd043564e9a">&#9670;&nbsp;</a></span>GetInt()</h2>
+<a id="aaa275b52f8e88591a97616069210c7dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa275b52f8e88591a97616069210c7dc">&#9670;&nbsp;</a></span>GetInt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -235,7 +237,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -246,8 +248,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3a2c75a34d87d7e930f7a49c1b2a2369"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a2c75a34d87d7e930f7a49c1b2a2369">&#9670;&nbsp;</a></span>GetPosition()</h2>
+<a id="ab5de00debc91a7ef79014a301a9b4a9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5de00debc91a7ef79014a301a9b4a9f">&#9670;&nbsp;</a></span>GetPosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -267,7 +269,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -278,8 +280,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a75409f56ac1ef63a77eb500c6561b2a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75409f56ac1ef63a77eb500c6561b2a1">&#9670;&nbsp;</a></span>GetPositionArgs()</h2>
+<a id="abfb9272579250ddfde6f817417d0a7d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfb9272579250ddfde6f817417d0a7d8">&#9670;&nbsp;</a></span>GetPositionArgs()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -288,7 +290,7 @@ Protected Attributes</h2></td></tr>
           <td class="memname">unsigned int commandLine::GetPositionArgs </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -298,8 +300,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a77b9289d32c7b949b38a0c6e45c4091e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77b9289d32c7b949b38a0c6e45c4091e">&#9670;&nbsp;</a></span>GetString()</h2>
+<a id="a42243477fcd1bcb8cb9675fbd83abf58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42243477fcd1bcb8cb9675fbd83abf58">&#9670;&nbsp;</a></span>GetString()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -319,7 +321,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -336,20 +338,14 @@ Protected Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int commandLine::argc</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>The argument count that the object was created with from main() </p>
 
 </div>
 </div>
@@ -358,20 +354,14 @@ Protected Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">char** commandLine::argv</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>The argument strings that the object was created with from main() </p>
 
 </div>
 </div>
@@ -384,7 +374,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classcommandLine.html">commandLine</a></li>
-    <li class="footer">Generated on Fri Jun 21 2019 16:23:15 for Jetson Inference by
+    <li class="footer">Generated on Mon Sep 16 2019 13:38:14 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

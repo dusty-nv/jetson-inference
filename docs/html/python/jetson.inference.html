@@ -34,6 +34,7 @@
 <dl>
 <dt><font face="helvetica, arial"><a href="jetson.inference.html#detectNet">detectNet</a>
 </font></dt><dt><font face="helvetica, arial"><a href="jetson.inference.html#imageNet">imageNet</a>
+</font></dt><dt><font face="helvetica, arial"><a href="jetson.inference.html#segNet">segNet</a>
 </font></dt></dl>
 </dd>
 </dl>
@@ -77,7 +78,7 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-bottle<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-chair<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-dog<br>
-&nbsp;&nbsp;--model&nbsp;MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(.caffemodel,&nbsp;.uff,&nbsp;or&nbsp;.onnx)<br>
+&nbsp;&nbsp;--model&nbsp;MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(caffemodel,&nbsp;uff,&nbsp;or&nbsp;onnx)<br>
 &nbsp;&nbsp;--prototxt&nbsp;PROTOTXT&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
 &nbsp;&nbsp;--class_labels&nbsp;LABELS&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
 &nbsp;&nbsp;--threshold&nbsp;THRESHOLD&nbsp;minimum&nbsp;threshold&nbsp;for&nbsp;detection&nbsp;(default&nbsp;is&nbsp;0.5)<br>
@@ -250,7 +251,7 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;vgg-16<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;vgg-19<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;inception-v4<br>
-&nbsp;&nbsp;--model&nbsp;MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(.caffemodel,&nbsp;.uff,&nbsp;or&nbsp;.onnx)<br>
+&nbsp;&nbsp;--model&nbsp;MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(caffemodel,&nbsp;uff,&nbsp;or&nbsp;onnx)<br>
 &nbsp;&nbsp;--prototxt&nbsp;PROTOTXT&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
 &nbsp;&nbsp;--labels&nbsp;LABELS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
 &nbsp;&nbsp;--input_blob&nbsp;INPUT&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'data')<br>
@@ -336,6 +337,146 @@ Methods inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<
 <hr>
 Data and other attributes inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<br>
 <dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#imageNet-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="segNet">class <strong>segNet</strong></a>(<a href="jetson.inference.html#tensorNet">tensorNet</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Semantic&nbsp;Segmentation&nbsp;DNN&nbsp;-&nbsp;segments&nbsp;an&nbsp;image&nbsp;with&nbsp;per-pixel&nbsp;classification<br>
+&nbsp;<br>
+Examples&nbsp;(jetson-inference/python/examples)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;segnet-console.py<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;segnet-camera.py<br>
+&nbsp;<br>
+<a href="#segNet-__init__">__init__</a>(...)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loads&nbsp;an&nbsp;semantic&nbsp;segmentation&nbsp;model.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;network&nbsp;(string)&nbsp;--&nbsp;name&nbsp;of&nbsp;a&nbsp;built-in&nbsp;network&nbsp;to&nbsp;use,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;below&nbsp;for&nbsp;available&nbsp;options.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argv&nbsp;(strings)&nbsp;--&nbsp;command&nbsp;line&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;<a href="#segNet">segNet</a>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;below&nbsp;for&nbsp;available&nbsp;options.<br>
+&nbsp;<br>
+<a href="#segNet">segNet</a>&nbsp;arguments:&nbsp;<br>
+&nbsp;&nbsp;--network&nbsp;NETWORK&nbsp;&nbsp;&nbsp;&nbsp;pre-trained&nbsp;model&nbsp;to&nbsp;load,&nbsp;one&nbsp;of&nbsp;the&nbsp;following:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-cityscapes-512x256<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-cityscapes-1024x512<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-cityscapes-2048x1024<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-deepscene-576x320<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-deepscene-864x480<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-mhp-512x320<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-mhp-640x360<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-voc-320x320&nbsp;(default)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-voc-512x320<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-sun-512x400<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-sun-640x512<br>
+&nbsp;&nbsp;--model&nbsp;MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(caffemodel,&nbsp;uff,&nbsp;or&nbsp;onnx)<br>
+&nbsp;&nbsp;--prototxt&nbsp;PROTOTXT&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
+&nbsp;&nbsp;--labels&nbsp;LABELS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
+&nbsp;&nbsp;--colors&nbsp;COLORS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;colors&nbsp;for&nbsp;each&nbsp;class<br>
+&nbsp;&nbsp;--input_blob&nbsp;INPUT&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default:&nbsp;'data')<br>
+&nbsp;&nbsp;--output_blob&nbsp;OUTPUT&nbsp;name&nbsp;of&nbsp;the&nbsp;output&nbsp;layer&nbsp;(default:&nbsp;'score_fr_21classes')<br>
+&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="jetson.inference.html#segNet">segNet</a></dd>
+<dd><a href="jetson.inference.html#tensorNet">tensorNet</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="segNet-GetClassDesc"><strong>GetClassDesc</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;class&nbsp;description&nbsp;for&nbsp;the&nbsp;given&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;class.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;index&nbsp;of&nbsp;the&nbsp;class,&nbsp;between&nbsp;[0,&nbsp;<a href="#segNet-GetNumClasses">GetNumClasses</a>()]<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(string)&nbsp;--&nbsp;the&nbsp;text&nbsp;description&nbsp;of&nbsp;the&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;class</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetNetworkName"><strong>GetNetworkName</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;built-in&nbsp;network&nbsp;used&nbsp;by&nbsp;the&nbsp;model.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(string)&nbsp;--&nbsp;name&nbsp;of&nbsp;the&nbsp;network&nbsp;(e.g.&nbsp;'FCN_ResNet18',&nbsp;'FCN_Alexnet')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;'custom'&nbsp;if&nbsp;using&nbsp;a&nbsp;custom-loaded&nbsp;model</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetNumClasses"><strong>GetNumClasses</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;number&nbsp;of&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;classes&nbsp;that&nbsp;this&nbsp;network&nbsp;model&nbsp;is&nbsp;able&nbsp;to&nbsp;classify.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;number&nbsp;of&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;classes&nbsp;that&nbsp;the&nbsp;model&nbsp;supports</tt></dd></dl>
+
+<dl><dt><a name="segNet-Mask"><strong>Mask</strong></a>(...)</dt><dd><tt>Produce&nbsp;a&nbsp;colorized&nbsp;RGBA&nbsp;segmentation&nbsp;mask&nbsp;of&nbsp;the&nbsp;output.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;image&nbsp;&nbsp;(capsule)&nbsp;--&nbsp;output&nbsp;CUDA&nbsp;memory&nbsp;capsule<br>
+&nbsp;&nbsp;width&nbsp;&nbsp;(int)&nbsp;--&nbsp;width&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
+&nbsp;&nbsp;height&nbsp;(int)&nbsp;--&nbsp;height&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
+&nbsp;&nbsp;filter_mode&nbsp;(string)&nbsp;--&nbsp;optional&nbsp;string&nbsp;indicating&nbsp;the&nbsp;filter&nbsp;mode,&nbsp;'point'&nbsp;or&nbsp;'linear'&nbsp;(default:&nbsp;'linear')<br>
+Returns:&nbsp;&nbsp;(none)</tt></dd></dl>
+
+<dl><dt><a name="segNet-Overlay"><strong>Overlay</strong></a>(...)</dt><dd><tt>Produce&nbsp;the&nbsp;segmentation&nbsp;overlay&nbsp;alpha&nbsp;blended&nbsp;on&nbsp;top&nbsp;of&nbsp;the&nbsp;original&nbsp;image.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;image&nbsp;&nbsp;(capsule)&nbsp;--&nbsp;output&nbsp;CUDA&nbsp;memory&nbsp;capsule<br>
+&nbsp;&nbsp;width&nbsp;&nbsp;(int)&nbsp;--&nbsp;width&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
+&nbsp;&nbsp;height&nbsp;(int)&nbsp;--&nbsp;height&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
+&nbsp;&nbsp;filter_mode&nbsp;(string)&nbsp;--&nbsp;optional&nbsp;string&nbsp;indicating&nbsp;the&nbsp;filter&nbsp;mode,&nbsp;'point'&nbsp;or&nbsp;'linear'&nbsp;(default:&nbsp;'linear')<br>
+Returns:&nbsp;&nbsp;(none)</tt></dd></dl>
+
+<dl><dt><a name="segNet-Process"><strong>Process</strong></a>(...)</dt><dd><tt>Perform&nbsp;the&nbsp;initial&nbsp;inferencing&nbsp;processing&nbsp;of&nbsp;the&nbsp;segmentation.<br>
+The&nbsp;results&nbsp;can&nbsp;then&nbsp;be&nbsp;visualized&nbsp;using&nbsp;the&nbsp;<a href="#segNet-Overlay">Overlay</a>()&nbsp;and&nbsp;<a href="#segNet-Mask">Mask</a>()&nbsp;functions.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;image&nbsp;&nbsp;(capsule)&nbsp;--&nbsp;CUDA&nbsp;memory&nbsp;capsule<br>
+&nbsp;&nbsp;width&nbsp;&nbsp;(int)&nbsp;--&nbsp;width&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
+&nbsp;&nbsp;height&nbsp;(int)&nbsp;--&nbsp;height&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
+&nbsp;&nbsp;ignore_class&nbsp;(string)&nbsp;--&nbsp;optional&nbsp;label&nbsp;name&nbsp;of&nbsp;class&nbsp;to&nbsp;ignore&nbsp;in&nbsp;the&nbsp;classification&nbsp;(default:&nbsp;'void')<br>
+Returns:&nbsp;&nbsp;(none)</tt></dd></dl>
+
+<dl><dt><a name="segNet-SetGlobalAlpha"><strong>SetGlobalAlpha</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;global&nbsp;alpha&nbsp;value&nbsp;used&nbsp;during&nbsp;overlay&nbsp;blending&nbsp;for&nbsp;all&nbsp;classes<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;alpha&nbsp;(float)&nbsp;--&nbsp;desired&nbsp;alpha&nbsp;value,&nbsp;between&nbsp;0.0&nbsp;and&nbsp;255.0<br>
+&nbsp;&nbsp;explicit_exempt&nbsp;(optional,&nbsp;bool)&nbsp;--&nbsp;if&nbsp;True,&nbsp;the&nbsp;global&nbsp;alpha&nbsp;doesn't&nbsp;apply&nbsp;to&nbsp;classes&nbsp;that&nbsp;have&nbsp;an&nbsp;alpha&nbsp;value&nbsp;explicitly&nbsp;set&nbsp;in&nbsp;the&nbsp;colors&nbsp;file&nbsp;(default:&nbsp;True)<br>
+Returns:&nbsp;&nbsp;(none)</tt></dd></dl>
+
+<dl><dt><a name="segNet-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="#segNet-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="segNet-Usage"><strong>Usage</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;command&nbsp;line&nbsp;parameters&nbsp;accepted&nbsp;by&nbsp;<a href="#segNet-__init__">__init__</a>()<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(string)&nbsp;--&nbsp;usage&nbsp;string&nbsp;documenting&nbsp;command-line&nbsp;options</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<br>
+<dl><dt><a name="segNet-EnableDebug"><strong>EnableDebug</strong></a>(...)</dt><dd><tt>Enable&nbsp;TensorRT&nbsp;debug&nbsp;messages&nbsp;and&nbsp;device&nbsp;synchronization</tt></dd></dl>
+
+<dl><dt><a name="segNet-EnableLayerProfiler"><strong>EnableLayerProfiler</strong></a>(...)</dt><dd><tt>Enable&nbsp;the&nbsp;profiling&nbsp;of&nbsp;network&nbsp;layer&nbsp;execution&nbsp;times</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetModelPath"><strong>GetModelPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;model&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetModelType"><strong>GetModelType</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;type&nbsp;of&nbsp;model&nbsp;format&nbsp;(caffe,&nbsp;ONNX,&nbsp;UFF,&nbsp;or&nbsp;custom)</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetNetworkTime"><strong>GetNetworkTime</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;milliseconds)</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetPrototxtPath"><strong>GetPrototxtPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;prototxt&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
+
+<dl><dt><a name="segNet-PrintProfilerTimes"><strong>PrintProfilerTimes</strong></a>(...)</dt><dd><tt>Print&nbsp;out&nbsp;performance&nbsp;timing&nbsp;info</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#segNet-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
 
 </td></tr></table> <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">

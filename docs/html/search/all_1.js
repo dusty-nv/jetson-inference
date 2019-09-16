@@ -6,6 +6,7 @@ var searchData=
   ['alexnet',['ALEXNET',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a3e774168f30b16946773a737a6c354cf',1,'imageNet']]],
   ['alloc',['Alloc',['../classtinyxml2_1_1MemPool.html#a4f977b5fed752c0bbfe5295f469d6449',1,'tinyxml2::MemPool::Alloc()'],['../classtinyxml2_1_1MemPoolT.html#a810fd2b0caf56b8b688e55f2768f96c7',1,'tinyxml2::MemPoolT::Alloc()']]],
   ['allocdetections',['allocDetections',['../classdetectNet.html#acb367fb540a1dfb719c44ae0e4cdb045',1,'detectNet']]],
+  ['alloctexture',['allocTexture',['../classglDisplay.html#a6553b4eee50dfa0ddedd0960123583df',1,'glDisplay']]],
   ['allowgpufallback',['AllowGPUFallback',['../classtensorNet.html#a7d0ec0d8504ac8b26c5ab4a6136599ca',1,'tensorNet']]],
   ['area',['Area',['../structdetectNet_1_1Detection.html#a239620621f33ed918d2f86a678a68c16',1,'detectNet::Detection']]],
   ['argc',['argc',['../classcommandLine.html#a7e44bdf5e5dcafee061bd3827002117a',1,'commandLine']]],

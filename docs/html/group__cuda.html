@@ -128,6 +128,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga08121b272362dcd6f06d71a5a660c1e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga08121b272362dcd6f06d71a5a660c1e9">cudaAllocMapped</a> (void **cpuPtr, void **gpuPtr, size_t size)</td></tr>
 <tr class="memdesc:ga08121b272362dcd6f06d71a5a660c1e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate ZeroCopy mapped memory, shared between CUDA and CPU.  <a href="#ga08121b272362dcd6f06d71a5a660c1e9">More...</a><br /></td></tr>
 <tr class="separator:ga08121b272362dcd6f06d71a5a660c1e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaebaf526c95c617fba65d29943b88333d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gaebaf526c95c617fba65d29943b88333d">cudaAllocMapped</a> (void **ptr, size_t size)</td></tr>
+<tr class="memdesc:gaebaf526c95c617fba65d29943b88333d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate ZeroCopy mapped memory, shared between CUDA and CPU.  <a href="#gaebaf526c95c617fba65d29943b88333d">More...</a><br /></td></tr>
+<tr class="separator:gaebaf526c95c617fba65d29943b88333d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga641d60fd373491363742afa04c5b3ad2"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga641d60fd373491363742afa04c5b3ad2">cudaNormalizeRGBA</a> (float4 *input, const float2 &amp;input_range, float4 *output, const float2 &amp;output_range, size_t width, size_t height)</td></tr>
 <tr class="memdesc:ga641d60fd373491363742afa04c5b3ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rebase the pixel intensities of an image between two scales.  <a href="#ga641d60fd373491363742afa04c5b3ad2">More...</a><br /></td></tr>
 <tr class="separator:ga641d60fd373491363742afa04c5b3ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -249,7 +252,7 @@ Functions</h2></td></tr>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga08121b272362dcd6f06d71a5a660c1e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga08121b272362dcd6f06d71a5a660c1e9">&#9670;&nbsp;</a></span>cudaAllocMapped()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga08121b272362dcd6f06d71a5a660c1e9">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -289,6 +292,63 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Allocate ZeroCopy mapped memory, shared between CUDA and CPU. </p>
+<dl class="section note"><dt>Note</dt><dd>although two pointers are returned, one for CPU and GPU, they both resolve to the same physical memory. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">cpuPtr</td><td>Returned CPU pointer to the shared memory. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">gpuPtr</td><td>Returned GPU pointer to the shared memory. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Size (in bytes) of the shared memory to allocate. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the allocation succeeded, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="gaebaf526c95c617fba65d29943b88333d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaebaf526c95c617fba65d29943b88333d">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cudaAllocMapped </td>
+          <td>(</td>
+          <td class="paramtype">void **&#160;</td>
+          <td class="paramname"><em>ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Allocate ZeroCopy mapped memory, shared between CUDA and CPU. </p>
+<dl class="section note"><dt>Note</dt><dd>this overload of cudaAllocMapped returns one pointer, assumes that the CPU and GPU addresses will match (as is the case with any recent CUDA version). </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">ptr</td><td>Returned pointer to the shared CPU/GPU memory. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Size (in bytes) of the shared memory to allocate. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the allocation succeeded, <code>false</code> otherwise. </dd></dl>
 
 </div>
 </div>
@@ -608,7 +668,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jun 21 2019 16:23:15 for Jetson Inference by
+    <li class="footer">Generated on Mon Sep 16 2019 13:38:14 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

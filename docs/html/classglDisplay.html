@@ -113,9 +113,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a528c58b4fcecd7d3d516f44de3233538"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a528c58b4fcecd7d3d516f44de3233538">Render</a> (<a class="el" href="classglTexture.html">glTexture</a> *texture, float x=5.0f, float y=30.0f)</td></tr>
 <tr class="memdesc:a528c58b4fcecd7d3d516f44de3233538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render an OpenGL texture.  <a href="#a528c58b4fcecd7d3d516f44de3233538">More...</a><br /></td></tr>
 <tr class="separator:a528c58b4fcecd7d3d516f44de3233538"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1390428740909686cb8de18986cad565"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a1390428740909686cb8de18986cad565">Render</a> (float *image, uint32_t width, uint32_t height, float x=5.0f, float y=30.0f, bool normalize=true)</td></tr>
-<tr class="memdesc:a1390428740909686cb8de18986cad565"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a CUDA float4 image using OpenGL interop If normalize is true, the image's pixel values will be rescaled from the range of [0-255] to [0-1] If normalize is false, the image's pixel values are assumed to already be in the range of [0-1] Note that if normalization is selected to be performed, it will be done in-place on the image.  <a href="#a1390428740909686cb8de18986cad565">More...</a><br /></td></tr>
-<tr class="separator:a1390428740909686cb8de18986cad565"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a763b4f1878de0b6c1e2d1961064d158b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a763b4f1878de0b6c1e2d1961064d158b">Render</a> (float *image, uint32_t width, uint32_t height, float x=0.0f, float y=30.0f, bool normalize=true)</td></tr>
+<tr class="memdesc:a763b4f1878de0b6c1e2d1961064d158b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a CUDA float4 image using OpenGL interop If normalize is true, the image's pixel values will be rescaled from the range of [0-255] to [0-1] If normalize is false, the image's pixel values are assumed to already be in the range of [0-1] Note that if normalization is selected to be performed, it will be done in-place on the image.  <a href="#a763b4f1878de0b6c1e2d1961064d158b">More...</a><br /></td></tr>
+<tr class="separator:a763b4f1878de0b6c1e2d1961064d158b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a616a3220a6575d31bad5de69eca71e0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a616a3220a6575d31bad5de69eca71e0f">RenderOnce</a> (float *image, uint32_t width, uint32_t height, float x=5.0f, float y=30.0f, bool normalize=true)</td></tr>
 <tr class="memdesc:a616a3220a6575d31bad5de69eca71e0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin the frame, render one CUDA float4 image using OpenGL interop, and end the frame.  <a href="#a616a3220a6575d31bad5de69eca71e0f">More...</a><br /></td></tr>
 <tr class="separator:a616a3220a6575d31bad5de69eca71e0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,6 +170,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a2d545e3ad748e899a413b1c954dc06d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a022eebf333e5acf6df0fcf2f632a470a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a022eebf333e5acf6df0fcf2f632a470a">initGL</a> ()</td></tr>
 <tr class="separator:a022eebf333e5acf6df0fcf2f632a470a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6553b4eee50dfa0ddedd0960123583df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classglTexture.html">glTexture</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a6553b4eee50dfa0ddedd0960123583df">allocTexture</a> (uint32_t width, uint32_t height)</td></tr>
+<tr class="separator:a6553b4eee50dfa0ddedd0960123583df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -183,8 +185,6 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a59861c4376b388d34c57f06c9a460e97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aecdedd41e0d674fb614b88fd9ca9fa15"><td class="memItemLeft" align="right" valign="top">GLXContext&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aecdedd41e0d674fb614b88fd9ca9fa15">mContextGL</a></td></tr>
 <tr class="separator:aecdedd41e0d674fb614b88fd9ca9fa15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa859d215e683531621ff6ad3173ffd4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classglTexture.html">glTexture</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aa859d215e683531621ff6ad3173ffd4d">mInteropTex</a></td></tr>
-<tr class="separator:aa859d215e683531621ff6ad3173ffd4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd8adcb680935b9ea3ce974b141e5969"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#acd8adcb680935b9ea3ce974b141e5969">mWindowClosed</a></td></tr>
 <tr class="separator:acd8adcb680935b9ea3ce974b141e5969"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d20a9b3eb655b1719c3896f9af608e4"><td class="memItemLeft" align="right" valign="top">Atom&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a4d20a9b3eb655b1719c3896f9af608e4">mWindowClosedMsg</a></td></tr>
@@ -199,6 +199,14 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a5696e63a87c34b0d50d1615bca5072ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56e08dd6f4895451391ff9ce7e7b9390"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a56e08dd6f4895451391ff9ce7e7b9390">mBgColor</a> [4]</td></tr>
 <tr class="separator:a56e08dd6f4895451391ff9ce7e7b9390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a927c5467f9926f769d96ab60c0d55724"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a927c5467f9926f769d96ab60c0d55724">mNormalizedCUDA</a></td></tr>
+<tr class="separator:a927c5467f9926f769d96ab60c0d55724"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3a52573738ea17a2dd9d4263c166759"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#ac3a52573738ea17a2dd9d4263c166759">mNormalizedWidth</a></td></tr>
+<tr class="separator:ac3a52573738ea17a2dd9d4263c166759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebc8ffc67311372c24f60a8c33652f48"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aebc8ffc67311372c24f60a8c33652f48">mNormalizedHeight</a></td></tr>
+<tr class="separator:aebc8ffc67311372c24f60a8c33652f48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a377aaed358a4452760e02580f89ac2ab"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classglTexture.html">glTexture</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a377aaed358a4452760e02580f89ac2ab">mTextures</a></td></tr>
+<tr class="separator:a377aaed358a4452760e02580f89ac2ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
 Static Protected Attributes</h2></td></tr>
@@ -253,6 +261,42 @@ Static Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a6553b4eee50dfa0ddedd0960123583df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6553b4eee50dfa0ddedd0960123583df">&#9670;&nbsp;</a></span>allocTexture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classglTexture.html">glTexture</a>* glDisplay::allocTexture </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a33ed83d87e71cbfcef7347b41f541203"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a33ed83d87e71cbfcef7347b41f541203">&#9670;&nbsp;</a></span>BeginRender()</h2>
 
@@ -677,8 +721,8 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1390428740909686cb8de18986cad565"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1390428740909686cb8de18986cad565">&#9670;&nbsp;</a></span>Render() <span class="overload">[2/2]</span></h2>
+<a id="a763b4f1878de0b6c1e2d1961064d158b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a763b4f1878de0b6c1e2d1961064d158b">&#9670;&nbsp;</a></span>Render() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -705,7 +749,7 @@ Static Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>x</em> = <code>5.0f</code>, </td>
+          <td class="paramname"><em>x</em> = <code>0.0f</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1019,28 +1063,6 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aa859d215e683531621ff6ad3173ffd4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa859d215e683531621ff6ad3173ffd4d">&#9670;&nbsp;</a></span>mInteropTex</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classglTexture.html">glTexture</a>* glDisplay::mInteropTex</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a060f50c9661124d2d8aa457dfe30d4bc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a060f50c9661124d2d8aa457dfe30d4bc">&#9670;&nbsp;</a></span>mLastTime</h2>
 
@@ -1063,6 +1085,72 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a927c5467f9926f769d96ab60c0d55724"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a927c5467f9926f769d96ab60c0d55724">&#9670;&nbsp;</a></span>mNormalizedCUDA</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float* glDisplay::mNormalizedCUDA</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aebc8ffc67311372c24f60a8c33652f48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebc8ffc67311372c24f60a8c33652f48">&#9670;&nbsp;</a></span>mNormalizedHeight</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t glDisplay::mNormalizedHeight</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac3a52573738ea17a2dd9d4263c166759"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3a52573738ea17a2dd9d4263c166759">&#9670;&nbsp;</a></span>mNormalizedWidth</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t glDisplay::mNormalizedWidth</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a90154b9452e23a0665360e2008950e23"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a90154b9452e23a0665360e2008950e23">&#9670;&nbsp;</a></span>mScreenX</h2>
 
@@ -1074,6 +1162,28 @@ Static Protected Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">Screen* glDisplay::mScreenX</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a377aaed358a4452760e02580f89ac2ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a377aaed358a4452760e02580f89ac2ab">&#9670;&nbsp;</a></span>mTextures</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="classglTexture.html">glTexture</a>*&gt; glDisplay::mTextures</td>
         </tr>
       </table>
   </td>
@@ -1226,7 +1336,7 @@ Static Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classglDisplay.html">glDisplay</a></li>
-    <li class="footer">Generated on Fri Jun 21 2019 16:23:15 for Jetson Inference by
+    <li class="footer">Generated on Mon Sep 16 2019 13:38:14 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

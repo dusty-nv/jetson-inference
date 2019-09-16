@@ -246,6 +246,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ae3b1e96eef852854c0152d168f454f09"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4">NetworkType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#ae3b1e96eef852854c0152d168f454f09">NetworkTypeFromStr</a> (const char *model_name)</td></tr>
 <tr class="memdesc:ae3b1e96eef852854c0152d168f454f09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a string to one of the built-in pretrained models.  <a href="#ae3b1e96eef852854c0152d168f454f09">More...</a><br /></td></tr>
 <tr class="separator:ae3b1e96eef852854c0152d168f454f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bb2b446e26a466c9e355f1472f68e4c"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a2bb2b446e26a466c9e355f1472f68e4c">OverlayFlagsFromStr</a> (const char *flags)</td></tr>
+<tr class="memdesc:a2bb2b446e26a466c9e355f1472f68e4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a string sequence into OverlayFlags enum.  <a href="#a2bb2b446e26a466c9e355f1472f68e4c">More...</a><br /></td></tr>
+<tr class="separator:a2bb2b446e26a466c9e355f1472f68e4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7c84410a8b08fc072bffc55f375e8a4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classdetectNet.html">detectNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#ac7c84410a8b08fc072bffc55f375e8a4">Create</a> (<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4">NetworkType</a> networkType=<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53">PEDNET_MULTI</a>, float threshold=<a class="el" href="group__detectNet.html#ga5de620e838c2ac9aec16c6de2977513f">DETECTNET_DEFAULT_THRESHOLD</a>, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true)</td></tr>
 <tr class="memdesc:ac7c84410a8b08fc072bffc55f375e8a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#ac7c84410a8b08fc072bffc55f375e8a4">More...</a><br /></td></tr>
 <tr class="separator:ac7c84410a8b08fc072bffc55f375e8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1590,6 +1593,35 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a2bb2b446e26a466c9e355f1472f68e4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bb2b446e26a466c9e355f1472f68e4c">&#9670;&nbsp;</a></span>OverlayFlagsFromStr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint32_t detectNet::OverlayFlagsFromStr </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>flags</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse a string sequence into OverlayFlags enum. </p>
+<p>Valid flags are "none", "box", and "label", and it is possible to combine multiple flags (bitwise OR) together with commas or pipe (|) symbol. For example, the string sequences "box,label" and "box|label" would return the flags OVERLAY_BOX|OVERLAY_LABEL. </p>
+
+</div>
+</div>
 <a id="ab9ba7c63d2fc417d0908324fd0dc2223"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab9ba7c63d2fc417d0908324fd0dc2223">&#9670;&nbsp;</a></span>SetClassColor()</h2>
 
@@ -1967,7 +1999,7 @@ Static Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classdetectNet.html">detectNet</a></li>
-    <li class="footer">Generated on Fri Jun 21 2019 16:23:15 for Jetson Inference by
+    <li class="footer">Generated on Mon Sep 16 2019 13:38:14 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

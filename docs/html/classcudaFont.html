@@ -115,6 +115,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a95a0b6cc1d264f3b2f5f835befefd57c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcudaFont.html#a95a0b6cc1d264f3b2f5f835befefd57c">OverlayText</a> (float4 *image, uint32_t width, uint32_t height, const std::vector&lt; std::pair&lt; std::string, int2 &gt; &gt; &amp;text, const float4 &amp;color=make_float4(0, 0, 0, 255), const float4 &amp;background=make_float4(0, 0, 0, 0), int backgroundPadding=5)</td></tr>
 <tr class="memdesc:a95a0b6cc1d264f3b2f5f835befefd57c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render text overlay onto image.  <a href="#a95a0b6cc1d264f3b2f5f835befefd57c">More...</a><br /></td></tr>
 <tr class="separator:a95a0b6cc1d264f3b2f5f835befefd57c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afadb0093101fb2f95f0929191c59c47d"><td class="memItemLeft" align="right" valign="top">int4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcudaFont.html#afadb0093101fb2f95f0929191c59c47d">TextExtents</a> (const char *str, int x=0, int y=0)</td></tr>
+<tr class="memdesc:afadb0093101fb2f95f0929191c59c47d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the bounding rectangle of the given text string.  <a href="#afadb0093101fb2f95f0929191c59c47d">More...</a><br /></td></tr>
+<tr class="separator:afadb0093101fb2f95f0929191c59c47d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -511,6 +514,42 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="afadb0093101fb2f95f0929191c59c47d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afadb0093101fb2f95f0929191c59c47d">&#9670;&nbsp;</a></span>TextExtents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int4 cudaFont::TextExtents </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the bounding rectangle of the given text string. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="af6cb702c292de02828ef33afd6d9df85"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af6cb702c292de02828ef33afd6d9df85">&#9670;&nbsp;</a></span>FirstGlyph</h2>
@@ -851,7 +890,7 @@ Static Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classcudaFont.html">cudaFont</a></li>
-    <li class="footer">Generated on Fri Jun 21 2019 16:23:15 for Jetson Inference by
+    <li class="footer">Generated on Mon Sep 16 2019 13:38:14 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
