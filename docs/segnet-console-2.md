@@ -6,7 +6,7 @@
 # Semantic Segmentation with SegNet
 The next deep learning capability we'll cover in this tutorial is **semantic segmentation**.  Semantic segmentation is based on image recognition, except the classifications occur at the pixel level as opposed to classifying entire images as with image recognition.  This is accomplished by *convolutionalizing* a pre-trained image recognition backbone, which transforms the model into a [Fully Convolutional Network (FCN)](https://arxiv.org/abs/1605.06211) capable of per-pixel labelling.  Especially useful for environmental perception, segmentation yields dense per-pixel classifications of many different potential objects per scene, including scene foregrounds and backgrounds.
 
-`segNet` accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.  `segNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) and [C++](../c/segNet.h).  See [below](#pretrained-segmentation-models-available) for various pre-trained segmentation models available using the FCN-ResNet18 network with realtime performance on Jetson.  Models are provided for a variety of environments and subject matter, including urban cities, off-road trails, and indoors.
+`segNet` accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.  `segNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) and [C++](../c/segNet.h).  
 
 As examples of using `segNet` we provide versions of a command-line interface for C++ and Python:
 
@@ -18,10 +18,11 @@ Later in the tutorial, we'll also cover segmentation on live camera streams from
 - [`segnet-camera.cpp`](../examples/segnet-camera/segnet-camera.cpp) (C++)
 - [`segnet-camera.py`](../python/examples/segnet-camera.py) (Python) 
 
+See [below](#pretrained-segmentation-models-available) for various pre-trained segmentation models available that use the FCN-ResNet18 network with realtime performance on Jetson.  Models are provided for a variety of environments and subject matter, including urban cities, off-road trails, and indoor office spaces and homes.
 
 ### Pre-Trained Segmentation Models Available
 
-Below is a table of the pre-trained semantic segmentation models available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `segnet-console` used for loading them.  They're based on the 21-class FCN-ResNet18 network and have been trained on various datasets and input resolutions using [PyTorch](https://github.com/dusty-nv/pytorch-segmentation), and have been exported to ONNX format to be loaded with TensorRT.
+Below is a table of the pre-trained semantic segmentation models available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `segnet-console` used for loading them.  They're based on the 21-class FCN-ResNet18 network and have been trained on various datasets and resolutions using [PyTorch](https://github.com/dusty-nv/pytorch-segmentation), and were exported to [ONNX format](https://onnx.ai/) to be loaded with TensorRT.
 
 | Dataset      | Resolution | CLI Argument | Accuracy | Jetson Nano | Jetson Xavier |
 |:------------:|:----------:|--------------|:--------:|:-----------:|:-------------:|
@@ -104,7 +105,6 @@ Here's an example of generating the segmentation overlay and mask by specifying 
 
 #### C++
 ``` bash
-# C++
 $ ./segnet-console --network=fcn-resnet18-deepscene trail-0.jpg output-overlay.jpg                   # overlay
 $ ./segnet-console --network=fcn-resnet18-deepscene --visualize=mask trail-0.jpg output-mask.jpg     # mask
 ```
