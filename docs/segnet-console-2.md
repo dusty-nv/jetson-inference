@@ -99,8 +99,7 @@ $ ./segnet-console.py --network=fcn-resnet18-cityscapes city-0.jpg output.jpg
 
 ### DeepScene
 
-The [DeepScene dataset](http://deepscene.cs.uni-freiburg.de/) consists of off-road forest trails and vegetation, aiding in path-following for outdoor robots. 
-
+The [DeepScene dataset](http://deepscene.cs.uni-freiburg.de/) consists of off-road forest trails and vegetation, aiding in path-following for outdoor robots.  
 Here's an example of generating the segmentation overlay and mask by specifying the `--visualize` argument:
 
 #### C++
@@ -118,11 +117,10 @@ $ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail-0.
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-overlay.jpg" width="850">
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-mask.jpg">
 
-### Multi-Human Parsing
+### Multi-Human Parsing (MHP)
 
-[Multi-Human Parsing](https://lv-mhp.github.io/) (MHP) provides dense labeling of body parts, like arms, legs, head, and various types of clothing.
- 
-See the handful of test images `people-*.jpg` included with the repo for trying the MHP model:
+[Multi-Human Parsing](https://lv-mhp.github.io/) provides dense labeling of body parts, like arms, legs, head, and different types of clothing.  
+ See the handful of test images called `people-*.jpg` included with the repo for trying out the MHP model:
 
 ``` bash
 # C++
