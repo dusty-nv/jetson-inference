@@ -113,7 +113,9 @@ $ ./segnet-console.py --network=fcn-resnet18-deepscene-576x320 --visualize=overl
 $ ./segnet-console.py --network=fcn-resnet18-deepscene-576x320 --visualize=mask trail-0.jpg output-mask.jpg       # mask
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-overlay.jpg" width="850">
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-mask.jpg" width="850">
 
 
 
