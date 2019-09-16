@@ -149,11 +149,9 @@ $ ./segnet-console --network=fcn-resnet18-voc object-0.jpg output.jpg
 $ ./segnet-console.py --network=fcn-resnet18-voc object-0.jpg output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc-0.jpg">
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc-1.jpg">
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc-2.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc.jpg" width="850">
 
-#### MHP Classes
+#### VOC Classes
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc-legend.jpg">
 
