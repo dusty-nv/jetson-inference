@@ -99,7 +99,7 @@ segNet::NetworkType segNet::NetworkTypeFromStr( const char* modelName )
 		type = segNet::FCN_RESNET18_VOC_320x320;
 	else if( strcasecmp(modelName, "fcn-resnet18-voc-512x320") == 0 || strcasecmp(modelName, "fcn-resnet18-pascal-voc-512x320") == 0 )
 		type = segNet::FCN_RESNET18_VOC_512x320;
-	else if( strcasecmp(modelName, "fcn-resnet18-sun-512x400") == 0 || strcasecmp(modelName, "fcn-resnet18-sun-rgbd-512x400") == 0 || strcasecmp(modelName, "fcn-resnet18-sunrgb") == 0 )
+	else if( strcasecmp(modelName, "fcn-resnet18-sun-512x400") == 0 || strcasecmp(modelName, "fcn-resnet18-sun-rgbd-512x400") == 0 || strcasecmp(modelName, "fcn-resnet18-sun") == 0 || strcasecmp(modelName, "fcn-resnet18-sunrgb") == 0 )
 		type = segNet::FCN_RESNET18_SUNRGB_512x400;
 	else if( strcasecmp(modelName, "fcn-resnet18-sun-640x512") == 0 || strcasecmp(modelName, "fcn-resnet18-sun-rgbd-640x512") == 0 )
 		type = segNet::FCN_RESNET18_SUNRGB_640x512;
