@@ -52,10 +52,10 @@ The `segnet-console` program can be used to segment static images.  It accepts 3
 
 - the path to an input image  (`jpg, png, tga, bmp`)
 - optional path to output image  (`jpg, png, tga, bmp`)
-- optional `--network` flag which changes the detection model being used
-- optional `--visualize` flag which accepts `mask` or `overlay` modes (default is `overlay`)
-- optional `--alpha` flag which sets the alpha blending value for `overlay` (default is `120`)
-- optional `--filter-mode` flag which accepts `point` or `linear` sampling (default is `linear`)
+- optional `--network` flag changes the detection model being used (see [above](#pre-trained-segmentation-models-available))
+- optional `--visualize` flag accepts `mask` or `overlay` modes (default is `overlay`)
+- optional `--alpha` flag sets the alpha blending value for `overlay` (default is `120`)
+- optional `--filter-mode` flag accepts `point` or `linear` sampling (default is `linear`)
 
 Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Code Examples`](../README.md#code-examples) readme.
 
@@ -100,15 +100,18 @@ $ ./segnet-console.py --network=fcn-resnet18-cityscapes city-0.jpg output.jpg
 
 The [DeepScene dataset](http://deepscene.cs.uni-freiburg.de/) contains imagery of off-road forest trails and vegetation, aiding in path-following for outdoor robots. 
 
-Here's an example of generating the segmentation overlay and mask by changing the `--visualize` argument:
+Here's an example of generating the segmentation overlay and mask by specifying the `--visualize` argument:
 
+#### C++
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-deepscene --visualize=overlay trail-0.jpg output-overlay.jpg # overlay
+$ ./segnet-console --network=fcn-resnet18-deepscene trail-0.jpg output-overlay.jpg # overlay
 $ ./segnet-console --network=fcn-resnet18-deepscene --visualize=mask trail-0.jpg output-mask.jpg       # mask
+```
 
-# Python
-$ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=overlay trail-0.jpg output-overlay.jpg # overlay
+#### Python
+``` bash
+$ ./segnet-console.py --network=fcn-resnet18-deepscene trail-0.jpg output-overlay.jpg # overlay
 $ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail-0.jpg output-mask.jpg       # mask
 ```
 
