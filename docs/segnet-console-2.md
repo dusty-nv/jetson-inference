@@ -95,6 +95,28 @@ $ ./segnet-console.py --network=fcn-resnet18-cityscapes-512x256 city-0.jpg outpu
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-cityscapes-legend.jpg">
 
+### DeepScene
+
+The [DeepScene dataset](http://deepscene.cs.uni-freiburg.de/) contains off-road imagery of forest trails and vegetation. 
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-legend.jpg">
+
+Here's an example of generating the segmentation overlay and mask with the DeepScene model by changing the `--visualize` argument:
+
+``` bash
+# C++
+$ ./segnet-console --network=fcn-resnet18-deepscene-576x320 --visualize=overlay trail-0.jpg output-overlay.jpg # overlay
+$ ./segnet-console --network=fcn-resnet18-deepscene-576x320 --visualize=mask trail-0.jpg output-mask.jpg       # mask
+
+# Python
+$ ./segnet-console.py --network=fcn-resnet18-deepscene-576x320 --visualize=overlay trail-0.jpg output-overlay.jpg # overlay
+$ ./segnet-console.py --network=fcn-resnet18-deepscene-576x320 --visualize=mask trail-0.jpg output-mask.jpg       # mask
+```
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0.jpg" width="900">
+
+
+
 
 Next, we'll run semantic segmentation on a live camera stream.
 
