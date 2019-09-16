@@ -98,9 +98,7 @@ $ ./segnet-console.py --network=fcn-resnet18-cityscapes city-0.jpg output.jpg
 
 ### DeepScene
 
-The [DeepScene dataset](http://deepscene.cs.uni-freiburg.de/) contains off-road imagery of forest trails and vegetation: 
-
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-legend.jpg">
+The [DeepScene dataset](http://deepscene.cs.uni-freiburg.de/) contains imagery of off-road forest trails and vegetation, aiding in path-following for outdoor robots. 
 
 Here's an example of generating the segmentation overlay and mask by changing the `--visualize` argument:
 
@@ -116,7 +114,7 @@ $ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail-0.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-overlay.jpg" width="850">
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-mask.jpg" width="425">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-mask.jpg">
 
 
 

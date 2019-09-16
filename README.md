@@ -19,7 +19,7 @@ It's recommended to walk through the Hello AI World module first to familiarize 
 * [Two Days to a Demo](#two-days-to-a-demo-digits)
 * [API Reference](#api-reference)
 * [Code Examples](#code-examples)
-* [Pre-trained Models](#pre-trained-models)
+* [Pre-Trained Models](#pre-trained-models)
 * [System Requirements](#recommended-system-requirements)
 * [Extra Resources](#extra-resources)
 
@@ -96,7 +96,7 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 |-------------------|--------------|--------------|
 | Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) |
 | Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet)
-| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet |
+| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) |
 
 #### jetson-utils
 
@@ -129,7 +129,7 @@ Additional C++ and Python samples for running the networks on static images and 
 
 These examples will automatically be compiled while [Building the Project from Source](docs/building-repo-2.md), and are able to run the pre-trained models listed below in addition to custom models provided by the user.  Launch each example with `--help` for usage info.
 
-## Pre-trained Models
+## Pre-Trained Models
 
 The project comes with a number of pre-trained models that are available through the [**Model Downloader**](docs/building-repo-2.md#downloading-models) tool:
 
@@ -179,6 +179,7 @@ The project comes with a number of pre-trained models that are available through
 | [SUN RGB-D](http://rgbd.cs.princeton.edu/) | 512x400 | `fcn-resnet18-sun-512x400` | 64.3% | 28 FPS | 340 FPS |
 | [SUN RGB-D](http://rgbd.cs.princeton.edu/) | 640x512 | `fcn-resnet18-sun-640x512` | 65.1% | 17 FPS | 224 FPS |
 
+* If the resolution is omitted from the CLI argument, the lowest resolution model is loaded
 * Accuracy indicates the pixel classification accuracy across the model's validation dataset
 * Performance is measured for GPU FP16 mode with JetPack 4.2.1, `nvpmodel 0` (MAX-N)
 
