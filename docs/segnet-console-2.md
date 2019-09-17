@@ -6,6 +6,8 @@
 # Semantic Segmentation with SegNet
 The next deep learning capability we'll cover in this tutorial is **semantic segmentation**.  Semantic segmentation is based on image recognition, except the classifications occur at the pixel level as opposed to classifying entire images as with image recognition.  This is accomplished by *convolutionalizing* a pre-trained image recognition backbone, which transforms the model into a [Fully Convolutional Network (FCN)](https://arxiv.org/abs/1605.06211) capable of per-pixel labelling.  Especially useful for environmental perception, segmentation yields dense per-pixel classifications of many different potential objects per scene, including scene foregrounds and backgrounds.
 
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation.jpg" width="900">
+
 `segNet` accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.  `segNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) and [C++](../c/segNet.h).  
 
 As examples of using `segNet` we provide versions of a command-line interface for C++ and Python:
@@ -149,7 +151,7 @@ $ ./segnet-console --network=fcn-resnet18-voc object-0.jpg output.jpg
 $ ./segnet-console.py --network=fcn-resnet18-voc object-0.jpg output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc.jpg" width="850">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc.jpg" width="900">
 
 #### VOC Classes
 
@@ -167,7 +169,7 @@ $ ./segnet-console --network=fcn-resnet18-sun room-0.jpg output.jpg
 $ ./segnet-console.py --network=fcn-resnet18-sun room-0.jpg output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun.jpg" width="850">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun.jpg" width="900">
 
 #### SUN Classes
 
