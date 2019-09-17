@@ -36,7 +36,7 @@ parser = argparse.ArgumentParser(description="Segment a directory of images usin
 
 parser.add_argument("input", type=str, help="path to directory of input images")
 parser.add_argument("output", type=str, default=None, nargs='?', help="desired path to output directory to save the images to")
-parser.add_argument("--network", type=str, default="fcn-alexnet-cityscapes-sd", help="pre-trained model to load, see below for options")
+parser.add_argument("--network", type=str, default="fcn-resnet18-voc", help="pre-trained model to load, see below for options")
 parser.add_argument("--visualize", type=str, default="overlay", choices=["overlay", "mask"], help="visualization mode for the output image, options are:  'overlay' or 'mask' (default: 'overlay')")
 parser.add_argument("--filter-mode", type=str, default="linear", choices=["point", "linear"], help="filtering mode used during visualization, options are:  'point' or 'linear' (default: 'linear')")
 parser.add_argument("--ignore-class", type=str, default="void", help="optional name of class to ignore in the visualization results (default: 'void')")

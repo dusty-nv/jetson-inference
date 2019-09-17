@@ -35,7 +35,7 @@ parser = argparse.ArgumentParser(description="Segment an image using an semantic
 
 parser.add_argument("file_in", type=str, help="filename of the input image to process")
 parser.add_argument("file_out", type=str, default=None, nargs='?', help="filename of the output image to save")
-parser.add_argument("--network", type=str, default="fcn-alexnet-cityscapes-sd", help="pre-trained model to load, see below for options")
+parser.add_argument("--network", type=str, default="fcn-resnet18-voc", help="pre-trained model to load, see below for options")
 parser.add_argument("--visualize", type=str, default="overlay", choices=["overlay", "mask"], help="visualization mode for the output image, options are:  'overlay' or 'mask' (default: 'overlay')")
 parser.add_argument("--filter-mode", type=str, default="linear", choices=["point", "linear"], help="filtering mode used during visualization, options are:  'point' or 'linear' (default: 'linear')")
 parser.add_argument("--ignore-class", type=str, default="void", help="optional name of class to ignore in the visualization results (default: 'void')")
