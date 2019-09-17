@@ -177,15 +177,15 @@ $ ./segnet-console.py --network=fcn-resnet18-sun room-0.jpg output.jpg
 
 ### Processing a Directory of Images
 
-For convenience, there's also a Python script provided called [`segnet-batch.py`](../python/examples/segnet-batch.py) for batch processing an entire directory of images.
+For convenience, there's also a Python script provided called [`segnet-batch.py`](../python/examples/segnet-batch.py) for batch processing folders of images.
 
-It is launched by specifying the `--network` option like above, and providing paths to the desired input and output directories:
+It's launched by specifying the `--network` option like above, and providing paths to the input and output directories:
 
 ``` bash
 $ ./segnet-batch.py --network=<model> <input-dir> <output-dir>
 ```
 
-Next, we'll run semantic segmentation on a live camera stream.
+That wraps up the segmentation models and command line utilities.  Next, we'll run semantic segmentation on a live camera stream.
 
 ##
 <p align="right">Next | <b><a href="segnet-camera-2.md">Running the Live Camera Segmentation Demo</a></b>
