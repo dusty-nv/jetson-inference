@@ -155,6 +155,35 @@ $ ./segnet-console.py --network=fcn-resnet18-voc object-0.jpg output.jpg
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc-legend.jpg">
 
+### SUN RGB-D
+
+The [SUN RGB-D](http://rgbd.cs.princeton.edu/) dataset provides segmentation ground-truth for many indoor objects and scenes commonly found in office spaces and homes.  See the images named `room-*.jpg` for testing out the SUN models:
+
+``` bash
+# C++
+$ ./segnet-console --network=fcn-resnet18-sun room-0.jpg output.jpg
+
+# Python
+$ ./segnet-console.py --network=fcn-resnet18-sun room-0.jpg output.jpg
+```
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun-0.jpg" width="725">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun-1.jpg" width="725">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun-2.jpg" width="725">
+
+#### SUN Classes
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun-legend.jpg">
+
+### Processing a Directory of Images
+
+For convenience, there's also a Python script provided called [`segnet-batch.py`](../python/examples/segnet-batch.py) for batch processing an entire directory of images.
+
+It is launched by specifying the `--network` option like above, and providing paths to the desired input and output directories:
+
+``` bash
+$ ./segnet-batch.py --network=<model> <input-dir> <output-dir>
+```
 
 Next, we'll run semantic segmentation on a live camera stream.
 
