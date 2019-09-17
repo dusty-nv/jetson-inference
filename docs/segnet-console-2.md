@@ -167,9 +167,7 @@ $ ./segnet-console --network=fcn-resnet18-sun room-0.jpg output.jpg
 $ ./segnet-console.py --network=fcn-resnet18-sun room-0.jpg output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun-0.jpg" width="725">
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun-1.jpg" width="725">
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun-2.jpg" width="725">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun.jpg" width="850">
 
 #### SUN Classes
 
@@ -185,7 +183,7 @@ It's launched by specifying the `--network` option like above, and providing pat
 $ ./segnet-batch.py --network=<model> <input-dir> <output-dir>
 ```
 
-That wraps up the segmentation models and command line utilities.  Next, we'll run semantic segmentation on a live camera stream.
+That wraps up the segmentation models and command-line utilities.  Next, we'll run it on a live camera stream.
 
 ##
 <p align="right">Next | <b><a href="segnet-camera-2.md">Running the Live Camera Segmentation Demo</a></b>
