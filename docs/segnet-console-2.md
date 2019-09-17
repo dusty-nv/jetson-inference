@@ -83,7 +83,7 @@ $ ./segnet-console.py --network=<model> --visualize=mask input.jpg output.jpg # 
 
 ### Cityscapes
 
-Let's look at some different scenarios.  Here's an example of segmenting an urban city street scene with the [Cityscapes](https://www.cityscapes-dataset.com/) model:
+Let's look at some different scenarios.  Here's an example of segmenting an urban street scene with the [Cityscapes](https://www.cityscapes-dataset.com/) model:
 
 ``` bash
 # C++
@@ -93,11 +93,7 @@ $ ./segnet-console --network=fcn-resnet18-cityscapes city-0.jpg output.jpg
 $ ./segnet-console.py --network=fcn-resnet18-cityscapes city-0.jpg output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-city-0.jpg" width="900">
-
-#### Cityscapes Classes
-
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-cityscapes-legend.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-city.jpg" width="900">
 
 ### DeepScene
 
