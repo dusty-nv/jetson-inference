@@ -551,7 +551,7 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 				 "  image   (capsule) -- CUDA memory capsule\n" \
 				 "  width   (int)  -- width of the image (in pixels)\n" \
 				 "  height  (int)  -- height of the image (in pixels)\n" \
-				 "  overlay (bool) -- true to overlay the bounding boxes (default is true)\n\n" \
+				 "  overlay (str)  -- combination of box,labels,none flags (default is 'box')\n\n" \
 				 "Returns:\n" \
 				 "  [Detections] -- list containing the detected objects (see detectNet.Detection)"
 
@@ -569,11 +569,11 @@ static PyObject* PyDetectNet_Detect( PyDetectNet_Object* self, PyObject* args, P
 
 	int width = 0;
 	int height = 0;
-	int overlay = 1;
+	const char* overlay = "box";
 
 	static char* kwlist[] = {"image", "width", "height", "overlay", NULL};
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "Oii|i", kwlist, &capsule, &width, &height, &overlay))
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "Oii|s", kwlist, &capsule, &width, &height, &overlay))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Detect() failed to parse args tuple");
 		return NULL;
@@ -598,7 +598,7 @@ static PyObject* PyDetectNet_Detect( PyDetectNet_Object* self, PyObject* args, P
 	// run the object detection
 	detectNet::Detection* detections = NULL;
 
-	const int numDetections = self->net->Detect((float*)img, width, height, &detections, overlay > 0 ? detectNet::OVERLAY_BOX/*|detectNet::OVERLAY_LABEL*/ : detectNet::OVERLAY_NONE);
+	const int numDetections = self->net->Detect((float*)img, width, height, &detections, detectNet::OverlayFlagsFromStr(overlay));
 
 	if( numDetections < 0 )
 	{

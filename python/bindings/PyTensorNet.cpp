@@ -116,6 +116,19 @@ static PyObject* PyTensorNet_GetNetworkTime( PyTensorNet_Object* self )
 }
 
 
+// GetNetworkFPS
+static PyObject* PyTensorNet_GetNetworkFPS( PyTensorNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "tensorNet invalid object instance");
+		return NULL;
+	}
+	
+    return PyFloat_FromDouble(self->net->GetNetworkFPS());
+}
+
+
 // GetModelType
 static PyObject* PyTensorNet_GetModelType( PyTensorNet_Object* self )
 {
@@ -167,6 +180,7 @@ static PyMethodDef pyTensorNet_Methods[] =
 	{ "EnableLayerProfiler", (PyCFunction)PyTensorNet_EnableLayerProfiler, METH_NOARGS, "Enable the profiling of network layer execution times"},
 	{ "PrintProfilerTimes", (PyCFunction)PyTensorNet_PrintProfilerTimes, METH_NOARGS, "Print out performance timing info"},	
 	{ "GetNetworkTime", (PyCFunction)PyTensorNet_GetNetworkTime, METH_NOARGS, "Return the runtime of the network (in milliseconds)"},	
+	{ "GetNetworkFPS", (PyCFunction)PyTensorNet_GetNetworkFPS, METH_NOARGS, "Return the runtime of the network (in frames per second)"},		
 	{ "GetModelType", (PyCFunction)PyTensorNet_GetModelType, METH_NOARGS, "Return the type of model format (caffe, ONNX, UFF, or custom)"},
 	{ "GetModelPath", (PyCFunction)PyTensorNet_GetModelPath, METH_NOARGS, "Return the path to the network model file on disk"},
 	{ "GetPrototxtPath", (PyCFunction)PyTensorNet_GetPrototxtPath, METH_NOARGS, "Return the path to the network prototxt file on disk"},
