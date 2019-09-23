@@ -327,6 +327,11 @@ public:
 	inline bool IsModelType( modelType type ) const		{ return (mModelType == type); }
 
 	/**
+	 * Retrieve the network frames per second (FPS).
+	 */
+	inline float GetNetworkFPS()										{ return 1000.0f / GetNetworkTime(); }
+
+	/**
 	 * Retrieve the network runtime (in milliseconds).
 	 */
 	inline float GetNetworkTime()										{ return GetProfilerTime(PROFILER_NETWORK, PROFILER_CUDA); }
@@ -334,7 +339,7 @@ public:
 	/**
 	 * Retrieve the profiler runtime (in milliseconds).
 	 */
-	inline float2 GetProfilerTime( profilerQuery query )	 				 { PROFILER_QUERY(query); return mProfilerTimes[query]; }
+	inline float2 GetProfilerTime( profilerQuery query )					{ PROFILER_QUERY(query); return mProfilerTimes[query]; }
 	
 	/**
 	 * Retrieve the profiler runtime (in milliseconds).
