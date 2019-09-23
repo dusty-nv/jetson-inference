@@ -57,12 +57,12 @@
  */
 #define DETECTNET_USAGE_STRING  "detectNet arguments: \n" 								\
 		  "  --network NETWORK     pre-trained model to load, one of the following:\n" 		\
-		  "                            * pednet (default)\n" 							\
+		  "                            * ssd-mobilenet-v1\n" 							\
+		  "                            * ssd-mobilenet-v2 (default)\n" 					\
+		  "                            * ssd-inception-v2\n" 							\
+		  "                            * pednet\n" 									\
 		  "                            * multiped\n" 								\
 		  "                            * facenet\n" 									\
-		  "                            * ssd-mobilenet-v1\n" 							\
-		  "                            * ssd-mobilenet-v2\n" 							\
-		  "                            * ssd-inception-v2\n" 							\
 		  "                            * coco-airplane\n" 							\
 		  "                            * coco-bottle\n" 								\
 		  "                            * coco-chair\n" 								\

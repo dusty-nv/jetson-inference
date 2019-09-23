@@ -515,7 +515,7 @@ detectNet::NetworkType detectNet::NetworkTypeFromStr( const char* modelName )
 		type = detectNet::SSD_INCEPTION_V2;
 	else if( strcasecmp(modelName, "ssd-mobilenet-v1") == 0 || strcasecmp(modelName, "coco-ssd-mobilenet-v1") == 0)
 		type = detectNet::SSD_MOBILENET_V1;
-	else if( strcasecmp(modelName, "ssd-mobilenet-v2") == 0 || strcasecmp(modelName, "coco-ssd-mobilenet-v2") == 0)
+	else if( strcasecmp(modelName, "ssd-mobilenet-v2") == 0 || strcasecmp(modelName, "coco-ssd-mobilenet-v2") == 0 || strcasecmp(modelName, "ssd-mobilenet") == 0 )
 		type = detectNet::SSD_MOBILENET_V2;
 #endif
 	else
@@ -533,7 +533,7 @@ detectNet* detectNet::Create( int argc, char** argv )
 	const char* modelName = cmdLine.GetString("network");
 	
 	if( !modelName )
-		modelName = cmdLine.GetString("model", "pednet");
+		modelName = cmdLine.GetString("model", "ssd-mobilenet-v2");
 
 	/*if( !modelName )
 	{
