@@ -5,7 +5,7 @@ var searchData=
   ['waitus',['WaitUs',['../classEvent.html#a515f66ad3126b7c3b456a10604a40c39',1,'Event']]],
   ['wake',['Wake',['../classEvent.html#a86507f584eb0bff8eb7bdb2c280d0c23',1,'Event']]],
   ['whitespacemode',['WhitespaceMode',['../classtinyxml2_1_1XMLDocument.html#a810ce508e6e0365497c2a9deb83c9ca7',1,'tinyxml2::XMLDocument']]],
-  ['width',['Width',['../structdetectNet_1_1Detection.html#aeb58c09e547bd40f3a0e33cdd4c7640e',1,'detectNet::Detection']]],
+  ['width',['Width',['../structdetectNet_1_1Detection.html#aeb58c09e547bd40f3a0e33cdd4c7640e',1,'detectNet::Detection::Width() const'],['../structdetectNet_1_1Detection.html#a596c0884daa44b3fa341ed67508b5fcb',1,'detectNet::Detection::Width(float x1, float x2)']]],
   ['workingdirectory',['WorkingDirectory',['../classProcess.html#a7583374b94084e2126cef41f12fcfa4b',1,'Process::WorkingDirectory()'],['../group__filesystem.html#ga7587e5be3b694cbb4d0003eeb64ed365',1,'workingDirectory():&#160;filesystem.h']]],
   ['write',['Write',['../classtinyxml2_1_1XMLPrinter.html#aff363b7634a27538fd691ae62adbda63',1,'tinyxml2::XMLPrinter::Write(const char *data, size_t size)'],['../classtinyxml2_1_1XMLPrinter.html#a4bd7f0cabca77ac95c299103fa9592f1',1,'tinyxml2::XMLPrinter::Write(const char *data)']]]
 ];

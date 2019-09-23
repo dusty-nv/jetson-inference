@@ -83,6 +83,7 @@ $(document).ready(function(){initNavTree('structdetectNet_1_1Detection.html','')
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structdetectNet_1_1Detection-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -104,14 +105,26 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a2ae87aae76d065e19be1897119daba66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the area of the object.  <a href="#a2ae87aae76d065e19be1897119daba66">More...</a><br /></td></tr>
 <tr class="separator:a2ae87aae76d065e19be1897119daba66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a239620621f33ed918d2f86a678a68c16"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#a239620621f33ed918d2f86a678a68c16">Area</a> () const</td></tr>
-<tr class="memdesc:a239620621f33ed918d2f86a678a68c16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the center of the object.  <a href="#a239620621f33ed918d2f86a678a68c16">More...</a><br /></td></tr>
+<tr class="memdesc:a239620621f33ed918d2f86a678a68c16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the width of the bounding box.  <a href="#a239620621f33ed918d2f86a678a68c16">More...</a><br /></td></tr>
 <tr class="separator:a239620621f33ed918d2f86a678a68c16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a127aaa41b6d1032aeb13fde8e6856247"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#a127aaa41b6d1032aeb13fde8e6856247">Center</a> (float *x, float *y) const</td></tr>
 <tr class="memdesc:a127aaa41b6d1032aeb13fde8e6856247"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the coordinate is inside the bounding box.  <a href="#a127aaa41b6d1032aeb13fde8e6856247">More...</a><br /></td></tr>
 <tr class="separator:a127aaa41b6d1032aeb13fde8e6856247"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a62f35a001c19606c58c6b70b4fe633"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#a0a62f35a001c19606c58c6b70b4fe633">Contains</a> (float x, float y) const</td></tr>
-<tr class="memdesc:a0a62f35a001c19606c58c6b70b4fe633"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the bounding boxes overlap.  <a href="#a0a62f35a001c19606c58c6b70b4fe633">More...</a><br /></td></tr>
+<tr class="memdesc:a0a62f35a001c19606c58c6b70b4fe633"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the bounding boxes intersect and exceeds area % threshold.  <a href="#a0a62f35a001c19606c58c6b70b4fe633">More...</a><br /></td></tr>
 <tr class="separator:a0a62f35a001c19606c58c6b70b4fe633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed2dfc21c256e9f08daca442a0dc6a84"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#aed2dfc21c256e9f08daca442a0dc6a84">Intersects</a> (const <a class="el" href="structdetectNet_1_1Detection.html">Detection</a> &amp;det, float areaThreshold=0.0f) const</td></tr>
+<tr class="memdesc:aed2dfc21c256e9f08daca442a0dc6a84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the bounding boxes intersect and exceeds area % threshold.  <a href="#aed2dfc21c256e9f08daca442a0dc6a84">More...</a><br /></td></tr>
+<tr class="separator:aed2dfc21c256e9f08daca442a0dc6a84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affc3f01de5faf9ca0fa4dfbd30077bb4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#affc3f01de5faf9ca0fa4dfbd30077bb4">Intersects</a> (float x1, float y1, float x2, float y2, float areaThreshold=0.0f) const</td></tr>
+<tr class="memdesc:affc3f01de5faf9ca0fa4dfbd30077bb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the area of the bounding box intersection.  <a href="#affc3f01de5faf9ca0fa4dfbd30077bb4">More...</a><br /></td></tr>
+<tr class="separator:affc3f01de5faf9ca0fa4dfbd30077bb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84ba21eeaf01aae48c3efc119a86d030"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#a84ba21eeaf01aae48c3efc119a86d030">IntersectionArea</a> (const <a class="el" href="structdetectNet_1_1Detection.html">Detection</a> &amp;det) const</td></tr>
+<tr class="memdesc:a84ba21eeaf01aae48c3efc119a86d030"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the area of the bounding box intersection.  <a href="#a84ba21eeaf01aae48c3efc119a86d030">More...</a><br /></td></tr>
+<tr class="separator:a84ba21eeaf01aae48c3efc119a86d030"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b025e25025234e43446fb5719dbd46b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#a4b025e25025234e43446fb5719dbd46b">IntersectionArea</a> (float x1, float y1, float x2, float y2) const</td></tr>
+<tr class="memdesc:a4b025e25025234e43446fb5719dbd46b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the bounding boxes overlap.  <a href="#a4b025e25025234e43446fb5719dbd46b">More...</a><br /></td></tr>
+<tr class="separator:a4b025e25025234e43446fb5719dbd46b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a344619ce0a8fc04050b3cb6238a815f9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#a344619ce0a8fc04050b3cb6238a815f9">Overlaps</a> (const <a class="el" href="structdetectNet_1_1Detection.html">Detection</a> &amp;det) const</td></tr>
 <tr class="memdesc:a344619ce0a8fc04050b3cb6238a815f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the bounding boxes overlap.  <a href="#a344619ce0a8fc04050b3cb6238a815f9">More...</a><br /></td></tr>
 <tr class="separator:a344619ce0a8fc04050b3cb6238a815f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,6 +142,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a15b1dafa33b267e1ee2cba6eba0a9ae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a985bb069089a55dc4a43d360486c1d1f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#a985bb069089a55dc4a43d360486c1d1f">Detection</a> ()</td></tr>
 <tr class="separator:a985bb069089a55dc4a43d360486c1d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a596c0884daa44b3fa341ed67508b5fcb"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#a596c0884daa44b3fa341ed67508b5fcb">Width</a> (float x1, float x2)</td></tr>
+<tr class="memdesc:a596c0884daa44b3fa341ed67508b5fcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the height of the bounding box.  <a href="#a596c0884daa44b3fa341ed67508b5fcb">More...</a><br /></td></tr>
+<tr class="separator:a596c0884daa44b3fa341ed67508b5fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a676289f208f6ad38391117d260414b62"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#a676289f208f6ad38391117d260414b62">Height</a> (float y1, float y2)</td></tr>
+<tr class="memdesc:a676289f208f6ad38391117d260414b62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the area of the bounding box.  <a href="#a676289f208f6ad38391117d260414b62">More...</a><br /></td></tr>
+<tr class="separator:a676289f208f6ad38391117d260414b62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14e6f8a1a69ebe30e7c57299ece48c28"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetectNet_1_1Detection.html#a14e6f8a1a69ebe30e7c57299ece48c28">Area</a> (float x1, float y1, float x2, float y2)</td></tr>
+<tr class="memdesc:a14e6f8a1a69ebe30e7c57299ece48c28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the center of the object.  <a href="#a14e6f8a1a69ebe30e7c57299ece48c28">More...</a><br /></td></tr>
+<tr class="separator:a14e6f8a1a69ebe30e7c57299ece48c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -184,7 +209,7 @@ Public Attributes</h2></td></tr>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a239620621f33ed918d2f86a678a68c16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a239620621f33ed918d2f86a678a68c16">&#9670;&nbsp;</a></span>Area()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a239620621f33ed918d2f86a678a68c16">&#9670;&nbsp;</a></span>Area() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -202,6 +227,56 @@ Public Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculate the width of the bounding box. </p>
+
+</div>
+</div>
+<a id="a14e6f8a1a69ebe30e7c57299ece48c28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14e6f8a1a69ebe30e7c57299ece48c28">&#9670;&nbsp;</a></span>Area() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float detectNet::Detection::Area </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -282,7 +357,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Return true if the bounding boxes overlap. </p>
+<p>Return true if the bounding boxes intersect and exceeds area % threshold. </p>
 
 </div>
 </div>
@@ -365,7 +440,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <a id="a2ae87aae76d065e19be1897119daba66"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ae87aae76d065e19be1897119daba66">&#9670;&nbsp;</a></span>Height()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ae87aae76d065e19be1897119daba66">&#9670;&nbsp;</a></span>Height() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -388,6 +463,216 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Calculate the area of the object. </p>
+
+</div>
+</div>
+<a id="a676289f208f6ad38391117d260414b62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a676289f208f6ad38391117d260414b62">&#9670;&nbsp;</a></span>Height() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float detectNet::Detection::Height </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculate the area of the bounding box. </p>
+
+</div>
+</div>
+<a id="a84ba21eeaf01aae48c3efc119a86d030"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84ba21eeaf01aae48c3efc119a86d030">&#9670;&nbsp;</a></span>IntersectionArea() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float detectNet::Detection::IntersectionArea </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structdetectNet_1_1Detection.html">Detection</a> &amp;&#160;</td>
+          <td class="paramname"><em>det</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the area of the bounding box intersection. </p>
+
+</div>
+</div>
+<a id="a4b025e25025234e43446fb5719dbd46b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b025e25025234e43446fb5719dbd46b">&#9670;&nbsp;</a></span>IntersectionArea() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float detectNet::Detection::IntersectionArea </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return true if the bounding boxes overlap. </p>
+
+</div>
+</div>
+<a id="aed2dfc21c256e9f08daca442a0dc6a84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed2dfc21c256e9f08daca442a0dc6a84">&#9670;&nbsp;</a></span>Intersects() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool detectNet::Detection::Intersects </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structdetectNet_1_1Detection.html">Detection</a> &amp;&#160;</td>
+          <td class="paramname"><em>det</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>areaThreshold</em> = <code>0.0f</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return true if the bounding boxes intersect and exceeds area % threshold. </p>
+
+</div>
+</div>
+<a id="affc3f01de5faf9ca0fa4dfbd30077bb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affc3f01de5faf9ca0fa4dfbd30077bb4">&#9670;&nbsp;</a></span>Intersects() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool detectNet::Detection::Intersects </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>areaThreshold</em> = <code>0.0f</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the area of the bounding box intersection. </p>
 
 </div>
 </div>
@@ -497,7 +782,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <a id="aeb58c09e547bd40f3a0e33cdd4c7640e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb58c09e547bd40f3a0e33cdd4c7640e">&#9670;&nbsp;</a></span>Width()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb58c09e547bd40f3a0e33cdd4c7640e">&#9670;&nbsp;</a></span>Width() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -520,6 +805,44 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Calculate the height of the object. </p>
+
+</div>
+</div>
+<a id="a596c0884daa44b3fa341ed67508b5fcb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a596c0884daa44b3fa341ed67508b5fcb">&#9670;&nbsp;</a></span>Width() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float detectNet::Detection::Width </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculate the height of the bounding box. </p>
 
 </div>
 </div>
@@ -646,7 +969,7 @@ Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classdetectNet.html">detectNet</a></li><li class="navelem"><a class="el" href="structdetectNet_1_1Detection.html">Detection</a></li>
-    <li class="footer">Generated on Mon Sep 16 2019 13:38:14 for Jetson Inference by
+    <li class="footer">Generated on Mon Sep 23 2019 15:00:27 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

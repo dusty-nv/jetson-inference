@@ -24,6 +24,8 @@ var searchData=
   ['int64text',['Int64Text',['../classtinyxml2_1_1XMLElement.html#aab6151f7e3b4c2c0a8234e262d7b6b8a',1,'tinyxml2::XMLElement']]],
   ['int64value',['Int64Value',['../classtinyxml2_1_1XMLAttribute.html#a8762ed54f147c5744ada55c3d04d27f2',1,'tinyxml2::XMLAttribute']]],
   ['intattribute',['IntAttribute',['../classtinyxml2_1_1XMLElement.html#a95a89b13bb14a2d4655e2b5b406c00d4',1,'tinyxml2::XMLElement']]],
+  ['intersectionarea',['IntersectionArea',['../structdetectNet_1_1Detection.html#a84ba21eeaf01aae48c3efc119a86d030',1,'detectNet::Detection::IntersectionArea(const Detection &amp;det) const'],['../structdetectNet_1_1Detection.html#a4b025e25025234e43446fb5719dbd46b',1,'detectNet::Detection::IntersectionArea(float x1, float y1, float x2, float y2) const']]],
+  ['intersects',['Intersects',['../structdetectNet_1_1Detection.html#aed2dfc21c256e9f08daca442a0dc6a84',1,'detectNet::Detection::Intersects(const Detection &amp;det, float areaThreshold=0.0f) const'],['../structdetectNet_1_1Detection.html#affc3f01de5faf9ca0fa4dfbd30077bb4',1,'detectNet::Detection::Intersects(float x1, float y1, float x2, float y2, float areaThreshold=0.0f) const']]],
   ['inttext',['IntText',['../classtinyxml2_1_1XMLElement.html#a37b0636adebb8a1a1bc965f60824cb3e',1,'tinyxml2::XMLElement']]],
   ['intvalue',['IntValue',['../classtinyxml2_1_1XMLAttribute.html#adfa2433f0fdafd5c3880936de9affa80',1,'tinyxml2::XMLAttribute']]],
   ['ip_5fany',['IP_ANY',['../Socket_8h.html#aff78e91b6eed5ac391a5de7b6e62311e',1,'Socket.h']]],

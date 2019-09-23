@@ -18,7 +18,7 @@ var searchData=
   ['closeelement',['CloseElement',['../classtinyxml2_1_1XMLPrinter.html#ad04d29562b46fcdb23ab320f8b664240',1,'tinyxml2::XMLPrinter']]],
   ['closing',['CLOSING',['../classtinyxml2_1_1XMLElement.html#ab5f90e2493c35702175235127e2935b4aa2857344b98a931536c443cd0cadc4b7',1,'tinyxml2::XMLElement']]],
   ['closingtype',['ClosingType',['../classtinyxml2_1_1XMLElement.html#a6965ff89557f27d4082d7043d5145555',1,'tinyxml2::XMLElement']]],
-  ['clusterdetections',['clusterDetections',['../classdetectNet.html#ab95004897e18f73cff95a59796f17368',1,'detectNet']]],
+  ['clusterdetections',['clusterDetections',['../classdetectNet.html#ab95004897e18f73cff95a59796f17368',1,'detectNet::clusterDetections(Detection *detections, uint32_t width, uint32_t height)'],['../classdetectNet.html#a4c1d9179adf3c75135605c622481e0dc',1,'detectNet::clusterDetections(Detection *detections, int n, float threshold=0.75f)']]],
   ['coco_5f128',['COCO_128',['../classhomographyNet.html#aac3f2e070bad0f23758b901859e4dc82ac857b1dd757240a4f66a470da9c53aa4',1,'homographyNet']]],
   ['coco_5fairplane',['COCO_AIRPLANE',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a0be700962b9af1014273d6c51274d717',1,'detectNet']]],
   ['coco_5fbottle',['COCO_BOTTLE',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4ab5ce7152df406d0e699fb47c29cda175',1,'detectNet']]],

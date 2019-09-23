@@ -1,6 +1,8 @@
 var NAVTREEINDEX2 =
 {
-"classtensorNet.html#afc0f50abcf6ac71e96d51eba3ed53d4b":[0,0,0,0,23],
+"classtensorNet.html#af7da0313dd945e81649e24b07e0fac0e":[0,0,0,0,47],
+"classtensorNet.html#afb38b5f171025e987a00214cc4379ca9":[0,0,0,0,14],
+"classtensorNet.html#afc0f50abcf6ac71e96d51eba3ed53d4b":[0,0,0,0,24],
 "classtensorNet_1_1Logger.html":[0,0,0,0,0],
 "classtensorNet_1_1Profiler.html":[0,0,0,0,2],
 "classtensorNet_1_1Profiler.html#a509ac9582f3e2f8f386363a0d43cc51c":[0,0,0,0,2,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX2 =
 "classtinyxml2_1_1XMLHandle.html#a75b908322bb4b83be3281b6845252b20":[2,0,0,10,9],
 "classtinyxml2_1_1XMLHandle.html#a786957e498039554ed334cdc36612a7e":[2,0,0,10,11],
 "classtinyxml2_1_1XMLHandle.html#a9c240a35c18f053509b4b97ddccd9793":[2,0,0,10,0],
-"classtinyxml2_1_1XMLHandle.html#a9d09f04435f0f2f7d0816b0198d0517b":[2,0,0,10,5],
-"classtinyxml2_1_1XMLHandle.html#aa2edbc1c0d3e3e8259bd98de7f1cf500":[2,0,0,10,1],
-"classtinyxml2_1_1XMLHandle.html#aa387368a1ad8d843a9f12df863d298de":[2,0,0,10,16]
+"classtinyxml2_1_1XMLHandle.html#a9d09f04435f0f2f7d0816b0198d0517b":[2,0,0,10,5]
 };

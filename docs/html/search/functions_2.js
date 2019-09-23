@@ -14,7 +14,7 @@ var searchData=
   ['close',['Close',['../classgstCamera.html#af8043c610d01bcde93f212f5f5bb0fe1',1,'gstCamera::Close()'],['../classv4l2Camera.html#aca49ec2b7d7d60af6422da91b5bc0272',1,'v4l2Camera::Close()']]],
   ['closeelement',['CloseElement',['../classtinyxml2_1_1XMLPrinter.html#ad04d29562b46fcdb23ab320f8b664240',1,'tinyxml2::XMLPrinter']]],
   ['closingtype',['ClosingType',['../classtinyxml2_1_1XMLElement.html#a6965ff89557f27d4082d7043d5145555',1,'tinyxml2::XMLElement']]],
-  ['clusterdetections',['clusterDetections',['../classdetectNet.html#ab95004897e18f73cff95a59796f17368',1,'detectNet']]],
+  ['clusterdetections',['clusterDetections',['../classdetectNet.html#ab95004897e18f73cff95a59796f17368',1,'detectNet::clusterDetections(Detection *detections, uint32_t width, uint32_t height)'],['../classdetectNet.html#a4c1d9179adf3c75135605c622481e0dc',1,'detectNet::clusterDetections(Detection *detections, int n, float threshold=0.75f)']]],
   ['commandline',['commandLine',['../classcommandLine.html#af365794845587db8e89aea0687b1c6f7',1,'commandLine']]],
   ['compactmode',['CompactMode',['../classtinyxml2_1_1XMLPrinter.html#a38e1ed5a779bdf63eda9e808f7a6de66',1,'tinyxml2::XMLPrinter']]],
   ['computehomography',['ComputeHomography',['../classhomographyNet.html#a6afdec29fe8fdf9cc6c88ef521269a1e',1,'homographyNet::ComputeHomography(const float displacement[8], float H[3][3])'],['../classhomographyNet.html#a2ea722c8e963dd744fc23dbdd3c15c47',1,'homographyNet::ComputeHomography(const float displacement[8], float H[3][3], float H_inv[3][3])']]],

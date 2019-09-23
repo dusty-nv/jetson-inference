@@ -7,7 +7,7 @@ var searchData=
   ['allocdetections',['allocDetections',['../classdetectNet.html#acb367fb540a1dfb719c44ae0e4cdb045',1,'detectNet']]],
   ['alloctexture',['allocTexture',['../classglDisplay.html#a6553b4eee50dfa0ddedd0960123583df',1,'glDisplay']]],
   ['allowgpufallback',['AllowGPUFallback',['../classtensorNet.html#a7d0ec0d8504ac8b26c5ab4a6136599ca',1,'tensorNet']]],
-  ['area',['Area',['../structdetectNet_1_1Detection.html#a239620621f33ed918d2f86a678a68c16',1,'detectNet::Detection']]],
+  ['area',['Area',['../structdetectNet_1_1Detection.html#a239620621f33ed918d2f86a678a68c16',1,'detectNet::Detection::Area() const'],['../structdetectNet_1_1Detection.html#a14e6f8a1a69ebe30e7c57299ece48c28',1,'detectNet::Detection::Area(float x1, float y1, float x2, float y2)']]],
   ['attemptlock',['AttemptLock',['../classMutex.html#a87f92bea41231778680c392668b4ad6f',1,'Mutex']]],
   ['attribute',['Attribute',['../classtinyxml2_1_1XMLElement.html#a70e49ed60b11212ae35f7e354cfe1de9',1,'tinyxml2::XMLElement']]]
 ];

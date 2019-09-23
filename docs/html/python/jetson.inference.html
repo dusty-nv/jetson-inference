@@ -101,7 +101,7 @@ Parameters:<br>
 &nbsp;&nbsp;image&nbsp;&nbsp;&nbsp;(capsule)&nbsp;--&nbsp;CUDA&nbsp;memory&nbsp;capsule<br>
 &nbsp;&nbsp;width&nbsp;&nbsp;&nbsp;(int)&nbsp;&nbsp;--&nbsp;width&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
 &nbsp;&nbsp;height&nbsp;&nbsp;(int)&nbsp;&nbsp;--&nbsp;height&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)<br>
-&nbsp;&nbsp;overlay&nbsp;(bool)&nbsp;--&nbsp;true&nbsp;to&nbsp;overlay&nbsp;the&nbsp;bounding&nbsp;boxes&nbsp;(default&nbsp;is&nbsp;true)<br>
+&nbsp;&nbsp;overlay&nbsp;(str)&nbsp;&nbsp;--&nbsp;combination&nbsp;of&nbsp;box,labels,none&nbsp;flags&nbsp;(default&nbsp;is&nbsp;'box')<br>
 &nbsp;<br>
 Returns:<br>
 &nbsp;&nbsp;[Detections]&nbsp;--&nbsp;list&nbsp;containing&nbsp;the&nbsp;detected&nbsp;objects&nbsp;(see&nbsp;<a href="#detectNet">detectNet</a>.Detection)</tt></dd></dl>
@@ -204,6 +204,8 @@ Methods inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<
 <dl><dt><a name="detectNet-GetModelPath"><strong>GetModelPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;model&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
 
 <dl><dt><a name="detectNet-GetModelType"><strong>GetModelType</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;type&nbsp;of&nbsp;model&nbsp;format&nbsp;(caffe,&nbsp;ONNX,&nbsp;UFF,&nbsp;or&nbsp;custom)</tt></dd></dl>
+
+<dl><dt><a name="detectNet-GetNetworkFPS"><strong>GetNetworkFPS</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;frames&nbsp;per&nbsp;second)</tt></dd></dl>
 
 <dl><dt><a name="detectNet-GetNetworkTime"><strong>GetNetworkTime</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;milliseconds)</tt></dd></dl>
 
@@ -327,6 +329,8 @@ Methods inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<
 <dl><dt><a name="imageNet-GetModelPath"><strong>GetModelPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;model&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
 
 <dl><dt><a name="imageNet-GetModelType"><strong>GetModelType</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;type&nbsp;of&nbsp;model&nbsp;format&nbsp;(caffe,&nbsp;ONNX,&nbsp;UFF,&nbsp;or&nbsp;custom)</tt></dd></dl>
+
+<dl><dt><a name="imageNet-GetNetworkFPS"><strong>GetNetworkFPS</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;frames&nbsp;per&nbsp;second)</tt></dd></dl>
 
 <dl><dt><a name="imageNet-GetNetworkTime"><strong>GetNetworkTime</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;milliseconds)</tt></dd></dl>
 
@@ -468,6 +472,8 @@ Methods inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<
 
 <dl><dt><a name="segNet-GetModelType"><strong>GetModelType</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;type&nbsp;of&nbsp;model&nbsp;format&nbsp;(caffe,&nbsp;ONNX,&nbsp;UFF,&nbsp;or&nbsp;custom)</tt></dd></dl>
 
+<dl><dt><a name="segNet-GetNetworkFPS"><strong>GetNetworkFPS</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;frames&nbsp;per&nbsp;second)</tt></dd></dl>
+
 <dl><dt><a name="segNet-GetNetworkTime"><strong>GetNetworkTime</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;milliseconds)</tt></dd></dl>
 
 <dl><dt><a name="segNet-GetPrototxtPath"><strong>GetPrototxtPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;prototxt&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
@@ -495,6 +501,8 @@ Data and other attributes inherited from <a href="jetson.inference.html#tensorNe
 <dl><dt><a name="tensorNet-GetModelPath"><strong>GetModelPath</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;network&nbsp;model&nbsp;file&nbsp;on&nbsp;disk</tt></dd></dl>
 
 <dl><dt><a name="tensorNet-GetModelType"><strong>GetModelType</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;type&nbsp;of&nbsp;model&nbsp;format&nbsp;(caffe,&nbsp;ONNX,&nbsp;UFF,&nbsp;or&nbsp;custom)</tt></dd></dl>
+
+<dl><dt><a name="tensorNet-GetNetworkFPS"><strong>GetNetworkFPS</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;frames&nbsp;per&nbsp;second)</tt></dd></dl>
 
 <dl><dt><a name="tensorNet-GetNetworkTime"><strong>GetNetworkTime</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;runtime&nbsp;of&nbsp;the&nbsp;network&nbsp;(in&nbsp;milliseconds)</tt></dd></dl>
 

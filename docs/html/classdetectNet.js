@@ -20,6 +20,7 @@ var classdetectNet =
     [ "detectNet", "classdetectNet.html#a07a419d97f14aa0962b737e671ff438a", null ],
     [ "allocDetections", "classdetectNet.html#acb367fb540a1dfb719c44ae0e4cdb045", null ],
     [ "clusterDetections", "classdetectNet.html#ab95004897e18f73cff95a59796f17368", null ],
+    [ "clusterDetections", "classdetectNet.html#a4c1d9179adf3c75135605c622481e0dc", null ],
     [ "defaultClassDesc", "classdetectNet.html#a464e60c5fb80d1ab64928006c2a27702", null ],
     [ "defaultColors", "classdetectNet.html#a6213356e9907dc284e3212c42b346c62", null ],
     [ "Detect", "classdetectNet.html#ac2144a8af64dce65e391ccb6ab0fb5f9", null ],

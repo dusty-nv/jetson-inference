@@ -12,6 +12,7 @@ var classtensorNet =
     [ "GetDevice", "classtensorNet.html#a92bb737172d26bda5f67d15346a02514", null ],
     [ "GetModelPath", "classtensorNet.html#ac74d7f0571b7782b945ff85fd6894044", null ],
     [ "GetModelType", "classtensorNet.html#acfa7f1f01b46f658ffc96f8a002e8d48", null ],
+    [ "GetNetworkFPS", "classtensorNet.html#a9dd2db089176ae6878e9ea7dd8fd80c3", null ],
     [ "GetNetworkTime", "classtensorNet.html#a49faef5920860345e503023b7c84423c", null ],
     [ "GetPrecision", "classtensorNet.html#afb38b5f171025e987a00214cc4379ca9", null ],
     [ "GetProfilerTime", "classtensorNet.html#ad266f93035a80dca80cd84d971e4f69b", null ],

@@ -29,6 +29,7 @@ var searchData=
   ['getmodelpath',['GetModelPath',['../classtensorNet.html#ac74d7f0571b7782b945ff85fd6894044',1,'tensorNet']]],
   ['getmodeltype',['GetModelType',['../classtensorNet.html#acfa7f1f01b46f658ffc96f8a002e8d48',1,'tensorNet']]],
   ['getmtu',['GetMTU',['../classSocket.html#a4e9d1c14216315b46e2ab531735eec45',1,'Socket']]],
+  ['getnetworkfps',['GetNetworkFPS',['../classtensorNet.html#a9dd2db089176ae6878e9ea7dd8fd80c3',1,'tensorNet']]],
   ['getnetworkname',['GetNetworkName',['../classimageNet.html#a359ecefb8ac20cd44fddc69d38bde3ef',1,'imageNet::GetNetworkName()'],['../classsegNet.html#a94b243146a1391e82612cb70641c4bac',1,'segNet::GetNetworkName()']]],
   ['getnetworktime',['GetNetworkTime',['../classtensorNet.html#a49faef5920860345e503023b7c84423c',1,'tensorNet']]],
   ['getnetworktype',['GetNetworkType',['../classimageNet.html#ad0cde8f64f32a50984c947dc823de04e',1,'imageNet::GetNetworkType()'],['../classsegNet.html#a7779565e2e627209d6fc6e7562047431',1,'segNet::GetNetworkType()']]],
