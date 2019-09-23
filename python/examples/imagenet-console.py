@@ -35,8 +35,6 @@ parser = argparse.ArgumentParser(description="Classify an image using an image r
 parser.add_argument("file_in", type=str, help="filename of the input image to process")
 parser.add_argument("file_out", type=str, default=None, nargs='?', help="filename of the output image to save")
 parser.add_argument("--network", type=str, default="googlenet", help="pre-trained model to load (see below for options)")
-parser.add_argument("--profile", type=bool, default=False, help="enable performance profiling and multiple runs of the model")
-parser.add_argument("--runs", type=int, default=15, help="if profiling is enabling, the number of iterations to run")
 
 try:
 	opt, argv = parser.parse_known_args()
@@ -52,28 +50,17 @@ img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
 # load the recognition network
 net = jetson.inference.imageNet(opt.network, argv)
 
-# enable model profiling
-if opt.profile is True:
-	net.EnableLayerProfiler()
-else:
-	opt.runs = 1
+# classify the image
+class_idx, confidence = net.Classify(img, width, height)
 
-# run model inference
-for i in range(opt.runs):
-	if opt.runs > 1:
-		print("\n//\n// RUN {:d}\n//".format(i))
-	
-	# classify the image
-	class_idx, confidence = net.Classify(img, width, height)
+# find the object description
+class_desc = net.GetClassDesc(class_idx)
 
-	# find the object description
-	class_desc = net.GetClassDesc(class_idx)
+# print out the result
+print("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence\n".format(class_desc, class_idx, confidence * 100))
 
-	# print out the result
-	print("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence\n".format(class_desc, class_idx, confidence * 100))
-	
-	# print out timing info
-	net.PrintProfilerTimes()
+# print out timing info
+net.PrintProfilerTimes()
 
 # overlay the result on the image
 if opt.file_out is not None:

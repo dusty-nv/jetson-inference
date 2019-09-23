@@ -37,8 +37,6 @@ parser.add_argument("file_out", type=str, default=None, nargs='?', help="filenam
 parser.add_argument("--network", type=str, default="ssd-mobilenet-v2", help="pre-trained model to load (see below for options)")
 parser.add_argument("--overlay", type=str, default="box,labels,conf", help="detection overlay flags (e.g. --overlay=box,labels,conf)\nvalid combinations are:  'box', 'labels', 'conf', 'none'")
 parser.add_argument("--threshold", type=float, default=0.5, help="minimum detection threshold to use")
-parser.add_argument("--profile", type=bool, default=False, help="enable performance profiling and multiple runs of the model")
-parser.add_argument("--runs", type=int, default=15, help="if profiling is enabling, the number of iterations to run")
 
 try:
 	opt, argv = parser.parse_known_args()
@@ -47,38 +45,26 @@ except:
 	parser.print_help()
 	sys.exit(0)
 
-
 # load an image (into shared CPU/GPU memory)
 img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
 
 # load the object detection network
 net = jetson.inference.detectNet(opt.network, argv, opt.threshold)
 
-# enable model profiling
-if opt.profile is True:
-	net.EnableLayerProfiler()
-else:
-	opt.runs = 1
+# detect objects in the image (with overlay)
+detections = net.Detect(img, width, height, opt.overlay)
 
-# run model inference
-for i in range(opt.runs):
-	if opt.runs > 1:
-		print("\n//\n// RUN {:d}\n//".format(i))
-	
-	# detect objects in the image (with overlay)
-	detections = net.Detect(img, width, height, opt.overlay)
+# print the detections
+print("detected {:d} objects in image".format(len(detections)))
 
-	# print the detections
-	print("detected {:d} objects in image".format(len(detections)))
+for detection in detections:
+	print(detection)
 
-	for detection in detections:
-		print(detection)
-	
-	# wait for GPU to complete work
-	jetson.utils.cudaDeviceSynchronize()
+# wait for GPU to complete work
+jetson.utils.cudaDeviceSynchronize()
 
-	# print out timing info
-	net.PrintProfilerTimes()
+# print out timing info
+net.PrintProfilerTimes()
 
 # save the output image with the bounding box overlays
 if opt.file_out is not None:
