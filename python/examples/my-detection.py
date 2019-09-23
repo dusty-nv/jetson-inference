@@ -32,4 +32,4 @@ while display.IsOpen():
 	img, width, height = camera.CaptureRGBA()
 	detections = net.Detect(img, width, height)
 	display.RenderOnce(img, width, height)
-	display.SetTitle("Object Detection | Network {:.0f} FPS".format(1000.0 / net.GetNetworkTime()))
+	display.SetTitle("Object Detection | Network {:.0f} FPS".format(1000.0 / net.GetNetworkFPS()))

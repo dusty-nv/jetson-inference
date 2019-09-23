@@ -72,7 +72,7 @@ else:
 # run model inference
 for i in range(opt.runs):
 	if opt.runs > 1:
-		print("\n/////////////////////////////////////\n// RUN {:d}\n/////////////////////////////////////".format(i))
+		print("\n//\n// RUN {:d}\n//".format(i))
 	
 	# process the segmentation network
 	net.Process(img, width, height, opt.ignore_class)

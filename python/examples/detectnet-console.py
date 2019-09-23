@@ -34,7 +34,8 @@ parser = argparse.ArgumentParser(description="Locate objects in an image using a
 
 parser.add_argument("file_in", type=str, help="filename of the input image to process")
 parser.add_argument("file_out", type=str, default=None, nargs='?', help="filename of the output image to save")
-parser.add_argument("--network", type=str, default="pednet", help="pre-trained model to load, see below for options")
+parser.add_argument("--network", type=str, default="pednet", help="pre-trained model to load (see below for options)")
+parser.add_argument("--overlay", type=str, default="box,labels", help="detection overlay flags (e.g. --overlay=box,labels)\nvalid combinations are:  'box', 'labels', 'none'")
 parser.add_argument("--threshold", type=float, default=0.5, help="minimum detection threshold to use")
 parser.add_argument("--profile", type=bool, default=False, help="enable performance profiling and multiple runs of the model")
 parser.add_argument("--runs", type=int, default=15, help="if profiling is enabling, the number of iterations to run")
@@ -62,10 +63,10 @@ else:
 # run model inference
 for i in range(opt.runs):
 	if opt.runs > 1:
-		print("\n/////////////////////////////////////\n// RUN {:d}\n/////////////////////////////////////".format(i))
+		print("\n//\n// RUN {:d}\n//".format(i))
 	
 	# detect objects in the image (with overlay)
-	detections = net.Detect(img, width, height)
+	detections = net.Detect(img, width, height, opt.overlay)
 
 	# print the detections
 	print("detected {:d} objects in image".format(len(detections)))

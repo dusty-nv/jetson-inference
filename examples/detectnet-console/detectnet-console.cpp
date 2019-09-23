@@ -37,9 +37,10 @@ int usage()
 	printf("  file_out             filename of the output image to save (optional)\n\n");
 	printf("optional arguments:\n");
 	printf("  --help               show this help message and exit\n");
-	printf("  --profile PROFILE    enable layer profiling in TensorRT\n");
-	printf("  --overlay OVERLAY    overlay flags (e.g. --overlay=box,labels)\n");
-	printf("                       valid flags are:  'box', 'labels', 'none'\n\n");
+	printf("  --profile            enable layer profiling in TensorRT\n");
+	printf("  --network NETWORK    pre-trained model to load (see below for options)\n");
+	printf("  --overlay OVERLAY    detection overlay flags (e.g. --overlay=box,labels)\n");
+	printf("                       valid combinations are:  'box', 'labels', 'none'\n\n");
 	printf("%s\n", detectNet::Usage());
 
 	return 0;

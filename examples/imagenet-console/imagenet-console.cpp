@@ -29,14 +29,15 @@
 
 int usage()
 {
-	printf("usage: imagenet-console [h] [--network NETWORK]\n");
-	printf("                        file_in [file_out]\n\n");
+	printf("usage: imagenet-console [h] [--network NETWORK] file_in [file_out]\n\n");
 	printf("Classify an image using an image recognition DNN.\n\n");
 	printf("positional arguments:\n");
 	printf("  file_in              filename of the input image to process\n");
 	printf("  file_out             filename of the output image to save (optional)\n\n");
 	printf("optional arguments:\n");
-	printf("  --help               show this help message and exit\n\n");
+	printf("  --help               show this help message and exit\n");
+	printf("  --profile            enable layer profiling in TensorRT\n\n");
+	printf("  --network NETWORK    pre-trained model to load (see below for options)\n\n");
 	printf("%s\n", imageNet::Usage());
 
 	return 0;
@@ -76,7 +77,9 @@ int main( int argc, char** argv )
 		return 0;
 	}
 	
-	//net->EnableLayerProfiler();
+	// enable layer profiling if desired
+	if( cmdLine.GetFlag("profile") )
+		net->EnableLayerProfiler();
 	
 
 	/*

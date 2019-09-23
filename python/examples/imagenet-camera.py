@@ -31,8 +31,8 @@ import argparse
 parser = argparse.ArgumentParser(description="Classify a live camera stream using an image recognition DNN.", 
 						   formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.imageNet.Usage())
 
-parser.add_argument("--network", type=str, default="googlenet", help="pre-trained model to load, see below for options")
-parser.add_argument("--camera", type=str, default="0", help="index of the MIPI CSI camera to use (NULL for CSI camera 0),\nor for VL42 cameras the /dev/video node to use (/dev/video0).\nby default, MIPI CSI camera 0 will be used.")
+parser.add_argument("--network", type=str, default="googlenet", help="pre-trained model to load (see below for options)")
+parser.add_argument("--camera", type=str, default="0", help="index of the MIPI CSI camera to use (e.g. CSI camera 0)\nor for VL42 cameras, the /dev/video device to use.\nby default, MIPI CSI camera 0 will be used.")
 parser.add_argument("--width", type=int, default=1280, help="desired width of camera stream (default is 1280 pixels)")
 parser.add_argument("--height", type=int, default=720, help="desired height of camera stream (default is 720 pixels)")
 
@@ -64,7 +64,7 @@ while display.IsOpen():
 	display.RenderOnce(img, width, height)
 
 	# update the title bar
-	display.SetTitle("{:s} | Network {:.0f} FPS".format(net.GetNetworkName(), 1000.0 / net.GetNetworkTime()))
+	display.SetTitle("{:s} | Network {:.0f} FPS".format(net.GetNetworkName(), net.GetNetworkFPS()))
 
 	# print out performance info
 	net.PrintProfilerTimes()
