@@ -274,24 +274,60 @@ bool detectNet::defaultColors()
 	if( !cudaAllocMapped((void**)&mClassColors[0], (void**)&mClassColors[1], numClasses * sizeof(float4)) )
 		return false;
 	
-	for( uint32_t n=0; n < numClasses; n++ )
+	const uint8_t alpha = 100;
+
+	// if there are a large number of classes (MS COCO)
+	// programatically generate the class color map
+	if( numClasses > 10 )
 	{
-		if( n != 1 )
+		// https://github.com/dusty-nv/pytorch-segmentation/blob/16882772bc767511d892d134918722011d1ea771/datasets/sun_remap.py#L90
+		#define bitget(byteval, idx)	((byteval & (1 << idx)) != 0)
+
+		for( int i=0; i < numClasses; i++ )
 		{
-			mClassColors[0][n*4+0] = 0.0f;	// r
-			mClassColors[0][n*4+1] = 200.0f;	// g
-			mClassColors[0][n*4+2] = 255.0f;	// b
-			mClassColors[0][n*4+3] = 100.0f;	// a
-		}
-		else
-		{
-			mClassColors[0][n*4+0] = 0.0f;	// r
-			mClassColors[0][n*4+1] = 255.0f;	// g
-			mClassColors[0][n*4+2] = 175.0f;	// b
-			mClassColors[0][n*4+3] = 75.0f;	// a
+			int r = 0;
+			int g = 0;
+			int b = 0;
+			int c = i;
+
+			for( int j=0; j < 8; j++ )
+			{
+				r = r | (bitget(c, 0) << 7 - j);
+				g = g | (bitget(c, 1) << 7 - j);
+				b = b | (bitget(c, 2) << 7 - j);
+				c = c >> 3;
+			}
+
+			mClassColors[0][i*4+0] = r;
+			mClassColors[0][i*4+1] = g;
+			mClassColors[0][i*4+2] = b;
+			mClassColors[0][i*4+3] = alpha; 
+
+			printf(LOG_TRT "color %02i  %3i %3i %3i %3i\n", i, (int)r, (int)g, (int)b, (int)alpha);
 		}
 	}
-	
+	else
+	{
+		// blue colors, except class 1 is green
+		for( uint32_t n=0; n < numClasses; n++ )
+		{
+			if( n != 1 )
+			{
+				mClassColors[0][n*4+0] = 0.0f;	// r
+				mClassColors[0][n*4+1] = 200.0f;	// g
+				mClassColors[0][n*4+2] = 255.0f;	// b
+				mClassColors[0][n*4+3] = alpha;	// a
+			}
+			else
+			{
+				mClassColors[0][n*4+0] = 0.0f;	// r
+				mClassColors[0][n*4+1] = 255.0f;	// g
+				mClassColors[0][n*4+2] = 175.0f;	// b
+				mClassColors[0][n*4+3] = 75.0f;	// a
+			}
+		}
+	}
+
 	return true;
 }
 
@@ -703,7 +739,7 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 			if( strcmp(GetClassDesc(detections[numDetections].ClassID), "void") == 0 )
 				continue;
 
-			numDetections++;
+			numDetections += clusterDetections(detections, numDetections);
 		}
 	}
 	else if( IsModelType(MODEL_ONNX) )
@@ -746,8 +782,45 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 }
 
 
+// clusterDetections (UFF)
+int detectNet::clusterDetections( Detection* detections, int n, float threshold )
+{
+	if( n == 0 )
+		return 1;
 
-// clusterDetections
+	// test each detection to see if it intersects
+	for( int m=0; m < n; m++ )
+	{
+		if( detections[n].Intersects(detections[m], threshold) )
+		{
+			// if the intersecting detections have different classes, pick the one with highest confidence
+			// otherwise if they have the same object class, expand the detection bounding box
+			if( detections[n].ClassID != detections[m].ClassID )
+			{
+				if( detections[n].Confidence > detections[m].Confidence )
+				{
+					detections[m] = detections[n];
+
+					detections[m].Instance = m;
+					detections[m].ClassID = detections[n].ClassID;
+					detections[m].Confidence = detections[n].Confidence;					
+				}
+			}
+			else
+			{
+				detections[m].Expand(detections[n]);
+				detections[m].Confidence = fmaxf(detections[n].Confidence, detections[m].Confidence);
+			}
+
+			return 0; // merged detection
+		}
+	}
+
+	return 1;	// new detection
+}
+
+
+// clusterDetections (caffe)
 int detectNet::clusterDetections( Detection* detections, uint32_t width, uint32_t height )
 {
 	// cluster detection bboxes
