@@ -48,8 +48,8 @@ int usage()
 	printf("optional arguments:\n");
 	printf("  --help            show this help message and exit\n");
 	printf("  --network NETWORK pre-trained model to load (see below for options)\n");
-	printf("  --overlay OVERLAY detection overlay flags (e.g. --overlay=box,labels)\n");
-	printf("                    valid combinations are:  'box', 'labels', 'none'\n");
+	printf("  --overlay OVERLAY detection overlay flags (e.g. --overlay=box,labels,conf)\n");
+	printf("                    valid combinations are:  'box', 'labels', 'conf', 'none'\n");
 	printf("  --camera CAMERA   index of the MIPI CSI camera to use (e.g. CSI camera 0),\n");
 	printf("                    or for VL42 cameras the /dev/video device to use.\n");
      printf("                    by default, MIPI CSI camera 0 will be used.\n");
@@ -109,7 +109,7 @@ int main( int argc, char** argv )
 	}
 
 	// parse overlay flags
-	const uint32_t overlayFlags = detectNet::OverlayFlagsFromStr(cmdLine.GetString("overlay", "box"));
+	const uint32_t overlayFlags = detectNet::OverlayFlagsFromStr(cmdLine.GetString("overlay", "box,labels,conf"));
 	
 
 	/*

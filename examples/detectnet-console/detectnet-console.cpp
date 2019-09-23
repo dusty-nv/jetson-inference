@@ -33,14 +33,14 @@ int usage()
 	printf("                         file_in [file_out]\n\n");
 	printf("Locate objects in an image using an object detection DNN.\n\n");
 	printf("positional arguments:\n");
-	printf("  file_in              filename of the input image to process\n");
-	printf("  file_out             filename of the output image to save (optional)\n\n");
+	printf("  file_in           filename of the input image to process\n");
+	printf("  file_out          filename of the output image to save (optional)\n\n");
 	printf("optional arguments:\n");
-	printf("  --help               show this help message and exit\n");
-	printf("  --profile            enable layer profiling in TensorRT\n");
-	printf("  --network NETWORK    pre-trained model to load (see below for options)\n");
-	printf("  --overlay OVERLAY    detection overlay flags (e.g. --overlay=box,labels)\n");
-	printf("                       valid combinations are:  'box', 'labels', 'none'\n\n");
+	printf("  --help            show this help message and exit\n");
+	printf("  --profile         enable layer profiling in TensorRT\n");
+	printf("  --network NETWORK pre-trained model to load (see below for options)\n");
+	printf("  --overlay OVERLAY detection overlay flags (e.g. --overlay=box,labels,conf)\n");
+	printf("                    valid combinations are:  'box', 'labels', 'conf', 'none'\n");
 	printf("%s\n", detectNet::Usage());
 
 	return 0;
@@ -81,7 +81,7 @@ int main( int argc, char** argv )
 	}
 
 	// parse overlay flags
-	const uint32_t overlayFlags = detectNet::OverlayFlagsFromStr(cmdLine.GetString("overlay", "box"));
+	const uint32_t overlayFlags = detectNet::OverlayFlagsFromStr(cmdLine.GetString("overlay", "box,labels,conf"));
 	
 	// enable layer profiling if desired
 	if( cmdLine.GetFlag("profile") )

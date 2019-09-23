@@ -34,8 +34,8 @@ parser = argparse.ArgumentParser(description="Locate objects in an image using a
 
 parser.add_argument("file_in", type=str, help="filename of the input image to process")
 parser.add_argument("file_out", type=str, default=None, nargs='?', help="filename of the output image to save")
-parser.add_argument("--network", type=str, default="pednet", help="pre-trained model to load (see below for options)")
-parser.add_argument("--overlay", type=str, default="box,labels", help="detection overlay flags (e.g. --overlay=box,labels)\nvalid combinations are:  'box', 'labels', 'none'")
+parser.add_argument("--network", type=str, default="ssd-mobilenet-v2", help="pre-trained model to load (see below for options)")
+parser.add_argument("--overlay", type=str, default="box,labels,conf", help="detection overlay flags (e.g. --overlay=box,labels,conf)\nvalid combinations are:  'box', 'labels', 'conf', 'none'")
 parser.add_argument("--threshold", type=float, default=0.5, help="minimum detection threshold to use")
 parser.add_argument("--profile", type=bool, default=False, help="enable performance profiling and multiple runs of the model")
 parser.add_argument("--runs", type=int, default=15, help="if profiling is enabling, the number of iterations to run")
