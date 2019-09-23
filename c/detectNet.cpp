@@ -274,7 +274,7 @@ bool detectNet::defaultColors()
 	if( !cudaAllocMapped((void**)&mClassColors[0], (void**)&mClassColors[1], numClasses * sizeof(float4)) )
 		return false;
 	
-	const uint8_t alpha = 100;
+	const uint8_t alpha = 125;
 
 	// if there are a large number of classes (MS COCO)
 	// programatically generate the class color map
@@ -599,7 +599,7 @@ detectNet* detectNet::Create( int argc, char** argv )
 							out_blob ? NULL : out_cvg, out_blob ? out_blob : out_bbox, maxBatchSize);
 	}
 
-	// create segnet from pretrained model
+	// create detectNet from pretrained model
 	return detectNet::Create(type, threshold, maxBatchSize);
 }
 	
@@ -741,6 +741,9 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 
 			numDetections += clusterDetections(detections, numDetections);
 		}
+
+		// sort the detections by confidence value
+		sortDetections(detections, numDetections);
 	}
 	else if( IsModelType(MODEL_ONNX) )
 	{
@@ -905,6 +908,32 @@ int detectNet::clusterDetections( Detection* detections, uint32_t width, uint32_
 }
 
 
+// sortDetections (UFF)
+void detectNet::sortDetections( Detection* detections, int numDetections )
+{
+	if( numDetections < 2 )
+		return;
+
+	// order by confidence (ascending)
+	for( int i=0; i < numDetections-1; i++ )
+	{
+		for( int j=0; j < numDetections-i-1; j++ )
+		{
+			if( detections[j].Confidence > detections[j+1].Confidence )
+			{
+				const Detection det = detections[j];
+				detections[j] = detections[j+1];
+				detections[j+1] = det;
+			}
+		}
+	}
+
+	// renumber the instance ID's
+	for( int i=0; i < numDetections; i++ )
+		detections[i].Instance = i;	
+}
+
+
 // from detectNet.cu
 cudaError_t cudaDetectionOverlay( float4* input, float4* output, uint32_t width, uint32_t height, detectNet::Detection* detections, int numDetections, float4* colors );
 
@@ -927,7 +956,7 @@ bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t h
 	}
 
 	// class label overlay
-	if( flags & OVERLAY_LABEL )
+	if( (flags & OVERLAY_LABEL) || (flags & OVERLAY_CONFIDENCE) )
 	{
 		static cudaFont* font = NULL;
 
@@ -948,8 +977,26 @@ bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t h
 
 		for( uint32_t n=0; n < numDetections; n++ )
 		{
-			labels.push_back( std::pair<std::string, int2>( GetClassDesc(detections[n].ClassID),
-												   make_int2(detections[n].Left, detections[n].Top) ) );
+			const char* className  = GetClassDesc(detections[n].ClassID);
+			const float confidence = detections[n].Confidence * 100.0f;
+			const int2  position   = make_int2(detections[n].Left, detections[n].Top);
+			
+			if( flags & OVERLAY_CONFIDENCE )
+			{
+				char str[256];
+
+				if( (flags & OVERLAY_LABEL) && (flags & OVERLAY_CONFIDENCE) )
+					sprintf(str, "%s %.1f%%", className, confidence);
+				else
+					sprintf(str, "%.1f%%", confidence);
+
+				labels.push_back(std::pair<std::string, int2>(str, position));
+			}
+			else
+			{
+				// overlay label only
+				labels.push_back(std::pair<std::string, int2>(className, position));
+			}
 		}
 
 		font->OverlayText((float4*)input, width, height, labels, make_float4(255,255,255,255));
@@ -995,12 +1042,14 @@ uint32_t detectNet::OverlayFlagsFromStr( const char* str_user )
 
 	while( token != NULL )
 	{
-		printf("%s\n", token);
+		//printf("%s\n", token);
 
 		if( strcasecmp(token, "box") == 0 )
 			flags |= OVERLAY_BOX;
 		else if( strcasecmp(token, "label") == 0 || strcasecmp(token, "labels") == 0 )
 			flags |= OVERLAY_LABEL;
+		else if( strcasecmp(token, "conf") == 0 || strcasecmp(token, "confidence") == 0 )
+			flags |= OVERLAY_CONFIDENCE;
 
 		token = strtok(NULL, delimiters);
 	}	

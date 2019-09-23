@@ -161,9 +161,10 @@ public:
 	 */
 	enum OverlayFlags
 	{
-		OVERLAY_NONE  = 0,			/**< No overlay. */
-		OVERLAY_BOX   = (1 << 0),	/**< Overlay the object bounding boxes */
-		OVERLAY_LABEL = (1 << 1)		/**< Overlay the class description labels */
+		OVERLAY_NONE       = 0,			/**< No overlay. */
+		OVERLAY_BOX        = (1 << 0),	/**< Overlay the object bounding boxes */
+		OVERLAY_LABEL 	    = (1 << 1),	/**< Overlay the class description labels */
+		OVERLAY_CONFIDENCE = (1 << 2),	/**< Overlay the detection confidence values */
 	};
 	
 	/**
@@ -197,9 +198,9 @@ public:
 
 	/**
 	 * Parse a string sequence into OverlayFlags enum.
-	 * Valid flags are "none", "box", and "label", and it is possible to combine multiple flags
-	 * (bitwise OR) together with commas or pipe (|) symbol.  For example, the string sequences
-	 * "box,label" and "box|label" would return the flags OVERLAY_BOX|OVERLAY_LABEL.
+	 * Valid flags are "none", "box", "label", and "conf" and it is possible to combine flags
+	 * (bitwise OR) together with commas or pipe (|) symbol.  For example, the string sequence
+	 * "box,label,conf" would return the flags `OVERLAY_BOX|OVERLAY_LABEL|OVERLAY_CONFIDENCE`.
 	 */
 	static uint32_t OverlayFlagsFromStr( const char* flags );
 
@@ -379,6 +380,8 @@ protected:
 	
 	int clusterDetections( Detection* detections, uint32_t width, uint32_t height );
 	int clusterDetections( Detection* detections, int n, float threshold=0.75f );
+
+	void sortDetections( Detection* detections, int numDetections );
 
 	float  mCoverageThreshold;
 	float* mClassColors[2];
