@@ -61,7 +61,8 @@
 		  "  --labels LABELS      path to text file containing the labels for each class\n" 				\
 		  "  --input_blob INPUT   name of the input layer (default is '" IMAGENET_DEFAULT_INPUT "')\n" 	\
 		  "  --output_blob OUTPUT name of the output layer (default is '" IMAGENET_DEFAULT_OUTPUT "')\n" 	\
-		  "  --batch_size BATCH   maximum batch size (default is 1)\n"
+		  "  --batch_size BATCH   maximum batch size (default is 1)\n"								\
+		  "  --profile            enable layer profiling in TensorRT\n"
 
 
 /**

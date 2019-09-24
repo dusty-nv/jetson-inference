@@ -528,22 +528,15 @@ detectNet::NetworkType detectNet::NetworkTypeFromStr( const char* modelName )
 // Create
 detectNet* detectNet::Create( int argc, char** argv )
 {
+	detectNet* net = NULL;
+
+	// parse command line parameters
 	commandLine cmdLine(argc, argv);
 
 	const char* modelName = cmdLine.GetString("network");
 	
 	if( !modelName )
 		modelName = cmdLine.GetString("model", "ssd-mobilenet-v2");
-
-	/*if( !modelName )
-	{
-		if( argc == 2 )
-			modelName = argv[1];
-		else if( argc == 4 )
-			modelName = argv[3];
-		else
-			modelName = "pednet";
-	}*/
 
 	float threshold = cmdLine.GetFloat("threshold");
 	
@@ -555,26 +548,9 @@ detectNet* detectNet::Create( int argc, char** argv )
 	if( maxBatchSize < 1 )
 		maxBatchSize = DEFAULT_MAX_BATCH_SIZE;
 
-	//if( argc > 3 )
-	//	modelName = argv[3];	
+	// parse the model type
+	const detectNet::NetworkType type = NetworkTypeFromStr(modelName);
 
-	const detectNet::NetworkType type = NetworkTypeFromStr(modelName); /*detectNet::PEDNET_MULTI;
-
-	if( strcasecmp(modelName, "multiped") == 0 || strcasecmp(modelName, "multiped-500") == 0 )
-		type = detectNet::PEDNET_MULTI;
-	else if( strcasecmp(modelName, "pednet") == 0 || strcasecmp(modelName, "ped-100") == 0 )
-		type = detectNet::PEDNET;
-	else if( strcasecmp(modelName, "facenet") == 0 || strcasecmp(modelName, "facenet-120") == 0 || strcasecmp(modelName, "face-120") == 0 )
-		type = detectNet::FACENET;
-	else if( strcasecmp(modelName, "coco-airplane") == 0 || strcasecmp(modelName, "airplane") == 0 )
-		type = detectNet::COCO_AIRPLANE;
-	else if( strcasecmp(modelName, "coco-bottle") == 0 || strcasecmp(modelName, "bottle") == 0 )
-		type = detectNet::COCO_BOTTLE;
-	else if( strcasecmp(modelName, "coco-chair") == 0 || strcasecmp(modelName, "chair") == 0 )
-		type = detectNet::COCO_CHAIR;
-	else if( strcasecmp(modelName, "coco-dog") == 0 || strcasecmp(modelName, "dog") == 0 )
-		type = detectNet::COCO_DOG;
-	else*/
 	if( type == detectNet::CUSTOM )
 	{
 		const char* prototxt     = cmdLine.GetString("prototxt");
@@ -595,12 +571,23 @@ detectNet* detectNet::Create( int argc, char** argv )
 
 		float meanPixel = cmdLine.GetFloat("mean_pixel");
 
-		return detectNet::Create(prototxt, modelName, meanPixel, class_labels, threshold, input, 
+		net = detectNet::Create(prototxt, modelName, meanPixel, class_labels, threshold, input, 
 							out_blob ? NULL : out_cvg, out_blob ? out_blob : out_bbox, maxBatchSize);
 	}
+	else
+	{
+		// create detectNet from pretrained model
+		net = detectNet::Create(type, threshold, maxBatchSize);
+	}
 
-	// create detectNet from pretrained model
-	return detectNet::Create(type, threshold, maxBatchSize);
+	if( !net )
+		return NULL;
+
+	// enable layer profiling if desired
+	if( cmdLine.GetFlag("profile") )
+		net->EnableLayerProfiler();
+
+	return net;
 }
 	
 
@@ -914,12 +901,12 @@ void detectNet::sortDetections( Detection* detections, int numDetections )
 	if( numDetections < 2 )
 		return;
 
-	// order by confidence (ascending)
+	// order by area (descending) or confidence (ascending)
 	for( int i=0; i < numDetections-1; i++ )
 	{
 		for( int j=0; j < numDetections-i-1; j++ )
 		{
-			if( detections[j].Confidence > detections[j+1].Confidence )
+			if( detections[j].Area() < detections[j+1].Area() ) //if( detections[j].Confidence > detections[j+1].Confidence )
 			{
 				const Detection det = detections[j];
 				detections[j] = detections[j+1];
@@ -963,7 +950,7 @@ bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t h
 		// make sure the font object is created
 		if( !font )
 		{
-			font = cudaFont::Create();
+			font = cudaFont::Create(adaptFontSize(width));
 	
 			if( !font )
 			{
@@ -979,7 +966,7 @@ bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t h
 		{
 			const char* className  = GetClassDesc(detections[n].ClassID);
 			const float confidence = detections[n].Confidence * 100.0f;
-			const int2  position   = make_int2(detections[n].Left, detections[n].Top);
+			const int2  position   = make_int2(detections[n].Left+5, detections[n].Top+3);
 			
 			if( flags & OVERLAY_CONFIDENCE )
 			{

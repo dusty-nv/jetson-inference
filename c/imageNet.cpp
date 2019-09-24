@@ -218,26 +218,17 @@ const char* imageNet::NetworkTypeToStr( imageNet::NetworkType network )
 // Create
 imageNet* imageNet::Create( int argc, char** argv )
 {
+	imageNet* net = NULL;
+
+	// obtain the network name
 	commandLine cmdLine(argc, argv);
 
 	const char* modelName = cmdLine.GetString("network");
 	
 	if( !modelName )
 		modelName = cmdLine.GetString("model", "googlenet");
-
-	/*if( !modelName )
-	{
-		if( argc == 2 )
-			modelName = argv[1];
-		else if( argc == 4 )
-			modelName = argv[3];
-		else
-			modelName = "googlenet";
-	}*/
-
-	//if( argc > 3 )
-	//	modelName = argv[3];	
-
+	
+	// parse the network type
 	const imageNet::NetworkType type = NetworkTypeFromStr(modelName);
 
 	if( type == imageNet::CUSTOM )
@@ -255,11 +246,22 @@ imageNet* imageNet::Create( int argc, char** argv )
 		if( maxBatchSize < 1 )
 			maxBatchSize = DEFAULT_MAX_BATCH_SIZE;
 
-		return imageNet::Create(prototxt, modelName, NULL, labels, input, output, maxBatchSize);
+		net = imageNet::Create(prototxt, modelName, NULL, labels, input, output, maxBatchSize);
+	}
+	else
+	{
+		// create from pretrained model
+		net = imageNet::Create(type);
 	}
 
-	// create from pretrained model
-	return imageNet::Create(type);
+	if( !net )
+		return NULL;
+
+	// enable layer profiling if desired
+	if( cmdLine.GetFlag("profile") )
+		net->EnableLayerProfiler();
+
+	return net;
 }
 
 

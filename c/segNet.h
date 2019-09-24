@@ -60,9 +60,10 @@
 		  "  --prototxt PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
 		  "  --labels LABELS      path to text file containing the labels for each class\n" 				\
 		  "  --colors COLORS      path to text file containing the colors for each class\n" 				\
-		  "  --input_blob INPUT   name of the input layer (default: '" SEGNET_DEFAULT_INPUT "')\n" 	\
-		  "  --output_blob OUTPUT name of the output layer (default: '" SEGNET_DEFAULT_OUTPUT "')\n" 	\
-		  "  --batch_size BATCH   maximum batch size (default is 1)\n"
+		  "  --input_blob INPUT   name of the input layer (default: '" SEGNET_DEFAULT_INPUT "')\n" 		\
+		  "  --output_blob OUTPUT name of the output layer (default: '" SEGNET_DEFAULT_OUTPUT "')\n" 		\
+		  "  --batch_size BATCH   maximum batch size (default is 1)\n"								\
+		  "  --profile            enable layer profiling in TensorRT\n"
 
 /**
  * Image segmentation with FCN-Alexnet or custom models, using TensorRT.

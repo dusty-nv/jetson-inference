@@ -227,7 +227,7 @@ segNet* segNet::Create( int argc, char** argv )
 	if( !modelName )
 		modelName = cmdLine.GetString("network", "fcn-resnet18-voc-320x320");
 
-	// parse the model name
+	// parse the model type
 	const segNet::NetworkType type = NetworkTypeFromStr(modelName);
 
 	if( type == SEGNET_CUSTOM )
@@ -262,6 +262,10 @@ segNet* segNet::Create( int argc, char** argv )
 
 	if( legend != NULL )
 		net->saveClassLegend(legend);
+
+	// enable layer profiling if desired
+	if( cmdLine.GetFlag("profile") )
+		net->EnableLayerProfiler();
 
 	return net;
 }

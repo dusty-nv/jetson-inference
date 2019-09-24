@@ -75,7 +75,8 @@
 		  "  --output_cvg COVERAGE name of the coverge output layer (default is '" DETECTNET_DEFAULT_COVERAGE "')\n" 	\
 		  "  --output_bbox BOXES   name of the bounding output layer (default is '" DETECTNET_DEFAULT_BBOX "')\n" 	\
 		  "  --mean_pixel PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
-		  "  --batch_size BATCH    maximum batch size (default is 1)\n"
+		  "  --batch_size BATCH    maximum batch size (default is 1)\n"										\
+		  "  --profile             enable layer profiling in TensorRT\n"
 
 
 /**
