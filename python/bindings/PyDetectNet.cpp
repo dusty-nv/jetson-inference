@@ -449,7 +449,7 @@ typedef struct {
 				  "     Parameters:\n" \
 				  "       network (string) -- name of a built-in network to use\n" \
 				  "                           see below for available options.\n\n" \
-				  "       argv (strings) -- command line arguments passed to imageNet,\n" \
+				  "       argv (strings) -- command line arguments passed to detectNet,\n" \
 				  "                         see below for available options.\n\n" \
 				  "       threshold (float) -- minimum detection threshold.\n" \
 				  "                            default value is 0.5\n\n" \
@@ -463,7 +463,7 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 	
 	// parse arguments
 	PyObject* argList     = NULL;
-	const char* network   = "multiped";
+	const char* network   = "ssd-mobilenet-v2";
 	float threshold       = DETECTNET_DEFAULT_THRESHOLD;
 
 	static char* kwlist[] = {"network", "argv", "threshold", NULL};

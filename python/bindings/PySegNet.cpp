@@ -55,7 +55,7 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 
 	// parse arguments
 	PyObject* argList     = NULL;
-	const char* network   = "fcn-alexnet-cityscapes-sd";
+	const char* network   = "fcn-resnet18-pascal-voc";
 	static char* kwlist[] = {"network", "argv", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sO", kwlist, &network, &argList))
