@@ -4,11 +4,11 @@
 <sup>Object Detection</sup></s></p>
 
 # Locating Objects with DetectNet
-The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image recognition, object detection networks are capable of detecting multiple independent objects per frame.
+The previous recognition examples output class probabilities representing the entire input image.  Next we're going to focus on **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image classification, object detection networks are capable of detecting multiple objects per frame.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet.jpg" width="900">
 
-The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See [below](#pretrained-detection-models-available) for various pre-trained detection models available for download.  The default model used is a [91 class](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 network trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
+The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See belowfor various [pre-trained detection models](#pretrained-detection-models-available)  available for download.  The default model used is a [91-class](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
 
 As examples of using `detectNet` we provide versions of a command-line interface for C++ and Python:
 
