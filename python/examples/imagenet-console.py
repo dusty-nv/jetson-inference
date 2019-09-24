@@ -27,7 +27,6 @@ import jetson.utils
 import argparse
 import sys
 
-
 # parse the command line
 parser = argparse.ArgumentParser(description="Classify an image using an image recognition DNN.", 
 						   formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.imageNet.Usage())
@@ -37,7 +36,7 @@ parser.add_argument("file_out", type=str, default=None, nargs='?', help="filenam
 parser.add_argument("--network", type=str, default="googlenet", help="pre-trained model to load (see below for options)")
 
 try:
-	opt, argv = parser.parse_known_args()
+	opt = parser.parse_known_args()[0]
 except:
 	print("")
 	parser.print_help()
@@ -47,7 +46,7 @@ except:
 img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
 
 # load the recognition network
-net = jetson.inference.imageNet(opt.network, argv)
+net = jetson.inference.imageNet(opt.network, sys.argv)
 
 # classify the image
 class_idx, confidence = net.Classify(img, width, height)

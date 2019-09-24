@@ -28,7 +28,6 @@ import argparse
 import ctypes
 import sys
 
-
 # parse the command line
 parser = argparse.ArgumentParser(description="Segment a live camera stream using an semantic segmentation DNN.", 
 						   formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.segNet.Usage())
@@ -42,14 +41,14 @@ parser.add_argument("--width", type=int, default=1280, help="desired width of ca
 parser.add_argument("--height", type=int, default=720, help="desired height of camera stream (default is 720 pixels)")
 
 try:
-	opt, argv = parser.parse_known_args()
+	opt = parser.parse_known_args()[0]
 except:
 	print("")
 	parser.print_help()
 	sys.exit(0)
 
 # load the segmentation network
-net = jetson.inference.segNet(opt.network, argv)
+net = jetson.inference.segNet(opt.network, sys.argv)
 
 # set the alpha blending value
 net.SetGlobalAlpha(opt.alpha)

@@ -28,7 +28,6 @@ import argparse
 import ctypes
 import sys
 
-
 # parse the command line
 parser = argparse.ArgumentParser(description="Segment an image using an semantic segmentation DNN.", 
 						   formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.segNet.Usage())
@@ -42,7 +41,7 @@ parser.add_argument("--ignore-class", type=str, default="void", help="optional n
 parser.add_argument("--alpha", type=float, default=175.0, help="alpha blending value to use during overlay, between 0.0 and 255.0 (default: 175.0)")
 
 try:
-	opt, argv = parser.parse_known_args()
+	opt = parser.parse_known_args()[0]
 except:
 	print("")
 	parser.print_help()
@@ -55,7 +54,7 @@ img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
 img_output = jetson.utils.cudaAllocMapped(width * height * 4 * ctypes.sizeof(ctypes.c_float))
 
 # load the segmentation network
-net = jetson.inference.segNet(opt.network, argv)
+net = jetson.inference.segNet(opt.network, sys.argv)
 
 # set the alpha blending value
 net.SetGlobalAlpha(opt.alpha)

@@ -27,7 +27,6 @@ import jetson.utils
 import argparse
 import sys
 
-
 # parse the command line
 parser = argparse.ArgumentParser(description="Locate objects in an image using an object detection DNN.", 
 						   formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.detectNet.Usage())
@@ -39,7 +38,7 @@ parser.add_argument("--overlay", type=str, default="box,labels,conf", help="dete
 parser.add_argument("--threshold", type=float, default=0.5, help="minimum detection threshold to use")
 
 try:
-	opt, argv = parser.parse_known_args()
+	opt = parser.parse_known_args()[0]
 except:
 	print("")
 	parser.print_help()
@@ -49,7 +48,7 @@ except:
 img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
 
 # load the object detection network
-net = jetson.inference.detectNet(opt.network, argv, opt.threshold)
+net = jetson.inference.detectNet(opt.network, sys.argv, opt.threshold)
 
 # detect objects in the image (with overlay)
 detections = net.Detect(img, width, height, opt.overlay)

@@ -29,7 +29,6 @@ import ctypes
 import sys
 import os
 
-
 # parse the command line
 parser = argparse.ArgumentParser(description="Segment a directory of images using an semantic segmentation DNN.", 
 						   formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.segNet.Usage())
@@ -41,25 +40,19 @@ parser.add_argument("--visualize", type=str, default="overlay", choices=["overla
 parser.add_argument("--filter-mode", type=str, default="linear", choices=["point", "linear"], help="filtering mode used during visualization, options are:  'point' or 'linear' (default: 'linear')")
 parser.add_argument("--ignore-class", type=str, default="void", help="optional name of class to ignore in the visualization results (default: 'void')")
 parser.add_argument("--alpha", type=float, default=175.0, help="alpha blending value to use during overlay, between 0.0 and 255.0 (default: 175.0)")
-parser.add_argument("--profile", type=bool, default=False, help="enable performance profiling and multiple runs of the model")
 
 try:
-	opt, argv = parser.parse_known_args()
+	opt = parser.parse_known_args()[0]
 except:
 	print("")
 	parser.print_help()
 	sys.exit(0)
 
-
 # load the segmentation network
-net = jetson.inference.segNet(opt.network, argv)
+net = jetson.inference.segNet(opt.network, sys.argv)
 
 # set the alpha blending value
 net.SetGlobalAlpha(opt.alpha)
-
-# enable model profiling
-if opt.profile is True:
-	net.EnableLayerProfiler()
 
 # list image files
 images = sorted(os.listdir(opt.input))
