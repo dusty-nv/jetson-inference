@@ -43,7 +43,6 @@ except:
 	parser.print_help()
 	sys.exit(0)
 
-
 # load an image (into shared CPU/GPU memory)
 img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
 
