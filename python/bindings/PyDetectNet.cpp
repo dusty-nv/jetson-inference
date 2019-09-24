@@ -757,6 +757,41 @@ PyObject* PyDetectNet_GetClassSynset( PyDetectNet_Object* self, PyObject* args )
 }
 
 
+#define DOC_SET_OVERLAY_ALPHA "Set the alpha blending value used during overlay visualization for all classes\n\n" \
+				 	  "Parameters:\n" \
+					  "  alpha (float) -- desired alpha value, between 0.0 and 255.0\n" \
+					  "Returns:  (none)"
+
+// SetOverlayAlpha
+PyObject* PyDetectNet_SetOverlayAlpha( PyDetectNet_Object* self, PyObject* args, PyObject *kwds )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid object instance");
+		return NULL;
+	}
+	
+	float alpha = 0.0f;
+	static char* kwlist[] = {"alpha", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "f", kwlist, &alpha) )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.SetOverlayAlpha() failed to parse arguments");
+		return NULL;
+	}
+		
+	if( alpha < 0.0f || alpha > 255.0f )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.SetOverlayAlpha() -- provided alpha value is out-of-range");
+		return NULL;
+	}
+
+	self->net->SetOverlayAlpha(alpha);
+
+	Py_RETURN_NONE;
+}
+
+
 #define DOC_USAGE_STRING     "Return the command line parameters accepted by __init__()\n\n" \
 					    "Parameters:  (none)\n\n" \
 					    "Returns:\n" \
@@ -782,6 +817,7 @@ static PyMethodDef pyDetectNet_Methods[] =
 	{ "GetNumClasses", (PyCFunction)PyDetectNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
 	{ "GetClassDesc", (PyCFunction)PyDetectNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassSynset", (PyCFunction)PyDetectNet_GetClassSynset, METH_VARARGS, DOC_GET_CLASS_SYNSET},
+	{ "SetOverlayAlpha", (PyCFunction)PyDetectNet_SetOverlayAlpha, METH_VARARGS|METH_KEYWORDS, DOC_SET_OVERLAY_ALPHA},
 	{ "Usage", (PyCFunction)PyDetectNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},	
 	{NULL}  /* Sentinel */
 };
