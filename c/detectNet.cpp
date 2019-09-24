@@ -781,7 +781,7 @@ int detectNet::clusterDetections( Detection* detections, int n, float threshold 
 	// test each detection to see if it intersects
 	for( int m=0; m < n; m++ )
 	{
-		if( detections[n].Intersects(detections[m], threshold) )
+		if( detections[n].Intersects(detections[m], threshold) )	// TODO NMS or different threshold for same classes?
 		{
 			// if the intersecting detections have different classes, pick the one with highest confidence
 			// otherwise if they have the same object class, expand the detection bounding box
