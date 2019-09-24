@@ -27,9 +27,9 @@ The `detectnet-console` program locates objects in static images.  Some of it's 
 
 - the path to an input image  (`jpg, png, tga, bmp`)
 - optional path to output image  (`jpg, png, tga, bmp`)
-- optional `--network` flag which changes the detection model being used (the default network is SSD-Mobilenet-v2).
-	- See [Pre-trained Detection Models Available](detectnet-console-2.md#pre-trained-detection-models-available) for the networks available to use.
-- optional `--overlay` flag which can be combinations of `box`, `labels`, `conf`, and `none` (default is `--overlay=box,labels,conf`)
+- optional `--network` flag which changes the [detection model](detectnet-console-2.md#pre-trained-detection-models-available) being used (the default network is SSD-Mobilenet-v2).
+- optional `--overlay` flag which can be comma-separated combinations of `box`, `labels`, `conf`, and `none`
+	- The default is `--overlay=box,labels,conf` which displays boxes, labels, and confidence values
 - optional `--alpha` value which sets the alpha blending value used during overlay (the default is `120`).
 - optional `--threshold` value which sets the minimum threshold for detection (the default is `0.5`).  
 
@@ -61,7 +61,7 @@ Below are more detection examples output from the console programs.  The [91-cla
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-animals.jpg" width="900">
 
-Various sets of images are included with the repo for testing, such as `cat_*.jpg` `dog_*.jpg` `horse_*.jpg` `peds_*.jpg`, ect. 
+Various images are included with the repo for testing, such as `cat_*.jpg`, `dog_*.jpg`, `horse_*.jpg`, `peds_*.jpg`, ect. 
 
 
 ### Pre-trained Detection Models Available
