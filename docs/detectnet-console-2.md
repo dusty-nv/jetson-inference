@@ -4,7 +4,7 @@
 <sup>Object Detection</sup></s></p>
 
 # Locating Objects with DetectNet
-The previous recognition examples output class probabilities representing the entire input image.  Next we're going to focus on **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image classification, object detection networks are capable of detecting multiple objects per frame.
+The previous recognition examples output class probabilities representing the entire input image.  Next we're going to focus on **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image classification, object detection networks are capable of detecting many different objects per frame.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet.jpg" width="900">
 
@@ -57,11 +57,11 @@ $ ./detectnet-console.py peds_1.jpg output.jpg
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-1.jpg" width="900">
 
-Below are more detection examples output from the program.  The [91-class](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
+Below are more detection examples output from the console programs.  The [91-class](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-animals.jpg" width="900">
 
-Various sets of images are included with the repo for testing, such as `cat_*.jpg`, `dog_*.jpg`, `horse_*.jpg`, `bird_*.jpg`, `peds_*.jpg`, ect. 
+Various sets of images are included with the repo for testing, such as `cat_*.jpg` `dog_*.jpg` `horse_*.jpg` `peds_*.jpg`, ect. 
 
 
 ### Pre-trained Detection Models Available
@@ -86,7 +86,7 @@ Below is a table of the pre-trained object detection networks available for [dow
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
 
 
-#### Running Different Detection Models
+### Running Different Detection Models
 
 You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, SSD-Mobilenet-v2 if the optional `--network` flag isn't specified.
 
