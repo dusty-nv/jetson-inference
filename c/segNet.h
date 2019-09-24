@@ -40,6 +40,12 @@
 #define SEGNET_DEFAULT_OUTPUT  "score_fr_21classes"
 
 /**
+ * Default alpha blending value used during overlay
+ * @ingroup segNet
+ */
+#define SEGNET_DEFAULT_ALPHA 120
+
+/**
  * Command-line options able to be passed to segNet::Create()
  * @ingroup segNet
  */
@@ -63,6 +69,7 @@
 		  "  --input_blob INPUT   name of the input layer (default: '" SEGNET_DEFAULT_INPUT "')\n" 		\
 		  "  --output_blob OUTPUT name of the output layer (default: '" SEGNET_DEFAULT_OUTPUT "')\n" 		\
 		  "  --batch_size BATCH   maximum batch size (default is 1)\n"								\
+            "  --alpha ALPHA        overlay alpha blending value, range 0-255 (default: 120)\n"			\
 		  "  --profile            enable layer profiling in TensorRT\n"
 
 /**
@@ -220,7 +227,7 @@ public:
 	inline const char* GetClassDesc( uint32_t id ) const			{ return id < mClassLabels.size() ? mClassLabels[id].c_str() : NULL; }
 	
 	/**
-	 * Retrieve the class synset category of a particular class.
+	 * Retrieve the RGBA visualization color a particular class.
 	 */
 	inline float* GetClassColor( uint32_t id ) const				{ return mClassColors[0] + (id*4); }
 
@@ -230,10 +237,10 @@ public:
 	void SetClassColor( uint32_t classIndex, float r, float g, float b, float a=255.0f );
 	
 	/**
- 	 * Set a global alpha value for all classes (between 0-255),
+ 	 * Set overlay alpha blending value for all classes (between 0-255),
 	 * (optionally except for those that have been explicitly set).
 	 */
-	void SetGlobalAlpha( float alpha, bool explicit_exempt=true );
+	void SetOverlayAlpha( float alpha, bool explicit_exempt=true );
 
 	/**
  	 * Retrieve the path to the file containing the class label descriptions.

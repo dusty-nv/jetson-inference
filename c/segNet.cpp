@@ -267,6 +267,9 @@ segNet* segNet::Create( int argc, char** argv )
 	if( cmdLine.GetFlag("profile") )
 		net->EnableLayerProfiler();
 
+	// set overlay alpha value
+	net->SetOverlayAlpha(cmdLine.GetFloat("alpha", SEGNET_DEFAULT_ALPHA));
+
 	return net;
 }
 
@@ -562,8 +565,8 @@ void segNet::SetClassColor( uint32_t classIndex, float r, float g, float b, floa
 }
 
 
-// SetGlobalAlpha
-void segNet::SetGlobalAlpha( float alpha, bool explicit_exempt )
+// SetOverlayAlpha
+void segNet::SetOverlayAlpha( float alpha, bool explicit_exempt )
 {
 	const uint32_t numClasses = GetNumClasses();
 

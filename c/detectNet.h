@@ -52,6 +52,12 @@
 #define DETECTNET_DEFAULT_THRESHOLD 0.5f
 
 /**
+ * Default alpha blending value used during overlay
+ * @ingroup detectNet
+ */
+#define DETECTNET_DEFAULT_ALPHA 120
+
+/**
  * Command-line options able to be passed to imageNet::Create()
  * @ingroup imageNet
  */
@@ -76,6 +82,7 @@
 		  "  --output_bbox BOXES   name of the bounding output layer (default is '" DETECTNET_DEFAULT_BBOX "')\n" 	\
 		  "  --mean_pixel PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
 		  "  --batch_size BATCH    maximum batch size (default is 1)\n"										\
+            "  --alpha ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\
 		  "  --profile             enable layer profiling in TensorRT\n"
 
 
@@ -360,10 +367,20 @@ public:
 	inline const char* GetClassPath() const						{ return mClassPath.c_str(); }
 
 	/**
+	 * Retrieve the RGBA visualization color a particular class.
+	 */
+	inline float* GetClassColor( uint32_t classIndex ) const		{ return mClassColors[0] + (classIndex*4); }
+
+	/**
 	 * Set the visualization color of a particular class of object.
 	 */
 	void SetClassColor( uint32_t classIndex, float r, float g, float b, float a=255.0f );
 	
+	/**
+ 	 * Set overlay alpha blending value for all classes (between 0-255).
+	 */
+	void SetOverlayAlpha( float alpha );
+
 	
 protected:
 

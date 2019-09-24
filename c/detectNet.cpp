@@ -231,213 +231,6 @@ detectNet* detectNet::Create( const char* model, const char* class_labels, float
 }
 
 
-// allocDetections
-bool detectNet::allocDetections()
-{
-	// determine max detections
-	if( IsModelType(MODEL_UFF) )	// TODO:  fixme
-	{
-		printf("W = %u  H = %u  C = %u\n", DIMS_W(mOutputs[OUTPUT_UFF].dims), DIMS_H(mOutputs[OUTPUT_UFF].dims), DIMS_C(mOutputs[OUTPUT_UFF].dims));
-		mMaxDetections = DIMS_H(mOutputs[OUTPUT_UFF].dims) * DIMS_C(mOutputs[OUTPUT_UFF].dims);
-	}
-	else if( IsModelType(MODEL_ONNX) )
-	{
-		mMaxDetections = 1;
-		mNumClasses = 1;
-		printf("detectNet -- using ONNX model\n");
-	}	
-	else
-	{
-		mNumClasses = DIMS_C(mOutputs[OUTPUT_CVG].dims);
-		mMaxDetections = DIMS_W(mOutputs[OUTPUT_CVG].dims) * DIMS_H(mOutputs[OUTPUT_CVG].dims) /** DIMS_C(mOutputs[OUTPUT_CVG].dims)*/ * mNumClasses;
-		printf("detectNet -- number object classes:   %u\n", mNumClasses);
-	}
-
-	printf("detectNet -- maximum bounding boxes:  %u\n", mMaxDetections);
-
-	// allocate array to store detection results
-	const size_t det_size = sizeof(Detection) * mNumDetectionSets * mMaxDetections;
-	
-	if( !cudaAllocMapped((void**)&mDetectionSets[0], (void**)&mDetectionSets[1], det_size) )
-		return false;
-	
-	memset(mDetectionSets[0], 0, det_size);
-	return true;
-}
-
-	
-// defaultColors
-bool detectNet::defaultColors()
-{
-	const uint32_t numClasses = GetNumClasses();
-	
-	if( !cudaAllocMapped((void**)&mClassColors[0], (void**)&mClassColors[1], numClasses * sizeof(float4)) )
-		return false;
-	
-	const uint8_t alpha = 125;
-
-	// if there are a large number of classes (MS COCO)
-	// programatically generate the class color map
-	if( numClasses > 10 )
-	{
-		// https://github.com/dusty-nv/pytorch-segmentation/blob/16882772bc767511d892d134918722011d1ea771/datasets/sun_remap.py#L90
-		#define bitget(byteval, idx)	((byteval & (1 << idx)) != 0)
-
-		for( int i=0; i < numClasses; i++ )
-		{
-			int r = 0;
-			int g = 0;
-			int b = 0;
-			int c = i;
-
-			for( int j=0; j < 8; j++ )
-			{
-				r = r | (bitget(c, 0) << 7 - j);
-				g = g | (bitget(c, 1) << 7 - j);
-				b = b | (bitget(c, 2) << 7 - j);
-				c = c >> 3;
-			}
-
-			mClassColors[0][i*4+0] = r;
-			mClassColors[0][i*4+1] = g;
-			mClassColors[0][i*4+2] = b;
-			mClassColors[0][i*4+3] = alpha; 
-
-			printf(LOG_TRT "color %02i  %3i %3i %3i %3i\n", i, (int)r, (int)g, (int)b, (int)alpha);
-		}
-	}
-	else
-	{
-		// blue colors, except class 1 is green
-		for( uint32_t n=0; n < numClasses; n++ )
-		{
-			if( n != 1 )
-			{
-				mClassColors[0][n*4+0] = 0.0f;	// r
-				mClassColors[0][n*4+1] = 200.0f;	// g
-				mClassColors[0][n*4+2] = 255.0f;	// b
-				mClassColors[0][n*4+3] = alpha;	// a
-			}
-			else
-			{
-				mClassColors[0][n*4+0] = 0.0f;	// r
-				mClassColors[0][n*4+1] = 255.0f;	// g
-				mClassColors[0][n*4+2] = 175.0f;	// b
-				mClassColors[0][n*4+3] = 75.0f;	// a
-			}
-		}
-	}
-
-	return true;
-}
-
-
-// defaultClassDesc
-void detectNet::defaultClassDesc()
-{
-	const uint32_t numClasses = GetNumClasses();
-	const int syn = 9;  // length of synset prefix (in characters)
-	
-	// assign defaults to classes that have no info
-	for( uint32_t n=mClassDesc.size(); n < numClasses; n++ )
-	{
-		char syn_str[10];
-		sprintf(syn_str, "n%08u", mCustomClasses);
-
-		char desc_str[16];
-		sprintf(desc_str, "class #%u", mCustomClasses);
-
-		mClassSynset.push_back(syn_str);
-		mClassDesc.push_back(desc_str);
-
-		mCustomClasses++;
-	}
-}
-
-
-// loadClassDesc
-bool detectNet::loadClassDesc( const char* filename )
-{
-	//printf("detectNet -- model has %u object classes\n", GetNumClasses());
-
-	if( !filename )
-		return false;
-	
-	// locate the file
-	const std::string path = locateFile(filename);
-
-	if( path.length() == 0 )
-	{
-		printf("detectNet -- failed to find %s\n", filename);
-		return false;
-	}
-
-	// open the file
-	FILE* f = fopen(path.c_str(), "r");
-	
-	if( !f )
-	{
-		printf("detectNet -- failed to open %s\n", path.c_str());
-		return false;
-	}
-	
-	// read class descriptions
-	char str[512];
-
-	while( fgets(str, 512, f) != NULL )
-	{
-		const int syn = 9;  // length of synset prefix (in characters)
-		const int len = strlen(str);
-		
-		if( len > syn && str[0] == 'n' && str[syn] == ' ' )
-		{
-			str[syn]   = 0;
-			str[len-1] = 0;
-	
-			const std::string a = str;
-			const std::string b = (str + syn + 1);
-	
-			//printf("a=%s b=%s\n", a.c_str(), b.c_str());
-
-			mClassSynset.push_back(a);
-			mClassDesc.push_back(b);
-		}
-		else if( len > 0 )	// no 9-character synset prefix (i.e. from DIGITS snapshot)
-		{
-			char a[10];
-			sprintf(a, "n%08u", mCustomClasses);
-
-			//printf("a=%s b=%s (custom non-synset)\n", a, str);
-			mCustomClasses++;
-
-			if( str[len-1] == '\n' )
-				str[len-1] = 0;
-
-			mClassSynset.push_back(a);
-			mClassDesc.push_back(str);
-		}
-	}
-	
-	fclose(f);
-	
-	printf("detectNet -- loaded %zu class info entries\n", mClassDesc.size());
-	
-	//for( size_t n=0; n < mClassDesc.size(); n++ )
-		//printf("          -- %s '%s'\n", mClassSynset[n].c_str(), mClassDesc[n].c_str());
-
-	if( mClassDesc.size() == 0 )
-		return false;
-
-	if( IsModelType(MODEL_UFF) )
-		mNumClasses = mClassDesc.size();
-
-	printf("detectNet -- number of object classes:  %u\n", mNumClasses);
-	mClassPath = path;	
-	return true;
-}
-
-
-
 // Create
 detectNet* detectNet::Create( NetworkType networkType, float threshold, uint32_t maxBatchSize, 
 						precisionType precision, deviceType device, bool allowGPUFallback )
@@ -587,9 +380,216 @@ detectNet* detectNet::Create( int argc, char** argv )
 	if( cmdLine.GetFlag("profile") )
 		net->EnableLayerProfiler();
 
+	// set overlay alpha value
+	net->SetOverlayAlpha(cmdLine.GetFloat("alpha", DETECTNET_DEFAULT_ALPHA));
+
 	return net;
 }
 	
+
+// allocDetections
+bool detectNet::allocDetections()
+{
+	// determine max detections
+	if( IsModelType(MODEL_UFF) )	// TODO:  fixme
+	{
+		printf("W = %u  H = %u  C = %u\n", DIMS_W(mOutputs[OUTPUT_UFF].dims), DIMS_H(mOutputs[OUTPUT_UFF].dims), DIMS_C(mOutputs[OUTPUT_UFF].dims));
+		mMaxDetections = DIMS_H(mOutputs[OUTPUT_UFF].dims) * DIMS_C(mOutputs[OUTPUT_UFF].dims);
+	}
+	else if( IsModelType(MODEL_ONNX) )
+	{
+		mMaxDetections = 1;
+		mNumClasses = 1;
+		printf("detectNet -- using ONNX model\n");
+	}	
+	else
+	{
+		mNumClasses = DIMS_C(mOutputs[OUTPUT_CVG].dims);
+		mMaxDetections = DIMS_W(mOutputs[OUTPUT_CVG].dims) * DIMS_H(mOutputs[OUTPUT_CVG].dims) /** DIMS_C(mOutputs[OUTPUT_CVG].dims)*/ * mNumClasses;
+		printf("detectNet -- number object classes:   %u\n", mNumClasses);
+	}
+
+	printf("detectNet -- maximum bounding boxes:  %u\n", mMaxDetections);
+
+	// allocate array to store detection results
+	const size_t det_size = sizeof(Detection) * mNumDetectionSets * mMaxDetections;
+	
+	if( !cudaAllocMapped((void**)&mDetectionSets[0], (void**)&mDetectionSets[1], det_size) )
+		return false;
+	
+	memset(mDetectionSets[0], 0, det_size);
+	return true;
+}
+
+	
+// defaultColors
+bool detectNet::defaultColors()
+{
+	const uint32_t numClasses = GetNumClasses();
+	
+	if( !cudaAllocMapped((void**)&mClassColors[0], (void**)&mClassColors[1], numClasses * sizeof(float4)) )
+		return false;
+
+	// if there are a large number of classes (MS COCO)
+	// programatically generate the class color map
+	if( numClasses > 10 )
+	{
+		// https://github.com/dusty-nv/pytorch-segmentation/blob/16882772bc767511d892d134918722011d1ea771/datasets/sun_remap.py#L90
+		#define bitget(byteval, idx)	((byteval & (1 << idx)) != 0)
+
+		for( int i=0; i < numClasses; i++ )
+		{
+			int r = 0;
+			int g = 0;
+			int b = 0;
+			int c = i;
+
+			for( int j=0; j < 8; j++ )
+			{
+				r = r | (bitget(c, 0) << 7 - j);
+				g = g | (bitget(c, 1) << 7 - j);
+				b = b | (bitget(c, 2) << 7 - j);
+				c = c >> 3;
+			}
+
+			mClassColors[0][i*4+0] = r;
+			mClassColors[0][i*4+1] = g;
+			mClassColors[0][i*4+2] = b;
+			mClassColors[0][i*4+3] = DETECTNET_DEFAULT_ALPHA; 
+
+			//printf(LOG_TRT "color %02i  %3i %3i %3i %3i\n", i, (int)r, (int)g, (int)b, (int)alpha);
+		}
+	}
+	else
+	{
+		// blue colors, except class 1 is green
+		for( uint32_t n=0; n < numClasses; n++ )
+		{
+			if( n != 1 )
+			{
+				mClassColors[0][n*4+0] = 0.0f;	// r
+				mClassColors[0][n*4+1] = 200.0f;	// g
+				mClassColors[0][n*4+2] = 255.0f;	// b
+				mClassColors[0][n*4+3] = DETECTNET_DEFAULT_ALPHA;	// a
+			}
+			else
+			{
+				mClassColors[0][n*4+0] = 0.0f;	// r
+				mClassColors[0][n*4+1] = 255.0f;	// g
+				mClassColors[0][n*4+2] = 175.0f;	// b
+				mClassColors[0][n*4+3] = 75.0f;	// a
+			}
+		}
+	}
+
+	return true;
+}
+
+
+// defaultClassDesc
+void detectNet::defaultClassDesc()
+{
+	const uint32_t numClasses = GetNumClasses();
+	const int syn = 9;  // length of synset prefix (in characters)
+	
+	// assign defaults to classes that have no info
+	for( uint32_t n=mClassDesc.size(); n < numClasses; n++ )
+	{
+		char syn_str[10];
+		sprintf(syn_str, "n%08u", mCustomClasses);
+
+		char desc_str[16];
+		sprintf(desc_str, "class #%u", mCustomClasses);
+
+		mClassSynset.push_back(syn_str);
+		mClassDesc.push_back(desc_str);
+
+		mCustomClasses++;
+	}
+}
+
+
+// loadClassDesc
+bool detectNet::loadClassDesc( const char* filename )
+{
+	//printf("detectNet -- model has %u object classes\n", GetNumClasses());
+
+	if( !filename )
+		return false;
+	
+	// locate the file
+	const std::string path = locateFile(filename);
+
+	if( path.length() == 0 )
+	{
+		printf("detectNet -- failed to find %s\n", filename);
+		return false;
+	}
+
+	// open the file
+	FILE* f = fopen(path.c_str(), "r");
+	
+	if( !f )
+	{
+		printf("detectNet -- failed to open %s\n", path.c_str());
+		return false;
+	}
+	
+	// read class descriptions
+	char str[512];
+
+	while( fgets(str, 512, f) != NULL )
+	{
+		const int syn = 9;  // length of synset prefix (in characters)
+		const int len = strlen(str);
+		
+		if( len > syn && str[0] == 'n' && str[syn] == ' ' )
+		{
+			str[syn]   = 0;
+			str[len-1] = 0;
+	
+			const std::string a = str;
+			const std::string b = (str + syn + 1);
+	
+			//printf("a=%s b=%s\n", a.c_str(), b.c_str());
+
+			mClassSynset.push_back(a);
+			mClassDesc.push_back(b);
+		}
+		else if( len > 0 )	// no 9-character synset prefix (i.e. from DIGITS snapshot)
+		{
+			char a[10];
+			sprintf(a, "n%08u", mCustomClasses);
+
+			//printf("a=%s b=%s (custom non-synset)\n", a, str);
+			mCustomClasses++;
+
+			if( str[len-1] == '\n' )
+				str[len-1] = 0;
+
+			mClassSynset.push_back(a);
+			mClassDesc.push_back(str);
+		}
+	}
+	
+	fclose(f);
+	
+	printf("detectNet -- loaded %zu class info entries\n", mClassDesc.size());
+	
+	//for( size_t n=0; n < mClassDesc.size(); n++ )
+		//printf("          -- %s '%s'\n", mClassSynset[n].c_str(), mClassDesc[n].c_str());
+
+	if( mClassDesc.size() == 0 )
+		return false;
+
+	if( IsModelType(MODEL_UFF) )
+		mNumClasses = mClassDesc.size();
+
+	printf("detectNet -- number of object classes:  %u\n", mNumClasses);
+	mClassPath = path;	
+	return true;
+}
+
 
 #if 0
 inline static bool rectOverlap(const float6& r1, const float6& r2)
@@ -1058,4 +1058,14 @@ void detectNet::SetClassColor( uint32_t classIndex, float r, float g, float b, f
 	mClassColors[0][i+1] = g;
 	mClassColors[0][i+2] = b;
 	mClassColors[0][i+3] = a;
+}
+
+
+// SetOverlayAlpha
+void detectNet::SetOverlayAlpha( float alpha )
+{
+	const uint32_t numClasses = GetNumClasses();
+
+	for( uint32_t n=0; n < numClasses; n++ )
+		mClassColors[0][n*4+3] = alpha;
 }
