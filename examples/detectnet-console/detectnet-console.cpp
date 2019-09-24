@@ -37,7 +37,6 @@ int usage()
 	printf("  file_out          filename of the output image to save (optional)\n\n");
 	printf("optional arguments:\n");
 	printf("  --help            show this help message and exit\n");
-	printf("  --profile         enable layer profiling in TensorRT\n");
 	printf("  --network NETWORK pre-trained model to load (see below for options)\n");
 	printf("  --overlay OVERLAY detection overlay flags (e.g. --overlay=box,labels,conf)\n");
 	printf("                    valid combinations are:  'box', 'labels', 'conf', 'none'\n");
@@ -82,12 +81,7 @@ int main( int argc, char** argv )
 
 	// parse overlay flags
 	const uint32_t overlayFlags = detectNet::OverlayFlagsFromStr(cmdLine.GetString("overlay", "box,labels,conf"));
-	
-	// enable layer profiling if desired
-	if( cmdLine.GetFlag("profile") )
-		net->EnableLayerProfiler();
-	
-	
+
 	
 	/*
 	 * load image from disk

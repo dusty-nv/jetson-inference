@@ -36,7 +36,6 @@ int usage()
 	printf("  file_out             filename of the output image to save (optional)\n\n");
 	printf("optional arguments:\n");
 	printf("  --help               show this help message and exit\n");
-	printf("  --profile            enable layer profiling in TensorRT\n\n");
 	printf("  --network NETWORK    pre-trained model to load (see below for options)\n\n");
 	printf("%s\n", imageNet::Usage());
 

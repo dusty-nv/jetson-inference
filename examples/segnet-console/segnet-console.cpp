@@ -39,7 +39,6 @@ int usage()
 	printf("  file_out             filename of the output image to save\n\n");
 	printf("optional arguments:\n");
 	printf("  --help               show this help message and exit\n");
-	printf("  --profile            enable layer profiling in TensorRT\n");
 	printf("  --network NETWORK    pre-trained model to load (see below for options)\n");
 	printf("  --visualize VISUAL   visualization mode, options are: 'mask' or 'overlay'\n");
 	printf("  --alpha ALPHA        overlay alpha blending, range 0-255 (default: 120)\n");
