@@ -14,7 +14,8 @@ var classdetectNet =
     [ "OverlayFlags", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6", [
       [ "OVERLAY_NONE", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf", null ],
       [ "OVERLAY_BOX", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6aff23b9098d5bf0f91c31954001c2ff68", null ],
-      [ "OVERLAY_LABEL", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a7eb5454e7a6dd53d90c2ddd33b00d049", null ]
+      [ "OVERLAY_LABEL", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a7eb5454e7a6dd53d90c2ddd33b00d049", null ],
+      [ "OVERLAY_CONFIDENCE", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6af7ce69cd21d84fb3b963713da66756eb", null ]
     ] ],
     [ "~detectNet", "classdetectNet.html#a82c0e177e0da142fa22aa7580077307d", null ],
     [ "detectNet", "classdetectNet.html#a07a419d97f14aa0962b737e671ff438a", null ],
@@ -36,6 +37,7 @@ var classdetectNet =
     [ "Overlay", "classdetectNet.html#a6bad305fe1207b5ad6a1f49e4879c158", null ],
     [ "SetClassColor", "classdetectNet.html#ab9ba7c63d2fc417d0908324fd0dc2223", null ],
     [ "SetThreshold", "classdetectNet.html#a1cb45695bf95d5fb5db48976d1de8ae2", null ],
+    [ "sortDetections", "classdetectNet.html#ae25ca7f51a3235011442ac1edeafe1d8", null ],
     [ "mClassColors", "classdetectNet.html#adbbb6ba9ae382abe03347333cff66fca", null ],
     [ "mClassDesc", "classdetectNet.html#a57cdfaea245446565f4e6f72edb0f857", null ],
     [ "mClassPath", "classdetectNet.html#a9e638cff75c285b31b5cb538ff279352", null ],

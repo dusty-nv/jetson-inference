@@ -37,6 +37,7 @@ var searchData=
   ['sleepns',['sleepNs',['../group__time.html#gade2df9f88a694448445740eca02343b9',1,'timespec.h']]],
   ['sleeptime',['sleepTime',['../group__time.html#ga54b6c83056c1f1324bcbc2dab776b273',1,'sleepTime(const timespec &amp;duration):&#160;timespec.h'],['../group__time.html#ga43f8222b603f11d862375e2bc1923b0d',1,'sleepTime(time_t seconds, long int nanoseconds):&#160;timespec.h']]],
   ['sleepus',['sleepUs',['../group__time.html#ga5b8575ba34c76a27111d26ebac8d347a',1,'timespec.h']]],
+  ['sortdetections',['sortDetections',['../classdetectNet.html#ae25ca7f51a3235011442ac1edeafe1d8',1,'detectNet']]],
   ['srand_5ftime',['srand_time',['../group__util.html#ga37406669812e75c559cfa401d0c2f623',1,'rand.h']]],
   ['startthread',['StartThread',['../classThread.html#aeb4de8e03ee2008da85d695d64cf8ad6',1,'Thread::StartThread()'],['../classThread.html#ababf2abf54d34b950414a49b0c4b1cc4',1,'Thread::StartThread(ThreadEntryFunction entry, void *user_param=NULL)']]],
   ['stopthread',['StopThread',['../classThread.html#ae1921e898030889d5efa0b816af73ae5',1,'Thread']]],

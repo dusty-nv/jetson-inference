@@ -15,6 +15,7 @@ var searchData=
   ['overlaps',['Overlaps',['../structdetectNet_1_1Detection.html#a344619ce0a8fc04050b3cb6238a815f9',1,'detectNet::Detection::Overlaps(const Detection &amp;det) const'],['../structdetectNet_1_1Detection.html#a425de0ee8eaca1dceea17280cb4890b4',1,'detectNet::Detection::Overlaps(float x1, float y1, float x2, float y2) const']]],
   ['overlay',['Overlay',['../classdetectNet.html#a6bad305fe1207b5ad6a1f49e4879c158',1,'detectNet::Overlay()'],['../classsegNet.html#a3a670c08ad8b13db6ee092c59efe88b8',1,'segNet::Overlay()']]],
   ['overlay_5fbox',['OVERLAY_BOX',['../classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6aff23b9098d5bf0f91c31954001c2ff68',1,'detectNet']]],
+  ['overlay_5fconfidence',['OVERLAY_CONFIDENCE',['../classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6af7ce69cd21d84fb3b963713da66756eb',1,'detectNet']]],
   ['overlay_5flabel',['OVERLAY_LABEL',['../classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a7eb5454e7a6dd53d90c2ddd33b00d049',1,'detectNet']]],
   ['overlay_5fnone',['OVERLAY_NONE',['../classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf',1,'detectNet']]],
   ['overlayflags',['OverlayFlags',['../classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6',1,'detectNet']]],

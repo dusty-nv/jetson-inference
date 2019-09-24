@@ -68,12 +68,12 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;<br>
 <a href="#detectNet">detectNet</a>&nbsp;arguments:&nbsp;<br>
 &nbsp;&nbsp;--network&nbsp;NETWORK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pre-trained&nbsp;model&nbsp;to&nbsp;load,&nbsp;one&nbsp;of&nbsp;the&nbsp;following:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;pednet&nbsp;(default)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-mobilenet-v1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-mobilenet-v2&nbsp;(default)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-inception-v2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;pednet<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;multiped<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;facenet<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-mobilenet-v1<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-mobilenet-v2<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-inception-v2<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-airplane<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-bottle<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-chair<br>
@@ -86,7 +86,8 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;--output_cvg&nbsp;COVERAGE&nbsp;name&nbsp;of&nbsp;the&nbsp;coverge&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'coverage')<br>
 &nbsp;&nbsp;--output_bbox&nbsp;BOXES&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;bounding&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'bboxes')<br>
 &nbsp;&nbsp;--mean_pixel&nbsp;PIXEL&nbsp;&nbsp;&nbsp;&nbsp;mean&nbsp;pixel&nbsp;value&nbsp;to&nbsp;subtract&nbsp;from&nbsp;input&nbsp;(default&nbsp;is&nbsp;0.0)<br>
-&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>&nbsp;</tt></td></tr>
+&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
+&nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="jetson.inference.html#detectNet">detectNet</a></dd>
@@ -258,7 +259,8 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;--labels&nbsp;LABELS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
 &nbsp;&nbsp;--input_blob&nbsp;INPUT&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'data')<br>
 &nbsp;&nbsp;--output_blob&nbsp;OUTPUT&nbsp;name&nbsp;of&nbsp;the&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'prob')<br>
-&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>&nbsp;</tt></td></tr>
+&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
+&nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="jetson.inference.html#imageNet">imageNet</a></dd>
@@ -384,7 +386,8 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;--colors&nbsp;COLORS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;colors&nbsp;for&nbsp;each&nbsp;class<br>
 &nbsp;&nbsp;--input_blob&nbsp;INPUT&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default:&nbsp;'data')<br>
 &nbsp;&nbsp;--output_blob&nbsp;OUTPUT&nbsp;name&nbsp;of&nbsp;the&nbsp;output&nbsp;layer&nbsp;(default:&nbsp;'score_fr_21classes')<br>
-&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>&nbsp;</tt></td></tr>
+&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
+&nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="jetson.inference.html#segNet">segNet</a></dd>

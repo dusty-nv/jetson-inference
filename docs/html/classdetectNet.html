@@ -119,7 +119,8 @@ Classes</h2></td></tr>
 Public Types</h2></td></tr>
 <tr class="memitem:a29e74cde23a8dd541dbd848e457663d6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6">OverlayFlags</a> { <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf">OVERLAY_NONE</a> = 0, 
 <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6aff23b9098d5bf0f91c31954001c2ff68">OVERLAY_BOX</a> = (1 &lt;&lt; 0), 
-<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a7eb5454e7a6dd53d90c2ddd33b00d049">OVERLAY_LABEL</a> = (1 &lt;&lt; 1)
+<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a7eb5454e7a6dd53d90c2ddd33b00d049">OVERLAY_LABEL</a> = (1 &lt;&lt; 1), 
+<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6af7ce69cd21d84fb3b963713da66756eb">OVERLAY_CONFIDENCE</a> = (1 &lt;&lt; 2)
  }<tr class="memdesc:a29e74cde23a8dd541dbd848e457663d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overlay flags (can be OR'd together).  <a href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a29e74cde23a8dd541dbd848e457663d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -302,6 +303,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:ab95004897e18f73cff95a59796f17368"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c1d9179adf3c75135605c622481e0dc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a4c1d9179adf3c75135605c622481e0dc">clusterDetections</a> (<a class="el" href="structdetectNet_1_1Detection.html">Detection</a> *detections, int n, float threshold=0.75f)</td></tr>
 <tr class="separator:a4c1d9179adf3c75135605c622481e0dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae25ca7f51a3235011442ac1edeafe1d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#ae25ca7f51a3235011442ac1edeafe1d8">sortDetections</a> (<a class="el" href="structdetectNet_1_1Detection.html">Detection</a> *detections, int numDetections)</td></tr>
+<tr class="separator:ae25ca7f51a3235011442ac1edeafe1d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classtensorNet"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classtensorNet')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classtensorNet.html">tensorNet</a></td></tr>
 <tr class="memitem:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#ab6e617d96e5542bef023ee9d4c96388a">tensorNet</a> ()</td></tr>
 <tr class="memdesc:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classtensorNet.html#ab6e617d96e5542bef023ee9d4c96388a">More...</a><br /></td></tr>
@@ -468,6 +471,8 @@ Static Protected Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="a29e74cde23a8dd541dbd848e457663d6aff23b9098d5bf0f91c31954001c2ff68"></a>OVERLAY_BOX&#160;</td><td class="fielddoc"><p>Overlay the object bounding boxes. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a29e74cde23a8dd541dbd848e457663d6a7eb5454e7a6dd53d90c2ddd33b00d049"></a>OVERLAY_LABEL&#160;</td><td class="fielddoc"><p>Overlay the class description labels. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a29e74cde23a8dd541dbd848e457663d6af7ce69cd21d84fb3b963713da66756eb"></a>OVERLAY_CONFIDENCE&#160;</td><td class="fielddoc"><p>Overlay the detection confidence values. </p>
 </td></tr>
 </table>
 
@@ -1665,7 +1670,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Parse a string sequence into OverlayFlags enum. </p>
-<p>Valid flags are "none", "box", and "label", and it is possible to combine multiple flags (bitwise OR) together with commas or pipe (|) symbol. For example, the string sequences "box,label" and "box|label" would return the flags OVERLAY_BOX|OVERLAY_LABEL. </p>
+<p>Valid flags are "none", "box", "label", and "conf" and it is possible to combine flags (bitwise OR) together with commas or pipe (|) symbol. For example, the string sequence "box,label,conf" would return the flags <code>OVERLAY_BOX|OVERLAY_LABEL|OVERLAY_CONFIDENCE</code>. </p>
 
 </div>
 </div>
@@ -1742,6 +1747,42 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set the minimum threshold for detection. </p>
+
+</div>
+</div>
+<a id="ae25ca7f51a3235011442ac1edeafe1d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae25ca7f51a3235011442ac1edeafe1d8">&#9670;&nbsp;</a></span>sortDetections()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void detectNet::sortDetections </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structdetectNet_1_1Detection.html">Detection</a> *&#160;</td>
+          <td class="paramname"><em>detections</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numDetections</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -2046,7 +2087,7 @@ Static Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classdetectNet.html">detectNet</a></li>
-    <li class="footer">Generated on Mon Sep 23 2019 15:00:27 for Jetson Inference by
+    <li class="footer">Generated on Tue Sep 24 2019 11:00:25 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
