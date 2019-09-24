@@ -38,7 +38,7 @@ parser.add_argument("--network", type=str, default="fcn-resnet18-voc", help="pre
 parser.add_argument("--visualize", type=str, default="overlay", choices=["overlay", "mask"], help="visualization mode for the output image, options are:\n  'overlay' or 'mask' (default: 'overlay')")
 parser.add_argument("--filter-mode", type=str, default="linear", choices=["point", "linear"], help="filtering mode used during visualization, options are:\n  'point' or 'linear' (default: 'linear')")
 parser.add_argument("--ignore-class", type=str, default="void", help="optional name of class to ignore in the visualization results (default: 'void')")
-parser.add_argument("--alpha", type=float, default=175.0, help="alpha blending value to use during overlay, between 0.0 and 255.0 (default: 175.0)")
+parser.add_argument("--alpha", type=float, default=120.0, help="alpha blending value to use during overlay, between 0.0 and 255.0 (default: 120.0)")
 
 try:
 	opt = parser.parse_known_args()[0]
@@ -55,9 +55,6 @@ img_output = jetson.utils.cudaAllocMapped(width * height * 4 * ctypes.sizeof(cty
 
 # load the segmentation network
 net = jetson.inference.segNet(opt.network, sys.argv)
-
-# set the alpha blending value
-net.SetGlobalAlpha(opt.alpha)
 
 # process the segmentation network
 net.Process(img, width, height, opt.ignore_class)

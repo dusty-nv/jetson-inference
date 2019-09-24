@@ -42,7 +42,7 @@ void sig_handler(int signo)
 
 int usage()
 {
-	printf("usage: detectnet-camera [-h] [--network NETWORK] [--overlay OVERLAY]\n");
+	printf("usage: detectnet-camera [-h] [--network NETWORK] [--threshold THRESHOLD]\n");
 	printf("                        [--camera CAMERA] [--width WIDTH] [--height HEIGHT]\n\n");
 	printf("Locate objects in a live camera stream using an object detection DNN.\n\n");
 	printf("optional arguments:\n");
@@ -50,11 +50,14 @@ int usage()
 	printf("  --network NETWORK pre-trained model to load (see below for options)\n");
 	printf("  --overlay OVERLAY detection overlay flags (e.g. --overlay=box,labels,conf)\n");
 	printf("                    valid combinations are:  'box', 'labels', 'conf', 'none'\n");
+     printf("  --alpha ALPHA     overlay alpha blending value, range 0-255 (default: 120)\n");
 	printf("  --camera CAMERA   index of the MIPI CSI camera to use (e.g. CSI camera 0),\n");
 	printf("                    or for VL42 cameras the /dev/video device to use.\n");
      printf("                    by default, MIPI CSI camera 0 will be used.\n");
 	printf("  --width WIDTH     desired width of camera stream (default is 1280 pixels)\n");
-	printf("  --height HEIGHT   desired height of camera stream (default is 720 pixels)\n\n");
+	printf("  --height HEIGHT   desired height of camera stream (default is 720 pixels)\n");
+	printf("  --threshold VALUE minimum threshold for detection (default is 0.5)\n\n");
+
 	printf("%s\n", detectNet::Usage());
 
 	return 0;

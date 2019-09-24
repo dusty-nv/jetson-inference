@@ -51,7 +51,7 @@ except:
 net = jetson.inference.segNet(opt.network, sys.argv)
 
 # set the alpha blending value
-net.SetGlobalAlpha(opt.alpha)
+net.SetOverlayAlpha(opt.alpha)
 
 # allocate the output images for the overlay & mask
 img_overlay = jetson.utils.cudaAllocMapped(opt.width * opt.height * 4 * ctypes.sizeof(ctypes.c_float))

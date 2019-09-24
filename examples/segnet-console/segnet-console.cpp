@@ -87,7 +87,7 @@ int main( int argc, char** argv )
 	}
 
 	// set alpha blending value for classes that don't explicitly already have an alpha	
-	net->SetGlobalAlpha(cmdLine.GetFloat("alpha", 120.0f));
+	net->SetOverlayAlpha(cmdLine.GetFloat("alpha", 120.0f));
 
 	// get the desired alpha blend filtering mode
 	const segNet::FilterMode filterMode = segNet::FilterModeFromStr(cmdLine.GetString("filter-mode", "linear"));
@@ -97,10 +97,6 @@ int main( int argc, char** argv )
 
 	// get the visualization mode (mask or overlay)
 	const char* visualization = cmdLine.GetString("visualize", "overlay");
-
-	// enable layer profiling if desired
-	if( cmdLine.GetFlag("profile") )
-		net->EnableLayerProfiler();
 
 
 	/*

@@ -75,11 +75,7 @@ int main( int argc, char** argv )
 		printf("imagenet-console:   failed to initialize imageNet\n");
 		return 0;
 	}
-	
-	// enable layer profiling if desired
-	if( cmdLine.GetFlag("profile") )
-		net->EnableLayerProfiler();
-	
+
 
 	/*
 	 * load image from disk

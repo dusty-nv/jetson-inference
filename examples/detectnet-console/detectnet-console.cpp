@@ -37,9 +37,12 @@ int usage()
 	printf("  file_out          filename of the output image to save (optional)\n\n");
 	printf("optional arguments:\n");
 	printf("  --help            show this help message and exit\n");
-	printf("  --network NETWORK pre-trained model to load (see below for options)\n");
+	printf("  --network NETWORK pre-trained model to load (see below for options)\n");	
 	printf("  --overlay OVERLAY detection overlay flags (e.g. --overlay=box,labels,conf)\n");
 	printf("                    valid combinations are:  'box', 'labels', 'conf', 'none'\n");
+	printf("  --alpha ALPHA     overlay alpha blending value, range 0-255 (default: 120)\n");
+	printf("  --threshold VALUE minimum threshold for detection (default is 0.5)\n\n");
+
 	printf("%s\n", detectNet::Usage());
 
 	return 0;
