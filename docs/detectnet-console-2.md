@@ -6,7 +6,9 @@
 # Locating Objects with DetectNet
 The previous image recognition examples output class probabilities representing the entire input image.   The second deep learning capability we're highlighting in this tutorial is **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image recognition, object detection networks are capable of detecting multiple independent objects per frame.
 
-The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See [below](#pretrained-detection-models-available) for various pre-trained detection models available for download. 
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet.jpg" width="900">
+
+The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See [below](#pretrained-detection-models-available) for various pre-trained detection models available for download.  The default model used is a [91 class](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 network trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
 
 As examples of using `detectNet` we provide versions of a command-line interface for C++ and Python:
 
@@ -21,29 +23,45 @@ Later in the tutorial, we'll also cover object detection on live camera streams 
 
 ### Detecting Objects from the Command Line
 
-The `detectnet-console` program can be used to locate objects in static images.  It accepts 3 command line parameters:
+The `detectnet-console` program locates objects in static images.  Some of it's important command line parameters are:
 
 - the path to an input image  (`jpg, png, tga, bmp`)
 - optional path to output image  (`jpg, png, tga, bmp`)
-- optional `--network` flag which changes the detection model being used (the default network is PedNet).  
+- optional `--network` flag which changes the detection model being used (the default network is SSD-Mobilenet-v2).
+	- See [Pre-trained Detection Models Available](detectnet-console-2.md#pre-trained-detection-models-available) for the networks available to use.
+- optional `--overlay` flag which can be combinations of `box`, `labels`, `conf`, and `none` (default is `--overlay=box,labels,conf`)
+- optional `--alpha` value which sets the alpha blending value used during overlay (the default is `120`).
+- optional `--threshold` value which sets the minimum threshold for detection (the default is `0.5`).  
 
 Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Code Examples`](../README.md#code-examples) readme.
 
-Here's an example of locating humans in an image with the default PedNet model:
-
-#### C++
+Here are some examples of detecting pedestrians in images with the default SSD-Mobilenet-v2 model:
 
 ``` bash
-$ ./detectnet-console peds-004.jpg output.jpg
+# C++
+$ ./detectnet-console peds_0.jpg output.jpg
+
+# Python
+$ ./detectnet-console.py peds_0.jpg output.jpg
 ```
 
-#### Python
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-0.jpg" width="900">
 
 ``` bash
-$ ./detectnet-console.py peds-004.jpg output.jpg
+# C++
+$ ./detectnet-console peds_1.jpg output.jpg
+
+# Python
+$ ./detectnet-console.py peds_1.jpg output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-00.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-1.jpg" width="900">
+
+Below are more detection examples output from the program.  The [91-class](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
+
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-animals.jpg" width="900">
+
+Various sets of images are included with the repo for testing, such as `cat_*.jpg`, `dog_*.jpg`, `horse_*.jpg`, `bird_*.jpg`, `peds_*.jpg`, ect. 
 
 
 ### Pre-trained Detection Models Available
@@ -52,9 +70,9 @@ Below is a table of the pre-trained object detection networks available for [dow
 
 | Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
-| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
-| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
-| SSD-Inception-v2        | `ssd-inception-v1` | `SSD_INCEPTION_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
+| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt))     |
+| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt))     |
+| SSD-Inception-v2        | `ssd-inception-v1` | `SSD_INCEPTION_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt))     |
 | DetectNet-COCO-Dog      | `coco-dog`         | `COCO_DOG`         | dogs                 |
 | DetectNet-COCO-Bottle   | `coco-bottle`      | `COCO_BOTTLE`      | bottles              |
 | DetectNet-COCO-Chair    | `coco-chair`       | `COCO_CHAIR`       | chairs               |
@@ -68,56 +86,19 @@ Below is a table of the pre-trained object detection networks available for [dow
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
 
 
-### Running Different Detection Models
+#### Running Different Detection Models
 
-You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, PedNet is loaded (pedestrian detection) if the optional `--network` flag isn't specified.
+You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, SSD-Mobilenet-v2 if the optional `--network` flag isn't specified.
 
-Let's try running some of the other COCO models:
-
-``` bash
-# C++
-$ ./detectnet-console --network=coco-dog dog_1.jpg output_1.jpg
-
-# Python
-$ ./detectnet-console.py --network=coco-dog dog_1.jpg output_1.jpg
-```
-
-![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-dog-1.jpg)
+For example, if you chose to download SSD-Inception-v2 with the [Model Downloader](building-repo-2.md#downloading-models) tool, you can use it like so:
 
 ``` bash
 # C++
-$ ./detectnet-console --network=coco-bottle bottle_0.jpg output_2.jpg
+$ ./detectnet-console --network=ssd-inception-v2 input.jpg output.jpg
 
 # Python
-$ ./detectnet-console.py --network=coco-bottle bottle_0.jpg output_2.jpg
+$ ./detectnet-console.py --network=ssd-inception-v2 input.jpg output.jpg
 ```
-
-![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-bottle-0.jpg)
-
-``` bash
-# C++
-$ ./detectnet-console --network=coco-airplane airplane_0.jpg output_3.jpg 
-
-# Python
-$ ./detectnet-console.py --network=coco-airplane airplane_0.jpg output_3.jpg
-```
-
-![Alt text](https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tensorRT-airplane-0.jpg)
-
-
-### Multi-class Object Detection Models
-
-Some models support the detection of multiple types of objects.  For example, when using the `multiped` model on images containing luggage or baggage in addition to pedestrians, the 2nd object class is rendered with a green overlay:
-
-``` bash
-# C++
-$ ./detectnet-console --network=multiped peds-003.jpg output_4.jpg
-
-# Python
-$ ./detectnet-console.py --network=multiped peds-003.jpg output_4.jpg
-```
-
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-peds-01.jpg" width="900">
 
 Next, we'll run object detection on a live camera stream.
 
