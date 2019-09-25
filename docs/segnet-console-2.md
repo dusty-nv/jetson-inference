@@ -87,10 +87,10 @@ Let's look at some different scenarios.  Here's an example of segmenting an urba
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-cityscapes city-0.jpg output.jpg
+$ ./segnet-console --network=fcn-resnet18-cityscapes city_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-cityscapes city-0.jpg output.jpg
+$ ./segnet-console.py --network=fcn-resnet18-cityscapes city_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-city.jpg" width="900">
@@ -102,14 +102,14 @@ Here's an example of generating the segmentation overlay and mask by specifying 
 
 #### C++
 ``` bash
-$ ./segnet-console --network=fcn-resnet18-deepscene trail-0.jpg output-overlay.jpg                   # overlay
-$ ./segnet-console --network=fcn-resnet18-deepscene --visualize=mask trail-0.jpg output-mask.jpg     # mask
+$ ./segnet-console --network=fcn-resnet18-deepscene trail_0.jpg output_overlay.jpg                   # overlay
+$ ./segnet-console --network=fcn-resnet18-deepscene --visualize=mask trail_0.jpg output_mask.jpg     # mask
 ```
 
 #### Python
 ``` bash
-$ ./segnet-console.py --network=fcn-resnet18-deepscene trail-0.jpg output-overlay.jpg                # overlay
-$ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail-0.jpg output-mask.jpg  # mask
+$ ./segnet-console.py --network=fcn-resnet18-deepscene trail_0.jpg output_overlay.jpg                # overlay
+$ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail_0.jpg output_mask.jpg  # mask
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-overlay.jpg" width="850">
@@ -118,14 +118,14 @@ $ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail-0.
 ### Multi-Human Parsing (MHP)
 
 [Multi-Human Parsing](https://lv-mhp.github.io/) provides dense labeling of body parts, like arms, legs, head, and different types of clothing.  
- See the handful of test images named `people-*.jpg` included with the repo for trying out the MHP model:
+ See the handful of test images named `humans-*.jpg` included with the repo for trying out the MHP model:
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-mhp people-0.jpg output.jpg
+$ ./segnet-console --network=fcn-resnet18-mhp humans_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-mhp people-0.jpg output.jpg
+$ ./segnet-console.py --network=fcn-resnet18-mhp humans_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-mhp-0.jpg" width="825">
@@ -141,10 +141,10 @@ $ ./segnet-console.py --network=fcn-resnet18-mhp people-0.jpg output.jpg
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-voc object-0.jpg output.jpg
+$ ./segnet-console --network=fcn-resnet18-voc object_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-voc object-0.jpg output.jpg
+$ ./segnet-console.py --network=fcn-resnet18-voc object_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc.jpg" width="900">
@@ -159,10 +159,10 @@ The [SUN RGB-D](http://rgbd.cs.princeton.edu/) dataset provides segmentation gro
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-sun room-0.jpg output.jpg
+$ ./segnet-console --network=fcn-resnet18-sun room_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-sun room-0.jpg output.jpg
+$ ./segnet-console.py --network=fcn-resnet18-sun room_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun.jpg" width="900">
