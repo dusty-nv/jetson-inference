@@ -10,15 +10,18 @@ Up next we have a realtime object detection camera demo available for C++ and Py
 - [`detectnet-camera.cpp`](../examples/detectnet-camera/detectnet-camera.cpp) (C++) 
 - [`detectnet-camera.py`](../python/examples/detectnet-camera.py) (Python) 
 
-Similar to the previous [`detectnet-console`](detectnet-console-2.md) example, these camera applications use detection networks, except that they process a live video feed from a camera.  `detectnet-camera` accepts optional command-line parameters including:
+Similar to the previous [`detectnet-console`](detectnet-console-2.md) example, these camera applications use detection networks, except that they process a live video feed from a camera.  `detectnet-camera` accepts various optional command-line parameters, including:
 
-- `--network` flag setting the classification model (default is SSD-Mobilenet-v2)
-	- See [Pre-trained Detection Models Available](detectnet-console-2.md#pre-trained-detection-models-available) for the networks available to use.
-- `--camera` flag setting the camera device to use
+- `--network` flag (optional) which changes the [detection model](detectnet-console-2.md#pre-trained-detection-models-available) being used (the default is SSD-Mobilenet-v2).
+- `--overlay` flag (optional) which can be comma-separated combinations of `box`, `labels`, `conf`, and `none`
+	- The default is `--overlay=box,labels,conf` which displays boxes, labels, and confidence values
+- `--alpha` value (optional) which sets the alpha blending value used during overlay (the default is `120`).
+- `--threshold` value (optional) which sets the minimum threshold for detection (the default is `0.5`).
+- `--camera` flag setting the camera device to use (optional) 
 	- MIPI CSI cameras are used by specifying the sensor index (`0` or `1`, ect.)
 	- V4L2 USB cameras are used by specifying their `/dev/video` node (`/dev/video0`, `/dev/video1`, ect.)
 	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
-- `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
+- `--width` and `--height` flags (optional) setting the camera resolution (default is `1280x720`)
 	- The resolution should be set to a format that the camera supports.
      - Query the available formats with the following commands:  
           ``` bash

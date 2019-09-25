@@ -117,12 +117,12 @@ $ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask images/t
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-overlay.jpg" width="850">
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-mask.jpg">
 
-There are more test images called `trail-*.jpg` found under the `images/` subdirectory.
+There are more sample images called `trail-*.jpg` located under the `images/` subdirectory.
 
 ### Multi-Human Parsing (MHP)
 
 [Multi-Human Parsing](https://lv-mhp.github.io/) provides dense labeling of body parts, like arms, legs, head, and different types of clothing.  
- See the handful of test images named `humans-*.jpg` found under the `images/` subdirectory for trying out the MHP model:
+ See the handful of test images named `humans-*.jpg` found under `images/` for trying out the MHP model:
 
 ``` bash
 # C++
@@ -141,7 +141,7 @@ $ ./segnet-console.py --network=fcn-resnet18-mhp images/humans_0.jpg output.jpg
 
 ### Pascal VOC
 
-[Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/) is one of the original datasets used for semantic segmentation, containing various people, animals, vehicles, and household objects.  There are some test images included named `object-*.jpg` for testing out the Pascal VOC model:
+[Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/) is one of the original datasets used for semantic segmentation, containing various people, animals, vehicles, and household objects.  There are some sample images included named `object-*.jpg` for testing out the Pascal VOC model:
 
 ``` bash
 # C++

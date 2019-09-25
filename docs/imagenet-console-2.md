@@ -23,9 +23,9 @@ Later in the tutorial, we'll also cover versions of a live camera recognition pr
 
 ### Using the Console Program on Jetson
 
-First, let's try using the `imagenet-console` program to test imageNet recognition on some example images.  It loads an image, uses TensorRT and the `imageNet` class to perform the inference, then overlays the classification result and saves the output image.  The repo comes with some sample images for you to use.
+First, let's try using the `imagenet-console` program to test imageNet recognition on some example images.  It loads an image, uses TensorRT and the `imageNet` class to perform the inference, then overlays the classification result and saves the output image.  The project comes with sample images for you to use located under the `images/` directory.
 
-After [building](building-repo-2.md) the repo, make sure your terminal is located in the `aarch64/bin` directory:
+After [building](building-repo-2.md) the project, make sure your terminal is located in the `aarch64/bin` directory:
 
 ``` bash
 $ cd jetson-inference/build/aarch64/bin
@@ -54,7 +54,7 @@ $ ./imagenet-console.py --network=googlenet images/orange_0.jpg output_0.jpg  # 
 ```
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is cached to disk after the first run, so future runs using the model will load faster.
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="500">
 
@@ -73,7 +73,7 @@ $ ./imagenet-console.py images/granny_smith_1.jpg output_1.jpg
 
 ### Downloading Other Classification Models
 
-By default, the repo is set to download the GoogleNet and ResNet-18 networks during the build step.
+By default, the project is set to download the GoogleNet and ResNet-18 networks during the build step.
 
 There are other pre-trained models that you can use as well, should you choose to [download](building-repo-2.md#downloading-models) them:
 
@@ -132,7 +132,7 @@ $ ./imagenet-console.py --network=resnet-18 images/coral.jpg output_coral.jpg
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="650">
 
-Feel free to experiment with using the different models and see how their accuracies and performance differ.  You can download more models with the [Model Downloader](building-repo-2.md#downloading-models) tool.  There are also various test images located under the `images/` subdirectory.
+Feel free to experiment with using the different models and see how their accuracies and performance differ - you can download more models with the [Model Downloader](building-repo-2.md#downloading-models) tool.  There are also various test images found under `images/`
 
 Next, we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
 

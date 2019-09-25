@@ -8,7 +8,7 @@ The previous recognition examples output class probabilities representing the en
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet.jpg" width="900">
 
-The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See belowfor various [pre-trained detection models](#pretrained-detection-models-available)  available for download.  The default model used is a [91-class](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
+The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See below for various [pre-trained detection models](#pretrained-detection-models-available)  available for download.  The default model used is a [91-class](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
 
 As examples of using `detectNet` we provide versions of a command-line interface for C++ and Python:
 
@@ -47,9 +47,6 @@ $ ./detectnet-console.py --network=ssd-mobilenet-v2 images/peds_0.jpg output.jpg
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-0.jpg" width="900">
 
-> **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is cached to disk after the first run, so future runs using the model will load faster.
-
 ``` bash
 # C++
 $ ./detectnet-console images/peds_1.jpg output.jpg
@@ -59,6 +56,9 @@ $ ./detectnet-console.py images/peds_1.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-1.jpg" width="900">
+
+> **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file then cached to disk, so future runs using the model will load faster.
 
 Below are more detection examples output from the console programs.  The [91-class](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
 
@@ -116,7 +116,7 @@ import sys
 
 # parse the command line
 parser = argparse.ArgumentParser(description="Locate objects in an image using an object detection DNN.", 
-						   formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.detectNet.Usage())
+                                 formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.detectNet.Usage())
 
 parser.add_argument("file_in", type=str, help="filename of the input image to process")
 parser.add_argument("file_out", type=str, help="filename of the output image to save")

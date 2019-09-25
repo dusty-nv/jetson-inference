@@ -5,21 +5,40 @@
 
 # Building the Project from Source
 
-Provided with this repo is a library of TensorRT-accelerated deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  This inferencing library (`libjetson-inference`) is intended to be built & run on the Jetson, and includes support for both C++ and Python.  
+Provided with the repo is a library of TensorRT-accelerated deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  This inferencing library (`libjetson-inference`) is intended to be built & run on the Jetson, and includes support for both C++ and Python.  
 
 Various pre-trained DNN models are automatically downloaded to get you up and running quickly.  It's also setup to accept customized models that you may have trained yourself, including support for Caffe, TensorFlow UFF, and ONNX.
 
 The latest source can be obtained from [GitHub](http://github.com/dusty-nv/jetson-inference) and compiled onboard Jetson Nano, Jetson TX1/TX2, and Jetson AGX Xavier once they have been [flashed with JetPack](jetpack-setup-2.md) or setup with the pre-populated [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) for Jetson Nano.
-      
+
+#### Quick Reference
+
+Here's a condensed form of the commands to download, build, and install the project:
+
+``` bash
+$ sudo apt-get update
+$ sudo apt-get install git cmake libpython3-dev python3-numpy
+$ git clone --recursive https://github.com/dusty-nv/jetson-inference
+$ cd jetson-inference
+$ mkdir build
+$ cd build
+$ cmake ../
+$ make
+$ sudo make install
+$ sudo ldconfig
+```
+Below we will go through each step and discuss various options along the way.
+ 
 ### Cloning the Repo
 
 To download the code, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed:
 
 ``` bash
+$ sudo apt-get update
 $ sudo apt-get install git cmake
 ```
 
-Then clone the `jetson-inference` repo:
+Then clone the `jetson-inference` project:
 
 ``` bash
 $ git clone https://github.com/dusty-nv/jetson-inference
@@ -62,7 +81,7 @@ $ cmake ../
 
 The repo comes with many pre-trained networks that can you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are initially selected for download to save disk space.  You can select the models you want, or run the tool again later to download more models another time.
 
-When initially configuring the repo, `cmake` will automatically run the downloader tool for you:
+When initially configuring the project, `cmake` will automatically run the downloader tool for you:
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/download-models.jpg" width="650">
 
@@ -106,19 +125,18 @@ Then run `make` followed by `sudo make install` to build the libraries, Python e
 $ cd jetson-inference/build          # omit if pwd is already /build from above
 $ make
 $ sudo make install
+$ sudo ldconfig
 ```
 
-Depending on architecture, the project will be built to either `aarch64` or `armhf`, with the following directory structure:
+The project will be built to `jetson-inference/build/aarch64`, with the following directory structure:
 
 ```
 |-build
    \aarch64         (64-bit)
       \bin             where the sample binaries are built to
+         \networks     where the network models are stored
+         \images       where the test images are stored
       \include         where the headers reside
-      \lib             where the libraries are build to
-   \armhf           (32-bit)
-      \bin		   where the sample binaries are built to
-      \include		   where the headers reside
       \lib             where the libraries are build to
 ```
 
@@ -205,7 +223,7 @@ public:
 };
 ```
 
-All of the DNN objects in the repo inherit from the shared [`tensorNet`](../c/tensorNet.h) object, which contains the common TensorRT code.
+All of the DNN objects in the project inherit from the shared [`tensorNet`](../c/tensorNet.h) object, which contains the common TensorRT code.
 
 #### Python
 
