@@ -79,7 +79,7 @@ $ cmake ../
 
 ### Downloading Models
 
-The repo comes with many pre-trained networks that can you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are initially selected for download to save disk space.  You can select the models you want, or run the tool again later to download more models another time.
+The project comes with many pre-trained networks that can you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are initially selected for download to save disk space.  You can select the models you want, or run the tool again later to download more models another time.
 
 When initially configuring the project, `cmake` will automatically run the downloader tool for you:
 
@@ -103,7 +103,7 @@ If desired, select the PyTorch package versions for Python 2.7 and/or Python 3.6
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/pytorch-installer.jpg" width="650">
 
-> **note**: the automated PyTorch installation tool requires JetPack 4.2 or newer.<br/>
+> **note**: the automated PyTorch installation tool requires JetPack 4.2 (or newer)<br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for other versions, see [`http://eLinux.org/Jetson_Zoo`](https://elinux.org/Jetson_Zoo#PyTorch_.28Caffe2.29) to build from source.
 
 You can also run this tool again later if you decide that you want to install PyTorch at another time:
@@ -223,7 +223,7 @@ public:
 };
 ```
 
-All of the DNN objects in the project inherit from the shared [`tensorNet`](../c/tensorNet.h) object, which contains the common TensorRT code.
+All of the DNN objects in the repo inherit from the shared [`tensorNet`](../c/tensorNet.h) object, which contains the common TensorRT code.
 
 #### Python
 
