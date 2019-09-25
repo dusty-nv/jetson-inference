@@ -55,7 +55,7 @@ The `segnet-console` program can be used to segment static images.  It accepts 3
 
 - the path to an input image  (`jpg, png, tga, bmp`)
 - optional path to output image  (`jpg, png, tga, bmp`)
-- optional `--network` flag changes the detection model being used (see [above](#pre-trained-segmentation-models-available))
+- optional `--network` flag changes the segmentation model being used (see [above](#pre-trained-segmentation-models-available))
 - optional `--visualize` flag accepts `mask` or `overlay` modes (default is `overlay`)
 - optional `--alpha` flag sets the alpha blending value for `overlay` (default is `120`)
 - optional `--filter-mode` flag accepts `point` or `linear` sampling (default is `linear`)
