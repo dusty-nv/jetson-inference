@@ -22,6 +22,7 @@ var searchData=
   ['detectnativeprecisions',['DetectNativePrecisions',['../classtensorNet.html#ae88436e652afdd7bceef7cb7c5fde7a6',1,'tensorNet']]],
   ['detectnet',['detectNet',['../classdetectNet.html',1,'detectNet'],['../classdetectNet.html#a07a419d97f14aa0962b737e671ff438a',1,'detectNet::detectNet()'],['../group__detectNet.html',1,'(Global Namespace)']]],
   ['detectnet_2eh',['detectNet.h',['../detectNet_8h.html',1,'']]],
+  ['detectnet_5fdefault_5falpha',['DETECTNET_DEFAULT_ALPHA',['../group__detectNet.html#ga98aed3513105a81bd86361eef5423383',1,'detectNet.h']]],
   ['detectnet_5fdefault_5fbbox',['DETECTNET_DEFAULT_BBOX',['../group__detectNet.html#gac8c52a38ffa041865ed71fd2ea806620',1,'detectNet.h']]],
   ['detectnet_5fdefault_5fcoverage',['DETECTNET_DEFAULT_COVERAGE',['../group__detectNet.html#ga1e79603783719e4a79f2c68f1ef47621',1,'detectNet.h']]],
   ['detectnet_5fdefault_5finput',['DETECTNET_DEFAULT_INPUT',['../group__detectNet.html#gac824e329015dc8aed6e1112bfe21cb97',1,'detectNet.h']]],

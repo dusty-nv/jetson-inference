@@ -50,6 +50,7 @@ var group__detectNet =
       [ "defaultColors", "classdetectNet.html#a6213356e9907dc284e3212c42b346c62", null ],
       [ "Detect", "classdetectNet.html#ac2144a8af64dce65e391ccb6ab0fb5f9", null ],
       [ "Detect", "classdetectNet.html#af2f0dd5c2b47daa57953d3b5e1e83767", null ],
+      [ "GetClassColor", "classdetectNet.html#a93f21ec31720efe6b37de28c688449ac", null ],
       [ "GetClassDesc", "classdetectNet.html#a6aeee309257b1a42df275fdfe948a585", null ],
       [ "GetClassPath", "classdetectNet.html#a8085235ab275b1bad3dcde14ec1223ed", null ],
       [ "GetClassSynset", "classdetectNet.html#a68322545826d7b866a70d5f9758f4d48", null ],
@@ -60,6 +61,7 @@ var group__detectNet =
       [ "loadClassDesc", "classdetectNet.html#a812068e3db1f9f991e84a217e275b1e0", null ],
       [ "Overlay", "classdetectNet.html#a6bad305fe1207b5ad6a1f49e4879c158", null ],
       [ "SetClassColor", "classdetectNet.html#ab9ba7c63d2fc417d0908324fd0dc2223", null ],
+      [ "SetOverlayAlpha", "classdetectNet.html#ac2ffd50b5fb52d6ceea09af29b144afc", null ],
       [ "SetThreshold", "classdetectNet.html#a1cb45695bf95d5fb5db48976d1de8ae2", null ],
       [ "sortDetections", "classdetectNet.html#ae25ca7f51a3235011442ac1edeafe1d8", null ],
       [ "mClassColors", "classdetectNet.html#adbbb6ba9ae382abe03347333cff66fca", null ],
@@ -74,6 +76,7 @@ var group__detectNet =
       [ "mMeanPixel", "classdetectNet.html#ab8e3c3649acd8bb8d7cd45653dbbb7a0", null ],
       [ "mNumClasses", "classdetectNet.html#acf351fe11541d733a37ba99c9b0c8aa3", null ]
     ] ],
+    [ "DETECTNET_DEFAULT_ALPHA", "group__detectNet.html#ga98aed3513105a81bd86361eef5423383", null ],
     [ "DETECTNET_DEFAULT_BBOX", "group__detectNet.html#gac8c52a38ffa041865ed71fd2ea806620", null ],
     [ "DETECTNET_DEFAULT_COVERAGE", "group__detectNet.html#ga1e79603783719e4a79f2c68f1ef47621", null ],
     [ "DETECTNET_DEFAULT_INPUT", "group__detectNet.html#gac824e329015dc8aed6e1112bfe21cb97", null ],

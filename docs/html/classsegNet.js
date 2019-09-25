@@ -47,7 +47,7 @@ var classsegNet =
     [ "Process", "classsegNet.html#a2fe1beec3215b5d7744420b57ba397c4", null ],
     [ "saveClassLegend", "classsegNet.html#a4eabed9f0e8aa5a8ddad078ada771ad7", null ],
     [ "SetClassColor", "classsegNet.html#a2a9108ad71f4d5f1995ac58282a10b88", null ],
-    [ "SetGlobalAlpha", "classsegNet.html#a12d132d630f471c64ad943cbbffb2851", null ],
+    [ "SetOverlayAlpha", "classsegNet.html#aa4c64609fb07586bed32ac4b8e9058d7", null ],
     [ "mClassColors", "classsegNet.html#adbf7de9cddd287f99a1ef7edf531325c", null ],
     [ "mClassLabels", "classsegNet.html#a5763fca156e99d9fe07dcbf626489b0e", null ],
     [ "mClassMap", "classsegNet.html#ac1f23154131a719769edf4811f8762ef", null ],

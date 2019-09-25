@@ -1,7 +1,7 @@
 var searchData=
 [
   ['getcharacterref',['GetCharacterRef',['../classtinyxml2_1_1XMLUtil.html#acddca74146deab644195d600bdd96a9b',1,'tinyxml2::XMLUtil']]],
-  ['getclasscolor',['GetClassColor',['../classsegNet.html#a07e9a40b797f22ed0f0e83479be57d17',1,'segNet']]],
+  ['getclasscolor',['GetClassColor',['../classdetectNet.html#a93f21ec31720efe6b37de28c688449ac',1,'detectNet::GetClassColor()'],['../classsegNet.html#a07e9a40b797f22ed0f0e83479be57d17',1,'segNet::GetClassColor()']]],
   ['getclassdesc',['GetClassDesc',['../classdetectNet.html#a6aeee309257b1a42df275fdfe948a585',1,'detectNet::GetClassDesc()'],['../classimageNet.html#a42ce2aeeb96379bd04d94f65d483ece1',1,'imageNet::GetClassDesc()'],['../classsegNet.html#af35b6253e85cfe6c30ac0a1a7ca3fcc8',1,'segNet::GetClassDesc()']]],
   ['getclasspath',['GetClassPath',['../classdetectNet.html#a8085235ab275b1bad3dcde14ec1223ed',1,'detectNet::GetClassPath()'],['../classimageNet.html#a04276f915b0f40d6257cbed3fe47dc5f',1,'imageNet::GetClassPath()'],['../classsegNet.html#a973c337a2c3d7371c6b7cebd3aa2ade0',1,'segNet::GetClassPath()']]],
   ['getclasssynset',['GetClassSynset',['../classdetectNet.html#a68322545826d7b866a70d5f9758f4d48',1,'detectNet::GetClassSynset()'],['../classimageNet.html#a343bbe0aad580411900f811f30e8cbf7',1,'imageNet::GetClassSynset()']]],

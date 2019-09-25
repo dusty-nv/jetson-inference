@@ -1,6 +1,7 @@
 var detectNet_8h =
 [
     [ "Detection", "structdetectNet_1_1Detection.html", "structdetectNet_1_1Detection" ],
+    [ "DETECTNET_DEFAULT_ALPHA", "group__detectNet.html#ga98aed3513105a81bd86361eef5423383", null ],
     [ "DETECTNET_DEFAULT_BBOX", "group__detectNet.html#gac8c52a38ffa041865ed71fd2ea806620", null ],
     [ "DETECTNET_DEFAULT_COVERAGE", "group__detectNet.html#ga1e79603783719e4a79f2c68f1ef47621", null ],
     [ "DETECTNET_DEFAULT_INPUT", "group__detectNet.html#gac824e329015dc8aed6e1112bfe21cb97", null ],

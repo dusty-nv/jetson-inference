@@ -60,7 +60,7 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;network&nbsp;(string)&nbsp;--&nbsp;name&nbsp;of&nbsp;a&nbsp;built-in&nbsp;network&nbsp;to&nbsp;use<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;below&nbsp;for&nbsp;available&nbsp;options.<br>
 &nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argv&nbsp;(strings)&nbsp;--&nbsp;command&nbsp;line&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;<a href="#imageNet">imageNet</a>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argv&nbsp;(strings)&nbsp;--&nbsp;command&nbsp;line&nbsp;arguments&nbsp;passed&nbsp;to&nbsp;<a href="#detectNet">detectNet</a>,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;below&nbsp;for&nbsp;available&nbsp;options.<br>
 &nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threshold&nbsp;(float)&nbsp;--&nbsp;minimum&nbsp;detection&nbsp;threshold.<br>
@@ -87,6 +87,7 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;--output_bbox&nbsp;BOXES&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;bounding&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'bboxes')<br>
 &nbsp;&nbsp;--mean_pixel&nbsp;PIXEL&nbsp;&nbsp;&nbsp;&nbsp;mean&nbsp;pixel&nbsp;value&nbsp;to&nbsp;subtract&nbsp;from&nbsp;input&nbsp;(default&nbsp;is&nbsp;0.0)<br>
 &nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
+&nbsp;&nbsp;--alpha&nbsp;ALPHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overlay&nbsp;alpha&nbsp;blending&nbsp;value,&nbsp;range&nbsp;0-255&nbsp;(default:&nbsp;120)<br>
 &nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
@@ -137,6 +138,12 @@ Parameters:&nbsp;&nbsp;(none)<br>
 &nbsp;<br>
 Returns:<br>
 &nbsp;&nbsp;(float)&nbsp;--&nbsp;the&nbsp;threshold&nbsp;for&nbsp;detection</tt></dd></dl>
+
+<dl><dt><a name="detectNet-SetOverlayAlpha"><strong>SetOverlayAlpha</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;alpha&nbsp;blending&nbsp;value&nbsp;used&nbsp;during&nbsp;overlay&nbsp;visualization&nbsp;for&nbsp;all&nbsp;classes<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;alpha&nbsp;(float)&nbsp;--&nbsp;desired&nbsp;alpha&nbsp;value,&nbsp;between&nbsp;0.0&nbsp;and&nbsp;255.0<br>
+Returns:&nbsp;&nbsp;(none)</tt></dd></dl>
 
 <dl><dt><a name="detectNet-SetThreshold"><strong>SetThreshold</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;minimum&nbsp;detection&nbsp;threshold.<br>
 &nbsp;<br>
@@ -387,6 +394,7 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;--input_blob&nbsp;INPUT&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default:&nbsp;'data')<br>
 &nbsp;&nbsp;--output_blob&nbsp;OUTPUT&nbsp;name&nbsp;of&nbsp;the&nbsp;output&nbsp;layer&nbsp;(default:&nbsp;'score_fr_21classes')<br>
 &nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
+&nbsp;&nbsp;--alpha&nbsp;ALPHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overlay&nbsp;alpha&nbsp;blending&nbsp;value,&nbsp;range&nbsp;0-255&nbsp;(default:&nbsp;120)<br>
 &nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
@@ -447,7 +455,7 @@ Parameters:<br>
 &nbsp;&nbsp;ignore_class&nbsp;(string)&nbsp;--&nbsp;optional&nbsp;label&nbsp;name&nbsp;of&nbsp;class&nbsp;to&nbsp;ignore&nbsp;in&nbsp;the&nbsp;classification&nbsp;(default:&nbsp;'void')<br>
 Returns:&nbsp;&nbsp;(none)</tt></dd></dl>
 
-<dl><dt><a name="segNet-SetGlobalAlpha"><strong>SetGlobalAlpha</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;global&nbsp;alpha&nbsp;value&nbsp;used&nbsp;during&nbsp;overlay&nbsp;blending&nbsp;for&nbsp;all&nbsp;classes<br>
+<dl><dt><a name="segNet-SetOverlayAlpha"><strong>SetOverlayAlpha</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;alpha&nbsp;blending&nbsp;value&nbsp;used&nbsp;during&nbsp;overlay&nbsp;visualization&nbsp;for&nbsp;all&nbsp;classes<br>
 &nbsp;<br>
 Parameters:<br>
 &nbsp;&nbsp;alpha&nbsp;(float)&nbsp;--&nbsp;desired&nbsp;alpha&nbsp;value,&nbsp;between&nbsp;0.0&nbsp;and&nbsp;255.0<br>

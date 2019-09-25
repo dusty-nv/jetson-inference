@@ -48,7 +48,7 @@ var group__segNet =
       [ "Process", "classsegNet.html#a2fe1beec3215b5d7744420b57ba397c4", null ],
       [ "saveClassLegend", "classsegNet.html#a4eabed9f0e8aa5a8ddad078ada771ad7", null ],
       [ "SetClassColor", "classsegNet.html#a2a9108ad71f4d5f1995ac58282a10b88", null ],
-      [ "SetGlobalAlpha", "classsegNet.html#a12d132d630f471c64ad943cbbffb2851", null ],
+      [ "SetOverlayAlpha", "classsegNet.html#aa4c64609fb07586bed32ac4b8e9058d7", null ],
       [ "mClassColors", "classsegNet.html#adbf7de9cddd287f99a1ef7edf531325c", null ],
       [ "mClassLabels", "classsegNet.html#a5763fca156e99d9fe07dcbf626489b0e", null ],
       [ "mClassMap", "classsegNet.html#ac1f23154131a719769edf4811f8762ef", null ],
@@ -58,6 +58,7 @@ var group__segNet =
       [ "mLastInputWidth", "classsegNet.html#ad984bfe4460621a78440bfb4768f4e8e", null ],
       [ "mNetworkType", "classsegNet.html#a9719a3525dd0ee4bcc0e954187dc7323", null ]
     ] ],
+    [ "SEGNET_DEFAULT_ALPHA", "group__segNet.html#ga19f1910138ebb47efda640bf02f7caee", null ],
     [ "SEGNET_DEFAULT_INPUT", "group__segNet.html#ga33b5fd20f8ed468725c55eb0bcc5af71", null ],
     [ "SEGNET_DEFAULT_OUTPUT", "group__segNet.html#ga05c359c7dcd0c1e855543a3a9a18c422", null ],
     [ "SEGNET_USAGE_STRING", "group__segNet.html#ga1b784139a64e71b3698a234d83ae2cf8", null ]

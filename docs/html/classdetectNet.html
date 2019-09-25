@@ -174,9 +174,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8085235ab275b1bad3dcde14ec1223ed"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a8085235ab275b1bad3dcde14ec1223ed">GetClassPath</a> () const</td></tr>
 <tr class="memdesc:a8085235ab275b1bad3dcde14ec1223ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the path to the file containing the class descriptions.  <a href="#a8085235ab275b1bad3dcde14ec1223ed">More...</a><br /></td></tr>
 <tr class="separator:a8085235ab275b1bad3dcde14ec1223ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93f21ec31720efe6b37de28c688449ac"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a93f21ec31720efe6b37de28c688449ac">GetClassColor</a> (uint32_t classIndex) const</td></tr>
+<tr class="memdesc:a93f21ec31720efe6b37de28c688449ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the RGBA visualization color a particular class.  <a href="#a93f21ec31720efe6b37de28c688449ac">More...</a><br /></td></tr>
+<tr class="separator:a93f21ec31720efe6b37de28c688449ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9ba7c63d2fc417d0908324fd0dc2223"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#ab9ba7c63d2fc417d0908324fd0dc2223">SetClassColor</a> (uint32_t classIndex, float r, float g, float b, float a=255.0f)</td></tr>
 <tr class="memdesc:ab9ba7c63d2fc417d0908324fd0dc2223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the visualization color of a particular class of object.  <a href="#ab9ba7c63d2fc417d0908324fd0dc2223">More...</a><br /></td></tr>
 <tr class="separator:ab9ba7c63d2fc417d0908324fd0dc2223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2ffd50b5fb52d6ceea09af29b144afc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#ac2ffd50b5fb52d6ceea09af29b144afc">SetOverlayAlpha</a> (float alpha)</td></tr>
+<tr class="memdesc:ac2ffd50b5fb52d6ceea09af29b144afc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set overlay alpha blending value for all classes (between 0-255).  <a href="#ac2ffd50b5fb52d6ceea09af29b144afc">More...</a><br /></td></tr>
+<tr class="separator:ac2ffd50b5fb52d6ceea09af29b144afc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classtensorNet"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classtensorNet')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classtensorNet.html">tensorNet</a></td></tr>
 <tr class="memitem:ad19aafbfa262f9b8ffb0bff561f4d7f7 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#ad19aafbfa262f9b8ffb0bff561f4d7f7">~tensorNet</a> ()</td></tr>
 <tr class="memdesc:ad19aafbfa262f9b8ffb0bff561f4d7f7 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destory.  <a href="classtensorNet.html#ad19aafbfa262f9b8ffb0bff561f4d7f7">More...</a><br /></td></tr>
@@ -1259,6 +1265,34 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a93f21ec31720efe6b37de28c688449ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93f21ec31720efe6b37de28c688449ac">&#9670;&nbsp;</a></span>GetClassColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float* detectNet::GetClassColor </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>classIndex</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieve the RGBA visualization color a particular class. </p>
+
+</div>
+</div>
 <a id="a6aeee309257b1a42df275fdfe948a585"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6aeee309257b1a42df275fdfe948a585">&#9670;&nbsp;</a></span>GetClassDesc()</h2>
 
@@ -1722,6 +1756,26 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ac2ffd50b5fb52d6ceea09af29b144afc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2ffd50b5fb52d6ceea09af29b144afc">&#9670;&nbsp;</a></span>SetOverlayAlpha()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void detectNet::SetOverlayAlpha </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>alpha</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set overlay alpha blending value for all classes (between 0-255). </p>
+
+</div>
+</div>
 <a id="a1cb45695bf95d5fb5db48976d1de8ae2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1cb45695bf95d5fb5db48976d1de8ae2">&#9670;&nbsp;</a></span>SetThreshold()</h2>
 
@@ -2087,7 +2141,7 @@ Static Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classdetectNet.html">detectNet</a></li>
-    <li class="footer">Generated on Tue Sep 24 2019 11:00:25 for Jetson Inference by
+    <li class="footer">Generated on Wed Sep 25 2019 14:29:34 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

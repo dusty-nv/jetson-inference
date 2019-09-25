@@ -170,14 +170,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af35b6253e85cfe6c30ac0a1a7ca3fcc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the description of a particular class.  <a href="#af35b6253e85cfe6c30ac0a1a7ca3fcc8">More...</a><br /></td></tr>
 <tr class="separator:af35b6253e85cfe6c30ac0a1a7ca3fcc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07e9a40b797f22ed0f0e83479be57d17"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a07e9a40b797f22ed0f0e83479be57d17">GetClassColor</a> (uint32_t id) const</td></tr>
-<tr class="memdesc:a07e9a40b797f22ed0f0e83479be57d17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the class synset category of a particular class.  <a href="#a07e9a40b797f22ed0f0e83479be57d17">More...</a><br /></td></tr>
+<tr class="memdesc:a07e9a40b797f22ed0f0e83479be57d17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the RGBA visualization color a particular class.  <a href="#a07e9a40b797f22ed0f0e83479be57d17">More...</a><br /></td></tr>
 <tr class="separator:a07e9a40b797f22ed0f0e83479be57d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a9108ad71f4d5f1995ac58282a10b88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a2a9108ad71f4d5f1995ac58282a10b88">SetClassColor</a> (uint32_t classIndex, float r, float g, float b, float a=255.0f)</td></tr>
 <tr class="memdesc:a2a9108ad71f4d5f1995ac58282a10b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the visualization color of a particular class of object.  <a href="#a2a9108ad71f4d5f1995ac58282a10b88">More...</a><br /></td></tr>
 <tr class="separator:a2a9108ad71f4d5f1995ac58282a10b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12d132d630f471c64ad943cbbffb2851"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a12d132d630f471c64ad943cbbffb2851">SetGlobalAlpha</a> (float alpha, bool explicit_exempt=true)</td></tr>
-<tr class="memdesc:a12d132d630f471c64ad943cbbffb2851"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a global alpha value for all classes (between 0-255), (optionally except for those that have been explicitly set).  <a href="#a12d132d630f471c64ad943cbbffb2851">More...</a><br /></td></tr>
-<tr class="separator:a12d132d630f471c64ad943cbbffb2851"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4c64609fb07586bed32ac4b8e9058d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#aa4c64609fb07586bed32ac4b8e9058d7">SetOverlayAlpha</a> (float alpha, bool explicit_exempt=true)</td></tr>
+<tr class="memdesc:aa4c64609fb07586bed32ac4b8e9058d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set overlay alpha blending value for all classes (between 0-255), (optionally except for those that have been explicitly set).  <a href="#aa4c64609fb07586bed32ac4b8e9058d7">More...</a><br /></td></tr>
+<tr class="separator:aa4c64609fb07586bed32ac4b8e9058d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a973c337a2c3d7371c6b7cebd3aa2ade0"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a973c337a2c3d7371c6b7cebd3aa2ade0">GetClassPath</a> () const</td></tr>
 <tr class="memdesc:a973c337a2c3d7371c6b7cebd3aa2ade0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the path to the file containing the class label descriptions.  <a href="#a973c337a2c3d7371c6b7cebd3aa2ade0">More...</a><br /></td></tr>
 <tr class="separator:a973c337a2c3d7371c6b7cebd3aa2ade0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -870,7 +870,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Retrieve the class synset category of a particular class. </p>
+<p>Retrieve the RGBA visualization color a particular class. </p>
 
 </div>
 </div>
@@ -1565,14 +1565,14 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a12d132d630f471c64ad943cbbffb2851"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12d132d630f471c64ad943cbbffb2851">&#9670;&nbsp;</a></span>SetGlobalAlpha()</h2>
+<a id="aa4c64609fb07586bed32ac4b8e9058d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4c64609fb07586bed32ac4b8e9058d7">&#9670;&nbsp;</a></span>SetOverlayAlpha()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void segNet::SetGlobalAlpha </td>
+          <td class="memname">void segNet::SetOverlayAlpha </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>alpha</em>, </td>
@@ -1591,7 +1591,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Set a global alpha value for all classes (between 0-255), (optionally except for those that have been explicitly set). </p>
+<p>Set overlay alpha blending value for all classes (between 0-255), (optionally except for those that have been explicitly set). </p>
 
 </div>
 </div>
@@ -1820,7 +1820,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classsegNet.html">segNet</a></li>
-    <li class="footer">Generated on Tue Sep 24 2019 11:00:25 for Jetson Inference by
+    <li class="footer">Generated on Wed Sep 25 2019 14:29:34 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

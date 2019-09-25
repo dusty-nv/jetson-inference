@@ -40,12 +40,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Endian_8h.html",
-"classglDisplay.html#a634ed5ff30a1d2944f3667157a649c9a",
-"classtensorNet.html#ae49f74ff83e46112a30318fa0576cace",
-"classtinyxml2_1_1XMLHandle.html#a9c240a35c18f053509b4b97ddccd9793",
-"functions_y.html",
-"group__matrix.html#ga984ddbe902542e96416bb22c5c824b80",
-"tensorNet_8h.html"
+"classglDisplay.html#a5dd4727a6a11d533c49a37c68791123f",
+"classtensorNet.html#ae1f74819d644d0f289253fbcf5d0655f",
+"classtinyxml2_1_1XMLHandle.html#a75b908322bb4b83be3281b6845252b20",
+"functions_w.html",
+"group__matrix.html#ga6d183e8a21c5a0035c852ca4d0ebfb15",
+"structtensorNet_1_1outputLayer.html#a632fc84fc29c3df3a9fa7d7c377362a2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
