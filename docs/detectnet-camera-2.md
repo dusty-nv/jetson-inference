@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="detectnet-console-2.md">Back</a> | <a href="segnet-console-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="detectnet-console-2.md">Back</a> | <a href="detectnet-example-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></p>
 
@@ -70,10 +70,10 @@ $ ./detectnet-camera.py --network=coco-dog
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/detectnet_camera_dog.jpg" width="800">
 
-Next, we're going to introduce the concepts of [Transfer Learning](pytorch-transfer-learning.md) and train some example DNN models on our Jetson using PyTorch.
+If the desired objects aren't being detected in the video feed or you're getting spurious detections, try decreasing or increasing the detection threshold with the `--threshold` parameter (the default is `0.5`).  Next, we'll cover creating the code for this camera detection app in Python.
 
 ##
-<p align="right">Next | <b><a href="pytorch-transfer-learning.md">Transfer Learning with PyTorch</a></b>
+<p align="right">Next | <b><a href="detectnet-example-2.md">Coding Your Own Object Detection Program</a></b>
 <br/>
 Back | <b><a href="detectnet-console-2.md">Detecting Objects from the Command Line</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

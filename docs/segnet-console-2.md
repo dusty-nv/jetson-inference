@@ -77,7 +77,7 @@ $ ./segnet-console --network=<model> --visualize=mask input.jpg output.jpg # out
 ``` bash
 $ ./segnet-console.py --network=<model> input.jpg output.jpg                  # overlay segmentation on original
 $ ./segnet-console.py --network=<model> --alpha=200 input.jpg output.jpg      # make the overlay less opaque
-$ ./segnet-console.py --network=<model> --visualize=mask input.jpg output.jpg # output the solid segmentation mask
+$ ./segnet-console.py --network=<model> --visualize=mask input.jpg output.jpg # output the segmentation mask
 ```
 <br/>
 

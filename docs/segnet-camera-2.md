@@ -9,7 +9,7 @@ Next we'll run realtime semantic segmentation on a live camera feed, available f
 - [`segnet-camera.cpp`](../examples/segnet-camera/segnet-camera.cpp) (C++)
 - [`segnet-camera.py`](../python/examples/segnet-camera.py) (Python) 
 
-Similar to the previous [`segnet-console`](segnet-console-2.md) example, these camera applications use segmentation networks, except that they process a live video feed from a camera.  `segnet-camera` accepts various **optional** command-line parameters, including:
+Similar to the previous [`segnet-console`](segnet-console-2.md) example, these camera applications use segmentation networks, except that they process a live video feed instead.  `segnet-camera` accepts various **optional** command-line parameters, including:
 
 - `--network` flag changes the segmentation model being used (see [available networks](segnet-console-2.md#pre-trained-segmentation-models-available))
 - `--alpha` flag sets the alpha blending value for the overlay (default is `120`)
@@ -27,7 +27,7 @@ Similar to the previous [`segnet-console`](segnet-console-2.md) example, these c
           ```
 You can combine the usage of these flags as needed, and there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info, or see the [`Examples`](../README.md#code-examples) readme.
 
-Below are some typical scenarios for launching the program.  See [this table](segnet-console-2.md#pre-trained-segmentation-models-available) for available networks to use.
+Below are some typical scenarios for launching the program - see [this table](segnet-console-2.md#pre-trained-segmentation-models-available) for the models available to use.
 
 #### C++
 
@@ -52,7 +52,7 @@ $ ./segnet-camera.py --width=640 --height=480    # default MIPI CSI camera (640x
 
 #### Visualization
 
-Displayed in the OpenGL window are the live camera stream overlayed with the segmentation results, alongside the mask image for clarity.  Here are some examples of it being used with [different models](segnet-console-2.md#pre-trained-segmentation-models-available) that are available:
+Displayed in the OpenGL window are the live camera stream overlayed with the segmentation output, alongside the solid segmentation mask for clarity.  Here are some examples of it being used with [different models](segnet-console-2.md#pre-trained-segmentation-models-available) that are available to try:
 
 ``` bash
 # C++
@@ -84,7 +84,7 @@ $ ./segnet-camera.py --network=fcn-resnet18-deepscene
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-camera.jpg" width="900">
 
-Next, we're going to introduce the concepts of [Transfer Learning](pytorch-transfer-learning.md) and train some example DNN models on our Jetson using PyTorch.
+Feel free to experiment with the different models and resolutions for indoor and outdoor environments.  Next, we're going to introduce the concepts of [Transfer Learning](pytorch-transfer-learning.md) and train some example DNN models on our Jetson using PyTorch.
 
 ##
 <p align="right">Next | <b><a href="pytorch-transfer-learning.md">Transfer Learning with PyTorch</a></b>
