@@ -11,7 +11,7 @@ Various pre-trained DNN models are automatically downloaded to get you up and ru
 
 The latest source can be obtained from [GitHub](http://github.com/dusty-nv/jetson-inference) and compiled onboard Jetson Nano, Jetson TX1/TX2, and Jetson AGX Xavier once they have been [flashed with JetPack](jetpack-setup-2.md) or setup with the pre-populated [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) for Jetson Nano.
 
-#### Quick Reference
+### Quick Reference
 
 Here's a condensed form of the commands to download, build, and install the project:
 
@@ -68,7 +68,7 @@ Installing these additional packages will enable the repo to build the extension
 Next, create a build directory within the project and run `cmake` to configure the build.  When `cmake` is run, a script is launched ([`CMakePreBuild.sh`](../CMakePreBuild.sh)) that will install any required dependencies and download DNN models for you.
 
 ``` bash
-$ cd jetson-inference    # omit if pwd is already jetson-inference from above
+$ cd jetson-inference    # omit if working directory is already jetson-inference/ from above
 $ mkdir build
 $ cd build
 $ cmake ../
@@ -122,7 +122,7 @@ Make sure you are still in the `jetson-inference/build` directory, created above
 Then run `make` followed by `sudo make install` to build the libraries, Python extension bindings, and code samples:
 
 ``` bash
-$ cd jetson-inference/build          # omit if pwd is already /build from above
+$ cd jetson-inference/build          # omit if working directory is already build/ from above
 $ make
 $ sudo make install
 $ sudo ldconfig
@@ -132,7 +132,7 @@ The project will be built to `jetson-inference/build/aarch64`, with the followin
 
 ```
 |-build
-   \aarch64         (64-bit)
+   \aarch64
       \bin             where the sample binaries are built to
          \networks     where the network models are stored
          \images       where the test images are stored
