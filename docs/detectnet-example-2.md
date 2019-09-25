@@ -5,7 +5,7 @@
 
 # Coding Your Own Object Detection Program
 
-In this step of the tutorial, we'll walk through creating an application in only 10 lines of Python code for realtime object detection on a live camera feed called [`my-detection.py`](../python/examples/my-detection.py).  The program will load the detection network with the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) object, capture video frames and process them, and then render the detected objects to the display.
+In this step of the tutorial, we'll walk through the creation of the previous example for realtime object detection on a live camera feed in only 10 lines of Python code.  The program will load the detection network with the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) object, capture video frames and process them, and then render the detected objects to the display.
 
 For your convenience and reference, the completed source is available in the [`python/examples/my-detection.py`](../python/examples/my-detection.py) file of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing.
 
@@ -13,11 +13,9 @@ For your convenience and reference, the completed source is available in the [`p
 
 First, open up your text editor of choice and create a new file.  Below we'll assume that you'll save it to your user's home directory as `~/my-detection.py`, but you can name and store it where you wish.
 
-First, we'll import the Python modules that we're going to use in the script.
-
 #### Importing Modules
 
-Add `import` statements to load the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) modules used for object detection and camera capture.
+At the top of the source file, we'll import the Python modules that we're going to use in the script.  Add `import` statements to load the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) modules used for object detection and camera capture.
 
 ``` python
 import jetson.inference
@@ -25,7 +23,7 @@ import jetson.utils
 ```
 
 > **note**:  these Jetson modules are installed during the `sudo make install` step of [building the repo](building-repo-2.md#compiling-the-project).  
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these packages won't be found when we go to run the example.  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these packages won't be found when the example is run.  
 
 #### Loading the Detection Model
 
@@ -36,16 +34,26 @@ Next use the following line to create a [`detectNet`](https://rawgit.com/dusty-n
 net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
 ```
 
-Note that you can change the model string to one of the values from [this table](detectnet-console-2.md#pre-trained-detection-models-available) to load a different model.  We also set the detection threshold here to the default of `0.5` for illustrative purposes.  You can tweak it later as need be.
+Note that you can change the model string to one of the values from [this table](detectnet-console-2.md#pre-trained-detection-models-available) to load a different detection model.  We also set the detection threshold here to the default of `0.5` for illustrative purposes - you can tweak it later as need be.
 
 #### Opening the Camera Stream
 
-To connect to the camera device for streaming, next we'll create an instance of the [`gstCamera`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.utils.html#gstCamera) object.  It's constructor accepts 3 parameters - the desired width, height, and video device to use.  Use the following snippet depending on if you are using a MIPI CSI camera or a V4L2 USB camera:
+To connect to the camera device for streaming, we'll create an instance of the [`gstCamera`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.utils.html#gstCamera) object:
 
-- MIPI CSI cameras are used by specifying the sensor index (`"0"` or `"1"`, ect.)
-	- `camera = jetson.utils.gstCamera(1280, 1024, "0")`
-- V4L2 USB cameras are used by specifying their `/dev/video` node (`"/dev/video0"`, `"/dev/video1"`, ect.)
-	- `camera = jetson.utils.gstCamera(1280, 1024, "/dev/video0")`
+``` python
+camera = jetson.utils.gstCamera(1280, 1024, "/dev/video0")  # using V4L2
+```
+
+It's constructor accepts 3 parameters - the desired width, height, and video device to use.  Substitute the following snippet depending on if you are using a MIPI CSI camera or a V4L2 USB camera:
+
+- MIPI CSI cameras are used by specifying the sensor index (`"0"` or `"1"`, ect.)  
+	``` python
+	camera = jetson.utils.gstCamera(1280, 1024, "0")
+	```
+- V4L2 USB cameras are used by specifying their `/dev/video` node (`"/dev/video0"`, `"/dev/video1"`, ect.)  
+	``` python
+	camera = jetson.utils.gstCamera(1280, 1024, "/dev/video0")
+	```
 - The width and height should be a resolution that the camera supports.
      - Query the available resolutions with the following commands:  
           ``` bash
@@ -54,14 +62,14 @@ To connect to the camera device for streaming, next we'll create an instance of 
           ```
 	- If needed, change `1280` and `1024` above to the desired width/height
 
-> **note**:  for example cameras to use, see these sections of the Jetson Wiki: <br/>
+> **note**:  for compatible cameras to use, see these sections of the Jetson Wiki: <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Nano:&nbsp;&nbsp;[`https://eLinux.org/Jetson_Nano#Cameras`](https://elinux.org/Jetson_Nano#Cameras) <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Xavier:  [`https://eLinux.org/Jetson_AGX_Xavier#Ecosystem_Products_.26_Cameras`](https://elinux.org/Jetson_AGX_Xavier#Ecosystem_Products_.26_Cameras) <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- TX1/TX2:  developer kits include an onboard MIPI CSI sensor module (0V5693)<br/>
 
 #### Display Loop
 
-Next, we'll create an OpenGL display with the ([`glDisplay`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.utils.html#gstCamera) object and create a main loop that will run until the user exits the window:
+Next, we'll create an OpenGL display with the [`glDisplay`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.utils.html#glDisplay) object and create a main loop that will run until the user exits:
 
 ``` python
 display = jetson.utils.glDisplay()
@@ -70,11 +78,11 @@ while display.IsOpen():
 	# main loop will go here
 ```
 
-The remainder of the code below should be indented underneath this `while` loop.
+Note that the remainder of the code below should be indented underneath this `while` loop.
 
 #### Camera Capture
 
-The first thing that happens in the main loop is to capture the next video frame from the camera.  `camera.CaptureRGBA()` will wait until the next frame has been sent from the camera, and after it's been acquired convert it into RGBA floating-point format on the GPU.
+The first thing that happens in the main loop is to capture the next video frame from the camera.  `camera.CaptureRGBA()` will wait until the next frame has been sent from the camera, and after it's been acquired by the Jetson, it will convert it to RGBA floating-point format residing in GPU memory.
 
 ``` python
 	img, width, height = camera.CaptureRGBA()
@@ -92,7 +100,7 @@ Next the detection network processes the image with the `net.Detect()` function.
 
 This function will also automatically overlay the detection results on top of the input image.
 
-If you want, you can add a `print(detections)` statement here, and the coordinates, confidence, and class info will be printed out to the terminal for each detection.  Also see the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) documentation for info about the different members of the `Detection` structures that are returned for accessing them directly in a custom application.
+If you want, you can add a `print(detections)` statement here, and the coordinates, confidence, and class info will be printed out to the terminal for each detection result.  Also see the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) documentation for info about the different members of the `Detection` structures that are returned for accessing them directly in a custom application.
 
 #### Rendering
 
@@ -107,7 +115,7 @@ The `RenderOnce()` function will automatically flip the backbuffer and is used w
 
 #### Source Listing
 
-That's it!  For completness, here is the full source of the Python script that we just created.  You can also find it in the repo at [`python/examples/my-detection.py`](../python/examples/my-detection.py)
+That's it!  For completness, here is the full source of the Python script that we just created:
 
 ``` python
 import jetson.inference

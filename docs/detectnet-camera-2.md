@@ -70,7 +70,9 @@ $ ./detectnet-camera.py --network=coco-dog
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/detectnet_camera_dog.jpg" width="800">
 
-If the desired objects aren't being detected in the video feed or you're getting spurious detections, try decreasing or increasing the detection threshold with the `--threshold` parameter (the default is `0.5`).  Next, we'll cover creating the code for this camera detection app in Python.
+If the desired objects aren't being detected in the video feed or you're getting spurious detections, try decreasing or increasing the detection threshold with the `--threshold` parameter (the default is `0.5`).
+
+Next, we'll cover creating the code for this camera detection app in Python.
 
 ##
 <p align="right">Next | <b><a href="detectnet-example-2.md">Coding Your Own Object Detection Program</a></b>
