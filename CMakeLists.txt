@@ -109,18 +109,19 @@ foreach(include ${inferenceIncludes})
 endforeach()
 
 
-# create symbolic link for network data
+# create symbolic link for network and image data
 execute_process( COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${PROJECT_SOURCE_DIR}/data/networks" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/networks" )
-  
-  
-# copy image data
-file(GLOB imageData ${PROJECT_SOURCE_DIR}/data/images/*)
+execute_process( COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${PROJECT_SOURCE_DIR}/data/images" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/images" )
 
-foreach(image ${imageData})
-	message("-- Copying ${image}")
-	file(COPY ${image} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-	#configure_file(${include} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
-endforeach()
+  
+# copy image data (EDIT: these are now symlinked above)
+#file(GLOB imageData ${PROJECT_SOURCE_DIR}/data/images/*)
+
+#foreach(image ${imageData})
+#	message("-- Copying ${image}")
+#	file(COPY ${image} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+#	#configure_file(${include} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
+#endforeach()
 
 
 # build subdirectories
@@ -144,8 +145,9 @@ foreach(include ${inferenceIncludes})
     install(FILES "${include}" DESTINATION include/jetson-inference)
 endforeach()
 
-# install symlink to networks
+# install symlink to networks and images
 install(CODE "execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/data/networks ${CMAKE_INSTALL_PREFIX}/bin/networks )" )
+install(CODE "execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/data/images ${CMAKE_INSTALL_PREFIX}/bin/images )" )
 
 # install the shared library
 install(TARGETS jetson-inference DESTINATION lib EXPORT jetson-inferenceConfig)
