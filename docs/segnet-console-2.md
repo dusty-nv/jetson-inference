@@ -87,13 +87,15 @@ Let's look at some different scenarios.  Here's an example of segmenting an urba
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-cityscapes city_0.jpg output.jpg
+$ ./segnet-console --network=fcn-resnet18-cityscapes images/city_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-cityscapes city_0.jpg output.jpg
+$ ./segnet-console.py --network=fcn-resnet18-cityscapes images/city_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-city.jpg" width="900">
+
+There are more test images called `city-*.jpg` found under the `images/` subdirectory for trying out the Cityscapes model.
 
 ### DeepScene
 
@@ -102,30 +104,32 @@ Here's an example of generating the segmentation overlay and mask by specifying 
 
 #### C++
 ``` bash
-$ ./segnet-console --network=fcn-resnet18-deepscene trail_0.jpg output_overlay.jpg                   # overlay
-$ ./segnet-console --network=fcn-resnet18-deepscene --visualize=mask trail_0.jpg output_mask.jpg     # mask
+$ ./segnet-console --network=fcn-resnet18-deepscene images/trail_0.jpg output_overlay.jpg                # overlay
+$ ./segnet-console --network=fcn-resnet18-deepscene --visualize=mask images/trail_0.jpg output_mask.jpg  # mask
 ```
 
 #### Python
 ``` bash
-$ ./segnet-console.py --network=fcn-resnet18-deepscene trail_0.jpg output_overlay.jpg                # overlay
-$ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask trail_0.jpg output_mask.jpg  # mask
+$ ./segnet-console.py --network=fcn-resnet18-deepscene images/trail_0.jpg output_overlay.jpg               # overlay
+$ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask images/trail_0.jpg output_mask.jpg # mask
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-overlay.jpg" width="850">
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-mask.jpg">
 
+There are more test images called `trail-*.jpg` found under the `images/` subdirectory.
+
 ### Multi-Human Parsing (MHP)
 
 [Multi-Human Parsing](https://lv-mhp.github.io/) provides dense labeling of body parts, like arms, legs, head, and different types of clothing.  
- See the handful of test images named `humans-*.jpg` included with the repo for trying out the MHP model:
+ See the handful of test images named `humans-*.jpg` found under the `images/` subdirectory for trying out the MHP model:
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-mhp humans_0.jpg output.jpg
+$ ./segnet-console --network=fcn-resnet18-mhp images/humans_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-mhp humans_0.jpg output.jpg
+$ ./segnet-console.py --network=fcn-resnet18-mhp images/humans_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-mhp-0.jpg" width="825">
@@ -141,10 +145,10 @@ $ ./segnet-console.py --network=fcn-resnet18-mhp humans_0.jpg output.jpg
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-voc object_0.jpg output.jpg
+$ ./segnet-console --network=fcn-resnet18-voc images/object_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-voc object_0.jpg output.jpg
+$ ./segnet-console.py --network=fcn-resnet18-voc images/object_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc.jpg" width="900">
@@ -155,14 +159,14 @@ $ ./segnet-console.py --network=fcn-resnet18-voc object_0.jpg output.jpg
 
 ### SUN RGB-D
 
-The [SUN RGB-D](http://rgbd.cs.princeton.edu/) dataset provides segmentation ground-truth for many indoor objects and scenes commonly found in office spaces and homes.  See the images named `room-*.jpg` for testing out the SUN models:
+The [SUN RGB-D](http://rgbd.cs.princeton.edu/) dataset provides segmentation ground-truth for many indoor objects and scenes commonly found in office spaces and homes.  See the images named `room-*.jpg` found under the `images/` subdirectory for testing out the SUN models:
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-sun room_0.jpg output.jpg
+$ ./segnet-console --network=fcn-resnet18-sun images/room_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-sun room_0.jpg output.jpg
+$ ./segnet-console.py --network=fcn-resnet18-sun images/room_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun.jpg" width="900">

@@ -27,7 +27,7 @@ The `detectnet-console` program locates objects in static images.  Some of it's 
 
 - the path to an input image  (`jpg, png, tga, bmp`)
 - optional path to output image  (`jpg, png, tga, bmp`)
-- optional `--network` flag which changes the [detection model](detectnet-console-2.md#pre-trained-detection-models-available) being used (the default network is SSD-Mobilenet-v2).
+- optional `--network` flag which changes the [detection model](detectnet-console-2.md#pre-trained-detection-models-available) being used (the default is SSD-Mobilenet-v2).
 - optional `--overlay` flag which can be comma-separated combinations of `box`, `labels`, `conf`, and `none`
 	- The default is `--overlay=box,labels,conf` which displays boxes, labels, and confidence values
 - optional `--alpha` value which sets the alpha blending value used during overlay (the default is `120`).
@@ -39,20 +39,23 @@ Here are some examples of detecting pedestrians in images with the default SSD-M
 
 ``` bash
 # C++
-$ ./detectnet-console peds_0.jpg output.jpg
+$ ./detectnet-console --network=ssd-mobilenet-v2 images/peds_0.jpg output.jpg     # --network flag is optional
 
 # Python
-$ ./detectnet-console.py peds_0.jpg output.jpg
+$ ./detectnet-console.py --network=ssd-mobilenet-v2 images/peds_0.jpg output.jpg  # --network flag is optional
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-0.jpg" width="900">
 
+> **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is cached to disk after the first run, so future runs using the model will load faster.
+
 ``` bash
 # C++
-$ ./detectnet-console peds_1.jpg output.jpg
+$ ./detectnet-console images/peds_1.jpg output.jpg
 
 # Python
-$ ./detectnet-console.py peds_1.jpg output.jpg
+$ ./detectnet-console.py images/peds_1.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-1.jpg" width="900">
@@ -61,7 +64,7 @@ Below are more detection examples output from the console programs.  The [91-cla
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-animals.jpg" width="900">
 
-Various images are included with the repo for testing, such as `cat_*.jpg`, `dog_*.jpg`, `horse_*.jpg`, `peds_*.jpg`, ect. 
+Various images are found under `images/` for testing, such as `cat_*.jpg`, `dog_*.jpg`, `horse_*.jpg`, `peds_*.jpg`, ect. 
 
 
 ### Pre-trained Detection Models Available

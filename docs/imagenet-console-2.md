@@ -37,7 +37,7 @@ Next, let's classify an example image with the `imagenet-console` program, using
 
 - the path to an input image  (`jpg, png, tga, bmp`)
 - optional path to output image  (`jpg, png, tga, bmp`)
-- optional `--network` flag which changes the classification model being used (the default network is GoogleNet).  
+- optional `--network` flag which changes the classification model being used (the default is GoogleNet).  
 
 Note that there are additional command line parameters available for loading customized models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Code Examples`](../README.md#code-examples) readme.
 
@@ -45,27 +45,27 @@ Here are a couple examples of running the program in C++ or Python:
 
 #### C++
 ``` bash
-$ ./imagenet-console --network=googlenet orange_0.jpg output_0.jpg  # --network flag is optional
+$ ./imagenet-console --network=googlenet images/orange_0.jpg output_0.jpg     # --network flag is optional
 ```
 
 #### Python
 ``` bash
-$ ./imagenet-console.py --network=googlenet orange_0.jpg output_0.jpg  # --network flag is optional
+$ ./imagenet-console.py --network=googlenet images/orange_0.jpg output_0.jpg  # --network flag is optional
 ```
 
-> **note**:  the first time you run the program, TensorRT may take up to a few minutes to optimize the network. <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is cached to disk after the first run, so future runs will load faster.
+> **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is cached to disk after the first run, so future runs using the model will load faster.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="500">
 
 #### C++
 ``` bash
-$ ./imagenet-console granny_smith_1.jpg output_1.jpg
+$ ./imagenet-console images/granny_smith_1.jpg output_1.jpg
 ```
 
 #### Python
 ``` bash
-$ ./imagenet-console.py granny_smith_1.jpg output_1.jpg
+$ ./imagenet-console.py images/granny_smith_1.jpg output_1.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple.jpg" width="500">
@@ -104,35 +104,35 @@ Below are some examples of using the ResNet-18 model:
 
 ``` bash
 # C++
-$ ./imagenet-console --network=resnet-18 jellyfish.jpg output_jellyfish.jpg
+$ ./imagenet-console --network=resnet-18 images/jellyfish.jpg output_jellyfish.jpg
 
 # Python
-$ ./imagenet-console.py --network=resnet-18 jellyfish.jpg output_jellyfish.jpg
+$ ./imagenet-console.py --network=resnet-18 images/jellyfish.jpg output_jellyfish.jpg
 ```
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_jellyfish.jpg" width="650">
 
 ``` bash
 # C++
-$ ./imagenet-console --network=resnet-18 stingray.jpg output_stingray.jpg
+$ ./imagenet-console --network=resnet-18 images/stingray.jpg output_stingray.jpg
 
 # Python
-$ ./imagenet-console.py --network=resnet-18 stingray.jpg output_stingray.jpg
+$ ./imagenet-console.py --network=resnet-18 images/stingray.jpg output_stingray.jpg
 ```
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_stingray.jpg" width="650">
 
 ``` bash
 # C++
-$ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
+$ ./imagenet-console.py --network=resnet-18 images/coral.jpg output_coral.jpg
 
 # Python
-$ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
+$ ./imagenet-console.py --network=resnet-18 images/coral.jpg output_coral.jpg
 ```
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="650">
 
-Feel free to experiment with using the different models and see how their accuracies and performance differ.
+Feel free to experiment with using the different models and see how their accuracies and performance differ.  You can download more models with the [Model Downloader](building-repo-2.md#downloading-models) tool.  There are also various test images located under the `images/` subdirectory.
 
 Next, we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
 
