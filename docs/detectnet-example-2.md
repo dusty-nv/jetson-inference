@@ -115,7 +115,7 @@ The `RenderOnce()` function will automatically flip the backbuffer and is used w
 
 #### Source Listing
 
-That's it!  For completness, here is the full source of the Python script that we just created:
+That's it!  For completness, here's the full source of the Python script that we just created:
 
 ``` python
 import jetson.inference
@@ -132,7 +132,7 @@ while display.IsOpen():
 	display.SetTitle("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
 ```
 
-Note that this version aboves assumes you are using a V4L2 USB camera.  See the [`Opening the Camera Stream`](#opening-the-camera-stream) section above for info about changing it to use a MIPI CSI camera or supporting different resolutions.
+Note that this version assumes you are using a V4L2 USB camera.  See the [`Opening the Camera Stream`](#opening-the-camera-stream) section above for info about changing it to use a MIPI CSI camera or supporting different resolutions.
 
 ## Running the Program
 
