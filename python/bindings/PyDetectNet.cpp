@@ -569,7 +569,7 @@ static PyObject* PyDetectNet_Detect( PyDetectNet_Object* self, PyObject* args, P
 
 	int width = 0;
 	int height = 0;
-	const char* overlay = "box";
+	const char* overlay = "box,labels,conf";
 
 	static char* kwlist[] = {"image", "width", "height", "overlay", NULL};
 
