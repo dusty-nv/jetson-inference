@@ -41,18 +41,18 @@ Note that you can change the model string to one of the values from [this table]
 To connect to the camera device for streaming, we'll create an instance of the [`gstCamera`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.utils.html#gstCamera) object:
 
 ``` python
-camera = jetson.utils.gstCamera(1280, 1024, "/dev/video0")  # using V4L2
+camera = jetson.utils.gstCamera(1280, 720, "/dev/video0")  # using V4L2
 ```
 
-It's constructor accepts 3 parameters - the desired width, height, and video device to use.  Substitute the following snippet depending on if you are using a MIPI CSI camera or a V4L2 USB camera:
+It's constructor accepts 3 parameters - the desired width, height, and video device to use.  Substitute the following snippet depending on if you are using a MIPI CSI camera or a V4L2 USB camera, along with the preferred resolution:
 
 - MIPI CSI cameras are used by specifying the sensor index (`"0"` or `"1"`, ect.)  
 	``` python
-	camera = jetson.utils.gstCamera(1280, 1024, "0")
+	camera = jetson.utils.gstCamera(1280, 720, "0")
 	```
 - V4L2 USB cameras are used by specifying their `/dev/video` node (`"/dev/video0"`, `"/dev/video1"`, ect.)  
 	``` python
-	camera = jetson.utils.gstCamera(1280, 1024, "/dev/video0")
+	camera = jetson.utils.gstCamera(1280, 720, "/dev/video0")
 	```
 - The width and height should be a resolution that the camera supports.
      - Query the available resolutions with the following commands:  
@@ -60,7 +60,7 @@ It's constructor accepts 3 parameters - the desired width, height, and video dev
           $ sudo apt-get install v4l-utils
           $ v4l2-ctl --list-formats-ext
           ```
-	- If needed, change `1280` and `1024` above to the desired width/height
+	- If needed, change `1280` and `720` above to the desired width/height
 
 > **note**:  for compatible cameras to use, see these sections of the Jetson Wiki: <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Nano:&nbsp;&nbsp;[`https://eLinux.org/Jetson_Nano#Cameras`](https://elinux.org/Jetson_Nano#Cameras) <br/>
