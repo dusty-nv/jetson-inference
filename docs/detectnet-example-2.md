@@ -34,7 +34,7 @@ Next use the following line to create a [`detectNet`](https://rawgit.com/dusty-n
 net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
 ```
 
-Note that you can change the model string to one of the values from [this table](detectnet-console-2.md#pre-trained-detection-models-available) to load a different detection model.  We also set the detection threshold here to the default of `0.5` for illustrative purposes - you can tweak it later as need be.
+Note that you can change the model string to one of the values from [this table](detectnet-console-2.md#pre-trained-detection-models-available) to load a different detection model.  We also set the detection threshold here to the default of `0.5` for illustrative purposes - you can tweak it later if needed.
 
 #### Opening the Camera Stream
 

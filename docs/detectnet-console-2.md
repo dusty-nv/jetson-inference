@@ -58,7 +58,7 @@ $ ./detectnet-console.py images/peds_1.jpg output.jpg
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-1.jpg" width="900">
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file then cached to disk, so future runs using the model will load faster.
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
 
 Below are more detection examples output from the console programs.  The [91-class](../data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
 
