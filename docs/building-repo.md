@@ -27,7 +27,7 @@ $ make
 $ sudo make install
 $ sudo ldconfig
 ```
-Below we will go through each step and discuss various options along the way.
+Below we will go through each step and discuss various build options along the way.
  
 ### Cloning the Repo
 
