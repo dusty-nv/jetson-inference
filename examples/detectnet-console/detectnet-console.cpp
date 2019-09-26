@@ -117,9 +117,6 @@ int main( int argc, char** argv )
 		printf("bounding box %u  (%f, %f)  (%f, %f)  w=%f  h=%f\n", detections[n].Instance, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
 	}
 	
-	// wait for the GPU to finish		
-	CUDA(cudaDeviceSynchronize());
-
 	// print out timing info
 	net->PrintProfilerTimes();
 	

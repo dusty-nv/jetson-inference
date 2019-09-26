@@ -181,9 +181,6 @@ int main( int argc, char** argv )
 				signal_recieved = true;
 		}
 
-		// wait for GPU to complete work			
-		CUDA(cudaDeviceSynchronize());
-
 		// print out timing info
 		net->PrintProfilerTimes();
 	}
