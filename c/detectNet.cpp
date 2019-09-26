@@ -768,6 +768,10 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 			printf(LOG_TRT "detectNet::Detect() -- failed to render overlay\n");
 	}
 	
+	// wait for GPU to complete work			
+	CUDA(cudaDeviceSynchronize());
+
+	// return the number of detections
 	return numDetections;
 }
 
