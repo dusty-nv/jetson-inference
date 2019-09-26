@@ -156,9 +156,9 @@ The project comes with a number of pre-trained models that are available through
 
 | Network                 | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
-| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
-| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
-| SSD-Inception-v2        | `ssd-inception-v1` | `SSD_INCEPTION_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/AastaNV/TRT_object_detection/master/coco.py))     |
+| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](data/networks/ssd_coco_labels.txt)) |
+| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](data/networks/ssd_coco_labels.txt)) |
+| SSD-Inception-v2        | `ssd-inception-v1` | `SSD_INCEPTION_V2` | 91 ([COCO classes](data/networks/ssd_coco_labels.txt)) |
 | DetectNet-COCO-Dog      | `coco-dog`         | `COCO_DOG`         | dogs                 |
 | DetectNet-COCO-Bottle   | `coco-bottle`      | `COCO_BOTTLE`      | bottles              |
 | DetectNet-COCO-Chair    | `coco-chair`       | `COCO_CHAIR`       | chairs               |

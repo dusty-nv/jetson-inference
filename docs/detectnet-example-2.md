@@ -27,7 +27,7 @@ import jetson.utils
 
 #### Loading the Detection Model
 
-Next use the following line to create a [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) instance that loads the SSD-Mobilenet-v2 model:
+Next use the following line to create a [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) object instance that loads the [91-class](../data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model:
 
 ``` python
 # load the object detection model

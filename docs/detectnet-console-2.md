@@ -8,7 +8,7 @@ The previous recognition examples output class probabilities representing the en
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet.jpg" width="900">
 
-The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See below for various [pre-trained detection models](#pretrained-detection-models-available)  available for download.  The default model used is a [91-class](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
+The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See below for various [pre-trained detection models](#pretrained-detection-models-available)  available for download.  The default model used is a [91-class](../data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
 
 As examples of using `detectNet` we provide versions of a command-line interface for C++ and Python:
 
@@ -60,7 +60,7 @@ $ ./detectnet-console.py images/peds_1.jpg output.jpg
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file then cached to disk, so future runs using the model will load faster.
 
-Below are more detection examples output from the console programs.  The [91-class](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
+Below are more detection examples output from the console programs.  The [91-class](../data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-animals.jpg" width="900">
 
@@ -73,9 +73,9 @@ Below is a table of the pre-trained object detection networks available for [dow
 
 | Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
-| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt))     |
-| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt))     |
-| SSD-Inception-v2        | `ssd-inception-v1` | `SSD_INCEPTION_V2` | 91 ([COCO classes](https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/data/networks/ssd_coco_labels.txt))     |
+| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
+| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
+| SSD-Inception-v2        | `ssd-inception-v1` | `SSD_INCEPTION_V2` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
 | DetectNet-COCO-Dog      | `coco-dog`         | `COCO_DOG`         | dogs                 |
 | DetectNet-COCO-Bottle   | `coco-bottle`      | `COCO_BOTTLE`      | bottles              |
 | DetectNet-COCO-Chair    | `coco-chair`       | `COCO_CHAIR`       | chairs               |
