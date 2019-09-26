@@ -141,9 +141,6 @@ print("detected {:d} objects in image".format(len(detections)))
 for detection in detections:
 	print(detection)
 
-# wait for GPU to complete work
-jetson.utils.cudaDeviceSynchronize()
-
 # print out timing info
 net.PrintProfilerTimes()
 

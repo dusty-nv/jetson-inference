@@ -23,7 +23,7 @@ It's recommended to walk through the Hello AI World module first to familiarize 
 * [System Requirements](#recommended-system-requirements)
 * [Extra Resources](#extra-resources)
 
-> &gt; &nbsp; Jetson Nano Developer Kit and JetPack 4.2.1 is now supported in the repo. <br/>
+> &gt; &nbsp; Jetson Nano Developer Kit and JetPack 4.2.2 is now supported in the repo. <br/>
 > &gt; &nbsp; See our latest technical blog including benchmarks, [`Jetson Nano Brings AI Computing to Everyone`](https://devblogs.nvidia.com/jetson-nano-ai-computing/). <br/>
 > &gt; &nbsp; Hello AI World now supports Python and onboard training with PyTorch!
 
