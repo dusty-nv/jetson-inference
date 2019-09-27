@@ -122,7 +122,7 @@ import jetson.inference
 import jetson.utils
 
 net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
-camera = jetson.utils.gstCamera(1280, 1024, "/dev/video0")  # using V4L2
+camera = jetson.utils.gstCamera(1280, 720, "/dev/video0")  # using V4L2
 display = jetson.utils.glDisplay()
 
 while display.IsOpen():
