@@ -88,6 +88,12 @@
  */
 
 /**
+ * @defgroup colormap Color Mapping
+ * Defines various colormaps and color mapping functions.
+ * @ingroup cuda
+ */
+
+/**
  * @defgroup colorspace Color Conversion
  * Colorspace conversion functions for various YUV formats, RGB, BGR, ect.
  * @ingroup cuda
