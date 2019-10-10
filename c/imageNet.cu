@@ -321,7 +321,7 @@ cudaError_t cudaPreImageNetNormBGR( float4* input, size_t inputWidth, size_t inp
 
 
 // gpuPreImageNetNormMeanRGB
-__global__ void gpuPreImageNetNormMeanRGB( float2 scale, float4* input, int iWidth, float* output, int oWidth, int oHeight, float multiplier, float min_value, const float3 mean, const float3 stdDev )
+__global__ void gpuPreImageNetNormMeanRGB( float4* input, int iWidth, float* output, int oWidth, int oHeight, float2 scale, float multiplier, float min_value, const float3 mean, const float3 stdDev )
 {
 	const int x = blockIdx.x * blockDim.x + threadIdx.x;
 	const int y = blockIdx.y * blockDim.y + threadIdx.y;
@@ -362,14 +362,14 @@ cudaError_t cudaPreImageNetNormMeanRGB( float4* input, size_t inputWidth, size_t
 	const dim3 blockDim(8, 8);
 	const dim3 gridDim(iDivUp(outputWidth,blockDim.x), iDivUp(outputHeight,blockDim.y));
 
-	gpuPreImageNetNormMeanRGB<<<gridDim, blockDim, 0, stream>>>(scale, input, inputWidth, output, outputWidth, outputHeight, multiplier, range.x, mean, stdDev);
+	gpuPreImageNetNormMeanRGB<<<gridDim, blockDim, 0, stream>>>(input, inputWidth, output, outputWidth, outputHeight, scale, multiplier, range.x, mean, stdDev);
 
 	return CUDA(cudaGetLastError());
 }
 
 
 // gpuPreImageNetNormMeanBGR
-__global__ void gpuPreImageNetNormMeanBGR( float2 scale, float4* input, int iWidth, float* output, int oWidth, int oHeight, float multiplier, float min_value, const float3 mean, const float3 stdDev )
+__global__ void gpuPreImageNetNormMeanBGR( float4* input, int iWidth, float* output, int oWidth, int oHeight, float2 scale, float multiplier, float min_value, const float3 mean, const float3 stdDev )
 {
 	const int x = blockIdx.x * blockDim.x + threadIdx.x;
 	const int y = blockIdx.y * blockDim.y + threadIdx.y;
@@ -410,7 +410,7 @@ cudaError_t cudaPreImageNetNormMeanBGR( float4* input, size_t inputWidth, size_t
 	const dim3 blockDim(8, 8);
 	const dim3 gridDim(iDivUp(outputWidth,blockDim.x), iDivUp(outputHeight,blockDim.y));
 
-	gpuPreImageNetNormMeanBGR<<<gridDim, blockDim, 0, stream>>>(scale, input, inputWidth, output, outputWidth, outputHeight, multiplier, range.x, mean, stdDev);
+	gpuPreImageNetNormMeanBGR<<<gridDim, blockDim, 0, stream>>>(input, inputWidth, output, outputWidth, outputHeight, scale, multiplier, range.x, mean, stdDev);
 
 	return CUDA(cudaGetLastError());
 }
