@@ -53,6 +53,12 @@
  */
 
 /**
+ * @defgroup depthNet depthNet
+ * Depth estimation from monocular images.
+ * @ingroup deepVision
+ */
+
+/**
  * @defgroup util Utilities Library (jetson-utils)
  * Tools and utilities for camera streaming, codecs, display, and visualization.
  */
