@@ -118,7 +118,11 @@ depthNet* depthNet::Create( const char* model_path, const char* input_blob, cons
 		printf("depthNet -- failed to initialize.\n");
 		return NULL;
 	}
-	
+
+	// load colormaps
+	CUDA(cudaColormapInit());
+
+	// return network
 	return net;
 }
 
@@ -134,7 +138,7 @@ depthNet* depthNet::Create( int argc, char** argv )
 	const char* modelName = cmdLine.GetString("network");
 	
 	if( !modelName )
-		modelName = cmdLine.GetString("model", "resnet-18");
+		modelName = cmdLine.GetString("model", "mobilenet");
 	
 	// parse the network type
 	const depthNet::NetworkType type = NetworkTypeFromStr(modelName);
@@ -172,11 +176,13 @@ depthNet* depthNet::Create( int argc, char** argv )
 
 
 // Process
-bool depthNet::Process( float* input, float* output, uint32_t width, uint32_t height, cudaColormapType colormap, cudaFilterMode filter )
+bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_height,
+				    float* output, uint32_t output_width, uint32_t output_height, 
+                        cudaColormapType colormap, cudaFilterMode filter )
 {
-	if( !input || !output || width == 0 || height == 0 )
+	if( !input || !output || input_width == 0 || input_height == 0 || output_width == 0 || output_height == 0 )
 	{
-		printf("depthNet::Process( 0x%p, 0x%p, %u, %u ) -> invalid parameters\n", input, output, width, height);
+		printf("depthNet::Process( 0x%p, 0x%p, %u, %u ) -> invalid parameters\n", input, output, input_width, input_height);
 		return false;
 	}
 
@@ -185,7 +191,8 @@ bool depthNet::Process( float* input, float* output, uint32_t width, uint32_t he
 	if( IsModelType(MODEL_ONNX) )
 	{
 		// remap from [0,255] -> [0,1], no mean pixel subtraction or std dev applied
-		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)input, width, height, mInputCUDA, mWidth, mHeight, 
+		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)input, input_width, input_height, 
+										   mInputCUDA, mWidth, mHeight, 
 										   make_float2(0.0f, 1.0f), 
 										   make_float3(0.0f, 0.0f, 0.0f),
 										   make_float3(1.0f, 1.0f, 1.0f), 
@@ -220,19 +227,48 @@ bool depthNet::Process( float* input, float* output, uint32_t width, uint32_t he
 	const int depth_height = DIMS_H(mOutputs[0].dims);
 	const int depth_channels = DIMS_C(mOutputs[0].dims);
 
-	printf("depth image:  %i x %i x %i\n", depth_width, depth_height, depth_channels);
+	// find the min/max depth range
+	float2 depthRange = make_float2(100000000.0f, -100000000.0f);
 
+	for( int y=0; y < depth_height; y++ )
+	{
+		for( int x=0; x < depth_height; x++ )
+		{
+			const float depth = mOutputs[0].CPU[y * depth_width + x];
+
+			if( depth < depthRange.x )
+				depthRange.x = depth;
+
+			if( depth > depthRange.y )
+				depthRange.y = depth;
+		}
+	}
+
+	//printf("depth image:  %i x %i x %i\n", depth_width, depth_height, depth_channels);
+	printf("depth range:  %f -> %f\n", depthRange.x, depthRange.y);
+
+	//depthRange = make_float2(0.95f, 5.0f);
+
+	PROFILER_END(PROFILER_POSTPROCESS);
+	PROFILER_BEGIN(PROFILER_VISUALIZE);
+
+	// apply color mapping to depth image
 	if( CUDA_FAILED(cudaColormap(mOutputs[0].CUDA, depth_width, depth_height,
-						    (float4*)output, width, height,
-						    make_float2(0.0f, 20.0f),	// range???
-						    colormap, filter, GetStream())) )
+						    (float4*)output, output_width, output_height,
+						    depthRange, colormap, filter, GetStream())) )
 	{
 		printf("depthNet::Process() -- failed to map depth image with cudaColormap()\n");
 		return false; 
 	}
 
-	PROFILER_END(PROFILER_POSTPROCESS);
-
+	PROFILER_END(PROFILER_VISUALIZE);
 	return true;
 }
+
+// Process
+bool depthNet::Process( float* input, float* output, uint32_t width, uint32_t height, cudaColormapType colormap, cudaFilterMode filter )
+{
+	return Process(input, width, height, output, width, height, colormap, filter);
+}
+
 

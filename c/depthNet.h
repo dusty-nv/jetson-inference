@@ -32,13 +32,13 @@
  * Name of default input blob for depthNet model.
  * @ingroup depthNet
  */
-#define DEPTHNET_DEFAULT_INPUT   "data"
+#define DEPTHNET_DEFAULT_INPUT   "input_0"
 
 /**
  * Name of default output blob for depthNet model.
  * @ingroup depthNet
  */
-#define DEPTHNET_DEFAULT_OUTPUT  "prob"
+#define DEPTHNET_DEFAULT_OUTPUT  "output_0"
 
 
 /**
@@ -88,7 +88,7 @@ public:
 	/**
 	 * Load a new network instance
 	 */
-	static depthNet* Create( NetworkType networkType=RESNET_18, uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+	static depthNet* Create( NetworkType networkType=MOBILENET, uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
 						precisionType precision=TYPE_FASTEST,
 				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
@@ -128,6 +128,14 @@ public:
 	 * Process an RGBA image and map the depth image with the specified colormap.
 	 */
 	bool Process( float* input, float* output, uint32_t width, uint32_t height, 
+			    cudaColormapType colormap=COLORMAP_DEFAULT,
+			    cudaFilterMode filter=FILTER_LINEAR );
+
+	/**
+	 * Process an RGBA image and map the depth image with the specified colormap.
+	 */
+	bool Process( float* input, uint32_t input_width, uint32_t input_height,
+			    float* output, uint32_t output_width, uint32_t output_height, 
 			    cudaColormapType colormap=COLORMAP_DEFAULT,
 			    cudaFilterMode filter=FILTER_LINEAR );
 
