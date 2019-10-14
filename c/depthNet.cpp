@@ -232,7 +232,7 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 
 	for( int y=0; y < depth_height; y++ )
 	{
-		for( int x=0; x < depth_height; x++ )
+		for( int x=0; x < depth_width; x++ )
 		{
 			const float depth = mOutputs[0].CPU[y * depth_width + x];
 
