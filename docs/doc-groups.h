@@ -59,6 +59,12 @@
  */
 
 /**
+ * @defgroup flowNet flowNet
+ * Dense optical flow estimation DNN.
+ * @ingroup deepVision
+ */
+
+/**
  * @defgroup util Utilities Library (jetson-utils)
  * Tools and utilities for camera streaming, codecs, display, and visualization.
  */
