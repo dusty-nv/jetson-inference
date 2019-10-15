@@ -9,6 +9,7 @@ add_subdirectory(depthnet-console)
 add_subdirectory(depthnet-camera)
 
 add_subdirectory(flownet-console)
+add_subdirectory(flownet-camera)
 
 add_subdirectory(segnet-console)
 add_subdirectory(segnet-camera)
