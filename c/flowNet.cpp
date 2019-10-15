@@ -49,9 +49,11 @@ flowNet::NetworkType flowNet::NetworkTypeFromStr( const char* modelName )
 	flowNet::NetworkType type = flowNet::FLOW_320x240;
 
 	// ONNX models
-	if( strcasecmp(modelName, "optical-flow-320x240") == 0 || strcasecmp(modelName, "flow-320x240") == 0 || strcasecmp(modelName, "flow-320x240") == 0 || strcasecmp(modelName, "flow_320x240") == 0 || strcasecmp(modelName, "320x240") == 0 || strcasecmp(modelName, "flow") == 0 )
+	if( strcasecmp(modelName, "flow-320x240") == 0 || strcasecmp(modelName, "flow-320x240") == 0 || strcasecmp(modelName, "flow_320x240") == 0 || strcasecmp(modelName, "optical-flow-320x240") == 0 || strcasecmp(modelName, "320x240") == 0 || strcasecmp(modelName, "flow") == 0 )
 		type = flowNet::FLOW_320x240;
-	else if( strcasecmp(modelName, "optical-flow-640x480") == 0 || strcasecmp(modelName, "flow-640x480") == 0 || strcasecmp(modelName, "flow_640x480") == 0 || strcasecmp(modelName, "640x480") == 0 )
+	else if( strcasecmp(modelName, "flow-512x384") == 0 || strcasecmp(modelName, "flow_512x384") == 0 || strcasecmp(modelName, "optical-flow-512x384") == 0 || strcasecmp(modelName, "512x384") == 0 )
+		type = flowNet::FLOW_512x384;
+	else if( strcasecmp(modelName, "flow-640x480") == 0 || strcasecmp(modelName, "flow_640x480") == 0 || strcasecmp(modelName, "optical-flow-640x480") == 0 || strcasecmp(modelName, "640x480") == 0 )
 		type = flowNet::FLOW_640x480;
 	else
 		type = flowNet::CUSTOM;
@@ -66,6 +68,7 @@ const char* flowNet::NetworkTypeToStr( flowNet::NetworkType type )
 	switch(type)
 	{
 		case FLOW_320x240:	return "Optical-Flow-320x240";
+		case FLOW_512x384:	return "Optical-Flow-512x384";
 		case FLOW_640x480:	return "Optical-Flow-640x480";
 		default:			return "Custom";
 	}
@@ -80,6 +83,8 @@ flowNet* flowNet::Create( flowNet::NetworkType networkType, uint32_t maxBatchSiz
 	
 	if( networkType == FLOW_320x240 )
 		net = Create("networks/FlowNet-320x240/flownets.onnx", FLOWNET_DEFAULT_INPUT, FLOWNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
+	else if( networkType == FLOW_512x384 )
+		net = Create("networks/FlowNet-512x384/flownets.onnx", FLOWNET_DEFAULT_INPUT, FLOWNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);	
 	else if( networkType == FLOW_640x480 )
 		net = Create("networks/FlowNet-640x480/flownets.onnx", FLOWNET_DEFAULT_INPUT, FLOWNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
 
@@ -197,7 +202,7 @@ bool flowNet::Process( float* prev_image, float* next_image, uint32_t width, uin
 		}
 
 		// the next frame gets put in channels 3,4,5
-		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)prev_image, width, height, 
+		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)next_image, width, height, 
 										   mInputCUDA + mWidth * mHeight * 3, 
 										   mWidth, mHeight, range, mean, stdDev, 
 										   GetStream())) )
@@ -296,8 +301,8 @@ bool flowNet::Visualize( float* flow_map, uint32_t width, uint32_t height, cudaF
 
 	// apply color mapping to depth image
 	if( CUDA_FAILED(cudaColormap(GetFlowField(), flow_width, flow_height,
-						    (float4*)flow_map, width, height,
-						    flow_range, COLORMAP_FLOW, filter, GetStream())) )
+						    (float4*)flow_map, width, height, flow_range, 
+						    COLORMAP_FLOW, filter, FORMAT_CHW, GetStream())) )
 	{
 		printf("flowNet::Process() -- failed to map depth image with cudaColormap()\n");
 		return false; 

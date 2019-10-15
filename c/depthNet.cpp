@@ -228,7 +228,7 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 	const int depth_channels = DIMS_C(mOutputs[0].dims);
 
 	// find the min/max depth range
-	float2 depthRange = make_float2(100000000.0f, -100000000.0f);
+	float2 range = make_float2(100000000.0f, -100000000.0f);
 
 	for( int y=0; y < depth_height; y++ )
 	{
@@ -236,16 +236,16 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 		{
 			const float depth = mOutputs[0].CPU[y * depth_width + x];
 
-			if( depth < depthRange.x )
-				depthRange.x = depth;
+			if( depth < range.x )
+				range.x = depth;
 
-			if( depth > depthRange.y )
-				depthRange.y = depth;
+			if( depth > range.y )
+				range.y = depth;
 		}
 	}
 
 	//printf("depth image:  %i x %i x %i\n", depth_width, depth_height, depth_channels);
-	printf("depth range:  %f -> %f\n", depthRange.x, depthRange.y);
+	printf("depth range:  %f -> %f\n", range.x, range.y);
 
 	//depthRange = make_float2(0.95f, 5.0f);
 
@@ -255,7 +255,7 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 	// apply color mapping to depth image
 	if( CUDA_FAILED(cudaColormap(mOutputs[0].CUDA, depth_width, depth_height,
 						    (float4*)output, output_width, output_height,
-						    depthRange, colormap, filter, GetStream())) )
+						    range, colormap, filter, FORMAT_DEFAULT, GetStream())) )
 	{
 		printf("depthNet::Process() -- failed to map depth image with cudaColormap()\n");
 		return false; 

@@ -69,6 +69,7 @@ public:
 	{
 		CUSTOM,         /**< Custom model provided by the user */
 		FLOW_320x240,	 /**< Dense optical flow model (320x240) */
+		FLOW_512x384,	 /**< Dense optical flow model (512x384) */
 		FLOW_640x480	 /**< Dense optical flow model (640x480) */
 	};
 
