@@ -111,7 +111,7 @@ int main( int argc, char** argv )
 
 	if( !net )
 	{
-		printf("depthnet-console:   failed to initialize depthNet\n");
+		printf("depthnet-camera:   failed to initialize depthNet\n");
 		return 0;
 	}
 
@@ -129,7 +129,7 @@ int main( int argc, char** argv )
 
 	if( CUDA_FAILED(cudaMalloc((void**)&imgDepth, width/2 * height/2 * sizeof(float) * 4)) )
 	{
-		printf("depthnet-console:  failed to allocate CUDA memory for output image (%ix%i)\n", width, height);
+		printf("depthnet-camera:  failed to allocate CUDA memory for output image (%ix%i)\n", width, height);
 		return 0;
 	}
 	
@@ -158,22 +158,20 @@ int main( int argc, char** argv )
 	/*
 	 * processing loop
 	 */
-	float confidence = 0.0f;
-	
 	while( !signal_recieved )
 	{
 		// capture RGBA image
 		float* imgRGBA = NULL;
 		
 		if( !camera->CaptureRGBA(&imgRGBA, 1000, true) )
-			printf("depthnet-camera:  failed to convert from NV12 to RGBA\n");
+			printf("depthnet-camera:  failed to capture image\n");
 
 		// process the depth mapping
 		if( !net->Process(imgRGBA, width, height, 
 					   imgDepth, width/2, height/2, 
 					   colormap, filterMode) )
 		{
-			printf("segnet-console:  failed to process depth map\n");
+			printf("depthnet-camera:  failed to process depth map\n");
 			continue;
 		}
 		
