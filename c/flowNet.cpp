@@ -180,7 +180,7 @@ bool flowNet::Process( float* prev_image, float* next_image, uint32_t width, uin
 {
 	if( !prev_image || !next_image || width == 0 || height == 0 )
 	{
-		printf("flowNet::Process( 0x%p, 0x%p, %u, %u ) -> invalid parameters\n", prev_image, next_image, width, height);
+		printf(LOG_TRT "flowNet::Process( 0x%p, 0x%p, %u, %u ) -> invalid parameters\n", prev_image, next_image, width, height);
 		return false;
 	}
 
@@ -213,7 +213,7 @@ bool flowNet::Process( float* prev_image, float* next_image, uint32_t width, uin
 	}
 	else
 	{
-		printf("flowNet::Process() -- support for models other than ONNX not implemented.\n");
+		printf(LOG_TRT "flowNet::Process() -- support for models other than ONNX not implemented.\n");
 		return false;
 	}
 
@@ -262,7 +262,7 @@ bool flowNet::Visualize( float* flow_map, uint32_t width, uint32_t height, cudaF
 {
 	if( !flow_map || width == 0 || height == 0 )
 	{
-		printf("flowNet::Process( 0x%p, %u, %u ) -> invalid parameters\n", flow_map, width, height);
+		printf(LOG_TRT "flowNet::Process( 0x%p, %u, %u ) -> invalid parameters\n", flow_map, width, height);
 		return false;
 	}
 
@@ -296,15 +296,25 @@ bool flowNet::Visualize( float* flow_map, uint32_t width, uint32_t height, cudaF
 
 	printf("flow range:  %f -> %f\n", flow_range.x, flow_range.y);
 
+	const float min_range = 5.0f;
+
+	if( fabs(flow_range.x) < min_range )
+		flow_range.x = -min_range;
+
+	if( fabs(flow_range.y) < min_range )
+		flow_range.y = min_range;
+
+	printf("adap range:  %f -> %f\n", flow_range.x, flow_range.y);
+
 	PROFILER_END(PROFILER_POSTPROCESS);
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 
 	// apply color mapping to depth image
 	if( CUDA_FAILED(cudaColormap(GetFlowField(), flow_width, flow_height,
-						    (float4*)flow_map, width, height, flow_range, 
-						    COLORMAP_FLOW, filter, FORMAT_CHW, GetStream())) )
+						    flow_map, width, height, flow_range, COLORMAP_FLOW, 
+						    filter, FORMAT_CHW, GetStream())) )
 	{
-		printf("flowNet::Process() -- failed to map depth image with cudaColormap()\n");
+		printf(LOG_TRT "flowNet::Process() -- failed to map flow field with cudaColormap()\n");
 		return false; 
 	}
 
