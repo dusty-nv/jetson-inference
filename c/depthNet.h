@@ -125,7 +125,14 @@ public:
 	virtual ~depthNet();
 	
 	/**
+	 * Compute the depth field from a monocular RGBA image.
+	 * @note the raw depth field can be retrieved with GetDepthField().
+	 */
+	bool Process( float* input, uint32_t width, uint32_t height );
+
+	/**
 	 * Process an RGBA image and map the depth image with the specified colormap.
+	 * @note this function calls Process() followed by Visualize().
 	 */
 	bool Process( float* input, float* output, uint32_t width, uint32_t height, 
 			    cudaColormapType colormap=COLORMAP_DEFAULT,
@@ -133,11 +140,68 @@ public:
 
 	/**
 	 * Process an RGBA image and map the depth image with the specified colormap.
+	 * @note this function calls Process() followed by Visualize().
 	 */
 	bool Process( float* input, uint32_t input_width, uint32_t input_height,
 			    float* output, uint32_t output_width, uint32_t output_height, 
 			    cudaColormapType colormap=COLORMAP_DEFAULT,
 			    cudaFilterMode filter=FILTER_LINEAR );
+
+	/**
+	 * Visualize the raw depth field into a colorized RGBA depth map.
+	 * @note Visualize() should only be called after Process()
+	 */
+	bool Visualize( float* depth_map, uint32_t width, uint32_t height,
+				 cudaColormapType colormap=COLORMAP_DEFAULT, 
+				 cudaFilterMode filter=FILTER_LINEAR );
+
+	/**
+	 * Extract and save the point cloud to a PCD file (depth only).
+	 * @note SavePointCloud() should only be called after Process()
+	 */
+	bool SavePointCloud( const char* filename );
+
+	/**
+	 * Extract and save the point cloud to a PCD file (depth + RGB).
+	 * @note SavePointCloud() should only be called after Process()
+	 */
+	bool SavePointCloud( const char* filename, float* rgba, uint32_t width, uint32_t height );
+
+	/**
+	 * Extract and save the point cloud to a PCD file (depth + RGB).
+	 * @note SavePointCloud() should only be called after Process()
+	 */
+	bool SavePointCloud( const char* filename, float* rgba, uint32_t width, uint32_t height,
+					 const float2& focalLength, const float2& principalPoint );
+
+	/**
+	 * Extract and save the point cloud to a PCD file (depth + RGB).
+	 * @note SavePointCloud() should only be called after Process()
+	 */
+	bool SavePointCloud( const char* filename, float* rgba, uint32_t width, uint32_t height,
+					 const float intrinsicCalibration[3][3] );
+
+	/**
+	 * Extract and save the point cloud to a PCD file (depth + RGB).
+	 * @note SavePointCloud() should only be called after Process()
+	 */
+	bool SavePointCloud( const char* filename, float* rgba, uint32_t width, uint32_t height,
+					 const char* intrinsicCalibrationPath );
+
+	/**
+	 * Return the raw depth field.
+	 */
+	inline float* GetDepthField() const						{ return mOutputs[0].CUDA; }
+
+	/**
+	 * Return the width of the depth field.
+	 */
+	inline uint32_t GetDepthFieldWidth() const					{ return DIMS_W(mOutputs[0].dims); }
+
+	/**
+	 * Return the height of the depth field
+	 */
+	inline uint32_t GetDepthFieldHeight() const					{ return DIMS_H(mOutputs[0].dims); }
 
 	/**
 	 * Retrieve the network type (alexnet or googlenet)
@@ -153,6 +217,7 @@ protected:
 	depthNet();
 	
 	NetworkType mNetworkType;
+	float2      mDepthRange;
 };
 
 

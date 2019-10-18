@@ -24,6 +24,9 @@
 #include "imageNet.cuh"
 
 #include "commandLine.h"
+#include "cudaMappedMemory.h"
+
+#include "mat33.h"
 
 
 // constructor
@@ -176,13 +179,11 @@ depthNet* depthNet::Create( int argc, char** argv )
 
 
 // Process
-bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_height,
-				    float* output, uint32_t output_width, uint32_t output_height, 
-                        cudaColormapType colormap, cudaFilterMode filter )
+bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_height )
 {
-	if( !input || !output || input_width == 0 || input_height == 0 || output_width == 0 || output_height == 0 )
+	if( !input || input_width == 0 || input_height == 0 )
 	{
-		printf("depthNet::Process( 0x%p, 0x%p, %u, %u ) -> invalid parameters\n", input, output, input_width, input_height);
+		printf(LOG_TRT "depthNet::Process( 0x%p, %u, %u ) -> invalid parameters\n", input, input_width, input_height);
 		return false;
 	}
 
@@ -204,7 +205,7 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 	}
 	else
 	{
-		printf("depthNet::Process() -- support for models other than ONNX not implemented.\n");
+		printf(LOG_TRT "depthNet::Process() -- support for models other than ONNX not implemented.\n");
 		return false;
 	}
 
@@ -223,12 +224,11 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 	PROFILER_END(PROFILER_NETWORK);
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
-	const int depth_width = DIMS_W(mOutputs[0].dims);
-	const int depth_height = DIMS_H(mOutputs[0].dims);
-	const int depth_channels = DIMS_C(mOutputs[0].dims);
+	const int depth_width = GetDepthFieldWidth();
+	const int depth_height = GetDepthFieldHeight();
 
 	// find the min/max depth range
-	float2 range = make_float2(100000000.0f, -100000000.0f);
+	mDepthRange = make_float2(100000000.0f, -100000000.0f);
 
 	for( int y=0; y < depth_height; y++ )
 	{
@@ -236,28 +236,62 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 		{
 			const float depth = mOutputs[0].CPU[y * depth_width + x];
 
-			if( depth < range.x )
-				range.x = depth;
+			if( depth < mDepthRange.x )
+				mDepthRange.x = depth;
 
-			if( depth > range.y )
-				range.y = depth;
+			if( depth > mDepthRange.y )
+				mDepthRange.y = depth;
 		}
 	}
 
-	//printf("depth image:  %i x %i x %i\n", depth_width, depth_height, depth_channels);
-	printf("depth range:  %f -> %f\n", range.x, range.y);
-
+	printf("depth range:  %f -> %f\n", mDepthRange.x, mDepthRange.y);
 	//depthRange = make_float2(0.95f, 5.0f);
 
 	PROFILER_END(PROFILER_POSTPROCESS);
+	return true;
+}
+
+
+// Process
+bool depthNet::Process( float* input, float* output, uint32_t width, uint32_t height, cudaColormapType colormap, cudaFilterMode filter )
+{
+	return Process(input, width, height, output, width, height, colormap, filter);
+}
+
+
+// Process
+bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_height,
+				    float* output, uint32_t output_width, uint32_t output_height, 
+                        cudaColormapType colormap, cudaFilterMode filter )
+{
+	if( !Process(input, input_width, input_height) )
+		return false;
+
+	if( !Visualize(output, output_width, output_height, colormap, filter) )
+		return false;
+
+	return true;
+}
+
+
+// Visualize
+bool depthNet::Visualize( float* output, uint32_t output_width, uint32_t output_height,
+				 	 cudaColormapType colormap, cudaFilterMode filter )
+{
+	if( !output || output_width == 0 || output_height == 0 )
+	{
+		printf(LOG_TRT "depthNet::Visualize( 0x%p, %u, %u ) -> invalid parameters\n", output, output_width, output_height);
+		return false;
+	}
+
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 
 	// apply color mapping to depth image
-	if( CUDA_FAILED(cudaColormap(mOutputs[0].CUDA, depth_width, depth_height,
-						    (float4*)output, output_width, output_height,
-						    range, colormap, filter, FORMAT_DEFAULT, GetStream())) )
+	if( CUDA_FAILED(cudaColormap(GetDepthField(), GetDepthFieldWidth(), GetDepthFieldHeight(),
+						    output, output_width, output_height, mDepthRange, 
+						    colormap, filter, FORMAT_DEFAULT, GetStream())) )
 	{
-		printf("depthNet::Process() -- failed to map depth image with cudaColormap()\n");
+		printf(LOG_TRT "depthNet::Visualize() -- failed to map depth image with cudaColormap()\n");
 		return false; 
 	}
 
@@ -265,10 +299,192 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 	return true;
 }
 
-// Process
-bool depthNet::Process( float* input, float* output, uint32_t width, uint32_t height, cudaColormapType colormap, cudaFilterMode filter )
+
+// SavePointCloud
+bool depthNet::SavePointCloud( const char* filename, float* imgRGBA, uint32_t width, uint32_t height,
+						 const float2& focalLength, const float2& principalPoint )
 {
-	return Process(input, width, height, output, width, height, colormap, filter);
+	if( !filename || width == 0 || height == 0 )
+	{
+		printf(LOG_TRT "depthNet::SavePointCloud() -- invalid parameters\n");
+		return false;
+	}
+
+	const bool has_rgb = (imgRGBA != NULL);
+	const uint32_t numPoints = width * height;
+
+	// create the PCD file
+	FILE* file = fopen(filename, "w");
+
+	if( !file )
+	{
+		printf(LOG_TRT "depthNet::SavePointCloud() -- failed to create %s\n", filename);
+		return false;
+	}
+
+	// write the PCD header
+	fprintf(file, "# .PCD v0.7 - Point Cloud Data file format\n");
+	fprintf(file, "VERSION 0.7\n");
+
+	if( has_rgb )
+	{
+		fprintf(file, "FIELDS x y z rgb\n");
+		fprintf(file, "SIZE 4 4 4 4\n");
+		fprintf(file, "TYPE F F F U\n");
+	}
+	else
+	{
+		fprintf(file, "FIELDS x y z\n");
+		fprintf(file, "SIZE 4 4 4\n");
+		fprintf(file, "TYPE F F F\n");
+	}
+
+	fprintf(file, "COUNT 1 1 1 1\n");
+	fprintf(file, "WIDTH %u\n", numPoints);
+	fprintf(file, "HEIGHT 1\n");
+	fprintf(file, "VIEWPOINT 0 0 0 1 0 0 0\n");
+	fprintf(file, "POINTS %u\n", numPoints);
+	fprintf(file, "DATA ascii\n");
+
+	// if RGB mode, upsample the depth field to match
+	float* depthField = NULL;
+
+	if( has_rgb )
+	{
+		if( !cudaAllocMapped((void**)&depthField, numPoints * sizeof(float)) )
+		{
+			printf(LOG_TRT "depthNet::SavePointCloud() -- failed to allocate CUDA memory for depth field (%u points)\n", numPoints);
+			return false;
+		}
+
+		if( !Visualize(depthField, width, height, COLORMAP_NONE, FILTER_LINEAR) )
+		{
+			printf(LOG_TRT "depthNet::SavePointCloud() -- failed to upsample depth field\n");
+			return false;
+		}
+
+		CUDA(cudaDeviceSynchronize());
+	}
+
+	// extract the point cloud
+	for( int y=0; y < height; y++ )
+	{
+		for( int x=0; x < width; x++ )
+		{
+			const float depth = depthField[y * width + x];
+
+			const float p_x = (float(x) - principalPoint.x) * depth / focalLength.x;
+			const float p_y = (float(y) - principalPoint.y) * depth / focalLength.y * -1.0f;
+			const float p_z = depth * -1.0f;	// invert y/z for model viewing
+
+			fprintf(file, "%f %f %f", p_x, p_y, p_z);
+
+			if( has_rgb )
+			{
+				const float4 rgba = ((float4*)imgRGBA)[y * width + x];
+				const uint32_t rgb = (uint32_t(rgba.x) << 16 |
+		      					  uint32_t(rgba.y) << 8 | 
+								  uint32_t(rgba.z));
+			
+				fprintf(file, " %u", rgb);
+			}
+
+			fprintf(file, "\n");
+		}
+	}
+
+	// free resources
+	if( has_rgb && depthField != NULL )
+		CUDA(cudaFreeHost(depthField));
+	
+	fclose(file);
+	return true;
+}
+
+
+// SavePointCloud
+bool depthNet::SavePointCloud( const char* filename )
+{
+	return SavePointCloud(filename, NULL, GetDepthFieldWidth(), GetDepthFieldHeight());
+}
+
+
+// SavePointCloud
+bool depthNet::SavePointCloud( const char* filename, float* rgba, uint32_t width, uint32_t height )
+{
+	const float f_w = (float)width;
+	const float f_h = (float)height;
+
+	return SavePointCloud(filename, rgba, width, height, make_float2(f_h, f_h),
+					  make_float2(f_w * 0.5f, f_h * 0.5f));
+}
+
+
+// SavePointCloud
+bool depthNet::SavePointCloud( const char* filename, float* rgba, uint32_t width, uint32_t height,
+					 	 const float intrinsicCalibration[3][3] )
+{
+	return SavePointCloud(filename, rgba, width, height,
+					  make_float2(intrinsicCalibration[0][0], intrinsicCalibration[1][1]),
+					  make_float2(intrinsicCalibration[0][2], intrinsicCalibration[1][2]));
+}
+
+// SavePointCloud
+bool depthNet::SavePointCloud( const char* filename, float* rgba, uint32_t width, uint32_t height,
+					 	 const char* intrinsicCalibrationPath )
+{
+	if( !intrinsicCalibrationPath )
+		return SavePointCloud(filename, rgba, width, height);
+
+	// open the camera calibration file
+	FILE* file = fopen(intrinsicCalibrationPath, "r");
+
+	if( !file )
+	{
+		printf(LOG_TRT "depthNet::SavePointCloud() -- failed to open calibration file %s\n", intrinsicCalibrationPath);
+		return false;
+	}
+ 
+	// parse the 3x3 calibration matrix
+	float K[3][3];
+
+	for( int n=0; n < 3; n++ )
+	{
+		char str[512];
+
+		if( !fgets(str, 512, file) )
+		{
+			printf(LOG_TRT "depthNet::SavePointCloud() -- failed to read line %i from calibration file %s\n", n+1, intrinsicCalibrationPath);
+			return false;
+		}
+
+		const int len = strlen(str);
+
+		if( len <= 0 )
+		{
+			printf(LOG_TRT "depthNet::SavePointCloud() -- invalid line %i from calibration file %s\n", n+1, intrinsicCalibrationPath);
+			return false;
+		}
+
+		if( str[len-1] == '\n' )
+			str[len-1] = 0;
+
+		if( sscanf(str, "%f %f %f", &K[n][0], &K[n][1], &K[n][2]) != 3 )
+		{
+			printf(LOG_TRT "depthNet::SavePointCloud() -- failed to parse line %i from calibration file %s\n", n+1, intrinsicCalibrationPath);
+			return false;
+		}
+	}
+
+	// close the file
+	fclose(file);
+
+	// dump the matrix
+	printf(LOG_TRT "depthNet::SavePointCloud() -- loaded intrinsic camera calibration from %s\n", intrinsicCalibrationPath);
+	mat33_print(K, "K");
+
+	// proceed with processing the point cloud
+	return SavePointCloud(filename, rgba, width, height, K);
 }
 
 

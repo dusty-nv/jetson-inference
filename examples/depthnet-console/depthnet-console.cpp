@@ -143,6 +143,20 @@ int main( int argc, char** argv )
 
 	
 	/*
+	 * save point cloud
+	 */
+	const char* pointCloudFilename = cmdLine.GetString("point-cloud");
+
+	if( pointCloudFilename != NULL )
+	{
+		printf("depthnet-console:  saving point cloud to '%s'\n", pointCloudFilename);
+		
+		if( !net->SavePointCloud(pointCloudFilename, imgCPU, imgWidth, imgHeight, cmdLine.GetString("calibration")) )
+			printf("depthnet-console:  failed to save point cloud to '%s'\n", pointCloudFilename);
+	}
+
+
+	/*
 	 * destroy resources
 	 */
 	printf("depthnet-console:  shutting down...\n");
