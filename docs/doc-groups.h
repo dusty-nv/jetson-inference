@@ -53,6 +53,12 @@
  */
 
 /**
+ * @defgroup stereoNet stereoNet
+ * Stereo disparity depth estimation.
+ * @ingroup deepVision
+ */
+
+/**
  * @defgroup depthNet depthNet
  * Depth estimation from monocular images.
  * @ingroup deepVision
