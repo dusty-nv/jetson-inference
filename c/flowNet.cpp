@@ -186,6 +186,9 @@ bool flowNet::Process( float* prev_image, float* next_image, uint32_t width, uin
 
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
+	const uint32_t inputWidth = GetInputWidth();
+	const uint32_t inputHeight = GetInputHeight();
+
 	if( IsModelType(MODEL_ONNX) )
 	{
 		const float2 range  = make_float2(0.0f, 1.0f);			// remap from [0,255] -> [0,1]
@@ -194,7 +197,7 @@ bool flowNet::Process( float* prev_image, float* next_image, uint32_t width, uin
 
 		// the previous frame gets put in channels 0,1,2
 		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)prev_image, width, height, 
-										   mInputCUDA, mWidth, mHeight, 
+										   mInputs[0].CUDA, inputWidth, inputHeight, 
 										   range, mean, stdDev, GetStream())) )
 		{
 			printf(LOG_TRT "flowNet::Process() -- failed to pre-process prev_image\n");
@@ -203,9 +206,9 @@ bool flowNet::Process( float* prev_image, float* next_image, uint32_t width, uin
 
 		// the next frame gets put in channels 3,4,5
 		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)next_image, width, height, 
-										   mInputCUDA + mWidth * mHeight * 3, 
-										   mWidth, mHeight, range, mean, stdDev, 
-										   GetStream())) )
+										   mInputs[0].CUDA + inputWidth * inputHeight * 3, 
+										   inputWidth, inputHeight,
+										   range, mean, stdDev, GetStream())) )
 		{
 			printf(LOG_TRT "flowNet::Process() -- failed to pre-process next_image\n");
 			return false;
@@ -221,13 +224,8 @@ bool flowNet::Process( float* prev_image, float* next_image, uint32_t width, uin
 	PROFILER_BEGIN(PROFILER_NETWORK);
 	
 	// process with TensorRT
-	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
-	
-	if( !mContext->execute(1, inferenceBuffers) )
-	{
-		printf(LOG_TRT "flowNet::Process() -- failed to execute TensorRT context\n");
+	if( !ProcessNetwork() )
 		return false;
-	}
 
 	PROFILER_END(PROFILER_NETWORK);
 	return true;

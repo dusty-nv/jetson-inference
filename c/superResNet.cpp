@@ -95,7 +95,7 @@ bool superResNet::UpscaleRGBA( float* input, uint32_t inputWidth, uint32_t input
 	 * convert input image to NCHW format and with pixel range 0.0-1.0f
 	 */
 	if( CUDA_FAILED(cudaPreSuperResNet((float4*)input, inputWidth, inputHeight,
-								mInputCUDA, GetInputWidth(), GetInputHeight(), 
+								mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
 								maxPixelValue, GetStream())) )
 	{
 		printf(LOG_TRT "superResNet::UpscaleRGBA() -- cudaPreSuperResNet() failed\n");
@@ -108,13 +108,8 @@ bool superResNet::UpscaleRGBA( float* input, uint32_t inputWidth, uint32_t input
 	/*
 	 * perform the inferencing
  	 */
-	void* bindBuffers[] = { mInputCUDA, mOutputs[0].CUDA };	
-
-	if( !mContext->execute(1, bindBuffers) )
-	{
-		printf(LOG_TRT "superResNet::UpscaleRGBA() -- failed to execute TensorRT network\n");
+	if( !ProcessNetwork() )
 		return false;
-	}
 
 	PROFILER_END(PROFILER_NETWORK);
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);

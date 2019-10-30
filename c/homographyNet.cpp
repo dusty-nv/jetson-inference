@@ -247,7 +247,8 @@ bool homographyNet::FindDisplacement( float* imageA, float* imageB, uint32_t wid
 	 * convert/rescale the individual RGBA images into grayscale planar format
 	 */
 	if( CUDA_FAILED(cudaPreHomographyNet((float4*)imageA, (float4*)imageB, width, height,
-								  mInputCUDA, mWidth, mHeight, GetStream())) )
+								  mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
+								  GetStream())) )
 	{
 		printf(LOG_TRT "homographyNet::Process() -- cudaPreHomographyNet() failed\n");
 		return false;
@@ -259,13 +260,8 @@ bool homographyNet::FindDisplacement( float* imageA, float* imageB, uint32_t wid
 	/*
 	 * perform the inferencing
  	 */
-	void* bindBuffers[] = { mInputCUDA, mOutputs[0].CUDA };	
-
-	if( !mContext->execute(1, bindBuffers) )
-	{
-		printf(LOG_TRT "homographyNet::Process() -- failed to execute TensorRT network\n");
+	if( !ProcessNetwork() )
 		return false;
-	}
 
 	PROFILER_END(PROFILER_NETWORK);
 
@@ -311,6 +307,9 @@ bool homographyNet::ComputeHomography( const float displacement[8], float H[3][3
 #ifdef HAS_HOMOGRAPHY_NET
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
+	const uint32_t width = GetInputWidth();
+	const uint32_t height = GetInputHeight();
+
 	/*
 	 * translate the x/y displacements back into corner points
 	 */
@@ -320,10 +319,10 @@ bool homographyNet::ComputeHomography( const float displacement[8], float H[3][3
 	pts1.resize(4);
 	pts2.resize(4);
 
-	pts1[0].x = 0.0f;    pts1[0].y = 0.0f;
-	pts1[1].x = mWidth;  pts1[1].y = 0.0f;
-	pts1[2].x = mWidth;  pts1[2].y = mHeight;
-	pts1[3].x = 0.0f;    pts1[3].y = mHeight;
+	pts1[0].x = 0.0f;   pts1[0].y = 0.0f;
+	pts1[1].x = width;  pts1[1].y = 0.0f;
+	pts1[2].x = width;  pts1[2].y = height;
+	pts1[3].x = 0.0f;   pts1[3].y = height;
 
 	for( uint32_t n=0; n < 4; n++ )
 	{

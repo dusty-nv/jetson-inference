@@ -633,8 +633,9 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 
 	if( IsModelType(MODEL_UFF) )
 	{
-		if( CUDA_FAILED(cudaPreImageNetNormBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
-										  make_float2(-1.0f, 1.0f), GetStream())) )
+		if( CUDA_FAILED(cudaPreImageNetNormBGR((float4*)rgba, width, height, 
+									    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+									    make_float2(-1.0f, 1.0f), GetStream())) )
 		{
 			printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNetNorm() failed\n");
 			return -1;
@@ -643,7 +644,8 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 	else if( IsModelType(MODEL_ONNX) )
 	{
 		// downsample, convert to band-sequential RGB, and apply pixel normalization, mean pixel subtraction and standard deviation
-		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, 
+		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height,
+										   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
 										   make_float2(0.0f, 1.0f), 
 										   make_float3(0.485f, 0.456f, 0.406f),
 										   make_float3(0.229f, 0.224f, 0.225f), 
@@ -657,8 +659,10 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 	{
 		if( mMeanPixel != 0.0f )
 		{
-			if( CUDA_FAILED(cudaPreImageNetMeanBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
-										  make_float3(mMeanPixel, mMeanPixel, mMeanPixel), GetStream())) )
+			if( CUDA_FAILED(cudaPreImageNetMeanBGR((float4*)rgba, width, height,
+										    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+										    make_float3(mMeanPixel, mMeanPixel, mMeanPixel), 
+										    GetStream())) )
 			{
 				printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNetMean() failed\n");
 				return -1;
@@ -666,7 +670,9 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 		}
 		else
 		{
-			if( CUDA_FAILED(cudaPreImageNetBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
+			if( CUDA_FAILED(cudaPreImageNetBGR((float4*)rgba, width, height, 
+										mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+										GetStream())) )
 			{
 				printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNet() failed\n");
 				return -1;
@@ -678,13 +684,16 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 	PROFILER_BEGIN(PROFILER_NETWORK);
 
 	// process with TensorRT
-	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA, mOutputs[1].CUDA };
+	/*void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA, mOutputs[1].CUDA };
 	
 	if( !mContext->execute(1, inferenceBuffers) )
 	{
 		printf(LOG_TRT "detectNet::Detect() -- failed to execute TensorRT context\n");
 		return -1;
-	}
+	}*/
+
+	if( !ProcessNetwork() )
+		return -1;
 	
 	PROFILER_END(PROFILER_NETWORK);
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
@@ -826,11 +835,11 @@ int detectNet::clusterDetections( Detection* detections, uint32_t width, uint32_
 	const int owh = ow * oh;							// total number of bbox in grid
 	const int cls = GetNumClasses();					// number of object classes in coverage map
 	
-	const float cell_width  = /*width*/ DIMS_W(mInputDims) / ow;
-	const float cell_height = /*height*/ DIMS_H(mInputDims) / oh;
+	const float cell_width  = /*width*/ GetInputWidth() / ow;
+	const float cell_height = /*height*/ GetInputHeight() / oh;
 	
-	const float scale_x = float(width) / float(DIMS_W(mInputDims));
-	const float scale_y = float(height) / float(DIMS_H(mInputDims));
+	const float scale_x = float(width) / float(GetInputWidth());
+	const float scale_y = float(height) / float(GetInputHeight());
 
 #ifdef DEBUG_CLUSTERING	
 	printf("input width %i height %i\n", (int)DIMS_W(mInputDims), (int)DIMS_H(mInputDims));

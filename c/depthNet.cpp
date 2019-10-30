@@ -193,7 +193,7 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 	{
 		// remap from [0,255] -> [0,1], no mean pixel subtraction or std dev applied
 		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)input, input_width, input_height, 
-										   mInputCUDA, mWidth, mHeight, 
+										   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
 										   make_float2(0.0f, 1.0f), 
 										   make_float3(0.0f, 0.0f, 0.0f),
 										   make_float3(1.0f, 1.0f, 1.0f), 
@@ -213,13 +213,8 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 	PROFILER_BEGIN(PROFILER_NETWORK);
 	
 	// process with TensorRT
-	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
-	
-	if( !mContext->execute(1, inferenceBuffers) )
-	{
-		printf(LOG_TRT "depthNet::Process() -- failed to execute TensorRT context\n");
+	if( !ProcessNetwork() )
 		return false;
-	}
 
 	PROFILER_END(PROFILER_NETWORK);
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);

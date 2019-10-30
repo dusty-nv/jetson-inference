@@ -62,26 +62,6 @@ public:
 	bool UpscaleRGBA( float* input, float* output, float maxPixelValue=255.0f );
 
 	/**
-	 * Retrieve the width of the input image, in pixels.
-	 */
-	inline uint32_t GetInputWidth() const						{ return mWidth; }
-
-	/**
-	 * Retrieve the height of the input image, in pixels.
-	 */
-	inline uint32_t GetInputHeight() const						{ return mHeight; }
-
-	/**
-	 * Retrieve the width of the output image, in pixels.
-	 */
-	inline uint32_t GetOutputWidth() const						{ return DIMS_W(mOutputs[0].dims); }
-
-	/**
-	 * Retrieve the height of the output image, in pixels.
-	 */
-	inline uint32_t GetOutputHeight() const						{ return DIMS_H(mOutputs[0].dims); }
-
-	/**
 	 * Retrieve the scale factor between the input and output.
 	 */
 	inline uint32_t GetScaleFactor() const						{ return GetOutputWidth() / GetInputWidth(); }

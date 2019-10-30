@@ -610,7 +610,8 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 	if( IsModelType(MODEL_ONNX) )
 	{
 		// downsample, convert to band-sequential RGB, and apply pixel normalization, mean pixel subtraction and standard deviation
-		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, 
+		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height,
+										   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
 										   make_float2(0.0f, 1.0f), 
 										   make_float3(0.485f, 0.456f, 0.406f),
 										   make_float3(0.229f, 0.224f, 0.225f), 
@@ -623,7 +624,9 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 	else
 	{
 		// downsample and convert to band-sequential BGR
-		if( CUDA_FAILED(cudaPreImageNetBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
+		if( CUDA_FAILED(cudaPreImageNetBGR((float4*)rgba, width, height, 
+									mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+									GetStream())) )
 		{
 			printf("segNet::Process() -- cudaPreImageNetBGR() failed\n");
 			return false;
@@ -634,13 +637,8 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 	PROFILER_BEGIN(PROFILER_NETWORK);
 	
 	// process with TensorRT
-	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
-	
-	if( !mContext->execute(1, inferenceBuffers) )
-	{
-		printf(LOG_TRT "segNet::Process() -- failed to execute TensorRT context\n");
+	if( !ProcessNetwork() )
 		return false;
-	}
 
 	PROFILER_END(PROFILER_NETWORK);
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
@@ -672,8 +670,8 @@ bool segNet::classify( const char* ignore_class )
 		
 	//const float s_x = float(width) / float(s_w);		// TODO bug: this should use mWidth/mHeight dimensions, in case user dimensions are different
 	//const float s_y = float(height) / float(s_h);
-	const float s_x = float(s_w) / float(mWidth);
-	const float s_y = float(s_h) / float(mHeight);
+	const float s_x = float(s_w) / float(GetInputWidth());
+	const float s_y = float(s_h) / float(GetInputHeight());
 
 
 	// if desired, find the ID of the class to ignore (typically void)

@@ -400,7 +400,8 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 	if( mNetworkType == imageNet::INCEPTION_V4 )
 	{
 		// downsample, convert to band-sequential RGB, and apply pixel normalization
-		if( CUDA_FAILED(cudaPreImageNetNormRGB((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, 
+		if( CUDA_FAILED(cudaPreImageNetNormRGB((float4*)rgba, width, height,
+									    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
 									    make_float2(-1.0f, 1.0f), 
 									    GetStream())) )
 		{
@@ -411,7 +412,8 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 	else if( IsModelType(MODEL_ONNX) )
 	{
 		// downsample, convert to band-sequential RGB, and apply pixel normalization, mean pixel subtraction and standard deviation
-		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, 
+		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height, 
+										   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
 										   make_float2(0.0f, 1.0f), 
 										   make_float3(0.485f, 0.456f, 0.406f),
 										   make_float3(0.229f, 0.224f, 0.225f), 
@@ -424,7 +426,8 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 	else
 	{
 		// downsample, convert to band-sequential BGR, and apply mean pixel subtraction 
-		if( CUDA_FAILED(cudaPreImageNetMeanBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight,
+		if( CUDA_FAILED(cudaPreImageNetMeanBGR((float4*)rgba, width, height, 
+									    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
 									    make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f),
 									    GetStream())) )
 		{
@@ -441,61 +444,10 @@ bool imageNet::PreProcess( float* rgba, uint32_t width, uint32_t height )
 // Process
 bool imageNet::Process()
 {
-	void* bindBuffers[] = { mInputCUDA, mOutputs[0].CUDA };	
-	cudaStream_t stream = GetStream();
-
 	PROFILER_BEGIN(PROFILER_NETWORK);
 
-	if( !stream )
-	{
-		//const timespec cpu_begin = timestamp();
-
-	#if 1
-		if( !mContext->execute(1, bindBuffers) )
-		{
-			printf(LOG_TRT "imageNet::Process() -- failed to execute TensorRT network\n");
-			return false;
-		}
-	#else
-		const bool result = mContext->enqueue(1, bindBuffers, NULL, NULL);
-
-		CUDA(cudaDeviceSynchronize());
-
-		if( !result )
-		{
-			printf(LOG_TRT "imageNet::Process() -- failed to enqueue TensorRT network\n");
-			return false;
-		}
-	#endif	
-
-		/*const timespec cpu_end  = timestamp();
-		const timespec cpu_time = timeDiff(cpu_begin, cpu_end);
-
-		timePrint(cpu_begin, "imageNet IExecutionContext begin (CPU)  ");
-		timePrint(cpu_end, "imageNet IExecutionContext end (CPU)      ");
-		timePrint(cpu_time, "imageNet IExecutionContext elapsed (CPU) ");
-
-		printf(LOG_TRT "imageNet IExecutionContext elapsed (CPU):  %fms\n", timeFloat(cpu_time));*/
-	}
-	else
-	{
-		//printf("%s stream %p\n", deviceTypeToStr(GetDevice()), GetStream());
-
-		//CUDA(cudaEventRecord(mEvents[0], stream));
-		
-		// queue the inference processing kernels
-		const bool result = mContext->enqueue(1, bindBuffers, stream, NULL);
-
-		//CUDA(cudaEventRecord(mEvents[1], stream));
-		//CUDA(cudaEventSynchronize(mEvents[1]));
-		CUDA(cudaStreamSynchronize(stream));
-
-		if( !result )
-		{
-			printf(LOG_TRT "imageNet::Process() -- failed to enqueue TensorRT network\n");
-			return false;
-		}	
-	}
+	if( !ProcessNetwork() )
+		return false;
 
 	PROFILER_END(PROFILER_NETWORK);
 	return true;
