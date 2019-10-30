@@ -241,6 +241,7 @@ const char* profilerQueryToStr( profilerQuery query )
 }
 
 //---------------------------------------------------------------------
+tensorNet::Logger tensorNet::gLogger;
 
 // constructor
 tensorNet::tensorNet()
@@ -304,6 +305,7 @@ void tensorNet::EnableLayerProfiler()
 void tensorNet::EnableDebug()
 {
 	mEnableDebug = true;
+	tensorNet::EnableVerbose();
 }
 
 
@@ -384,6 +386,41 @@ bool tensorNet::DetectNativePrecision( precisionType precision, deviceType devic
 }
 
 
+// SelectPrecision
+precisionType tensorNet::SelectPrecision( precisionType precision, deviceType device, bool allowInt8 )
+{
+	printf(LOG_TRT "desired precision specified for %s: %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
+
+	if( precision == TYPE_DISABLED )
+	{
+		printf(LOG_TRT "skipping network specified with precision TYPE_DISABLE\n");
+		printf(LOG_TRT "please specify a valid precision to create the network\n");
+	}
+	else if( precision == TYPE_FASTEST )
+	{
+		if( !allowInt8 )
+			printf(LOG_TRT "requested fasted precision for device %s without providing valid calibrator, disabling INT8\n", deviceTypeToStr(device));
+
+		precision = FindFastestPrecision(device, allowInt8);
+		printf(LOG_TRT "selecting fastest native precision for %s:  %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
+	}
+	else
+	{
+		if( !DetectNativePrecision(precision, device) )
+		{
+			printf(LOG_TRT "precision %s is not supported for device %s\n", precisionTypeToStr(precision), deviceTypeToStr(device));
+			precision = FindFastestPrecision(device, allowInt8);
+			printf(LOG_TRT "falling back to fastest precision for device %s (%s)\n", deviceTypeToStr(device), precisionTypeToStr(precision));
+		}
+
+		if( precision == TYPE_INT8 && !allowInt8 )
+			printf(LOG_TRT "warning:  device %s using INT8 precision with RANDOM calibration\n", deviceTypeToStr(device));
+	}
+
+	return precision;
+}
+
+
 // FindFastestPrecision
 precisionType tensorNet::FindFastestPrecision( deviceType device, bool allowInt8 )
 {
@@ -421,11 +458,8 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	builder->setMinFindIterations(3);	// allow time for GPU to spin up
 	builder->setAverageFindIterations(2);
 
-	//mEnableFP16 = (mOverride16 == true) ? false : builder->platformHasFastFp16();
-	//printf(LOG_TRT "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
 	printf(LOG_TRT "device %s, loading %s %s\n", deviceTypeToStr(device), deployFile.c_str(), modelFile.c_str());
 	
-
 	// parse the different types of model formats
 	if( mModelType == MODEL_CAFFE )
 	{
@@ -544,71 +578,23 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		inputDimensions.insert(std::make_pair(network->getInput(i)->getName(), dims));
 		std::cout << LOG_TRT << "retrieved Input tensor \"" << network->getInput(i)->getName() << "\":  " << dims.d[0] << "x" << dims.d[1] << "x" << dims.d[2] << std::endl;
 	}
+
+	if( precision == TYPE_INT8 && !calibrator )
+	{
+		calibrator = new randInt8Calibrator(1, mCacheCalibrationPath, inputDimensions);
+		printf(LOG_TRT "warning:  device %s using INT8 precision with RANDOM calibration\n", deviceTypeToStr(device));
+	}
 #endif
 
-
-	// build the engine
-	printf(LOG_TRT "device %s, configuring network builder\n", deviceTypeToStr(device));
-		
-	builder->setMaxBatchSize(maxBatchSize);
-	builder->setMaxWorkspaceSize(16 << 20);
-
-
-	// set up the builder for the desired precision
-	if( precision == TYPE_INT8 )
+	// configure the builder
+	if( !ConfigureBuilder(builder, maxBatchSize, 16 << 20, precision,
+					  device, allowGPUFallback, calibrator) )
 	{
-	#if NV_TENSORRT_MAJOR >= 4
-		builder->setInt8Mode(true);
-		//builder->setFp16Mode(true);		// TODO:  experiment for benefits of both INT8/FP16
-		
-		if( !calibrator )
-		{
-			calibrator = new randInt8Calibrator(1, mCacheCalibrationPath, inputDimensions);
-			printf(LOG_TRT "warning:  device %s using INT8 precision with RANDOM calibration\n", deviceTypeToStr(device));
-		}
-
-		builder->setInt8Calibrator(calibrator);
-	#else
-		printf(LOG_TRT "INT8 precision requested, and TensorRT %u.%u doesn't meet minimum version for INT8\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
-		printf(LOG_TRT "please use minumum version of TensorRT 4.0 or newer for INT8 support\n");
-
-		return false;
-	#endif
-	}
-	else if( precision == TYPE_FP16 )
-	{
-	#if NV_TENSORRT_MAJOR < 4
-		builder->setHalf2Mode(true);
-	#else
-		builder->setFp16Mode(true);
-	#endif
-	}
-	
-
-	// set the default device type
-#if NV_TENSORRT_MAJOR >= 5
-	builder->setDefaultDeviceType(deviceTypeToTRT(device));
-
-	if( allowGPUFallback )
-		builder->allowGPUFallback(true);
-	
-#if !(NV_TENSORRT_MAJOR == 5 && NV_TENSORRT_MINOR == 0 && NV_TENSORRT_PATCH == 0)
-	if( device == DEVICE_DLA_0 )
-		builder->setDLACore(0);
-	else if( device == DEVICE_DLA_1 )
-		builder->setDLACore(1);
-#endif
-#else
-	if( device != DEVICE_GPU )
-	{
-		printf(LOG_TRT "device %s is not supported in TensorRT %u.%u\n", deviceTypeToStr(device), NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+		printf(LOG_TRT "device %s, failed to configure builder\n", deviceTypeToStr(device));
 		return false;
 	}
-#endif
 
 	// build CUDA engine
-	printf(LOG_TRT "device %s, building FP16:  %s\n", deviceTypeToStr(device), isFp16Enabled(builder) ? "ON" : "OFF"); 
-	printf(LOG_TRT "device %s, building INT8:  %s\n", deviceTypeToStr(device), isInt8Enabled(builder) ? "ON" : "OFF"); 
 	printf(LOG_TRT "device %s, building CUDA engine (this may take a few minutes the first time a network is loaded)\n", deviceTypeToStr(device));
 
 	nvinfer1::ICudaEngine* engine = builder->buildCudaEngine(*network);
@@ -658,6 +644,78 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	// free builder resources
 	engine->destroy();
 	builder->destroy();
+	return true;
+}
+
+
+// ConfigureBuilder
+bool tensorNet::ConfigureBuilder( nvinfer1::IBuilder* builder, uint32_t maxBatchSize, 
+				    		    uint32_t workspaceSize, precisionType precision, 
+				    		    deviceType device, bool allowGPUFallback, 
+				    		    nvinfer1::IInt8Calibrator* calibrator )
+{
+	if( !builder )
+		return false;
+
+	printf(LOG_TRT "device %s, configuring network builder\n", deviceTypeToStr(device));
+		
+	builder->setMaxBatchSize(maxBatchSize);
+	builder->setMaxWorkspaceSize(workspaceSize);
+
+	// set up the builder for the desired precision
+	if( precision == TYPE_INT8 )
+	{
+	#if NV_TENSORRT_MAJOR >= 4
+		builder->setInt8Mode(true);
+		//builder->setFp16Mode(true);		// TODO:  experiment for benefits of both INT8/FP16
+		
+		if( !calibrator )
+		{
+			printf(LOG_TRT "device %s, INT8 requested but calibrator is NULL\n", deviceTypeToStr(device));
+			return false;
+		}
+
+		builder->setInt8Calibrator(calibrator);
+	#else
+		printf(LOG_TRT "INT8 precision requested, and TensorRT %u.%u doesn't meet minimum version for INT8\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+		printf(LOG_TRT "please use minumum version of TensorRT 4.0 or newer for INT8 support\n");
+
+		return false;
+	#endif
+	}
+	else if( precision == TYPE_FP16 )
+	{
+	#if NV_TENSORRT_MAJOR < 4
+		builder->setHalf2Mode(true);
+	#else
+		builder->setFp16Mode(true);
+	#endif
+	}
+	
+	// set the default device type
+#if NV_TENSORRT_MAJOR >= 5
+	builder->setDefaultDeviceType(deviceTypeToTRT(device));
+
+	if( allowGPUFallback )
+		builder->allowGPUFallback(true);
+	
+#if !(NV_TENSORRT_MAJOR == 5 && NV_TENSORRT_MINOR == 0 && NV_TENSORRT_PATCH == 0)
+	if( device == DEVICE_DLA_0 )
+		builder->setDLACore(0);
+	else if( device == DEVICE_DLA_1 )
+		builder->setDLACore(1);
+#endif
+#else
+	if( device != DEVICE_GPU )
+	{
+		printf(LOG_TRT "device %s is not supported in TensorRT %u.%u\n", deviceTypeToStr(device), NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+		return false;
+	}
+#endif
+
+	printf(LOG_TRT "device %s, building FP16:  %s\n", deviceTypeToStr(device), isFp16Enabled(builder) ? "ON" : "OFF"); 
+	printf(LOG_TRT "device %s, building INT8:  %s\n", deviceTypeToStr(device), isInt8Enabled(builder) ? "ON" : "OFF"); 
+	
 	return true;
 }
 
@@ -824,38 +882,14 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 
 
 	/*
-	 * if the precision is left unspecified, detect the fastest
+	 * resolve the desired precision to a specific one that's available
 	 */
-	printf(LOG_TRT "desired precision specified for %s: %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
+	precision = SelectPrecision(precision, device, (calibrator != NULL));
 
 	if( precision == TYPE_DISABLED )
-	{
-		printf(LOG_TRT "skipping network specified with precision TYPE_DISABLE\n");
-		printf(LOG_TRT "please specify a valid precision to create the network\n");
-
 		return false;
-	}
-	else if( precision == TYPE_FASTEST )
-	{
-		if( !calibrator )
-			printf(LOG_TRT "requested fasted precision for device %s without providing valid calibrator, disabling INT8\n", deviceTypeToStr(device));
 
-		precision = FindFastestPrecision(device, (calibrator != NULL));
-		printf(LOG_TRT "selecting fastest native precision for %s:  %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
-	}
-	else
-	{
-		if( !DetectNativePrecision(precision, device) )
-		{
-			printf(LOG_TRT "precision %s is not supported for device %s\n", precisionTypeToStr(precision), deviceTypeToStr(device));
-			return false;
-		}
-
-		if( precision == TYPE_INT8 && !calibrator )
-			printf(LOG_TRT "warning:  device %s using INT8 precision with RANDOM calibration\n", deviceTypeToStr(device));
-	}
-
-
+	
 	/*
 	 * attempt to load network engine from cache before profiling with tensorRT
 	 */	
@@ -917,56 +951,8 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	}
 	else
 	{
-		printf(LOG_TRT "loading network profile from engine cache... %s\n", cache_path);
-		
-		// determine the file size of the engine
-		engineSize = fileSize(cache_path);
-
-		if( engineSize == 0 )
-		{
-			printf(LOG_TRT "invalid engine cache file size (%zu bytes)  %s\n", engineSize, cache_path);
+		if( !LoadEngine(cache_path, &engineStream, &engineSize) )
 			return false;
-		}
-
-		// allocate memory to hold the engine
-		engineStream = (char*)malloc(engineSize);
-
-		if( !engineStream )
-		{
-			printf(LOG_TRT "failed to allocate %zu bytes to read engine cache %s\n", engineSize, cache_path);
-			return false;
-		}
-
-		// open the engine cache file from disk
-		FILE* cacheFile = NULL;
-		cacheFile = fopen(cache_path, "rb");
-
-		if( !cacheFile )
-		{
-			printf(LOG_TRT "failed to open engine cache file for reading %s\n", cache_path);
-			return false;
-		}
-
-		// read the serialized engine into memory
-		const size_t bytesRead = fread(engineStream, 1, engineSize, cacheFile);
-
-		if( bytesRead != engineSize )
-		{
-			printf(LOG_TRT "only read %zu of %zu bytes of engine cache file %s\n", bytesRead, engineSize, cache_path);
-			return false;
-		}
-
-		fclose(cacheFile);
-
-		// test for half FP16 support
-		/*nvinfer1::IBuilder* builder = CREATE_INFER_BUILDER(gLogger);
-		
-		if( builder != NULL )
-		{
-			mEnableFP16 = !mOverride16 && builder->platformHasFastFp16();
-			printf(LOG_TRT "platform %s fast FP16 support\n", mEnableFP16 ? "has" : "does not have");
-			builder->destroy();	
-		}*/
 	}
 
 	printf(LOG_TRT "device %s, %s loaded\n", deviceTypeToStr(device), model_path.c_str());
@@ -1013,8 +999,8 @@ bool tensorNet::LoadEngine( char* engine_stream, size_t engine_size,
 	
 	if( !infer )
 	{
-		printf(LOG_TRT "device %s, failed to create InferRuntime\n", deviceTypeToStr(device));
-		return 0;
+		printf(LOG_TRT "device %s, failed to create TensorRT runtime\n", deviceTypeToStr(device));
+		return false;
 	}
 
 #if NV_TENSORRT_MAJOR >= 5 
@@ -1042,10 +1028,30 @@ bool tensorNet::LoadEngine( char* engine_stream, size_t engine_size,
 	if( !engine )
 	{
 		printf(LOG_TRT "device %s, failed to create CUDA engine\n", deviceTypeToStr(device));
-		return 0;
+		return false;
 	}
-	
-	nvinfer1::IExecutionContext* context = engine->createExecutionContext();
+
+	if( !LoadEngine(engine, input_blobs, output_blobs, device, stream) )
+	{
+		printf(LOG_TRT "device %s, failed to create resources for CUDA engine\n", deviceTypeToStr(device));
+		return false;
+	}	
+
+	mInfer = infer;
+	return true;
+}
+
+
+// LoadEngine
+bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
+ 			  		   const std::vector<std::string>& input_blobs, 
+			  		   const std::vector<std::string>& output_blobs,
+			  		   deviceType device, cudaStream_t stream)
+{
+	if( !engine )
+		return NULL;
+
+		nvinfer1::IExecutionContext* context = engine->createExecutionContext();
 	
 	if( !context )
 	{
@@ -1240,12 +1246,96 @@ bool tensorNet::LoadEngine( char* engine_stream, size_t engine_size,
 	for( int n=0; n < PROFILER_TOTAL * 2; n++ )
 		CUDA(cudaEventCreate(&mEventsGPU[n]));
 	
-	mInfer   = infer;
 	mEngine  = engine;
 	mDevice  = device;
 	mContext = context;
 	
 	SetStream(stream);	// set default device stream
+
+	return true;
+}
+
+
+// LoadEngine
+bool tensorNet::LoadEngine( const char* engine_filename,
+			  		   const std::vector<std::string>& input_blobs, 
+			  		   const std::vector<std::string>& output_blobs,
+			  		   nvinfer1::IPluginFactory* pluginFactory,
+					   deviceType device, cudaStream_t stream )
+{
+	char* engineStream = NULL;
+	size_t engineSize = 0;
+
+	// load the engine file contents
+	if( !LoadEngine(engine_filename, &engineStream, &engineSize) )
+		return false;
+
+	// load engine resources from stream
+	if( !LoadEngine(engineStream, engineSize, input_blobs, output_blobs,
+				 pluginFactory, device, stream) )
+	{
+		free(engineStream);
+		return false;
+	}
+
+	free(engineStream);
+	return true;
+}
+
+
+// LoadEngine
+bool tensorNet::LoadEngine( const char* filename, char** stream, size_t* size )
+{
+	if( !filename || !stream || !size )
+		return false;
+
+	char* engineStream = NULL;
+	size_t engineSize = 0;
+
+	printf(LOG_TRT "loading network plan from engine cache... %s\n", filename);
+		
+	// determine the file size of the engine
+	engineSize = fileSize(filename);
+
+	if( engineSize == 0 )
+	{
+		printf(LOG_TRT "invalid engine cache file size (%zu bytes)  %s\n", engineSize, filename);
+		return false;
+	}
+
+	// allocate memory to hold the engine
+	engineStream = (char*)malloc(engineSize);
+
+	if( !engineStream )
+	{
+		printf(LOG_TRT "failed to allocate %zu bytes to read engine cache %s\n", engineSize, filename);
+		return false;
+	}
+
+	// open the engine cache file from disk
+	FILE* cacheFile = NULL;
+	cacheFile = fopen(filename, "rb");
+
+	if( !cacheFile )
+	{
+		printf(LOG_TRT "failed to open engine cache file for reading %s\n", filename);
+		return false;
+	}
+
+	// read the serialized engine into memory
+	const size_t bytesRead = fread(engineStream, 1, engineSize, cacheFile);
+
+	if( bytesRead != engineSize )
+	{
+		printf(LOG_TRT "only read %zu of %zu bytes of engine cache file %s\n", bytesRead, engineSize, filename);
+		return false;
+	}
+
+	// close the plan cache
+	fclose(cacheFile);
+
+	*stream = engineStream;
+	*size = engineSize;
 
 	return true;
 }

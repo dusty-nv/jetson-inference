@@ -305,6 +305,24 @@ public:
 				  cudaStream_t stream=NULL );
 
 	/**
+	 * Load network resources from an existing TensorRT engine instance.
+	 * @param engine_stream Memory containing the serialized engine plan file.
+	 * @param engine_size Size of the serialized engine stream (in bytes).
+	 * @param input_blobs List of names of the inputs blob data to the network.
+	 * @param output_blobs List of names of the output blobs from the network.
+	 */
+	bool LoadEngine( nvinfer1::ICudaEngine* engine,
+				  const std::vector<std::string>& input_blobs, 
+				  const std::vector<std::string>& output_blobs,
+				  deviceType device=DEVICE_GPU,
+				  cudaStream_t stream=NULL );
+
+	/**
+	 * Load a serialized engine plan file into memory.
+	 */
+	bool LoadEngine( const char* filename, char** stream, size_t* size );
+
+	/**
 	 * Manually enable layer profiling times.	
 	 */
 	void EnableLayerProfiler();
@@ -313,6 +331,16 @@ public:
 	 * Manually enable debug messages and synchronization.
 	 */
 	void EnableDebug();
+
+	/**
+	 * Enable extra verbose message output from TensorRT.
+	 */
+	static inline void EnableVerbose()						{ gLogger.verbose = true; }
+
+	/**
+	 * Check if verbose mode is enabled or not.
+	 */
+	static inline bool VerboseEnabled()					{ return gLogger.verbose; }
 
 	/**
  	 * Return true if GPU fallback is enabled.
@@ -333,6 +361,11 @@ public:
 	 * Check if a particular precision is being used.
 	 */
 	inline bool IsPrecision( precisionType type ) const		{ return (mPrecision == type); }
+
+	/**
+	 * Resolve a desired precision to a specific one that's available.
+	 */
+	static precisionType SelectPrecision( precisionType precision, deviceType device=DEVICE_GPU, bool allowInt8=true );
 
 	/**
 	 * Determine the fastest native precision on a device.
@@ -523,16 +556,29 @@ protected:
 				    nvinfer1::IInt8Calibrator* calibrator, char** engineStream, size_t* engineSize );
 
 	/**
+	 * Configure builder options
+	 */
+	bool ConfigureBuilder( nvinfer1::IBuilder* builder, uint32_t maxBatchSize, 
+					   uint32_t workspaceSize, precisionType precision, 
+					   deviceType device, bool allowGPUFallback, 
+					   nvinfer1::IInt8Calibrator* calibrator );
+
+	/**
 	 * Logger class for GIE info/warning/errors
 	 */
 	class Logger : public nvinfer1::ILogger			
 	{
+	public:
+		Logger() { verbose = false; }
+
 		void log( Severity severity, const char* msg ) override
 		{
-			if( severity != Severity::kINFO /*|| mEnableDebug*/ )
+			if( severity != Severity::kINFO || verbose )
 				printf(LOG_TRT "%s\n", msg);
 		}
-	} gLogger;
+
+		bool verbose;
+	} static gLogger;
 
 	/**
 	 * Profiler interface for measuring layer timings

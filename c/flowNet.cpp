@@ -140,6 +140,10 @@ flowNet* flowNet::Create( int argc, char** argv )
 	if( !modelName )
 		modelName = cmdLine.GetString("model", "flow-320x240");
 	
+	// enable verbose mode if desired
+	if( cmdLine.GetFlag("verbose") )
+		tensorNet::EnableVerbose();
+
 	// parse the network type
 	const flowNet::NetworkType type = NetworkTypeFromStr(modelName);
 

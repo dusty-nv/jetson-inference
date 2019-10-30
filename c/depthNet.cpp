@@ -143,6 +143,10 @@ depthNet* depthNet::Create( int argc, char** argv )
 	if( !modelName )
 		modelName = cmdLine.GetString("model", "mobilenet");
 	
+	// enable verbose mode if desired
+	if( cmdLine.GetFlag("verbose") )
+		tensorNet::EnableVerbose();
+
 	// parse the network type
 	const depthNet::NetworkType type = NetworkTypeFromStr(modelName);
 

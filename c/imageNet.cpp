@@ -228,6 +228,10 @@ imageNet* imageNet::Create( int argc, char** argv )
 	if( !modelName )
 		modelName = cmdLine.GetString("model", "googlenet");
 	
+	// enable verbose mode if desired
+	if( cmdLine.GetFlag("verbose") )
+		tensorNet::EnableVerbose();
+
 	// parse the network type
 	const imageNet::NetworkType type = NetworkTypeFromStr(modelName);
 

@@ -341,6 +341,10 @@ detectNet* detectNet::Create( int argc, char** argv )
 	if( maxBatchSize < 1 )
 		maxBatchSize = DEFAULT_MAX_BATCH_SIZE;
 
+	// enable verbose mode if desired
+	if( cmdLine.GetFlag("verbose") )
+		tensorNet::EnableVerbose();
+
 	// parse the model type
 	const detectNet::NetworkType type = NetworkTypeFromStr(modelName);
 

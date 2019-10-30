@@ -227,6 +227,10 @@ segNet* segNet::Create( int argc, char** argv )
 	if( !modelName )
 		modelName = cmdLine.GetString("network", "fcn-resnet18-voc-320x320");
 
+	// enable verbose mode if desired
+	if( cmdLine.GetFlag("verbose") )
+		tensorNet::EnableVerbose();
+
 	// parse the model type
 	const segNet::NetworkType type = NetworkTypeFromStr(modelName);
 
