@@ -14,6 +14,8 @@ add_subdirectory(flownet-camera)
 add_subdirectory(segnet-console)
 add_subdirectory(segnet-camera)
 
+add_subdirectory(stereonet-console)
+
 if(CUDA_VERSION_MAJOR GREATER 9)
 	add_subdirectory(homography-console)
 	add_subdirectory(homography-camera)
