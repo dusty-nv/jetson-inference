@@ -168,6 +168,8 @@ bool stereoNet::init( stereoNet::NetworkType networkType, uint32_t maxBatchSize,
 		return false;
 	}
 
+	printf(LOG_TRT "stereoNet -- loading weights from %s\n", weightsPath.c_str());
+
 	// create the plugins container
 	auto pluginContainer = redtail::tensorrt::IPluginContainer::create(gLogger);
 
