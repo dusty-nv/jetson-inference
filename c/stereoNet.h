@@ -111,6 +111,53 @@ public:
 	virtual ~stereoNet();
 	
 	/**
+	 * Compute the depth field from a pair of stereo RGBA images.
+	 * @note the raw depth field can be retrieved with GetDepthField().
+	 */
+	bool Process( float* left, float* right, uint32_t width, uint32_t height );
+
+	/**
+	 * Process stereo RGBA images and map the depth image with the specified colormap.
+	 * @note this function calls Process() followed by Visualize().
+	 */
+	bool Process( float* left, float* right, float* output, 
+			    uint32_t width, uint32_t height, 
+			    cudaColormapType colormap=COLORMAP_DEFAULT,
+			    cudaFilterMode filter=FILTER_LINEAR );
+
+	/**
+	 * Process stereo RGBA images and map the depth image with the specified colormap.
+	 * @note this function calls Process() followed by Visualize().
+	 */
+	bool Process( float* left, float* right, uint32_t input_width, uint32_t input_height,
+			    float* output, uint32_t output_width, uint32_t output_height, 
+			    cudaColormapType colormap=COLORMAP_DEFAULT,
+			    cudaFilterMode filter=FILTER_LINEAR );
+
+	/**
+	 * Visualize the raw depth field into a colorized RGBA depth map.
+	 * @note Visualize() should only be called after Process()
+	 */
+	bool Visualize( float* depth_map, uint32_t width, uint32_t height,
+				 cudaColormapType colormap=COLORMAP_DEFAULT, 
+				 cudaFilterMode filter=FILTER_LINEAR );
+
+	/**
+	 * Return the raw depth field.
+	 */
+	inline float* GetDepthField() const						{ return mOutputs[0].CUDA; }
+
+	/**
+	 * Return the width of the depth field.
+	 */
+	inline uint32_t GetDepthFieldWidth() const					{ return DIMS_W(mOutputs[0].dims); }
+
+	/**
+	 * Return the height of the depth field
+	 */
+	inline uint32_t GetDepthFieldHeight() const					{ return DIMS_H(mOutputs[0].dims); }
+
+	/**
 	 * Retrieve the network type (alexnet or googlenet)
 	 */
 	inline NetworkType GetNetworkType() const					{ return mNetworkType; }
@@ -127,6 +174,7 @@ protected:
 			 precisionType precision, deviceType device, bool allowGPUFallback );
 	
 	NetworkType mNetworkType;
+	float2      mDepthRange;
 };
 
 

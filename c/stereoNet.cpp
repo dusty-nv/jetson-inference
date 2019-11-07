@@ -366,3 +366,124 @@ bool stereoNet::init( stereoNet::NetworkType networkType, uint32_t maxBatchSize,
 
 
 
+// Process
+bool stereoNet::Process( float* left, float* right, uint32_t input_width, uint32_t input_height )
+{
+	if( !left || !right || input_width == 0 || input_height == 0 )
+	{
+		printf(LOG_TRT "stereoNet::Process( %p, %p, %u, %u ) -> invalid parameters\n", left, right, input_width, input_height);
+		return false;
+	}
+
+	PROFILER_BEGIN(PROFILER_PREPROCESS);
+
+	// remap from [0,255] -> [0,1], no mean pixel subtraction or std dev applied
+	const float2 range  = make_float2(0.0f, 1.0f);
+	const float3 mean   = make_float3(0.0f, 0.0f, 0.0f);
+	const float3 stdDev = make_float3(1.0f, 1.0f, 1.0f);
+
+	if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)left, input_width, input_height, 
+									   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
+									   range, mean, stdDev, GetStream())) )
+	{
+		printf(LOG_TRT "stereoNet::Process() -- cudaPreImageNetNormMeanRGB() failed for left image\n");
+		return false;
+	}
+
+	if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)right, input_width, input_height, 
+									   mInputs[1].CUDA, GetInputWidth(), GetInputHeight(), 
+									   range, mean, stdDev, GetStream())) )
+	{
+		printf(LOG_TRT "stereoNet::Process() -- cudaPreImageNetNormMeanRGB() failed for right image\n");
+		return false;
+	}
+
+
+	PROFILER_END(PROFILER_PREPROCESS);
+	PROFILER_BEGIN(PROFILER_NETWORK);
+	
+	// process with TensorRT
+	if( !ProcessNetwork() )
+		return false;
+
+	PROFILER_END(PROFILER_NETWORK);
+	PROFILER_BEGIN(PROFILER_POSTPROCESS);
+
+	const int depth_width = GetDepthFieldWidth();
+	const int depth_height = GetDepthFieldHeight();
+
+	// find the min/max depth range
+	mDepthRange = make_float2(100000000.0f, -100000000.0f);
+
+	for( int y=0; y < depth_height; y++ )
+	{
+		for( int x=0; x < depth_width; x++ )
+		{
+			const float depth = mOutputs[0].CPU[y * depth_width + x];
+
+			if( depth < mDepthRange.x )
+				mDepthRange.x = depth;
+
+			if( depth > mDepthRange.y )
+				mDepthRange.y = depth;
+		}
+	}
+
+	printf("depth range:  %f -> %f\n", mDepthRange.x, mDepthRange.y);
+	//depthRange = make_float2(0.95f, 5.0f);
+
+	PROFILER_END(PROFILER_POSTPROCESS);
+	return true;
+}
+
+
+// Process
+bool stereoNet::Process( float* left, float* right, float* output, uint32_t width, uint32_t height, cudaColormapType colormap, cudaFilterMode filter )
+{
+	return Process(left, right, width, height, output, width, height, colormap, filter);
+}
+
+
+// Process
+bool stereoNet::Process( float* left, float* right, uint32_t input_width, uint32_t input_height,
+				     float* output, uint32_t output_width, uint32_t output_height, 
+                         cudaColormapType colormap, cudaFilterMode filter )
+{
+	if( !Process(left, right, input_width, input_height) )
+		return false;
+
+	if( !Visualize(output, output_width, output_height, colormap, filter) )
+		return false;
+
+	return true;
+}
+
+
+// Visualize
+bool stereoNet::Visualize( float* output, uint32_t output_width, uint32_t output_height,
+				 	 cudaColormapType colormap, cudaFilterMode filter )
+{
+	if( !output || output_width == 0 || output_height == 0 )
+	{
+		printf(LOG_TRT "stereoNet::Visualize( 0x%p, %u, %u ) -> invalid parameters\n", output, output_width, output_height);
+		return false;
+	}
+
+	PROFILER_BEGIN(PROFILER_VISUALIZE);
+
+	// apply color mapping to depth image
+	if( CUDA_FAILED(cudaColormap(GetDepthField(), GetDepthFieldWidth(), GetDepthFieldHeight(),
+						    output, output_width, output_height, mDepthRange, 
+						    colormap, filter, FORMAT_DEFAULT, GetStream())) )
+	{
+		printf(LOG_TRT "stereoNet::Visualize() -- failed to map depth image with cudaColormap()\n");
+		return false; 
+	}
+
+	PROFILER_END(PROFILER_VISUALIZE);
+	return true;
+}
+
+
+
+
