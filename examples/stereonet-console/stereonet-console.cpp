@@ -65,11 +65,11 @@ int main( int argc, char** argv )
 	const char* imgFilename[] = { cmdLine.GetPosition(0), cmdLine.GetPosition(1) };
 	const char* depthFilename = cmdLine.GetPosition(2);
 
-	/*if( !imgFilename[0] || !imgFilename[1] || !depthFilename )
+	if( !imgFilename[0] || !imgFilename[1] )
 	{
-		printf("stereonet-console:   input and output image filenames required\n");
+		printf("stereonet-console:   left and right input filenames required\n");
 		return usage();
-	}*/
+	}
 
 	tensorNet::EnableVerbose();
 
@@ -92,28 +92,28 @@ int main( int argc, char** argv )
 
 
 	/*
-	 * load image from disk
+	 * load images from disk
 	 */
-#if 0
-	float* imgCPU    = NULL;
-	float* imgCUDA   = NULL;
-	int    imgWidth  = 0;
-	int    imgHeight = 0;
+	float* imgInput[] = { NULL, NULL };
+	int    imgWidth   = 0;
+	int    imgHeight  = 0;
 		
-	if( !loadImageRGBA(imgFilename, (float4**)&imgCPU, (float4**)&imgCUDA, &imgWidth, &imgHeight) )
+	for( int n=0; n < 2; n++ )
 	{
-		printf("stereonet-console:  failed to load image '%s'\n", imgFilename);
-		return 0;
+		if( !loadImageRGBA(imgFilename[n], (float4**)&imgInput[n], &imgWidth, &imgHeight) )
+		{
+			printf("stereonet-console:  failed to load image '%s'\n", imgFilename[n]);
+			return 0;
+		}
 	}
 
 
 	/*
 	 * allocate output depth map
 	 */
-	float* depthCPU  = NULL;
-	float* depthCUDA = NULL;
+	float* imgDepth = NULL;
 
-	if( !cudaAllocMapped((void**)&depthCPU, (void**)&depthCUDA, imgWidth * imgHeight * sizeof(float) * 4) )
+	if( !cudaAllocMapped((void**)&imgDepth, imgWidth * imgHeight * sizeof(float) * 4) )
 	{
 		printf("stereonet-console:  failed to allocate CUDA memory for output image (%ix%i)\n", imgWidth, imgHeight);
 		return 0;
@@ -123,7 +123,7 @@ int main( int argc, char** argv )
 	/*
 	 * perform the depth mapping
 	 */
-	if( !net->Process(imgCUDA, depthCUDA, imgWidth, imgHeight, colormap, filterMode) )
+	if( !net->Process(imgInput[0], imgInput[1], imgDepth, imgWidth, imgHeight, colormap, filterMode) )
 	{
 		printf("stereonet-console:  failed to process depth map\n");
 		return 0;
@@ -137,14 +137,17 @@ int main( int argc, char** argv )
 
 
 	/*
-	 * save output image
+	 * save output depth image
 	 */
-	if( !saveImageRGBA(outFilename, (float4*)depthCPU, imgWidth, imgHeight) )
-		printf("stereonet-console:  failed to save output image to '%s'\n", outFilename);
-	else
-		printf("stereonet-console:  completed saving '%s'\n", outFilename);
+	if( depthFilename != NULL )
+	{
+		if( !saveImageRGBA(depthFilename, (float4*)imgDepth, imgWidth, imgHeight) )
+			printf("stereonet-console:  failed to save output image to '%s'\n", depthFilename);
+		else
+			printf("stereonet-console:  completed saving '%s'\n", depthFilename);
+	}
 
-	
+#if 0
 	/*
 	 * save point cloud
 	 */
@@ -157,16 +160,16 @@ int main( int argc, char** argv )
 		if( !net->SavePointCloud(pointCloudFilename, imgCPU, imgWidth, imgHeight, cmdLine.GetString("calibration")) )
 			printf("stereonet-console:  failed to save point cloud to '%s'\n", pointCloudFilename);
 	}
-
+#endif
 
 	/*
 	 * destroy resources
 	 */
 	printf("stereonet-console:  shutting down...\n");
 
-	CUDA(cudaFreeHost(imgCPU));
-	CUDA(cudaFreeHost(depthCPU));
-#endif
+	CUDA(cudaFreeHost(imgInput[0]));
+	CUDA(cudaFreeHost(imgInput[1]));
+	CUDA(cudaFreeHost(imgDepth));
 
 	SAFE_DELETE(net);
 
