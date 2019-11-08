@@ -51,22 +51,23 @@ stereoNet::~stereoNet()
 
 
 // NetworkTypeFromStr
-/*stereoNet::NetworkType stereoNet::NetworkTypeFromStr( const char* modelName )
+stereoNet::NetworkType stereoNet::NetworkTypeFromStr( const char* modelName )
 {
 	if( !modelName )
-		return stereoNet::CUSTOM;
+		return stereoNet::DEFAULT_NETWORK;
 
-	stereoNet::NetworkType type = stereoNet::MOBILENET;
+	stereoNet::NetworkType type = stereoNet::DEFAULT_NETWORK;
 
-	// ONNX models
-	if( strcasecmp(modelName, "mobilenet") == 0 )
-		type = stereoNet::MOBILENET;
-	else if( strcasecmp(modelName, "resnet-18") == 0 || strcasecmp(modelName, "resnet_18") == 0 || strcasecmp(modelName, "resnet18") == 0 )
-		type = stereoNet::RESNET_18;
-	else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 )
-		type = stereoNet::RESNET_50;
+	if( strcasecmp(modelName, "nvsmall") == 0 || strcasecmp(modelName, "nv-small") == 0 || strcasecmp(modelName, "nv_small") == 0 )
+		type = stereoNet::NV_SMALL;
+	else if( strcasecmp(modelName, "nvtiny") == 0 || strcasecmp(modelName, "nv-tiny") == 0 || strcasecmp(modelName, "nv_tiny") == 0 )
+		type = stereoNet::NV_TINY;
+	else if( strcasecmp(modelName, "resnet18") == 0 || strcasecmp(modelName, "resnet-18") == 0 || strcasecmp(modelName, "resnet_18") == 0 )
+		type = stereoNet::RESNET18;
+	else if( strcasecmp(modelName, "resnet18-2d") == 0 || strcasecmp(modelName, "resnet-18-2d") == 0 || strcasecmp(modelName, "resnet_18_2d") == 0 )
+		type = stereoNet::RESNET18_2D;
 	else
-		type = stereoNet::CUSTOM;
+		type = stereoNet::DEFAULT_NETWORK;
 
 	return type;
 }
@@ -77,12 +78,12 @@ const char* stereoNet::NetworkTypeToStr( stereoNet::NetworkType type )
 {
 	switch(type)
 	{
-		case MOBILENET:	return "MonoDepth-Mobilenet";
-		case RESNET_18:	return "MonoDepth-ResNet18";
-		case RESNET_50:	return "MonoDepth-ResNet50";
-		default:			return "Custom";
+		case NV_SMALL:		return "NV-Small";
+		case NV_TINY:		return "NV-Tiny";
+		case RESNET18:		return "ResNet18";
+		default:			return "ResNet18_2D";
 	}
-}*/
+}
 
 
 // Create
@@ -280,7 +281,9 @@ bool stereoNet::init( stereoNet::NetworkType networkType, uint32_t maxBatchSize,
 			return false;
 	}
 
+	mPrecision = precision;
 	mNetworkType = networkType;
+
 	return true;
 }
 

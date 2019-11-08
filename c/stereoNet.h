@@ -77,15 +77,15 @@ public:
 
 	/**
 	 * Parse a string to one of the built-in pretrained models.
-	 * Valid names are "mobilenet", "resnet-18", or "resnet-50", ect.
-	 * @returns one of the depthNet::NetworkType enums, or depthNet::CUSTOM on invalid string.
+	 * Valid names are "nvsmall", "nvtiny", "resnet18", "resnet18-2D", or "default".
+	 * @returns one of the stereoNet::NetworkType enums, or stereoNet::DEFAULT_NETWORK on invalid string.
 	 */
-	//static NetworkType NetworkTypeFromStr( const char* model_name );
+	static NetworkType NetworkTypeFromStr( const char* model_name );
 
 	/**
 	 * Convert a NetworkType enum to a string.
 	 */
-	//static const char* NetworkTypeToStr( NetworkType network );
+	static const char* NetworkTypeToStr( NetworkType network );
 
 	/**
 	 * Load a new network instance
@@ -165,7 +165,7 @@ public:
 	/**
  	 * Retrieve a string describing the network name.
 	 */
-	//inline const char* GetNetworkName() const					{ NetworkTypeToStr(mNetworkType); }
+	inline const char* GetNetworkName() const					{ NetworkTypeToStr(mNetworkType); }
 
 protected:
 	stereoNet();
