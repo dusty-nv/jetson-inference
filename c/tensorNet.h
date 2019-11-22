@@ -68,7 +68,7 @@ typedef nvinfer1::Dims3 Dims3;
  * Prefix used for tagging printed log output from TensorRT.
  * @ingroup tensorNet
  */
-#define LOG_TRT "[TRT]   "
+#define LOG_TRT "[TRT]    "
 
 
 /**
