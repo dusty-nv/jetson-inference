@@ -73,8 +73,10 @@ protected:
 	stereoNet* mStereoNet;
 	segNet*	 mSegNet;
 
-	float4* mImages[2];
-	float4* mDepthImg;
+	float* mImages[2];
+	float* mDepthImg;
+	float* mSegOverlay;
+	float* mSegMask;
 
 	bool     mNewImages;
 	uint32_t mNumImages;

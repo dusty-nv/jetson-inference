@@ -45,6 +45,8 @@ DepthWindow::DepthWindow()
 	mImages[0]  = NULL;
 	mImages[1]  = NULL;
 	mDepthImg   = NULL;
+	mSegOverlay = NULL;
+	mSegMask    = NULL;
 
 	mNewImages  = false;
 	mNumImages  = 0;
@@ -56,6 +58,29 @@ DepthWindow::DepthWindow()
 // destructor
 DepthWindow::~DepthWindow()
 {
+	if( mDepthImg != NULL )
+	{
+		CUDA(cudaFree(mDepthImg));
+		mDepthImg = NULL;
+	}
+
+	if( mSegOverlay != NULL )
+	{
+		CUDA(cudaFree(mSegOverlay));
+		mSegOverlay = NULL;
+	}
+
+	if( mSegMask != NULL )
+	{
+		CUDA(cudaFree(mSegMask));
+		mSegMask = NULL;
+	}
+
+	SAFE_DELETE(mDepthNet);
+	SAFE_DELETE(mStereoNet);
+	SAFE_DELETE(mSegNet);
+
+	SAFE_DELETE(mPointCloud);
 	SAFE_DELETE(mCamera);
 	SAFE_DELETE(mDisplay);
 }
@@ -89,7 +114,7 @@ bool DepthWindow::init( commandLine& cmdLine )
 			int imgWidth = 0;
 			int imgHeight = 0;
 
-			if( !loadImageRGBA(cmdLine.GetPosition(n), &mImages[n], &imgWidth, &imgHeight) )
+			if( !loadImageRGBA(cmdLine.GetPosition(n), (float4**)&mImages[n], &imgWidth, &imgHeight) )
 				return false;
 
 			if( n == 0 )
@@ -148,6 +173,19 @@ bool DepthWindow::init( commandLine& cmdLine )
 		}
 	}
 
+	// load segmentation network if desired
+	const char* segModel = cmdLine.GetString("segmentation");
+
+	if( segModel != NULL )
+	{
+		mSegNet = segNet::Create(segNet::NetworkTypeFromStr(segModel));
+
+		if( !mSegNet )
+			printf("depth-viewer:  failed to load segmentation network\n");
+		else
+			mSegNet->SetOverlayAlpha(cmdLine.GetFloat("alpha", 120.0f));
+	}
+
 	// parse the desired colormap and filter mode
 	mColormap = cudaColormapFromStr(cmdLine.GetString("colormap"));
 	mFilterMode = cudaFilterModeFromStr(cmdLine.GetString("filter-mode"));
@@ -160,6 +198,12 @@ bool DepthWindow::init( commandLine& cmdLine )
 		printf("depth-viewer:  failed to create point cloud\n");
 		return false;
 	}
+
+	// load camera calibration
+	const char* calibration = cmdLine.GetString("calibration");
+
+	if( calibration != NULL )
+		mPointCloud->SetCalibration(calibration);
 
 	// create openGL window
 	mDisplay = glDisplay::Create();
@@ -183,10 +227,11 @@ bool DepthWindow::process()
 	uint32_t depthWidth  = 0;
 	uint32_t depthHeight = 0;
 
+	// process depth
 	if( mDepthNet != NULL )
 	{
-		if( !mDepthNet->Process((float*)mImages[0], mImgWidth, mImgHeight, 
-						    (float*)mDepthImg, mImgWidth/2, mImgHeight/2, 
+		if( !mDepthNet->Process(mImages[0], mImgWidth, mImgHeight, 
+						    mDepthImg, mImgWidth/2, mImgHeight/2, 
 						    mColormap, mFilterMode) )
 		{
 			printf("depth-viewer:  failed to process mono depth map\n");
@@ -208,9 +253,33 @@ bool DepthWindow::process()
 		// TODO
 	}
 
+	// process segmentation
+	if( mSegNet != NULL )
+	{
+		if( !mSegNet->Process(mImages[0], mImgWidth, mImgHeight) )
+		{
+			printf("depth-viewer:  failed to process segmentation\n");
+			return false;
+		}
+		
+		if( !mSegNet->Overlay(mSegOverlay, mImgWidth, mImgHeight, (segNet::FilterMode)mFilterMode) )
+		{
+			printf("depth-viewer:  failed to process segmentation overlay.\n");
+			return false;
+		}
+
+		if( !mSegNet->Mask(mSegMask, mImgWidth/2, mImgHeight/2, (segNet::FilterMode)mFilterMode) )
+		{
+			printf("depth-viewer:  failed to process segmentation mask.\n");
+			return false;
+		}
+
+		mImages[0] = mSegOverlay;
+	}
+
+
 	// extract point cloud
-	if( !mPointCloud->Extract(depthField, depthWidth, depthHeight,
-						 mImages[0], mImgWidth, mImgHeight) )
+	if( !mPointCloud->Extract(depthField, depthWidth, depthHeight, (float4*)mImages[0], mImgWidth, mImgHeight) )
 	{
 		printf("depth-viewer:  failed to extract point cloud\n");
 		return false;
@@ -226,9 +295,9 @@ bool DepthWindow::Render()
 	// capture RGBA image
 	if( mCamera != NULL )
 	{
-		float4* imgRGBA = NULL;
+		float* imgRGBA = NULL;
 
-		if( mCamera->CaptureRGBA((float**)&imgRGBA) )
+		if( mCamera->CaptureRGBA(&imgRGBA) )
 		{
 			mImages[0] = imgRGBA;
 			mImgWidth  = mCamera->GetWidth();
@@ -243,8 +312,24 @@ bool DepthWindow::Render()
 	// allocate depth image
 	if( !mDepthImg )
 	{
-		if( !cudaAllocMapped((void**)&mDepthImg, mImgWidth/2 * mImgHeight/2 * sizeof(float4)) )
+		if( CUDA_FAILED(cudaMalloc(&mDepthImg, mImgWidth/2 * mImgHeight/2 * sizeof(float4))) )
 			return false;
+	}
+
+	// allocate segmentation images
+	if( mSegNet != NULL )
+	{
+		if( !mSegOverlay )
+		{
+			if( CUDA_FAILED(cudaMalloc(&mSegOverlay, mImgWidth * mImgHeight * sizeof(float4))) )
+				return false;
+		}
+
+		if( !mSegMask )
+		{
+			if( CUDA_FAILED(cudaMalloc(&mSegMask, mImgWidth/2 * mImgHeight/2 * sizeof(float4))) )
+				return false;
+		}
 	}
 
 	// process image(s)
@@ -263,8 +348,11 @@ bool DepthWindow::Render()
 		mDisplay->BeginRender();
 
 		// render the images
-		mDisplay->Render((float*)mImages[0], mImgWidth, mImgHeight);
-		mDisplay->Render((float*)mDepthImg, mImgWidth/2, mImgHeight/2, mImgWidth);
+		mDisplay->Render(mImages[0], mImgWidth, mImgHeight);
+		mDisplay->Render(mDepthImg, mImgWidth/2, mImgHeight/2, mImgWidth);
+
+		if( mSegNet )
+			mDisplay->Render(mSegMask, mImgWidth/2, mImgHeight/2, mImgWidth, mImgHeight/2 + 30);
 
 		// render the point cloud
 		mDisplay->SetViewport(0, mImgHeight + 30, mDisplay->GetWidth(), mDisplay->GetHeight());
