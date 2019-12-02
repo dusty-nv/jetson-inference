@@ -65,6 +65,12 @@
  */
 
 /**
+ * @defgroup odometryNet odometryNet
+ * Visual odometry estimation from image sequences.
+ * @ingroup deepVision
+ */
+
+/**
  * @defgroup flowNet flowNet
  * Dense optical flow estimation DNN.
  * @ingroup deepVision
