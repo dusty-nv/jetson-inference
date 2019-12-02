@@ -187,7 +187,7 @@ image is recognized as 'ice bear, polar bear, Ursus Maritimus, Thalarctos mariti
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/data/images/polar_bear.jpg" width="400">
 
 ``` bash
-$ ./my-recognition brown_bear.jpg
+$ ./my-recognition.py brown_bear.jpg
 image is recognized as 'brown bear, bruin, Ursus arctos' (class #294) with 99.928925% confidence
 ```
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/data/images/brown_bear.jpg" width="400">
