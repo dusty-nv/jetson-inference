@@ -62,8 +62,8 @@
 		  "  --input_blob INPUT   name of the input layer (default is '" IMAGENET_DEFAULT_INPUT "')\n" 	\
 		  "  --output_blob OUTPUT name of the output layer (default is '" IMAGENET_DEFAULT_OUTPUT "')\n" 	\
 		  "  --batch_size BATCH   maximum batch size (default is 1)\n"								\
-		  "  --profile            enable layer profiling in TensorRT\n"
-
+		  "  --profile            enable layer profiling in TensorRT\n"								\
+		  "  --verbose            enable verbose output from TensorRT\n"
 
 /**
  * Image recognition with classification networks, using TensorRT.

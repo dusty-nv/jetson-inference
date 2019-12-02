@@ -70,7 +70,8 @@
 		  "  --output_blob OUTPUT name of the output layer (default: '" SEGNET_DEFAULT_OUTPUT "')\n" 		\
 		  "  --batch_size BATCH   maximum batch size (default is 1)\n"								\
             "  --alpha ALPHA        overlay alpha blending value, range 0-255 (default: 120)\n"			\
-		  "  --profile            enable layer profiling in TensorRT\n"
+		  "  --profile            enable layer profiling in TensorRT\n"								\
+		  "  --verbose            enable verbose output from TensorRT\n"
 
 /**
  * Image segmentation with FCN-Alexnet or custom models, using TensorRT.

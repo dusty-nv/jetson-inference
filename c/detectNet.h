@@ -83,7 +83,8 @@
 		  "  --mean_pixel PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
 		  "  --batch_size BATCH    maximum batch size (default is 1)\n"										\
             "  --alpha ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\
-		  "  --profile             enable layer profiling in TensorRT\n"
+		  "  --profile             enable layer profiling in TensorRT\n"										\
+		  "  --verbose            enable verbose output from TensorRT\n"
 
 
 /**
