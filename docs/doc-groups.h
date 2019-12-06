@@ -98,7 +98,14 @@
  * Hardware-accelerated video encoder and decoder (H.264/H.265) using GStreamer.
  * @ingroup util
  */
- 
+
+/**
+ * @defgroup csv CSV Parsing
+ * Text file parsing for Comma-Separated Value (CSV) formats, with user-defined
+ * delimiters beyond just commas, including spaces, tabs, or other symbols.
+ * @ingroup util
+ */
+
 /**
  * @defgroup cuda CUDA
  * CUDA utilities and image processing kernels.
