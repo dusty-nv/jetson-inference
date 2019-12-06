@@ -11,13 +11,14 @@ add_subdirectory(depthnet-camera)
 add_subdirectory(flownet-console)
 add_subdirectory(flownet-camera)
 
+add_subdirectory(odometry-console)
+add_subdirectory(odometry-plot)
+
 add_subdirectory(segnet-console)
 add_subdirectory(segnet-camera)
 
 add_subdirectory(stereonet-console)
 add_subdirectory(stereonet-camera)
-
-add_subdirectory(odometry-console)
 
 
 if(CUDA_VERSION_MAJOR GREATER 9)
