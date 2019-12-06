@@ -30,12 +30,17 @@ __device__ inline float rgbaToGray( const float4& rgba )
 }
 
 
-// normalize to [0,1]
+// normalize [0,255] to [0,1]
 __device__ inline float norm1( float value )
 {
 	return value / 255.0f;
 }
 
+// normalize [-255,255] to [0,1]
+__device__ inline float norm2( float value )
+{
+	return (value + 255.0f) / 510.0f;
+}
 
 // gpuPreOdometryNet
 __global__ void gpuPreOdometryNet( float4* in_A, float4* in_B, int in_width, 
@@ -52,12 +57,28 @@ __global__ void gpuPreOdometryNet( float4* in_A, float4* in_B, int in_width,
 	const int dx = ((float)x * scale.x);
 	const int dy = ((float)y * scale.y);
 
-	// convert inputs to grayscale
+	// read the input images	
 	const int in_idx = dy * in_width + dx;
 
 	const float4 rgba_A = in_A[in_idx];
 	const float4 rgba_B = in_B[in_idx];
 
+#if 1
+	// difference the images	
+	const float3 delta = make_float3( norm2(rgba_B.x - rgba_A.x),
+							    norm2(rgba_B.y - rgba_A.y),
+							    norm2(rgba_B.z - rgba_A.z) );
+
+	
+	// output in planar format
+	const int offset = y * out_width + x;
+
+	output[n * 0 + offset] = delta.x;
+	output[n * 1 + offset] = delta.y;
+	output[n * 2 + offset] = delta.z;
+
+#else
+	// convert inputs to grayscale
 	const float gray_A = rgbaToGray(rgba_A);
 	const float gray_B = rgbaToGray(rgba_B);
 
@@ -70,6 +91,7 @@ __global__ void gpuPreOdometryNet( float4* in_A, float4* in_B, int in_width,
 	output[n * 0 + offset] = norm_A;
 	output[n * 1 + offset] = norm_B;
 	output[n * 2 + offset] = 0.0f;
+#endif
 }
 
 

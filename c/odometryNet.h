@@ -143,6 +143,11 @@ public:
 	inline float* GetOutput() const						{ return mOutputs[0].CUDA; }
 
 	/**
+	 * Retrieve one of the odometry output data values.
+	 */
+	inline float GetOutput( uint32_t index ) const			{ return mOutputs[0].CPU[index]; }
+
+	/**
 	 * Retrieve the number of floats in the output odometry array.
 	 */
 	inline uint32_t GetNumOutputs() const					{ return DIMS_C(mOutputs[0].dims); }
