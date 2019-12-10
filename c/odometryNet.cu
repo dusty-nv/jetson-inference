@@ -26,7 +26,9 @@
 // rgbaToGray
 __device__ inline float rgbaToGray( const float4& rgba )
 {
-	return rgba.x * 0.2989f + rgba.y * 0.5870f + rgba.z * 0.1140f;
+	const int luma = int(rgba.x) * 299/1000 + int(rgba.y) * 587/1000 + int(rgba.z) * 114/1000;
+	return luma;
+	//return rgba.x * 0.2989f + rgba.y * 0.5870f + rgba.z * 0.1140f;
 }
 
 
@@ -63,7 +65,7 @@ __global__ void gpuPreOdometryNet( float4* in_A, float4* in_B, int in_width,
 	const float4 rgba_A = in_A[in_idx];
 	const float4 rgba_B = in_B[in_idx];
 
-#if 1
+#if 0
 	// difference the images	
 	const float3 delta = make_float3( norm2(rgba_B.x - rgba_A.x),
 							    norm2(rgba_B.y - rgba_A.y),

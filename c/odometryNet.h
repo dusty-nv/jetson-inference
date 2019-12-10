@@ -137,6 +137,8 @@ public:
 	 */
 	bool Process( float4* imageA, float4* imageB, uint32_t width, uint32_t height, float* output=NULL );
 
+	inline float* GetInput() const						{ return mInputs[0].CUDA; }
+
 	/**
 	 * Retrieve the pointer to the output odometry data.
 	 */

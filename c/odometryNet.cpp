@@ -160,7 +160,7 @@ odometryNet* odometryNet::Create( int argc, char** argv )
 		if( maxBatchSize < 1 )
 			maxBatchSize = 1;
 
-		net = odometryNet::Create(model, input, output, maxBatchSize);
+		net = odometryNet::Create(model, input, output, maxBatchSize/*, TYPE_FP32*/);
 	}
 	else
 	{
