@@ -32,6 +32,10 @@
 #include "csvReader.h"
 
 
+const int DOF = 3;
+const char* DOF_names[] = { "x", "y", "θ" };
+
+
 // print usage
 int print_usage()
 {
@@ -50,31 +54,40 @@ int print_usage()
 }
 
 
+void printImg( float* img, int width, int height )
+{
+	const int n = width * height;
+
+	for( int c=0; c < 3; c++ )
+	{
+		printf("[");
+
+		for( int y=0; y < 3; y++ )
+		{
+			int idx = c * n + y * width; 
+			printf("[%.4f, %.4f, %.4f, ..., ", img[idx+0], img[idx+1], img[idx+2]);
+			idx += (width - 3);
+			printf("%.4f, %.4f, %.4f]\n", img[idx+0], img[idx+1], img[idx+2]);
+		}
+
+		printf("...,\n");
+
+		for( int y=height-3; y < height; y++ )
+		{
+			int idx = c * n + y * width; 
+			printf("[%.4f, %.4f, %.4f, ..., ", img[idx+0], img[idx+1], img[idx+2]);
+			idx += (width - 3);
+			printf("%.4f, %.4f, %.4f]\n", img[idx+0], img[idx+1], img[idx+2]);
+		}
+	
+		printf("]\n");
+	}
+}
+
+
 // main entry point
 int main( int argc, char** argv )
 {
-	//csvRow row("abc 123 456.789");
-
-	//const float f = (float)row(1);
-
-	//printf("columns:  %zu\n", row.Size());
-	//printf("column 1:  %f\n", row.Data<float>(1));
-
-	const std::vector<csvData> row = csvData::Parse("abc 123 456.789");
-
-	const char* ch = row[2];
-	std::string str2 = row[2];
-	float x = row[1].toFloat();
-
-	printf("columns:  %zu\n", row.size());
-	printf("column 0:  %f\n", (float)row[0]);
-	printf("column 1:  %f\n", (float)row[1]);
-	printf("column 2:  %f\n", (float)row[2]);
-	printf("column 2 str:  '%s'\n", (const char*)row[2]);
-
-	csvData t = 10.123f;
-	printf("csvData t:  %f\n", float(t));
-
 	/*
 	 * parse command line
 	 */
@@ -129,8 +142,12 @@ int main( int argc, char** argv )
 	 */
 	const int numOutputs = net->GetNumOutputs();
 
-	double* pose = (double*)malloc(numOutputs * sizeof(double));
-	memset(pose, 0, numOutputs * sizeof(double));
+	//double* pose = (double*)malloc(numOutputs * sizeof(double));
+	//memset(pose, 0, numOutputs * sizeof(double));
+
+	double pose[DOF];
+	memset(pose, 0, sizeof(pose));
+
 
 	/* 
 	 * process image sequence
@@ -174,27 +191,66 @@ int main( int argc, char** argv )
 			}
 
 			// print out performance info
-			//net->PrintProfilerTimes();
+			net->PrintProfilerTimes();
+
+			// accumulate the pose
+			const double velocity = net->GetOutput(0);
+			const double delta_heading = net->GetOutput(1);
+
+			pose[2] += delta_heading;
+
+			const double delta[] = { velocity * cos(pose[2]),  // dx
+								velocity * sin(pose[2]),  // dy
+								delta_heading };
+
+			pose[0] += delta[0];
+			pose[1] += delta[1];
+
 
 			// calculate the error			
-			double imgError = 0.0;
+			double mseError = 0.0;
 			printf("%04i ", (int)nextLine[0]);
 
+#if 1
+			for( int n=0; n < DOF; n++ )
+			{
+				const double gt_value = double(nextLine[n+1]);
+				const double gt_delta = gt_value - double(prevLine[n+1]);
+				const double gt_error = pose[n] - gt_value;
+
+				mseError += gt_error * gt_error;
+
+				printf("%s=[%+.6lf (gt=%+.6lf) (err=%+.6lf) Δ %+.6lf (gt=%+.6lf) (err=%+.6lf)] ", DOF_names[n], pose[n], gt_value, gt_error, delta[n], gt_delta, delta[n] - gt_delta);
+			}
+
+			const double gt_delta_x  = double(nextLine[1]) - double(prevLine[1]);
+			const double gt_delta_y  = double(nextLine[2]) - double(prevLine[2]);
+			const double gt_velocity = sqrt(gt_delta_x * gt_delta_x + gt_delta_y * gt_delta_y);
+
+			printf("v=[%+.6lf (gt=%+.6lf) (err=%+.6lf)] ", velocity, gt_velocity, velocity - gt_velocity);
+
+			mseError /= double(DOF);				
+#else
 			for( int n=0; n < numOutputs; n++ )
 			{
 				const double net_data = double(net->GetOutput(n));
 				const double gt_delta = double(nextLine[n+1]) - double(prevLine[n+1]);				
-				const double gt_error = gt_delta - net_data;
+				const double gt_error = net_data - gt_delta;
 				
-				imgError += fabs(gt_error);
+				mseError += gt_error * gt_error; //fabs(gt_error);
 				pose[n] += net_data;
 
 				printf("%+.6lf [err=%+.6lf] %+.6lf [err=%+.6lf] ", pose[n], pose[n] - double(nextLine[n+1]), net_data, gt_error);
 			}
 
-			printf("**error:  %.6lf\n", imgError);
+			mseError /= double(numOutputs);
+#endif						
+			printf("**error:  %.6lf\n", mseError);
 
-			avgError += imgError;
+			//printf("%04i ", (int)nextLine[0]);
+			//printImg(net->GetInput(), net->GetInputWidth(), net->GetInputHeight());
+
+			avgError += mseError;
 			numImages++;
 		}
 
@@ -209,22 +265,20 @@ int main( int argc, char** argv )
 	avgError /= (double)numImages;
 
 	printf("**average error:   %lf\n", avgError);
-	printf("**per-DoF error:   %lf\n", avgError / (double)numOutputs);
-
 	printf("**computed pose:  ");
 
-	for( int n=0; n < numOutputs; n++ )
-		printf("%+.6lf ", pose[n]);
+	for( int n=0; n < DOF; n++ )
+		printf("%s = %+.6lf ", DOF_names[n], pose[n]);
 
 	printf("\n**expected pose:  ");
 
-	for( int n=0; n < numOutputs; n++ )
-		printf("%+.6lf ", (double)prevLine[n+1]);
+	for( int n=0; n < DOF; n++ )
+		printf("%s = %+.6lf ", DOF_names[n], (double)prevLine[n+1]);
 
 	printf("\n**pose error:     ");
 
-	for( int n=0; n < numOutputs; n++ )
-		printf("%+.6lf ", pose[n] - (double)prevLine[n+1]);
+	for( int n=0; n < DOF; n++ )
+		printf("%s = %+.6lf ", DOF_names[n], pose[n] - (double)prevLine[n+1]);
 
 	/*
 	 * destroy resources
