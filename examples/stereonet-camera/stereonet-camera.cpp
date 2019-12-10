@@ -24,9 +24,10 @@
 #include "glDisplay.h"
 
 #include "cudaCrop.h"
+#include "cudaWarp.h"
 #include "cudaMappedMemory.h"
-#include "commandLine.h"
 
+#include "commandLine.h"
 #include "stereoNet.h"
 
 #include <signal.h>
@@ -129,9 +130,9 @@ int main( int argc, char** argv )
 	/*
 	 * allocate left/right inputs
 	 */
-	float* imgInput[] = { NULL, NULL };
+	float* imgInput[] = { NULL, NULL, NULL, NULL };
 
-	for( int n=0; n < 2; n++ )
+	for( int n=0; n < 4; n++ )
 	{
 		if( CUDA_FAILED(cudaMalloc((void**)&imgInput[n], width * height * sizeof(float) * 4)) )
 		{
@@ -190,7 +191,7 @@ int main( int argc, char** argv )
 							    cameraWidth, cameraHeight)) )
 		{
 			printf("stereonet-camera:  failed to crop left input image\n");
-			return 0;
+			continue;
 		}
 
 		if( CUDA_FAILED(cudaCropRGBA((float4*)imgCamera, (float4*)imgInput[1],
@@ -198,8 +199,27 @@ int main( int argc, char** argv )
 							    cameraWidth, cameraHeight)) )
 		{
 			printf("stereonet-camera:  failed to crop right input image\n");
-			return 0;
+			continue;
 		}
+
+#if 0
+		// apply intrinsic calibration
+		if( CUDA_FAILED(cudaWarpIntrinsic((float4*)imgInput[0], (float4*)imgInput[2], width, height, 
+									make_float2(349.938f, 349.938f), make_float2(341.8f, 181.698f),
+									make_float4(-0.17182f, 0.026142f, 0.0f, 0.0f))) )
+		{
+			printf("stereonet-camera:  failed to de-warp left input image\n");
+			continue;
+		}
+
+		if( CUDA_FAILED(cudaWarpIntrinsic((float4*)imgInput[1], (float4*)imgInput[3], width, height, 
+									make_float2(349.99f, 349.99f), make_float2(327.78f, 193.343f),
+									make_float4(-0.17067f, 0.025132f, 0.0f, 0.0f))) )
+		{
+			printf("stereonet-camera:  failed to de-warp right input image\n");
+			continue;
+		}
+#endif
 
 		// process the depth mapping
 		if( !net->Process(imgInput[0], imgInput[1], imgDepth, 
