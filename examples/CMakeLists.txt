@@ -20,10 +20,9 @@ add_subdirectory(segnet-camera)
 add_subdirectory(stereonet-console)
 add_subdirectory(stereonet-camera)
 
+add_subdirectory(superres-console)
 
-if(CUDA_VERSION_MAJOR GREATER 9)
+if(HAS_OPENCV)
 	add_subdirectory(homography-console)
 	add_subdirectory(homography-camera)
-
-	add_subdirectory(superres-console)
 endif()
