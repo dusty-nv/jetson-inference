@@ -237,18 +237,10 @@ int main( int argc, char** argv )
 			
 			// output the results
 			if( csvResults != NULL )
-			{
-				csvResults->Write(pose[0]);
-				csvResults->Write(pose[1]);
-				csvResults->EndLine();
-			}
+				csvResults->WriteLine(pose[0], pose[1]);
 
 			if( csvResultsGT != NULL )
-			{
-				csvResultsGT->Write(gt_next_x);
-				csvResultsGT->Write(gt_next_y);
-				csvResultsGT->EndLine();
-			}				
+				csvResultsGT->WriteLine(gt_next_x, gt_next_y);		
 #else
 			for( int n=0; n < numOutputs; n++ )
 			{
