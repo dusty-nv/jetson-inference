@@ -30,7 +30,7 @@
 #include "mat33.h"
 
 #include "csvReader.h"
-
+#include "csvWriter.h"
 
 const int DOF = 3;
 const char* DOF_names[] = { "x", "y", "θ" };
@@ -109,6 +109,9 @@ int main( int argc, char** argv )
 		printf("odometry-plot:  failed to open groundtruth CSV file\n");
 		return 0;
 	}
+
+	csvWriter* csvResults = csvWriter::Open(cmdLine.GetString("results-out"), " ");
+	csvWriter* csvResultsGT = csvWriter::Open(cmdLine.GetString("gt-out"), " ");
 
 #if 0
 		printf("opened csv %s\n", csv->GetFilename());
@@ -191,7 +194,7 @@ int main( int argc, char** argv )
 			}
 
 			// print out performance info
-			net->PrintProfilerTimes();
+			//net->PrintProfilerTimes();
 
 			// accumulate the pose
 			const double velocity = net->GetOutput(0);
@@ -205,7 +208,6 @@ int main( int argc, char** argv )
 
 			pose[0] += delta[0];
 			pose[1] += delta[1];
-
 
 			// calculate the error			
 			double mseError = 0.0;
@@ -223,13 +225,30 @@ int main( int argc, char** argv )
 				printf("%s=[%+.6lf (gt=%+.6lf) (err=%+.6lf) Δ %+.6lf (gt=%+.6lf) (err=%+.6lf)] ", DOF_names[n], pose[n], gt_value, gt_error, delta[n], gt_delta, delta[n] - gt_delta);
 			}
 
-			const double gt_delta_x  = double(nextLine[1]) - double(prevLine[1]);
-			const double gt_delta_y  = double(nextLine[2]) - double(prevLine[2]);
+			const double gt_next_x   = double(nextLine[1]);
+			const double gt_next_y   = double(nextLine[2]);
+			const double gt_delta_x  = gt_next_x - double(prevLine[1]);
+			const double gt_delta_y  = gt_next_y - double(prevLine[2]);
 			const double gt_velocity = sqrt(gt_delta_x * gt_delta_x + gt_delta_y * gt_delta_y);
 
 			printf("v=[%+.6lf (gt=%+.6lf) (err=%+.6lf)] ", velocity, gt_velocity, velocity - gt_velocity);
 
-			mseError /= double(DOF);				
+			mseError /= double(DOF);	
+			
+			// output the results
+			if( csvResults != NULL )
+			{
+				csvResults->Write(pose[0]);
+				csvResults->Write(pose[1]);
+				csvResults->EndLine();
+			}
+
+			if( csvResultsGT != NULL )
+			{
+				csvResultsGT->Write(gt_next_x);
+				csvResultsGT->Write(gt_next_y);
+				csvResultsGT->EndLine();
+			}				
 #else
 			for( int n=0; n < numOutputs; n++ )
 			{
@@ -284,6 +303,10 @@ int main( int argc, char** argv )
 	 * destroy resources
 	 */
 	printf("\nodometry-plot:  shutting down...\n");
+
+	SAFE_DELETE(csv);
+	SAFE_DELETE(csvResults);
+	SAFE_DELETE(csvResultsGT);
 
 	SAFE_DELETE(net);
 
