@@ -8,9 +8,9 @@ add_subdirectory(detectnet-camera)
 add_subdirectory(segnet-console)
 add_subdirectory(segnet-camera)
 
-if(CUDA_VERSION_MAJOR GREATER 9)
+add_subdirectory(superres-console)
+
+if(HAS_OPENCV)
 	add_subdirectory(homography-console)
 	add_subdirectory(homography-camera)
-
-	add_subdirectory(superres-console)
 endif()
