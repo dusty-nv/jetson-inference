@@ -23,6 +23,13 @@
 #include "cudaUtility.h"
 
 
+// pre-processing mode
+#define ODOMETRY_GRAY      0
+#define ODOMETRY_GRAY_DIFF 1
+#define ODOMETRY_RGBA_DIFF 2
+#define ODOMETRY_MODE      ODOMETRY_GRAY_DIFF
+
+
 // rgbaToGray
 __device__ inline float rgbaToGray( const float4& rgba )
 {
@@ -65,20 +72,18 @@ __global__ void gpuPreOdometryNet( float4* in_A, float4* in_B, int in_width,
 	const float4 rgba_A = in_A[in_idx];
 	const float4 rgba_B = in_B[in_idx];
 
-#if 0
+#if ODOMETRY_MODE == ODOMETRY_RGBA_DIFF
 	// difference the images	
 	const float3 delta = make_float3( norm2(rgba_B.x - rgba_A.x),
 							    norm2(rgba_B.y - rgba_A.y),
 							    norm2(rgba_B.z - rgba_A.z) );
 
-	
 	// output in planar format
 	const int offset = y * out_width + x;
 
 	output[n * 0 + offset] = delta.x;
 	output[n * 1 + offset] = delta.y;
 	output[n * 2 + offset] = delta.z;
-
 #else
 	// convert inputs to grayscale
 	const float gray_A = rgbaToGray(rgba_A);
@@ -92,7 +97,12 @@ __global__ void gpuPreOdometryNet( float4* in_A, float4* in_B, int in_width,
 
 	output[n * 0 + offset] = norm_A;
 	output[n * 1 + offset] = norm_B;
+
+#if ODOMETRY_MODE == ODOMETRY_GRAY_DIFF
+	output[n * 2 + offset] = (norm_B - norm_A + 1.0f) * 0.5f;
+#else
 	output[n * 2 + offset] = 0.0f;
+#endif
 #endif
 }
 
