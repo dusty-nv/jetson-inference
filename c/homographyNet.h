@@ -27,11 +27,12 @@
 #include "tensorNet.h"
 
 
-#if NV_TENSORRT_MAJOR >= 5
+#ifdef HAS_OPENCV
 /**
  * Defines if homographyNet DNN is available on the system or not.
- * @note homographyNet is only supported with TensorRT 5.0 and newer,
- * as it uses ONNX models and requires ONNX import support in TensorRT.
+ * @note homographyNet requires OpenCV 3.0.0 or newer on the system,
+ * and is only supported with TensorRT version 5.0 and newer, as it 
+ * uses ONNX models and requires ONNX importer support in TensorRT.
  * @ingroup homographyNet
  */
 #define HAS_HOMOGRAPHY_NET
