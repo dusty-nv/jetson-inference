@@ -585,9 +585,15 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		printf(LOG_TRT "warning:  device %s using INT8 precision with RANDOM calibration\n", deviceTypeToStr(device));
 	}
 #endif
+	
+#if NV_TENSORRT_MAJOR > 5
+	const uint32_t workspaceSize = 32 << 20;
+#else
+	const uint32_t workspaceSize = 16 << 20;
+#endif
 
 	// configure the builder
-	if( !ConfigureBuilder(builder, maxBatchSize, 16 << 20, precision,
+	if( !ConfigureBuilder(builder, maxBatchSize, workspaceSize, precision,
 					  device, allowGPUFallback, calibrator) )
 	{
 		printf(LOG_TRT "device %s, failed to configure builder\n", deviceTypeToStr(device));

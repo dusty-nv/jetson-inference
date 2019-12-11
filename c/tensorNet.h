@@ -37,7 +37,14 @@ namespace nvinfer1 { class IInt8Calibrator; }
 #include <math.h>
 
 
-#if NV_TENSORRT_MAJOR > 1
+#if NV_TENSORRT_MAJOR > 5
+typedef nvinfer1::Dims3 Dims3;
+
+#define DIMS_C(x) x.d[0]
+#define DIMS_H(x) x.d[1]
+#define DIMS_W(x) x.d[2]
+
+#elif NV_TENSORRT_MAJOR > 1
 typedef nvinfer1::DimsCHW Dims3;
 
 #define DIMS_C(x) x.d[0]
@@ -573,7 +580,13 @@ protected:
 
 		void log( Severity severity, const char* msg ) override
 		{
-			if( severity != Severity::kINFO || verbose )
+		#if NV_TENSORRT_MAJOR > 5
+			const Severity ignoreLevel = Severity::kVERBOSE;
+		#else
+			const Severity ignoreLevel = Severity::kINFO;
+		#endif
+
+			if( severity != ignoreLevel || verbose )
 				printf(LOG_TRT "%s\n", msg);
 		}
 
