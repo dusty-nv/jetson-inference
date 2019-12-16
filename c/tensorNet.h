@@ -141,7 +141,8 @@ enum modelType
 	MODEL_CUSTOM = 0,	/**< Created directly with TensorRT API */
 	MODEL_CAFFE,		/**< caffemodel */
 	MODEL_ONNX,		/**< ONNX */
-	MODEL_UFF			/**< UFF */
+	MODEL_UFF,		/**< UFF */
+	MODEL_ENGINE		/**< TensorRT engine/plan */
 };
 
 /**

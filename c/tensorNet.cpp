@@ -210,6 +210,7 @@ const char* modelTypeToStr( modelType format )
 		case MODEL_CAFFE:	return "caffe";
 		case MODEL_ONNX:	return "ONNX";
 		case MODEL_UFF:	return "UFF";
+		case MODEL_ENGINE:	return "engine";
 	}
 }
 
@@ -224,6 +225,8 @@ modelType modelTypeFromStr( const char* str )
 		return MODEL_ONNX;
 	else if( strcasecmp(str, "uff") == 0 )
 		return MODEL_UFF;
+	else if( strcasecmp(str, "engine") == 0 || strcasecmp(str, "plan") == 0 )
+		return MODEL_ENGINE;
 
 	return MODEL_CUSTOM;
 }
@@ -883,6 +886,20 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 		printf(LOG_TRT "attempted to load caffe model without specifying prototxt file\n");
 		return false;
 	}
+	else if( model_fmt == MODEL_ENGINE )
+	{
+		if( !LoadEngine(model_path.c_str(), input_blobs, output_blobs, NULL, device, stream) )
+		{
+			printf(LOG_TRT "failed to load %s\n", model_path.c_str());
+			return false;
+		}
+
+		mModelType = model_fmt;
+		mModelPath = model_path;
+
+		printf(LOG_TRT "device %s, %s initialized.\n", deviceTypeToStr(device), mModelPath.c_str());	
+		return true;
+	}
 
 	mModelType = model_fmt;
 
@@ -1076,15 +1093,15 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 
 	mMaxBatchSize = engine->getMaxBatchSize();
 
+	printf(LOG_TRT "\n");
 	printf(LOG_TRT "CUDA engine context initialized on device %s:\n", deviceTypeToStr(device));
 	printf(LOG_TRT "   -- layers       %i\n", engine->getNbLayers());
-	printf(LOG_TRT "   -- bindings     %i\n", engine->getNbBindings());
 	printf(LOG_TRT "   -- maxBatchSize %u\n", mMaxBatchSize);
 	printf(LOG_TRT "   -- workspace    %zu\n", engine->getWorkspaceSize());
 	
 #if NV_TENSORRT_MAJOR >= 4
 	printf(LOG_TRT "   -- deviceMemory %zu\n", engine->getDeviceMemorySize());
-	printf(LOG_TRT "\n");
+	printf(LOG_TRT "   -- bindings     %i\n", engine->getNbBindings());
 
 	/*
 	 * print out binding info
@@ -1093,10 +1110,11 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 	
 	for( int n=0; n < numBindings; n++ )
 	{
-		printf(LOG_TRT "binding -- index   %i\n", n);
+		printf(LOG_TRT "   binding %i\n", n);
 
 		const char* bind_name = engine->getBindingName(n);
 
+		printf("                -- index   %i\n", n);
 		printf("                -- name    '%s'\n", bind_name);
 		printf("                -- type    %s\n", dataTypeToStr(engine->getBindingDataType(n)));
 		printf("                -- in/out  %s\n", engine->bindingIsInput(n) ? "INPUT" : "OUTPUT");
