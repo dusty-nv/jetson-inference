@@ -84,6 +84,18 @@ void printImg( float* img, int width, int height )
 	}
 }
 
+template<typename T>
+inline T unscale( T value, T range_min, T range_max )
+{
+	return (value * (range_max - range_min)) + range_min;
+}
+
+template<typename T>
+inline T unnormalize( T value, T mean, T std_dev )
+{
+	return (value * std_dev) + mean;
+}
+
 
 // main entry point
 int main( int argc, char** argv )
@@ -149,8 +161,10 @@ int main( int argc, char** argv )
 	//memset(pose, 0, numOutputs * sizeof(double));
 
 	double pose[DOF];
-	memset(pose, 0, sizeof(pose));
+	double pose_gt[DOF];
 
+	memset(pose, 0, sizeof(pose));
+	memset(pose_gt, 0, sizeof(pose_gt));
 
 	/* 
 	 * process image sequence
@@ -197,8 +211,13 @@ int main( int argc, char** argv )
 			//net->PrintProfilerTimes();
 
 			// accumulate the pose
+#if 1
+			const double velocity = unscale(unnormalize((double)net->GetOutput(0), 0.21042515, 0.05743989), 0.0, 0.112281263);
+			const double delta_heading = unscale(unnormalize((double)net->GetOutput(1), 0.4170771, 0.04943629), -0.047858000, 0.069044000);
+#else
 			const double velocity = net->GetOutput(0);
 			const double delta_heading = net->GetOutput(1);
+#endif
 
 			pose[2] += delta_heading;
 
@@ -227,11 +246,17 @@ int main( int argc, char** argv )
 
 			const double gt_next_x   = double(nextLine[1]);
 			const double gt_next_y   = double(nextLine[2]);
+			const double gt_next_h   = double(nextLine[3]);
 			const double gt_delta_x  = gt_next_x - double(prevLine[1]);
 			const double gt_delta_y  = gt_next_y - double(prevLine[2]);
+			const double gt_delta_h  = gt_next_h - double(prevLine[3]);
 			const double gt_velocity = sqrt(gt_delta_x * gt_delta_x + gt_delta_y * gt_delta_y);
 
-			printf("v=[%+.6lf (gt=%+.6lf) (err=%+.6lf)] ", velocity, gt_velocity, velocity - gt_velocity);
+			pose_gt[2] += gt_delta_h;
+			pose_gt[0] += gt_velocity * cos(pose_gt[2]);
+			pose_gt[1] += gt_velocity * sin(pose_gt[2]);
+
+			printf("v=[%+.6lf (gt=%+.6lf) (raw=%+.6lf) (err=%+.6lf)] ", velocity, gt_velocity, (double)net->GetOutput(0), velocity - gt_velocity);
 
 			mseError /= double(DOF);	
 			
@@ -240,7 +265,7 @@ int main( int argc, char** argv )
 				csvResults->WriteLine(pose[0], pose[1]);
 
 			if( csvResultsGT != NULL )
-				csvResultsGT->WriteLine(gt_next_x, gt_next_y);		
+				csvResultsGT->WriteLine(pose_gt[0], pose_gt[1]); //gt_next_x, gt_next_y);		
 #else
 			for( int n=0; n < numOutputs; n++ )
 			{
@@ -284,12 +309,12 @@ int main( int argc, char** argv )
 	printf("\n**expected pose:  ");
 
 	for( int n=0; n < DOF; n++ )
-		printf("%s = %+.6lf ", DOF_names[n], (double)prevLine[n+1]);
+		printf("%s = %+.6lf ", DOF_names[n], pose_gt[n]);//(double)prevLine[n+1]);
 
 	printf("\n**pose error:     ");
 
 	for( int n=0; n < DOF; n++ )
-		printf("%s = %+.6lf ", DOF_names[n], pose[n] - (double)prevLine[n+1]);
+		printf("%s = %+.6lf ", DOF_names[n], pose[n] - pose_gt[n]);//(double)prevLine[n+1]);
 
 	/*
 	 * destroy resources
