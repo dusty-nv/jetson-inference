@@ -25,17 +25,18 @@
 
 // pre-processing mode
 #define ODOMETRY_GRAY      0
-#define ODOMETRY_GRAY_DIFF 1
-#define ODOMETRY_RGBA_DIFF 2
-#define ODOMETRY_MODE      ODOMETRY_GRAY_DIFF
+#define ODOMETRY_GRAY_2    1
+#define ODOMETRY_GRAY_DIFF 2
+#define ODOMETRY_RGBA_DIFF 3
+#define ODOMETRY_MODE      ODOMETRY_GRAY
 
 
 // rgbaToGray
 __device__ inline float rgbaToGray( const float4& rgba )
 {
-	const int luma = int(rgba.x) * 299/1000 + int(rgba.y) * 587/1000 + int(rgba.z) * 114/1000;
-	return luma;
-	//return rgba.x * 0.2989f + rgba.y * 0.5870f + rgba.z * 0.1140f;
+	//const int luma = int(rgba.x) * 299/1000 + int(rgba.y) * 587/1000 + int(rgba.z) * 114/1000;
+	//return luma;
+	return rgba.x * 0.2989f + rgba.y * 0.5870f + rgba.z * 0.1140f;
 }
 
 
@@ -95,12 +96,12 @@ __global__ void gpuPreOdometryNet( float4* in_A, float4* in_B, int in_width,
 	// concatenate the images
 	const int offset = y * out_width + x;
 
-	output[n * 0 + offset] = norm_A;
-	output[n * 1 + offset] = norm_B;
+	output[n * 0 + offset] = (norm_A - 0.15399212f) / 0.05893139f;
+	output[n * 1 + offset] = (norm_B - 0.15405144f) / 0.05895483f;
 
 #if ODOMETRY_MODE == ODOMETRY_GRAY_DIFF
 	output[n * 2 + offset] = (norm_B - norm_A + 1.0f) * 0.5f;
-#else
+#elif ODOMETRY_MODE == ODOMETRY_GRAY
 	output[n * 2 + offset] = 0.0f;
 #endif
 #endif
