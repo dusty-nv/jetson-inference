@@ -71,6 +71,7 @@ public:
 		MOBILENET,	/**< MobileNet backbone */
 		RESNET_18,	/**< ResNet-18 backbone */
 		RESNET_50,	/**< ResNet-50 backbone */
+		FCN_RESNET_50,	/**< Fully-convolutional ResNet-50 */
 	};
 
 	/**
@@ -94,7 +95,6 @@ public:
 	
 	/**
 	 * Load a new network instance
-	 * @param prototxt_path File path to the deployable network prototxt
 	 * @param model_path File path to the caffemodel
 	 * @param mean_binary File path to the mean value binary proto (can be NULL)
 	 * @param class_labels File path to list of class name labels
@@ -109,6 +109,20 @@ public:
 						precisionType precision=TYPE_FASTEST,
 				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
+	/**
+	 * Load a custom network instance of a UFF model
+	 * @param model_path File path to the UFF model
+	 * @param input Name of the input layer blob.
+	 * @param inputDims Dimensions of the input layer blob.
+	 * @param output Name of the output layer blob containing the bounding boxes, ect.
+	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
+	 */
+	static depthNet* Create( const char* model_path, const char* input,
+						const Dims3& inputDims, const char* output,
+						uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+						precisionType precision=TYPE_FASTEST,
+				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
+
 	/**
 	 * Load a new network instance by parsing the command line.
 	 */

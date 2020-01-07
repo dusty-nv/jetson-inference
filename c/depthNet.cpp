@@ -51,13 +51,14 @@ depthNet::NetworkType depthNet::NetworkTypeFromStr( const char* modelName )
 
 	depthNet::NetworkType type = depthNet::MOBILENET;
 
-	// ONNX models
-	if( strcasecmp(modelName, "mobilenet") == 0 )
+	if( strcasecmp(modelName, "mobilenet") == 0 || strcasecmp(modelName, "MonoDepth-Mobilenet") == 0 )
 		type = depthNet::MOBILENET;
-	else if( strcasecmp(modelName, "resnet-18") == 0 || strcasecmp(modelName, "resnet_18") == 0 || strcasecmp(modelName, "resnet18") == 0 )
+	else if( strcasecmp(modelName, "resnet-18") == 0 || strcasecmp(modelName, "resnet_18") == 0 || strcasecmp(modelName, "resnet18") == 0 || strcasecmp(modelName, "MonoDepth-ResNet18") == 0 )
 		type = depthNet::RESNET_18;
-	else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 )
+	else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 || strcasecmp(modelName, "MonoDepth-ResNet50") == 0 )
 		type = depthNet::RESNET_50;
+	else if( strcasecmp(modelName, "fcn-resnet-50") == 0 || strcasecmp(modelName, "fcn_resnet_50") == 0 || strcasecmp(modelName, "fcn-resnet50") == 0 || strcasecmp(modelName, "fcn_resnet50") == 0 || strcasecmp(modelName, "MonoDepth-FCN-ResNet50") == 0)
+		type = depthNet::FCN_RESNET_50;	
 	else
 		type = depthNet::CUSTOM;
 
@@ -73,6 +74,7 @@ const char* depthNet::NetworkTypeToStr( depthNet::NetworkType type )
 		case MOBILENET:	return "MonoDepth-Mobilenet";
 		case RESNET_18:	return "MonoDepth-ResNet18";
 		case RESNET_50:	return "MonoDepth-ResNet50";
+		case FCN_RESNET_50: return "MonoDepth-FCN-ResNet50";
 		default:			return "Custom";
 	}
 }
@@ -85,12 +87,13 @@ depthNet* depthNet::Create( depthNet::NetworkType networkType, uint32_t maxBatch
 	depthNet* net = NULL;
 	
 	if( networkType == MOBILENET )
-		net = Create("networks/DepthNet-Mobilenet/depth_mobilenet.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
+		net = Create("networks/MonoDepth-Mobilenet/depth_mobilenet.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
 	else if( networkType == RESNET_18 )
-		net = Create("networks/DepthNet-ResNet18/depth_resnet18.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
+		net = Create("networks/MonoDepth-ResNet18/depth_resnet18.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
 	else if( networkType == RESNET_50 )
-		net = Create("networks/DepthNet-ResNet50/depth_resnet50.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
-
+		net = Create("networks/MonoDepth-ResNet50/depth_resnet50.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
+	else if( networkType == FCN_RESNET_50 )
+		net = Create("networks/MonoDepth-FCN-ResNet50/resnet_nonbt_shortcuts_320x240.uff", "tf/Placeholder", Dims3(3,240,320), "tf/Reshape", maxBatchSize, precision, device, allowGPUFallback);  
 	if( net != NULL )
 		net->mNetworkType = networkType;
 
@@ -120,6 +123,55 @@ depthNet* depthNet::Create( const char* model_path, const char* input_blob, cons
 	{
 		printf("depthNet -- failed to initialize.\n");
 		return NULL;
+	}
+
+	// load colormaps
+	CUDA(cudaColormapInit());
+
+	// return network
+	return net;
+}
+
+
+// Create (UFF)
+depthNet* depthNet::Create( const char* model_path, const char* input, 
+					   const Dims3& inputDims, const char* output,
+					   uint32_t maxBatchSize, precisionType precision,
+				   	   deviceType device, bool allowGPUFallback )
+{
+	depthNet* net = new depthNet();
+	
+	if( !net )
+		return NULL;
+	
+	printf("\n");
+	printf("depthNet -- loading mono depth network model from:\n");
+	printf("         -- model:      %s\n", model_path);
+	printf("         -- input_blob  '%s'\n", input);
+	printf("         -- output_blob '%s'\n", output);
+	printf("         -- batch_size  %u\n\n", maxBatchSize);
+	
+	// create list of output names	
+	std::vector<std::string> output_blobs;
+	output_blobs.push_back(output);
+
+	// increase workspace size for UFF
+	net->mWorkspaceSize = 96 << 20;
+
+	// load network
+	if( !net->LoadNetwork(NULL, model_path, NULL, input, inputDims, output_blobs, 
+					  maxBatchSize, precision, device, allowGPUFallback) )
+	{
+		printf("depthNet -- failed to initialize.\n");
+		return NULL;
+	}
+
+	// reorder UFF outputs with HWC dims (when C=1)
+	if( net->mOutputs[0].dims.d[2] == 1 )
+	{
+		net->mOutputs[0].dims.d[2] = net->mOutputs[0].dims.d[1];
+		net->mOutputs[0].dims.d[1] = net->mOutputs[0].dims.d[0];
+		net->mOutputs[0].dims.d[0] = 1;
 	}
 
 	// load colormaps
@@ -207,9 +259,21 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 			return false;
 		}
 	}
+	else if( IsModelType(MODEL_UFF) )
+	{
+		// remap to planar BGR, apply mean pixel subtraction
+		if( CUDA_FAILED(cudaPreImageNetMeanBGR((float4*)input, input_width, input_height,
+									    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+									    make_float3(123.0, 115.0, 101.0),
+									    GetStream())) )
+		{
+			printf(LOG_TRT "depthNet::Process() -- cudaPreImageNetMeanBGR() failed\n");
+			return false;
+		}
+	}
 	else
 	{
-		printf(LOG_TRT "depthNet::Process() -- support for models other than ONNX not implemented.\n");
+		printf(LOG_TRT "depthNet::Process() -- support for models other than ONNX and UFF not implemented.\n");
 		return false;
 	}
 
