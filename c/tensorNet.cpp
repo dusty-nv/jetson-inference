@@ -271,8 +271,10 @@ tensorNet::tensorNet()
 	memset(mEventsGPU, 0, sizeof(mEventsGPU));
 	memset(mProfilerTimes, 0, sizeof(mProfilerTimes));
 
-#if NV_TENSORRT_MAJOR < 2
-	memset(&mInputDims, 0, sizeof(Dims3));
+#if NV_TENSORRT_MAJOR > 5
+	mWorkspaceSize = 32 << 20;
+#else
+	mWorkspaceSize = 16 << 20;
 #endif
 }
 
@@ -555,10 +557,10 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 				printf(LOG_TRT "failed to register output '%s' for UFF model '%s'\n", outputs[n].c_str(), modelFile.c_str());
 		}*/
 
+		// UFF outputs are forwarded to 'MarkOutput_0'
 		if( !parser->registerOutput("MarkOutput_0") )
 			printf(LOG_TRT "failed to register output '%s' for UFF model '%s'\n", "MarkOutput_0", modelFile.c_str());
 
-		
 		// parse network
 		if( !parser->parse(modelFile.c_str(), *network, nvinfer1::DataType::kFLOAT) )
 		{
@@ -588,15 +590,9 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		printf(LOG_TRT "warning:  device %s using INT8 precision with RANDOM calibration\n", deviceTypeToStr(device));
 	}
 #endif
-	
-#if NV_TENSORRT_MAJOR > 5
-	const uint32_t workspaceSize = 32 << 20;
-#else
-	const uint32_t workspaceSize = 16 << 20;
-#endif
 
 	// configure the builder
-	if( !ConfigureBuilder(builder, maxBatchSize, workspaceSize, precision,
+	if( !ConfigureBuilder(builder, maxBatchSize, mWorkspaceSize, precision,
 					  device, allowGPUFallback, calibrator) )
 	{
 		printf(LOG_TRT "device %s, failed to configure builder\n", deviceTypeToStr(device));

@@ -713,6 +713,7 @@ protected:
 	float2   mProfilerTimes[PROFILER_TOTAL + 1];
 	uint32_t mProfilerQueriesUsed;
 	uint32_t mProfilerQueriesDone;
+	uint32_t mWorkspaceSize;
 	uint32_t mMaxBatchSize;
 	bool	    mEnableProfiler;
 	bool     mEnableDebug;
