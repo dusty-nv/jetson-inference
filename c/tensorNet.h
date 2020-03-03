@@ -407,7 +407,7 @@ protected:
 	{
 		void log( Severity severity, const char* msg ) override
 		{
-			if( severity != Severity::kINFO /*|| mEnableDebug*/ )
+			//if( severity != Severity::kINFO /*|| mEnableDebug*/ )
 				printf(LOG_TRT "%s\n", msg);
 		}
 	} gLogger;

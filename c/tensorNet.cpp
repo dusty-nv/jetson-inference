@@ -157,6 +157,23 @@ static inline nvinfer1::Dims validateDims( const nvinfer1::Dims& dims )
 }
 #endif
 
+#if NV_TENSORRT_MAJOR >= 7
+static inline nvinfer1::Dims shiftDims( const nvinfer1::Dims& dims )
+{
+    // TensorRT 7.0 requires EXPLICIT_BATCH flag for ONNX models,
+    // which adds a batch dimension (4D NCHW), whereas historically
+    // 3D CHW was expected.  Remove the batch dim (it is typically 1)
+    nvinfer1::Dims out = dims;
+
+    out.d[0] = dims.d[1];
+    out.d[1] = dims.d[2];
+    out.d[2] = dims.d[3];
+    out.d[3] = 1;
+
+    return out;
+}
+#endif
+
 const char* deviceTypeToStr( deviceType type )
 {
 	switch(type)
@@ -470,6 +487,17 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 #if NV_TENSORRT_MAJOR >= 5
 	else if( mModelType == MODEL_ONNX )
 	{
+    #if NV_TENSORRT_MAJOR >= 7
+        network->destroy();
+        network = builder->createNetworkV2(1U << (uint32_t)nvinfer1::NetworkDefinitionCreationFlag::kEXPLICIT_BATCH);
+
+        if( !network )
+        {
+            printf(LOG_TRT "IBuilder::createNetworkV2(EXPLICIT_BATCH) failed\n");
+            return false;
+        }
+    #endif
+
 		nvonnxparser::IParser* parser = nvonnxparser::createParser(*network, gLogger);
 
 		if( !parser )
@@ -478,7 +506,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 			return false;
 		}
 
-		if( !parser->parseFromFile(modelFile.c_str(), (int)nvinfer1::ILogger::Severity::kWARNING) )
+		if( !parser->parseFromFile(modelFile.c_str(), (int)nvinfer1::ILogger::Severity::kVERBOSE) )
 		{
 			printf(LOG_TRT "failed to parse ONNX model '%s'\n", modelFile.c_str());
 			return false;
@@ -528,20 +556,6 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	}
 #endif
 
-	
-#if NV_TENSORRT_MAJOR >= 4
-	// extract the dimensions of the network input blobs
-	std::map<std::string, nvinfer1::Dims3> inputDimensions;
-
-	for( int i=0, n=network->getNbInputs(); i < n; i++ )
-	{
-		nvinfer1::Dims3 dims = static_cast<nvinfer1::Dims3&&>(network->getInput(i)->getDimensions());
-		inputDimensions.insert(std::make_pair(network->getInput(i)->getName(), dims));
-		std::cout << LOG_TRT << "retrieved Input tensor \"" << network->getInput(i)->getName() << "\":  " << dims.d[0] << "x" << dims.d[1] << "x" << dims.d[2] << std::endl;
-	}
-#endif
-
-
 	// build the engine
 	printf(LOG_TRT "device %s, configuring CUDA engine\n", deviceTypeToStr(device));
 		
@@ -558,6 +572,24 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		
 		if( !calibrator )
 		{
+	        // extract the dimensions of the network input blobs
+	        std::map<std::string, nvinfer1::Dims3> inputDimensions;
+
+	        for( int i=0, n=network->getNbInputs(); i < n; i++ )
+	        {
+                nvinfer1::Dims dims = network->getInput(i)->getDimensions();
+
+            #if NV_TENSORRT_MAJOR >= 7
+                if( mModelType == MODEL_ONNX )
+                    dims = shiftDims(dims);  // change NCHW to CHW for EXPLICIT_BATCH
+            #endif
+
+		        //nvinfer1::Dims3 dims = static_cast<nvinfer1::Dims3&&>(network->getInput(i)->getDimensions());
+		        inputDimensions.insert(std::make_pair(network->getInput(i)->getName(), static_cast<nvinfer1::Dims3&&>(dims)));
+		        std::cout << LOG_TRT << "retrieved Input tensor \"" << network->getInput(i)->getName() << "\":  " << dims.d[0] << "x" << dims.d[1] << "x" << dims.d[2] << std::endl;
+	        }
+
+            // default to random calibration
 			calibrator = new randInt8Calibrator(1, mCacheCalibrationPath, inputDimensions);
 			printf(LOG_TRT "warning:  device %s using INT8 precision with RANDOM calibration\n", deviceTypeToStr(device));
 		}
@@ -956,8 +988,13 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	
 #if NV_TENSORRT_MAJOR > 1
 	nvinfer1::Dims inputDims = validateDims(engine->getBindingDimensions(inputIndex));
+
+#if NV_TENSORRT_MAJOR >= 7
+    if( mModelType == MODEL_ONNX )
+        inputDims = shiftDims(inputDims);   // change NCHW to CHW if EXPLICIT_BATCH set
+#endif
 #else
-	Dims3 inputDims = engine->getBindingDimensions(inputIndex);
+    Dims3 inputDims = engine->getBindingDimensions(inputIndex);
 #endif
 
 	size_t inputSize = maxBatchSize * DIMS_C(inputDims) * DIMS_H(inputDims) * DIMS_W(inputDims) * sizeof(float);
@@ -991,6 +1028,11 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 
 	#if NV_TENSORRT_MAJOR > 1
 		nvinfer1::Dims outputDims = validateDims(engine->getBindingDimensions(outputIndex));
+
+    #if NV_TENSORRT_MAJOR >= 7
+        if( mModelType == MODEL_ONNX )
+            outputDims = shiftDims(outputDims);  // change NCHW to CHW if EXPLICIT_BATCH set
+    #endif
 	#else
 		Dims3 outputDims = engine->getBindingDimensions(outputIndex);
 	#endif
