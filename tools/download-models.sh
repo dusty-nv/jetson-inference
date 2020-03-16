@@ -718,7 +718,7 @@ while true; do
 				elif [ $model = 25 ] && [ -z $ALL_SEGMENTATION ]; then
 					download_fcn_resnet18_cityscapes_1024x512
 				elif [ $model = 26 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_resnet18_cityscapes_2048x512
+					download_fcn_resnet18_cityscapes_2048x1024
 				elif [ $model = 27 ] && [ -z $ALL_SEGMENTATION ]; then
 					download_fcn_resnet18_deepscene_576x320
 				elif [ $model = 28 ] && [ -z $ALL_SEGMENTATION ]; then

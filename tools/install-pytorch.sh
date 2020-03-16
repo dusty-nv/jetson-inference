@@ -253,6 +253,9 @@ function install_pytorch_v110_python27()
 	sudo python setup.py install
 	cd ../
 
+	# patch for https://github.com/pytorch/vision/issues/1712
+	pip install 'pillow<7'
+	
 	return 0
 }
 
@@ -286,6 +289,9 @@ function install_pytorch_v110_python36()
 	sudo python3 setup.py install
 	cd ../
 
+	# patch for https://github.com/pytorch/vision/issues/1712
+	pip3 install 'pillow<7'
+	
 	return 0
 }
 

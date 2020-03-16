@@ -211,6 +211,8 @@ segNet* segNet::Create( NetworkType networkType, uint32_t maxBatchSize,
 
 	if( net != NULL )
 		net->mNetworkType = networkType;
+
+	return net;
 }
 
 

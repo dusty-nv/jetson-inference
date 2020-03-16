@@ -586,8 +586,8 @@ protected:
 		#else
 			const Severity ignoreLevel = Severity::kINFO;
 		#endif
-
-			if( severity != ignoreLevel || verbose )
+			//if( severity != ignoreLevel || verbose )
+			//if( severity != Severity::kINFO /*|| mEnableDebug*/ )
 				printf(LOG_TRT "%s\n", msg);
 		}
 

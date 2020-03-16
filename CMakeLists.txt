@@ -151,7 +151,12 @@ add_subdirectory(python)
 target_link_libraries(jetson-inference jetson-utils nvinfer nvinfer_plugin nvcaffe_parser)
 
 if(CUDA_VERSION_MAJOR GREATER 9)
-	target_link_libraries(jetson-inference nvonnxparser opencv_core opencv_calib3d)
+	target_link_libraries(jetson-inference nvonnxparser)
+
+    if(HAS_OPENCV) 
+        message("-- Linking jetson-inference with OpenCV " ${OpenCV_VERSION})
+        target_link_libraries(jetson-inference opencv_core opencv_calib3d)
+    endif()
 endif()
 
 
