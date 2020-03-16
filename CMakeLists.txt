@@ -152,7 +152,7 @@ target_link_libraries(jetson-inference jetson-utils nvinfer nvinfer_plugin nvcaf
 if(CUDA_VERSION_MAJOR GREATER 9)
 	target_link_libraries(jetson-inference nvonnxparser)
 
-    if(DEFINED HAS_OPENCV) 
+    if(HAS_OPENCV) 
         message("-- Linking jetson-inference with OpenCV " ${OpenCV_VERSION})
         target_link_libraries(jetson-inference opencv_core opencv_calib3d)
     endif()
