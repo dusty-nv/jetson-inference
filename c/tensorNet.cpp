@@ -506,7 +506,13 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 			return false;
 		}
 
-		if( !parser->parseFromFile(modelFile.c_str(), (int)nvinfer1::ILogger::Severity::kVERBOSE) )
+    #if NV_TENSORRT_MAJOR == 5 && NV_TENSORRT_MINOR == 0
+        const int parserLogLevel = (int)nvinfer1::ILogger::Severity::kINFO;
+    #else
+        const int parserLogLevel = (int)nvinfer1::ILogger::Severity::kVERBOSE;
+    #endif
+
+		if( !parser->parseFromFile(modelFile.c_str(), parserLogLevel) )
 		{
 			printf(LOG_TRT "failed to parse ONNX model '%s'\n", modelFile.c_str());
 			return false;
