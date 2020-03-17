@@ -31,8 +31,8 @@
 #include <iostream>
 #include <unordered_map>
 
-#include "../plugins/stereo/redtail_tensorrt_plugins.h"
-#include "../plugins/stereo/networks.h"
+#include "../../plugins/stereo/redtail_tensorrt_plugins.h"
+#include "../../plugins/stereo/networks.h"
 
 
 

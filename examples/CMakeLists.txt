@@ -5,24 +5,27 @@ add_subdirectory(imagenet-camera)
 add_subdirectory(detectnet-console)
 add_subdirectory(detectnet-camera)
 
-add_subdirectory(depthnet-console)
-add_subdirectory(depthnet-camera)
-
-add_subdirectory(flownet-console)
-add_subdirectory(flownet-camera)
-
-add_subdirectory(odometry-console)
-add_subdirectory(odometry-plot)
-
 add_subdirectory(segnet-console)
 add_subdirectory(segnet-camera)
 
-add_subdirectory(stereonet-console)
-add_subdirectory(stereonet-camera)
+# experimental examples
+if(BUILD_EXPERIMENTAL)
+	add_subdirectory(experimental/depthnet-console)
+	add_subdirectory(experimental/depthnet-camera)
 
-add_subdirectory(superres-console)
+	add_subdirectory(experimental/flownet-console)
+	add_subdirectory(experimental/flownet-camera)
 
-if(HAS_OPENCV)
-	add_subdirectory(homography-console)
-	add_subdirectory(homography-camera)
+	add_subdirectory(experimental/odometry-console)
+	add_subdirectory(experimental/odometry-plot)
+
+	add_subdirectory(experimental/stereonet-console)
+	add_subdirectory(experimental/stereonet-camera)
+
+	add_subdirectory(experimental/superres-console)
+
+	if(HAS_OPENCV)
+		add_subdirectory(experimental/homography-console)
+		add_subdirectory(experimental/homography-camera)
+	endif()
 endif()

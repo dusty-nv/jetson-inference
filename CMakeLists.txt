@@ -22,9 +22,10 @@ if( NOT EXISTS "${PROJECT_SOURCE_DIR}/utils/.git" )
 endif()
 
 
-# setup tensorRT flags
+# setup build flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-write-strings -Wno-deprecated-declarations")	# -std=c++14 
 set(BUILD_DEPS "YES" CACHE BOOL "If YES, will install dependencies into sandbox.  Automatically reset to NO after dependencies are installed.")
+set(BUILD_EXPERIMENTAL "NO" CACHE BOOL "If YES, will enable support for experimental DNNs, examples, and plugins")
 
 
 # copy configuration tools to build dir
@@ -110,8 +111,20 @@ include_directories(/usr/include/gstreamer-1.0 /usr/lib/aarch64-linux-gnu/gstrea
 file(GLOB inferenceSources c/*.cpp c/*.cu calibration/*.cpp)
 file(GLOB inferenceIncludes c/*.h c/*.cuh calibration/*.h)
 
-file(GLOB_RECURSE pluginSources plugins/*.cpp plugins/*.cu)
+if(BUILD_EXPERIMENTAL)
+	message("-- BUILD_EXPERIMENTAL enabled")
 
+	file(GLOB experimentalSources c/experimental/*.cpp c/experimental/*.cu)
+	file(GLOB experimentalIncludes c/experimental/*.h c/experimental/*.cuh)
+	file(GLOB_RECURSE pluginSources plugins/*.cpp plugins/*.cu)
+
+	list(APPEND inferenceSources ${experimentalSources})
+	list(APPEND inferenceIncludes ${experimentalIncludes})
+else()
+	message("-- BUILD_EXPERIMENTAL disabled")
+	file(GLOB pluginSources plugins/*.cpp plugins/*.cu)
+endif()
+	
 cuda_add_library(jetson-inference SHARED ${inferenceSources} ${pluginSources})
 
 
@@ -123,6 +136,9 @@ foreach(include ${inferenceIncludes})
 	configure_file(${include} ${PROJECT_INCLUDE_DIR}/jetson-inference COPYONLY)
 endforeach()
 
+#if(BUILD_EXPERIMENTAL)
+
+#endif()
 
 # create symbolic link for network and image data
 execute_process( COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${PROJECT_SOURCE_DIR}/data/networks" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/networks" )
