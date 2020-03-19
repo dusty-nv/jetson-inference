@@ -61,6 +61,7 @@ int main( int argc, char** argv )
 	 */
 	gstCamera* camera = gstCamera::Create(cmdLine.GetInt("width", gstCamera::DefaultWidth),
 								   cmdLine.GetInt("height", gstCamera::DefaultHeight),
+								   cmdLine.GetInt("fps", gstCamera::DefaultFps),
 								   cmdLine.GetString("camera"));
 
 	if( !camera )
@@ -68,21 +69,23 @@ int main( int argc, char** argv )
 		printf("\nhomography-camera:  failed to initialize camera device\n");
 		return 0;
 	}
-	
+
 	const uint32_t imgWidth  = camera->GetWidth();
 	const uint32_t imgHeight = camera->GetHeight();
+	const uint32_t fps = camera->GetFps();
 
 	printf("\nhomography-camera:  successfully initialized camera device\n");
 	printf("    width:  %u\n", imgWidth);
 	printf("   height:  %u\n", imgHeight);
+	printf("      fps:  %u\n", fps);
 	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
-	
+
 
 	/*
 	 * create homography network
 	 */
 	homographyNet* net = homographyNet::Create(argc, argv);
-	
+
 	if( !net )
 	{
 		printf("homography-camera:   failed to initialize homographyNet\n");
@@ -107,10 +110,10 @@ int main( int argc, char** argv )
 	 * create openGL window
 	 */
 	glDisplay* display = glDisplay::Create();
-	
+
 	if( !display )
 		printf("homography-camera:  failed to create openGL display\n");
-	
+
 
 	/*
 	 * start streaming
@@ -120,18 +123,18 @@ int main( int argc, char** argv )
 		printf("homography-camera:  failed to open camera for streaming\n");
 		return 0;
 	}
-	
+
 	printf("homography-camera:  camera open for streaming\n");
-	
-	
+
+
 	/*
 	 * stabilize the camera video
 	 */
 	float* lastImg = NULL;
 
-	float displacementAvg[] = {0,0,0,0,0,0,0,0};	// average the camera displacement over a series of frames 
+	float displacementAvg[] = {0,0,0,0,0,0,0,0};	// average the camera displacement over a series of frames
 	const float displacementAvgFactor = 1.0f;	// to smooth it out over time (factor of 1.0 = instant)
-	
+
 	while( !signal_recieved )
 	{
 		// capture RGBA image
@@ -193,18 +196,18 @@ int main( int argc, char** argv )
 
 			// check if the user quit
 			if( display->IsClosed() )
-				signal_recieved = true;	
+				signal_recieved = true;
 		}
 
 		lastImg = imgRGBA;
 	}
-	
-	
+
+
 	/*
 	 * destroy resources
 	 */
 	printf("homography-camera:  shutting down...\n");
-	
+
 	SAFE_DELETE(camera);
 	SAFE_DELETE(display);
 	SAFE_DELETE(net);

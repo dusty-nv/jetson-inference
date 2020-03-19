@@ -54,6 +54,7 @@ int usage()
      printf("                    by default, MIPI CSI camera 0 will be used.\n");
 	printf("  --width WIDTH     desired width of camera stream (default is 1280 pixels)\n");
 	printf("  --height HEIGHT   desired height of camera stream (default is 720 pixels)\n\n");
+	printf("  --fps FPS   desired FPS of camera stream (default is 30 pixels)\n\n");
 	printf("%s\n", imageNet::Usage());
 
 	return 0;
@@ -69,7 +70,7 @@ int main( int argc, char** argv )
 	if( cmdLine.GetFlag("help") )
 		return usage();
 
-	
+
 	/*
 	 * attach signal handler
 	 */
@@ -82,25 +83,27 @@ int main( int argc, char** argv )
 	 */
 	gstCamera* camera = gstCamera::Create(cmdLine.GetInt("width", gstCamera::DefaultWidth),
 								   cmdLine.GetInt("height", gstCamera::DefaultHeight),
+								   cmdLine.GetInt("fps", gstCamera::DefaultFps),
 								   cmdLine.GetString("camera"));
-	
+
 	if( !camera )
 	{
 		printf("\nimagenet-camera:  failed to initialize camera device\n");
 		return 0;
 	}
-	
+
 	printf("\nimagenet-camera:  successfully initialized camera device\n");
 	printf("    width:  %u\n", camera->GetWidth());
 	printf("   height:  %u\n", camera->GetHeight());
+	printf("      fps:  %u\n", camera->GetFps());
 	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
-	
+
 
 	/*
 	 * create recognition network
 	 */
 	imageNet* net = imageNet::Create(argc, argv);
-	
+
 	if( !net )
 	{
 		printf("imagenet-console:   failed to initialize imageNet\n");
@@ -113,7 +116,7 @@ int main( int argc, char** argv )
 	 */
 	glDisplay* display = glDisplay::Create();
 	cudaFont*  font    = cudaFont::Create();
-	
+
 
 	/*
 	 * start streaming
@@ -123,39 +126,39 @@ int main( int argc, char** argv )
 		printf("\nimagenet-camera:  failed to open camera for streaming\n");
 		return 0;
 	}
-	
+
 	printf("\nimagenet-camera:  camera open for streaming\n");
-	
-	
+
+
 	/*
 	 * processing loop
 	 */
 	float confidence = 0.0f;
-	
+
 	while( !signal_recieved )
 	{
 		float* imgRGBA = NULL;
-		
+
 		// get the latest frame
 		if( !camera->CaptureRGBA(&imgRGBA, 1000) )
 			printf("\nimagenet-camera:  failed to capture frame\n");
 
 		// classify image
 		const int img_class = net->Classify(imgRGBA, camera->GetWidth(), camera->GetHeight(), &confidence);
-	
+
 		if( img_class >= 0 )
 		{
-			printf("imagenet-camera:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
+			printf("imagenet-camera:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));
 
 			if( font != NULL )
 			{
 				char str[256];
 				sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
-	
+
 				font->OverlayText((float4*)imgRGBA, camera->GetWidth(), camera->GetHeight(),
 						        str, 5, 5, make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
 			}
-		}	
+		}
 
 		// update display
 		if( display != NULL )
@@ -165,7 +168,7 @@ int main( int argc, char** argv )
 			// update status bar
 			char str[256];
 			sprintf(str, "TensorRT %i.%i.%i | %s | %s | Network %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), precisionTypeToStr(net->GetPrecision()), net->GetNetworkFPS());
-			display->SetTitle(str);	
+			display->SetTitle(str);
 
 			// check if the user quit
 			if( display->IsClosed() )
@@ -174,17 +177,17 @@ int main( int argc, char** argv )
 
 		net->PrintProfilerTimes();
 	}
-	
-	
+
+
 	/*
 	 * destroy resources
 	 */
 	printf("imagenet-camera:  shutting down...\n");
-	
+
 	SAFE_DELETE(camera);
 	SAFE_DELETE(display);
 	SAFE_DELETE(net);
-	
+
 	printf("imagenet-camera:  shutdown complete.\n");
 	return 0;
 }
