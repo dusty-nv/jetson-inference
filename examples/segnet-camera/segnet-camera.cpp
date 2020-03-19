@@ -107,7 +107,7 @@ int main( int argc, char** argv )
 	printf("\nsegnet-camera:  successfully initialized camera device\n");
 	printf("    width:  %u\n", width);
 	printf("   height:  %u\n", height);
-	printf("   fps:  %u\n", fps);
+	printf("      fps:  %u\n", fps);
 	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
 
 
