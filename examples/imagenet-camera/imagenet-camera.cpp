@@ -54,7 +54,7 @@ int usage()
      printf("                    by default, MIPI CSI camera 0 will be used.\n");
 	printf("  --width WIDTH     desired width of camera stream (default is 1280 pixels)\n");
 	printf("  --height HEIGHT   desired height of camera stream (default is 720 pixels)\n\n");
-	printf("  --fps FPS   desired FPS of camera stream (default is 30 pixels)\n\n");
+	printf("  --fps FPS         desired FPS of camera stream (default is 30 pixels)\n\n");
 	printf("%s\n", imageNet::Usage());
 
 	return 0;

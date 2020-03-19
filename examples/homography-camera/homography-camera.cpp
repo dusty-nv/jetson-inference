@@ -72,7 +72,7 @@ int main( int argc, char** argv )
 
 	const uint32_t imgWidth  = camera->GetWidth();
 	const uint32_t imgHeight = camera->GetHeight();
-	const uint32_t fps = camera->GetFps();
+	const uint32_t fps       = camera->GetFps();
 
 	printf("\nhomography-camera:  successfully initialized camera device\n");
 	printf("    width:  %u\n", imgWidth);

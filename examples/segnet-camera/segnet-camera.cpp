@@ -57,7 +57,7 @@ int usage()
      printf("                    by default, MIPI CSI camera 0 will be used.\n");
 	printf("  --width WIDTH     desired width of camera stream (default: 1280 pixels)\n");
 	printf("  --height HEIGHT   desired height of camera stream (default: 720 pixels)\n");
-	printf("  --fps FPS   desired fps of camera stream (default: 30)\n");
+	printf("  --fps FPS         desired fps of camera stream (default: 30)\n");
 	printf("  --alpha ALPHA     overlay alpha blending value, range 0-255 (default: 120)\n");
 	printf("  --filter-mode MODE   filtering mode used during visualization,\n");
 	printf("                       options are 'point' or 'linear' (default: 'linear')\n");
