@@ -7,7 +7,7 @@
 Next we'll run realtime semantic segmentation on a live camera feed, available for C++ and Python:
 
 - [`segnet-camera.cpp`](../examples/segnet-camera/segnet-camera.cpp) (C++)
-- [`segnet-camera.py`](../python/examples/segnet-camera.py) (Python) 
+- [`segnet-camera.py`](../python/examples/segnet-camera.py) (Python)
 
 Similar to the previous [`segnet-console`](segnet-console-2.md) example, these camera applications use segmentation networks, except that they process a live video feed instead.  `segnet-camera` accepts various **optional** command-line parameters, including:
 
@@ -20,11 +20,12 @@ Similar to the previous [`segnet-console`](segnet-console-2.md) example, these c
 	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
 - `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
 	- The resolution should be set to a format that the camera supports.
-     - Query the available formats with the following commands:  
+     - Query the available formats with the following commands:
           ``` bash
           $ sudo apt-get install v4l-utils
           $ v4l2-ctl --list-formats-ext
           ```
+- `--fps` flag setting the camera fps (default is `30`)
 You can combine the usage of these flags as needed, and there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info, or see the [`Examples`](../README.md#code-examples) readme.
 
 Below are some typical scenarios for launching the program - see [this table](segnet-console-2.md#pre-trained-segmentation-models-available) for the models available to use.

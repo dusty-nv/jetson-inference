@@ -7,8 +7,8 @@
 
 Up next we have a realtime object detection camera demo available for C++ and Python:
 
-- [`detectnet-camera.cpp`](../examples/detectnet-camera/detectnet-camera.cpp) (C++) 
-- [`detectnet-camera.py`](../python/examples/detectnet-camera.py) (Python) 
+- [`detectnet-camera.cpp`](../examples/detectnet-camera/detectnet-camera.cpp) (C++)
+- [`detectnet-camera.py`](../python/examples/detectnet-camera.py) (Python)
 
 Similar to the previous [`detectnet-console`](detectnet-console.md) example, these camera applications use detection networks, except that they process a live video feed from a camera.  `detectnet-camera` accepts 4 optional command-line parameters:
 
@@ -20,11 +20,12 @@ Similar to the previous [`detectnet-console`](detectnet-console.md) example, the
 	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
 - `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
 	- The resolution should be set to a format that the camera supports.
-     - Query the available formats with the following commands:  
+     - Query the available formats with the following commands:
           ``` bash
           $ sudo apt-get install v4l-utils
           $ v4l2-ctl --list-formats-ext
           ```
+- `--fps` flag setting the camera fps (default is `30`)
 
 You can combine the usage of these flags as needed, and there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info, or see the [`Examples`](../README.md#code-examples) readme.
 

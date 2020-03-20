@@ -1,14 +1,14 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
 <p align="right"><sup><a href="imagenet-example-2.md">Back</a> | <a href="detectnet-console-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
-<sup>Image Recognition</sup></p>  
+<sup>Image Recognition</sup></p>
 
 # Running the Live Camera Recognition Demo
 
 Next we have a realtime image recognition camera demo available for C++ and Python:
 
-- [`imagenet-camera.cpp`](../examples/imagenet-camera/imagenet-camera.cpp) (C++) 
-- [`imagenet-camera.py`](../python/examples/imagenet-camera.py) (Python) 
+- [`imagenet-camera.cpp`](../examples/imagenet-camera/imagenet-camera.cpp) (C++)
+- [`imagenet-camera.py`](../python/examples/imagenet-camera.py) (Python)
 
 Similar to the previous [`imagenet-console`](imagenet-console-2.md) example, the camera applications are built to the `/aarch64/bin` directory. They run on a live camera stream with OpenGL rendering and accept 4 optional command-line arguments:
 
@@ -20,11 +20,12 @@ Similar to the previous [`imagenet-console`](imagenet-console-2.md) example, the
 	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
 - `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
 	- The resolution should be set to a format that the camera supports.
-     - Query the available formats with the following commands:  
+     - Query the available formats with the following commands:
           ``` bash
           $ sudo apt-get install v4l-utils
           $ v4l2-ctl --list-formats-ext
           ```
+- `--fps` flag setting the camera fps (default is `30`)
 
 You can combine the usage of these flags as needed, and there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info, or see the [`Examples`](../README.md#code-examples) readme.
 

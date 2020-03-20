@@ -22,8 +22,8 @@ import jetson.inference
 import jetson.utils
 ```
 
-> **note**:  these Jetson modules are installed during the `sudo make install` step of [building the repo](building-repo-2.md#compiling-the-project).  
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these packages won't be found when the example is run.  
+> **note**:  these Jetson modules are installed during the `sudo make install` step of [building the repo](building-repo-2.md#compiling-the-project).
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you did not run `sudo make install`, then these packages won't be found when the example is run.
 
 #### Loading the Detection Model
 
@@ -41,21 +41,21 @@ Note that you can change the model string to one of the values from [this table]
 To connect to the camera device for streaming, we'll create an instance of the [`gstCamera`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.utils.html#gstCamera) object:
 
 ``` python
-camera = jetson.utils.gstCamera(1280, 720, "/dev/video0")  # using V4L2
+camera = jetson.utils.gstCamera(1280, 720, 30, "/dev/video0")  # using V4L2
 ```
 
-It's constructor accepts 3 parameters - the desired width, height, and video device to use.  Substitute the following snippet depending on if you are using a MIPI CSI camera or a V4L2 USB camera, along with the preferred resolution:
+It's constructor accepts 4 parameters - the desired width, height, fps and video device to use.  Substitute the following snippet depending on if you are using a MIPI CSI camera or a V4L2 USB camera, along with the preferred resolution:
 
-- MIPI CSI cameras are used by specifying the sensor index (`"0"` or `"1"`, ect.)  
+- MIPI CSI cameras are used by specifying the sensor index (`"0"` or `"1"`, ect.)
 	``` python
-	camera = jetson.utils.gstCamera(1280, 720, "0")
+	camera = jetson.utils.gstCamera(1280, 720, 30, "0")
 	```
-- V4L2 USB cameras are used by specifying their `/dev/video` node (`"/dev/video0"`, `"/dev/video1"`, ect.)  
+- V4L2 USB cameras are used by specifying their `/dev/video` node (`"/dev/video0"`, `"/dev/video1"`, ect.)
 	``` python
-	camera = jetson.utils.gstCamera(1280, 720, "/dev/video0")
+	camera = jetson.utils.gstCamera(1280, 720, 30, "/dev/video0")
 	```
 - The width and height should be a resolution that the camera supports.
-     - Query the available resolutions with the following commands:  
+     - Query the available resolutions with the following commands:
           ``` bash
           $ sudo apt-get install v4l-utils
           $ v4l2-ctl --list-formats-ext
