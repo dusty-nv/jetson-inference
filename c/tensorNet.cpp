@@ -248,6 +248,14 @@ modelType modelTypeFromStr( const char* str )
 	return MODEL_CUSTOM;
 }
 
+modelType modelTypeFromPath( const char* path )
+{
+	if( !path )
+		return MODEL_CUSTOM;
+	
+	return modelTypeFromStr(fileExtension(path).c_str());
+}
+
 const char* profilerQueryToStr( profilerQuery query )
 {
 	switch(query)

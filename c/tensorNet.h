@@ -158,6 +158,12 @@ const char* modelTypeToStr( modelType type );
 modelType modelTypeFromStr( const char* str );
 
 /**
+ * Parse the model format from a file path.
+ * @ingroup tensorNet
+ */
+modelType modelTypeFromPath( const char* path );
+
+/**
  * Profiling queries
  * @see tensorNet::GetProfilerTime()
  * @ingroup tensorNet
