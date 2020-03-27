@@ -36,6 +36,8 @@
 #define OUTPUT_UFF  0	// UFF has primary output containing detection results
 #define OUTPUT_NUM	1	// UFF has secondary output containing one detection count
 
+#define OUTPUT_CONF 0	// ONNX SSD-Mobilenet has confidence as first, bbox second
+
 #define CHECK_NULL_STR(x)	(x != NULL) ? x : "NULL"
 //#define DEBUG_CLUSTERING
 
@@ -108,6 +110,10 @@ bool detectNet::init( const char* prototxt, const char* model, const char* mean_
 	if( bbox_blob != NULL )
 		output_blobs.push_back(bbox_blob);
 	
+	// ONNX SSD models require larger workspace size
+	if( modelTypeFromPath(model) == MODEL_ONNX )
+		mWorkspaceSize = 2048 << 20;
+
 	// load the model
 	if( !LoadNetwork(prototxt, model, mean_binary, input_blob, output_blobs, 
 				  maxBatchSize, precision, device, allowGPUFallback) )
@@ -402,9 +408,9 @@ bool detectNet::allocDetections()
 	}
 	else if( IsModelType(MODEL_ONNX) )
 	{
-		mMaxDetections = 1;
-		mNumClasses = 1;
-		printf("detectNet -- using ONNX model\n");
+		mNumClasses = DIMS_H(mOutputs[OUTPUT_CONF].dims);
+		mMaxDetections = DIMS_C(mOutputs[OUTPUT_CONF].dims) /** mNumClasses*/;
+		printf("detectNet -- number object classes:  %u\n", mNumClasses);
 	}	
 	else
 	{
@@ -436,7 +442,7 @@ bool detectNet::defaultColors()
 
 	// if there are a large number of classes (MS COCO)
 	// programatically generate the class color map
-	if( numClasses > 10 )
+	if( mModelType != MODEL_CAFFE /*numClasses > 10*/ )
 	{
 		// https://github.com/dusty-nv/pytorch-segmentation/blob/16882772bc767511d892d134918722011d1ea771/datasets/sun_remap.py#L90
 		#define bitget(byteval, idx)	((byteval & (1 << idx)) != 0)
@@ -651,11 +657,11 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height,
 										   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
 										   make_float2(0.0f, 1.0f), 
-										   make_float3(0.485f, 0.456f, 0.406f),
-										   make_float3(0.229f, 0.224f, 0.225f), 
+										   make_float3(0.5f, 0.5f, 0.5f),
+										   make_float3(0.5f, 0.5f, 0.5f), 
 										   GetStream())) )
 		{
-			printf(LOG_TRT "imageNet::PreProcess() -- cudaPreImageNetNormMeanRGB() failed\n");
+			printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNetNormMeanRGB() failed\n");
 			return false;
 		}
 	}
@@ -747,24 +753,52 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 	}
 	else if( IsModelType(MODEL_ONNX) )
 	{
-		float* coord = mOutputs[0].CPU;
+		float* conf = mOutputs[OUTPUT_CONF].CPU;
+		float* bbox = mOutputs[OUTPUT_BBOX].CPU;
 
-		coord[0] = ((coord[0] + 1.0f) * 0.5f) * float(width);
-		coord[1] = ((coord[1] + 1.0f) * 0.5f) * float(height);
-		coord[2] = ((coord[2] + 1.0f) * 0.5f) * float(width);
-		coord[3] = ((coord[3] + 1.0f) * 0.5f) * float(height);
+		const uint32_t numBoxes = DIMS_C(mOutputs[OUTPUT_BBOX].dims);
+		const uint32_t numCoord = DIMS_H(mOutputs[OUTPUT_BBOX].dims);
 
-		printf(LOG_TRT "detectNet::Detect() -- ONNX -- coord (%f, %f) (%f, %f)  image %ux%u\n", coord[0], coord[1], coord[2], coord[3], width, height);
+		for( uint32_t n=0; n < numBoxes; n++ )
+		{
+			uint32_t maxClass = 0;
+			float    maxScore = -1000.0f;
 
-		detections[numDetections].Instance   = numDetections;
-		detections[numDetections].ClassID    = 0;
-		detections[numDetections].Confidence = 1;
-		detections[numDetections].Left       = coord[0];
-		detections[numDetections].Top        = coord[1];
-		detections[numDetections].Right      = coord[2];
-		detections[numDetections].Bottom	  = coord[3];	
-	
-		numDetections++;
+			// class #0 in ONNX-SSD is BACKGROUND (ignored)
+			for( uint32_t m=1; m < mNumClasses; m++ )	
+			{
+				const float score = conf[n * mNumClasses + m];
+
+				if( score < mCoverageThreshold )
+					continue;
+
+				if( score > maxScore )
+				{
+					maxScore = score;
+					maxClass = m;
+				}
+			}
+
+			// check if there was a detection
+			if( maxClass <= 0 )
+				continue; 
+
+			// populate a new detection entry
+			const float* coord = bbox + n * numCoord;
+
+			detections[numDetections].Instance   = numDetections;
+			detections[numDetections].ClassID    = maxClass;
+			detections[numDetections].Confidence = maxScore;
+			detections[numDetections].Left       = coord[0] * width;
+			detections[numDetections].Top        = coord[1] * height;
+			detections[numDetections].Right      = coord[2] * width;
+			detections[numDetections].Bottom	  = coord[3] * height;
+
+			numDetections += clusterDetections(detections, numDetections);
+		}
+
+		// sort the detections by confidence value
+		sortDetections(detections, numDetections);
 	}
 	else
 	{
@@ -789,7 +823,7 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 }
 
 
-// clusterDetections (UFF)
+// clusterDetections (UFF/ONNX)
 int detectNet::clusterDetections( Detection* detections, int n, float threshold )
 {
 	if( n == 0 )
