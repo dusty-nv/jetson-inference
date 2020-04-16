@@ -24,6 +24,7 @@
 APP_TITLE="Hello AI World (jetson-inference)"
 LOG="[jetson-inference] "
 WGET_QUIET="--quiet"
+BUILD_INTERACTIVE=$1
 
 
 #
@@ -353,6 +354,17 @@ function check_L4T_version()
 }
 
 
+#
+# non-interactive mode
+#
+echo "$LOG BUILD_INTERACTVE=$BUILD_INTERACTIVE"
+
+if [[ "$BUILD_INTERACTIVE" != "YES" ]]; then
+	echo "$LOG non-interactive mode, skipping PyTorch install..."
+	exit_message 0
+fi
+
+
 # check for dialog package
 install_deb_package "dialog" FOUND_DIALOG
 echo "$LOG FOUND_DIALOG=$FOUND_DIALOG"
@@ -371,9 +383,9 @@ while true; do
 
 	packages_selected=$(dialog --backtitle "$APP_TITLE" \
 							  --title "PyTorch Installer (L4T R$JETSON_L4T_VERSION)" \
-							  --cancel-label "Quit" \
+							  --cancel-label "Skip" \
 							  --colors \
-							  --checklist "If you want to train DNN models on your Jetson, this tool will download and install PyTorch.  Select the desired versions of pre-built packages below, or see \Zbhttp://eLinux.org/Jetson_Zoo\Zn for instructions to build from source. \n\nYou can skip this step and select Quit if you don't want to install PyTorch.\n\n\ZbKeys:\Zn\n  ↑↓ Navigate Menu\n  Space to Select \n  Enter to Continue\n\n\ZbPackages to Install:\Zn" 20 80 2 \
+							  --checklist "If you want to train DNN models on your Jetson, this tool will download and install PyTorch.  Select the desired versions of pre-built packages below, or see \Zbhttp://eLinux.org/Jetson_Zoo\Zn for instructions to build from source. \n\nYou can skip this step and select Skip if you don't want to install PyTorch.\n\n\ZbKeys:\Zn\n  ↑↓ Navigate Menu\n  Space to Select \n  Enter to Continue\n\n\ZbPackages to Install:\Zn" 20 80 2 \
 							  --output-fd 1 \
 							  1 "PyTorch v1.1.0 for Python 2.7" off \
 							  2 "PyTorch v1.1.0 for Python 3.6" off \

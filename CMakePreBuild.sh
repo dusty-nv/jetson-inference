@@ -2,9 +2,11 @@
 # this script is automatically run from CMakeLists.txt
 
 BUILD_ROOT=$PWD
+BUILD_INTERACTIVE=$1
 
 echo "[Pre-build]  dependency installer script running..."
-echo "[Pre-build]  build root directory:   $BUILD_ROOT"
+echo "[Pre-build]  build root directory: $BUILD_ROOT"
+echo "[Pre-build]  build interactive:    $BUILD_INTERACTIVE"
 echo " "
 
 
@@ -22,11 +24,11 @@ sudo apt-get update
 
 
 # run the model downloader
-./download-models.sh
+./download-models.sh $BUILD_INTERACTIVE
 
 
 # run the pytorch installer
-./install-pytorch.sh
+./install-pytorch.sh $BUILD_INTERACTIVE
 
 
 echo "[Pre-build]  Finished CMakePreBuild script"
