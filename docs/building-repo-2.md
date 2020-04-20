@@ -79,7 +79,7 @@ $ cmake ../
 
 ### Downloading Models
 
-The project comes with many pre-trained networks that can you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are initially selected for download to save disk space.  You can select the models you want, or run the tool again later to download more models another time.
+The project comes with many pre-trained networks that you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are initially selected for download to save disk space.  You can select the models you want, or run the tool again later to download more models another time.
 
 When initially configuring the project, `cmake` will automatically run the downloader tool for you:
 
