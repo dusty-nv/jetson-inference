@@ -367,6 +367,66 @@ static PyObject* PySegNet_Mask( PySegNet_Object* self, PyObject* args, PyObject 
 }
 
 
+#define DOC_MASKCLASS   "Produce a grayscale binary segmentation mask, where the pixel values correspond to the class ID of the corresponding class type.\n\n" \
+						"Parameters:\n" \
+						"  image  (capsule) -- output CUDA memory capsule\n" \
+						"  width  (int) -- width of the image (in pixels)\n" \
+						"  height (int) -- height of the image (in pixels)\n" \
+						"Returns:  (none)"
+
+// Class Id Mask
+static PyObject* PySegNet_MaskClass( PySegNet_Object* self, PyObject* args, PyObject *kwds )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid object instance");
+		return NULL;
+	}
+	
+	// parse arguments
+	PyObject* capsule = NULL;
+
+	int width = 0;
+	int height = 0;
+
+	static char* kwlist[] = {"image", "width", "height", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "Oii", kwlist, &capsule, &width, &height))
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() failed to parse args tuple");
+		printf(LOG_PY_INFERENCE "segNet.Mask() failed to parse args tuple\n");
+		return NULL;
+	}
+
+	// verify dimensions
+	if( width <= 0 || height <= 0 )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() image dimensions are invalid");
+		return NULL;
+	}
+
+	// get pointer to image data
+	void* img = PyCUDA_GetPointer(capsule);
+
+	if( !img )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() failed to get image pointer from PyCapsule container");
+		return NULL;
+	}
+
+	// visualize the image
+	const bool result = self->net->Mask((uint8_t*)img, width, height);
+
+	if( !result )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() encountered an error segmenting the image");
+		return NULL;
+	}
+
+	Py_RETURN_NONE;
+}
+
+
 #define DOC_GET_NETWORK_NAME "Return the name of the built-in network used by the model.\n\n" \
 					    "Parameters:  (none)\n\n" \
 					    "Returns:\n" \
@@ -498,7 +558,8 @@ static PyMethodDef PySegNet_Methods[] =
 {
 	{ "Process", (PyCFunction)PySegNet_Process, METH_VARARGS|METH_KEYWORDS, DOC_PROCESS},
 	{ "Overlay", (PyCFunction)PySegNet_Overlay, METH_VARARGS|METH_KEYWORDS, DOC_OVERLAY},
-	{ "Mask", (PyCFunction)PySegNet_Mask, METH_VARARGS|METH_KEYWORDS, DOC_MASK},	
+	{ "Mask", (PyCFunction)PySegNet_Mask, METH_VARARGS|METH_KEYWORDS, DOC_MASK},
+	{ "MaskClass", (PyCFunction)PySegNet_MaskClass, METH_VARARGS|METH_KEYWORDS, DOC_MASKCLASS},
 	{ "GetNetworkName", (PyCFunction)PySegNet_GetNetworkName, METH_NOARGS, DOC_GET_NETWORK_NAME},
      { "GetNumClasses", (PyCFunction)PySegNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
 	{ "GetClassDesc", (PyCFunction)PySegNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
