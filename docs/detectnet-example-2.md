@@ -7,7 +7,24 @@
 
 In this step of the tutorial, we'll walk through the creation of the previous example for realtime object detection on a live camera feed in only 10 lines of Python code.  The program will load the detection network with the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) object, capture video frames and process them, and then render the detected objects to the display.
 
-For your convenience and reference, the completed source is available in the [`python/examples/my-detection.py`](../python/examples/my-detection.py) file of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing.
+For your convenience and reference, the completed source is available in the [`python/examples/my-detection.py`](../python/examples/my-detection.py) file of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing.  
+
+Here's a quick preview of the Python code we'll be walking through:
+
+``` python
+import jetson.inference
+import jetson.utils
+
+net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
+camera = jetson.utils.gstCamera(1280, 720, "/dev/video0")  # using V4L2
+display = jetson.utils.glDisplay()
+
+while display.IsOpen():
+	img, width, height = camera.CaptureRGBA()
+	detections = net.Detect(img, width, height)
+	display.RenderOnce(img, width, height)
+	display.SetTitle("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
+```
 
 ## Source Code
 
