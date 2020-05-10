@@ -124,7 +124,7 @@ $ ./imagenet-console.py --network=resnet-18 images/stingray.jpg output_stingray.
 
 ``` bash
 # C++
-$ ./imagenet-console.py --network=resnet-18 images/coral.jpg output_coral.jpg
+$ ./imagenet-console --network=resnet-18 images/coral.jpg output_coral.jpg
 
 # Python
 $ ./imagenet-console.py --network=resnet-18 images/coral.jpg output_coral.jpg
