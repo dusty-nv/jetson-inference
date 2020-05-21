@@ -821,7 +821,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	char cache_prefix[512];
 	char cache_path[512];
 
-	sprintf(cache_prefix, "%s.%u.%u.%s.%s", model_path.c_str(), maxBatchSize, (uint32_t)allowGPUFallback, deviceTypeToStr(device), precisionTypeToStr(precision));
+	sprintf(cache_prefix, "%s.%u.%u.%i.%s.%s", model_path.c_str(), maxBatchSize, (uint32_t)allowGPUFallback, NV_TENSORRT_VERSION, deviceTypeToStr(device), precisionTypeToStr(precision));
 	sprintf(cache_path, "%s.calibration", cache_prefix);
 	mCacheCalibrationPath = cache_path;
 	
