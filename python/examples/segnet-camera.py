@@ -53,9 +53,13 @@ net = jetson.inference.segNet(opt.network, sys.argv)
 # set the alpha blending value
 net.SetOverlayAlpha(opt.alpha)
 
+# the mask image is half the size
+half_width = int(opt.width/2)
+half_height = int(opt.height/2)
+
 # allocate the output images for the overlay & mask
 img_overlay = jetson.utils.cudaAllocMapped(opt.width * opt.height * 4 * ctypes.sizeof(ctypes.c_float))
-img_mask = jetson.utils.cudaAllocMapped(opt.width/2 * opt.height/2 * 4 * ctypes.sizeof(ctypes.c_float))
+img_mask = jetson.utils.cudaAllocMapped(half_width * half_height * 4 * ctypes.sizeof(ctypes.c_float))
 
 # create the camera and display
 camera = jetson.utils.gstCamera(opt.width, opt.height, opt.camera)
@@ -71,12 +75,12 @@ while display.IsOpen():
 
 	# generate the overlay and mask
 	net.Overlay(img_overlay, width, height, opt.filter_mode)
-	net.Mask(img_mask, width/2, height/2, opt.filter_mode)
+	net.Mask(img_mask, half_width, half_height, opt.filter_mode)
 
 	# render the images
 	display.BeginRender()
 	display.Render(img_overlay, width, height)
-	display.Render(img_mask, width/2, height/2, width)
+	display.Render(img_mask, half_width, half_height, width)
 	display.EndRender()
 
 	# update the title bar

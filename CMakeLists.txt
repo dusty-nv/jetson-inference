@@ -25,6 +25,7 @@ endif()
 # setup build flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-write-strings -Wno-deprecated-declarations")	# -std=c++14 
 set(BUILD_DEPS "YES" CACHE BOOL "If YES, will install dependencies into sandbox.  Automatically reset to NO after dependencies are installed.")
+set(BUILD_INTERACTIVE "YES" CACHE BOOL "If NO, will download/install the default DNN models without prompting the user, and skip installation of PyTorch.")
 set(BUILD_EXPERIMENTAL "NO" CACHE BOOL "If YES, will enable support for experimental DNNs, examples, and plugins")
 
 
@@ -38,8 +39,9 @@ file(COPY "tools/install-pytorch.rc" DESTINATION ${PROJECT_BINARY_DIR})
 # if this is the first time running cmake, perform pre-build dependency install script (or if the user manually triggers re-building the dependencies)
 if( ${BUILD_DEPS} )
 	message("-- Launching pre-build dependency installer script...")
+	message("-- Build interactive:  ${BUILD_INTERACTIVE}")
 
-	execute_process(COMMAND sh ../CMakePreBuild.sh
+	execute_process(COMMAND sh ../CMakePreBuild.sh ${BUILD_INTERACTIVE}
 				WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
 				RESULT_VARIABLE PREBUILD_SCRIPT_RESULT)
 

@@ -25,6 +25,7 @@ APP_TITLE="Hello AI World (jetson-inference)"
 OUTPUT_DIR="../data/networks"
 LOG="[jetson-inference] "
 WGET_QUIET="--quiet"
+BUILD_INTERACTIVE=${1:-"YES"}
 
 
 #
@@ -586,6 +587,34 @@ function install_deb_package()
 		return 0
 	fi
 }
+
+
+#
+# non-interactive mode
+#
+echo "$LOG BUILD_INTERACTVE=$BUILD_INTERACTIVE"
+
+if [[ "$BUILD_INTERACTIVE" != "YES" ]]; then
+
+	echo "$LOG Downloading default models..."
+
+	download_googlenet
+	download_resnet18
+
+	download_ssd_mobilenet_v2
+	download_pednet
+	download_facenet
+	download_detectnet_coco_dog
+
+	download_fcn_resnet18_cityscapes_512x256
+	download_fcn_resnet18_cityscapes_1024x512
+	download_fcn_resnet18_deepscene_576x320
+	download_fcn_resnet18_mhp_512x320
+	download_fcn_resnet18_pascal_voc_320x320
+	download_fcn_resnet18_sun_rgbd_512x400
+
+	exit_message 0
+fi
 
 
 # check for dialog package
