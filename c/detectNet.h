@@ -382,6 +382,20 @@ public:
 	 */
 	void SetOverlayAlpha( float alpha );
 
+	/**
+	 * Load class descriptions from a label file.
+	 */
+	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, int expectedClasses=-1 );
+
+	/**
+	 * Load class descriptions and synset strings from a label file.
+	 */
+	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses=-1 );
+
+	/**
+	 * Procedurally generate a bounding box color for a class index.
+	 */
+	static void GenerateColor( uint32_t classID, uint8_t* rgb ); 
 	
 protected:
 
@@ -390,8 +404,7 @@ protected:
 
 	bool allocDetections();
 	bool defaultColors();
-	void defaultClassDesc();
-	bool loadClassDesc( const char* filename );
+	bool loadClassInfo( const char* filename );
 
 	bool init( const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_labels, 
 			 float threshold, const char* input, const char* coverage, const char* bboxes, uint32_t maxBatchSize, 
@@ -410,7 +423,6 @@ protected:
 	std::vector<std::string> mClassSynset;
 
 	std::string mClassPath;
-	uint32_t    mCustomClasses;
 	uint32_t	  mNumClasses;
 
 	Detection* mDetectionSets[2];	// list of detections, mNumDetectionSets * mMaxDetections
