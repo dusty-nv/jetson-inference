@@ -80,12 +80,11 @@ int main( int argc, char** argv )
 	/*
 	 * load image from disk
 	 */
-	float* imgCPU    = NULL;
-	float* imgCUDA   = NULL;
+	float* imgInput  = NULL;
 	int    imgWidth  = 0;
 	int    imgHeight = 0;
 		
-	if( !loadImageRGBA(imgFilename, (float4**)&imgCPU, (float4**)&imgCUDA, &imgWidth, &imgHeight) )
+	if( !loadImageRGBA(imgFilename, (float4**)&imgInput, &imgWidth, &imgHeight) )
 	{
 		printf("failed to load image '%s'\n", imgFilename);
 		return 0;
@@ -96,7 +95,7 @@ int main( int argc, char** argv )
 	 * classify image
 	 */
 	float confidence = 0.0f;
-	const int img_class = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
+	const int img_class = net->Classify(imgInput, imgWidth, imgHeight, &confidence);
 	
 	// overlay the classification on the image
 	if( img_class >= 0 )
@@ -115,7 +114,7 @@ int main( int argc, char** argv )
 				char str[512];
 				sprintf(str, "%2.3f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
 
-				font->OverlayText((float4*)imgCUDA, imgWidth, imgHeight, (const char*)str, 10, 10,
+				font->OverlayText((float4*)imgInput, imgWidth, imgHeight, (const char*)str, 10, 10,
 							   make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
 			}
 
@@ -128,7 +127,7 @@ int main( int argc, char** argv )
 			// save the output image to disk
 			printf("imagenet-console:  attempting to save output image to '%s'\n", outputFilename);
 			
-			if( !saveImageRGBA(outputFilename, (float4*)imgCPU, imgWidth, imgHeight) )
+			if( !saveImageRGBA(outputFilename, (float4*)imgInput, imgWidth, imgHeight) )
 				printf("imagenet-console:  failed to save output image to '%s'\n", outputFilename);
 			else
 				printf("imagenet-console:  completed saving '%s'\n", outputFilename);
@@ -143,7 +142,7 @@ int main( int argc, char** argv )
 	 */
 	printf("imagenet-console:  shutting down...\n");
 
-	CUDA(cudaFreeHost(imgCPU));
+	CUDA(cudaFreeHost(imgInput));
 	SAFE_DELETE(net);
 
 	printf("imagenet-console:  shutdown complete\n");

@@ -89,12 +89,11 @@ int main( int argc, char** argv )
 	/*
 	 * load image from disk
 	 */
-	float* imgCPU    = NULL;
-	float* imgCUDA   = NULL;
+	float* imgInput  = NULL;
 	int    imgWidth  = 0;
 	int    imgHeight = 0;
 		
-	if( !loadImageRGBA(imgFilename, (float4**)&imgCPU, (float4**)&imgCUDA, &imgWidth, &imgHeight) )
+	if( !loadImageRGBA(imgFilename, (float4**)&imgInput, &imgWidth, &imgHeight) )
 	{
 		printf("failed to load image '%s'\n", imgFilename);
 		return 0;
@@ -106,7 +105,7 @@ int main( int argc, char** argv )
 	 */
 	detectNet::Detection* detections = NULL;
 
-	const int numDetections = net->Detect(imgCUDA, imgWidth, imgHeight, &detections, overlayFlags);
+	const int numDetections = net->Detect(imgInput, imgWidth, imgHeight, &detections, overlayFlags);
 
 	// print out the detection results
 	printf("%i objects detected\n", numDetections);
@@ -127,7 +126,7 @@ int main( int argc, char** argv )
 	{
 		printf("detectnet-console:  writing %ix%i image to '%s'\n", imgWidth, imgHeight, outputFilename);
 		
-		if( !saveImageRGBA(outputFilename, (float4*)imgCPU, imgWidth, imgHeight, 255.0f) )
+		if( !saveImageRGBA(outputFilename, (float4*)imgInput, imgWidth, imgHeight, 255.0f) )
 			printf("detectnet-console:  failed saving %ix%i image to '%s'\n", imgWidth, imgHeight, outputFilename);
 		else	
 			printf("detectnet-console:  successfully wrote %ix%i image to '%s'\n", imgWidth, imgHeight, outputFilename);
@@ -139,7 +138,7 @@ int main( int argc, char** argv )
 	 */
 	printf("detectnet-console:  shutting down...\n");
 
-	CUDA(cudaFreeHost(imgCPU));
+	CUDA(cudaFreeHost(imgInput));
 	SAFE_DELETE(net);
 
 	printf("detectnet-console:  shutdown complete\n");

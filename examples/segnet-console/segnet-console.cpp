@@ -102,12 +102,11 @@ int main( int argc, char** argv )
 	/*
 	 * load image from disk
 	 */
-	float* imgCPU    = NULL;
-	float* imgCUDA   = NULL;
+	float* imgInput  = NULL;
 	int    imgWidth  = 0;
 	int    imgHeight = 0;
 		
-	if( !loadImageRGBA(imgFilename, (float4**)&imgCPU, (float4**)&imgCUDA, &imgWidth, &imgHeight) )
+	if( !loadImageRGBA(imgFilename, (float4**)&imgInput, &imgWidth, &imgHeight) )
 	{
 		printf("failed to load image '%s'\n", imgFilename);
 		return 0;
@@ -130,7 +129,7 @@ int main( int argc, char** argv )
 	/*
 	 * perform the segmentation
 	 */
-	if( !net->Process(imgCUDA, imgWidth, imgHeight, ignoreClass) )
+	if( !net->Process(imgInput, imgWidth, imgHeight, ignoreClass) )
 	{
 		printf("segnet-console:  failed to process segmentation\n");
 		return 0;
@@ -175,7 +174,7 @@ int main( int argc, char** argv )
 	 */
 	printf("segnet-console:  shutting down...\n");
 
-	CUDA(cudaFreeHost(imgCPU));
+	CUDA(cudaFreeHost(imgInput));
 	CUDA(cudaFreeHost(outCPU));
 
 	SAFE_DELETE(net);
