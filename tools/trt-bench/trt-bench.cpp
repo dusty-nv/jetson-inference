@@ -134,12 +134,11 @@ int main( int argc, char** argv )
 	/*
 	 * load image from disk
 	 */
-	float* imgCPU    = NULL;
-	float* imgCUDA   = NULL;
+	float* imgInput  = NULL;
 	int    imgWidth  = 0;
 	int    imgHeight = 0;
 		
-	if( !loadImageRGBA(imgPath, (float4**)&imgCPU, (float4**)&imgCUDA, &imgWidth, &imgHeight) )
+	if( !loadImageRGBA(imgPath, (float4**)&imgInput, &imgWidth, &imgHeight) )
 	{
 		printf("failed to load image '%s'\n", imgPath);
 		return 0;
@@ -176,7 +175,7 @@ int main( int argc, char** argv )
 		}
 
 		// pre-process the image into NCHW format
-		if( !net->PreProcess(imgCUDA, imgWidth, imgHeight) )
+		if( !net->PreProcess(imgInput, imgWidth, imgHeight) )
 			printf("imageNet::PreProcess() failed for device %s\n", deviceTypeToStr((deviceType)n)); 
 
 		// put the networks on their own streams for concurrent execution
@@ -264,7 +263,7 @@ int main( int argc, char** argv )
 	/*
 	 * free resources
 	 */
-	CUDA(cudaFreeHost(imgCPU));
+	CUDA(cudaFreeHost(imgInput));
 
 	for( int n=0; n < networks.size(); n++ )
 		delete networks[n];
