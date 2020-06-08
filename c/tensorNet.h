@@ -588,9 +588,9 @@ protected:
 		void log( Severity severity, const char* msg ) override
 		{
 		#if NV_TENSORRT_MAJOR > 5
-			const Severity ignoreLevel = Severity::kVERBOSE;
+			//const Severity ignoreLevel = Severity::kVERBOSE;
 		#else
-			const Severity ignoreLevel = Severity::kINFO;
+			//const Severity ignoreLevel = Severity::kINFO;
 		#endif
 			//if( severity != ignoreLevel || verbose )
 			//if( severity != Severity::kINFO /*|| mEnableDebug*/ )
