@@ -25,6 +25,7 @@
 
 
 #include "tensorNet.h"
+#include "imageFormat.h"
 
 
 /**
@@ -299,7 +300,54 @@ public:
 	virtual ~detectNet();
 	
 	/**
+	 * Detect object locations from an image, returning an array containing the detection results.
+	 * @param[in]  input input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] detections pointer that will be set to array of detection results (residing in shared CPU/GPU memory)
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
+	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
+	 */
+	template<typename T> int Detect( T* image, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay=OVERLAY_BOX )		{ return Detect((void*)image, width, height, imageFormatFromType<T>(), detections, overlay); }
+	
+	/**
+	 * Detect object locations in an image, into an array of the results allocated by the user.
+	 * @param[in]  input input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] detections pointer to user-allocated array that will be filled with the detection results.
+	 *                        @see GetMaxDetections() for the number of detection results that should be allocated in this buffer.
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
+	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
+	 */
+	template<typename T> int Detect( T* image, uint32_t width, uint32_t height, Detection* detections, uint32_t overlay=OVERLAY_BOX )			{ return Detect((void*)image, width, height, imageFormatFromType<T>(), detections, overlay); }
+	
+	/**
+	 * Detect object locations from an image, returning an array containing the detection results.
+	 * @param[in]  input input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] detections pointer that will be set to array of detection results (residing in shared CPU/GPU memory)
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
+	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
+	 */
+	int Detect( void* input, uint32_t width, uint32_t height, imageFormat format, Detection** detections, uint32_t overlay=OVERLAY_BOX );
+
+	/**
+	 * Detect object locations from an image, into an array of the results allocated by the user.
+	 * @param[in]  input input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] detections pointer to user-allocated array that will be filled with the detection results.
+	 *                        @see GetMaxDetections() for the number of detection results that should be allocated in this buffer.
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
+	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
+	 */
+	int Detect( void* input, uint32_t width, uint32_t height, imageFormat format, Detection* detections, uint32_t overlay=OVERLAY_BOX );
+	
+	/**
 	 * Detect object locations from an RGBA image, returning an array containing the detection results.
+      * @deprecated this overload of Detect() provides legacy compatibility with `float*` type (RGBA32F). 
 	 * @param[in]  input float4 RGBA input image in CUDA device memory.
 	 * @param[in]  width width of the input image in pixels.
 	 * @param[in]  height height of the input image in pixels.
@@ -311,6 +359,7 @@ public:
 
 	/**
 	 * Detect object locations in an RGBA image, into an array of the results allocated by the user.
+	 * @deprecated this overload of Detect() provides legacy compatibility with `float*` type (RGBA32F). 
 	 * @param[in]  input float4 RGBA input image in CUDA device memory.
 	 * @param[in]  width width of the input image in pixels.
 	 * @param[in]  height height of the input image in pixels.

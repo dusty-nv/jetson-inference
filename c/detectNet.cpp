@@ -21,13 +21,14 @@
  */
  
 #include "detectNet.h"
-#include "imageNet.cuh"
+#include "tensorConvert.h"
 
 #include "cudaMappedMemory.h"
 #include "cudaFont.h"
 
 #include "commandLine.h"
 #include "filesystem.h"
+#include "logging.h"
 
 
 #define OUTPUT_CVG  0	// Caffe has output coverage (confidence) heat map
@@ -647,8 +648,16 @@ inline static bool rectOverlap(const float6& r1, const float6& r2)
 #endif
 
 
+
 // Detect
 int detectNet::Detect( float* input, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay )
+{
+	return Detect((void*)input, width, height, IMAGE_RGBA32F, detections, overlay);
+}
+
+
+// Detect
+int detectNet::Detect( void* input, uint32_t width, uint32_t height, imageFormat format, Detection** detections, uint32_t overlay )
 {
 	Detection* det = mDetectionSets[0] + mDetectionSet * GetMaxDetections();
 
@@ -660,67 +669,73 @@ int detectNet::Detect( float* input, uint32_t width, uint32_t height, Detection*
 	if( mDetectionSet >= mNumDetectionSets )
 		mDetectionSet = 0;
 	
-	return Detect(input, width, height, det, overlay);
+	return Detect(input, width, height, format, det, overlay);
 }
 
-	
+
 // Detect
-int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* detections, uint32_t overlay )
+int detectNet::Detect( float* input, uint32_t width, uint32_t height, Detection* detections, uint32_t overlay )
 {
-	if( !rgba || width == 0 || height == 0 || !detections )
+	return Detect((void*)input, width, height, IMAGE_RGBA32F, detections, overlay);
+}
+
+
+// Detect
+int detectNet::Detect( void* input, uint32_t width, uint32_t height, imageFormat format, Detection* detections, uint32_t overlay )
+{
+	if( !input || width == 0 || height == 0 || !detections )
 	{
-		printf(LOG_TRT "detectNet::Detect( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
+		printf(LOG_TRT "detectNet::Detect( 0x%p, %u, %u ) -> invalid parameters\n", input, width, height);
 		return -1;
+	}
+
+	if( format != IMAGE_RGB8 && format != IMAGE_RGBA8 && format != IMAGE_RGB32F && format != IMAGE_RGBA32F )
+	{
+		LogError(LOG_TRT "detectNet::Detect() -- unsupported image format (%s)\n", imageFormatToStr(format));
+		LogError(LOG_TRT "                       supported formats are:\n");
+		LogError(LOG_TRT "                          * rgb8\n");		
+		LogError(LOG_TRT "                          * rgba8\n");		
+		LogError(LOG_TRT "                          * rgb32f\n");		
+		LogError(LOG_TRT "                          * rgba32f\n");
+
+		return false;
 	}
 
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
 	if( IsModelType(MODEL_UFF) )
 	{
-		if( CUDA_FAILED(cudaPreImageNetNormBGR((float4*)rgba, width, height, 
-									    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
-									    make_float2(-1.0f, 1.0f), GetStream())) )
+		if( CUDA_FAILED(cudaTensorNormBGR(input, format, width, height, 
+								    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+								    make_float2(-1.0f, 1.0f), GetStream())) )
 		{
-			printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNetNorm() failed\n");
+			printf(LOG_TRT "detectNet::Detect() -- cudaTensorNormBGR() failed\n");
 			return -1;
 		}
 	}
 	else if( IsModelType(MODEL_ONNX) )
 	{
 		// downsample, convert to band-sequential RGB, and apply pixel normalization, mean pixel subtraction and standard deviation
-		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height,
-										   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
-										   make_float2(0.0f, 1.0f), 
-										   make_float3(0.5f, 0.5f, 0.5f),
-										   make_float3(0.5f, 0.5f, 0.5f), 
-										   GetStream())) )
+		if( CUDA_FAILED(cudaTensorNormMeanRGB(input, format, width, height,
+									   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
+									   make_float2(0.0f, 1.0f), 
+									   make_float3(0.5f, 0.5f, 0.5f),
+									   make_float3(0.5f, 0.5f, 0.5f), 
+									   GetStream())) )
 		{
-			printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNetNormMeanRGB() failed\n");
+			printf(LOG_TRT "detectNet::Detect() -- cudaTensorNormMeanRGB() failed\n");
 			return false;
 		}
 	}
 	else
 	{
-		if( mMeanPixel != 0.0f )
+		if( CUDA_FAILED(cudaTensorMeanBGR(input, format, width, height,
+								    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+								    make_float3(mMeanPixel, mMeanPixel, mMeanPixel), 
+								    GetStream())) )
 		{
-			if( CUDA_FAILED(cudaPreImageNetMeanBGR((float4*)rgba, width, height,
-										    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
-										    make_float3(mMeanPixel, mMeanPixel, mMeanPixel), 
-										    GetStream())) )
-			{
-				printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNetMean() failed\n");
-				return -1;
-			}
-		}
-		else
-		{
-			if( CUDA_FAILED(cudaPreImageNetBGR((float4*)rgba, width, height, 
-										mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
-										GetStream())) )
-			{
-				printf(LOG_TRT "detectNet::Detect() -- cudaPreImageNet() failed\n");
-				return -1;
-			}
+			printf(LOG_TRT "detectNet::Detect() -- cudaTensorMeanBGR() failed\n");
+			return -1;
 		}
 	}
 	
@@ -845,7 +860,7 @@ int detectNet::Detect( float* rgba, uint32_t width, uint32_t height, Detection* 
 	// render the overlay
 	if( overlay != 0 && numDetections > 0 )
 	{
-		if( !Overlay(rgba, rgba, width, height, detections, numDetections, overlay) )
+		if( !Overlay((float*)input, (float*)input, width, height, detections, numDetections, overlay) )
 			printf(LOG_TRT "detectNet::Detect() -- failed to render overlay\n");
 	}
 	
