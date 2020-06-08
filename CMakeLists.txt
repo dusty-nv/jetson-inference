@@ -71,24 +71,6 @@ if(CUDA_VERSION_MAJOR GREATER 9)
 		${CUDA_NVCC_FLAGS}; 
 		-gencode arch=compute_72,code=sm_72
 	)
-
-	# OpenCV used for findHomography() and decomposeHomography()
-	# OpenCV version >= 3.0.0 required for decomposeHomography()
-	find_package(OpenCV COMPONENTS core calib3d)
-
-	if( NOT OpenCV_FOUND )
-		message("-- didn't find OpenCV on system, disabling OpenCV")
-	else()
-		message("-- OpenCV version:  " ${OpenCV_VERSION})
-
-		if( ${OpenCV_VERSION_MAJOR} LESS 3 )
-			message("-- OpenCV version less than 3.0, disabling OpenCV")
-		else()
-			message("-- OpenCV version >= 3.0.0, enabling OpenCV")
-			set(HAS_OPENCV 1)
-			add_definitions(-DHAS_OPENCV)
-		endif()	
-	endif()
 endif()
 
 # setup project output paths
@@ -115,6 +97,24 @@ file(GLOB inferenceIncludes c/*.h c/*.cuh calibration/*.h)
 
 if(BUILD_EXPERIMENTAL)
 	message("-- BUILD_EXPERIMENTAL enabled")
+
+	# OpenCV used for findHomography() and decomposeHomography()
+	# OpenCV version >= 3.0.0 required for decomposeHomography()
+	find_package(OpenCV COMPONENTS core calib3d)
+
+	if( NOT OpenCV_FOUND )
+		message("-- didn't find OpenCV on system, disabling OpenCV")
+	else()
+		message("-- OpenCV version:  " ${OpenCV_VERSION})
+
+		if( ${OpenCV_VERSION_MAJOR} LESS 3 )
+			message("-- OpenCV version less than 3.0, disabling OpenCV")
+		else()
+			message("-- OpenCV version >= 3.0.0, enabling OpenCV")
+			set(HAS_OPENCV 1)
+			add_definitions(-DHAS_OPENCV)
+		endif()	
+	endif()
 
 	file(GLOB experimentalSources c/experimental/*.cpp c/experimental/*.cu)
 	file(GLOB experimentalIncludes c/experimental/*.h c/experimental/*.cuh)
