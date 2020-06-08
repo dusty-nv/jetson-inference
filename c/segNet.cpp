@@ -21,7 +21,7 @@
  */
  
 #include "segNet.h"
-#include "imageNet.cuh"
+#include "tensorConvert.h"
 
 #include "cudaMappedMemory.h"
 #include "cudaOverlay.h"
@@ -616,25 +616,25 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 	if( IsModelType(MODEL_ONNX) )
 	{
 		// downsample, convert to band-sequential RGB, and apply pixel normalization, mean pixel subtraction and standard deviation
-		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height,
-										   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
-										   make_float2(0.0f, 1.0f), 
-										   make_float3(0.485f, 0.456f, 0.406f),
-										   make_float3(0.229f, 0.224f, 0.225f), 
-										   GetStream())) )
+		if( CUDA_FAILED(cudaTensorNormMeanRGB(rgba, IMAGE_RGBA32F, width, height,
+									   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+									   make_float2(0.0f, 1.0f), 
+									   make_float3(0.485f, 0.456f, 0.406f),
+									   make_float3(0.229f, 0.224f, 0.225f), 
+									   GetStream())) )
 		{
-			printf(LOG_TRT "segNet::Process() -- cudaPreImageNetNormMeanRGB() failed\n");
+			printf(LOG_TRT "segNet::Process() -- cudaTensorNormMeanRGB() failed\n");
 			return false;
 		}
 	}
 	else
 	{
 		// downsample and convert to band-sequential BGR
-		if( CUDA_FAILED(cudaPreImageNetBGR((float4*)rgba, width, height, 
-									mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
-									GetStream())) )
+		if( CUDA_FAILED(cudaTensorMeanBGR(rgba, IMAGE_RGBA32F, width, height, 
+								    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+								    make_float3(0,0,0), GetStream())) )
 		{
-			printf("segNet::Process() -- cudaPreImageNetBGR() failed\n");
+			printf("segNet::Process() -- cudaTensorMeanBGR() failed\n");
 			return false;
 		}
 	}
