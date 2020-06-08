@@ -25,6 +25,7 @@
 
 
 #include "tensorNet.h"
+#include "imageFormat.h"
 
 
 /**
@@ -145,34 +146,36 @@ public:
 	/**
 	 * Determine the maximum likelihood image class.
 	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
-	 * @param rgba float4 input image in CUDA device memory.
+	 * @param rgba input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param confidence optional pointer to float filled with confidence value.
 	 * @returns Index of the maximum class, or -1 on error.
 	 */
-	int Classify( float* rgba, uint32_t width, uint32_t height, float* confidence=NULL );
-
+	template<typename T> int Classify( T* image, uint32_t width, uint32_t height, float* confidence=NULL )		{ return Classify((void*)image, width, height, imageFormatFromType<T>(), confidence); }
+	
 	/**
 	 * Determine the maximum likelihood image class.
-	 * @note before calling this function, you must call PreProcess() with the image. 
+	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
+	 * @param rgba input image in CUDA device memory.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
 	 * @param confidence optional pointer to float filled with confidence value.
 	 * @returns Index of the maximum class, or -1 on error.
 	 */
-	int Classify( float* confidence=NULL );
+	int Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence=NULL );
 
 	/**
-	 * Perform pre-processing on the image to apply mean-value subtraction and
-	 * to organize the data into NCHW format and BGR colorspace that the networks expect.
- 	 * After calling PreProcess(), you can call Classify() without supplying all the parameters.
+	 * Determine the maximum likelihood image class.
+	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
+	 * @deprecated this overload of Classify() provides legacy compatibility with `float*` type (RGBA32F).
+      * @param rgba float4 input image in CUDA device memory.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
+	 * @param confidence optional pointer to float filled with confidence value.
+	 * @returns Index of the maximum class, or -1 on error.
 	 */
-	bool PreProcess( float* rgba, uint32_t width, uint32_t height );
-
-	/**
-	 * Process the network, without determining the classification argmax.
-	 * To perform the actual classification via post-processing, Classify() should be used instead.
-	 */
-	bool Process();
+	int Classify( float* rgba, uint32_t width, uint32_t height, float* confidence=NULL, imageFormat format=IMAGE_RGBA32F );
 
 	/**
 	 * Retrieve the number of image recognition classes (typically 1000)
@@ -217,6 +220,10 @@ public:
 protected:
 	imageNet();
 	
+	int  Classify( float* confidence=NULL );
+	bool PreProcess( void* image, uint32_t width, uint32_t height, imageFormat format );
+	bool Process();
+
 	bool init( NetworkType networkType, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool loadClassInfo( const char* filename, int expectedClasses=-1 );
