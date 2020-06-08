@@ -80,11 +80,11 @@ int main( int argc, char** argv )
 	/*
 	 * load image from disk
 	 */
-	float* imgInput  = NULL;
-	int    imgWidth  = 0;
-	int    imgHeight = 0;
+	uchar3* imgInput  = NULL;
+	int     imgWidth  = 0;
+	int     imgHeight = 0;
 		
-	if( !loadImageRGBA(imgFilename, (float4**)&imgInput, &imgWidth, &imgHeight) )
+	if( !loadImage(imgFilename, &imgInput, &imgWidth, &imgHeight) )
 	{
 		printf("failed to load image '%s'\n", imgFilename);
 		return 0;
@@ -114,7 +114,7 @@ int main( int argc, char** argv )
 				char str[512];
 				sprintf(str, "%2.3f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
 
-				font->OverlayText((float4*)imgInput, imgWidth, imgHeight, (const char*)str, 10, 10,
+				font->OverlayText(imgInput, imgWidth, imgHeight, (const char*)str, 10, 10,
 							   make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
 			}
 
@@ -127,7 +127,7 @@ int main( int argc, char** argv )
 			// save the output image to disk
 			printf("imagenet-console:  attempting to save output image to '%s'\n", outputFilename);
 			
-			if( !saveImageRGBA(outputFilename, (float4*)imgInput, imgWidth, imgHeight) )
+			if( !saveImage(outputFilename, imgInput, imgWidth, imgHeight) )
 				printf("imagenet-console:  failed to save output image to '%s'\n", outputFilename);
 			else
 				printf("imagenet-console:  completed saving '%s'\n", outputFilename);
