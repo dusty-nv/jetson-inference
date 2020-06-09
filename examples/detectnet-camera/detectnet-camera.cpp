@@ -139,8 +139,6 @@ int main( int argc, char** argv )
 	/*
 	 * processing loop
 	 */
-	float confidence = 0.0f;
-	
 	while( !signal_recieved )
 	{
 		// capture RGBA image
