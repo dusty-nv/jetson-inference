@@ -22,9 +22,7 @@
 
 #include "detectNet.h"
 #include "loadImage.h"
-
 #include "commandLine.h"
-#include "cudaMappedMemory.h"
 
 
 int usage()
@@ -89,11 +87,11 @@ int main( int argc, char** argv )
 	/*
 	 * load image from disk
 	 */
-	float* imgInput  = NULL;
-	int    imgWidth  = 0;
-	int    imgHeight = 0;
+	uchar3* imgInput  = NULL;
+	int     imgWidth  = 0;
+	int     imgHeight = 0;
 		
-	if( !loadImageRGBA(imgFilename, (float4**)&imgInput, &imgWidth, &imgHeight) )
+	if( !loadImage(imgFilename, &imgInput, &imgWidth, &imgHeight) )
 	{
 		printf("failed to load image '%s'\n", imgFilename);
 		return 0;
@@ -126,7 +124,7 @@ int main( int argc, char** argv )
 	{
 		printf("detectnet-console:  writing %ix%i image to '%s'\n", imgWidth, imgHeight, outputFilename);
 		
-		if( !saveImageRGBA(outputFilename, (float4*)imgInput, imgWidth, imgHeight, 255.0f) )
+		if( !saveImage(outputFilename, imgInput, imgWidth, imgHeight) )
 			printf("detectnet-console:  failed saving %ix%i image to '%s'\n", imgWidth, imgHeight, outputFilename);
 		else	
 			printf("detectnet-console:  successfully wrote %ix%i image to '%s'\n", imgWidth, imgHeight, outputFilename);
