@@ -130,12 +130,11 @@ int main( int argc, char** argv )
 	/*
 	 * processing loop
 	 */
-	float confidence = 0.0f;
-	
 	while( !signal_recieved )
 	{
 		float* imgRGBA = NULL;
-		
+		float confidence = 0.0f;
+	
 		// get the latest frame
 		if( !camera->CaptureRGBA(&imgRGBA, 1000) )
 			printf("\nimagenet-camera:  failed to capture frame\n");

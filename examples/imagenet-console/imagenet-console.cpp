@@ -129,8 +129,6 @@ int main( int argc, char** argv )
 			
 			if( !saveImage(outputFilename, imgInput, imgWidth, imgHeight) )
 				printf("imagenet-console:  failed to save output image to '%s'\n", outputFilename);
-			else
-				printf("imagenet-console:  completed saving '%s'\n", outputFilename);
 		}
 	}
 	else

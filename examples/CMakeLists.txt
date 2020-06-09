@@ -4,6 +4,7 @@ add_subdirectory(imagenet-camera)
 
 add_subdirectory(detectnet-console)
 add_subdirectory(detectnet-camera)
+add_subdirectory(detectnet-video)
 
 add_subdirectory(segnet-console)
 add_subdirectory(segnet-camera)
