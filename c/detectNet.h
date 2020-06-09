@@ -373,11 +373,20 @@ public:
 	/**
 	 * Draw the detected bounding boxes overlayed on an RGBA image.
 	 * @note Overlay() will automatically be called by default by Detect(), if the overlay parameter is true 
-	 * @param input float4 RGBA input image in CUDA device memory.
-	 * @param output float4 RGBA output image in CUDA device memory.
+	 * @param input input image in CUDA device memory.
+	 * @param output output image in CUDA device memory.
 	 * @param detections Array of detections allocated in CUDA device memory.
 	 */
-	bool Overlay( float* input, float* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections, uint32_t flags=OVERLAY_BOX );
+	template<typename T> bool Overlay( T* input, T* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections, uint32_t flags=OVERLAY_BOX )			{ return Overlay(input, output, width, height, imageFormatFromType<T>(), detections, flags); }
+	
+	/**
+	 * Draw the detected bounding boxes overlayed on an RGBA image.
+	 * @note Overlay() will automatically be called by default by Detect(), if the overlay parameter is true 
+	 * @param input input image in CUDA device memory.
+	 * @param output output image in CUDA device memory.
+	 * @param detections Array of detections allocated in CUDA device memory.
+	 */
+	bool Overlay( void* input, void* output, uint32_t width, uint32_t height, imageFormat format, Detection* detections, uint32_t numDetections, uint32_t flags=OVERLAY_BOX );
 	
 	/**
 	 * Retrieve the minimum threshold for detection.

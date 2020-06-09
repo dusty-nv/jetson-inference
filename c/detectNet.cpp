@@ -860,7 +860,7 @@ int detectNet::Detect( void* input, uint32_t width, uint32_t height, imageFormat
 	// render the overlay
 	if( overlay != 0 && numDetections > 0 )
 	{
-		if( !Overlay((float*)input, (float*)input, width, height, detections, numDetections, overlay) )
+		if( !Overlay(input, input, width, height, format, detections, numDetections, overlay) )
 			printf(LOG_TRT "detectNet::Detect() -- failed to render overlay\n");
 	}
 	
@@ -1022,10 +1022,10 @@ void detectNet::sortDetections( Detection* detections, int numDetections )
 
 
 // from detectNet.cu
-cudaError_t cudaDetectionOverlay( float4* input, float4* output, uint32_t width, uint32_t height, detectNet::Detection* detections, int numDetections, float4* colors );
+cudaError_t cudaDetectionOverlay( void* input, void* output, uint32_t width, uint32_t height, imageFormat format, detectNet::Detection* detections, int numDetections, float4* colors );
 
 // Overlay
-bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections, uint32_t flags )
+bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t height, imageFormat format, Detection* detections, uint32_t numDetections, uint32_t flags )
 {
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 
@@ -1038,7 +1038,7 @@ bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t h
 	// bounding box overlay
 	if( flags & OVERLAY_BOX )
 	{
-		if( CUDA_FAILED(cudaDetectionOverlay((float4*)input, (float4*)output, width, height, detections, numDetections, (float4*)mClassColors[1])) )
+		if( CUDA_FAILED(cudaDetectionOverlay(input, output, width, height, format, detections, numDetections, (float4*)mClassColors[1])) )
 			return false;
 	}
 
@@ -1086,7 +1086,7 @@ bool detectNet::Overlay( float* input, float* output, uint32_t width, uint32_t h
 			}
 		}
 
-		font->OverlayText((float4*)input, width, height, labels, make_float4(255,255,255,255));
+		font->OverlayText(input, format, width, height, labels, make_float4(255,255,255,255));
 	}
 	
 	PROFILER_END(PROFILER_VISUALIZE);
