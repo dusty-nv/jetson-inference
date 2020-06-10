@@ -86,7 +86,7 @@ int main( int argc, char** argv )
 	/*
 	 * create input video stream
 	 */
-	videoSource* input = videoSource::Create(cmdLine);
+	videoSource* input = videoSource::Create(cmdLine, ARG_POSITION(0));
 
 	if( !input )
 	{
@@ -98,7 +98,7 @@ int main( int argc, char** argv )
 	/*
 	 * create output video stream
 	 */
-	videoOutput* output = videoOutput::Create(cmdLine);
+	videoOutput* output = videoOutput::Create(cmdLine, ARG_POSITION(1));
 	
 	if( !output )
 		LogError("detectnet-video:  failed to create output stream\n");	
@@ -107,7 +107,7 @@ int main( int argc, char** argv )
 	/*
 	 * create detection network
 	 */
-	detectNet* net = detectNet::Create(argc, argv);
+	detectNet* net = detectNet::Create(cmdLine);
 	
 	if( !net )
 	{

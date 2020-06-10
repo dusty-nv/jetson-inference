@@ -110,7 +110,7 @@ int main( int argc, char** argv )
 	/*
 	 * create segmentation network
 	 */
-	segNet* net = segNet::Create(argc, argv);
+	segNet* net = segNet::Create(cmdLine);
 	
 	if( !net )
 	{

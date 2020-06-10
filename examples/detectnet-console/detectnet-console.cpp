@@ -72,7 +72,7 @@ int main( int argc, char** argv )
 	/*
 	 * create detection network
 	 */
-	detectNet* net = detectNet::Create(argc, argv);
+	detectNet* net = detectNet::Create(cmdLine);
 
 	if( !net )
 	{

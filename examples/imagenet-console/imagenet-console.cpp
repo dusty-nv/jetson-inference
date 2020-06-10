@@ -68,7 +68,7 @@ int main( int argc, char** argv )
 	/*
 	 * create recognition network
 	 */
-	imageNet* net = imageNet::Create(argc, argv);
+	imageNet* net = imageNet::Create(cmdLine);
 
 	if( !net )
 	{
