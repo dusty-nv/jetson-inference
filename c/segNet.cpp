@@ -219,11 +219,16 @@ segNet* segNet::Create( NetworkType networkType, uint32_t maxBatchSize,
 // Create
 segNet* segNet::Create( int argc, char** argv )
 {
+	return Create(commandLine(argc, argv));
+}
+
+
+// Create
+segNet* segNet::Create( const commandLine& cmdLine )
+{
 	segNet* net = NULL;
 
 	// obtain the model name
-	commandLine cmdLine(argc, argv);
-
 	const char* modelName = cmdLine.GetString("model");
 
 	if( !modelName )

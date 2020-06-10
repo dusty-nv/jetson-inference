@@ -325,11 +325,16 @@ detectNet::NetworkType detectNet::NetworkTypeFromStr( const char* modelName )
 // Create
 detectNet* detectNet::Create( int argc, char** argv )
 {
+	return Create(commandLine(argc, argv));
+}
+
+
+// Create
+detectNet* detectNet::Create( const commandLine& cmdLine )
+{
 	detectNet* net = NULL;
 
 	// parse command line parameters
-	commandLine cmdLine(argc, argv);
-
 	const char* modelName = cmdLine.GetString("network");
 	
 	if( !modelName )

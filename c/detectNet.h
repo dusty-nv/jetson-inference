@@ -26,6 +26,7 @@
 
 #include "tensorNet.h"
 #include "imageFormat.h"
+#include "commandLine.h"
 
 
 /**
@@ -288,6 +289,11 @@ public:
 	 * Load a new network instance by parsing the command line.
 	 */
 	static detectNet* Create( int argc, char** argv );
+	
+	/**
+	 * Load a new network instance by parsing the command line.
+	 */
+	static detectNet* Create( const commandLine& cmdLine );
 	
 	/**
 	 * Usage string for command line arguments to Create()

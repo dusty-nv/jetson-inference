@@ -219,11 +219,16 @@ const char* imageNet::NetworkTypeToStr( imageNet::NetworkType network )
 // Create
 imageNet* imageNet::Create( int argc, char** argv )
 {
+	return Create(commandLine(argc, argv));
+}
+
+
+// Create
+imageNet* imageNet::Create( const commandLine& cmdLine )
+{
 	imageNet* net = NULL;
 
 	// obtain the network name
-	commandLine cmdLine(argc, argv);
-
 	const char* modelName = cmdLine.GetString("network");
 	
 	if( !modelName )
