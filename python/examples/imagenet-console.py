@@ -63,7 +63,7 @@ net.PrintProfilerTimes()
 # overlay the result on the image
 if opt.file_out is not None:
 	font = jetson.utils.cudaFont(size=jetson.utils.adaptFontSize(width))	
-	font.OverlayText(img, width, height, "{:f}% {:s}".format(confidence * 100, class_desc), 10, 10, font.White, font.Gray40)
+	font.OverlayText(img, "{:f}% {:s}".format(confidence * 100, class_desc), 10, 10, font.White, font.Gray40)
 	jetson.utils.cudaDeviceSynchronize()
 	jetson.utils.saveImageRGBA(opt.file_out, img, width, height)
 
