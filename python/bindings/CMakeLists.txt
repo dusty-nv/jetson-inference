@@ -35,12 +35,32 @@ message("-- found Python library:  ${PYTHON_LIBRARIES}")
 
 include_directories(${PYTHON_INCLUDE_DIRS})
 
+# attempt to find numpy
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/../../utils/python/bindings")
+message("-- CMake module path:  ${CMAKE_MODULE_PATH}")
+find_package(NumPy QUIET)
+
+if(${NUMPY_FOUND})
+	message("-- found NumPy version:  ${NUMPY_VERSION}")
+	message("-- found NumPy include:  ${NUMPY_INCLUDE_DIR}")
+
+	add_definitions(-DHAS_NUMPY)
+	include_directories(${NUMPY_INCLUDE_DIR})
+	link_directories(${NUMPY_INCLUDE_DIR}/../lib)
+else()
+	message("-- NumPy not found")
+endif()
+
 # build the bindings
 file(GLOB pythonExtSources *.cpp)
 
 cuda_add_library(jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR} SHARED ${pythonExtSources})
 
-target_link_libraries(jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR} jetson-inference ${PYTHON_LIBRARIES})
+target_link_libraries(jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR} jetson-inference ${PYTHON_LIBRARIES} jetson-utils-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR})
+
+if(${NUMPY_FOUND})
+	target_link_libraries(jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR} npymath)
+endif()
 
 set_target_properties(jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}
 				  PROPERTIES
