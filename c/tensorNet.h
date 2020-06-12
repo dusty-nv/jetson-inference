@@ -31,6 +31,7 @@ namespace nvinfer1 { class IInt8Calibrator; }
 
 #include <jetson-utils/cudaUtility.h>
 #include <jetson-utils/timespec.h>
+#include <jetson-utils/logging.h>
 
 #include <vector>
 #include <sstream>
@@ -347,16 +348,6 @@ public:
 	void EnableDebug();
 
 	/**
-	 * Enable extra verbose message output from TensorRT.
-	 */
-	static inline void EnableVerbose()						{ gLogger.verbose = true; }
-
-	/**
-	 * Check if verbose mode is enabled or not.
-	 */
-	static inline bool VerboseEnabled()					{ return gLogger.verbose; }
-
-	/**
  	 * Return true if GPU fallback is enabled.
 	 */
 	inline bool AllowGPUFallback() const					{ return mAllowGPUFallback; }
@@ -511,27 +502,27 @@ public:
 	 */
 	inline void PrintProfilerTimes()
 	{
-		printf("\n");
-		printf(LOG_TRT "------------------------------------------------\n");
-		printf(LOG_TRT "Timing Report %s\n", GetModelPath());
-		printf(LOG_TRT "------------------------------------------------\n");
+		LogInfo("\n");
+		LogInfo(LOG_TRT "------------------------------------------------\n");
+		LogInfo(LOG_TRT "Timing Report %s\n", GetModelPath());
+		LogInfo(LOG_TRT "------------------------------------------------\n");
 
 		for( uint32_t n=0; n <= PROFILER_TOTAL; n++ )
 		{
 			const profilerQuery query = (profilerQuery)n;
 
 			if( PROFILER_QUERY(query) )
-				printf(LOG_TRT "%-12s  CPU %9.5fms  CUDA %9.5fms\n", profilerQueryToStr(query), mProfilerTimes[n].x, mProfilerTimes[n].y);
+				LogInfo(LOG_TRT "%-12s  CPU %9.5fms  CUDA %9.5fms\n", profilerQueryToStr(query), mProfilerTimes[n].x, mProfilerTimes[n].y);
 		}
 
-		printf(LOG_TRT "------------------------------------------------\n\n");
+		LogInfo(LOG_TRT "------------------------------------------------\n\n");
 
 		static bool first_run=true;
 
 		if( first_run )
 		{
-			printf(LOG_TRT "note -- when processing a single image, run 'sudo jetson_clocks' before\n"
-				  "                to disable DVFS for more accurate profiling/timing measurements\n\n");
+			LogWarning(LOG_TRT "note -- when processing a single image, run 'sudo jetson_clocks' before\n"
+				      "                to disable DVFS for more accurate profiling/timing measurements\n\n");
 			
 			first_run = false;
 		}
@@ -583,21 +574,19 @@ protected:
 	class Logger : public nvinfer1::ILogger			
 	{
 	public:
-		Logger() { verbose = false; }
-
 		void log( Severity severity, const char* msg ) override
 		{
+			if( severity == Severity::kWARNING )
+				LogWarning(LOG_TRT "%s\n", msg);
+			else if( severity == Severity::kINFO )
+				LogInfo(LOG_TRT "%s\n", msg);
 		#if NV_TENSORRT_MAJOR > 5
-			//const Severity ignoreLevel = Severity::kVERBOSE;
-		#else
-			//const Severity ignoreLevel = Severity::kINFO;
+			else if( severity == Severity::kVERBOSE )
+				LogVerbose(LOG_TRT "%s\n", msg);
 		#endif
-			//if( severity != ignoreLevel || verbose )
-			//if( severity != Severity::kINFO /*|| mEnableDebug*/ )
-				printf(LOG_TRT "%s\n", msg);
+			else
+				LogError(LOG_TRT "%s\n", msg);
 		}
-
-		bool verbose;
 	} static gLogger;
 
 	/**
@@ -610,12 +599,11 @@ protected:
 		
 		virtual void reportLayerTime(const char* layerName, float ms)
 		{
-			printf(LOG_TRT "layer %s - %f ms\n", layerName, ms);
+			LogVerbose(LOG_TRT "layer %s - %f ms\n", layerName, ms);
 			timingAccumulator += ms;
 		}
 		
 		float timingAccumulator;
-		
 	} gProfiler;
 
 	/**
@@ -648,10 +636,10 @@ protected:
 
 		if( mEnableProfiler && query == PROFILER_NETWORK ) 
 		{ 
-			printf(LOG_TRT "layer network time - %f ms\n", gProfiler.timingAccumulator); 
+			LogVerbose(LOG_TRT "layer network time - %f ms\n", gProfiler.timingAccumulator); 
 			gProfiler.timingAccumulator = 0.0f; 
-			printf(LOG_TRT "note -- when processing a single image, run 'sudo jetson_clocks' before\n"
-				  "                to disable DVFS for more accurate profiling/timing measurements\n"); 
+			LogWarning(LOG_TRT "note -- when processing a single image, run 'sudo jetson_clocks' before\n"
+				      "                to disable DVFS for more accurate profiling/timing measurements\n"); 
 		}
 	}
 	

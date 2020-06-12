@@ -234,10 +234,6 @@ segNet* segNet::Create( const commandLine& cmdLine )
 	if( !modelName )
 		modelName = cmdLine.GetString("network", "fcn-resnet18-voc-320x320");
 
-	// enable verbose mode if desired
-	if( cmdLine.GetFlag("verbose") )
-		tensorNet::EnableVerbose();
-
 	// parse the model type
 	const segNet::NetworkType type = NetworkTypeFromStr(modelName);
 
@@ -296,15 +292,15 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	if( !net )
 		return NULL;
 
-	printf("\n");
-	printf("segNet -- loading segmentation network model from:\n");
-	printf("       -- prototxt:   %s\n", prototxt);
-	printf("       -- model:      %s\n", model);
-	printf("       -- labels:     %s\n", labels_path);
-	printf("       -- colors:     %s\n", colors_path);
-	printf("       -- input_blob  '%s'\n", input_blob);
-	printf("       -- output_blob '%s'\n", output_blob);
-	printf("       -- batch_size  %u\n\n", maxBatchSize);
+	LogInfo("\n");
+	LogInfo("segNet -- loading segmentation network model from:\n");
+	LogInfo("       -- prototxt:   %s\n", prototxt);
+	LogInfo("       -- model:      %s\n", model);
+	LogInfo("       -- labels:     %s\n", labels_path);
+	LogInfo("       -- colors:     %s\n", colors_path);
+	LogInfo("       -- input_blob  '%s'\n", input_blob);
+	LogInfo("       -- output_blob '%s'\n", output_blob);
+	LogInfo("       -- batch_size  %u\n\n", maxBatchSize);
 	
 	//net->EnableProfiler();	
 	//net->EnableDebug();
@@ -317,7 +313,7 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	if( !net->LoadNetwork(prototxt, model, NULL, input_blob, output_blobs, maxBatchSize,
 					  precision, device, allowGPUFallback) )
 	{
-		printf("segNet -- failed to initialize.\n");
+		LogError(LOG_TRT "segNet -- failed to load.\n");
 		return NULL;
 	}
 	
@@ -340,7 +336,7 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	const int s_h = DIMS_H(net->mOutputs[0].dims);
 	const int s_c = DIMS_C(net->mOutputs[0].dims);
 		
-	printf(LOG_TRT "segNet outputs -- s_w %i  s_h %i  s_c %i\n", s_w, s_h, s_c);
+	LogVerbose(LOG_TRT "segNet outputs -- s_w %i  s_h %i  s_c %i\n", s_w, s_h, s_c);
 
 	if( !cudaAllocMapped((void**)&net->mClassMap[0], (void**)&net->mClassMap[1], s_w * s_h * sizeof(uint8_t)) )
 		return NULL;
@@ -364,7 +360,7 @@ bool segNet::loadClassColors( const char* filename )
 
 	if( path.length() == 0 )
 	{
-		printf("segNet -- failed to find %s\n", filename);
+		LogError(LOG_TRT "segNet -- failed to find %s\n", filename);
 		return false;
 	}
 
@@ -373,7 +369,7 @@ bool segNet::loadClassColors( const char* filename )
 	
 	if( !f )
 	{
-		printf("segNet -- failed to open %s\n", path.c_str());
+		LogError(LOG_TRT "segNet -- failed to open %s\n", path.c_str());
 		return false;
 	}
 	
@@ -396,7 +392,7 @@ bool segNet::loadClassColors( const char* filename )
 			int a = 255;
 
 			sscanf(str, "%i %i %i %i", &r, &g, &b, &a);
-			printf("segNet -- class %02i  color %i %i %i %i\n", idx, r, g, b, a);
+			LogVerbose(LOG_TRT "segNet -- class %02i  color %i %i %i %i\n", idx, r, g, b, a);
 			SetClassColor(idx, r, g, b, a);
 			idx++; 
 		}
@@ -404,7 +400,7 @@ bool segNet::loadClassColors( const char* filename )
 	
 	fclose(f);
 	
-	printf("segNet -- loaded %i class colors\n", idx);
+	LogVerbose(LOG_TRT "segNet -- loaded %i class colors\n", idx);
 	
 	if( idx == 0 )
 		return false;
@@ -424,7 +420,7 @@ bool segNet::loadClassLabels( const char* filename )
 
 	if( path.length() == 0 )
 	{
-		printf("segNet -- failed to find %s\n", filename);
+		LogError(LOG_TRT "segNet -- failed to find %s\n", filename);
 		return false;
 	}
 
@@ -433,7 +429,7 @@ bool segNet::loadClassLabels( const char* filename )
 	
 	if( !f )
 	{
-		printf("segNet -- failed to open %s\n", path.c_str());
+		LogError(LOG_TRT "segNet -- failed to open %s\n", path.c_str());
 		return false;
 	}
 	
@@ -449,14 +445,14 @@ bool segNet::loadClassLabels( const char* filename )
 			if( str[len-1] == '\n' )
 				str[len-1] = 0;
 
-			printf("segNet -- class %02zu  label '%s'\n", mClassLabels.size(), str);
+			LogVerbose(LOG_TRT "segNet -- class %02zu  label '%s'\n", mClassLabels.size(), str);
 			mClassLabels.push_back(str);
 		}
 	}
 	
 	fclose(f);
 	
-	printf("segNet -- loaded %zu class labels\n", mClassLabels.size());
+	LogVerbose(LOG_TRT "segNet -- loaded %zu class labels\n", mClassLabels.size());
 	
 	if( mClassLabels.size() == 0 )
 		return false;
@@ -612,7 +608,7 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 {
 	if( !rgba || width == 0 || height == 0 )
 	{
-		printf("segNet::Process( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
+		LogError(LOG_TRT "segNet::Process( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
 		return false;
 	}
 
@@ -628,7 +624,7 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 									   make_float3(0.229f, 0.224f, 0.225f), 
 									   GetStream())) )
 		{
-			printf(LOG_TRT "segNet::Process() -- cudaTensorNormMeanRGB() failed\n");
+			LogError(LOG_TRT "segNet::Process() -- cudaTensorNormMeanRGB() failed\n");
 			return false;
 		}
 	}
@@ -639,7 +635,7 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 								    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
 								    make_float3(0,0,0), GetStream())) )
 		{
-			printf("segNet::Process() -- cudaTensorMeanBGR() failed\n");
+			LogError(LOG_TRT "segNet::Process() -- cudaTensorMeanBGR() failed\n");
 			return false;
 		}
 	}
@@ -732,7 +728,7 @@ bool segNet::Mask( uint8_t* output, uint32_t out_width, uint32_t out_height )
 {
 	if( !output || out_width == 0 || out_height == 0 )
 	{
-		printf("segNet::Mask( 0x%p, %u, %u ) -> invalid parameters\n", output, out_width, out_height); 
+		LogError(LOG_TRT "segNet::Mask( 0x%p, %u, %u ) -> invalid parameters\n", output, out_width, out_height); 
 		return false;
 	}	
 
@@ -774,7 +770,7 @@ bool segNet::Mask( float* output, uint32_t width, uint32_t height, FilterMode fi
 {
 	if( !output || width == 0 || height == 0 )
 	{
-		printf("segNet::Mask( 0x%p, %u, %u ) -> invalid parameters\n", output, width, height); 
+		LogError(LOG_TRT "segNet::Mask( 0x%p, %u, %u ) -> invalid parameters\n", output, width, height); 
 		return false;
 	}	
 
@@ -793,13 +789,13 @@ bool segNet::Overlay( float* output, uint32_t width, uint32_t height, FilterMode
 {
 	if( !output || width == 0 || height == 0 )
 	{
-		printf("segNet::Overlay( 0x%p, %u, %u ) -> invalid parameters\n", output, width, height); 
+		LogError(LOG_TRT "segNet::Overlay( 0x%p, %u, %u ) -> invalid parameters\n", output, width, height); 
 		return false;
 	}	
 	
 	if( !mLastInputImg )
 	{
-		printf(LOG_TRT "segNet -- Process() must be called before Overlay()\n");
+		LogError(LOG_TRT "segNet -- Process() must be called before Overlay()\n");
 		return false;
 	}
 
@@ -833,7 +829,7 @@ bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, 
 							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
 							 false, mask_only, GetStream())) )
 	{
-		printf(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
+		LogError(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
 		return false;
 	}
 #else
@@ -907,7 +903,7 @@ bool segNet::overlayLinear( float* input, uint32_t in_width, uint32_t in_height,
 							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
 							 true, mask_only, GetStream())) )
 	{
-		printf(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
+		LogError(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
 		return false;
 	}
 #else

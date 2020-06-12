@@ -142,7 +142,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 		return false;
 	}
 
-	LogInfo(LOG_TRT "%s loaded\n", model_path);
+	//LogSuccess(LOG_TRT "imageNet -- loaded %s\n", model_path);
 
 	/*
 	 * load synset classnames
@@ -151,11 +151,11 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 	
 	if( !loadClassInfo(class_path, mOutputClasses) || mClassSynset.size() != mOutputClasses || mClassDesc.size() != mOutputClasses )
 	{
-		LogError("imageNet -- failed to load synset class descriptions  (%zu / %zu of %u)\n", mClassSynset.size(), mClassDesc.size(), mOutputClasses);
+		LogError(LOG_TRT "imageNet -- failed to load synset class descriptions  (%zu / %zu of %u)\n", mClassSynset.size(), mClassDesc.size(), mOutputClasses);
 		return false;
 	}
 	
-	LogInfo("%s initialized.\n", model_path);
+	LogSuccess(LOG_TRT "imageNet -- %s initialized.\n", model_path);
 	return true;
 }
 			
@@ -234,10 +234,6 @@ imageNet* imageNet::Create( const commandLine& cmdLine )
 	if( !modelName )
 		modelName = cmdLine.GetString("model", "googlenet");
 	
-	// enable verbose mode if desired
-	if( cmdLine.GetFlag("verbose") )
-		tensorNet::EnableVerbose();
-
 	// parse the network type
 	const imageNet::NetworkType type = NetworkTypeFromStr(modelName);
 
@@ -286,7 +282,7 @@ bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& de
 
 	if( path.length() == 0 )
 	{
-		LogError("imageNet -- failed to find %s\n", filename);
+		LogError(LOG_TRT "imageNet -- failed to find %s\n", filename);
 		return false;
 	}
 
@@ -295,7 +291,7 @@ bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& de
 	
 	if( !f )
 	{
-		LogError("imageNet -- failed to open %s\n", path.c_str());
+		LogError(LOG_TRT "imageNet -- failed to open %s\n", path.c_str());
 		return false;
 	}
 	
@@ -342,7 +338,7 @@ bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& de
 	
 	fclose(f);
 	
-	LogVerbose("imageNet -- loaded %zu class info entries\n", synsets.size());
+	LogVerbose(LOG_TRT "imageNet -- loaded %zu class info entries\n", synsets.size());
 	
 	const int numLoaded = descriptions.size();
 
@@ -352,11 +348,11 @@ bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& de
 	if( expectedClasses > 0 )
 	{
 		if( numLoaded != expectedClasses )
-			LogWarning("imageNet -- didn't load expected number of class descriptions  (%i of %i)\n", numLoaded, expectedClasses);
+			LogWarning(LOG_TRT "imageNet -- didn't load expected number of class descriptions  (%i of %i)\n", numLoaded, expectedClasses);
 
 		if( numLoaded < expectedClasses )
 		{
-			LogWarning("imageNet -- filling in remaining %i class descriptions with default labels\n", (expectedClasses - numLoaded));
+			LogWarning(LOG_TRT "imageNet -- filling in remaining %i class descriptions with default labels\n", (expectedClasses - numLoaded));
  
 			for( int n=numLoaded; n < expectedClasses; n++ )
 			{

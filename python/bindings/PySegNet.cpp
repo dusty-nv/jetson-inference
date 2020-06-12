@@ -24,6 +24,7 @@
 #include "PySegNet.h"
 
 #include "segNet.h"
+#include "logging.h"
 
 #include "../../utils/python/bindings/PyCUDA.h"
 
@@ -51,7 +52,7 @@ typedef struct {
 // Init
 static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds )
 {
-	printf(LOG_PY_INFERENCE "PySegNet_Init()\n");
+	LogDebug(LOG_PY_INFERENCE "PySegNet_Init()\n");
 
 	// parse arguments
 	PyObject* argList     = NULL;
@@ -61,14 +62,14 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sO", kwlist, &network, &argList))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.__init()__ failed to parse args tuple");
-		printf(LOG_PY_INFERENCE "segNet.__init()__ failed to parse args tuple\n");
+		LogError(LOG_PY_INFERENCE "segNet.__init()__ failed to parse args tuple\n");
 		return -1;
 	}
     
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
-		printf(LOG_PY_INFERENCE "segNet loading network using argv command line params\n");
+		LogVerbose(LOG_PY_INFERENCE "segNet loading network using argv command line params\n");
 
 		// parse the python list into char**
 		const size_t argc = PyList_Size(argList);
@@ -97,7 +98,7 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 				return -1;
 			}
 
-			printf(LOG_PY_INFERENCE "segNet.__init__() argv[%zu] = '%s'\n", n, argv[n]);
+			LogDebug(LOG_PY_INFERENCE "segNet.__init__() argv[%zu] = '%s'\n", n, argv[n]);
 		}
 
 		// load the network using (argc, argv)
@@ -108,7 +109,7 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 	}
 	else
 	{
-		printf(LOG_PY_INFERENCE "segNet loading build-in network '%s'\n", network);
+		LogVerbose(LOG_PY_INFERENCE "segNet loading build-in network '%s'\n", network);
 		
 		// parse the selected built-in network
 		segNet::NetworkType networkType = segNet::NetworkTypeFromStr(network);
@@ -116,7 +117,7 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 		if( networkType == segNet::SEGNET_CUSTOM )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid built-in network was requested");
-			printf(LOG_PY_INFERENCE "segNet invalid built-in network was requested ('%s')\n", network);
+			LogError(LOG_PY_INFERENCE "segNet invalid built-in network was requested ('%s')\n", network);
 			return -1;
 		}
 		
@@ -128,7 +129,7 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 	if( !self->net )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet failed to load network");
-		printf(LOG_PY_INFERENCE "segNet failed to load built-in network '%s'\n", network);
+		LogError(LOG_PY_INFERENCE "segNet failed to load network\n");
 		return -1;
 	}
 
@@ -140,7 +141,7 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 // Deallocate
 static void PySegNet_Dealloc( PySegNet_Object* self )
 {
-	printf(LOG_PY_INFERENCE "PySegNet_Dealloc()\n");
+	LogDebug(LOG_PY_INFERENCE "PySegNet_Dealloc()\n");
 
 	// free the network
 	if( self->net != NULL )
@@ -525,7 +526,7 @@ bool PySegNet_Register( PyObject* module )
 	 
 	if( PyType_Ready(&PySegNet_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "segNet PyType_Ready() failed\n");
+		LogError(LOG_PY_INFERENCE "segNet PyType_Ready() failed\n");
 		return false;
 	}
 	
@@ -533,7 +534,7 @@ bool PySegNet_Register( PyObject* module )
     
 	if( PyModule_AddObject(module, "segNet", (PyObject*)&PySegNet_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "segNet PyModule_AddObject('imageNet') failed\n");
+		LogError(LOG_PY_INFERENCE "segNet PyModule_AddObject('imageNet') failed\n");
 		return false;
 	}
 	

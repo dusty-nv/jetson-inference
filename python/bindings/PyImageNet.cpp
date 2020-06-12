@@ -24,6 +24,7 @@
 #include "PyImageNet.h"
 
 #include "imageNet.h"
+#include "logging.h"
 
 #include "../../utils/python/bindings/PyCUDA.h"
 
@@ -52,7 +53,7 @@ typedef struct {
 // Init
 static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *kwds )
 {
-	printf(LOG_PY_INFERENCE "PyImageNet_Init()\n");
+	LogDebug(LOG_PY_INFERENCE "PyImageNet_Init()\n");
 	
 	// parse arguments
 	PyObject* argList     = NULL;
@@ -362,7 +363,7 @@ bool PyImageNet_Register( PyObject* module )
 	 
 	if( PyType_Ready(&pyImageNet_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "imageNet PyType_Ready() failed\n");
+		LogError(LOG_PY_INFERENCE "imageNet PyType_Ready() failed\n");
 		return false;
 	}
 	
@@ -370,7 +371,7 @@ bool PyImageNet_Register( PyObject* module )
     
 	if( PyModule_AddObject(module, "imageNet", (PyObject*)&pyImageNet_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "imageNet PyModule_AddObject('imageNet') failed\n");
+		LogError(LOG_PY_INFERENCE "imageNet PyModule_AddObject('imageNet') failed\n");
 		return false;
 	}
 	

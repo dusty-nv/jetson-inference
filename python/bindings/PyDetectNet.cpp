@@ -24,6 +24,7 @@
 #include "PyDetectNet.h"
 
 #include "detectNet.h"
+#include "logging.h"
 
 #include "../../utils/python/bindings/PyCUDA.h"
 
@@ -63,7 +64,7 @@ typedef struct {
 // New
 static PyObject* PyDetection_New( PyTypeObject* type, PyObject* args, PyObject* kwds )
 {
-	printf(LOG_PY_INFERENCE "PyDetection_New()\n");
+	LogDebug(LOG_PY_INFERENCE "PyDetection_New()\n");
 	
 	// allocate a new container
 	PyDetection_Object* self = (PyDetection_Object*)type->tp_alloc(type, 0);
@@ -82,7 +83,7 @@ static PyObject* PyDetection_New( PyTypeObject* type, PyObject* args, PyObject* 
 // Init
 static int PyDetection_Init( PyDetection_Object* self, PyObject* args, PyObject* kwds )
 {
-	printf(LOG_PY_INFERENCE "PyDetection_Init()\n");
+	LogDebug(LOG_PY_INFERENCE "PyDetection_Init()\n");
 	
 	// parse arguments
 	int classID = 0;
@@ -119,7 +120,7 @@ static int PyDetection_Init( PyDetection_Object* self, PyObject* args, PyObject*
 // Deallocate
 static void PyDetection_Dealloc( PyDetection_Object* self )
 {
-	printf(LOG_PY_INFERENCE "PyDetection_Dealloc()\n");
+	LogDebug(LOG_PY_INFERENCE "PyDetection_Dealloc()\n");
 
 	// free the container
 	Py_TYPE(self)->tp_free((PyObject*)self);
@@ -459,7 +460,7 @@ typedef struct {
 // Init
 static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject *kwds )
 {
-	printf(LOG_PY_INFERENCE "PyDetectNet_Init()\n");
+	LogDebug(LOG_PY_INFERENCE "PyDetectNet_Init()\n");
 	
 	// parse arguments
 	PyObject* argList     = NULL;
@@ -477,7 +478,7 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
-		printf(LOG_PY_INFERENCE "detectNet loading network using argv command line params\n");
+		LogVerbose(LOG_PY_INFERENCE "detectNet loading network using argv command line params\n");
 
 		// parse the python list into char**
 		const size_t argc = PyList_Size(argList);
@@ -506,7 +507,7 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 				return -1;
 			}
 
-			printf(LOG_PY_INFERENCE "detectNet.__init__() argv[%zu] = '%s'\n", n, argv[n]);
+			LogDebug(LOG_PY_INFERENCE "detectNet.__init__() argv[%zu] = '%s'\n", n, argv[n]);
 		}
 
 		// load the network using (argc, argv)
@@ -517,7 +518,7 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 	}
 	else
 	{
-		printf(LOG_PY_INFERENCE "detectNet loading build-in network '%s'\n", network);
+		LogVerbose(LOG_PY_INFERENCE "detectNet loading build-in network '%s'\n", network);
 		
 		// parse the selected built-in network
 		detectNet::NetworkType networkType = detectNet::NetworkTypeFromStr(network);
@@ -525,7 +526,7 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 		if( networkType == detectNet::CUSTOM )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid built-in network was requested");
-			printf(LOG_PY_INFERENCE "detectNet invalid built-in network was requested ('%s')\n", network);
+			LogError(LOG_PY_INFERENCE "detectNet invalid built-in network was requested ('%s')\n", network);
 			return -1;
 		}
 		
@@ -537,7 +538,7 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 	if( !self->net )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet failed to load network");
-		printf(LOG_PY_INFERENCE "detectNet failed to load built-in network '%s'\n", network);
+		LogError(LOG_PY_INFERENCE "detectNet failed to load network\n");
 		return -1;
 	}
 
@@ -845,7 +846,7 @@ bool PyDetectNet_Register( PyObject* module )
 
 	if( PyType_Ready(&pyDetection_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "detectNet.Detection PyType_Ready() failed\n");
+		LogError(LOG_PY_INFERENCE "detectNet.Detection PyType_Ready() failed\n");
 		return false;
 	}
 	
@@ -870,20 +871,20 @@ bool PyDetectNet_Register( PyObject* module )
 
 	if( !pyDetectNet_Type.tp_dict )
 	{
-		printf(LOG_PY_INFERENCE "detectNet failed to create new PyDict object\n");
+		LogError(LOG_PY_INFERENCE "detectNet failed to create new PyDict object\n");
 		return false;
 	}
 
 	if( PyDict_SetItemString(pyDetectNet_Type.tp_dict, "Detection", (PyObject*)&pyDetection_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "detectNet failed to register detectNet.Detection inner class\n");
+		LogError(LOG_PY_INFERENCE "detectNet failed to register detectNet.Detection inner class\n");
 		return false;
 	}
 
 	// complete registration of the detectNet type
 	if( PyType_Ready(&pyDetectNet_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "detectNet PyType_Ready() failed\n");
+		LogError(LOG_PY_INFERENCE "detectNet PyType_Ready() failed\n");
 		return false;
 	}
 	
@@ -891,7 +892,7 @@ bool PyDetectNet_Register( PyObject* module )
 
 	if( PyModule_AddObject(module, "detectNet", (PyObject*)&pyDetectNet_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "detectNet PyModule_AddObject('detectNet') failed\n");
+		LogError(LOG_PY_INFERENCE "detectNet PyModule_AddObject('detectNet') failed\n");
 		return false;
 	}
 	
