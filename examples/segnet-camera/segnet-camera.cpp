@@ -101,10 +101,7 @@ int main( int argc, char** argv )
 	const uint32_t width = camera->GetWidth();
 	const uint32_t height = camera->GetHeight();
 
-	printf("\nsegnet-camera:  successfully initialized camera device\n");
-	printf("    width:  %u\n", width);
-	printf("   height:  %u\n", height);
-	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
+	printf("\nsegnet-camera:  successfully initialized camera device (%ux%u)\n", camera->GetWidth(), camera->GetHeight());
 	
 
 	/*
