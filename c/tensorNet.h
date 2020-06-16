@@ -577,15 +577,23 @@ protected:
 		void log( Severity severity, const char* msg ) override
 		{
 			if( severity == Severity::kWARNING )
+			{
 				LogWarning(LOG_TRT "%s\n", msg);
+			}
 			else if( severity == Severity::kINFO )
+			{
 				LogInfo(LOG_TRT "%s\n", msg);
+			}
 		#if NV_TENSORRT_MAJOR > 5
 			else if( severity == Severity::kVERBOSE )
+			{
 				LogVerbose(LOG_TRT "%s\n", msg);
+			}
 		#endif
 			else
+			{
 				LogError(LOG_TRT "%s\n", msg);
+			}
 		}
 	} static gLogger;
 
