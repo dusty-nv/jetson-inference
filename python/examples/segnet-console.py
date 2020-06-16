@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved.
 #
@@ -39,6 +39,7 @@ parser.add_argument("--visualize", type=str, default="overlay", choices=["overla
 parser.add_argument("--filter-mode", type=str, default="linear", choices=["point", "linear"], help="filtering mode used during visualization, options are:\n  'point' or 'linear' (default: 'linear')")
 parser.add_argument("--ignore-class", type=str, default="void", help="optional name of class to ignore in the visualization results (default: 'void')")
 parser.add_argument("--alpha", type=float, default=120.0, help="alpha blending value to use during overlay, between 0.0 and 255.0 (default: 120.0)")
+parser.add_argument('--stats', action='store_true', help="compute statistics from the segmentation mask, such as class histogram")
 
 try:
 	opt = parser.parse_known_args()[0]
@@ -51,7 +52,7 @@ except:
 img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
 
 # allocate the output image for the overlay/mask
-img_output = jetson.utils.cudaAllocMapped(width * height * 4 * ctypes.sizeof(ctypes.c_float))
+img_output = jetson.utils.cudaAllocMapped(width=width, height=height, format="rgba32f")
 
 # load the segmentation network
 net = jetson.inference.segNet(opt.network, sys.argv)
@@ -71,5 +72,37 @@ if opt.file_out is not None:
 
 	jetson.utils.cudaDeviceSynchronize()
 	jetson.utils.saveImageRGBA(opt.file_out, img_output, width, height)
+
+# compute mask statistics
+if opt.stats:
+	import numpy as np
+	print('computing class statistics...')
+
+	# work with the raw classification grid dimensions
+	grid_width, grid_height = net.GetGridSize()	
+	num_classes = net.GetNumClasses()
+
+	# allocate a single-channel uint8 image for the class mask
+	class_mask = jetson.utils.cudaAllocMapped(width=grid_width, height=grid_height, format="gray8")
+
+	# get the class mask (each pixel contains the classID for that grid cell)
+	net.Mask(class_mask, grid_width, grid_height)
+
+	# view as numpy array (doesn't copy data)
+	mask_array = jetson.utils.cudaToNumpy(class_mask)	
+
+	# compute the number of times each class occurs in the mask
+	class_histogram, _ = np.histogram(mask_array, num_classes)
+
+	print('grid size:   {:d}x{:d}'.format(grid_width, grid_height))
+	print('num classes: {:d}'.format(num_classes))
+
+	print('-----------------------------------------')
+	print(' ID  class name        count     %')
+	print('-----------------------------------------')
+
+	for n in range(num_classes):
+		percentage = float(class_histogram[n]) / float(grid_width * grid_height)
+		print(' {:>2d}  {:<18s} {:>3d}   {:f}'.format(n, net.GetClassDesc(n), class_histogram[n], percentage)) 
 
 
