@@ -24,7 +24,7 @@ It's recommended to walk through the Hello AI World module first to familiarize 
 * [Extra Resources](#extra-resources)
 
 > &gt; &nbsp; Jetson Xavier NX and JetPack 4.4 Developer Preview is now supported in the repo. <br/>
-> &gt; &nbsp; See our latest technical blog including benchmarks, [`Cloud-Native Agility to Edge AI Devices with the NVIDIA Jetson Xavier NX Developer Kit`](https://devblogs.nvidia.com/bringing-cloud-native-agility-to-edge-ai-with-jetson-xavier-nxBringing). <br/>
+> &gt; &nbsp; See our latest technical blog on the [`NVIDIA Jetson Xavier NX Developer Kit`](https://devblogs.nvidia.com/bringing-cloud-native-agility-to-edge-ai-with-jetson-xavier-nxBringing). <br/>
 
 ## Hello AI World
 
