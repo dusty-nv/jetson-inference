@@ -740,26 +740,32 @@ bool segNet::Mask( uint8_t* output, uint32_t out_width, uint32_t out_height )
 	const int s_w = DIMS_W(mOutputs[0].dims);
 	const int s_h = DIMS_H(mOutputs[0].dims);
 		
-	const float s_x = float(s_w) / float(out_width);
-	const float s_y = float(s_h) / float(out_height);
-
-
-	// overlay pixels onto original
-	for( uint32_t y=0; y < out_height; y++ )
+	if( out_width == s_w && out_height == s_h )
 	{
-		for( uint32_t x=0; x < out_width; x++ )
+		memcpy(output, classMap, s_w * s_h * sizeof(uint8_t));
+	}
+	else
+	{
+		const float s_x = float(s_w) / float(out_width);
+		const float s_y = float(s_h) / float(out_height);
+
+		// overlay pixels onto original
+		for( uint32_t y=0; y < out_height; y++ )
 		{
-			const int cx = float(x) * s_x;
-			const int cy = float(y) * s_y;
+			for( uint32_t x=0; x < out_width; x++ )
+			{
+				const int cx = float(x) * s_x;
+				const int cy = float(y) * s_y;
 
-			// get the class ID of this cell
-			const uint8_t classIdx = classMap[cy * s_w + cx];
+				// get the class ID of this cell
+				const uint8_t classIdx = classMap[cy * s_w + cx];
 
-			// output the pixel
-			output[y * out_width + x] = classIdx;
+				// output the pixel
+				output[y * out_width + x] = classIdx;
+			}
 		}
 	}
-
+	
 	PROFILER_END(PROFILER_VISUALIZE);
 	return true;
 }
