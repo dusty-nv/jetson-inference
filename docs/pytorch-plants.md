@@ -59,7 +59,7 @@ To launch the training, run the following commands:
 
 ``` bash
 $ cd jetson-inference/python/training/classification
-$ python train.py --model-dir=plants ~/datasets/PlantCLEF_Subset
+$ python3 train.py --model-dir=plants ~/datasets/PlantCLEF_Subset
 ```
 
 As training begins, you should see text from the console like the following:
@@ -103,7 +103,7 @@ Note that the models are saved under `jetson-inference/python/training/classific
 Just like with the Cat/Dog example, next we need to convert our trained model from PyTorch to ONNX, so that we can load it with TensorRT:
 
 ``` bash
-python onnx_export.py --model-dir=plants
+python3 onnx_export.py --model-dir=plants
 ```
 
 This will create a model called `resnet18.onnx` under `jetson-inference/python/training/classification/plants/`
@@ -116,30 +116,30 @@ To classify some static test images, like before we'll use the extended command-
 DATASET=~/datasets/PlantCLEF_Subset
 
 # C++
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
+./imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
 
-# Python
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
+# Python 2.7 has ended it's life, use Python 3.
+python3 imagenet-console.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-cattail.jpg" width="500">
 
 ```bash
 # C++
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
+./imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
 
-# Python
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
+# Python 2.7 has ended it's life, use Python 3.
+python3 imagenet-console.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-elm.jpg" width="500">
 
 ```bash
 # C++
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
+./imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
 
-# Python
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
+# Python 2.7 has ended it's life, use Python 3.
+python3 imagenet-console.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-juniper.jpg" width="500">
@@ -177,10 +177,10 @@ You can also try running your re-trained plant model on a live camera stream lik
 DATASET=~/datasets/PlantCLEF_Subset
 
 # C++
-imagenet-camera --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
+./imagenet-camera --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
 
-# Python
-imagenet-camera.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
+# Python 2.7 has ended it's life, use Python 3.
+python3 imagenet-camera.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-fern.jpg" width="500">
