@@ -852,6 +852,22 @@ int detectNet::Detect( void* input, uint32_t width, uint32_t height, imageFormat
 		numDetections = clusterDetections(detections, width, height);
 	}
 
+	// verify the bounding boxes are within the bounds of the image
+	for( int n=0; n < numDetections; n++ )
+	{
+		if( detections[n].Top < 0 )
+			detections[n].Top = 0;
+		
+		if( detections[n].Left < 0 )
+			detections[n].Left = 0;
+		
+		if( detections[n].Right >= width )
+			detections[n].Right = width - 1;
+		
+		if( detections[n].Bottom >= height )
+			detections[n].Bottom = height - 1;
+	}
+	
 	PROFILER_END(PROFILER_POSTPROCESS);
 
 	// render the overlay

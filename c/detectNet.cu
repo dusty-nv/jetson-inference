@@ -94,7 +94,7 @@ cudaError_t launchDetectionOverlay( T* input, T* output, uint32_t width, uint32_
 {
 	if( !input || !output || width == 0 || height == 0 || !detections || numDetections == 0 || !colors )
 		return cudaErrorInvalidValue;
-
+			
 	// if input and output are the same image, then we can use the faster method
 	// which draws 1 box per kernel, but doesn't copy pixels that aren't inside boxes
 	if( input == output )
