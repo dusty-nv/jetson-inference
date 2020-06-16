@@ -355,13 +355,27 @@ static PyObject* PySegNet_Mask( PySegNet_Object* self, PyObject* args, PyObject 
 		return NULL;
 	}
 
-	// visualize the image
-	const bool result = self->net->Mask((float*)img->base.ptr, img->width, img->height, filterMode);
-
-	if( !result )
+	if( img->format == IMAGE_GRAY8 )
 	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() encountered an error segmenting the image");
-		return NULL;
+		// class binary mask
+		const bool result = self->net->Mask((uint8_t*)img->base.ptr, img->width, img->height);
+
+		if( !result )
+		{
+			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() encountered an error generating the class mask");
+			return NULL;
+		}
+	}
+	else
+	{
+		// colorized mask
+		const bool result = self->net->Mask((float*)img->base.ptr, img->width, img->height, filterMode);
+
+		if( !result )
+		{
+			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() encountered an error generating the colorized mask");
+			return NULL;
+		}
 	}
 
 	Py_RETURN_NONE;
@@ -478,6 +492,75 @@ PyObject* PySegNet_SetOverlayAlpha( PySegNet_Object* self, PyObject* args, PyObj
 }
 
 
+#define DOC_GET_GRID_WIDTH  "Return the number of columns in the segmentation mask classification grid.\n" \
+				 	   "These are the raw dimensions, they are typically smaller than the image size.\n" \
+					   "In segNet.Mask() the classification grid gets upscaled to match the image size,\n" \
+					   "but this function returns the original unscaled size of the grid.\n\n" \
+					   "Parameters:  (none)\n\n" \
+					   "Returns:\n" \
+					   "  (int) -- width of the segmentation mask's classification grid" \
+
+// GetGridWidth
+static PyObject* PySegNet_GetGridWidth( PySegNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid object instance");
+		return NULL;
+	}
+
+	return PYLONG_FROM_UNSIGNED_LONG(self->net->GetGridWidth());
+}
+
+
+#define DOC_GET_GRID_HEIGHT "Return the number of rows in the segmentation mask classification grid.\n" \
+					   "These are the raw dimensions, they are typically smaller than the image size.\n" \
+					   "In segNet.Mask() the classification grid gets upscaled to match the image size,\n" \
+					   "but this function returns the original unscaled size of the grid.\n\n" \
+				 	   "Parameters:  (none)\n\n" \
+					   "Returns:\n" \
+					   "  (int) -- height of the segmentation mask's classification grid" \
+
+// GetGridHeight
+static PyObject* PySegNet_GetGridHeight( PySegNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid object instance");
+		return NULL;
+	}
+
+	return PYLONG_FROM_UNSIGNED_LONG(self->net->GetGridHeight());
+}
+
+#define DOC_GET_GRID_SIZE   "Return a (width, height) tuple with the dimensions of the segmentation mask classification grid.\n" \
+					   "These are the raw dimensions, they are typically smaller than the image size.\n" \
+					   "In segNet.Mask() the classification grid gets upscaled to match the image size,\n" \
+					   "but this function returns the original unscaled size of the grid.\n\n" \
+				 	   "Parameters:  (none)\n\n" \
+					   "Returns:\n" \
+					   "  (int, int) -- tuple containing the width and height of the segmentation mask's classification grid" \
+
+// GetGridSize
+static PyObject* PySegNet_GetGridSize( PySegNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid object instance");
+		return NULL;
+	}
+
+	PyObject* pyWidth  = PYLONG_FROM_LONG(self->net->GetGridWidth());
+	PyObject* pyHeight = PYLONG_FROM_LONG(self->net->GetGridHeight());
+
+	PyObject* tuple = PyTuple_Pack(2, pyWidth, pyHeight);
+
+	Py_DECREF(pyWidth);
+	Py_DECREF(pyHeight);
+
+	return tuple;
+}
+
 #define DOC_USAGE_STRING     "Return the command line parameters accepted by __init__()\n\n" \
 					    "Parameters:  (none)\n\n" \
 					    "Returns:\n" \
@@ -503,6 +586,9 @@ static PyMethodDef PySegNet_Methods[] =
 	{ "GetNetworkName", (PyCFunction)PySegNet_GetNetworkName, METH_NOARGS, DOC_GET_NETWORK_NAME},
      { "GetNumClasses", (PyCFunction)PySegNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
 	{ "GetClassDesc", (PyCFunction)PySegNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
+	{ "GetGridWidth", (PyCFunction)PySegNet_GetGridWidth, METH_NOARGS, DOC_GET_GRID_WIDTH},
+	{ "GetGridHeight", (PyCFunction)PySegNet_GetGridHeight, METH_NOARGS, DOC_GET_GRID_HEIGHT},
+	{ "GetGridSize", (PyCFunction)PySegNet_GetGridSize, METH_NOARGS, DOC_GET_GRID_SIZE},
 	{ "SetOverlayAlpha", (PyCFunction)PySegNet_SetOverlayAlpha, METH_VARARGS|METH_KEYWORDS, DOC_SET_OVERLAY_ALPHA},
 	{ "Usage", (PyCFunction)PySegNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},
 	{NULL}  /* Sentinel */
