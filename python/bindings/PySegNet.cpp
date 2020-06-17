@@ -180,33 +180,28 @@ static PyObject* PySegNet_Process( PySegNet_Object* self, PyObject* args, PyObje
 	int height = 0;
 
 	const char* ignore_class = "void";
-	static char* kwlist[] = {"image", "width", "height", "ignore_class", NULL};
+	const char* format_str = "rgba32f";
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iis", kwlist, &capsule, &width, &height, &ignore_class))
+	static char* kwlist[] = {"image", "width", "height", "ignore_class", "format", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iiss", kwlist, &capsule, &width, &height, &ignore_class, &format_str))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Process() failed to parse args tuple");
 		printf(LOG_PY_INFERENCE "segNet.Process() failed to parse args tuple\n");
 		return NULL;
 	}
 
-	// verify dimensions
-	/*if( width <= 0 || height <= 0 )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Process() image dimensions are invalid");
-		return NULL;
-	}*/
+	// parse format string
+	imageFormat format = imageFormatFromStr(format_str);
 
 	// get pointer to image data
-	PyCudaImage* img = PyCUDA_GetImage(capsule);
+	void* ptr = PyCUDA_GetImage(capsule, &width, &height, &format);
 
-	if( !img )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Process() failed to get image pointer from first arg (should be cudaImage)");
+	if( !ptr )
 		return NULL;
-	}
 
 	// classify the image
-	const bool result = self->net->Process((float*)img->base.ptr, img->width, img->height, ignore_class);
+	const bool result = self->net->Process((float*)ptr, width, height, ignore_class);
 
 	if( !result )
 	{
@@ -242,21 +237,16 @@ static PyObject* PySegNet_Overlay( PySegNet_Object* self, PyObject* args, PyObje
 	int height = 0;
 
 	const char* filter_str = "linear";
-	static char* kwlist[] = {"image", "width", "height", "filter_mode", NULL};
+	const char* format_str = "rgba32f";
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iis", kwlist, &capsule, &width, &height, &filter_str))
+	static char* kwlist[] = {"image", "width", "height", "filter_mode", "format", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iiss", kwlist, &capsule, &width, &height, &filter_str, &format_str))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Overlay() failed to parse args tuple");
 		printf(LOG_PY_INFERENCE "segNet.Overlay() failed to parse args tuple\n");
 		return NULL;
 	}
-
-	// verify dimensions
-	/*if( width <= 0 || height <= 0 )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Overlay() image dimensions are invalid");
-		return NULL;
-	}*/
 
 	// verify filter mode
 	segNet::FilterMode filterMode;
@@ -271,17 +261,17 @@ static PyObject* PySegNet_Overlay( PySegNet_Object* self, PyObject* args, PyObje
 		return NULL;
 	}
 
-	// get pointer to image data
-	PyCudaImage* img = PyCUDA_GetImage(capsule);
+	// parse format string
+	imageFormat format = imageFormatFromStr(format_str);
 
-	if( !img )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Overlay() failed to get image pointer from first arg (should be cudaImage)");
+	// get pointer to image data
+	void* ptr = PyCUDA_GetImage(capsule, &width, &height, &format);
+
+	if( !ptr )
 		return NULL;
-	}
 
 	// visualize the image
-	const bool result = self->net->Overlay((float*)img->base.ptr, img->width, img->height, filterMode);
+	const bool result = self->net->Overlay((float*)ptr, width, height, filterMode);
 
 	if( !result )
 	{
@@ -317,21 +307,16 @@ static PyObject* PySegNet_Mask( PySegNet_Object* self, PyObject* args, PyObject 
 	int height = 0;
 
 	const char* filter_str = "linear";
-	static char* kwlist[] = {"image", "width", "height", "filter_mode", NULL};
+	const char* format_str = "rgba32f";
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iis", kwlist, &capsule, &width, &height, &filter_str))
+	static char* kwlist[] = {"image", "width", "height", "filter_mode", "format", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iiss", kwlist, &capsule, &width, &height, &filter_str, &format_str))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() failed to parse args tuple");
 		printf(LOG_PY_INFERENCE "segNet.Mask() failed to parse args tuple\n");
 		return NULL;
 	}
-
-	// verify dimensions
-	/*if( width <= 0 || height <= 0 )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() image dimensions are invalid");
-		return NULL;
-	}*/
 
 	// verify filter mode
 	segNet::FilterMode filterMode;
@@ -346,19 +331,19 @@ static PyObject* PySegNet_Mask( PySegNet_Object* self, PyObject* args, PyObject 
 		return NULL;
 	}
 
+	// parse format string
+	imageFormat format = imageFormatFromStr(format_str);
+
 	// get pointer to image data
-	PyCudaImage* img = PyCUDA_GetImage(capsule);
+	void* ptr = PyCUDA_GetImage(capsule, &width, &height, &format);
 
-	if( !img )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() failed to get image pointer from first arg (should be cudaImage)");
+	if( !ptr )
 		return NULL;
-	}
 
-	if( img->format == IMAGE_GRAY8 )
+	if( format == IMAGE_GRAY8 )
 	{
 		// class binary mask
-		const bool result = self->net->Mask((uint8_t*)img->base.ptr, img->width, img->height);
+		const bool result = self->net->Mask((uint8_t*)ptr, width, height);
 
 		if( !result )
 		{
@@ -369,7 +354,7 @@ static PyObject* PySegNet_Mask( PySegNet_Object* self, PyObject* args, PyObject 
 	else
 	{
 		// colorized mask
-		const bool result = self->net->Mask((float*)img->base.ptr, img->width, img->height, filterMode);
+		const bool result = self->net->Mask((float*)ptr, width, height, filterMode);
 
 		if( !result )
 		{

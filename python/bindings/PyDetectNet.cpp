@@ -570,36 +570,30 @@ static PyObject* PyDetectNet_Detect( PyDetectNet_Object* self, PyObject* args, P
 
 	int width = 0;
 	int height = 0;
-	const char* overlay = "box,labels,conf";
 
-	static char* kwlist[] = {"image", "width", "height", "overlay", NULL};
+	const char* overlay    = "box,labels,conf";
+	const char* format_str = "rgba32f";
+	static char* kwlist[]  = {"image", "width", "height", "overlay", "format", NULL};
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iis", kwlist, &capsule, &width, &height, &overlay))
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iiss", kwlist, &capsule, &width, &height, &overlay, &format_str))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Detect() failed to parse args tuple");
 		return NULL;
 	}
 
-	// verify dimensions
-	/*if( width <= 0 || height <= 0 )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Detect() image dimensions are invalid");
-		return NULL;
-	}*/
+	// parse format string
+	imageFormat format = imageFormatFromStr(format_str);
 
 	// get pointer to image data
-	PyCudaImage* img = PyCUDA_GetImage(capsule);
+	void* ptr = PyCUDA_GetImage(capsule, &width, &height, &format);
 
-	if( !img )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Detect() failed to get image pointer from first arg (should be cudaImage)");
+	if( !ptr )
 		return NULL;
-	}
 
 	// run the object detection
 	detectNet::Detection* detections = NULL;
 
-	const int numDetections = self->net->Detect(img->base.ptr, img->width, img->height, img->format, &detections, detectNet::OverlayFlagsFromStr(overlay));
+	const int numDetections = self->net->Detect(ptr, width, height, format, &detections, detectNet::OverlayFlagsFromStr(overlay));
 
 	if( numDetections < 0 )
 	{

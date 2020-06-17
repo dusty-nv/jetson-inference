@@ -162,35 +162,29 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
 	int width = 0;
 	int height = 0;
 
-	static char* kwlist[] = {"image", "width", "height", NULL};
+	const char* format_str = "rgba32f";
+	static char* kwlist[] = {"image", "width", "height", "format", NULL};
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|ii", kwlist, &capsule, &width, &height))
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iis", kwlist, &capsule, &width, &height, &format_str))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple");
 		printf(LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple\n");
 		return NULL;
 	}
 
-	// verify dimensions
-	/*if( width <= 0 || height <= 0 )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() image dimensions are invalid");
-		return NULL;
-	}*/
+	// parse format string
+	imageFormat format = imageFormatFromStr(format_str);
 
 	// get pointer to image data
-	PyCudaImage* img = PyCUDA_GetImage(capsule);
+	void* ptr = PyCUDA_GetImage(capsule, &width, &height, &format);
 
-	if( !img )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() failed to get image pointer from first arg (should be cudaImage)");
+	if( !ptr )
 		return NULL;
-	}
 
 	// classify the image
 	float confidence = 0.0f;
 
-	const int img_class = self->net->Classify(img->base.ptr, img->width, img->height, img->format, &confidence);
+	const int img_class = self->net->Classify(ptr, width, height, format, &confidence);
 
 	if( img_class < 0 )
 	{
