@@ -401,7 +401,7 @@ bool imageNet::PreProcess( void* image, uint32_t width, uint32_t height, imageFo
 		return false;
 	}
 
-	if( format != IMAGE_RGB8 && format != IMAGE_RGBA8 && format != IMAGE_RGB32F && format != IMAGE_RGBA32F )
+	if( !imageFormatIsRGB(format) )
 	{
 		LogError(LOG_TRT "imageNet::Classify() -- unsupported image format (%s)\n", imageFormatToStr(format));
 		LogError(LOG_TRT "                        supported formats are:\n");
