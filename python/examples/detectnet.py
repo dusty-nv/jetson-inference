@@ -31,7 +31,7 @@ import sys
 parser = argparse.ArgumentParser(description="Locate objects in a live camera stream using an object detection DNN.", 
 						   formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.detectNet.Usage())
 
-parser.add_argument("input_URI", type=str, help="URI of the input stream")
+parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
 parser.add_argument("--network", type=str, default="ssd-mobilenet-v2", help="pre-trained model to load (see below for options)")
 parser.add_argument("--overlay", type=str, default="box,labels,conf", help="detection overlay flags (e.g. --overlay=box,labels,conf)\nvalid combinations are:  'box', 'labels', 'conf', 'none'")
@@ -53,8 +53,9 @@ net = jetson.inference.detectNet(opt.network, sys.argv, opt.threshold)
 input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
 output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv)
 
-# capture frames until user exits
+# process frames until the user exits
 while output.IsStreaming():
+	# capture the next image
 	img = input.Capture()
 
 	# detect objects in the image (with overlay)
@@ -74,4 +75,9 @@ while output.IsStreaming():
 
 	# print out performance info
 	net.PrintProfilerTimes()
+
+	# exit on input EOS
+	if not input.IsStreaming():
+		break
+
 
