@@ -99,7 +99,7 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 				return -1;
 			}
 
-			printf(LOG_PY_INFERENCE "imageNet.__init__() argv[%zu] = '%s'\n", n, argv[n]);
+			LogDebug(LOG_PY_INFERENCE "imageNet.__init__() argv[%zu] = '%s'\n", n, argv[n]);
 		}
 
 		// load the network using (argc, argv)
