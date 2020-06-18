@@ -405,6 +405,24 @@ static PyObject* PyDetection_GetCenter( PyDetection_Object* self, void* closure 
 	return tuple;
 }
 
+// GetROI
+static PyObject* PyDetection_GetROI( PyDetection_Object* self, void* closure )
+{
+	PyObject* left   = PyFloat_FromDouble(self->det.Left);
+	PyObject* top    = PyFloat_FromDouble(self->det.Top);
+	PyObject* right  = PyFloat_FromDouble(self->det.Right);
+	PyObject* bottom = PyFloat_FromDouble(self->det.Bottom);
+
+	PyObject* tuple = PyTuple_Pack(4, left, top, right, bottom);
+
+	Py_DECREF(left);
+	Py_DECREF(top);
+	Py_DECREF(right);
+	Py_DECREF(bottom);
+
+	return tuple;
+}
+
 static PyGetSetDef pyDetection_GetSet[] = 
 {
 	{ "Instance", (getter)PyDetection_GetInstance, (setter)PyDetection_SetInstance, "Instance index of the detected object", NULL},
@@ -413,11 +431,12 @@ static PyGetSetDef pyDetection_GetSet[] =
 	{ "Left", (getter)PyDetection_GetLeft, (setter)PyDetection_SetLeft, "Left bounding box coordinate", NULL},
 	{ "Right", (getter)PyDetection_GetRight, (setter)PyDetection_SetRight, "Right bounding box coordinate", NULL},
 	{ "Top", (getter)PyDetection_GetTop, (setter)PyDetection_SetTop, "Top bounding box coordinate", NULL},
-	{ "Bottom", (getter)PyDetection_GetBottom, (setter)PyDetection_SetBottom, "Bottom bounding box coordinate", NULL},
+	{ "Bottom", (getter)PyDetection_GetBottom, (setter)PyDetection_SetBottom, "Bottom bounding box coordinate", NULL},	
 	{ "Width", (getter)PyDetection_GetWidth, NULL, "Width of bounding box", NULL},
 	{ "Height", (getter)PyDetection_GetHeight, NULL, "Height of bounding box", NULL},
 	{ "Area", (getter)PyDetection_GetArea, NULL, "Area of bounding box", NULL},
 	{ "Center", (getter)PyDetection_GetCenter, NULL, "Center (x,y) coordinate of bounding box", NULL},
+	{ "ROI", (getter)PyDetection_GetROI, NULL, "Tuple containing the ROI as (Left, Top, Right, Bottom)", NULL},
 	{ NULL } /* Sentinel */
 };
 
