@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, NVIDIA CORPORATION. All rights reserved.
+ * Copyright (c) 2020, NVIDIA CORPORATION. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -20,11 +20,13 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-#include "gstCamera.h"
-#include "glDisplay.h"
+#include "videoSource.h"
+#include "videoOutput.h"
+
+#include "logging.h"
+#include "commandLine.h"
 
 #include "detectNet.h"
-#include "commandLine.h"
 
 #include <signal.h>
 
@@ -42,7 +44,7 @@ void sig_handler(int signo)
 
 int usage()
 {
-	printf("usage: detectnet-camera [-h] [--network NETWORK] [--threshold THRESHOLD]\n");
+	printf("usage: detectnet-video [-h] [--network NETWORK] [--threshold THRESHOLD]\n");
 	printf("                        [--camera CAMERA] [--width WIDTH] [--height HEIGHT]\n\n");
 	printf("Locate objects in a live camera stream using an object detection DNN.\n\n");
 	printf("optional arguments:\n");
@@ -82,19 +84,24 @@ int main( int argc, char** argv )
 
 
 	/*
-	 * create the camera device
+	 * create input video stream
 	 */
-	gstCamera* camera = gstCamera::Create(cmdLine.GetInt("width", gstCamera::DefaultWidth),
-								   cmdLine.GetInt("height", gstCamera::DefaultHeight),
-								   cmdLine.GetString("camera"));
+	videoSource* input = videoSource::Create(cmdLine, ARG_POSITION(0));
 
-	if( !camera )
+	if( !input )
 	{
-		printf("\ndetectnet-camera:  failed to initialize camera device\n");
+		LogError("detectnet-video:  failed to create input stream\n");
 		return 0;
 	}
+
+
+	/*
+	 * create output video stream
+	 */
+	videoOutput* output = videoOutput::Create(cmdLine, ARG_POSITION(1));
 	
-	printf("\ndetectnet-camera:  successfully initialized camera device (%ux%u)\n", camera->GetWidth(), camera->GetHeight());
+	if( !output )
+		LogError("detectnet-video:  failed to create output stream\n");	
 	
 
 	/*
@@ -104,7 +111,7 @@ int main( int argc, char** argv )
 	
 	if( !net )
 	{
-		printf("detectnet-camera:   failed to load detectNet model\n");
+		printf("detectnet-video:   failed to load detectNet model\n");
 		return 0;
 	}
 
@@ -113,41 +120,23 @@ int main( int argc, char** argv )
 	
 
 	/*
-	 * create openGL window
-	 */
-	glDisplay* display = glDisplay::Create();
-
-	if( !display ) 
-		printf("detectnet-camera:  failed to create openGL display\n");
-
-
-	/*
-	 * start streaming
-	 */
-	if( !camera->Open() )
-	{
-		printf("detectnet-camera:  failed to open camera for streaming\n");
-		return 0;
-	}
-	
-	printf("detectnet-camera:  camera open for streaming\n");
-	
-	
-	/*
 	 * processing loop
 	 */
 	while( !signal_recieved )
 	{
-		// capture RGBA image
-		float* imgRGBA = NULL;
-		
-		if( !camera->CaptureRGBA(&imgRGBA, 1000) )
-			printf("detectnet-camera:  failed to capture RGBA image from camera\n");
+		// capture next image image
+		uchar3* image = NULL;
+
+		if( !input->Capture(&image, 1000) )
+		{
+			LogError("detectnet-video:  failed to capture video frame\n");
+			continue;
+		}
 
 		// detect objects in the frame
 		detectNet::Detection* detections = NULL;
 	
-		const int numDetections = net->Detect(imgRGBA, camera->GetWidth(), camera->GetHeight(), &detections, overlayFlags);
+		const int numDetections = net->Detect(image, input->GetWidth(), input->GetHeight(), &detections, overlayFlags);
 		
 		if( numDetections > 0 )
 		{
@@ -160,21 +149,24 @@ int main( int argc, char** argv )
 			}
 		}	
 
-		// update display
-		if( display != NULL )
+		// render outputs
+		if( output != NULL )
 		{
-			// render the image
-			display->RenderOnce(imgRGBA, camera->GetWidth(), camera->GetHeight());
+			output->Render(image, input->GetWidth(), input->GetHeight());
 
 			// update the status bar
 			char str[256];
 			sprintf(str, "TensorRT %i.%i.%i | %s | Network %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, precisionTypeToStr(net->GetPrecision()), net->GetNetworkFPS());
-			display->SetTitle(str);
+			output->SetStatus(str);
 
 			// check if the user quit
-			if( display->IsClosed() )
+			if( !output->IsStreaming() )
 				signal_recieved = true;
 		}
+
+		// check for EOS
+		if( !input->IsStreaming() )
+			signal_recieved = true;
 
 		// print out timing info
 		net->PrintProfilerTimes();
@@ -184,13 +176,13 @@ int main( int argc, char** argv )
 	/*
 	 * destroy resources
 	 */
-	printf("detectnet-camera:  shutting down...\n");
+	printf("detectnet-video:  shutting down...\n");
 	
-	SAFE_DELETE(camera);
-	SAFE_DELETE(display);
+	SAFE_DELETE(input);
+	SAFE_DELETE(output);
 	SAFE_DELETE(net);
 
-	printf("detectnet-camera:  shutdown complete.\n");
+	printf("detectnet-video:  shutdown complete.\n");
 	return 0;
 }
 
