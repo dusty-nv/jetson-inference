@@ -670,6 +670,18 @@ bool segNet::Process( void* image, uint32_t width, uint32_t height, imageFormat 
 		return false;
 	}
 
+	if( !imageFormatIsRGB(format) )
+	{
+		LogError(LOG_TRT "segNet -- unsupported image format (%s)\n", imageFormatToStr(format));
+		LogError(LOG_TRT "          supported formats are:\n");
+		LogError(LOG_TRT "              * rgb8\n");		
+		LogError(LOG_TRT "              * rgba8\n");		
+		LogError(LOG_TRT "              * rgb32f\n");		
+		LogError(LOG_TRT "              * rgba32f\n");
+
+		return cudaErrorInvalidValue;
+	}
+
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
 	if( IsModelType(MODEL_ONNX) )

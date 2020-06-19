@@ -22,7 +22,7 @@
  
 #include "cudaUtility.h"
 #include "cudaVector.h"
-#include "imageFormat.h"
+#include "segNet.h"
 
 
 // gpuSegOverlay
@@ -168,7 +168,16 @@ cudaError_t cudaSegOverlay( void* input, uint32_t in_width, uint32_t in_height,
 		return cudaErrorInvalidValue;
 
 	if( !imageFormatIsRGB(format) )
+	{
+		LogError(LOG_TRT "segNet -- unsupported image format (%s)\n", imageFormatToStr(format));
+		LogError(LOG_TRT "          supported formats are:\n");
+		LogError(LOG_TRT "              * rgb8\n");		
+		LogError(LOG_TRT "              * rgba8\n");		
+		LogError(LOG_TRT "              * rgb32f\n");		
+		LogError(LOG_TRT "              * rgba32f\n");
+
 		return cudaErrorInvalidValue;
+	}
 
 	// launch kernel
 	const dim3 blockDim(8, 8);

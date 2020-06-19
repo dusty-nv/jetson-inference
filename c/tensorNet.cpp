@@ -944,7 +944,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 		mModelType = model_fmt;
 		mModelPath = model_path;
 
-		LogSuccess(LOG_TRT "device %s, %s initialized.\n", deviceTypeToStr(device), mModelPath.c_str());	
+		LogSuccess(LOG_TRT "device %s, initialized %s\n", deviceTypeToStr(device), mModelPath.c_str());	
 		return true;
 	}
 
@@ -1025,7 +1025,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 			return false;
 	}
 
-	LogSuccess(LOG_TRT "device %s, %s loaded\n", deviceTypeToStr(device), model_path.c_str());
+	LogSuccess(LOG_TRT "device %s, loaded %s\n", deviceTypeToStr(device), model_path.c_str());
 	
 
 	/*
