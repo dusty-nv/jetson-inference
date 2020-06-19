@@ -1,9 +1,7 @@
 
 add_subdirectory(imagenet)
 add_subdirectory(detectnet)
-
-add_subdirectory(segnet-console)
-add_subdirectory(segnet-camera)
+add_subdirectory(segnet)
 
 # experimental examples
 if(BUILD_EXPERIMENTAL)

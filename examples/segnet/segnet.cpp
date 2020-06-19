@@ -1,0 +1,320 @@
+/*
+ * Copyright (c) 2020, NVIDIA CORPORATION. All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ */
+
+#include "videoSource.h"
+#include "videoOutput.h"
+
+#include "cudaOverlay.h"
+#include "cudaMappedMemory.h"
+
+#include "logging.h"
+#include "commandLine.h"
+
+#include "segNet.h"
+
+#include <signal.h>
+
+
+#ifdef HEADLESS
+	#define IS_HEADLESS() "headless"	// run without display
+	#define DEFAULT_VISUALIZATION "overlay"
+#else
+	#define IS_HEADLESS() (const char*)NULL
+	#define DEFAULT_VISUALIZATION "overlay|mask"
+#endif
+
+//
+// segmentation buffers
+//
+typedef uchar3 pixelType;		// this can be uchar3, uchar4, float3, float4
+
+pixelType* imgMask      = NULL;	// color of each segmentation class
+pixelType* imgOverlay   = NULL;	// input + alpha-blended mask
+pixelType* imgComposite = NULL;	// overlay with mask next to it
+pixelType* imgOutput    = NULL;	// reference to one of the above three
+
+int2 maskSize;
+int2 overlaySize;
+int2 compositeSize;
+int2 outputSize;
+
+bool allocBuffers( int width, int height, uint32_t flags )
+{
+	// check if the buffers were already allocated for this size
+	if( imgOverlay != NULL && width == overlaySize.x && height == overlaySize.y )
+		return true;
+
+	// free previous buffers if they exit
+	CUDA_FREE_HOST(imgMask);
+	CUDA_FREE_HOST(imgOverlay);
+	CUDA_FREE_HOST(imgComposite);
+
+	// allocate overlay image
+	overlaySize = make_int2(width, height);
+	
+	if( flags & segNet::VISUALIZE_OVERLAY )
+	{
+		if( !cudaAllocMapped(&imgOverlay, overlaySize) )
+		{
+			printf("segnet-camera:  failed to allocate CUDA memory for overlay image (%ux%u)\n", width, height);
+			return false;
+		}
+
+		imgOutput = imgOverlay;
+		outputSize = overlaySize;
+	}
+
+	// allocate mask image (half the size, unless it's the only output)
+	if( flags & segNet::VISUALIZE_MASK )
+	{
+		maskSize = (flags & segNet::VISUALIZE_OVERLAY) ? make_int2(width/2, height/2) : overlaySize;
+
+		if( !cudaAllocMapped(&imgMask, maskSize) )
+		{
+			printf("segnet-camera:  failed to allocate CUDA memory for mask image\n");
+			return false;
+		}
+
+		imgOutput = imgMask;
+		outputSize = maskSize;
+	}
+
+	// allocate composite image if both overlay and mask are used
+	if( (flags & segNet::VISUALIZE_OVERLAY) && (flags & segNet::VISUALIZE_MASK) )
+	{
+		compositeSize = make_int2(overlaySize.x + maskSize.x, overlaySize.y);
+
+		if( !cudaAllocMapped(&imgComposite, compositeSize) )
+		{
+			printf("segnet-camera:  failed to allocate CUDA memory for composite image\n");
+			return false;
+		}
+
+		imgOutput = imgComposite;
+		outputSize = compositeSize;
+	}
+
+	return true;
+}
+
+
+bool signal_recieved = false;
+
+void sig_handler(int signo)
+{
+	if( signo == SIGINT )
+	{
+		printf("received SIGINT\n");
+		signal_recieved = true;
+	}
+}
+
+int usage()
+{
+	printf("usage: segnet-camera [-h] [--network NETWORK] [--camera CAMERA]\n");
+	printf("                     [--width WIDTH] [--height HEIGHT]\n");
+	printf("                     [--alpha ALPHA] [--filter-mode MODE]\n");
+	printf("                     [--ignore-class CLASS]\n\n");
+	printf("Segment and classify a live camera stream using a semantic segmentation DNN.\n\n");
+	printf("optional arguments:\n");
+	printf("  --help            show this help message and exit\n");
+	printf("  --network NETWORK pre-trained model to load (see below for options)\n");
+	printf("  --camera CAMERA   index of the MIPI CSI camera to use (e.g. CSI camera 0),\n");
+	printf("                    or for VL42 cameras the /dev/video device to use.\n");
+     printf("                    by default, MIPI CSI camera 0 will be used.\n");
+	printf("  --width WIDTH     desired width of camera stream (default: 1280 pixels)\n");
+	printf("  --height HEIGHT   desired height of camera stream (default: 720 pixels)\n");
+	printf("  --alpha ALPHA     overlay alpha blending value, range 0-255 (default: 180)\n");
+	printf("  --filter-mode MODE   filtering mode used during visualization,\n");
+	printf("                       options are 'point' or 'linear' (default: 'linear')\n");
+	printf("  --ignore-class CLASS optional name of class to ignore when classifying\n");
+	printf("                       the visualization results (default: 'void')\n\n");
+	printf("%s\n", segNet::Usage());
+
+	return 0;
+}
+
+
+
+int main( int argc, char** argv )
+{
+	/*
+	 * parse command line
+	 */
+	commandLine cmdLine(argc, argv, IS_HEADLESS());
+
+	if( cmdLine.GetFlag("help") )
+		return usage();
+
+
+	/*
+	 * attach signal handler
+	 */
+	if( signal(SIGINT, sig_handler) == SIG_ERR )
+		printf("\ncan't catch SIGINT\n");
+
+
+	/*
+	 * create input stream
+	 */
+	videoSource* input = videoSource::Create(cmdLine, ARG_POSITION(0));
+
+	if( !input )
+	{
+		LogError("segnet:  failed to create input stream\n");
+		return 0;
+	}
+
+
+	/*
+	 * create output stream
+	 */
+	videoOutput* output = videoOutput::Create(cmdLine, ARG_POSITION(1));
+	
+	if( !output )
+		LogError("segnet:  failed to create output stream\n");	
+	
+
+	/*
+	 * create segmentation network
+	 */
+	segNet* net = segNet::Create(cmdLine);
+	
+	if( !net )
+	{
+		printf("segnet-camera:   failed to initialize imageNet\n");
+		return 0;
+	}
+
+	// set alpha blending value for classes that don't explicitly already have an alpha	
+	net->SetOverlayAlpha(cmdLine.GetFloat("alpha", 180.0f));
+
+	// get the desired overlay/mask filtering mode
+	const segNet::FilterMode filterMode = segNet::FilterModeFromStr(cmdLine.GetString("filter-mode", "linear"));
+
+	// get the visualization flags
+	const uint32_t visualizationFlags = segNet::VisualizationFlagsFromStr(cmdLine.GetString("visualize", DEFAULT_VISUALIZATION));
+
+	// get the object class to ignore (if any)
+	const char* ignoreClass = cmdLine.GetString("ignore-class", "void");
+
+	
+	
+	/*
+	 * processing loop
+	 */
+	while( !signal_recieved )
+	{
+		// capture next image image
+		pixelType* imgInput = NULL;
+
+		if( !input->Capture(&imgInput, 1000) )
+		{
+			LogError("detectnet:  failed to capture video frame\n");
+			continue;
+		}
+
+		// allocate buffers for this size frame
+		if( !allocBuffers(input->GetWidth(), input->GetHeight(), visualizationFlags) )
+		{
+			LogError("segnet:  failed to allocate buffers\n");
+			continue;
+		}
+
+		// process the segmentation network
+		if( !net->Process(imgInput, input->GetWidth(), input->GetHeight(), ignoreClass) )
+		{
+			printf("segnet-console:  failed to process segmentation\n");
+			continue;
+		}
+		
+		// generate overlay
+		if( visualizationFlags & segNet::VISUALIZE_OVERLAY )
+		{
+			if( !net->Overlay(imgOverlay, overlaySize.x, overlaySize.y, filterMode) )
+			{
+				printf("segnet-console:  failed to process segmentation overlay.\n");
+				continue;
+			}
+		}
+
+		// generate mask
+		if( visualizationFlags & segNet::VISUALIZE_MASK )
+		{
+			if( !net->Mask(imgMask, maskSize.x, maskSize.y, filterMode) )
+			{
+				printf("segnet-console:  failed to process segmentation mask.\n");
+				continue;
+			}
+		}
+
+		// generate composite
+		if( (visualizationFlags & segNet::VISUALIZE_OVERLAY) && (visualizationFlags & segNet::VISUALIZE_MASK) )
+		{
+			CUDA(cudaOverlay(imgOverlay, overlaySize, imgComposite, compositeSize, 0, 0));
+			CUDA(cudaOverlay(imgMask, maskSize, imgComposite, compositeSize, overlaySize.x, 0));
+		}
+
+		// render outputs
+		if( output != NULL )
+		{
+			output->Render(imgOutput, outputSize.x, outputSize.y);
+
+			// update the status bar
+			char str[256];
+			sprintf(str, "TensorRT %i.%i.%i | %s | Network %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), net->GetNetworkFPS());
+			output->SetStatus(str);
+
+			// check if the user quit
+			if( !output->IsStreaming() )
+				signal_recieved = true;
+		}
+
+		// check for EOS
+		if( !input->IsStreaming() )
+			signal_recieved = true;
+
+		// wait for the GPU to finish		
+		CUDA(cudaDeviceSynchronize());
+
+		// print out timing info
+		net->PrintProfilerTimes();
+	}
+	
+
+	/*
+	 * destroy resources
+	 */
+	printf("segnet-camera:  shutting down...\n");
+	
+	SAFE_DELETE(input);
+	SAFE_DELETE(output);
+	SAFE_DELETE(net);
+
+	CUDA_FREE_HOST(imgMask);
+	CUDA_FREE_HOST(imgOverlay);
+	CUDA_FREE_HOST(imgComposite);
+
+	printf("segnet-camera:  shutdown complete.\n");
+	return 0;
+}
+
