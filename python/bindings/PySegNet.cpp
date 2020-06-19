@@ -187,7 +187,6 @@ static PyObject* PySegNet_Process( PySegNet_Object* self, PyObject* args, PyObje
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iiss", kwlist, &capsule, &width, &height, &ignore_class, &format_str))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Process() failed to parse args tuple");
-		printf(LOG_PY_INFERENCE "segNet.Process() failed to parse args tuple\n");
 		return NULL;
 	}
 
@@ -201,7 +200,7 @@ static PyObject* PySegNet_Process( PySegNet_Object* self, PyObject* args, PyObje
 		return NULL;
 
 	// classify the image
-	const bool result = self->net->Process((float*)ptr, width, height, ignore_class);
+	const bool result = self->net->Process(ptr, width, height, format, ignore_class);
 
 	if( !result )
 	{
@@ -244,7 +243,6 @@ static PyObject* PySegNet_Overlay( PySegNet_Object* self, PyObject* args, PyObje
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iiss", kwlist, &capsule, &width, &height, &filter_str, &format_str))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Overlay() failed to parse args tuple");
-		printf(LOG_PY_INFERENCE "segNet.Overlay() failed to parse args tuple\n");
 		return NULL;
 	}
 
@@ -271,7 +269,7 @@ static PyObject* PySegNet_Overlay( PySegNet_Object* self, PyObject* args, PyObje
 		return NULL;
 
 	// visualize the image
-	const bool result = self->net->Overlay((float*)ptr, width, height, filterMode);
+	const bool result = self->net->Overlay(ptr, width, height, format, filterMode);
 
 	if( !result )
 	{
@@ -314,7 +312,6 @@ static PyObject* PySegNet_Mask( PySegNet_Object* self, PyObject* args, PyObject 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iiss", kwlist, &capsule, &width, &height, &filter_str, &format_str))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() failed to parse args tuple");
-		printf(LOG_PY_INFERENCE "segNet.Mask() failed to parse args tuple\n");
 		return NULL;
 	}
 
@@ -354,7 +351,7 @@ static PyObject* PySegNet_Mask( PySegNet_Object* self, PyObject* args, PyObject 
 	else
 	{
 		// colorized mask
-		const bool result = self->net->Mask((float*)ptr, width, height, filterMode);
+		const bool result = self->net->Mask(ptr, width, height, format, filterMode);
 
 		if( !result )
 		{
