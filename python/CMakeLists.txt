@@ -40,3 +40,6 @@ copy_install("examples/imagenet.py" "imagenet-camera.py")
 
 copy_install("examples/detectnet.py" "detectnet-console.py")
 copy_install("examples/detectnet.py" "detectnet-camera.py")
+
+copy_install("examples/segnet.py" "segnet-console.py")
+copy_install("examples/segnet.py" "segnet-camera.py")
