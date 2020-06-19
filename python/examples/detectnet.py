@@ -39,6 +39,8 @@ parser.add_argument("--threshold", type=float, default=0.5, help="minimum detect
 parser.add_argument("--width", type=int, default=1280, help="desired width of camera stream (default is 1280 pixels)")
 parser.add_argument("--height", type=int, default=720, help="desired height of camera stream (default is 720 pixels)")
 
+is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
+
 try:
 	opt = parser.parse_known_args()[0]
 except:
@@ -51,10 +53,10 @@ net = jetson.inference.detectNet(opt.network, sys.argv, opt.threshold)
 
 # create video sources & outputs
 input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
-output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv)
+output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv+is_headless)
 
 # process frames until the user exits
-while output.IsStreaming():
+while True:
 	# capture the next image
 	img = input.Capture()
 
@@ -76,8 +78,8 @@ while output.IsStreaming():
 	# print out performance info
 	net.PrintProfilerTimes()
 
-	# exit on input EOS
-	if not input.IsStreaming():
+	# exit on input/output EOS
+	if not input.IsStreaming() or not output.IsStreaming():
 		break
 
 
