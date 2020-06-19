@@ -39,6 +39,7 @@ segNet::segNet() : tensorNet()
 	mLastInputImg    = NULL;
 	mLastInputWidth  = 0;
 	mLastInputHeight = 0;
+	mLastInputFormat = IMAGE_UNKNOWN;
 
 	mClassColors[0] = NULL;	// cpu ptr
 	mClassColors[1] = NULL;  // gpu ptr
@@ -54,6 +55,56 @@ segNet::segNet() : tensorNet()
 segNet::~segNet()
 {
 	
+}
+
+
+// VisualizationFlagsFromStr
+uint32_t segNet::VisualizationFlagsFromStr( const char* str_user, uint32_t default_value )
+{
+	if( !str_user )
+		return default_value;
+
+	// copy the input string into a temporary array,
+	// because strok modifies the string
+	const size_t str_length = strlen(str_user);
+
+	if( str_length == 0 )
+		return default_value;
+
+	char* str = (char*)malloc(str_length + 1);
+
+	if( !str )
+		return default_value;
+
+	strcpy(str, str_user);
+
+	// tokenize string by delimiters ',' and '|'
+	const char* delimiters = ",|";
+	char* token = strtok(str, delimiters);
+
+	if( !token )
+	{
+		free(str);
+		return default_value;
+	}
+
+	// look for the tokens:  "overlay", "mask"
+	uint32_t flags = 0;
+
+	while( token != NULL )
+	{
+		//printf("%s\n", token);
+
+		if( strcasecmp(token, "overlay") == 0 )
+			flags |= VISUALIZE_OVERLAY;
+		else if( strcasecmp(token, "mask") == 0 )
+			flags |= VISUALIZE_MASK;
+
+		token = strtok(NULL, delimiters);
+	}	
+
+	free(str);
+	return flags;
 }
 
 
@@ -606,9 +657,16 @@ int segNet::FindClassID( const char* label_name )
 // Process
 bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* ignore_class )
 {
-	if( !rgba || width == 0 || height == 0 )
+	return Process(rgba, width, height, IMAGE_RGBA32F, ignore_class);
+}
+
+
+// Process
+bool segNet::Process( void* image, uint32_t width, uint32_t height, imageFormat format, const char* ignore_class )
+{
+	if( !image || width == 0 || height == 0 )
 	{
-		LogError(LOG_TRT "segNet::Process( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
+		LogError(LOG_TRT "segNet::Process( 0x%p, %u, %u ) -> invalid parameters\n", image, width, height);
 		return false;
 	}
 
@@ -617,7 +675,7 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 	if( IsModelType(MODEL_ONNX) )
 	{
 		// downsample, convert to band-sequential RGB, and apply pixel normalization, mean pixel subtraction and standard deviation
-		if( CUDA_FAILED(cudaTensorNormMeanRGB(rgba, IMAGE_RGBA32F, width, height,
+		if( CUDA_FAILED(cudaTensorNormMeanRGB(image, format, width, height,
 									   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
 									   make_float2(0.0f, 1.0f), 
 									   make_float3(0.485f, 0.456f, 0.406f),
@@ -631,7 +689,7 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 	else
 	{
 		// downsample and convert to band-sequential BGR
-		if( CUDA_FAILED(cudaTensorMeanBGR(rgba, IMAGE_RGBA32F, width, height, 
+		if( CUDA_FAILED(cudaTensorMeanBGR(image, format, width, height, 
 								    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
 								    make_float3(0,0,0), GetStream())) )
 		{
@@ -657,9 +715,10 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 	PROFILER_END(PROFILER_POSTPROCESS);
 
 	// cache pointer to last image processed
-	mLastInputImg = rgba;
-	mLastInputWidth = width;
+	mLastInputImg    = image;
+	mLastInputWidth  = width;
 	mLastInputHeight = height;
+	mLastInputFormat = format;
 
 	return true;
 }
@@ -774,6 +833,13 @@ bool segNet::Mask( uint8_t* output, uint32_t out_width, uint32_t out_height )
 // Mask (colorized)
 bool segNet::Mask( float* output, uint32_t width, uint32_t height, FilterMode filter )
 {
+	return Mask(output, width, height, IMAGE_RGBA32F, filter);
+}
+
+
+// Mask (colorized)
+bool segNet::Mask( void* output, uint32_t width, uint32_t height, imageFormat format, FilterMode filter )
+{
 	if( !output || width == 0 || height == 0 )
 	{
 		LogError(LOG_TRT "segNet::Mask( 0x%p, %u, %u ) -> invalid parameters\n", output, width, height); 
@@ -782,9 +848,9 @@ bool segNet::Mask( float* output, uint32_t width, uint32_t height, FilterMode fi
 
 	// filter in point or linear
 	if( filter == FILTER_POINT )
-		return overlayPoint(NULL, 0, 0, output, width, height, true);
+		return overlayPoint(NULL, 0, 0, IMAGE_UNKNOWN, output, width, height, format, true);
 	else if( filter == FILTER_LINEAR )
-		return overlayLinear(NULL, 0, 0, output, width, height, true);
+		return overlayLinear(NULL, 0, 0, IMAGE_UNKNOWN, output, width, height, format, true);
 
 	return false;
 }
@@ -792,6 +858,13 @@ bool segNet::Mask( float* output, uint32_t width, uint32_t height, FilterMode fi
 
 // Overlay
 bool segNet::Overlay( float* output, uint32_t width, uint32_t height, FilterMode filter )
+{
+	return Overlay(output, width, height, IMAGE_RGBA32F, filter);
+}
+
+
+// Overlay
+bool segNet::Overlay( void* output, uint32_t width, uint32_t height, imageFormat format, segNet::FilterMode filter )
 {
 	if( !output || width == 0 || height == 0 )
 	{
@@ -807,9 +880,9 @@ bool segNet::Overlay( float* output, uint32_t width, uint32_t height, FilterMode
 
 	// filter in point or linear
 	if( filter == FILTER_POINT )
-		return overlayPoint(mLastInputImg, mLastInputWidth, mLastInputHeight, output, width, height, false);
+		return overlayPoint(mLastInputImg, mLastInputWidth, mLastInputHeight, mLastInputFormat, output, width, height, format, false);
 	else if( filter == FILTER_LINEAR )
-		return overlayLinear(mLastInputImg, mLastInputWidth, mLastInputHeight, output, width, height, false);
+		return overlayLinear(mLastInputImg, mLastInputWidth, mLastInputHeight, mLastInputFormat, output, width, height, format, false);
 
 	return false;
 }
@@ -818,20 +891,26 @@ bool segNet::Overlay( float* output, uint32_t width, uint32_t height, FilterMode
 #define OVERLAY_CUDA 
 
 // declaration from segNet.cu
-cudaError_t cudaSegOverlay( float4* input, uint32_t in_width, uint32_t in_height,
-				        float4* output, uint32_t out_width, uint32_t out_height,
+cudaError_t cudaSegOverlay( void* input, uint32_t in_width, uint32_t in_height,
+				        void* output, uint32_t out_width, uint32_t out_height, imageFormat format,
 					   float4* class_colors, uint8_t* scores, const int2& scores_dim,
 					   bool filter_linear, bool mask_only, cudaStream_t stream );
 
 
 // overlayLinear
-bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only )
+bool segNet::overlayPoint( void* input, uint32_t in_width, uint32_t in_height, imageFormat in_format, void* output, uint32_t out_width, uint32_t out_height, imageFormat out_format, bool mask_only )
 {
+	if( input != NULL && in_format != out_format )
+	{
+		LogError(LOG_TRT "segNet -- input image format (%s) and overlay/mask image format (%s) don't match\n", imageFormatToStr(in_format), imageFormatToStr(out_format));
+		return false;
+	}
+
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 
 #ifdef OVERLAY_CUDA
 	// generate overlay on the GPU
-	if( CUDA_FAILED(cudaSegOverlay((float4*)input, in_width, in_height, (float4*)output, out_width, out_height,
+	if( CUDA_FAILED(cudaSegOverlay(input, in_width, in_height, output, out_width, out_height, out_format,
 							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
 							 false, mask_only, GetStream())) )
 	{
@@ -899,13 +978,19 @@ bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, 
 
 
 // overlayLinear
-bool segNet::overlayLinear( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only )
+bool segNet::overlayLinear( void* input, uint32_t in_width, uint32_t in_height, imageFormat in_format, void* output, uint32_t out_width, uint32_t out_height, imageFormat out_format, bool mask_only )
 {
+	if( input != NULL && in_format != out_format )
+	{
+		LogError(LOG_TRT "segNet -- input image format (%s) and overlay/mask image format (%s) don't match\n", imageFormatToStr(in_format), imageFormatToStr(out_format));
+		return false;
+	}
+
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 
 #ifdef OVERLAY_CUDA
 	// generate overlay on the GPU
-	if( CUDA_FAILED(cudaSegOverlay((float4*)input, in_width, in_height, (float4*)output, out_width, out_height,
+	if( CUDA_FAILED(cudaSegOverlay(input, in_width, in_height, output, out_width, out_height, out_format,
 							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
 							 true, mask_only, GetStream())) )
 	{

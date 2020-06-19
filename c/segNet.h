@@ -25,6 +25,7 @@
 
 
 #include "tensorNet.h"
+#include "imageFormat.h"
 #include "commandLine.h"
 
 
@@ -116,9 +117,32 @@ public:
 	 */
 	enum FilterMode
 	{
-		FILTER_POINT,		/**< Nearest point sampling */
+		FILTER_POINT = 0,	/**< Nearest point sampling */
 		FILTER_LINEAR		/**< Bilinear filtering */
 	};
+
+	/**
+	 * Visualization flags.
+	 */
+	enum VisualizationFlags
+	{
+		VISUALIZE_OVERLAY = (1 << 0),
+		VISUALIZE_MASK    = (1 << 1),
+		/*VISUALIZE_LEGEND  = (1 << 2)*/	// TODO
+	};
+
+	/**
+	 * Parse a string of one of more VisualizationMode values.
+	 * Valid strings are "overlay" "mask" "overlay|mask" "overlay,mask" ect.
+	 */
+	static uint32_t VisualizationFlagsFromStr( const char* str, uint32_t default_value=VISUALIZE_OVERLAY );
+
+	/**
+	 * Parse a string from one of the FilterMode values.
+	 * Valid strings are "point", and "linear"
+	 * @returns one of the segNet::FilterMode enums, or default segNet::FILTER_LINEAR on an error.
+	 */
+	static FilterMode FilterModeFromStr( const char* str, FilterMode default_value=FILTER_LINEAR );
 
 	/**
 	 * Parse a string from one of the built-in pretrained models.
@@ -132,13 +156,6 @@ public:
 	 * @returns stringized version of the provided NetworkType enum.
 	 */
 	static const char* NetworkTypeToStr( NetworkType networkType );
-
-	/**
-	 * Parse a string from one of the FilterMode values.
-	 * Valid strings are "point", and "linear"
-	 * @returns one of the segNet::FilterMode enums, or default segNet::FILTER_LINEAR on an error.
-	 */
-	static FilterMode FilterModeFromStr( const char* str, FilterMode default_value=FILTER_LINEAR );
 
 	/**
 	 * Load a new network instance
@@ -187,7 +204,28 @@ public:
 	
 	/**
  	 * Perform the initial inferencing processing portion of the segmentation.
+	 * The results can then be visualized using the Overlay() and Mask() functions.      
+	 * @param input the input image in CUDA device memory, with pixel values 0-255.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
+	 * @param ignore_class label name of class to ignore in the classification (or NULL to process all).
+	 */
+	template<typename T> bool Process( T* input, uint32_t width, uint32_t height, const char* ignore_class="void" )		{ return Process((void*)input, width, height, imageFormatFromType<T>(), ignore_class); }
+	
+	/**
+ 	 * Perform the initial inferencing processing portion of the segmentation.
+	 * The results can then be visualized using the Overlay() and Mask() functions.      
+	 * @param input the input image in CUDA device memory, with pixel values 0-255.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
+	 * @param ignore_class label name of class to ignore in the classification (or NULL to process all).
+	 */
+	bool Process( void* input, uint32_t width, uint32_t height, imageFormat format, const char* ignore_class="void" );
+
+	/**
+ 	 * Perform the initial inferencing processing portion of the segmentation.
 	 * The results can then be visualized using the Overlay() and Mask() functions.
+      * @deprecated this overload is for legacy compatibility.  It expects float4 RGBA image.
 	 * @param input float4 input image in CUDA device memory, RGBA colorspace with values 0-255.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
@@ -196,18 +234,52 @@ public:
 	bool Process( float* input, uint32_t width, uint32_t height, const char* ignore_class="void" );
 
 	/**
+	 * Produce a colorized segmentation mask.
+	 */
+	template<typename T> bool Mask( T* output, uint32_t width, uint32_t height, FilterMode filter=FILTER_LINEAR )				{ return Mask((void*)output, width, height, imageFormatFromType<T>(), filter); }
+	
+	/**
+	 * Produce a colorized segmentation mask.
+	 */
+	bool Mask( void* output, uint32_t width, uint32_t height, imageFormat format, FilterMode filter=FILTER_LINEAR );
+
+	/**
+	 * Produce a colorized RGBA segmentation mask.
+	 * @deprecated this overload is for legacy compatibility.  It expects float4 RGBA image.
+	 */
+	bool Mask( float* output, uint32_t width, uint32_t height, FilterMode filter=FILTER_LINEAR );
+
+	/**
 	 * Produce a grayscale binary segmentation mask, where the pixel values
 	 * correspond to the class ID of the corresponding class type.
 	 */
 	bool Mask( uint8_t* output, uint32_t width, uint32_t height );
 
 	/**
-	 * Produce a colorized RGBA segmentation mask.
+	 * Produce the segmentation overlay alpha blended on top of the original image.
+	 * @param output output image in CUDA device memory, RGB/RGBA colorspace with values 0-255.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
+	 * @param ignore_class label name of class to ignore in the classification (or NULL to process all).
+	 * @param type overlay visualization options
+	 * @returns true on success, false on error.
 	 */
-	bool Mask( float* output, uint32_t width, uint32_t height, FilterMode filter=FILTER_LINEAR );
+	template<typename T> bool Overlay( T* output, uint32_t width, uint32_t height, FilterMode filter=FILTER_LINEAR )			{ return Overlay((void*)output, width, height, imageFormatFromType<T>(), filter); }
+	
+	/**
+	 * Produce the segmentation overlay alpha blended on top of the original image.
+	 * @param output output image in CUDA device memory, RGB/RGBA colorspace with values 0-255.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
+	 * @param ignore_class label name of class to ignore in the classification (or NULL to process all).
+	 * @param type overlay visualization options
+	 * @returns true on success, false on error.
+	 */
+	bool Overlay( void* output, uint32_t width, uint32_t height, imageFormat format, FilterMode filter=FILTER_LINEAR );
 
 	/**
 	 * Produce the segmentation overlay alpha blended on top of the original image.
+	 * @deprecated this overload is for legacy compatibility.  It expects float4 RGBA image.
 	 * @param input float4 input image in CUDA device memory, RGBA colorspace with values 0-255.
 	 * @param output float4 output image in CUDA device memory, RGBA colorspace with values 0-255.
 	 * @param width width of the input image in pixels.
@@ -281,8 +353,8 @@ protected:
 	
 	bool classify( const char* ignore_class );
 
-	bool overlayPoint( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only );
-	bool overlayLinear( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only );
+	bool overlayPoint( void* input, uint32_t in_width, uint32_t in_height, imageFormat in_format, void* output, uint32_t out_width, uint32_t out_height, imageFormat out_format, bool mask_only );
+	bool overlayLinear( void* input, uint32_t in_width, uint32_t in_height, imageFormat in_format, void* output, uint32_t out_width, uint32_t out_height, imageFormat out_format, bool mask_only );
 	
 	bool loadClassColors( const char* filename );
 	bool loadClassLabels( const char* filename );
@@ -294,9 +366,10 @@ protected:
 	float*   mClassColors[2];	/**< array of overlay colors in shared CPU/GPU memory */
 	uint8_t* mClassMap[2];		/**< runtime buffer for the argmax-classified class index of each tile */
 	
-	float*   mLastInputImg;		/**< last input image to be processed, stored for overlay */
-	uint32_t mLastInputWidth;	/**< width in pixels of last input image to be processed */
-	uint32_t mLastInputHeight;	/**< height in pixels of last input image to be processed */
+	void*  	  mLastInputImg;	/**< last input image to be processed, stored for overlay */
+	uint32_t 	  mLastInputWidth;	/**< width in pixels of last input image to be processed */
+	uint32_t 	  mLastInputHeight;	/**< height in pixels of last input image to be processed */
+	imageFormat mLastInputFormat; /**< pixel format of last input image */
 
 	NetworkType mNetworkType;	/**< Pretrained built-in model type enumeration */
 };
