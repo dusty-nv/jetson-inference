@@ -44,7 +44,7 @@ void sig_handler(int signo)
 {
 	if( signo == SIGINT )
 	{
-		printf("received SIGINT\n");
+		LogVerbose("received SIGINT\n");
 		signal_recieved = true;
 	}
 }
@@ -87,7 +87,7 @@ int main( int argc, char** argv )
 	 * attach signal handler
 	 */
 	if( signal(SIGINT, sig_handler) == SIG_ERR )
-		printf("\ncan't catch SIGINT\n");
+		LogError("can't catch SIGINT\n");
 
 
 	/*
@@ -118,7 +118,7 @@ int main( int argc, char** argv )
 	
 	if( !net )
 	{
-		printf("detectnet:   failed to load detectNet model\n");
+		LogError("detectnet:  failed to load detectNet model\n");
 		return 0;
 	}
 
@@ -147,12 +147,12 @@ int main( int argc, char** argv )
 		
 		if( numDetections > 0 )
 		{
-			printf("%i objects detected\n", numDetections);
+			LogVerbose("%i objects detected\n", numDetections);
 		
 			for( int n=0; n < numDetections; n++ )
 			{
-				printf("detected obj %i  class #%u (%s)  confidence=%f\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence);
-				printf("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
+				LogVerbose("detected obj %i  class #%u (%s)  confidence=%f\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence);
+				LogVerbose("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
 			}
 		}	
 
@@ -183,13 +183,13 @@ int main( int argc, char** argv )
 	/*
 	 * destroy resources
 	 */
-	printf("detectnet:  shutting down...\n");
+	LogVerbose("detectnet:  shutting down...\n");
 	
 	SAFE_DELETE(input);
 	SAFE_DELETE(output);
 	SAFE_DELETE(net);
 
-	printf("detectnet:  shutdown complete.\n");
+	LogVerbose("detectnet:  shutdown complete.\n");
 	return 0;
 }
 

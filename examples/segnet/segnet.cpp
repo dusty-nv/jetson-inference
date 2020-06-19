@@ -42,80 +42,6 @@
 	#define DEFAULT_VISUALIZATION "overlay|mask"
 #endif
 
-//
-// segmentation buffers
-//
-typedef uchar3 pixelType;		// this can be uchar3, uchar4, float3, float4
-
-pixelType* imgMask      = NULL;	// color of each segmentation class
-pixelType* imgOverlay   = NULL;	// input + alpha-blended mask
-pixelType* imgComposite = NULL;	// overlay with mask next to it
-pixelType* imgOutput    = NULL;	// reference to one of the above three
-
-int2 maskSize;
-int2 overlaySize;
-int2 compositeSize;
-int2 outputSize;
-
-bool allocBuffers( int width, int height, uint32_t flags )
-{
-	// check if the buffers were already allocated for this size
-	if( imgOverlay != NULL && width == overlaySize.x && height == overlaySize.y )
-		return true;
-
-	// free previous buffers if they exit
-	CUDA_FREE_HOST(imgMask);
-	CUDA_FREE_HOST(imgOverlay);
-	CUDA_FREE_HOST(imgComposite);
-
-	// allocate overlay image
-	overlaySize = make_int2(width, height);
-	
-	if( flags & segNet::VISUALIZE_OVERLAY )
-	{
-		if( !cudaAllocMapped(&imgOverlay, overlaySize) )
-		{
-			printf("segnet-camera:  failed to allocate CUDA memory for overlay image (%ux%u)\n", width, height);
-			return false;
-		}
-
-		imgOutput = imgOverlay;
-		outputSize = overlaySize;
-	}
-
-	// allocate mask image (half the size, unless it's the only output)
-	if( flags & segNet::VISUALIZE_MASK )
-	{
-		maskSize = (flags & segNet::VISUALIZE_OVERLAY) ? make_int2(width/2, height/2) : overlaySize;
-
-		if( !cudaAllocMapped(&imgMask, maskSize) )
-		{
-			printf("segnet-camera:  failed to allocate CUDA memory for mask image\n");
-			return false;
-		}
-
-		imgOutput = imgMask;
-		outputSize = maskSize;
-	}
-
-	// allocate composite image if both overlay and mask are used
-	if( (flags & segNet::VISUALIZE_OVERLAY) && (flags & segNet::VISUALIZE_MASK) )
-	{
-		compositeSize = make_int2(overlaySize.x + maskSize.x, overlaySize.y);
-
-		if( !cudaAllocMapped(&imgComposite, compositeSize) )
-		{
-			printf("segnet-camera:  failed to allocate CUDA memory for composite image\n");
-			return false;
-		}
-
-		imgOutput = imgComposite;
-		outputSize = compositeSize;
-	}
-
-	return true;
-}
-
 
 bool signal_recieved = false;
 
@@ -123,7 +49,7 @@ void sig_handler(int signo)
 {
 	if( signo == SIGINT )
 	{
-		printf("received SIGINT\n");
+		LogVerbose("received SIGINT\n");
 		signal_recieved = true;
 	}
 }
@@ -154,6 +80,81 @@ int usage()
 }
 
 
+//
+// segmentation buffers
+//
+typedef uchar3 pixelType;		// this can be uchar3, uchar4, float3, float4
+
+pixelType* imgMask      = NULL;	// color of each segmentation class
+pixelType* imgOverlay   = NULL;	// input + alpha-blended mask
+pixelType* imgComposite = NULL;	// overlay with mask next to it
+pixelType* imgOutput    = NULL;	// reference to one of the above three
+
+int2 maskSize;
+int2 overlaySize;
+int2 compositeSize;
+int2 outputSize;
+
+// allocate mask/overlay output buffers
+bool allocBuffers( int width, int height, uint32_t flags )
+{
+	// check if the buffers were already allocated for this size
+	if( imgOverlay != NULL && width == overlaySize.x && height == overlaySize.y )
+		return true;
+
+	// free previous buffers if they exit
+	CUDA_FREE_HOST(imgMask);
+	CUDA_FREE_HOST(imgOverlay);
+	CUDA_FREE_HOST(imgComposite);
+
+	// allocate overlay image
+	overlaySize = make_int2(width, height);
+	
+	if( flags & segNet::VISUALIZE_OVERLAY )
+	{
+		if( !cudaAllocMapped(&imgOverlay, overlaySize) )
+		{
+			LogError("segnet:  failed to allocate CUDA memory for overlay image (%ux%u)\n", width, height);
+			return false;
+		}
+
+		imgOutput = imgOverlay;
+		outputSize = overlaySize;
+	}
+
+	// allocate mask image (half the size, unless it's the only output)
+	if( flags & segNet::VISUALIZE_MASK )
+	{
+		maskSize = (flags & segNet::VISUALIZE_OVERLAY) ? make_int2(width/2, height/2) : overlaySize;
+
+		if( !cudaAllocMapped(&imgMask, maskSize) )
+		{
+			LogError("segnet:  failed to allocate CUDA memory for mask image\n");
+			return false;
+		}
+
+		imgOutput = imgMask;
+		outputSize = maskSize;
+	}
+
+	// allocate composite image if both overlay and mask are used
+	if( (flags & segNet::VISUALIZE_OVERLAY) && (flags & segNet::VISUALIZE_MASK) )
+	{
+		compositeSize = make_int2(overlaySize.x + maskSize.x, overlaySize.y);
+
+		if( !cudaAllocMapped(&imgComposite, compositeSize) )
+		{
+			LogError("segnet:  failed to allocate CUDA memory for composite image\n");
+			return false;
+		}
+
+		imgOutput = imgComposite;
+		outputSize = compositeSize;
+	}
+
+	return true;
+}
+
 
 int main( int argc, char** argv )
 {
@@ -170,7 +171,7 @@ int main( int argc, char** argv )
 	 * attach signal handler
 	 */
 	if( signal(SIGINT, sig_handler) == SIG_ERR )
-		printf("\ncan't catch SIGINT\n");
+		LogError("can't catch SIGINT\n");
 
 
 	/*
@@ -201,7 +202,7 @@ int main( int argc, char** argv )
 	
 	if( !net )
 	{
-		printf("segnet-camera:   failed to initialize imageNet\n");
+		LogError("segnet:  failed to initialize segNet\n");
 		return 0;
 	}
 
@@ -229,7 +230,7 @@ int main( int argc, char** argv )
 
 		if( !input->Capture(&imgInput, 1000) )
 		{
-			LogError("detectnet:  failed to capture video frame\n");
+			LogError("segnet:  failed to capture video frame\n");
 			continue;
 		}
 
@@ -243,7 +244,7 @@ int main( int argc, char** argv )
 		// process the segmentation network
 		if( !net->Process(imgInput, input->GetWidth(), input->GetHeight(), ignoreClass) )
 		{
-			printf("segnet-console:  failed to process segmentation\n");
+			LogError("segnet:  failed to process segmentation\n");
 			continue;
 		}
 		
@@ -252,7 +253,7 @@ int main( int argc, char** argv )
 		{
 			if( !net->Overlay(imgOverlay, overlaySize.x, overlaySize.y, filterMode) )
 			{
-				printf("segnet-console:  failed to process segmentation overlay.\n");
+				LogError("segnet:  failed to process segmentation overlay.\n");
 				continue;
 			}
 		}
@@ -262,7 +263,7 @@ int main( int argc, char** argv )
 		{
 			if( !net->Mask(imgMask, maskSize.x, maskSize.y, filterMode) )
 			{
-				printf("segnet-console:  failed to process segmentation mask.\n");
+				LogError("segnet:-console:  failed to process segmentation mask.\n");
 				continue;
 			}
 		}
@@ -304,7 +305,7 @@ int main( int argc, char** argv )
 	/*
 	 * destroy resources
 	 */
-	printf("segnet-camera:  shutting down...\n");
+	LogVerbose("segnet:  shutting down...\n");
 	
 	SAFE_DELETE(input);
 	SAFE_DELETE(output);
@@ -314,7 +315,7 @@ int main( int argc, char** argv )
 	CUDA_FREE_HOST(imgOverlay);
 	CUDA_FREE_HOST(imgComposite);
 
-	printf("segnet-camera:  shutdown complete.\n");
+	LogVerbose("segnet:  shutdown complete.\n");
 	return 0;
 }
 

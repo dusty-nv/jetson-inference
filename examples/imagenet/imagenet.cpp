@@ -45,7 +45,7 @@ void sig_handler(int signo)
 {
 	if( signo == SIGINT )
 	{
-		printf("received SIGINT\n");
+		LogVerbose("received SIGINT\n");
 		signal_recieved = true;
 	}
 }
@@ -83,7 +83,7 @@ int main( int argc, char** argv )
 	 * attach signal handler
 	 */
 	if( signal(SIGINT, sig_handler) == SIG_ERR )
-		printf("\ncan't catch SIGINT\n");
+		LogError("can't catch SIGINT\n");
 
 
 	/*
@@ -151,7 +151,7 @@ int main( int argc, char** argv )
 	
 		if( img_class >= 0 )
 		{
-			printf("imagenet-camera:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
+			LogVerbose("imagenet:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
 
 			if( font != NULL )
 			{
@@ -190,13 +190,13 @@ int main( int argc, char** argv )
 	/*
 	 * destroy resources
 	 */
-	printf("imagenet:  shutting down...\n");
+	LogVerbose("imagenet:  shutting down...\n");
 	
 	SAFE_DELETE(input);
 	SAFE_DELETE(output);
 	SAFE_DELETE(net);
 	
-	printf("imagenet:  shutdown complete.\n");
+	LogVerbose("imagenet:  shutdown complete.\n");
 	return 0;
 }
 
