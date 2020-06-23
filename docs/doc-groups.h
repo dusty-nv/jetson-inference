@@ -82,6 +82,12 @@
  */
 
 /**
+ * @defgroup video Video Streaming
+ * videoSource and videoOutput APIs for input and output video streams.
+ * @ingroup util
+ */
+
+/**
  * @defgroup camera Camera Capture
  * Camera capture and streaming for MIPI CSI and V4L2 devices.
  * @ingroup util
@@ -148,6 +154,12 @@
  * @ingroup util
  */
  
+/**
+ * @defgroup imageFormat Image Formats
+ * Enumerations and helper functions for different types of image formats.
+ * @ingroup util
+ */
+
 /**
  * @defgroup input Input
  * HID input devices including gamepad controllers, joysticks, and keyboard.
