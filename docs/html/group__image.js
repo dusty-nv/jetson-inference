@@ -1,6 +1,5 @@
 var group__image =
 [
-    [ "__image_format_assert_false", "struct____image__format__assert__false.html", null ],
     [ "imageLoader", "classimageLoader.html", [
       [ "~imageLoader", "classimageLoader.html#afb1939d2bbd24f54c419a33e1b1171d8", null ],
       [ "imageLoader", "classimageLoader.html#a5e8b816f3ebe2042b2d6cdd9ee70ed47", null ],

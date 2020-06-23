@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['pixel_20filtering',['Pixel Filtering',['../group__cudaFilter.html',1,'']]],
   ['parent',['Parent',['../classtinyxml2_1_1XMLNode.html#ae0f62bc186c56c2e0483ebd52dbfbe34',1,'tinyxml2::XMLNode::Parent() const'],['../classtinyxml2_1_1XMLNode.html#a76029693a5a54fbb721a41d7a0ca8a97',1,'tinyxml2::XMLNode::Parent()']]],
   ['parse',['Parse',['../classcsvData.html#a519b5772c1a44d71a5273ff10105b889',1,'csvData::Parse(const char *str, const char *delimiters=&quot;,;\&quot;)'],['../classcsvData.html#a41e277940ee9289979617ad26dc20667',1,'csvData::Parse(std::vector&lt; csvData &gt; &amp;data, const char *str, const char *delimiters=&quot;,;\&quot;)'],['../structURI.html#a5496b028bbea5c418d8c230ec8b02cd5',1,'URI::Parse()'],['../structvideoOptions.html#afed7ef6f857484d8585760f9316b90e4',1,'videoOptions::Parse(const char *URI, const int argc, char **argv, IoType ioType)'],['../structvideoOptions.html#a1835d463a05df501c7b49e6c3498b3e9',1,'videoOptions::Parse(const char *URI, const commandLine &amp;cmdLine, IoType ioType)'],['../structvideoOptions.html#a7fc92ca9ada75b62f9d899d1f9f60741',1,'videoOptions::Parse(const int argc, char **argv, IoType ioType, int ioPositionArg=-1)'],['../structvideoOptions.html#abafb7252c68d165e199597ec3cdea30b',1,'videoOptions::Parse(const commandLine &amp;cmdLine, IoType ioType, int ioPositionArg=-1)'],['../classtinyxml2_1_1XMLDocument.html#a1819bd34f540a7304c105a6232d25a1f',1,'tinyxml2::XMLDocument::Parse()']]],
   ['parsecmdline',['ParseCmdLine',['../classLog.html#a3a81af53022c6d286a9341676ad778cd',1,'Log::ParseCmdLine(const int argc, char **argv)'],['../classLog.html#a9db7e596ef6b8d634c64cec0bda1d377',1,'Log::ParseCmdLine(const commandLine &amp;cmdLine)']]],
@@ -11,11 +12,12 @@ var searchData=
   ['pathjoin',['pathJoin',['../group__filesystem.html#ga51f3dc6065231b5ecde30f7e3f18f918',1,'filesystem.h']]],
   ['pednet',['PEDNET',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3',1,'detectNet']]],
   ['pednet_5fmulti',['PEDNET_MULTI',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53',1,'detectNet']]],
-  ['peek',['Peek',['../classRingBuffer.html#a0627137366bb5d7a2dbf648122b86104',1,'RingBuffer']]],
+  ['peek',['Peek',['../classRingBuffer.html#a65cd66112df93d973d7425295c382055',1,'RingBuffer']]],
   ['peektop',['PeekTop',['../classtinyxml2_1_1DynArray.html#a5e4e1e408e646688503dec77c77c9d59',1,'tinyxml2::DynArray']]],
   ['pi',['PI',['../group__util.html#ga598a3330b3c21701223ee0ca14316eca',1,'pi.h']]],
   ['pi_2eh',['pi.h',['../pi_8h.html',1,'']]],
   ['pi_5fover_5ftwo',['PI_OVER_TWO',['../group__util.html#gadadbae7d9856635bbacdc4c9f546ef81',1,'pi.h']]],
+  ['point_20cloud',['Point Cloud',['../group__pointCloud.html',1,'']]],
   ['poll',['Poll',['../classInputDevices.html#a40fd94440d7d89fbfd96b84db63887ad',1,'InputDevices::Poll()'],['../classJoystickDevice.html#a97d9c58bc468516295ad27e73876757d',1,'JoystickDevice::Poll()'],['../classKeyboardDevice.html#ac46438355ae53c08d5990ef36c4dccb0',1,'KeyboardDevice::Poll()']]],
   ['pop',['Pop',['../classtinyxml2_1_1DynArray.html#a27a3f2f6f869815b6eabb3ea40cf0712',1,'tinyxml2::DynArray']]],
   ['poparr',['PopArr',['../classtinyxml2_1_1DynArray.html#ab8b8c94a2312ab27e2846f0d61ef677a',1,'tinyxml2::DynArray']]],

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['memory_20management',['Memory Management',['../group__cudaMemory.html',1,'']]],
   ['mactivecursor',['mActiveCursor',['../classglDisplay.html#aab1f8e0d4ac630ab4c9ab681c61d8419',1,'glDisplay']]],
   ['make_5ffloat2',['make_float2',['../cudaMath_8h.html#ae157a97cf7d77e6a05db0e0d22b85fb7',1,'make_float2(float s):&#160;cudaMath.h'],['../cudaMath_8h.html#a1823a61ec2e6e1f3aa9633986d97e53a',1,'make_float2(float3 a):&#160;cudaMath.h'],['../cudaMath_8h.html#a25aa9f2068c8a5086cb6e4d81e881497',1,'make_float2(int2 a):&#160;cudaMath.h'],['../cudaMath_8h.html#a931119b28bbeb119817cd0128f422a08',1,'make_float2(uint2 a):&#160;cudaMath.h']]],
   ['make_5ffloat3',['make_float3',['../cudaMath_8h.html#aff0ce950ea54e88da8eb7226e215646e',1,'make_float3(float s):&#160;cudaMath.h'],['../cudaMath_8h.html#ab9370c14e8795ec39775092dae97f7e1',1,'make_float3(float2 a):&#160;cudaMath.h'],['../cudaMath_8h.html#afbf5b34e3b157d9c0e0a72a21f684619',1,'make_float3(float2 a, float s):&#160;cudaMath.h'],['../cudaMath_8h.html#a89bbe6b4a0958acfadfebbf29499bcf4',1,'make_float3(float3 a):&#160;cudaMath.h'],['../cudaMath_8h.html#a16eea6410ca5c145348eeb5586f75286',1,'make_float3(float4 a):&#160;cudaMath.h'],['../cudaMath_8h.html#a129b8aec63310cd59348ac83ca2e17fd',1,'make_float3(int3 a):&#160;cudaMath.h'],['../cudaMath_8h.html#a4bee55da9c55a6ae787fca2d7ac67213',1,'make_float3(uint3 a):&#160;cudaMath.h'],['../cudaMath_8h.html#aafe34eaf01e824da511422fbec474d6c',1,'make_float3(uchar3 a):&#160;cudaMath.h'],['../cudaMath_8h.html#a07b4a743cfb88764d9f44ec58705ba2c',1,'make_float3(uchar4 a):&#160;cudaMath.h']]],
@@ -223,7 +224,6 @@ var searchData=
   ['muserdata',['mUserData',['../classglWidget.html#a287d4315717939729f948c0ac73ebdbb',1,'glWidget']]],
   ['mutex',['Mutex',['../classMutex.html',1,'Mutex'],['../classMutex.html#a593423d868daf926c7b0d63a833ae29a',1,'Mutex::Mutex()']]],
   ['mutex_2eh',['Mutex.h',['../Mutex_8h.html',1,'']]],
-  ['mutex_2einl',['Mutex.inl',['../Mutex_8inl.html',1,'']]],
   ['mviewport',['mViewport',['../classglDisplay.html#a8aeb33cd6f58d26db77c9fce47fe746b',1,'glDisplay']]],
   ['mvisible',['mVisible',['../classglWidget.html#ac9bbb7e6994a717426e166fa52fbf390',1,'glWidget']]],
   ['mvisualx',['mVisualX',['../classglDisplay.html#a327c40adf83a91f4fb4916bc577ae0ab',1,'glDisplay']]],

@@ -23,7 +23,6 @@ var hierarchy =
     [ "glDisplay::eventHandler", "structglDisplay_1_1eventHandler.html", null ],
     [ "glWidget::eventHandler", "structglWidget_1_1eventHandler.html", null ],
     [ "false_type", null, [
-      [ "__image_format_assert_false< T >", "struct____image__format__assert__false.html", null ],
       [ "cuda_assert_false< T >", "structcuda__assert__false.html", null ]
     ] ],
     [ "glBuffer", "classglBuffer.html", null ],

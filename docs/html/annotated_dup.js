@@ -1,7 +1,6 @@
 var annotated_dup =
 [
     [ "tinyxml2", "namespacetinyxml2.html", "namespacetinyxml2" ],
-    [ "__image_format_assert_false", "struct____image__format__assert__false.html", null ],
     [ "commandLine", "classcommandLine.html", "classcommandLine" ],
     [ "csvData", "classcsvData.html", "classcsvData" ],
     [ "csvReader", "classcsvReader.html", "classcsvReader" ],

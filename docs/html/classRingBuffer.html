@@ -126,12 +126,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a787fdb833c95a386e6ec3e19fb6d1fd8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRingBuffer.html#a787fdb833c95a386e6ec3e19fb6d1fd8">Free</a> ()</td></tr>
 <tr class="memdesc:a787fdb833c95a386e6ec3e19fb6d1fd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free the buffer allocations.  <a href="#a787fdb833c95a386e6ec3e19fb6d1fd8">More...</a><br /></td></tr>
 <tr class="separator:a787fdb833c95a386e6ec3e19fb6d1fd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0627137366bb5d7a2dbf648122b86104"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRingBuffer.html#a0627137366bb5d7a2dbf648122b86104">Peek</a> (uint32_t flags)</td></tr>
-<tr class="memdesc:a0627137366bb5d7a2dbf648122b86104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next read/write buffer without advancing the position in the queue.  <a href="#a0627137366bb5d7a2dbf648122b86104">More...</a><br /></td></tr>
-<tr class="separator:a0627137366bb5d7a2dbf648122b86104"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a841be016a4ffeee7383b1284093b8eee"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRingBuffer.html#a841be016a4ffeee7383b1284093b8eee">Next</a> (uint32_t flags)</td></tr>
-<tr class="memdesc:a841be016a4ffeee7383b1284093b8eee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next read/write buffer and advance the position in the queue.  <a href="#a841be016a4ffeee7383b1284093b8eee">More...</a><br /></td></tr>
-<tr class="separator:a841be016a4ffeee7383b1284093b8eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65cd66112df93d973d7425295c382055"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRingBuffer.html#a65cd66112df93d973d7425295c382055">Peek</a> (uint32_t flags)</td></tr>
+<tr class="memdesc:a65cd66112df93d973d7425295c382055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next read/write buffer without advancing the position in the queue.  <a href="#a65cd66112df93d973d7425295c382055">More...</a><br /></td></tr>
+<tr class="separator:a65cd66112df93d973d7425295c382055"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc642b75c7ebe3aa48da4ece8f13643b"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRingBuffer.html#adc642b75c7ebe3aa48da4ece8f13643b">Next</a> (uint32_t flags)</td></tr>
+<tr class="memdesc:adc642b75c7ebe3aa48da4ece8f13643b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next read/write buffer and advance the position in the queue.  <a href="#adc642b75c7ebe3aa48da4ece8f13643b">More...</a><br /></td></tr>
+<tr class="separator:adc642b75c7ebe3aa48da4ece8f13643b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13c5161ed54ede296a4c5f079fbaface"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRingBuffer.html#a13c5161ed54ede296a4c5f079fbaface">GetFlags</a> () const</td></tr>
 <tr class="memdesc:a13c5161ed54ede296a4c5f079fbaface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the flags of the ring buffer.  <a href="#a13c5161ed54ede296a4c5f079fbaface">More...</a><br /></td></tr>
 <tr class="separator:a13c5161ed54ede296a4c5f079fbaface"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -353,8 +353,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a841be016a4ffeee7383b1284093b8eee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a841be016a4ffeee7383b1284093b8eee">&#9670;&nbsp;</a></span>Next()</h2>
+<a id="adc642b75c7ebe3aa48da4ece8f13643b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc642b75c7ebe3aa48da4ece8f13643b">&#9670;&nbsp;</a></span>Next()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -363,7 +363,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void * RingBuffer::Next </td>
+          <td class="memname">void* RingBuffer::Next </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>flags</em></td><td>)</td>
@@ -381,8 +381,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a0627137366bb5d7a2dbf648122b86104"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0627137366bb5d7a2dbf648122b86104">&#9670;&nbsp;</a></span>Peek()</h2>
+<a id="a65cd66112df93d973d7425295c382055"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65cd66112df93d973d7425295c382055">&#9670;&nbsp;</a></span>Peek()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -391,7 +391,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void * RingBuffer::Peek </td>
+          <td class="memname">void* RingBuffer::Peek </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>flags</em></td><td>)</td>
@@ -642,9 +642,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>jetson-utils/<a class="el" href="RingBuffer_8h_source.html">RingBuffer.h</a></li>
-<li>jetson-utils/<a class="el" href="RingBuffer_8inl.html">RingBuffer.inl</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -652,7 +651,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classRingBuffer.html">RingBuffer</a></li>
-    <li class="footer">Generated on Tue Jun 23 2020 14:18:24 for Jetson Inference by
+    <li class="footer">Generated on Tue Jun 23 2020 16:40:15 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

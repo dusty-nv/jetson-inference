@@ -27,8 +27,8 @@ var searchData=
   ['file_5fmissing',['FILE_MISSING',['../group__filesystem.html#ggad1f15dffa07492b842b0446759083939a674ed0f47143f80c97b188885d263fe7',1,'filesystem.h']]],
   ['file_5fregular',['FILE_REGULAR',['../group__filesystem.html#ggad1f15dffa07492b842b0446759083939aa2a2d933a005816134ee11ad33143366',1,'filesystem.h']]],
   ['file_5fsocket',['FILE_SOCKET',['../group__filesystem.html#ggad1f15dffa07492b842b0446759083939ac0a81bd8bc6a17f93b3cce7522793d8c',1,'filesystem.h']]],
-  ['filter_5flinear',['FILTER_LINEAR',['../classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0',1,'segNet::FILTER_LINEAR()'],['../group__cuda.html#gga25d4283643163befe99948d24cc53311ad8e5de74ec16a7e07145b7c18c885094',1,'FILTER_LINEAR():&#160;cudaFilterMode.h']]],
-  ['filter_5fpoint',['FILTER_POINT',['../classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0abe4ae38cf99cdab6c3b070ee4a83bb47',1,'segNet::FILTER_POINT()'],['../group__cuda.html#gga25d4283643163befe99948d24cc53311a8928ed98915affb5c7514632a038daa6',1,'FILTER_POINT():&#160;cudaFilterMode.h']]],
+  ['filter_5flinear',['FILTER_LINEAR',['../classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0',1,'segNet::FILTER_LINEAR()'],['../group__cudaFilter.html#gga25d4283643163befe99948d24cc53311ad8e5de74ec16a7e07145b7c18c885094',1,'FILTER_LINEAR():&#160;cudaFilterMode.h']]],
+  ['filter_5fpoint',['FILTER_POINT',['../classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0abe4ae38cf99cdab6c3b070ee4a83bb47',1,'segNet::FILTER_POINT()'],['../group__cudaFilter.html#gga25d4283643163befe99948d24cc53311a8928ed98915affb5c7514632a038daa6',1,'FILTER_POINT():&#160;cudaFilterMode.h']]],
   ['flip_5fclockwise',['FLIP_CLOCKWISE',['../structvideoOptions.html#acd8d5155cc7b38791698b4e89c6a96eeac19ebe40943991cf5e9fcb69e6c5c3e5',1,'videoOptions']]],
   ['flip_5fcounterclockwise',['FLIP_COUNTERCLOCKWISE',['../structvideoOptions.html#acd8d5155cc7b38791698b4e89c6a96eea7e8abbc09244387c1f4607c902976b22',1,'videoOptions']]],
   ['flip_5fdefault',['FLIP_DEFAULT',['../structvideoOptions.html#acd8d5155cc7b38791698b4e89c6a96eeae1237dbae8c7847640966457de536a96',1,'videoOptions']]],
@@ -38,7 +38,7 @@ var searchData=
   ['flip_5fupper_5fleft_5fdiagonal',['FLIP_UPPER_LEFT_DIAGONAL',['../structvideoOptions.html#acd8d5155cc7b38791698b4e89c6a96eea089c5073db1bcb4b658be055abdfe9eb',1,'videoOptions']]],
   ['flip_5fupper_5fright_5fdiagonal',['FLIP_UPPER_RIGHT_DIAGONAL',['../structvideoOptions.html#acd8d5155cc7b38791698b4e89c6a96eea42d69b4a7eed239acb174789ce6e22e4',1,'videoOptions']]],
   ['flip_5fvertical',['FLIP_VERTICAL',['../structvideoOptions.html#acd8d5155cc7b38791698b4e89c6a96eea4e10ce85a7798075172005bb720912f3',1,'videoOptions']]],
-  ['format_5fchw',['FORMAT_CHW',['../group__cuda.html#gga66fe4a27e9fb59cd675d5deb12287195a4ccf6f5b6af6f76d13ef2aefd17ea51a',1,'cudaFilterMode.h']]],
-  ['format_5fdefault',['FORMAT_DEFAULT',['../group__cuda.html#gga66fe4a27e9fb59cd675d5deb12287195aa172a0e14adcf61d8fdc4df73a29dece',1,'cudaFilterMode.h']]],
-  ['format_5fhwc',['FORMAT_HWC',['../group__cuda.html#gga66fe4a27e9fb59cd675d5deb12287195a4130db7b40bd34c9b4e91df46d37fc6a',1,'cudaFilterMode.h']]]
+  ['format_5fchw',['FORMAT_CHW',['../group__cudaFilter.html#gga66fe4a27e9fb59cd675d5deb12287195a4ccf6f5b6af6f76d13ef2aefd17ea51a',1,'cudaFilterMode.h']]],
+  ['format_5fdefault',['FORMAT_DEFAULT',['../group__cudaFilter.html#gga66fe4a27e9fb59cd675d5deb12287195aa172a0e14adcf61d8fdc4df73a29dece',1,'cudaFilterMode.h']]],
+  ['format_5fhwc',['FORMAT_HWC',['../group__cudaFilter.html#gga66fe4a27e9fb59cd675d5deb12287195a4130db7b40bd34c9b4e91df46d37fc6a',1,'cudaFilterMode.h']]]
 ];

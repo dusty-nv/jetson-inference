@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('classgstCamera.html','');});
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classgstCamera-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">gstCamera Class Reference<div class="ingroups"><a class="el" href="group__util.html">Utilities Library (jetson-utils)</a> &raquo; <a class="el" href="group__camera.html">Camera Capture</a> &raquo; <a class="el" href="group__gstCamera.html">gstCamera</a></div></div>  </div>
+<div class="title">gstCamera Class Reference<div class="ingroups"><a class="el" href="group__util.html">Utilities Library (jetson-utils)</a> &raquo; <a class="el" href="group__camera.html">Camera Capture</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -229,7 +229,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Examples of MIPI CSI cameras that work out of the box are the OV5693 module from the Jetson TX1/TX2 devkits, and the IMX219 sensor from the Raspberry Pi Camera Module v2.</p>
 <p>For MIPI CSI cameras, the GStreamer element <code>nvarguscamerasrc</code> will be used for capture. For V4L2 devices, the GStreamer element <code>v4l2src</code> will be used for camera capture.</p>
 <p><a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a> uses CUDA underneath for any necessary colorspace conversion, and provides the captured image frames in CUDA device memory, or zero-copy shared CPU/GPU memory.</p>
-<p><a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a> now implements the <a class="el" href="classvideoSource.html" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras...">videoSource</a> interface and is intended to be used through that as opposed to directly. <a class="el" href="classvideoSource.html" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras...">videoSource</a> implements additional command-line parsing of <a class="el" href="structvideoOptions.html" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> to construct instances. Some legacy APIs of <a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a> are now marked deprecated.</p>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a> now implements the <a class="el" href="classvideoSource.html" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras...">videoSource</a> interface and is intended to be used through that as opposed to directly. <a class="el" href="classvideoSource.html" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras...">videoSource</a> implements additional command-line parsing of <a class="el" href="structvideoOptions.html" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> to construct instances. Some legacy APIs of <a class="el" href="classgstCamera.html" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements. ">gstCamera</a> are now marked deprecated.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classvideoSource.html" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras...">videoSource</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1df842937128e70d8f140c65e88e783c"></a>
@@ -374,7 +374,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0. </p>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000008">Deprecated:</a></b></dt><dd><a class="el" href="classgstCamera.html#a93371e3811a1956ff96c154fd1da23f2" title="Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0. ">CaptureRGBA()</a> has been deprecated and is only provided for legacy compatibility. Please use the updated <a class="el" href="classgstCamera.html#add77384dd73058543da2f1c722e00a30" title="Capture the next image frame from the camera. ">Capture()</a> function instead.</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000009">Deprecated:</a></b></dt><dd><a class="el" href="classgstCamera.html#a93371e3811a1956ff96c154fd1da23f2" title="Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0. ">CaptureRGBA()</a> has been deprecated and is only provided for legacy compatibility. Please use the updated <a class="el" href="classgstCamera.html#add77384dd73058543da2f1c722e00a30" title="Capture the next image frame from the camera. ">Capture()</a> function instead.</dd></dl>
 <p>Internally, <a class="el" href="classgstCamera.html#a93371e3811a1956ff96c154fd1da23f2" title="Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0. ">CaptureRGBA()</a> first calls <a class="el" href="classgstCamera.html#add77384dd73058543da2f1c722e00a30" title="Capture the next image frame from the camera. ">Capture()</a> and then ConvertRGBA(). The ConvertRGBA() function uses CUDA, so if you want to capture from a different thread than your CUDA device, use the <a class="el" href="classgstCamera.html#add77384dd73058543da2f1c722e00a30" title="Capture the next image frame from the camera. ">Capture()</a> and ConvertRGBA() functions.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -680,7 +680,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classgstCamera.html">gstCamera</a></li>
-    <li class="footer">Generated on Tue Jun 23 2020 14:18:24 for Jetson Inference by
+    <li class="footer">Generated on Tue Jun 23 2020 16:40:15 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

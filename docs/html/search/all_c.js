@@ -36,7 +36,7 @@ var searchData=
   ['log_5fcolor_5fred',['LOG_COLOR_RED',['../logging_8h.html#af6467cd567c0679c15e09913f77b9555',1,'logging.h']]],
   ['log_5fcolor_5freset',['LOG_COLOR_RESET',['../logging_8h.html#a8878b128231510acd20620de417738e9',1,'logging.h']]],
   ['log_5fcolor_5fyellow',['LOG_COLOR_YELLOW',['../logging_8h.html#a74416ee2437694c75a11e27a158eeb5c',1,'logging.h']]],
-  ['log_5fcuda',['LOG_CUDA',['../group__cuda.html#gae6c4176aa6f8270000ec2b626a2a8b3c',1,'cudaUtility.h']]],
+  ['log_5fcuda',['LOG_CUDA',['../group__cudaError.html#gae6c4176aa6f8270000ec2b626a2a8b3c',1,'cudaUtility.h']]],
   ['log_5fgl',['LOG_GL',['../group__OpenGL.html#gabe9ef8f3c57b226efaf58ab3059bceab',1,'glUtility.h']]],
   ['log_5fgstreamer',['LOG_GSTREAMER',['../group__codec.html#ga7d4bea04aad22460cc3c9c8152c6e3ed',1,'gstUtility.h']]],
   ['log_5fimage',['LOG_IMAGE',['../imageIO_8h.html#a013427bb9c01d39613c792758042f556',1,'imageIO.h']]],

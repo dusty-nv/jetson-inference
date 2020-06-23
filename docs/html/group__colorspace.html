@@ -93,6 +93,12 @@ $(document).ready(function(){initNavTree('group__colorspace.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga6cf20486164158f6c9cb95a069151658"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga6cf20486164158f6c9cb95a069151658">cudaBayerToRGB</a> (uint8_t *input, uchar3 *output, size_t width, size_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
+<tr class="memdesc:ga6cf20486164158f6c9cb95a069151658"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demosaick an 8-bit Bayer image to uchar3 RGB.  <a href="#ga6cf20486164158f6c9cb95a069151658">More...</a><br /></td></tr>
+<tr class="separator:ga6cf20486164158f6c9cb95a069151658"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafa2c41e38d1f04c70284142c9a69eeb2"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gafa2c41e38d1f04c70284142c9a69eeb2">cudaBayerToRGBA</a> (uint8_t *input, uchar3 *output, size_t width, size_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
+<tr class="memdesc:gafa2c41e38d1f04c70284142c9a69eeb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demosaick an 8-bit Bayer image to uchar4 RGBA.  <a href="#gafa2c41e38d1f04c70284142c9a69eeb2">More...</a><br /></td></tr>
+<tr class="separator:gafa2c41e38d1f04c70284142c9a69eeb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2befa65dbc92689a36a367993d1ad673"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga2befa65dbc92689a36a367993d1ad673">cudaConvertColor</a> (void *input, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> inputFormat, void *output, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> outputFormat, size_t width, size_t height, const float2 &amp;pixel_range=<a class="el" href="cudaMath_8h.html#a931119b28bbeb119817cd0128f422a08">make_float2</a>(0, 255))</td></tr>
 <tr class="memdesc:ga2befa65dbc92689a36a367993d1ad673"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert between two image formats using the GPU.  <a href="#ga2befa65dbc92689a36a367993d1ad673">More...</a><br /></td></tr>
 <tr class="separator:ga2befa65dbc92689a36a367993d1ad673"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,6 +189,104 @@ Floating-point grayscale to RGB/BGR</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Colorspace conversion functions for various YUV formats, RGB, BGR, ect. </p>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ga6cf20486164158f6c9cb95a069151658"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6cf20486164158f6c9cb95a069151658">&#9670;&nbsp;</a></span>cudaBayerToRGB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaBayerToRGB </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar3 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Demosaick an 8-bit Bayer image to uchar3 RGB. </p>
+<p>format the Bayer pattern of the input image, should be one of: IMAGE_BAYER_BGGR, IMAGE_BAYER_GBRG, IMAGE_BAYER_GRBG, IMAGE_BAYER_RGGB </p>
+
+</div>
+</div>
+<a id="gafa2c41e38d1f04c70284142c9a69eeb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafa2c41e38d1f04c70284142c9a69eeb2">&#9670;&nbsp;</a></span>cudaBayerToRGBA()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaBayerToRGBA </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar3 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Demosaick an 8-bit Bayer image to uchar4 RGBA. </p>
+<p>format the Bayer pattern of the input image, should be one of: IMAGE_BAYER_BGGR, IMAGE_BAYER_GBRG, IMAGE_BAYER_GRBG, IMAGE_BAYER_RGGB </p>
+
+</div>
+</div>
 <a id="ga2befa65dbc92689a36a367993d1ad673"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga2befa65dbc92689a36a367993d1ad673">&#9670;&nbsp;</a></span>cudaConvertColor() <span class="overload">[1/2]</span></h2>
 
@@ -1230,7 +1334,7 @@ template&lt;typename T_in , typename T_out &gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Jun 23 2020 14:18:24 for Jetson Inference by
+    <li class="footer">Generated on Tue Jun 23 2020 16:40:14 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

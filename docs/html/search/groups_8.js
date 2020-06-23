@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['segnet',['segNet',['../group__segNet.html',1,'']]],
-  ['stereonet',['stereoNet',['../group__stereoNet.html',1,'']]],
-  ['superresnet',['superResNet',['../group__superResNet.html',1,'']]]
+  ['pixel_20filtering',['Pixel Filtering',['../group__cudaFilter.html',1,'']]],
+  ['point_20cloud',['Point Cloud',['../group__pointCloud.html',1,'']]]
 ];

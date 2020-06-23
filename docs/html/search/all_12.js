@@ -29,6 +29,7 @@ var searchData=
   ['resetcursor',['ResetCursor',['../classglDisplay.html#a55c92bc0159c94b720a5bdd06cefcd69',1,'glDisplay']]],
   ['resetdefaultcursor',['ResetDefaultCursor',['../classglDisplay.html#a617f568a9a94622e9c687540e36ea064',1,'glDisplay']]],
   ['resetviewport',['ResetViewport',['../classglDisplay.html#a23dd7a9f481c772766f049d8056a8dad',1,'glDisplay']]],
+  ['resize',['Resize',['../group__resize.html',1,'']]],
   ['resnet_5f101',['RESNET_101',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a3bc3f084f3ef071585caf9629e64e24b',1,'imageNet']]],
   ['resnet_5f152',['RESNET_152',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a91e56faa59f440c7aeb42f37363f27c4',1,'imageNet']]],
   ['resnet_5f18',['RESNET_18',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a41ccbd9480e0072ed579da95eb6a479d',1,'imageNet']]],
@@ -37,7 +38,6 @@ var searchData=
   ['right',['Right',['../structdetectNet_1_1Detection.html#aa008c7f9d614b314281366b7797cd00a',1,'detectNet::Detection']]],
   ['ringbuffer',['RingBuffer',['../classRingBuffer.html',1,'RingBuffer'],['../classRingBuffer.html#ae18d0a5ac60eb4db2f99887772ed5778',1,'RingBuffer::RingBuffer()']]],
   ['ringbuffer_2eh',['RingBuffer.h',['../RingBuffer_8h.html',1,'']]],
-  ['ringbuffer_2einl',['RingBuffer.inl',['../RingBuffer_8inl.html',1,'']]],
   ['rootelement',['RootElement',['../classtinyxml2_1_1XMLDocument.html#ad2b70320d3c2a071c2f36928edff3e1c',1,'tinyxml2::XMLDocument::RootElement()'],['../classtinyxml2_1_1XMLDocument.html#a2be8ef9d6346bdef34311f91529afae4',1,'tinyxml2::XMLDocument::RootElement() const']]],
   ['rsqrtf',['rsqrtf',['../cudaMath_8h.html#a03dd2c47cd23a00d16e39bfb75a2e6fe',1,'cudaMath.h']]],
   ['run',['Run',['../classThread.html#ac852bc49c5bf8c2f448e4df85b1a4cae',1,'Thread']]]

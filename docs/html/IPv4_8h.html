@@ -93,85 +93,20 @@ $(document).ready(function(){initNavTree('IPv4_8h.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a00f5a6e4e9c3ac864a8e53a3bb1cd89c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="IPv4_8h.html#a00f5a6e4e9c3ac864a8e53a3bb1cd89c">IPv4Address</a> (const char *str, uint32_t *ip_out)</td></tr>
-<tr class="memdesc:a00f5a6e4e9c3ac864a8e53a3bb1cd89c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an IPv4 address string in "xxx.xxx.xxx.xxx" format to binary representation.  <a href="#a00f5a6e4e9c3ac864a8e53a3bb1cd89c">More...</a><br /></td></tr>
-<tr class="separator:a00f5a6e4e9c3ac864a8e53a3bb1cd89c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8275ea11113587c3353ab2409d51930e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="IPv4_8h.html#a8275ea11113587c3353ab2409d51930e">IPv4AddressStr</a> (uint32_t ip_address)</td></tr>
-<tr class="memdesc:a8275ea11113587c3353ab2409d51930e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return text string of IPv4 address in "xxx.xxx.xxx.xxx" format.  <a href="#a8275ea11113587c3353ab2409d51930e">More...</a><br /></td></tr>
-<tr class="separator:a8275ea11113587c3353ab2409d51930e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga00f5a6e4e9c3ac864a8e53a3bb1cd89c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__network.html#ga00f5a6e4e9c3ac864a8e53a3bb1cd89c">IPv4Address</a> (const char *str, uint32_t *ip_out)</td></tr>
+<tr class="memdesc:ga00f5a6e4e9c3ac864a8e53a3bb1cd89c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an IPv4 address string in "xxx.xxx.xxx.xxx" format to binary representation.  <a href="group__network.html#ga00f5a6e4e9c3ac864a8e53a3bb1cd89c">More...</a><br /></td></tr>
+<tr class="separator:ga00f5a6e4e9c3ac864a8e53a3bb1cd89c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8275ea11113587c3353ab2409d51930e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__network.html#ga8275ea11113587c3353ab2409d51930e">IPv4AddressStr</a> (uint32_t ip_address)</td></tr>
+<tr class="memdesc:ga8275ea11113587c3353ab2409d51930e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return text string of IPv4 address in "xxx.xxx.xxx.xxx" format.  <a href="group__network.html#ga8275ea11113587c3353ab2409d51930e">More...</a><br /></td></tr>
+<tr class="separator:ga8275ea11113587c3353ab2409d51930e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a00f5a6e4e9c3ac864a8e53a3bb1cd89c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a00f5a6e4e9c3ac864a8e53a3bb1cd89c">&#9670;&nbsp;</a></span>IPv4Address()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool IPv4Address </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>str</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t *&#160;</td>
-          <td class="paramname"><em>ip_out</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convert an IPv4 address string in "xxx.xxx.xxx.xxx" format to binary representation. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">str</td><td>the IPv4 string, in "xxx.xxx.xxx.xxx" format </td></tr>
-    <tr><td class="paramname">ip_out</td><td>output pointer to converted IPv4 address, in network byte order.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true, if str was a valid IPv4 address and the conversion was successful. false, if the conversion failed. </dd></dl>
-
-</div>
-</div>
-<a id="a8275ea11113587c3353ab2409d51930e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8275ea11113587c3353ab2409d51930e">&#9670;&nbsp;</a></span>IPv4AddressStr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string IPv4AddressStr </td>
-          <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>ip_address</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Return text string of IPv4 address in "xxx.xxx.xxx.xxx" format. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ip_address</td><td>IPv4 address, supplied in network byte order. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_54a0acf6da04fe2ed9410b4c6369bc5d.html">jetson-utils</a></li><li class="navelem"><a class="el" href="IPv4_8h.html">IPv4.h</a></li>
-    <li class="footer">Generated on Tue Jun 23 2020 14:18:23 for Jetson Inference by
+    <li class="footer">Generated on Tue Jun 23 2020 16:40:14 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

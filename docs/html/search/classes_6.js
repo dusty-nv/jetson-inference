@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['joystickdevice',['JoystickDevice',['../classJoystickDevice.html',1,'']]]
+  ['keyboarddevice',['KeyboardDevice',['../classKeyboardDevice.html',1,'']]]
 ];

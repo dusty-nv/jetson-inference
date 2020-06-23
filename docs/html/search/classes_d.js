@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['segnet',['segNet',['../classsegNet.html',1,'']]],
-  ['socket',['Socket',['../classSocket.html',1,'']]],
-  ['strpair',['StrPair',['../classtinyxml2_1_1StrPair.html',1,'tinyxml2']]]
+  ['tensornet',['tensorNet',['../classtensorNet.html',1,'']]],
+  ['thread',['Thread',['../classThread.html',1,'']]]
 ];

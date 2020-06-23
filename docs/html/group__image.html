@@ -94,8 +94,6 @@ $(document).ready(function(){initNavTree('group__image.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct____image__format__assert__false.html">__image_format_assert_false&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageLoader.html">imageLoader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an image or set of images from disk into GPU memory.  <a href="classimageLoader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -308,7 +306,7 @@ template&lt;typename T &gt; </div>
 
 <p>Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-255. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__image.html#ga27eecc15662ad22366515de5cc054342" title="Load a color image from disk into CUDA memory, in uchar3/uchar4/float3/float4 formats with pixel valu...">loadImage()</a> for more details about parameters and supported <a class="el" href="group__image.html" title="Loading and saving image files from disk. ">Image I/O</a> formats. </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000009">Deprecated:</a></b></dt><dd>this overload of <a class="el" href="group__image.html#gad9ee4cb1bfdf4efe01e2971b93118972" title="Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-2...">loadImageRGBA()</a> is deprecated and provided for legacy compatbility. it is recommended to use <a class="el" href="group__image.html#ga27eecc15662ad22366515de5cc054342" title="Load a color image from disk into CUDA memory, in uchar3/uchar4/float3/float4 formats with pixel valu...">loadImage()</a> instead, which supports multiple image formats.</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000010">Deprecated:</a></b></dt><dd>this overload of <a class="el" href="group__image.html#gad9ee4cb1bfdf4efe01e2971b93118972" title="Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-2...">loadImageRGBA()</a> is deprecated and provided for legacy compatbility. it is recommended to use <a class="el" href="group__image.html#ga27eecc15662ad22366515de5cc054342" title="Load a color image from disk into CUDA memory, in uchar3/uchar4/float3/float4 formats with pixel valu...">loadImage()</a> instead, which supports multiple image formats.</dd></dl>
 
 </div>
 </div>
@@ -358,7 +356,7 @@ template&lt;typename T &gt; </div>
 
 <p>Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-255. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__image.html#ga27eecc15662ad22366515de5cc054342" title="Load a color image from disk into CUDA memory, in uchar3/uchar4/float3/float4 formats with pixel valu...">loadImage()</a> for more details about parameters and supported <a class="el" href="group__image.html" title="Loading and saving image files from disk. ">Image I/O</a> formats. </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000010">Deprecated:</a></b></dt><dd>this overload of <a class="el" href="group__image.html#gad9ee4cb1bfdf4efe01e2971b93118972" title="Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-2...">loadImageRGBA()</a> is deprecated and provided for legacy compatbility. having separate CPU and GPU pointers for shared memory is no longer needed, as they are the same. it is recommended to use <a class="el" href="group__image.html#ga27eecc15662ad22366515de5cc054342" title="Load a color image from disk into CUDA memory, in uchar3/uchar4/float3/float4 formats with pixel valu...">loadImage()</a> instead, which supports multiple image formats.</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000011">Deprecated:</a></b></dt><dd>this overload of <a class="el" href="group__image.html#gad9ee4cb1bfdf4efe01e2971b93118972" title="Load a color image from disk into CUDA memory with alpha, in float4 RGBA format with pixel values 0-2...">loadImageRGBA()</a> is deprecated and provided for legacy compatbility. having separate CPU and GPU pointers for shared memory is no longer needed, as they are the same. it is recommended to use <a class="el" href="group__image.html#ga27eecc15662ad22366515de5cc054342" title="Load a color image from disk into CUDA memory, in uchar3/uchar4/float3/float4 formats with pixel valu...">loadImage()</a> instead, which supports multiple image formats.</dd></dl>
 
 </div>
 </div>
@@ -566,7 +564,7 @@ template&lt;typename T &gt; </div>
 
 <p>Save a float4 image in CPU/GPU shared memory to disk. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__image.html#ga54f40bb94c9d78d639a20e5ac1e21669" title="Save an image in CPU/GPU shared memory to disk. ">saveImage()</a> for more details about parameters and supported <a class="el" href="group__image.html" title="Loading and saving image files from disk. ">Image I/O</a> formats. </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000011">Deprecated:</a></b></dt><dd><a class="el" href="group__image.html#ga346b074e328e57539775110ab92bdd7e" title="Save a float4 image in CPU/GPU shared memory to disk. ">saveImageRGBA()</a> is deprecated and provided for legacy compatbility. it is recommended to use <a class="el" href="group__image.html#ga54f40bb94c9d78d639a20e5ac1e21669" title="Save an image in CPU/GPU shared memory to disk. ">saveImage()</a> instead, which supports multiple image formats.</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000012">Deprecated:</a></b></dt><dd><a class="el" href="group__image.html#ga346b074e328e57539775110ab92bdd7e" title="Save a float4 image in CPU/GPU shared memory to disk. ">saveImageRGBA()</a> is deprecated and provided for legacy compatbility. it is recommended to use <a class="el" href="group__image.html#ga54f40bb94c9d78d639a20e5ac1e21669" title="Save an image in CPU/GPU shared memory to disk. ">saveImage()</a> instead, which supports multiple image formats.</dd></dl>
 
 </div>
 </div>
@@ -575,7 +573,7 @@ template&lt;typename T &gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Jun 23 2020 14:18:24 for Jetson Inference by
+    <li class="footer">Generated on Tue Jun 23 2020 16:40:15 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
