@@ -1,0 +1,58 @@
+var group__csv =
+[
+    [ "csv", "namespacecsv.html", null ],
+    [ "csvData", "classcsvData.html", [
+      [ "csvData", "classcsvData.html#a28194fda658f5bc263d862e8dd017c5b", null ],
+      [ "csvData", "classcsvData.html#ae0d79910380145275818ce889402f26a", null ],
+      [ "csvData", "classcsvData.html#af8d821ef6566693264db8157e74cf493", null ],
+      [ "csvData", "classcsvData.html#aa27c3ab454656f541d7487656c00967f", null ],
+      [ "operator const char *", "classcsvData.html#adfc8d6c806ec1b2e89529dc70695ad19", null ],
+      [ "operator const std::string &", "classcsvData.html#a10a991d3689d60d117c87fe6caad5997", null ],
+      [ "operator double", "classcsvData.html#a49f0d2fbfaa9d4428730296ae7936330", null ],
+      [ "operator float", "classcsvData.html#a29ae8537c34b0fda676bf46e734427e4", null ],
+      [ "operator int", "classcsvData.html#a47fbf2277cc1421ce0df9af66efe73e1", null ],
+      [ "operator std::string &", "classcsvData.html#a40f935a7f53438bad42222306323e968", null ],
+      [ "set", "classcsvData.html#a158f12744612a3f252f46c663f61dbf0", null ],
+      [ "toDouble", "classcsvData.html#a9d73ddf7f68ca2f0ee1fa0e9b3995c15", null ],
+      [ "toDouble", "classcsvData.html#a879845c92d4324b88197e2721887232a", null ],
+      [ "toFloat", "classcsvData.html#a6d2c79a669b10081e52e623eb1a3e10c", null ],
+      [ "toFloat", "classcsvData.html#a95534b3a8d2c01dcaf8abcc8c8f3ed6a", null ],
+      [ "toInt", "classcsvData.html#a1a5cb3464e8ca3187e054a7e9885b1f1", null ],
+      [ "toInt", "classcsvData.html#a3d6dc285e98818232258d8d58399fe2c", null ],
+      [ "operator<<", "classcsvData.html#ad84e240af33c6c6f9ffb32c2f8ea373d", null ],
+      [ "operator>>", "classcsvData.html#ac21e9d58402aa46fb4ce150e88e9c307", null ],
+      [ "string", "classcsvData.html#a0b8a168b80460cdf91c7e926a76b1346", null ]
+    ] ],
+    [ "csvReader", "classcsvReader.html", [
+      [ "csvReader", "classcsvReader.html#a78a1bbc9a537958955ea1c0ee292a68e", null ],
+      [ "~csvReader", "classcsvReader.html#ad9bcff499b2864cba243ad89e71c0561", null ],
+      [ "Close", "classcsvReader.html#a4fc10c933a0f7ae36a6bb892259f6cc2", null ],
+      [ "GetDelimiters", "classcsvReader.html#aebd2551a4d24767f51ac7b2601af86c2", null ],
+      [ "GetFilename", "classcsvReader.html#a88be003aa0289f664c204d65c78324cc", null ],
+      [ "IsClosed", "classcsvReader.html#a046a28a013f4b0ef06487cb264d9d702", null ],
+      [ "IsOpen", "classcsvReader.html#a2b9910b8116c3cb84b84dcfd828f13cd", null ],
+      [ "Read", "classcsvReader.html#a04d0a5fc7425485a2aab823f42c983c1", null ],
+      [ "Read", "classcsvReader.html#a1249df7246ae79204479cd2f8f72a420", null ],
+      [ "Read", "classcsvReader.html#ae90ffbd5178a78da9be92ffa7399d798", null ],
+      [ "Read", "classcsvReader.html#ab58d3d20b21ab6abf05adbd54b1c9175", null ],
+      [ "SetDelimiters", "classcsvReader.html#a0a65b04b1268f0a36ff826a3abdfcfba", null ],
+      [ "MaxLineLength", "classcsvReader.html#a033e3f7ca4e60c535ffe45085dc5ebe4", null ]
+    ] ],
+    [ "csvWriter", "classcsvWriter.html", [
+      [ "csvWriter", "classcsvWriter.html#a8eb033c5726ebce7f710370ee88f20e1", null ],
+      [ "~csvWriter", "classcsvWriter.html#ab5c1096c5dfb02fbc62b649270023661", null ],
+      [ "Close", "classcsvWriter.html#a737aaa1bcff9100fe4fd85a4f2e1c96b", null ],
+      [ "EndLine", "classcsvWriter.html#a6df7216f13b759d95163fd40e93d40eb", null ],
+      [ "Flush", "classcsvWriter.html#a0c0d722fdf9d2e5e7858a6a02a7b3b16", null ],
+      [ "GetDelimiter", "classcsvWriter.html#af2234cef4c0c90bb06fa4c6d2e3fe468", null ],
+      [ "GetFilename", "classcsvWriter.html#a98fe1121694cd78539727c5a0a3057b6", null ],
+      [ "IsClosed", "classcsvWriter.html#a05b74805269f855765a0220da794437d", null ],
+      [ "IsOpen", "classcsvWriter.html#a68f9695f0b44e0dea7881d4b30cb07b0", null ],
+      [ "operator<<", "classcsvWriter.html#a4bb908f79a101a2e87bc72653506ce73", null ],
+      [ "operator<<", "classcsvWriter.html#afc57daf012a071592ec2c63d6613c086", null ],
+      [ "SetDelimiter", "classcsvWriter.html#ae4d435117e0e9a2d9696e3bb39765c77", null ],
+      [ "Write", "classcsvWriter.html#af5774438f4bb36e3df26ba3b095a7e11", null ],
+      [ "Write", "classcsvWriter.html#a5d36157859bf6d4df6f9adb5bb3a0aee", null ],
+      [ "WriteLine", "classcsvWriter.html#a905853accd1505280d753a0dfe139b51", null ]
+    ] ]
+];

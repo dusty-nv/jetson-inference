@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['threadentryfunction',['ThreadEntryFunction',['../group__threads.html#gaf5d0ae569fdc16f5708d68f64457ed79',1,'Thread.h']]]
+  ['devicelist',['DeviceList',['../group__input.html#ga50538a4d144ab00657372f458f9c3cb4',1,'devInput.h']]],
+  ['dims3',['Dims3',['../tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b',1,'tensorNet.h']]]
 ];

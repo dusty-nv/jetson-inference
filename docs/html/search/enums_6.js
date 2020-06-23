@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['overlayflags',['OverlayFlags',['../classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6',1,'detectNet']]]
+  ['level',['Level',['../classLog.html#afb5d4c945d835d194a295461d752531e',1,'Log']]]
 ];

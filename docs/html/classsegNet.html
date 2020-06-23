@@ -137,26 +137,52 @@ Public Types</h2></td></tr>
  }<tr class="memdesc:ab561d3c9e3c733e785aaa790f0f2f660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of pretrained/built-in network models.  <a href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:ab561d3c9e3c733e785aaa790f0f2f660"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5579582306d8b98e3a8acf2b73e13ea0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a> { <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0abe4ae38cf99cdab6c3b070ee4a83bb47">FILTER_POINT</a>, 
+<tr class="memitem:a5579582306d8b98e3a8acf2b73e13ea0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a> { <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0abe4ae38cf99cdab6c3b070ee4a83bb47">FILTER_POINT</a> = 0, 
 <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a>
  }<tr class="memdesc:a5579582306d8b98e3a8acf2b73e13ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of mask/overlay filtering modes.  <a href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a5579582306d8b98e3a8acf2b73e13ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09a07cb06cd461f6003b655e945d9cf3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3">VisualizationFlags</a> { <a class="el" href="classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3ab6a2dc917492d6b83de4b94c9233cb5f">VISUALIZE_OVERLAY</a> = (1 &lt;&lt; 0), 
+<a class="el" href="classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3a44b13e054270ce1d9a77fea8bfa83bd5">VISUALIZE_MASK</a> = (1 &lt;&lt; 1)
+ }<tr class="memdesc:a09a07cb06cd461f6003b655e945d9cf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visualization flags.  <a href="classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a09a07cb06cd461f6003b655e945d9cf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a167f9d7e76b2837485278bf7323b4eac"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a167f9d7e76b2837485278bf7323b4eac">~segNet</a> ()</td></tr>
 <tr class="memdesc:a167f9d7e76b2837485278bf7323b4eac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy.  <a href="#a167f9d7e76b2837485278bf7323b4eac">More...</a><br /></td></tr>
 <tr class="separator:a167f9d7e76b2837485278bf7323b4eac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04b332bd106de1f8238d34f36fb97442"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a04b332bd106de1f8238d34f36fb97442"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsegNet.html#a04b332bd106de1f8238d34f36fb97442">Process</a> (T *input, uint32_t width, uint32_t height, const char *ignore_class=&quot;void&quot;)</td></tr>
+<tr class="memdesc:a04b332bd106de1f8238d34f36fb97442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the initial inferencing processing portion of the segmentation.  <a href="#a04b332bd106de1f8238d34f36fb97442">More...</a><br /></td></tr>
+<tr class="separator:a04b332bd106de1f8238d34f36fb97442"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5a01728bc33bd87aed504550359f3de"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#ac5a01728bc33bd87aed504550359f3de">Process</a> (void *input, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, const char *ignore_class=&quot;void&quot;)</td></tr>
+<tr class="memdesc:ac5a01728bc33bd87aed504550359f3de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the initial inferencing processing portion of the segmentation.  <a href="#ac5a01728bc33bd87aed504550359f3de">More...</a><br /></td></tr>
+<tr class="separator:ac5a01728bc33bd87aed504550359f3de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fe1beec3215b5d7744420b57ba397c4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a2fe1beec3215b5d7744420b57ba397c4">Process</a> (float *input, uint32_t width, uint32_t height, const char *ignore_class=&quot;void&quot;)</td></tr>
 <tr class="memdesc:a2fe1beec3215b5d7744420b57ba397c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the initial inferencing processing portion of the segmentation.  <a href="#a2fe1beec3215b5d7744420b57ba397c4">More...</a><br /></td></tr>
 <tr class="separator:a2fe1beec3215b5d7744420b57ba397c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1efb45b81c82dd6f74c641ab39a41387"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a1efb45b81c82dd6f74c641ab39a41387">Mask</a> (uint8_t *output, uint32_t width, uint32_t height)</td></tr>
-<tr class="memdesc:a1efb45b81c82dd6f74c641ab39a41387"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produce a grayscale binary segmentation mask, where the pixel values correspond to the class ID of the corresponding class type.  <a href="#a1efb45b81c82dd6f74c641ab39a41387">More...</a><br /></td></tr>
-<tr class="separator:a1efb45b81c82dd6f74c641ab39a41387"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7b6257716514631dd0358e4b2ed692c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:af7b6257716514631dd0358e4b2ed692c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsegNet.html#af7b6257716514631dd0358e4b2ed692c">Mask</a> (T *output, uint32_t width, uint32_t height, <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a> filter=<a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a>)</td></tr>
+<tr class="memdesc:af7b6257716514631dd0358e4b2ed692c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produce a colorized segmentation mask.  <a href="#af7b6257716514631dd0358e4b2ed692c">More...</a><br /></td></tr>
+<tr class="separator:af7b6257716514631dd0358e4b2ed692c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd64ed7b535d7815de734d58ee22aea1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#afd64ed7b535d7815de734d58ee22aea1">Mask</a> (void *output, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a> filter=<a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a>)</td></tr>
+<tr class="memdesc:afd64ed7b535d7815de734d58ee22aea1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produce a colorized segmentation mask.  <a href="#afd64ed7b535d7815de734d58ee22aea1">More...</a><br /></td></tr>
+<tr class="separator:afd64ed7b535d7815de734d58ee22aea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a656d709bbfb00fb0b9b4d55296aae463"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a656d709bbfb00fb0b9b4d55296aae463">Mask</a> (float *output, uint32_t width, uint32_t height, <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a> filter=<a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a>)</td></tr>
 <tr class="memdesc:a656d709bbfb00fb0b9b4d55296aae463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produce a colorized RGBA segmentation mask.  <a href="#a656d709bbfb00fb0b9b4d55296aae463">More...</a><br /></td></tr>
 <tr class="separator:a656d709bbfb00fb0b9b4d55296aae463"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1efb45b81c82dd6f74c641ab39a41387"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a1efb45b81c82dd6f74c641ab39a41387">Mask</a> (uint8_t *output, uint32_t width, uint32_t height)</td></tr>
+<tr class="memdesc:a1efb45b81c82dd6f74c641ab39a41387"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produce a grayscale binary segmentation mask, where the pixel values correspond to the class ID of the corresponding class type.  <a href="#a1efb45b81c82dd6f74c641ab39a41387">More...</a><br /></td></tr>
+<tr class="separator:a1efb45b81c82dd6f74c641ab39a41387"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a646b59503f89809fefee1c32d33307d9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a646b59503f89809fefee1c32d33307d9"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsegNet.html#a646b59503f89809fefee1c32d33307d9">Overlay</a> (T *output, uint32_t width, uint32_t height, <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a> filter=<a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a>)</td></tr>
+<tr class="memdesc:a646b59503f89809fefee1c32d33307d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produce the segmentation overlay alpha blended on top of the original image.  <a href="#a646b59503f89809fefee1c32d33307d9">More...</a><br /></td></tr>
+<tr class="separator:a646b59503f89809fefee1c32d33307d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af31e030d54df637b68db8155e5f6b11c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#af31e030d54df637b68db8155e5f6b11c">Overlay</a> (void *output, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a> filter=<a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a>)</td></tr>
+<tr class="memdesc:af31e030d54df637b68db8155e5f6b11c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produce the segmentation overlay alpha blended on top of the original image.  <a href="#af31e030d54df637b68db8155e5f6b11c">More...</a><br /></td></tr>
+<tr class="separator:af31e030d54df637b68db8155e5f6b11c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a670c08ad8b13db6ee092c59efe88b8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a3a670c08ad8b13db6ee092c59efe88b8">Overlay</a> (float *output, uint32_t width, uint32_t height, <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a> filter=<a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a>)</td></tr>
 <tr class="memdesc:a3a670c08ad8b13db6ee092c59efe88b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produce the segmentation overlay alpha blended on top of the original image.  <a href="#a3a670c08ad8b13db6ee092c59efe88b8">More...</a><br /></td></tr>
 <tr class="separator:a3a670c08ad8b13db6ee092c59efe88b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,7 +201,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2a9108ad71f4d5f1995ac58282a10b88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a2a9108ad71f4d5f1995ac58282a10b88">SetClassColor</a> (uint32_t classIndex, float r, float g, float b, float a=255.0f)</td></tr>
 <tr class="memdesc:a2a9108ad71f4d5f1995ac58282a10b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the visualization color of a particular class of object.  <a href="#a2a9108ad71f4d5f1995ac58282a10b88">More...</a><br /></td></tr>
 <tr class="separator:a2a9108ad71f4d5f1995ac58282a10b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4c64609fb07586bed32ac4b8e9058d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#aa4c64609fb07586bed32ac4b8e9058d7">SetOverlayAlpha</a> (float alpha, bool explicit_exempt=true)</td></tr>
+<tr class="memitem:aa4c64609fb07586bed32ac4b8e9058d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#aa4c64609fb07586bed32ac4b8e9058d7">SetOverlayAlpha</a> (float <a class="el" href="cudaVector_8h.html#ac0d98a665e25ffa6d701a2ce2f6efd12">alpha</a>, bool explicit_exempt=true)</td></tr>
 <tr class="memdesc:aa4c64609fb07586bed32ac4b8e9058d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set overlay alpha blending value for all classes (between 0-255), (optionally except for those that have been explicitly set).  <a href="#aa4c64609fb07586bed32ac4b8e9058d7">More...</a><br /></td></tr>
 <tr class="separator:aa4c64609fb07586bed32ac4b8e9058d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a973c337a2c3d7371c6b7cebd3aa2ade0"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a973c337a2c3d7371c6b7cebd3aa2ade0">GetClassPath</a> () const</td></tr>
@@ -203,9 +229,27 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0a06ffd12b465f39160f4a6925cccd9f inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a0a06ffd12b465f39160f4a6925cccd9f">LoadNetwork</a> (const char *prototxt, const char *model, const char *mean, const char *input_blob, const std::vector&lt; std::string &gt; &amp;output_blobs, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true, nvinfer1::IInt8Calibrator *calibrator=NULL, cudaStream_t stream=NULL)</td></tr>
 <tr class="memdesc:a0a06ffd12b465f39160f4a6925cccd9f inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance with multiple output layers.  <a href="classtensorNet.html#a0a06ffd12b465f39160f4a6925cccd9f">More...</a><br /></td></tr>
 <tr class="separator:a0a06ffd12b465f39160f4a6925cccd9f inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68a6f21680ae91bc51bea376221d1c48 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a68a6f21680ae91bc51bea376221d1c48">LoadNetwork</a> (const char *prototxt, const char *model, const char *mean, const std::vector&lt; std::string &gt; &amp;input_blobs, const std::vector&lt; std::string &gt; &amp;output_blobs, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true, nvinfer1::IInt8Calibrator *calibrator=NULL, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:a68a6f21680ae91bc51bea376221d1c48 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance with multiple input layers.  <a href="classtensorNet.html#a68a6f21680ae91bc51bea376221d1c48">More...</a><br /></td></tr>
+<tr class="separator:a68a6f21680ae91bc51bea376221d1c48 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a168c7f75c9fd6d264afd016e144f3878 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a168c7f75c9fd6d264afd016e144f3878">LoadNetwork</a> (const char *prototxt, const char *model, const char *mean, const char *input_blob, const <a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a> &amp;input_dims, const std::vector&lt; std::string &gt; &amp;output_blobs, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true, nvinfer1::IInt8Calibrator *calibrator=NULL, cudaStream_t stream=NULL)</td></tr>
 <tr class="memdesc:a168c7f75c9fd6d264afd016e144f3878 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance (this variant is used for UFF models)  <a href="classtensorNet.html#a168c7f75c9fd6d264afd016e144f3878">More...</a><br /></td></tr>
 <tr class="separator:a168c7f75c9fd6d264afd016e144f3878 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f34a6001c2da01662b85670de9246e4 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a8f34a6001c2da01662b85670de9246e4">LoadNetwork</a> (const char *prototxt, const char *model, const char *mean, const std::vector&lt; std::string &gt; &amp;input_blobs, const std::vector&lt; <a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a> &gt; &amp;input_dims, const std::vector&lt; std::string &gt; &amp;output_blobs, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true, nvinfer1::IInt8Calibrator *calibrator=NULL, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:a8f34a6001c2da01662b85670de9246e4 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance with multiple input layers (used for UFF models)  <a href="classtensorNet.html#a8f34a6001c2da01662b85670de9246e4">More...</a><br /></td></tr>
+<tr class="separator:a8f34a6001c2da01662b85670de9246e4 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb8076f6ab8d13b6507140826cf438d8 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#acb8076f6ab8d13b6507140826cf438d8">LoadEngine</a> (const char *engine_filename, const std::vector&lt; std::string &gt; &amp;input_blobs, const std::vector&lt; std::string &gt; &amp;output_blobs, nvinfer1::IPluginFactory *pluginFactory=NULL, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:acb8076f6ab8d13b6507140826cf438d8 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a network instance from a serialized engine plan file.  <a href="classtensorNet.html#acb8076f6ab8d13b6507140826cf438d8">More...</a><br /></td></tr>
+<tr class="separator:acb8076f6ab8d13b6507140826cf438d8 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa4efe2b8d91fe914a22c87b725ac063 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#aaa4efe2b8d91fe914a22c87b725ac063">LoadEngine</a> (char *engine_stream, size_t engine_size, const std::vector&lt; std::string &gt; &amp;input_blobs, const std::vector&lt; std::string &gt; &amp;output_blobs, nvinfer1::IPluginFactory *pluginFactory=NULL, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:aaa4efe2b8d91fe914a22c87b725ac063 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a network instance from a serialized engine plan file.  <a href="classtensorNet.html#aaa4efe2b8d91fe914a22c87b725ac063">More...</a><br /></td></tr>
+<tr class="separator:aaa4efe2b8d91fe914a22c87b725ac063 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d6fe13696a49d61e9abfa9729153e65 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a2d6fe13696a49d61e9abfa9729153e65">LoadEngine</a> (nvinfer1::ICudaEngine *engine, const std::vector&lt; std::string &gt; &amp;input_blobs, const std::vector&lt; std::string &gt; &amp;output_blobs, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:a2d6fe13696a49d61e9abfa9729153e65 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load network resources from an existing TensorRT engine instance.  <a href="classtensorNet.html#a2d6fe13696a49d61e9abfa9729153e65">More...</a><br /></td></tr>
+<tr class="separator:a2d6fe13696a49d61e9abfa9729153e65 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89755f8e4b72ead7460deed394967386 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a89755f8e4b72ead7460deed394967386">LoadEngine</a> (const char *filename, char **stream, size_t *size)</td></tr>
+<tr class="memdesc:a89755f8e4b72ead7460deed394967386 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a serialized engine plan file into memory.  <a href="classtensorNet.html#a89755f8e4b72ead7460deed394967386">More...</a><br /></td></tr>
+<tr class="separator:a89755f8e4b72ead7460deed394967386 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3413eb0ad4f240f457f192f39e2e03e8 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a3413eb0ad4f240f457f192f39e2e03e8">EnableLayerProfiler</a> ()</td></tr>
 <tr class="memdesc:a3413eb0ad4f240f457f192f39e2e03e8 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manually enable layer profiling times.  <a href="classtensorNet.html#a3413eb0ad4f240f457f192f39e2e03e8">More...</a><br /></td></tr>
 <tr class="separator:a3413eb0ad4f240f457f192f39e2e03e8 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -245,6 +289,36 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0a09d691ea080bd9734c5782c8fff6fd inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a0a09d691ea080bd9734c5782c8fff6fd">IsModelType</a> (<a class="el" href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">modelType</a> type) const</td></tr>
 <tr class="memdesc:a0a09d691ea080bd9734c5782c8fff6fd inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the model is of the specified format.  <a href="classtensorNet.html#a0a09d691ea080bd9734c5782c8fff6fd">More...</a><br /></td></tr>
 <tr class="separator:a0a09d691ea080bd9734c5782c8fff6fd inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac583b8de1dd64b47338b4a3eb42ac166 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#ac583b8de1dd64b47338b4a3eb42ac166">GetInputLayers</a> () const</td></tr>
+<tr class="memdesc:ac583b8de1dd64b47338b4a3eb42ac166 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of input layers to the network.  <a href="classtensorNet.html#ac583b8de1dd64b47338b4a3eb42ac166">More...</a><br /></td></tr>
+<tr class="separator:ac583b8de1dd64b47338b4a3eb42ac166 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dcc770a7215e2e76a8d520a36689e16 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a2dcc770a7215e2e76a8d520a36689e16">GetOutputLayers</a> () const</td></tr>
+<tr class="memdesc:a2dcc770a7215e2e76a8d520a36689e16 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of output layers to the network.  <a href="classtensorNet.html#a2dcc770a7215e2e76a8d520a36689e16">More...</a><br /></td></tr>
+<tr class="separator:a2dcc770a7215e2e76a8d520a36689e16 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcfe61596f291e75a87d36c3771f25df inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#adcfe61596f291e75a87d36c3771f25df">GetInputDims</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:adcfe61596f291e75a87d36c3771f25df inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the dimensions of network input layer.  <a href="classtensorNet.html#adcfe61596f291e75a87d36c3771f25df">More...</a><br /></td></tr>
+<tr class="separator:adcfe61596f291e75a87d36c3771f25df inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d75ef6f579d1a71ff472bfafd0b7795 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a2d75ef6f579d1a71ff472bfafd0b7795">GetInputWidth</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a2d75ef6f579d1a71ff472bfafd0b7795 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the width of network input layer.  <a href="classtensorNet.html#a2d75ef6f579d1a71ff472bfafd0b7795">More...</a><br /></td></tr>
+<tr class="separator:a2d75ef6f579d1a71ff472bfafd0b7795 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a214a92c41dcdcb58b3cd8496aac0857a inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a214a92c41dcdcb58b3cd8496aac0857a">GetInputHeight</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a214a92c41dcdcb58b3cd8496aac0857a inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the height of network input layer.  <a href="classtensorNet.html#a214a92c41dcdcb58b3cd8496aac0857a">More...</a><br /></td></tr>
+<tr class="separator:a214a92c41dcdcb58b3cd8496aac0857a inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c80d46f8a01335e77e41023544102c9 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a2c80d46f8a01335e77e41023544102c9">GetInputSize</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a2c80d46f8a01335e77e41023544102c9 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the size (in bytes) of network input layer.  <a href="classtensorNet.html#a2c80d46f8a01335e77e41023544102c9">More...</a><br /></td></tr>
+<tr class="separator:a2c80d46f8a01335e77e41023544102c9 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77703f2a7b59f836c93ae28811e22cb0 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a77703f2a7b59f836c93ae28811e22cb0">GetOutputDims</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a77703f2a7b59f836c93ae28811e22cb0 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the dimensions of network output layer.  <a href="classtensorNet.html#a77703f2a7b59f836c93ae28811e22cb0">More...</a><br /></td></tr>
+<tr class="separator:a77703f2a7b59f836c93ae28811e22cb0 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09d63a8fd906c99f8158bf9460a83c02 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a09d63a8fd906c99f8158bf9460a83c02">GetOutputWidth</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a09d63a8fd906c99f8158bf9460a83c02 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the width of network output layer.  <a href="classtensorNet.html#a09d63a8fd906c99f8158bf9460a83c02">More...</a><br /></td></tr>
+<tr class="separator:a09d63a8fd906c99f8158bf9460a83c02 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a613679e8ee5315f3b5b16a39011ba76e inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a613679e8ee5315f3b5b16a39011ba76e">GetOutputHeight</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a613679e8ee5315f3b5b16a39011ba76e inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the height of network output layer.  <a href="classtensorNet.html#a613679e8ee5315f3b5b16a39011ba76e">More...</a><br /></td></tr>
+<tr class="separator:a613679e8ee5315f3b5b16a39011ba76e inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1486438dcdbe0d7f5e88e5336a42efa inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#ae1486438dcdbe0d7f5e88e5336a42efa">GetOutputSize</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:ae1486438dcdbe0d7f5e88e5336a42efa inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the size (in bytes) of network output layer.  <a href="classtensorNet.html#ae1486438dcdbe0d7f5e88e5336a42efa">More...</a><br /></td></tr>
+<tr class="separator:ae1486438dcdbe0d7f5e88e5336a42efa inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9dd2db089176ae6878e9ea7dd8fd80c3 inherit pub_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a9dd2db089176ae6878e9ea7dd8fd80c3">GetNetworkFPS</a> ()</td></tr>
 <tr class="memdesc:a9dd2db089176ae6878e9ea7dd8fd80c3 inherit pub_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the network frames per second (FPS).  <a href="classtensorNet.html#a9dd2db089176ae6878e9ea7dd8fd80c3">More...</a><br /></td></tr>
 <tr class="separator:a9dd2db089176ae6878e9ea7dd8fd80c3 inherit pub_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -263,15 +337,18 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:af480f63626ccb573caa816c9446930f5"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#af480f63626ccb573caa816c9446930f5">VisualizationFlagsFromStr</a> (const char *str, uint32_t default_value=<a class="el" href="classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3ab6a2dc917492d6b83de4b94c9233cb5f">VISUALIZE_OVERLAY</a>)</td></tr>
+<tr class="memdesc:af480f63626ccb573caa816c9446930f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a string of one of more VisualizationMode values.  <a href="#af480f63626ccb573caa816c9446930f5">More...</a><br /></td></tr>
+<tr class="separator:af480f63626ccb573caa816c9446930f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a299e7f53cde4e3e25cd00829dc181a10"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a299e7f53cde4e3e25cd00829dc181a10">FilterModeFromStr</a> (const char *str, <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a> default_value=<a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a>)</td></tr>
+<tr class="memdesc:a299e7f53cde4e3e25cd00829dc181a10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a string from one of the FilterMode values.  <a href="#a299e7f53cde4e3e25cd00829dc181a10">More...</a><br /></td></tr>
+<tr class="separator:a299e7f53cde4e3e25cd00829dc181a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a586492c234d2dc924458e99d6026dbb4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">NetworkType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a586492c234d2dc924458e99d6026dbb4">NetworkTypeFromStr</a> (const char *model_name)</td></tr>
 <tr class="memdesc:a586492c234d2dc924458e99d6026dbb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a string from one of the built-in pretrained models.  <a href="#a586492c234d2dc924458e99d6026dbb4">More...</a><br /></td></tr>
 <tr class="separator:a586492c234d2dc924458e99d6026dbb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f3335012ce9fb7538271b27f2482329"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a8f3335012ce9fb7538271b27f2482329">NetworkTypeToStr</a> (<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">NetworkType</a> networkType)</td></tr>
 <tr class="memdesc:a8f3335012ce9fb7538271b27f2482329"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a NetworkType enum to a human-readable string.  <a href="#a8f3335012ce9fb7538271b27f2482329">More...</a><br /></td></tr>
 <tr class="separator:a8f3335012ce9fb7538271b27f2482329"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a299e7f53cde4e3e25cd00829dc181a10"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a299e7f53cde4e3e25cd00829dc181a10">FilterModeFromStr</a> (const char *str, <a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a> default_value=<a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a>)</td></tr>
-<tr class="memdesc:a299e7f53cde4e3e25cd00829dc181a10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a string from one of the FilterMode values.  <a href="#a299e7f53cde4e3e25cd00829dc181a10">More...</a><br /></td></tr>
-<tr class="separator:a299e7f53cde4e3e25cd00829dc181a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0679f72dbced85d919d01af841c67db9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html">segNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a0679f72dbced85d919d01af841c67db9">Create</a> (<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">NetworkType</a> networkType=<a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a0760a67c5a08aad80d7dc732bc760e31">FCN_ALEXNET_CITYSCAPES_SD</a>, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true)</td></tr>
 <tr class="memdesc:a0679f72dbced85d919d01af841c67db9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#a0679f72dbced85d919d01af841c67db9">More...</a><br /></td></tr>
 <tr class="separator:a0679f72dbced85d919d01af841c67db9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -281,10 +358,16 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aa4186752e1402963fdde8e2d6f2613d7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html">segNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#aa4186752e1402963fdde8e2d6f2613d7">Create</a> (int argc, char **argv)</td></tr>
 <tr class="memdesc:aa4186752e1402963fdde8e2d6f2613d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance by parsing the command line.  <a href="#aa4186752e1402963fdde8e2d6f2613d7">More...</a><br /></td></tr>
 <tr class="separator:aa4186752e1402963fdde8e2d6f2613d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a516dc292d12bfaae584c0384014637b9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsegNet.html">segNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a516dc292d12bfaae584c0384014637b9">Create</a> (const <a class="el" href="classcommandLine.html">commandLine</a> &amp;cmdLine)</td></tr>
+<tr class="memdesc:a516dc292d12bfaae584c0384014637b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance by parsing the command line.  <a href="#a516dc292d12bfaae584c0384014637b9">More...</a><br /></td></tr>
+<tr class="separator:a516dc292d12bfaae584c0384014637b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e11d4bd854120f1709c306e91e44389"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a0e11d4bd854120f1709c306e91e44389">Usage</a> ()</td></tr>
 <tr class="memdesc:a0e11d4bd854120f1709c306e91e44389"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="classsegNet.html#a0679f72dbced85d919d01af841c67db9" title="Load a new network instance. ">Create()</a>  <a href="#a0e11d4bd854120f1709c306e91e44389">More...</a><br /></td></tr>
 <tr class="separator:a0e11d4bd854120f1709c306e91e44389"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_methods_classtensorNet"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classtensorNet')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classtensorNet.html">tensorNet</a></td></tr>
+<tr class="memitem:a3c0509631176be6f9e25673cb0aa12dc inherit pub_static_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a3c0509631176be6f9e25673cb0aa12dc">SelectPrecision</a> (<a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowInt8=true)</td></tr>
+<tr class="memdesc:a3c0509631176be6f9e25673cb0aa12dc inherit pub_static_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve a desired precision to a specific one that's available.  <a href="classtensorNet.html#a3c0509631176be6f9e25673cb0aa12dc">More...</a><br /></td></tr>
+<tr class="separator:a3c0509631176be6f9e25673cb0aa12dc inherit pub_static_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe33fae5332296e2d917cb4ce435e255 inherit pub_static_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#abe33fae5332296e2d917cb4ce435e255">FindFastestPrecision</a> (<a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowInt8=true)</td></tr>
 <tr class="memdesc:abe33fae5332296e2d917cb4ce435e255 inherit pub_static_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the fastest native precision on a device.  <a href="classtensorNet.html#abe33fae5332296e2d917cb4ce435e255">More...</a><br /></td></tr>
 <tr class="separator:abe33fae5332296e2d917cb4ce435e255 inherit pub_static_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -304,10 +387,10 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:af2a45b6307104ed74714349becc0495c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b98b9827d5c07e84ed6711414b96554"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a3b98b9827d5c07e84ed6711414b96554">classify</a> (const char *ignore_class)</td></tr>
 <tr class="separator:a3b98b9827d5c07e84ed6711414b96554"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3691c49b64e20993bb2440129a7cd81e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a3691c49b64e20993bb2440129a7cd81e">overlayPoint</a> (float *input, uint32_t in_width, uint32_t in_height, float *output, uint32_t out_width, uint32_t out_height, bool mask_only)</td></tr>
-<tr class="separator:a3691c49b64e20993bb2440129a7cd81e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1365e866302f49f6fe7f9fe95cbe6a72"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a1365e866302f49f6fe7f9fe95cbe6a72">overlayLinear</a> (float *input, uint32_t in_width, uint32_t in_height, float *output, uint32_t out_width, uint32_t out_height, bool mask_only)</td></tr>
-<tr class="separator:a1365e866302f49f6fe7f9fe95cbe6a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb2ea51dc7597c832bcb1ae61301d678"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#aeb2ea51dc7597c832bcb1ae61301d678">overlayPoint</a> (void *input, uint32_t in_width, uint32_t in_height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> in_format, void *output, uint32_t out_width, uint32_t out_height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> out_format, bool mask_only)</td></tr>
+<tr class="separator:aeb2ea51dc7597c832bcb1ae61301d678"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadc91d5c05834ab706691c4861448bc8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#aadc91d5c05834ab706691c4861448bc8">overlayLinear</a> (void *input, uint32_t in_width, uint32_t in_height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> in_format, void *output, uint32_t out_width, uint32_t out_height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> out_format, bool mask_only)</td></tr>
+<tr class="separator:aadc91d5c05834ab706691c4861448bc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a218a2c71cb4d59476070385c7370f789"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a218a2c71cb4d59476070385c7370f789">loadClassColors</a> (const char *filename)</td></tr>
 <tr class="separator:a218a2c71cb4d59476070385c7370f789"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31d2bd6ddf05ce178a8e6c5b88247075"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a31d2bd6ddf05ce178a8e6c5b88247075">loadClassLabels</a> (const char *filename)</td></tr>
@@ -318,9 +401,15 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#ab6e617d96e5542bef023ee9d4c96388a">tensorNet</a> ()</td></tr>
 <tr class="memdesc:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classtensorNet.html#ab6e617d96e5542bef023ee9d4c96388a">More...</a><br /></td></tr>
 <tr class="separator:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a081b95210634e8ddb21e99d9ad1aa497 inherit pro_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a081b95210634e8ddb21e99d9ad1aa497">ProfileModel</a> (const std::string &amp;deployFile, const std::string &amp;modelFile, const char *input, const <a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a> &amp;inputDims, const std::vector&lt; std::string &gt; &amp;outputs, uint32_t maxBatchSize, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device, bool allowGPUFallback, nvinfer1::IInt8Calibrator *calibrator, std::ostream &amp;modelStream)</td></tr>
-<tr class="memdesc:a081b95210634e8ddb21e99d9ad1aa497 inherit pro_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and output an optimized network model.  <a href="classtensorNet.html#a081b95210634e8ddb21e99d9ad1aa497">More...</a><br /></td></tr>
-<tr class="separator:a081b95210634e8ddb21e99d9ad1aa497 inherit pro_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e8dd909e797dfcfbb058dc6b351c586 inherit pro_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a2e8dd909e797dfcfbb058dc6b351c586">ProcessNetwork</a> (bool sync=true)</td></tr>
+<tr class="memdesc:a2e8dd909e797dfcfbb058dc6b351c586 inherit pro_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute processing of the network.  <a href="classtensorNet.html#a2e8dd909e797dfcfbb058dc6b351c586">More...</a><br /></td></tr>
+<tr class="separator:a2e8dd909e797dfcfbb058dc6b351c586 inherit pro_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fbc013f70b52f885867302446e0dca1 inherit pro_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a2fbc013f70b52f885867302446e0dca1">ProfileModel</a> (const std::string &amp;deployFile, const std::string &amp;modelFile, const std::vector&lt; std::string &gt; &amp;inputs, const std::vector&lt; <a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a> &gt; &amp;inputDims, const std::vector&lt; std::string &gt; &amp;outputs, uint32_t maxBatchSize, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device, bool allowGPUFallback, nvinfer1::IInt8Calibrator *calibrator, char **engineStream, size_t *engineSize)</td></tr>
+<tr class="memdesc:a2fbc013f70b52f885867302446e0dca1 inherit pro_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and output an optimized network model.  <a href="classtensorNet.html#a2fbc013f70b52f885867302446e0dca1">More...</a><br /></td></tr>
+<tr class="separator:a2fbc013f70b52f885867302446e0dca1 inherit pro_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a898dfb2553869cdc318ecb03e153f1 inherit pro_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a7a898dfb2553869cdc318ecb03e153f1">ConfigureBuilder</a> (nvinfer1::IBuilder *builder, uint32_t maxBatchSize, uint32_t workspaceSize, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device, bool allowGPUFallback, nvinfer1::IInt8Calibrator *calibrator)</td></tr>
+<tr class="memdesc:a7a898dfb2553869cdc318ecb03e153f1 inherit pro_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure builder options.  <a href="classtensorNet.html#a7a898dfb2553869cdc318ecb03e153f1">More...</a><br /></td></tr>
+<tr class="separator:a7a898dfb2553869cdc318ecb03e153f1 inherit pro_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a088c3bf591e45e52ec227491f6f299ad inherit pro_methods_classtensorNet"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a088c3bf591e45e52ec227491f6f299ad">PROFILER_BEGIN</a> (<a class="el" href="group__tensorNet.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> query)</td></tr>
 <tr class="memdesc:a088c3bf591e45e52ec227491f6f299ad inherit pro_methods_classtensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin a profiling query, before network is run.  <a href="classtensorNet.html#a088c3bf591e45e52ec227491f6f299ad">More...</a><br /></td></tr>
 <tr class="separator:a088c3bf591e45e52ec227491f6f299ad inherit pro_methods_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -343,21 +432,24 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ac1f23154131a719769edf4811f8762ef"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#ac1f23154131a719769edf4811f8762ef">mClassMap</a> [2]</td></tr>
 <tr class="memdesc:ac1f23154131a719769edf4811f8762ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">runtime buffer for the argmax-classified class index of each tile  <a href="#ac1f23154131a719769edf4811f8762ef">More...</a><br /></td></tr>
 <tr class="separator:ac1f23154131a719769edf4811f8762ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7970fe3c387258828d628bd5f08e57a"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#ad7970fe3c387258828d628bd5f08e57a">mLastInputImg</a></td></tr>
-<tr class="memdesc:ad7970fe3c387258828d628bd5f08e57a"><td class="mdescLeft">&#160;</td><td class="mdescRight">last input image to be processed, stored for overlay  <a href="#ad7970fe3c387258828d628bd5f08e57a">More...</a><br /></td></tr>
-<tr class="separator:ad7970fe3c387258828d628bd5f08e57a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadacbaf1eb15bfe512499276272bf67c"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#aadacbaf1eb15bfe512499276272bf67c">mLastInputImg</a></td></tr>
+<tr class="memdesc:aadacbaf1eb15bfe512499276272bf67c"><td class="mdescLeft">&#160;</td><td class="mdescRight">last input image to be processed, stored for overlay  <a href="#aadacbaf1eb15bfe512499276272bf67c">More...</a><br /></td></tr>
+<tr class="separator:aadacbaf1eb15bfe512499276272bf67c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad984bfe4460621a78440bfb4768f4e8e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#ad984bfe4460621a78440bfb4768f4e8e">mLastInputWidth</a></td></tr>
 <tr class="memdesc:ad984bfe4460621a78440bfb4768f4e8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">width in pixels of last input image to be processed  <a href="#ad984bfe4460621a78440bfb4768f4e8e">More...</a><br /></td></tr>
 <tr class="separator:ad984bfe4460621a78440bfb4768f4e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4341b8ae226236eef40867bab4c7f251"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a4341b8ae226236eef40867bab4c7f251">mLastInputHeight</a></td></tr>
 <tr class="memdesc:a4341b8ae226236eef40867bab4c7f251"><td class="mdescLeft">&#160;</td><td class="mdescRight">height in pixels of last input image to be processed  <a href="#a4341b8ae226236eef40867bab4c7f251">More...</a><br /></td></tr>
 <tr class="separator:a4341b8ae226236eef40867bab4c7f251"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d4bf7321a21756ff82551e306e8adb1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a2d4bf7321a21756ff82551e306e8adb1">mLastInputFormat</a></td></tr>
+<tr class="memdesc:a2d4bf7321a21756ff82551e306e8adb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">pixel format of last input image  <a href="#a2d4bf7321a21756ff82551e306e8adb1">More...</a><br /></td></tr>
+<tr class="separator:a2d4bf7321a21756ff82551e306e8adb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9719a3525dd0ee4bcc0e954187dc7323"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660">NetworkType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a9719a3525dd0ee4bcc0e954187dc7323">mNetworkType</a></td></tr>
 <tr class="memdesc:a9719a3525dd0ee4bcc0e954187dc7323"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pretrained built-in model type enumeration.  <a href="#a9719a3525dd0ee4bcc0e954187dc7323">More...</a><br /></td></tr>
 <tr class="separator:a9719a3525dd0ee4bcc0e954187dc7323"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classtensorNet"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classtensorNet')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classtensorNet.html">tensorNet</a></td></tr>
-<tr class="memitem:a6bd429ccb1dc3717b2a4a5ad8e555cd0 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtensorNet_1_1Logger.html">tensorNet::Logger</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a6bd429ccb1dc3717b2a4a5ad8e555cd0">gLogger</a></td></tr>
-<tr class="separator:a6bd429ccb1dc3717b2a4a5ad8e555cd0 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14ed7e76d10917f5479dd1562d92ac4a inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtensorNet_1_1Logger.html">tensorNet::Logger</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a14ed7e76d10917f5479dd1562d92ac4a">gLogger</a></td></tr>
+<tr class="separator:a14ed7e76d10917f5479dd1562d92ac4a inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1f74819d644d0f289253fbcf5d0655f inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtensorNet_1_1Profiler.html">tensorNet::Profiler</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#ae1f74819d644d0f289253fbcf5d0655f">gProfiler</a></td></tr>
 <tr class="separator:ae1f74819d644d0f289253fbcf5d0655f inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54005b86b851fa71aeb7a83d4ad32362 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a54005b86b851fa71aeb7a83d4ad32362">mPrototxtPath</a></td></tr>
@@ -366,8 +458,6 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a7cb91e06b296431680d20e7e9fb0187d inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11eeaa1e454a97a5634c7fb5ea1bc23d inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a11eeaa1e454a97a5634c7fb5ea1bc23d">mMeanPath</a></td></tr>
 <tr class="separator:a11eeaa1e454a97a5634c7fb5ea1bc23d inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac040cf851463cd595a20a9400a5833c2 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#ac040cf851463cd595a20a9400a5833c2">mInputBlobName</a></td></tr>
-<tr class="separator:ac040cf851463cd595a20a9400a5833c2 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa9ac0fae88a426f1a5325886da3b009 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#aaa9ac0fae88a426f1a5325886da3b009">mCacheEnginePath</a></td></tr>
 <tr class="separator:aaa9ac0fae88a426f1a5325886da3b009 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64fccb1894b0926e54a18fa47a271c70 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a64fccb1894b0926e54a18fa47a271c70">mCacheCalibrationPath</a></td></tr>
@@ -390,22 +480,14 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ad6d2272a2560bec119fa570438e3eb19 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c745474e60145ee826b53e294e7f478 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">nvinfer1::IExecutionContext *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a2c745474e60145ee826b53e294e7f478">mContext</a></td></tr>
 <tr class="separator:a2c745474e60145ee826b53e294e7f478 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accab52fa354232149048440da0071573 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#accab52fa354232149048440da0071573">mWidth</a></td></tr>
-<tr class="separator:accab52fa354232149048440da0071573 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc0c2b349cb27ddf6e42f668fa582a34 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#abc0c2b349cb27ddf6e42f668fa582a34">mHeight</a></td></tr>
-<tr class="separator:abc0c2b349cb27ddf6e42f668fa582a34 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4e059779c0fba12c1ec2380c05b8104 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#ac4e059779c0fba12c1ec2380c05b8104">mInputSize</a></td></tr>
-<tr class="separator:ac4e059779c0fba12c1ec2380c05b8104 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03d8f99ffd7dfdc4bab679592e97c4f2 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a03d8f99ffd7dfdc4bab679592e97c4f2">mInputCPU</a></td></tr>
-<tr class="separator:a03d8f99ffd7dfdc4bab679592e97c4f2 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9530becbabaf219e3e85d0df5f4cc2b6 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a9530becbabaf219e3e85d0df5f4cc2b6">mInputCUDA</a></td></tr>
-<tr class="separator:a9530becbabaf219e3e85d0df5f4cc2b6 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32dbfb5b3d2cb82002ec288c237a0c9c inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">float2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a32dbfb5b3d2cb82002ec288c237a0c9c">mProfilerTimes</a> [<a class="el" href="group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809af9132edd0371e716aed4d46e3da5e9ea">PROFILER_TOTAL</a>+1]</td></tr>
 <tr class="separator:a32dbfb5b3d2cb82002ec288c237a0c9c inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a545348243b65ce04047fd10d47e1716c inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a545348243b65ce04047fd10d47e1716c">mProfilerQueriesUsed</a></td></tr>
 <tr class="separator:a545348243b65ce04047fd10d47e1716c inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b5be95254ce71931305f4086f23f18a inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a3b5be95254ce71931305f4086f23f18a">mProfilerQueriesDone</a></td></tr>
 <tr class="separator:a3b5be95254ce71931305f4086f23f18a inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abadb712a0b45e8dc28481db3e79d1d7e inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#abadb712a0b45e8dc28481db3e79d1d7e">mWorkspaceSize</a></td></tr>
+<tr class="separator:abadb712a0b45e8dc28481db3e79d1d7e inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0027d8b3617cfc905465925dd6d84b0f inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a0027d8b3617cfc905465925dd6d84b0f">mMaxBatchSize</a></td></tr>
 <tr class="separator:a0027d8b3617cfc905465925dd6d84b0f inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8bbf97d979c62018f42cc44b5cb81e8 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#aa8bbf97d979c62018f42cc44b5cb81e8">mEnableProfiler</a></td></tr>
@@ -414,10 +496,12 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a84ad901a2a0dc4aaf740d40307437b2b inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e7b5913f3f54d4bb0e6aa8e6071a74a inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a8e7b5913f3f54d4bb0e6aa8e6071a74a">mAllowGPUFallback</a></td></tr>
 <tr class="separator:a8e7b5913f3f54d4bb0e6aa8e6071a74a inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7da0313dd945e81649e24b07e0fac0e inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#af7da0313dd945e81649e24b07e0fac0e">mInputDims</a></td></tr>
-<tr class="separator:af7da0313dd945e81649e24b07e0fac0e inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3487d6af48f91afcbeea76552d21d1c5 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structtensorNet_1_1outputLayer.html">outputLayer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a3487d6af48f91afcbeea76552d21d1c5">mOutputs</a></td></tr>
-<tr class="separator:a3487d6af48f91afcbeea76552d21d1c5 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75dba887061d29022b07e648770e8fb0 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">void **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a75dba887061d29022b07e648770e8fb0">mBindings</a></td></tr>
+<tr class="separator:a75dba887061d29022b07e648770e8fb0 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a939a5123396b35a0dbee8d094d881d62 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structtensorNet_1_1layerInfo.html">layerInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#a939a5123396b35a0dbee8d094d881d62">mInputs</a></td></tr>
+<tr class="separator:a939a5123396b35a0dbee8d094d881d62 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcdbdb26dc6e5117f867c83e635a0250 inherit pro_attribs_classtensorNet"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structtensorNet_1_1layerInfo.html">layerInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet.html#afcdbdb26dc6e5117f867c83e635a0250">mOutputs</a></td></tr>
+<tr class="separator:afcdbdb26dc6e5117f867c83e635a0250 inherit pro_attribs_classtensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Image segmentation with FCN-Alexnet or custom models, using TensorRT. </p>
@@ -503,6 +587,26 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a09a07cb06cd461f6003b655e945d9cf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09a07cb06cd461f6003b655e945d9cf3">&#9670;&nbsp;</a></span>VisualizationFlags</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3">segNet::VisualizationFlags</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Visualization flags. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a09a07cb06cd461f6003b655e945d9cf3ab6a2dc917492d6b83de4b94c9233cb5f"></a>VISUALIZE_OVERLAY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a09a07cb06cd461f6003b655e945d9cf3a44b13e054270ce1d9a77fea8bfa83bd5"></a>VISUALIZE_MASK&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a167f9d7e76b2837485278bf7323b4eac"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a167f9d7e76b2837485278bf7323b4eac">&#9670;&nbsp;</a></span>~segNet()</h2>
@@ -584,7 +688,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <a id="a0679f72dbced85d919d01af841c67db9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0679f72dbced85d919d01af841c67db9">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0679f72dbced85d919d01af841c67db9">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -640,7 +744,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <a id="aee471c7f0b830babb826648db2692edb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee471c7f0b830babb826648db2692edb">&#9670;&nbsp;</a></span>Create() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aee471c7f0b830babb826648db2692edb">&#9670;&nbsp;</a></span>Create() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -750,7 +854,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <a id="aa4186752e1402963fdde8e2d6f2613d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4186752e1402963fdde8e2d6f2613d7">&#9670;&nbsp;</a></span>Create() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4186752e1402963fdde8e2d6f2613d7">&#9670;&nbsp;</a></span>Create() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -774,6 +878,34 @@ Protected Attributes</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load a new network instance by parsing the command line. </p>
+
+</div>
+</div>
+<a id="a516dc292d12bfaae584c0384014637b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a516dc292d12bfaae584c0384014637b9">&#9670;&nbsp;</a></span>Create() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classsegNet.html">segNet</a>* segNet::Create </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcommandLine.html">commandLine</a> &amp;&#160;</td>
+          <td class="paramname"><em>cmdLine</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -1118,16 +1250,21 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1efb45b81c82dd6f74c641ab39a41387"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1efb45b81c82dd6f74c641ab39a41387">&#9670;&nbsp;</a></span>Mask() <span class="overload">[1/2]</span></h2>
+<a id="af7b6257716514631dd0358e4b2ed692c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7b6257716514631dd0358e4b2ed692c">&#9670;&nbsp;</a></span>Mask() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool segNet::Mask </td>
           <td>(</td>
-          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramtype">T *&#160;</td>
           <td class="paramname"><em>output</em>, </td>
         </tr>
         <tr>
@@ -1140,7 +1277,66 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>height</em>&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a>&#160;</td>
+          <td class="paramname"><em>filter</em> = <code><a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Produce a colorized segmentation mask. </p>
+
+</div>
+</div>
+<a id="afd64ed7b535d7815de734d58ee22aea1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd64ed7b535d7815de734d58ee22aea1">&#9670;&nbsp;</a></span>Mask() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool segNet::Mask </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a>&#160;</td>
+          <td class="paramname"><em>filter</em> = <code><a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1150,12 +1346,12 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Produce a grayscale binary segmentation mask, where the pixel values correspond to the class ID of the corresponding class type. </p>
+<p>Produce a colorized segmentation mask. </p>
 
 </div>
 </div>
 <a id="a656d709bbfb00fb0b9b4d55296aae463"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a656d709bbfb00fb0b9b4d55296aae463">&#9670;&nbsp;</a></span>Mask() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a656d709bbfb00fb0b9b4d55296aae463">&#9670;&nbsp;</a></span>Mask() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1193,6 +1389,43 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Produce a colorized RGBA segmentation mask. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000005">Deprecated:</a></b></dt><dd>this overload is for legacy compatibility. It expects float4 RGBA image. </dd></dl>
+
+</div>
+</div>
+<a id="a1efb45b81c82dd6f74c641ab39a41387"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1efb45b81c82dd6f74c641ab39a41387">&#9670;&nbsp;</a></span>Mask() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool segNet::Mask </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Produce a grayscale binary segmentation mask, where the pixel values correspond to the class ID of the corresponding class type. </p>
 
 </div>
 </div>
@@ -1254,8 +1487,130 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a646b59503f89809fefee1c32d33307d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a646b59503f89809fefee1c32d33307d9">&#9670;&nbsp;</a></span>Overlay() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool segNet::Overlay </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a>&#160;</td>
+          <td class="paramname"><em>filter</em> = <code><a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Produce the segmentation overlay alpha blended on top of the original image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">output</td><td>output image in CUDA device memory, RGB/RGBA colorspace with values 0-255. </td></tr>
+    <tr><td class="paramname">width</td><td>width of the input image in pixels. </td></tr>
+    <tr><td class="paramname">height</td><td>height of the input image in pixels. </td></tr>
+    <tr><td class="paramname">ignore_class</td><td>label name of class to ignore in the classification (or NULL to process all). </td></tr>
+    <tr><td class="paramname">type</td><td>overlay visualization options </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success, false on error. </dd></dl>
+
+</div>
+</div>
+<a id="af31e030d54df637b68db8155e5f6b11c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af31e030d54df637b68db8155e5f6b11c">&#9670;&nbsp;</a></span>Overlay() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool segNet::Overlay </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0">FilterMode</a>&#160;</td>
+          <td class="paramname"><em>filter</em> = <code><a class="el" href="classsegNet.html#a5579582306d8b98e3a8acf2b73e13ea0a034092312a95fa984ab6c8e559c3c9e0">FILTER_LINEAR</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Produce the segmentation overlay alpha blended on top of the original image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">output</td><td>output image in CUDA device memory, RGB/RGBA colorspace with values 0-255. </td></tr>
+    <tr><td class="paramname">width</td><td>width of the input image in pixels. </td></tr>
+    <tr><td class="paramname">height</td><td>height of the input image in pixels. </td></tr>
+    <tr><td class="paramname">ignore_class</td><td>label name of class to ignore in the classification (or NULL to process all). </td></tr>
+    <tr><td class="paramname">type</td><td>overlay visualization options </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success, false on error. </dd></dl>
+
+</div>
+</div>
 <a id="a3a670c08ad8b13db6ee092c59efe88b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a670c08ad8b13db6ee092c59efe88b8">&#9670;&nbsp;</a></span>Overlay()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a670c08ad8b13db6ee092c59efe88b8">&#9670;&nbsp;</a></span>Overlay() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1293,6 +1648,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Produce the segmentation overlay alpha blended on top of the original image. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000006">Deprecated:</a></b></dt><dd>this overload is for legacy compatibility. It expects float4 RGBA image. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">input</td><td>float4 input image in CUDA device memory, RGBA colorspace with values 0-255. </td></tr>
@@ -1308,8 +1664,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1365e866302f49f6fe7f9fe95cbe6a72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1365e866302f49f6fe7f9fe95cbe6a72">&#9670;&nbsp;</a></span>overlayLinear()</h2>
+<a id="aadc91d5c05834ab706691c4861448bc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadc91d5c05834ab706691c4861448bc8">&#9670;&nbsp;</a></span>overlayLinear()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1320,7 +1676,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">bool segNet::overlayLinear </td>
           <td>(</td>
-          <td class="paramtype">float *&#160;</td>
+          <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>input</em>, </td>
         </tr>
         <tr>
@@ -1338,7 +1694,13 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>in_format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>output</em>, </td>
         </tr>
         <tr>
@@ -1352,6 +1714,12 @@ Protected Attributes</h2></td></tr>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>out_height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>out_format</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1374,8 +1742,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3691c49b64e20993bb2440129a7cd81e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3691c49b64e20993bb2440129a7cd81e">&#9670;&nbsp;</a></span>overlayPoint()</h2>
+<a id="aeb2ea51dc7597c832bcb1ae61301d678"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb2ea51dc7597c832bcb1ae61301d678">&#9670;&nbsp;</a></span>overlayPoint()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1386,7 +1754,7 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">bool segNet::overlayPoint </td>
           <td>(</td>
-          <td class="paramtype">float *&#160;</td>
+          <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>input</em>, </td>
         </tr>
         <tr>
@@ -1404,7 +1772,13 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>in_format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>output</em>, </td>
         </tr>
         <tr>
@@ -1418,6 +1792,12 @@ Protected Attributes</h2></td></tr>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>out_height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>out_format</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1440,8 +1820,126 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a04b332bd106de1f8238d34f36fb97442"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04b332bd106de1f8238d34f36fb97442">&#9670;&nbsp;</a></span>Process() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool segNet::Process </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ignore_class</em> = <code>&quot;void&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Perform the initial inferencing processing portion of the segmentation. </p>
+<p>The results can then be visualized using the <a class="el" href="classsegNet.html#a646b59503f89809fefee1c32d33307d9" title="Produce the segmentation overlay alpha blended on top of the original image. ">Overlay()</a> and <a class="el" href="classsegNet.html#af7b6257716514631dd0358e4b2ed692c" title="Produce a colorized segmentation mask. ">Mask()</a> functions. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td>the input image in CUDA device memory, with pixel values 0-255. </td></tr>
+    <tr><td class="paramname">width</td><td>width of the input image in pixels. </td></tr>
+    <tr><td class="paramname">height</td><td>height of the input image in pixels. </td></tr>
+    <tr><td class="paramname">ignore_class</td><td>label name of class to ignore in the classification (or NULL to process all). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac5a01728bc33bd87aed504550359f3de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5a01728bc33bd87aed504550359f3de">&#9670;&nbsp;</a></span>Process() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool segNet::Process </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ignore_class</em> = <code>&quot;void&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform the initial inferencing processing portion of the segmentation. </p>
+<p>The results can then be visualized using the <a class="el" href="classsegNet.html#a646b59503f89809fefee1c32d33307d9" title="Produce the segmentation overlay alpha blended on top of the original image. ">Overlay()</a> and <a class="el" href="classsegNet.html#af7b6257716514631dd0358e4b2ed692c" title="Produce a colorized segmentation mask. ">Mask()</a> functions. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td>the input image in CUDA device memory, with pixel values 0-255. </td></tr>
+    <tr><td class="paramname">width</td><td>width of the input image in pixels. </td></tr>
+    <tr><td class="paramname">height</td><td>height of the input image in pixels. </td></tr>
+    <tr><td class="paramname">ignore_class</td><td>label name of class to ignore in the classification (or NULL to process all). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a2fe1beec3215b5d7744420b57ba397c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fe1beec3215b5d7744420b57ba397c4">&#9670;&nbsp;</a></span>Process()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fe1beec3215b5d7744420b57ba397c4">&#9670;&nbsp;</a></span>Process() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1479,7 +1977,8 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Perform the initial inferencing processing portion of the segmentation. </p>
-<p>The results can then be visualized using the <a class="el" href="classsegNet.html#a3a670c08ad8b13db6ee092c59efe88b8" title="Produce the segmentation overlay alpha blended on top of the original image. ">Overlay()</a> and <a class="el" href="classsegNet.html#a1efb45b81c82dd6f74c641ab39a41387" title="Produce a grayscale binary segmentation mask, where the pixel values correspond to the class ID of th...">Mask()</a> functions. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>The results can then be visualized using the <a class="el" href="classsegNet.html#a646b59503f89809fefee1c32d33307d9" title="Produce the segmentation overlay alpha blended on top of the original image. ">Overlay()</a> and <a class="el" href="classsegNet.html#af7b6257716514631dd0358e4b2ed692c" title="Produce a colorized segmentation mask. ">Mask()</a> functions. </p><dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated:</a></b></dt><dd>this overload is for legacy compatibility. It expects float4 RGBA image. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">input</td><td>float4 input image in CUDA device memory, RGBA colorspace with values 0-255. </td></tr>
     <tr><td class="paramname">width</td><td>width of the input image in pixels. </td></tr>
@@ -1622,6 +2121,45 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="af480f63626ccb573caa816c9446930f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af480f63626ccb573caa816c9446930f5">&#9670;&nbsp;</a></span>VisualizationFlagsFromStr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint32_t segNet::VisualizationFlagsFromStr </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>default_value</em> = <code><a class="el" href="classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3ab6a2dc917492d6b83de4b94c9233cb5f">VISUALIZE_OVERLAY</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse a string of one of more VisualizationMode values. </p>
+<p>Valid strings are "overlay" "mask" "overlay|mask" "overlay,mask" ect. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="adbf7de9cddd287f99a1ef7edf531325c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adbf7de9cddd287f99a1ef7edf531325c">&#9670;&nbsp;</a></span>mClassColors</h2>
@@ -1715,6 +2253,30 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a2d4bf7321a21756ff82551e306e8adb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d4bf7321a21756ff82551e306e8adb1">&#9670;&nbsp;</a></span>mLastInputFormat</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> segNet::mLastInputFormat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>pixel format of last input image </p>
+
+</div>
+</div>
 <a id="a4341b8ae226236eef40867bab4c7f251"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4341b8ae226236eef40867bab4c7f251">&#9670;&nbsp;</a></span>mLastInputHeight</h2>
 
@@ -1739,8 +2301,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad7970fe3c387258828d628bd5f08e57a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7970fe3c387258828d628bd5f08e57a">&#9670;&nbsp;</a></span>mLastInputImg</h2>
+<a id="aadacbaf1eb15bfe512499276272bf67c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadacbaf1eb15bfe512499276272bf67c">&#9670;&nbsp;</a></span>mLastInputImg</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1749,7 +2311,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float* segNet::mLastInputImg</td>
+          <td class="memname">void* segNet::mLastInputImg</td>
         </tr>
       </table>
   </td>
@@ -1820,7 +2382,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classsegNet.html">segNet</a></li>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:12 for Jetson Inference by
+    <li class="footer">Generated on Tue Jun 23 2020 14:18:24 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -92,6 +92,8 @@ $(document).ready(function(){initNavTree('cudaUtility_8h.html','');});
 <code>#include &lt;cuda.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="logging_8h_source.html">logging.h</a>&quot;</code><br />
 </div>
 <p><a href="cudaUtility_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -109,9 +111,15 @@ Macros</h2></td></tr>
 <tr class="memitem:ga422e1f398e12cf567ed890a5b499eeef"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga422e1f398e12cf567ed890a5b499eeef">CUDA_VERIFY</a>(x)&#160;&#160;&#160;if(<a class="el" href="group__cuda.html#gad12b27627f04dd0ecf3eb9e2468a846e">CUDA_FAILED</a>(x))	return false;</td></tr>
 <tr class="memdesc:ga422e1f398e12cf567ed890a5b499eeef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return from the boolean function if CUDA call fails.  <a href="group__cuda.html#ga422e1f398e12cf567ed890a5b499eeef">More...</a><br /></td></tr>
 <tr class="separator:ga422e1f398e12cf567ed890a5b499eeef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae6c4176aa6f8270000ec2b626a2a8b3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gae6c4176aa6f8270000ec2b626a2a8b3c">LOG_CUDA</a>&#160;&#160;&#160;&quot;[cuda]  &quot;</td></tr>
+<tr class="memitem:gae6c4176aa6f8270000ec2b626a2a8b3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gae6c4176aa6f8270000ec2b626a2a8b3c">LOG_CUDA</a>&#160;&#160;&#160;&quot;[cuda]   &quot;</td></tr>
 <tr class="memdesc:gae6c4176aa6f8270000ec2b626a2a8b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">LOG_CUDA string.  <a href="group__cuda.html#gae6c4176aa6f8270000ec2b626a2a8b3c">More...</a><br /></td></tr>
 <tr class="separator:gae6c4176aa6f8270000ec2b626a2a8b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga45dfaa21be9e387fa4eb41e0d9359c18"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga45dfaa21be9e387fa4eb41e0d9359c18">CUDA_FREE</a>(x)&#160;&#160;&#160;if(x != NULL) { cudaFree(x); x = NULL; }</td></tr>
+<tr class="memdesc:ga45dfaa21be9e387fa4eb41e0d9359c18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check for non-NULL pointer before freeing it, and then set the pointer to NULL.  <a href="group__util.html#ga45dfaa21be9e387fa4eb41e0d9359c18">More...</a><br /></td></tr>
+<tr class="separator:ga45dfaa21be9e387fa4eb41e0d9359c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9994300b5165fde5b2043200309a5ed3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga9994300b5165fde5b2043200309a5ed3">CUDA_FREE_HOST</a>(x)&#160;&#160;&#160;if(x != NULL) { cudaFreeHost(x); x = NULL; }</td></tr>
+<tr class="memdesc:ga9994300b5165fde5b2043200309a5ed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check for non-NULL pointer before freeing it, and then set the pointer to NULL.  <a href="group__util.html#ga9994300b5165fde5b2043200309a5ed3">More...</a><br /></td></tr>
+<tr class="separator:ga9994300b5165fde5b2043200309a5ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga4b8b2bed986c06c207ebac140ba65a7a">SAFE_DELETE</a>(x)&#160;&#160;&#160;if(x != NULL) { delete x; x = NULL; }</td></tr>
 <tr class="memdesc:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check for non-NULL pointer before deleting it, and then set the pointer to NULL.  <a href="group__util.html#ga4b8b2bed986c06c207ebac140ba65a7a">More...</a><br /></td></tr>
 <tr class="separator:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,7 +139,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_54a0acf6da04fe2ed9410b4c6369bc5d.html">jetson-utils</a></li><li class="navelem"><a class="el" href="cudaUtility_8h.html">cudaUtility.h</a></li>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jun 23 2020 14:18:23 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

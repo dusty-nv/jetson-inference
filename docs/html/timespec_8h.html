@@ -82,7 +82,8 @@ $(document).ready(function(){initNavTree('timespec_8h.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">timespec.h File Reference</div>  </div>
 </div><!--header-->
@@ -90,6 +91,7 @@ $(document).ready(function(){initNavTree('timespec_8h.html','');});
 <div class="textblock"><code>#include &lt;time.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="logging_8h_source.html">logging.h</a>&quot;</code><br />
 </div>
 <p><a href="timespec_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -122,12 +124,21 @@ Functions</h2></td></tr>
 <tr class="memitem:ga86c3f22b9c909bb11014c38634c29778"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#ga86c3f22b9c909bb11014c38634c29778">timeCmp</a> (const timespec &amp;a, const timespec &amp;b)</td></tr>
 <tr class="memdesc:ga86c3f22b9c909bb11014c38634c29778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two timestamps.  <a href="group__time.html#ga86c3f22b9c909bb11014c38634c29778">More...</a><br /></td></tr>
 <tr class="separator:ga86c3f22b9c909bb11014c38634c29778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae0b5e8df896fa6809012901fe9254fa1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#gae0b5e8df896fa6809012901fe9254fa1">apptime</a> (timespec *a)</td></tr>
+<tr class="memdesc:gae0b5e8df896fa6809012901fe9254fa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the elapsed time since the process started.  <a href="group__time.html#gae0b5e8df896fa6809012901fe9254fa1">More...</a><br /></td></tr>
+<tr class="separator:gae0b5e8df896fa6809012901fe9254fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga379d019a518e124625ccc778424ac0ed"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#ga379d019a518e124625ccc778424ac0ed">apptime</a> ()</td></tr>
+<tr class="memdesc:ga379d019a518e124625ccc778424ac0ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the elapsed time since the process started (in seconds).  <a href="group__time.html#ga379d019a518e124625ccc778424ac0ed">More...</a><br /></td></tr>
+<tr class="separator:ga379d019a518e124625ccc778424ac0ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga762b4a9f55b4fb1a50d459cc7c384b92"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#ga762b4a9f55b4fb1a50d459cc7c384b92">timeFloat</a> (const timespec &amp;a)</td></tr>
 <tr class="memdesc:ga762b4a9f55b4fb1a50d459cc7c384b92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert to 32-bit float (in milliseconds).  <a href="group__time.html#ga762b4a9f55b4fb1a50d459cc7c384b92">More...</a><br /></td></tr>
 <tr class="separator:ga762b4a9f55b4fb1a50d459cc7c384b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafbe65af09ebc9e440699fe41a587206b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#gafbe65af09ebc9e440699fe41a587206b">timeDouble</a> (const timespec &amp;a)</td></tr>
-<tr class="memdesc:gafbe65af09ebc9e440699fe41a587206b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert to 64-bit double (in milliseconds).  <a href="group__time.html#gafbe65af09ebc9e440699fe41a587206b">More...</a><br /></td></tr>
-<tr class="separator:gafbe65af09ebc9e440699fe41a587206b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaffbef3ffb8eb4bbf71051a3fd7dcb882"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#gaffbef3ffb8eb4bbf71051a3fd7dcb882">timeDouble</a> (const timespec &amp;a)</td></tr>
+<tr class="memdesc:gaffbef3ffb8eb4bbf71051a3fd7dcb882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert to 64-bit double (in milliseconds).  <a href="group__time.html#gaffbef3ffb8eb4bbf71051a3fd7dcb882">More...</a><br /></td></tr>
+<tr class="separator:gaffbef3ffb8eb4bbf71051a3fd7dcb882"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga58e597d9101a632df1b5ad9e8cf367f8"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#ga58e597d9101a632df1b5ad9e8cf367f8">timeDouble</a> ()</td></tr>
+<tr class="memdesc:ga58e597d9101a632df1b5ad9e8cf367f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current timestamp as 64-bit double (in milliseconds).  <a href="group__time.html#ga58e597d9101a632df1b5ad9e8cf367f8">More...</a><br /></td></tr>
+<tr class="separator:ga58e597d9101a632df1b5ad9e8cf367f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab04eb4210d4a3f76a0502234c783c61e"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#gab04eb4210d4a3f76a0502234c783c61e">timeStr</a> (const timespec &amp;<a class="el" href="group__time.html#ga43627a5af271e9abfd46b467d2e309a8">timestamp</a>, char *strOut)</td></tr>
 <tr class="memdesc:gab04eb4210d4a3f76a0502234c783c61e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produce a text representation of the timestamp.  <a href="group__time.html#gab04eb4210d4a3f76a0502234c783c61e">More...</a><br /></td></tr>
 <tr class="separator:gab04eb4210d4a3f76a0502234c783c61e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,14 +160,34 @@ Functions</h2></td></tr>
 <tr class="memitem:gade2df9f88a694448445740eca02343b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#gade2df9f88a694448445740eca02343b9">sleepNs</a> (uint64_t nanoseconds)</td></tr>
 <tr class="memdesc:gade2df9f88a694448445740eca02343b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Put the current thread to sleep for a specified number of nanoseconds.  <a href="group__time.html#gade2df9f88a694448445740eca02343b9">More...</a><br /></td></tr>
 <tr class="separator:gade2df9f88a694448445740eca02343b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a9ea4ab26ba8cf09cfa5ea66d8cd5ec3a"><td class="memItemLeft" align="right" valign="top">const timespec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timespec_8h.html#a9ea4ab26ba8cf09cfa5ea66d8cd5ec3a">__apptime_begin__</a></td></tr>
+<tr class="separator:a9ea4ab26ba8cf09cfa5ea66d8cd5ec3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a9ea4ab26ba8cf09cfa5ea66d8cd5ec3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ea4ab26ba8cf09cfa5ea66d8cd5ec3a">&#9670;&nbsp;</a></span>__apptime_begin__</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const timespec __apptime_begin__</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_54a0acf6da04fe2ed9410b4c6369bc5d.html">jetson-utils</a></li><li class="navelem"><a class="el" href="timespec_8h.html">timespec.h</a></li>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jun 23 2020 14:18:23 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

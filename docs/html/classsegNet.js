@@ -25,6 +25,10 @@ var classsegNet =
       [ "FCN_ALEXNET_AERIAL_FPV_720p", "classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a46829d99af463638dfd4e547b0a2a95d", null ],
       [ "SEGNET_CUSTOM", "classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a95a81cd526c1ada9d225f6142f5f0f41", null ]
     ] ],
+    [ "VisualizationFlags", "classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3", [
+      [ "VISUALIZE_OVERLAY", "classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3ab6a2dc917492d6b83de4b94c9233cb5f", null ],
+      [ "VISUALIZE_MASK", "classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3a44b13e054270ce1d9a77fea8bfa83bd5", null ]
+    ] ],
     [ "~segNet", "classsegNet.html#a167f9d7e76b2837485278bf7323b4eac", null ],
     [ "segNet", "classsegNet.html#af2a45b6307104ed74714349becc0495c", null ],
     [ "classify", "classsegNet.html#a3b98b9827d5c07e84ed6711414b96554", null ],
@@ -39,11 +43,17 @@ var classsegNet =
     [ "GetNumClasses", "classsegNet.html#a31e8118b2a38e330b6e087cf6c98396e", null ],
     [ "loadClassColors", "classsegNet.html#a218a2c71cb4d59476070385c7370f789", null ],
     [ "loadClassLabels", "classsegNet.html#a31d2bd6ddf05ce178a8e6c5b88247075", null ],
-    [ "Mask", "classsegNet.html#a1efb45b81c82dd6f74c641ab39a41387", null ],
+    [ "Mask", "classsegNet.html#af7b6257716514631dd0358e4b2ed692c", null ],
+    [ "Mask", "classsegNet.html#afd64ed7b535d7815de734d58ee22aea1", null ],
     [ "Mask", "classsegNet.html#a656d709bbfb00fb0b9b4d55296aae463", null ],
+    [ "Mask", "classsegNet.html#a1efb45b81c82dd6f74c641ab39a41387", null ],
+    [ "Overlay", "classsegNet.html#a646b59503f89809fefee1c32d33307d9", null ],
+    [ "Overlay", "classsegNet.html#af31e030d54df637b68db8155e5f6b11c", null ],
     [ "Overlay", "classsegNet.html#a3a670c08ad8b13db6ee092c59efe88b8", null ],
-    [ "overlayLinear", "classsegNet.html#a1365e866302f49f6fe7f9fe95cbe6a72", null ],
-    [ "overlayPoint", "classsegNet.html#a3691c49b64e20993bb2440129a7cd81e", null ],
+    [ "overlayLinear", "classsegNet.html#aadc91d5c05834ab706691c4861448bc8", null ],
+    [ "overlayPoint", "classsegNet.html#aeb2ea51dc7597c832bcb1ae61301d678", null ],
+    [ "Process", "classsegNet.html#a04b332bd106de1f8238d34f36fb97442", null ],
+    [ "Process", "classsegNet.html#ac5a01728bc33bd87aed504550359f3de", null ],
     [ "Process", "classsegNet.html#a2fe1beec3215b5d7744420b57ba397c4", null ],
     [ "saveClassLegend", "classsegNet.html#a4eabed9f0e8aa5a8ddad078ada771ad7", null ],
     [ "SetClassColor", "classsegNet.html#a2a9108ad71f4d5f1995ac58282a10b88", null ],
@@ -52,8 +62,9 @@ var classsegNet =
     [ "mClassLabels", "classsegNet.html#a5763fca156e99d9fe07dcbf626489b0e", null ],
     [ "mClassMap", "classsegNet.html#ac1f23154131a719769edf4811f8762ef", null ],
     [ "mClassPath", "classsegNet.html#af9a9bd73dc17940aa87aacba2001b09b", null ],
+    [ "mLastInputFormat", "classsegNet.html#a2d4bf7321a21756ff82551e306e8adb1", null ],
     [ "mLastInputHeight", "classsegNet.html#a4341b8ae226236eef40867bab4c7f251", null ],
-    [ "mLastInputImg", "classsegNet.html#ad7970fe3c387258828d628bd5f08e57a", null ],
+    [ "mLastInputImg", "classsegNet.html#aadacbaf1eb15bfe512499276272bf67c", null ],
     [ "mLastInputWidth", "classsegNet.html#ad984bfe4460621a78440bfb4768f4e8e", null ],
     [ "mNetworkType", "classsegNet.html#a9719a3525dd0ee4bcc0e954187dc7323", null ]
 ];

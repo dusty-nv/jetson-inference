@@ -86,53 +86,931 @@ $(document).ready(function(){initNavTree('cudaRGB_8h.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="cudaUtility_8h_source.html">cudaUtility.h</a>&quot;</code><br />
-<code>#include &lt;stdint.h&gt;</code><br />
 </div>
 <p><a href="cudaRGB_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr><td colspan="2"><div class="groupHeader">8-bit RGB/BGR to Floating-point RGBA</div></td></tr>
-<tr class="memitem:ga0c29ecfb8e6d243f4581ce61ae93ffad"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga0c29ecfb8e6d243f4581ce61ae93ffad">cudaRGB8ToRGBA32</a> (uchar3 *input, float4 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:ga0c29ecfb8e6d243f4581ce61ae93ffad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 8-bit fixed-point RGB image to 32-bit floating-point RGBA image.  <a href="group__colorspace.html#ga0c29ecfb8e6d243f4581ce61ae93ffad">More...</a><br /></td></tr>
-<tr class="separator:ga0c29ecfb8e6d243f4581ce61ae93ffad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad89d17678982424019ccb687d93c5b61"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gad89d17678982424019ccb687d93c5b61">cudaBGR8ToRGBA32</a> (uchar3 *input, float4 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:gad89d17678982424019ccb687d93c5b61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 8-bit fixed-point BGR image to 32-bit floating-point RGBA image.  <a href="group__colorspace.html#gad89d17678982424019ccb687d93c5b61">More...</a><br /></td></tr>
-<tr class="separator:gad89d17678982424019ccb687d93c5b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">Floating-point RGBA to 8-bit RGB/RGBA</div></td></tr>
-<tr class="memitem:gadb43620b10ddc92d5d11192ec8defc45"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gadb43620b10ddc92d5d11192ec8defc45">cudaRGBA32ToRGB8</a> (float4 *input, uchar3 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:gadb43620b10ddc92d5d11192ec8defc45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGB image.  <a href="group__colorspace.html#gadb43620b10ddc92d5d11192ec8defc45">More...</a><br /></td></tr>
-<tr class="separator:gadb43620b10ddc92d5d11192ec8defc45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacdf4e662ad6f2f4ee4d088742778151f"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gacdf4e662ad6f2f4ee4d088742778151f">cudaRGBA32ToRGB8</a> (float4 *input, uchar3 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
-<tr class="memdesc:gacdf4e662ad6f2f4ee4d088742778151f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGB image, with the floating-point input range specified by the user.  <a href="group__colorspace.html#gacdf4e662ad6f2f4ee4d088742778151f">More...</a><br /></td></tr>
-<tr class="separator:gacdf4e662ad6f2f4ee4d088742778151f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad72a825f240afbc537e6fecc68c1019a"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gad72a825f240afbc537e6fecc68c1019a">cudaRGBA32ToRGBA8</a> (float4 *input, uchar4 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:gad72a825f240afbc537e6fecc68c1019a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image.  <a href="group__colorspace.html#gad72a825f240afbc537e6fecc68c1019a">More...</a><br /></td></tr>
-<tr class="separator:gad72a825f240afbc537e6fecc68c1019a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadad6e676bc340bfd50641df5d5a82180"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gadad6e676bc340bfd50641df5d5a82180">cudaRGBA32ToRGBA8</a> (float4 *input, uchar4 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
-<tr class="memdesc:gadad6e676bc340bfd50641df5d5a82180"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point RGBA image, with the floating-point input range specified by the user.  <a href="group__colorspace.html#gadad6e676bc340bfd50641df5d5a82180">More...</a><br /></td></tr>
-<tr class="separator:gadad6e676bc340bfd50641df5d5a82180"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">Floating-point RGBA to 8-bit BGR/BGRA</div></td></tr>
-<tr class="memitem:gaa24a2abd9cbe86ddad50631ac7a0be41"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#gaa24a2abd9cbe86ddad50631ac7a0be41">cudaRGBA32ToBGR8</a> (float4 *input, uchar3 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:gaa24a2abd9cbe86ddad50631ac7a0be41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGR image.  <a href="group__colorspace.html#gaa24a2abd9cbe86ddad50631ac7a0be41">More...</a><br /></td></tr>
-<tr class="separator:gaa24a2abd9cbe86ddad50631ac7a0be41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4ecfb33b01ba0d329330960a46797843"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga4ecfb33b01ba0d329330960a46797843">cudaRGBA32ToBGR8</a> (float4 *input, uchar3 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
-<tr class="memdesc:ga4ecfb33b01ba0d329330960a46797843"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGR image, with the floating-point input range specified by the user.  <a href="group__colorspace.html#ga4ecfb33b01ba0d329330960a46797843">More...</a><br /></td></tr>
-<tr class="separator:ga4ecfb33b01ba0d329330960a46797843"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3093f20f23c090d30f51a8ffeebfc198"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga3093f20f23c090d30f51a8ffeebfc198">cudaRGBA32ToBGRA8</a> (float4 *input, uchar4 *output, size_t width, size_t height)</td></tr>
-<tr class="memdesc:ga3093f20f23c090d30f51a8ffeebfc198"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image.  <a href="group__colorspace.html#ga3093f20f23c090d30f51a8ffeebfc198">More...</a><br /></td></tr>
-<tr class="separator:ga3093f20f23c090d30f51a8ffeebfc198"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html#ga20a5fd3a31d88d12cba8741172dc2b4e">cudaRGBA32ToBGRA8</a> (float4 *input, uchar4 *output, size_t width, size_t height, const float2 &amp;inputRange)</td></tr>
-<tr class="memdesc:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert 32-bit floating-point RGBA image into 8-bit fixed-point BGRA image, with the floating-point input range specified by the user.  <a href="group__colorspace.html#ga20a5fd3a31d88d12cba8741172dc2b4e">More...</a><br /></td></tr>
-<tr class="separator:ga20a5fd3a31d88d12cba8741172dc2b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">RGB/RGBA to BGR/BGRA (or vice-versa)</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__colorspace.html#ga2befa65dbc92689a36a367993d1ad673" title="Convert between two image formats using the GPU. ">cudaConvertColor()</a> from <a class="el" href="cudaColorspace_8h.html">cudaColorspace.h</a> for automated format conversion </dd></dl>
+</div></td></tr>
+<tr class="memitem:ad0a519c90577ad52323db94a241c8952"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#ad0a519c90577ad52323db94a241c8952">cudaRGB8ToBGR8</a> (uchar3 *input, uchar3 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ad0a519c90577ad52323db94a241c8952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert uchar3 RGB image to uchar3 BGR (or convert BGR to RGB).  <a href="#ad0a519c90577ad52323db94a241c8952">More...</a><br /></td></tr>
+<tr class="separator:ad0a519c90577ad52323db94a241c8952"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b4889eed5a3bf0cbd74414cdfba9307"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#a8b4889eed5a3bf0cbd74414cdfba9307">cudaRGB32ToBGR32</a> (float3 *input, float3 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:a8b4889eed5a3bf0cbd74414cdfba9307"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert float3 RGB image to float3 BGR (or convert BGR to RGB).  <a href="#a8b4889eed5a3bf0cbd74414cdfba9307">More...</a><br /></td></tr>
+<tr class="separator:a8b4889eed5a3bf0cbd74414cdfba9307"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7e3a70436ae154604386ec202d4f30e"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#ac7e3a70436ae154604386ec202d4f30e">cudaRGBA8ToBGRA8</a> (uchar4 *input, uchar4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ac7e3a70436ae154604386ec202d4f30e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert uchar4 RGBA image to uchar4 BGRA (or convert BGRA to RGBA).  <a href="#ac7e3a70436ae154604386ec202d4f30e">More...</a><br /></td></tr>
+<tr class="separator:ac7e3a70436ae154604386ec202d4f30e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d22bee30fa3800e29424f47d3eac8aa"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#a2d22bee30fa3800e29424f47d3eac8aa">cudaRGBA32ToBGRA32</a> (float4 *input, float4 *output, size_t width, size_t height)</td></tr>
+<tr class="memdesc:a2d22bee30fa3800e29424f47d3eac8aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert float4 RGBA image to float4 BGRA (or convert BGRA to RGBA).  <a href="#a2d22bee30fa3800e29424f47d3eac8aa">More...</a><br /></td></tr>
+<tr class="separator:a2d22bee30fa3800e29424f47d3eac8aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">8-bit RGB/BGR to 8-bit RGBA/BGRA (or vice-versa)</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__colorspace.html#ga2befa65dbc92689a36a367993d1ad673" title="Convert between two image formats using the GPU. ">cudaConvertColor()</a> from <a class="el" href="cudaColorspace_8h.html">cudaColorspace.h</a> for automated format conversion </dd></dl>
+</div></td></tr>
+<tr class="memitem:abc3e836a43c9de4b9e5f20341dcde5fb"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#abc3e836a43c9de4b9e5f20341dcde5fb">cudaRGB8ToRGBA8</a> (uchar3 *input, uchar4 *output, size_t width, size_t height, bool swapRedBlue=false)</td></tr>
+<tr class="memdesc:abc3e836a43c9de4b9e5f20341dcde5fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert uchar3 RGB/BGR image to uchar4 RGBA/BGRA image.  <a href="#abc3e836a43c9de4b9e5f20341dcde5fb">More...</a><br /></td></tr>
+<tr class="separator:abc3e836a43c9de4b9e5f20341dcde5fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4d6a86c325dba3ed2359873ec569f89"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#ad4d6a86c325dba3ed2359873ec569f89">cudaRGBA8ToRGB8</a> (uchar4 *input, uchar3 *output, size_t width, size_t height, bool swapRedBlue=false)</td></tr>
+<tr class="memdesc:ad4d6a86c325dba3ed2359873ec569f89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert uchar4 RGBA/BGRA image to uchar3 RGB/BGR image.  <a href="#ad4d6a86c325dba3ed2359873ec569f89">More...</a><br /></td></tr>
+<tr class="separator:ad4d6a86c325dba3ed2359873ec569f89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Floating-point RGB/BGR to floating-point RGBA/BGRA (or vice versa)</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__colorspace.html#ga2befa65dbc92689a36a367993d1ad673" title="Convert between two image formats using the GPU. ">cudaConvertColor()</a> from <a class="el" href="cudaColorspace_8h.html">cudaColorspace.h</a> for automated format conversion </dd></dl>
+</div></td></tr>
+<tr class="memitem:ae36e353f5f1286f264cad7aa9529cee5"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#ae36e353f5f1286f264cad7aa9529cee5">cudaRGB32ToRGBA32</a> (float3 *input, float4 *output, size_t width, size_t height, bool swapRedBlue=false)</td></tr>
+<tr class="memdesc:ae36e353f5f1286f264cad7aa9529cee5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert float3 RGB/BGR image into float4 RGBA/BGRA image.  <a href="#ae36e353f5f1286f264cad7aa9529cee5">More...</a><br /></td></tr>
+<tr class="separator:ae36e353f5f1286f264cad7aa9529cee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e78219f2f3b89a159b24658e692b06d"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#a9e78219f2f3b89a159b24658e692b06d">cudaRGBA32ToRGB32</a> (float4 *input, float3 *output, size_t width, size_t height, bool swapRedBlue=false)</td></tr>
+<tr class="memdesc:a9e78219f2f3b89a159b24658e692b06d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert float4 RGBA/BGRA image into float3 RGB/BGR image.  <a href="#a9e78219f2f3b89a159b24658e692b06d">More...</a><br /></td></tr>
+<tr class="separator:a9e78219f2f3b89a159b24658e692b06d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">8-bit images to floating-point images</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__colorspace.html#ga2befa65dbc92689a36a367993d1ad673" title="Convert between two image formats using the GPU. ">cudaConvertColor()</a> from <a class="el" href="cudaColorspace_8h.html">cudaColorspace.h</a> for automated format conversion </dd></dl>
+</div></td></tr>
+<tr class="memitem:aa82d4b23b68fd109107a7a018a24c805"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#aa82d4b23b68fd109107a7a018a24c805">cudaRGB8ToRGB32</a> (uchar3 *input, float3 *output, size_t width, size_t height, bool swapRedBlue=false)</td></tr>
+<tr class="memdesc:aa82d4b23b68fd109107a7a018a24c805"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert uchar3 RGB/BGR image to float3 RGB/BGR image.  <a href="#aa82d4b23b68fd109107a7a018a24c805">More...</a><br /></td></tr>
+<tr class="separator:aa82d4b23b68fd109107a7a018a24c805"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae19d78c32db76408ae0fb19d566abb77"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#ae19d78c32db76408ae0fb19d566abb77">cudaRGB8ToRGBA32</a> (uchar3 *input, float4 *output, size_t width, size_t height, bool swapRedBlue=false)</td></tr>
+<tr class="memdesc:ae19d78c32db76408ae0fb19d566abb77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert uchar3 RGB/BGR image to float4 RGBA/BGRA image.  <a href="#ae19d78c32db76408ae0fb19d566abb77">More...</a><br /></td></tr>
+<tr class="separator:ae19d78c32db76408ae0fb19d566abb77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6826c53b0527fae2a196355da397c79"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#af6826c53b0527fae2a196355da397c79">cudaRGBA8ToRGB32</a> (uchar4 *input, float3 *output, size_t width, size_t height, bool swapRedBlue=false)</td></tr>
+<tr class="memdesc:af6826c53b0527fae2a196355da397c79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert uchar4 RGBA/BGRA image to float3 RGB/BGR image.  <a href="#af6826c53b0527fae2a196355da397c79">More...</a><br /></td></tr>
+<tr class="separator:af6826c53b0527fae2a196355da397c79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a075cf1c09531fb2587dde9c779b5af7a"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#a075cf1c09531fb2587dde9c779b5af7a">cudaRGBA8ToRGBA32</a> (uchar4 *input, float4 *output, size_t width, size_t height, bool swapRedBlue=false)</td></tr>
+<tr class="memdesc:a075cf1c09531fb2587dde9c779b5af7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert uchar4 RGBA/BGRA image to float4 RGBA/BGRA image.  <a href="#a075cf1c09531fb2587dde9c779b5af7a">More...</a><br /></td></tr>
+<tr class="separator:a075cf1c09531fb2587dde9c779b5af7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Floating-point images to 8-bit images</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__colorspace.html#ga2befa65dbc92689a36a367993d1ad673" title="Convert between two image formats using the GPU. ">cudaConvertColor()</a> from <a class="el" href="cudaColorspace_8h.html">cudaColorspace.h</a> for automated format conversion </dd></dl>
+</div></td></tr>
+<tr class="memitem:a9aa7dbfc6f28fdae9f6c5c296208fc80"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#a9aa7dbfc6f28fdae9f6c5c296208fc80">cudaRGB32ToRGB8</a> (float3 *input, uchar3 *output, size_t width, size_t height, bool swapRedBlue=false, const float2 &amp;pixelRange=<a class="el" href="cudaMath_8h.html#a931119b28bbeb119817cd0128f422a08">make_float2</a>(0, 255))</td></tr>
+<tr class="memdesc:a9aa7dbfc6f28fdae9f6c5c296208fc80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert float3 RGB/BGR image into uchar3 RGB/BGR image.  <a href="#a9aa7dbfc6f28fdae9f6c5c296208fc80">More...</a><br /></td></tr>
+<tr class="separator:a9aa7dbfc6f28fdae9f6c5c296208fc80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a748a3c49155507efdacc4b9a6fc894ea"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#a748a3c49155507efdacc4b9a6fc894ea">cudaRGB32ToRGBA8</a> (float3 *input, uchar4 *output, size_t width, size_t height, bool swapRedBlue=false, const float2 &amp;pixelRange=<a class="el" href="cudaMath_8h.html#a931119b28bbeb119817cd0128f422a08">make_float2</a>(0, 255))</td></tr>
+<tr class="memdesc:a748a3c49155507efdacc4b9a6fc894ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert float3 RGB/BGR image into uchar4 RGBA/BGRA image.  <a href="#a748a3c49155507efdacc4b9a6fc894ea">More...</a><br /></td></tr>
+<tr class="separator:a748a3c49155507efdacc4b9a6fc894ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25398512cecb017f26c4eeeabcffd37c"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#a25398512cecb017f26c4eeeabcffd37c">cudaRGBA32ToRGB8</a> (float4 *input, uchar3 *output, size_t width, size_t height, bool swapRedBlue=false, const float2 &amp;pixelRange=<a class="el" href="cudaMath_8h.html#a931119b28bbeb119817cd0128f422a08">make_float2</a>(0, 255))</td></tr>
+<tr class="memdesc:a25398512cecb017f26c4eeeabcffd37c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert float4 RGBA/BGRA image into uchar3 image.  <a href="#a25398512cecb017f26c4eeeabcffd37c">More...</a><br /></td></tr>
+<tr class="separator:a25398512cecb017f26c4eeeabcffd37c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d3c7e219f400be4b3dcb609b9f042cd"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cudaRGB_8h.html#a4d3c7e219f400be4b3dcb609b9f042cd">cudaRGBA32ToRGBA8</a> (float4 *input, uchar4 *output, size_t width, size_t height, bool swapRedBlue=false, const float2 &amp;pixelRange=<a class="el" href="cudaMath_8h.html#a931119b28bbeb119817cd0128f422a08">make_float2</a>(0, 255))</td></tr>
+<tr class="memdesc:a4d3c7e219f400be4b3dcb609b9f042cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert float4 RGBA/BGRA image into uchar4 RGBA/BGRA image.  <a href="#a4d3c7e219f400be4b3dcb609b9f042cd">More...</a><br /></td></tr>
+<tr class="separator:a4d3c7e219f400be4b3dcb609b9f042cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a8b4889eed5a3bf0cbd74414cdfba9307"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b4889eed5a3bf0cbd74414cdfba9307">&#9670;&nbsp;</a></span>cudaRGB32ToBGR32()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGB32ToBGR32 </td>
+          <td>(</td>
+          <td class="paramtype">float3 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float3 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert float3 RGB image to float3 BGR (or convert BGR to RGB). </p>
+<p>This function swaps the red and blue channels, so if the input is RGB it will be converted to RGB, and if the input is BGR it will be converted to RGB. </p>
+
+</div>
+</div>
+<a id="a9aa7dbfc6f28fdae9f6c5c296208fc80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9aa7dbfc6f28fdae9f6c5c296208fc80">&#9670;&nbsp;</a></span>cudaRGB32ToRGB8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGB32ToRGB8 </td>
+          <td>(</td>
+          <td class="paramtype">float3 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar3 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float2 &amp;&#160;</td>
+          <td class="paramname"><em>pixelRange</em> = <code><a class="el" href="cudaMath_8h.html#a931119b28bbeb119817cd0128f422a08">make_float2</a>(0,&#160;255)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert float3 RGB/BGR image into uchar3 RGB/BGR image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same.</td></tr>
+    <tr><td class="paramname">pixelRange</td><td>specifies the floating-point pixel value range of the input image, which is used to rescale the fixed-point pixel outputs to [0,255]. The default input range is [0,255], where no rescaling occurs. Other common input ranges are [-1, 1] or [0,1]. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae36e353f5f1286f264cad7aa9529cee5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae36e353f5f1286f264cad7aa9529cee5">&#9670;&nbsp;</a></span>cudaRGB32ToRGBA32()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGB32ToRGBA32 </td>
+          <td>(</td>
+          <td class="paramtype">float3 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert float3 RGB/BGR image into float4 RGBA/BGRA image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a748a3c49155507efdacc4b9a6fc894ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a748a3c49155507efdacc4b9a6fc894ea">&#9670;&nbsp;</a></span>cudaRGB32ToRGBA8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGB32ToRGBA8 </td>
+          <td>(</td>
+          <td class="paramtype">float3 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float2 &amp;&#160;</td>
+          <td class="paramname"><em>pixelRange</em> = <code><a class="el" href="cudaMath_8h.html#a931119b28bbeb119817cd0128f422a08">make_float2</a>(0,&#160;255)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert float3 RGB/BGR image into uchar4 RGBA/BGRA image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same.</td></tr>
+    <tr><td class="paramname">pixelRange</td><td>specifies the floating-point pixel value range of the input image, which is used to rescale the fixed-point pixel outputs to [0,255]. The default input range is [0,255], where no rescaling occurs. Other common input ranges are [-1, 1] or [0,1]. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad0a519c90577ad52323db94a241c8952"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0a519c90577ad52323db94a241c8952">&#9670;&nbsp;</a></span>cudaRGB8ToBGR8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGB8ToBGR8 </td>
+          <td>(</td>
+          <td class="paramtype">uchar3 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar3 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert uchar3 RGB image to uchar3 BGR (or convert BGR to RGB). </p>
+<p>This function swaps the red and blue channels, so if the input is RGB it will be converted to RGB, and if the input is BGR it will be converted to RGB. </p>
+
+</div>
+</div>
+<a id="aa82d4b23b68fd109107a7a018a24c805"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa82d4b23b68fd109107a7a018a24c805">&#9670;&nbsp;</a></span>cudaRGB8ToRGB32()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGB8ToRGB32 </td>
+          <td>(</td>
+          <td class="paramtype">uchar3 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float3 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert uchar3 RGB/BGR image to float3 RGB/BGR image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae19d78c32db76408ae0fb19d566abb77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae19d78c32db76408ae0fb19d566abb77">&#9670;&nbsp;</a></span>cudaRGB8ToRGBA32()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGB8ToRGBA32 </td>
+          <td>(</td>
+          <td class="paramtype">uchar3 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert uchar3 RGB/BGR image to float4 RGBA/BGRA image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abc3e836a43c9de4b9e5f20341dcde5fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc3e836a43c9de4b9e5f20341dcde5fb">&#9670;&nbsp;</a></span>cudaRGB8ToRGBA8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGB8ToRGBA8 </td>
+          <td>(</td>
+          <td class="paramtype">uchar3 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert uchar3 RGB/BGR image to uchar4 RGBA/BGRA image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2d22bee30fa3800e29424f47d3eac8aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d22bee30fa3800e29424f47d3eac8aa">&#9670;&nbsp;</a></span>cudaRGBA32ToBGRA32()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBA32ToBGRA32 </td>
+          <td>(</td>
+          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert float4 RGBA image to float4 BGRA (or convert BGRA to RGBA). </p>
+<p>This function swaps the red and blue channels, so if the input is RGBA it will be converted to RGBA, and if the input is BGR it will be converted to RGBA. </p>
+
+</div>
+</div>
+<a id="a9e78219f2f3b89a159b24658e692b06d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e78219f2f3b89a159b24658e692b06d">&#9670;&nbsp;</a></span>cudaRGBA32ToRGB32()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBA32ToRGB32 </td>
+          <td>(</td>
+          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float3 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert float4 RGBA/BGRA image into float3 RGB/BGR image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a25398512cecb017f26c4eeeabcffd37c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25398512cecb017f26c4eeeabcffd37c">&#9670;&nbsp;</a></span>cudaRGBA32ToRGB8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBA32ToRGB8 </td>
+          <td>(</td>
+          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar3 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float2 &amp;&#160;</td>
+          <td class="paramname"><em>pixelRange</em> = <code><a class="el" href="cudaMath_8h.html#a931119b28bbeb119817cd0128f422a08">make_float2</a>(0,&#160;255)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert float4 RGBA/BGRA image into uchar3 image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same.</td></tr>
+    <tr><td class="paramname">pixelRange</td><td>specifies the floating-point pixel value range of the input image, which is used to rescale the fixed-point pixel outputs to [0,255]. The default input range is [0,255], where no rescaling occurs. Other common input ranges are [-1, 1] or [0,1]. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4d3c7e219f400be4b3dcb609b9f042cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d3c7e219f400be4b3dcb609b9f042cd">&#9670;&nbsp;</a></span>cudaRGBA32ToRGBA8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBA32ToRGBA8 </td>
+          <td>(</td>
+          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float2 &amp;&#160;</td>
+          <td class="paramname"><em>pixelRange</em> = <code><a class="el" href="cudaMath_8h.html#a931119b28bbeb119817cd0128f422a08">make_float2</a>(0,&#160;255)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert float4 RGBA/BGRA image into uchar4 RGBA/BGRA image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same.</td></tr>
+    <tr><td class="paramname">pixelRange</td><td>specifies the floating-point pixel value range of the input image, which is used to rescale the fixed-point pixel outputs to [0,255]. The default input range is [0,255], where no rescaling occurs. Other common input ranges are [-1, 1] or [0,1]. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac7e3a70436ae154604386ec202d4f30e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7e3a70436ae154604386ec202d4f30e">&#9670;&nbsp;</a></span>cudaRGBA8ToBGRA8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBA8ToBGRA8 </td>
+          <td>(</td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert uchar4 RGBA image to uchar4 BGRA (or convert BGRA to RGBA). </p>
+<p>This function swaps the red and blue channels, so if the input is RGBA it will be converted to RGBA, and if the input is BGR it will be converted to RGBA. </p>
+
+</div>
+</div>
+<a id="af6826c53b0527fae2a196355da397c79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6826c53b0527fae2a196355da397c79">&#9670;&nbsp;</a></span>cudaRGBA8ToRGB32()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBA8ToRGB32 </td>
+          <td>(</td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float3 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert uchar4 RGBA/BGRA image to float3 RGB/BGR image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad4d6a86c325dba3ed2359873ec569f89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4d6a86c325dba3ed2359873ec569f89">&#9670;&nbsp;</a></span>cudaRGBA8ToRGB8()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBA8ToRGB8 </td>
+          <td>(</td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uchar3 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert uchar4 RGBA/BGRA image to uchar3 RGB/BGR image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a075cf1c09531fb2587dde9c779b5af7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a075cf1c09531fb2587dde9c779b5af7a">&#9670;&nbsp;</a></span>cudaRGBA8ToRGBA32()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cudaError_t cudaRGBA8ToRGBA32 </td>
+          <td>(</td>
+          <td class="paramtype">uchar4 *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>swapRedBlue</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert uchar4 RGBA/BGRA image to float4 RGBA/BGRA image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">swapRedBlue</td><td>if true, swap the input's red and blue channels in the output - i.e if the input is RGB and output is BGR, or vice versa. The default is false, and the channels will remain the same. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_54a0acf6da04fe2ed9410b4c6369bc5d.html">jetson-utils</a></li><li class="navelem"><a class="el" href="cudaRGB_8h.html">cudaRGB.h</a></li>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jun 23 2020 14:18:23 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

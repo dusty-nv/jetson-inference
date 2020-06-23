@@ -10,7 +10,7 @@
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="jetson.html"><font color="#ffffff">jetson</font></a>.inference</strong></big></big></font></td
 ><td align=right valign=bottom
 ><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/lib/python2.7/dist-packages/jetson/inference/__init__.py">/usr/lib/python2.7/dist-packages/jetson/inference/__init__.py</a></font></td></tr></table>
-    <p></p>
+    <p><tt>#print("jetson.inference.__init__.py")</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -88,7 +88,8 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;--mean_pixel&nbsp;PIXEL&nbsp;&nbsp;&nbsp;&nbsp;mean&nbsp;pixel&nbsp;value&nbsp;to&nbsp;subtract&nbsp;from&nbsp;input&nbsp;(default&nbsp;is&nbsp;0.0)<br>
 &nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
 &nbsp;&nbsp;--alpha&nbsp;ALPHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overlay&nbsp;alpha&nbsp;blending&nbsp;value,&nbsp;range&nbsp;0-255&nbsp;(default:&nbsp;120)<br>
-&nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
+&nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>
+&nbsp;&nbsp;--verbose&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;verbose&nbsp;output&nbsp;from&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="jetson.inference.html#detectNet">detectNet</a></dd>
@@ -267,7 +268,8 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;--input_blob&nbsp;INPUT&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'data')<br>
 &nbsp;&nbsp;--output_blob&nbsp;OUTPUT&nbsp;name&nbsp;of&nbsp;the&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'prob')<br>
 &nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
-&nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
+&nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>
+&nbsp;&nbsp;--verbose&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;verbose&nbsp;output&nbsp;from&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="jetson.inference.html#imageNet">imageNet</a></dd>
@@ -395,7 +397,8 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;--output_blob&nbsp;OUTPUT&nbsp;name&nbsp;of&nbsp;the&nbsp;output&nbsp;layer&nbsp;(default:&nbsp;'score_fr_21classes')<br>
 &nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
 &nbsp;&nbsp;--alpha&nbsp;ALPHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overlay&nbsp;alpha&nbsp;blending&nbsp;value,&nbsp;range&nbsp;0-255&nbsp;(default:&nbsp;120)<br>
-&nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
+&nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>
+&nbsp;&nbsp;--verbose&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;verbose&nbsp;output&nbsp;from&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="jetson.inference.html#segNet">segNet</a></dd>
@@ -411,6 +414,36 @@ Parameters:<br>
 &nbsp;<br>
 Returns:<br>
 &nbsp;&nbsp;(string)&nbsp;--&nbsp;the&nbsp;text&nbsp;description&nbsp;of&nbsp;the&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;class</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetGridHeight"><strong>GetGridHeight</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;number&nbsp;of&nbsp;rows&nbsp;in&nbsp;the&nbsp;segmentation&nbsp;mask&nbsp;classification&nbsp;grid.<br>
+These&nbsp;are&nbsp;the&nbsp;raw&nbsp;dimensions,&nbsp;they&nbsp;are&nbsp;typically&nbsp;smaller&nbsp;than&nbsp;the&nbsp;image&nbsp;size.<br>
+In&nbsp;<a href="#segNet">segNet</a>.<a href="#segNet-Mask">Mask</a>()&nbsp;the&nbsp;classification&nbsp;grid&nbsp;gets&nbsp;upscaled&nbsp;to&nbsp;match&nbsp;the&nbsp;image&nbsp;size,<br>
+but&nbsp;this&nbsp;function&nbsp;returns&nbsp;the&nbsp;original&nbsp;unscaled&nbsp;size&nbsp;of&nbsp;the&nbsp;grid.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;height&nbsp;of&nbsp;the&nbsp;segmentation&nbsp;mask's&nbsp;classification&nbsp;grid</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetGridSize"><strong>GetGridSize</strong></a>(...)</dt><dd><tt>Return&nbsp;a&nbsp;(width,&nbsp;height)&nbsp;tuple&nbsp;with&nbsp;the&nbsp;dimensions&nbsp;of&nbsp;the&nbsp;segmentation&nbsp;mask&nbsp;classification&nbsp;grid.<br>
+These&nbsp;are&nbsp;the&nbsp;raw&nbsp;dimensions,&nbsp;they&nbsp;are&nbsp;typically&nbsp;smaller&nbsp;than&nbsp;the&nbsp;image&nbsp;size.<br>
+In&nbsp;<a href="#segNet">segNet</a>.<a href="#segNet-Mask">Mask</a>()&nbsp;the&nbsp;classification&nbsp;grid&nbsp;gets&nbsp;upscaled&nbsp;to&nbsp;match&nbsp;the&nbsp;image&nbsp;size,<br>
+but&nbsp;this&nbsp;function&nbsp;returns&nbsp;the&nbsp;original&nbsp;unscaled&nbsp;size&nbsp;of&nbsp;the&nbsp;grid.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(int,&nbsp;int)&nbsp;--&nbsp;tuple&nbsp;containing&nbsp;the&nbsp;width&nbsp;and&nbsp;height&nbsp;of&nbsp;the&nbsp;segmentation&nbsp;mask's&nbsp;classification&nbsp;grid</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetGridWidth"><strong>GetGridWidth</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;number&nbsp;of&nbsp;columns&nbsp;in&nbsp;the&nbsp;segmentation&nbsp;mask&nbsp;classification&nbsp;grid.<br>
+These&nbsp;are&nbsp;the&nbsp;raw&nbsp;dimensions,&nbsp;they&nbsp;are&nbsp;typically&nbsp;smaller&nbsp;than&nbsp;the&nbsp;image&nbsp;size.<br>
+In&nbsp;<a href="#segNet">segNet</a>.<a href="#segNet-Mask">Mask</a>()&nbsp;the&nbsp;classification&nbsp;grid&nbsp;gets&nbsp;upscaled&nbsp;to&nbsp;match&nbsp;the&nbsp;image&nbsp;size,<br>
+but&nbsp;this&nbsp;function&nbsp;returns&nbsp;the&nbsp;original&nbsp;unscaled&nbsp;size&nbsp;of&nbsp;the&nbsp;grid.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;width&nbsp;of&nbsp;the&nbsp;segmentation&nbsp;mask's&nbsp;classification&nbsp;grid</tt></dd></dl>
 
 <dl><dt><a name="segNet-GetNetworkName"><strong>GetNetworkName</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;built-in&nbsp;network&nbsp;used&nbsp;by&nbsp;the&nbsp;model.<br>
 &nbsp;<br>

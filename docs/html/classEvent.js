@@ -2,7 +2,7 @@ var classEvent =
 [
     [ "Event", "classEvent.html#a44841bb41f204f03100a2759e7097389", null ],
     [ "~Event", "classEvent.html#a7704ec01ce91e673885792054214b3d2", null ],
-    [ "GetID", "classEvent.html#a7a4b6e6bdeb54c96d33c6c886c1ee672", null ],
+    [ "GetID", "classEvent.html#a5d1d8894bb8994116c0e781639117738", null ],
     [ "Query", "classEvent.html#a188ebb92f80c6fae559051b084524fcd", null ],
     [ "Reset", "classEvent.html#afed31be0b4f98fb83163a4d725886e81", null ],
     [ "Wait", "classEvent.html#a55398e16a006f6a0ec00de1e75ff6162", null ],

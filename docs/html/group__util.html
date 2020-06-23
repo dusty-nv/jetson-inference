@@ -96,11 +96,17 @@ $(document).ready(function(){initNavTree('group__util.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 Modules</h2></td></tr>
+<tr class="memitem:group__video"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html">Video Streaming</a></td></tr>
+<tr class="memdesc:group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classvideoSource.html" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras...">videoSource</a> and <a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> APIs for input and output video streams. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__camera"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html">Camera Capture</a></td></tr>
 <tr class="memdesc:group__camera"><td class="mdescLeft">&#160;</td><td class="mdescRight">Camera capture and streaming for MIPI CSI and V4L2 devices. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__codec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html">Codec</a></td></tr>
 <tr class="memdesc:group__codec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hardware-accelerated video encoder and decoder (H.264/H.265) using GStreamer. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__csv"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__csv.html">CSV Parsing</a></td></tr>
+<tr class="memdesc:group__csv"><td class="mdescLeft">&#160;</td><td class="mdescRight">Text file parsing for Comma-Separated Value (CSV) formats, with user-defined delimiters beyond just commas, including spaces, tabs, or other symbols. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__cuda"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html">CUDA</a></td></tr>
 <tr class="memdesc:group__cuda"><td class="mdescLeft">&#160;</td><td class="mdescRight">CUDA utilities and image processing kernels. <br /></td></tr>
@@ -110,6 +116,9 @@ Modules</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__image"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html">Image I/O</a></td></tr>
 <tr class="memdesc:group__image"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loading and saving image files from disk. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__imageFormat"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__imageFormat.html">Image Formats</a></td></tr>
+<tr class="memdesc:group__imageFormat"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerations and helper functions for different types of image formats. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__input"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html">Input</a></td></tr>
 <tr class="memdesc:group__input"><td class="mdescLeft">&#160;</td><td class="mdescRight">HID input devices including gamepad controllers, joysticks, and keyboard. <br /></td></tr>
@@ -135,6 +144,15 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:gaf63830069581bb594e9ff6d132c08c31"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#gaf63830069581bb594e9ff6d132c08c31">ARG_POSITION</a>(x)&#160;&#160;&#160;x</td></tr>
+<tr class="memdesc:gaf63830069581bb594e9ff6d132c08c31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specify a positional argument index.  <a href="#gaf63830069581bb594e9ff6d132c08c31">More...</a><br /></td></tr>
+<tr class="separator:gaf63830069581bb594e9ff6d132c08c31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga45dfaa21be9e387fa4eb41e0d9359c18"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga45dfaa21be9e387fa4eb41e0d9359c18">CUDA_FREE</a>(x)&#160;&#160;&#160;if(x != NULL) { cudaFree(x); x = NULL; }</td></tr>
+<tr class="memdesc:ga45dfaa21be9e387fa4eb41e0d9359c18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check for non-NULL pointer before freeing it, and then set the pointer to NULL.  <a href="#ga45dfaa21be9e387fa4eb41e0d9359c18">More...</a><br /></td></tr>
+<tr class="separator:ga45dfaa21be9e387fa4eb41e0d9359c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9994300b5165fde5b2043200309a5ed3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga9994300b5165fde5b2043200309a5ed3">CUDA_FREE_HOST</a>(x)&#160;&#160;&#160;if(x != NULL) { cudaFreeHost(x); x = NULL; }</td></tr>
+<tr class="memdesc:ga9994300b5165fde5b2043200309a5ed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check for non-NULL pointer before freeing it, and then set the pointer to NULL.  <a href="#ga9994300b5165fde5b2043200309a5ed3">More...</a><br /></td></tr>
+<tr class="separator:ga9994300b5165fde5b2043200309a5ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga4b8b2bed986c06c207ebac140ba65a7a">SAFE_DELETE</a>(x)&#160;&#160;&#160;if(x != NULL) { delete x; x = NULL; }</td></tr>
 <tr class="memdesc:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check for non-NULL pointer before deleting it, and then set the pointer to NULL.  <a href="#ga4b8b2bed986c06c207ebac140ba65a7a">More...</a><br /></td></tr>
 <tr class="separator:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -169,6 +187,66 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Tools and utilities for camera streaming, codecs, display, and visualization. </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="gaf63830069581bb594e9ff6d132c08c31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf63830069581bb594e9ff6d132c08c31">&#9670;&nbsp;</a></span>ARG_POSITION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ARG_POSITION</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;x</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Specify a positional argument index. </p>
+
+</div>
+</div>
+<a id="ga45dfaa21be9e387fa4eb41e0d9359c18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga45dfaa21be9e387fa4eb41e0d9359c18">&#9670;&nbsp;</a></span>CUDA_FREE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUDA_FREE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;if(x != NULL) { cudaFree(x); x = NULL; }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check for non-NULL pointer before freeing it, and then set the pointer to NULL. </p>
+
+</div>
+</div>
+<a id="ga9994300b5165fde5b2043200309a5ed3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9994300b5165fde5b2043200309a5ed3">&#9670;&nbsp;</a></span>CUDA_FREE_HOST</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUDA_FREE_HOST</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;if(x != NULL) { cudaFreeHost(x); x = NULL; }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check for non-NULL pointer before freeing it, and then set the pointer to NULL. </p>
+
+</div>
+</div>
 <a id="ga212460e743fecb084d717bb2180c5a56"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga212460e743fecb084d717bb2180c5a56">&#9670;&nbsp;</a></span>DEG_TO_RAD</h2>
 
@@ -378,7 +456,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jun 23 2020 14:18:24 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

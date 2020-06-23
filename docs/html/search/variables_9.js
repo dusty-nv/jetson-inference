@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['lastglyph',['LastGlyph',['../classcudaFont.html#a5ea6574bf7fab0264c8a6c8dda7254ed',1,'cudaFont']]],
-  ['left',['Left',['../structdetectNet_1_1Detection.html#a42914a705a6cad72e56a9ad4fb68b0e6',1,'detectNet::Detection']]]
+  ['instance',['Instance',['../structdetectNet_1_1Detection.html#a388eef39f557028d777d9102acd3c646',1,'detectNet::Detection']]],
+  ['iotype',['ioType',['../structvideoOptions.html#af48a7105c91b415ef158290be02f45e9',1,'videoOptions']]],
+  ['ipaddress',['ipAddress',['../structnetworkAdapter__t.html#a309dd0e73b680f0ee5a24e70db253ab2',1,'networkAdapter_t']]]
 ];
