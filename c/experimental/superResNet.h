@@ -20,8 +20,19 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+#ifndef __SUPER_RESOLUTION_NET_H__
+#define __SUPER_RESOLUTION_NET_H__
+
 #include "tensorNet.h"
 
+
+//////////////////////////////////////////////////////////////////////////////////
+/// @name superResNet
+/// Super resolution DNN for upscaling images.
+/// @ingroup deepVision
+//////////////////////////////////////////////////////////////////////////////////
+
+///@{
 
 /**
  * @note superResNet is only supported with TensorRT 5.0 and newer,
@@ -69,5 +80,9 @@ public:
 protected:
 	superResNet();
 };
+
+///@}
+
+#endif
 
 

@@ -27,6 +27,15 @@
 #include "tensorNet.h"
 #include "cudaColormap.h"
 
+
+//////////////////////////////////////////////////////////////////////////////////
+/// @name stereoNet
+/// Stereo disparity depth estimation.
+/// @ingroup deepVision
+//////////////////////////////////////////////////////////////////////////////////
+
+///@{
+
 /**
  * Name of default input layer for left image.
  * @ingroup stereoNet
@@ -177,5 +186,7 @@ protected:
 	float2      mDepthRange;
 };
 
+///@}
 
 #endif
+

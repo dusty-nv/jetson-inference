@@ -23,10 +23,17 @@
 #ifndef __FLOW_NET_H__
 #define __FLOW_NET_H__
 
-
 #include "tensorNet.h"
 #include "cudaColormap.h"
 
+
+//////////////////////////////////////////////////////////////////////////////////
+/// @name flowNet
+/// Dense optical flow estimation DNN.
+/// @ingroup deepVision
+//////////////////////////////////////////////////////////////////////////////////
+
+///@{
 
 /**
  * Name of default input blob for flowNet model.
@@ -184,5 +191,7 @@ protected:
 	NetworkType mNetworkType;
 };
 
+///@}
 
 #endif
+

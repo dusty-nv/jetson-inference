@@ -23,9 +23,16 @@
 #ifndef __HOMOGRAPHY_NET_H__
 #define __HOMOGRAPHY_NET_H__
 
-
 #include "tensorNet.h"
 
+
+//////////////////////////////////////////////////////////////////////////////////
+/// @name homographyNet
+/// Homography estimation DNN for registering and aligning images.
+/// @ingroup deepVision
+//////////////////////////////////////////////////////////////////////////////////
+
+///@{
 
 #ifdef HAS_OPENCV
 /**
@@ -143,6 +150,8 @@ protected:
 	// constructor
 	homographyNet();
 };
+
+///@}
 
 #endif
 

@@ -27,6 +27,14 @@
 #include "tensorNet.h"
 
 
+//////////////////////////////////////////////////////////////////////////////////
+/// @name odometryNet
+/// Visual odometry estimation from image sequences.
+/// @ingroup deepVision
+//////////////////////////////////////////////////////////////////////////////////
+
+///@{
+
 /**
  * Name of default input blob for odometryNet ONNX models.
  * @ingroup odometryNet
@@ -171,6 +179,8 @@ protected:
 
 	NetworkType mNetworkType;	/**< Pretrained built-in model type enumeration */
 };
+
+///@}
 
 #endif
 

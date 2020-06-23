@@ -23,10 +23,17 @@
 #ifndef __DEPTH_NET_H__
 #define __DEPTH_NET_H__
 
-
 #include "tensorNet.h"
 #include "cudaColormap.h"
 
+
+//////////////////////////////////////////////////////////////////////////////////
+/// @name depthNet
+/// Depth estimation from monocular images.
+/// @ingroup deepVision
+//////////////////////////////////////////////////////////////////////////////////
+
+///@{
 
 /**
  * Name of default input blob for depthNet model.
@@ -234,5 +241,7 @@ protected:
 	float2      mDepthRange;
 };
 
+///@}
 
 #endif
+
