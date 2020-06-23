@@ -1,7 +1,5 @@
 var NAVTREEINDEX11 =
 {
-"structglWidget_1_1eventHandler.html":[1,1,12,4,0],
-"structglWidget_1_1eventHandler.html#a8d9ea46a31a237fe1ea60a193829607c":[1,1,12,4,0,0],
 "structglWidget_1_1eventHandler.html#ad2afcf0fb176377e284563dc9d630e75":[1,1,12,4,0,1],
 "structimageFormatType.html":[3,0,25],
 "structimageFormatType_3_01IMAGE__RGB32F_01_4.html":[3,0,26],

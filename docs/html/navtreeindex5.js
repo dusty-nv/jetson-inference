@@ -58,6 +58,8 @@ var NAVTREEINDEX5 =
 "csvWriter_8hpp_source.html":[4,0,2,4],
 "cudaAlphaBlend_8cuh.html":[4,0,2,5],
 "cudaBayer_8h.html":[4,0,2,6],
+"cudaBayer_8h.html#a6cf20486164158f6c9cb95a069151658":[4,0,2,6,0],
+"cudaBayer_8h.html#afa2c41e38d1f04c70284142c9a69eeb2":[4,0,2,6,1],
 "cudaBayer_8h_source.html":[4,0,2,6],
 "cudaColormap_8h.html":[4,0,2,7],
 "cudaColormap_8h.html#a97c1aa0c38630c4e8810346d02351b5c":[4,0,2,7,6],
@@ -247,7 +249,5 @@ var NAVTREEINDEX5 =
 "cudaMath_8h.html#a931119b28bbeb119817cd0128f422a08":[4,0,2,15,69],
 "cudaMath_8h.html#a9337f4370f4e1dc65c2f3414dcfc5251":[4,0,2,15,105],
 "cudaMath_8h.html#a953ef65975cb4a7988748760f2b2077b":[4,0,2,15,153],
-"cudaMath_8h.html#a9639a84213d2969e42ab11c25dd0d680":[4,0,2,15,142],
-"cudaMath_8h.html#a96f3477b0c986285c1e8961a91c03318":[4,0,2,15,10],
-"cudaMath_8h.html#a9718b3ce657f79598000b28f67dad03c":[4,0,2,15,261]
+"cudaMath_8h.html#a9639a84213d2969e42ab11c25dd0d680":[4,0,2,15,142]
 };

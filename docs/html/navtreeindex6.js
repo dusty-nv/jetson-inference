@@ -1,5 +1,7 @@
 var NAVTREEINDEX6 =
 {
+"cudaMath_8h.html#a96f3477b0c986285c1e8961a91c03318":[4,0,2,15,10],
+"cudaMath_8h.html#a9718b3ce657f79598000b28f67dad03c":[4,0,2,15,261],
 "cudaMath_8h.html#a9748d49986dbd69fb732b81f4fa93aad":[4,0,2,15,202],
 "cudaMath_8h.html#a98df384c8f83292aad43b8f6ee13d0cf":[4,0,2,15,156],
 "cudaMath_8h.html#a9a383c4a8a5548868b33c994702e5655":[4,0,2,15,32],
@@ -247,7 +249,5 @@ var NAVTREEINDEX6 =
 "devJoystick_8h.html":[4,0,2,26],
 "devJoystick_8h_source.html":[4,0,2,26],
 "devKeyboard_8h.html":[4,0,2,27],
-"devKeyboard_8h_source.html":[4,0,2,27],
-"dir_2e4d84877693cd000e5cb535f4b23486.html":[4,0,1],
-"dir_49e56c817e5e54854c35e136979f97ca.html":[4,0,0]
+"devKeyboard_8h_source.html":[4,0,2,27]
 };

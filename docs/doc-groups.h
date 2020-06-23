@@ -85,7 +85,9 @@
 
 /**
  * @defgroup colorspace Color Conversion
- * Colorspace conversion functions for various YUV formats, RGB, BGR, ect.
+ * Colorspace conversion functions for various YUV formats, RGB, BGR, Bayer, and grayscale.
+ * @see cudaConvertColor for automated format conversion.
+ * @see cudaYUV.h for the YUV functions.
  * @ingroup cuda
  */
 
