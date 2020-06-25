@@ -48,11 +48,11 @@
 #define SEGNET_DEFAULT_ALPHA 120
 
 /**
- * Command-line options able to be passed to segNet::Create()
+ * Standard command-line options able to be passed to segNet::Create()
  * @ingroup segNet
  */
 #define SEGNET_USAGE_STRING  "segNet arguments: \n" 							\
-		  "  --network NETWORK    pre-trained model to load, one of the following:\n" 	\
+		  "  --network=NETWORK    pre-trained model to load, one of the following:\n" 	\
 		  "                           * fcn-resnet18-cityscapes-512x256\n"			\
 		  "                           * fcn-resnet18-cityscapes-1024x512\n"			\
 		  "                           * fcn-resnet18-cityscapes-2048x1024\n"			\
@@ -64,16 +64,18 @@
 		  "                           * fcn-resnet18-voc-512x320\n"					\
 		  "                           * fcn-resnet18-sun-512x400\n"					\
 		  "                           * fcn-resnet18-sun-640x512\n"                  	\
-		  "  --model MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
-		  "  --prototxt PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
-		  "  --labels LABELS      path to text file containing the labels for each class\n" 				\
-		  "  --colors COLORS      path to text file containing the colors for each class\n" 				\
-		  "  --input_blob INPUT   name of the input layer (default: '" SEGNET_DEFAULT_INPUT "')\n" 		\
-		  "  --output_blob OUTPUT name of the output layer (default: '" SEGNET_DEFAULT_OUTPUT "')\n" 		\
-		  "  --batch_size BATCH   maximum batch size (default is 1)\n"								\
-            "  --alpha ALPHA        overlay alpha blending value, range 0-255 (default: 120)\n"			\
-		  "  --profile            enable layer profiling in TensorRT\n"								\
-		  "  --verbose            enable verbose output from TensorRT\n"
+		  "  --model=MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
+		  "  --prototxt=PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
+		  "  --labels=LABELS      path to text file containing the labels for each class\n" 				\
+		  "  --colors=COLORS      path to text file containing the colors for each class\n" 				\
+		  "  --input-blob=INPUT   name of the input layer (default: '" SEGNET_DEFAULT_INPUT "')\n" 		\
+		  "  --output-blob=OUTPUT name of the output layer (default: '" SEGNET_DEFAULT_OUTPUT "')\n" 		\
+		  "  --batch-size=BATCH   maximum batch size (default is 1)\n"								\
+            "  --alpha=ALPHA        overlay alpha blending value, range 0-255 (default: 120)\n"			\
+		  "  --visualize=VISUAL   visualization flags (e.g. --visualize=overlay,mask)\n"				\
+		  "                       valid combinations are:  'overlay', 'mask'\n"						\
+		  "  --profile            enable layer profiling in TensorRT\n"
+
 
 /**
  * Image segmentation with FCN-Alexnet or custom models, using TensorRT.

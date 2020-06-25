@@ -52,18 +52,18 @@ void sig_handler(int signo)
 
 int usage()
 {
-	printf("usage: imagenet [-h] [--network NETWORK] [--camera CAMERA]\n");
-	printf("                [--width WIDTH] [--height HEIGHT]\n\n");
-	printf("Classify a live camera stream using an image recognition DNN.\n\n");
-	printf("optional arguments:\n");
-	printf("  --help            show this help message and exit\n");
-	printf("  --network NETWORK pre-trained model to load (see below for options)\n");
-	printf("  --camera CAMERA   index of the MIPI CSI camera to use (e.g. CSI camera 0),\n");
-	printf("                    or for VL42 cameras, the /dev/video device to use.\n");
-     printf("                    by default, MIPI CSI camera 0 will be used.\n");
-	printf("  --width WIDTH     desired width of camera stream (default is 1280 pixels)\n");
-	printf("  --height HEIGHT   desired height of camera stream (default is 720 pixels)\n\n");
+	printf("usage: imagenet [--help] [--network=NETWORK] ...\n");
+	printf("                input_URI [output_URI]\n\n");
+	printf("Classify a video/image stream using an image recognition DNN.\n");
+	printf("See below for additional arguments that may not be shown above.\n\n");	
+	printf("positional arguments:\n");
+	printf("    input_URI       resource URI of input stream  (see videoSource below)\n");
+	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
+
 	printf("%s\n", imageNet::Usage());
+	printf("%s\n", videoSource::Usage());
+	printf("%s\n", videoOutput::Usage());
+	printf("%s\n", Log::Usage());
 
 	return 0;
 }

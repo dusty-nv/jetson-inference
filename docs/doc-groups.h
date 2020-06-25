@@ -176,6 +176,12 @@
  */
 
 /**
+ * @defgroup log Logging
+ * Message logging with a variable level of output and destinations.
+ * @ingroup util
+ */
+
+/**
  * @defgroup matrix Matrix
  * 3x3 matrix operations from `mat33.h`
  * @ingroup util

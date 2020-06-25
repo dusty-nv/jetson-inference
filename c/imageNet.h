@@ -43,11 +43,11 @@
 
 
 /**
- * Command-line options able to be passed to imageNet::Create()
+ * Standard command-line options able to be passed to imageNet::Create()
  * @ingroup imageNet
  */
 #define IMAGENET_USAGE_STRING  "imageNet arguments: \n" 							\
-		  "  --network NETWORK    pre-trained model to load, one of the following:\n" 	\
+		  "  --network=NETWORK    pre-trained model to load, one of the following:\n" 	\
 		  "                           * alexnet\n" 								\
 		  "                           * googlenet (default)\n" 					\
 		  "                           * googlenet-12\n" 							\
@@ -58,14 +58,14 @@
 		  "                           * vgg-16\n" 								\
 		  "                           * vgg-19\n" 								\
 		  "                           * inception-v4\n" 							\
-		  "  --model MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
-		  "  --prototxt PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
-		  "  --labels LABELS      path to text file containing the labels for each class\n" 				\
-		  "  --input_blob INPUT   name of the input layer (default is '" IMAGENET_DEFAULT_INPUT "')\n" 	\
-		  "  --output_blob OUTPUT name of the output layer (default is '" IMAGENET_DEFAULT_OUTPUT "')\n" 	\
-		  "  --batch_size BATCH   maximum batch size (default is 1)\n"								\
-		  "  --profile            enable layer profiling in TensorRT\n"								\
-		  "  --verbose            enable verbose output from TensorRT\n"
+		  "  --model=MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
+		  "  --prototxt=PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
+		  "  --labels=LABELS      path to text file containing the labels for each class\n" 				\
+		  "  --input-blob=INPUT   name of the input layer (default is '" IMAGENET_DEFAULT_INPUT "')\n" 	\
+		  "  --output-blob=OUTPUT name of the output layer (default is '" IMAGENET_DEFAULT_OUTPUT "')\n" 	\
+		  "  --batch-size=BATCH   maximum batch size (default is 1)\n"								\
+		  "  --profile            enable layer profiling in TensorRT\n"
+
 
 /**
  * Image recognition with classification networks, using TensorRT.

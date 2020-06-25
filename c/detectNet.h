@@ -60,11 +60,11 @@
 #define DETECTNET_DEFAULT_ALPHA 120
 
 /**
- * Command-line options able to be passed to imageNet::Create()
+ * Standard command-line options able to be passed to detectNet::Create()
  * @ingroup imageNet
  */
 #define DETECTNET_USAGE_STRING  "detectNet arguments: \n" 								\
-		  "  --network NETWORK     pre-trained model to load, one of the following:\n" 		\
+		  "  --network=NETWORK     pre-trained model to load, one of the following:\n" 		\
 		  "                            * ssd-mobilenet-v1\n" 							\
 		  "                            * ssd-mobilenet-v2 (default)\n" 					\
 		  "                            * ssd-inception-v2\n" 							\
@@ -75,18 +75,19 @@
 		  "                            * coco-bottle\n" 								\
 		  "                            * coco-chair\n" 								\
 		  "                            * coco-dog\n" 								\
-		  "  --model MODEL         path to custom model to load (caffemodel, uff, or onnx)\n" 					\
-		  "  --prototxt PROTOTXT   path to custom prototxt to load (for .caffemodel only)\n" 					\
-		  "  --class_labels LABELS path to text file containing the labels for each class\n" 					\
-		  "  --threshold THRESHOLD minimum threshold for detection (default is 0.5)\n"							\
-		  "  --input_blob INPUT    name of the input layer (default is '" DETECTNET_DEFAULT_INPUT "')\n" 			\
-		  "  --output_cvg COVERAGE name of the coverge output layer (default is '" DETECTNET_DEFAULT_COVERAGE "')\n" 	\
-		  "  --output_bbox BOXES   name of the bounding output layer (default is '" DETECTNET_DEFAULT_BBOX "')\n" 	\
-		  "  --mean_pixel PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
-		  "  --batch_size BATCH    maximum batch size (default is 1)\n"										\
-            "  --alpha ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\
-		  "  --profile             enable layer profiling in TensorRT\n"										\
-		  "  --verbose            enable verbose output from TensorRT\n"
+		  "  --model=MODEL         path to custom model to load (caffemodel, uff, or onnx)\n" 					\
+		  "  --prototxt=PROTOTXT   path to custom prototxt to load (for .caffemodel only)\n" 					\
+		  "  --class-labels=LABELS path to text file containing the labels for each class\n" 					\
+		  "  --input-blob=INPUT    name of the input layer (default is '" DETECTNET_DEFAULT_INPUT "')\n" 			\
+		  "  --output-cvg=COVERAGE name of the coverge output layer (default is '" DETECTNET_DEFAULT_COVERAGE "')\n" 	\
+		  "  --output-bbox=BOXES   name of the bounding output layer (default is '" DETECTNET_DEFAULT_BBOX "')\n" 	\
+		  "  --mean-pixel=PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
+		  "  --batch-size=BATCH    maximum batch size (default is 1)\n"										\
+		  "  --threshold=THRESHOLD minimum threshold for detection (default is 0.5)\n"							\
+            "  --alpha=ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\
+		  "  --overlay=OVERLAY     detection overlay flags (e.g. --overlay=box,labels,conf)\n"					\
+		  "                        valid combinations are:  'box', 'labels', 'conf', 'none'\n"					\
+		  "  --profile             enable layer profiling in TensorRT\n"
 
 
 /**

@@ -56,25 +56,18 @@ void sig_handler(int signo)
 
 int usage()
 {
-	printf("usage: segnet-camera [-h] [--network NETWORK] [--camera CAMERA]\n");
-	printf("                     [--width WIDTH] [--height HEIGHT]\n");
-	printf("                     [--alpha ALPHA] [--filter-mode MODE]\n");
-	printf("                     [--ignore-class CLASS]\n\n");
-	printf("Segment and classify a live camera stream using a semantic segmentation DNN.\n\n");
-	printf("optional arguments:\n");
-	printf("  --help            show this help message and exit\n");
-	printf("  --network NETWORK pre-trained model to load (see below for options)\n");
-	printf("  --camera CAMERA   index of the MIPI CSI camera to use (e.g. CSI camera 0),\n");
-	printf("                    or for VL42 cameras the /dev/video device to use.\n");
-     printf("                    by default, MIPI CSI camera 0 will be used.\n");
-	printf("  --width WIDTH     desired width of camera stream (default: 1280 pixels)\n");
-	printf("  --height HEIGHT   desired height of camera stream (default: 720 pixels)\n");
-	printf("  --alpha ALPHA     overlay alpha blending value, range 0-255 (default: 180)\n");
-	printf("  --filter-mode MODE   filtering mode used during visualization,\n");
-	printf("                       options are 'point' or 'linear' (default: 'linear')\n");
-	printf("  --ignore-class CLASS optional name of class to ignore when classifying\n");
-	printf("                       the visualization results (default: 'void')\n\n");
+	printf("usage: segnet [--help] [--network NETWORK] ...\n");
+	printf("              input_URI [output_URI]\n\n");
+	printf("Segment and classify a video/image stream using a semantic segmentation DNN.\n");
+	printf("See below for additional arguments that may not be shown above.\n\n");
+	printf("positional arguments:\n");
+	printf("    input_URI       resource URI of input stream  (see videoSource below)\n");
+	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
+
 	printf("%s\n", segNet::Usage());
+	printf("%s\n", videoSource::Usage());
+	printf("%s\n", videoOutput::Usage());
+	printf("%s\n", Log::Usage());
 
 	return 0;
 }

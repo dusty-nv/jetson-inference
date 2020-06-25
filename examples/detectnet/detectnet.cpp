@@ -51,23 +51,18 @@ void sig_handler(int signo)
 
 int usage()
 {
-	printf("usage: detectnet [-h] [--network NETWORK] [--threshold THRESHOLD]\n");
-	printf("                 [--camera CAMERA] [--width WIDTH] [--height HEIGHT]\n\n");
-	printf("Locate objects in a live camera stream using an object detection DNN.\n\n");
-	printf("optional arguments:\n");
-	printf("  --help            show this help message and exit\n");
-	printf("  --network NETWORK pre-trained model to load (see below for options)\n");
-	printf("  --overlay OVERLAY detection overlay flags (e.g. --overlay=box,labels,conf)\n");
-	printf("                    valid combinations are:  'box', 'labels', 'conf', 'none'\n");
-     printf("  --alpha ALPHA     overlay alpha blending value, range 0-255 (default: 120)\n");
-	printf("  --camera CAMERA   index of the MIPI CSI camera to use (e.g. CSI camera 0),\n");
-	printf("                    or for VL42 cameras the /dev/video device to use.\n");
-     printf("                    by default, MIPI CSI camera 0 will be used.\n");
-	printf("  --width WIDTH     desired width of camera stream (default is 1280 pixels)\n");
-	printf("  --height HEIGHT   desired height of camera stream (default is 720 pixels)\n");
-	printf("  --threshold VALUE minimum threshold for detection (default is 0.5)\n\n");
+	printf("usage: detectnet [--help] [--network=NETWORK] [--threshold=THRESHOLD] ...\n");
+	printf("                 input_URI [output_URI]\n\n");
+	printf("Locate objects in a video/image stream using an object detection DNN.\n");
+	printf("See below for additional arguments that may not be shown above.\n\n");
+	printf("positional arguments:\n");
+	printf("    input_URI       resource URI of input stream  (see videoSource below)\n");
+	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
 
 	printf("%s\n", detectNet::Usage());
+	printf("%s\n", videoSource::Usage());
+	printf("%s\n", videoOutput::Usage());
+	printf("%s\n", Log::Usage());
 
 	return 0;
 }
