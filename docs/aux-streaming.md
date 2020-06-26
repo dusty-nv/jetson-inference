@@ -22,11 +22,11 @@ Streams are identified via a resource URI and accessed through the [`videoSource
 |------------------|--------------|---------------------------|----------------------------------------------------------|
 | [MIPI CSI cameras](#mipi-csi-cameras) | `csi://`     | `csi://0`                 | CSI camera 0 (substitute other camera numbers for `0`)                    |
 | [V4L2 cameras](#v4l2-cameras)     | `v4l2://`    | `v4l2:///dev/video0`      | V4L2 device 0 (substitute other camera numbers for `0`)                            |
-| RTP stream       | `rtp://`     | `rtp://@:1234`            | localhost, port 1234 (requires additional configuration) |
-| RTSP stream      | `rtsp://`    | `rtsp://<remote-ip>:1234` | Replace `<remote-ip>` with remote host's IP or hostname  |
-| Video file       | `file://`    | `file://my_video.mp4`     | Supports loading MP4, MKV, AVI, FLV (see codecs below)   |
-| Image file       | `file://`    | `file://my_image.jpg`     | Supports loading JPG, PNG, TGA, BMP, GIF, ect.           |
-| Image sequence   | `file://`    | `file://my_directory/`    | Searches for images in alphanumeric order                |
+| [RTP stream](#rtp)       | `rtp://`     | `rtp://@:1234`            | localhost, port 1234 (requires additional configuration) |
+| [RTSP stream](#rtsp)      | `rtsp://`    | `rtsp://<remote-ip>:1234` | Replace `<remote-ip>` with remote host's IP or hostname  |
+| [Video file](#video-files)       | `file://`    | `file://my_video.mp4`     | Supports loading MP4, MKV, AVI, FLV (see codecs below)   |
+| [Image file](#image-files)       | `file://`    | `file://my_image.jpg`     | Supports loading JPG, PNG, TGA, BMP, GIF, ect.           |
+| [Image sequence](#image-files)   | `file://`    | `file://my_directory/`    | Searches for images in alphanumeric order                |
 
 * Supported decoder codecs:  H.264, H.265, VP8, VP9, MPEG-2, MPEG-4, MJPEG
 * The `file://`, `v4l2://`, and `csi://` protocol prefixes can be omitted from the URI as shorthand
@@ -35,11 +35,11 @@ Streams are identified via a resource URI and accessed through the [`videoSource
 
 |                  | Protocol     | Resource URI              | Notes                                                    |
 |------------------|--------------|---------------------------|----------------------------------------------------------|
-| OpenGL display   | `display://` | `display://0`             | Creates GUI window on screen 0                           |
-| RTP              | `rtp://`     | `rtp://<remote-ip>:1234`  | Replace `<remote-ip>` with remote host's IP or hostname  |
-| Video file       | `file://`    | `file://my_video.mp4`     | Supports saving MP4, MKV, AVI, FLV (see codecs below)    |
-| Image file       | `file://`    | `file://my_image.jpg`     | Supports saving JPG, PNG, TGA, BMP                       |
-| Image sequence   | `file://`    | `file://image_%i.jpg`     | `%i` is replaced by the image number in the sequence     |
+| [OpenGL display](#output-streams)   | `display://` | `display://0`             | Creates GUI window on screen 0                           |
+| [RTP stream](#rtp)              | `rtp://`     | `rtp://<remote-ip>:1234`  | Replace `<remote-ip>` with remote host's IP or hostname  |
+| [Video file](#video-files)       | `file://`    | `file://my_video.mp4`     | Supports saving MP4, MKV, AVI, FLV (see codecs below)    |
+| [Image file](#image-files)       | `file://`    | `file://my_image.jpg`     | Supports saving JPG, PNG, TGA, BMP                       |
+| [Image sequence](#image-files)   | `file://`    | `file://image_%i.jpg`     | `%i` is replaced by the image number in the sequence     |
 
 * Supported encoder codecs:  H.264, H.265, VP8, VP9, MJPEG
 * The `file://` protocol prefixes can be omitted from the URI as shorthand
@@ -159,14 +159,14 @@ $ v4l2-ctl --device=/dev/video0 --list-formats-ext
   
 ### RTP
 
-RTP streams are broadcast to a particular host or multicast group over UDP/IP.  When recieving an RTP stream, additional options must be set (such as the resolution and codec) that match the source, because the RTP protocol doesn't include the ability to dynamically query these properties.
+RTP network streams are broadcast to a particular host or multicast group over UDP/IP.  When recieving an RTP stream, additional options must be set (such as the resolution and codec) that match the source, because RTP doesn't have the ability to dynamically query these.
 
 ```bash
 $ video-viewer --input-width=1280 --input-height=720 --input-codec=h264 rtp://@:1234         # recieve on localhost port 1234
 $ video-viewer --input-width=1280 --input-height=720 --input-codec=h264 rtp://224.0.0.0:1234 # subscribe to multicast group
 ```
 
-To transmit an RTP output stream, you needn't set the options above, but if desired you can specify the bitrate (the default is `--bitrate=4000000` or 4Mbps) and/or the output codec (the default is `--output-codec=h264`).  Possible encoder codecs are `--output-codec=h264, h265, vp8, vp9, mjpeg`
+To transmit an RTP output stream, you needn't set the options above. If desired, you can specify the bitrate (the default is `--bitrate=4000000` or 4Mbps) and/or the output codec (the default is `--output-codec=h264`), which can be `h264, h265, vp8, vp9, mjpeg`.
 
 ```bash
 $ video-viewer --bitrate=1000000 csi://0 rtp://<remote-ip>:1234         # transmit camera over RTP, encoded as H.264 @ 1Mbps 
@@ -177,7 +177,7 @@ When outputting RTP, you do need to explicitly set the IP address or hostname of
 
 ### RTSP
 
-RTSP streams are subscribed to from a remote host over UDP/IP.  Unlike RTP, RTSP can dynamically query the stream properties (like resolution and codec), so these options don't need to be explicitly provided.
+RTSP network streams are subscribed to from a remote host over UDP/IP.  Unlike RTP, RTSP can dynamically query the stream properties (like resolution and codec), so these options don't need to be explicitly provided.
 
 ```bash
 $ video-viewer rtsp://<remote-ip>:1234 my_video.mp4  # subscribe to RTSP feed from <remote-ip>, port 1234 (and save it to file)
