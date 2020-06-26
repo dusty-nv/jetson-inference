@@ -266,7 +266,9 @@ If you wish to specify the filename format, do so by using the printf-style `%i`
 
 ## Source Code
 
-`<TODO>`
+Streams are accessed using the [`videoSource`](https://github.com/dusty-nv/jetson-utils/video/videoSource.h) and [`videoOutput`](https://github.com/dusty-nv/jetson-utils/video/videoOutput.h) objects.  These have the ability to handle each of the streams above through a unified set of APIs.  
+
+Below is the source code to `video-viewer.py` and `video-viewer.cpp`, slightly abbreviated to improve readability:
 
 ### Python
 ```python
@@ -296,44 +298,25 @@ while output.IsStreaming():
 #include "videoSource.h"
 #include "videoOutput.h"
 
-#include <signal.h>
-
-bool signal_recieved = false;
-
-void sig_handler(int signo)
-{
-	if( signo == SIGINT )
-		signal_recieved = true;
-}
 
 int main( int argc, char** argv )
 {
 	commandLine cmdLine(argc, argv);
-
-	// attach signal handler
-	if( signal(SIGINT, sig_handler) == SIG_ERR )
-		LogError("can't catch SIGINT\n");
 
 	// create input/output streams
 	videoSource* inputStream = videoSource::Create(cmdLine, ARG_POSITION(0));
 	videoOutput* outputStream = videoOutput::Create(cmdLine, ARG_POSITION(1));
 	
 	if( !inputStream )
-	{
-		LogError("video-viewer:  failed to create input stream\n");
 		return 0;
-	}
 
 	// capture/display loop
-	while( !signal_recieved )
+	while( true )
 	{
 		uchar3* nextFrame = NULL;
 
 		if( !inputStream->Capture(&nextFrame, 1000) )
-		{
-			LogError("video-viewer:  failed to capture video frame\n");
 			continue;
-		}
 
 		if( outputStream != NULL )
 		{
@@ -346,11 +329,11 @@ int main( int argc, char** argv )
 
 			// check if the user quit
 			if( !outputStream->IsStreaming() )
-				signal_recieved = true;
+				break;
 		}
 
 		if( !inputStream->IsStreaming() )
-			signal_recieved = true;
+			break;
 	}
 
 	// destroy resources
@@ -358,8 +341,6 @@ int main( int argc, char** argv )
 	SAFE_DELETE(outputStream);
 }
 ```
-
-Streams are accessed using the [`videoSource`](https://github.com/dusty-nv/jetson-utils/video/videoSource.h) and [`videoOutput`](https://github.com/dusty-nv/jetson-utils/video/videoOutput.h) objects.  These have the ability to handle each of the above through a unified set of APIs.  The streams are identified via a resource URI.  The accepted formats and protocols of the resource URIs are documented below, along with example commands of using the `video-viewer` tool with them.  Note that you can substitute other examples such as `imagenet`, `detectnet`, `segnet` (and their respective `.py` Python versions) for `video-viewer` below, because they all accept the same command-line arguments.
 
 ##
 <p align="right">Next | <b><a href="aux-image-manipulation.md">Image Manipulation with CUDA</a></b>
