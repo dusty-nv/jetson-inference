@@ -191,12 +191,12 @@ You can playback and record video files in MP4, MKV, AVI, and FLV formats.
 
 ```bash
 # playback
-$ video-viewer my_video.mp4                            # display the video file
-$ video-viewer my_video.mp4 rtp://<remote-ip>:1234     # transmit the video over RTP
+$ video-viewer my_video.mp4                              # display the video file
+$ video-viewer my_video.mp4 rtp://<remote-ip>:1234       # transmit the video over RTP
 
 # recording
-$ video-viewer csi://0 my_video.mp4                    # record CSI camera to video file
-$ video-viewer /dev/video0 my_video.mp4                # record V4L2 camera to video file
+$ video-viewer csi://0 my_video.mp4                      # record CSI camera to video file
+$ video-viewer /dev/video0 my_video.mp4                  # record V4L2 camera to video file
 ```
 
 #### Codecs
@@ -205,7 +205,7 @@ When loading video files, the codec and resolution is automatically detected, so
 When saving video files, the default codec is H.264, but this can be set with the `--output-codec` option.
 
 ```bash
-$ video-viewer --output-codec=h265 input.mp4 output.mp4           # transcode video to H.265
+$ video-viewer --output-codec=h265 input.mp4 output.mp4  # transcode video to H.265
 ```
 
 The following codecs are supported:
@@ -246,7 +246,7 @@ You can load/save image files in the following formats:
 $ video-viewer input.jpg output.jpg	# load/save an image
 ```
 
-You can also loop images and image sequences, see the [Looping Inputs](#looping-inputs) section above.
+You can also loop images and image sequences - see the [Looping Inputs](#looping-inputs) section above.
 
 #### Sequences
 
@@ -261,10 +261,103 @@ $ video-viewer "*.jpg" output_%i.jpg    # load all jpg images and save them to o
 
 When saving a sequence of images, if the path is just to a directory (`output_dir`), then the images will automatically be saved as JPG with the format `output_dir/%i.jpg`, using the image number as it's filename (`output_dir/0.jpg`, `output_dir/1.jpg`, ect).  
 
-If you wish to specify the filename format, do so by using the printf-style `%i` in the path (`output_dir/image_%i.png`).  You can apply additional printf modifiers such as `%04i` to create filenames like `output_dir/0001.jpg`.
+If you wish to specify the filename format, do so by using the printf-style `%i` in the path (`output_dir/image_%i.png`).  You can apply additional printf modifiers such as `%04i` to create filenames like `output_dir/image_0001.jpg`.
 
 
 ## Source Code
+
+`<TODO>`
+
+### Python
+```python
+import jetson.utils
+import argparse
+import sys
+
+# parse command line
+parser = argparse.ArgumentParser()
+parser.add_argument("input_URI", type=str, help="URI of the input stream")
+parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
+opt = parser.parse_known_args()[0]
+
+# create video sources & outputs
+input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
+output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv)
+
+# capture frames until user exits
+while output.IsStreaming():
+	image = input.Capture()
+	output.Render(image)
+	output.SetStatus("Video Viewer | {:d}x{:d} | {:.1f} FPS".format(image.width, image.height, output.GetFrameRate()))
+```
+
+### C++
+```c++
+#include "videoSource.h"
+#include "videoOutput.h"
+
+#include <signal.h>
+
+bool signal_recieved = false;
+
+void sig_handler(int signo)
+{
+	if( signo == SIGINT )
+		signal_recieved = true;
+}
+
+int main( int argc, char** argv )
+{
+	commandLine cmdLine(argc, argv);
+
+	// attach signal handler
+	if( signal(SIGINT, sig_handler) == SIG_ERR )
+		LogError("can't catch SIGINT\n");
+
+	// create input/output streams
+	videoSource* inputStream = videoSource::Create(cmdLine, ARG_POSITION(0));
+	videoOutput* outputStream = videoOutput::Create(cmdLine, ARG_POSITION(1));
+	
+	if( !inputStream )
+	{
+		LogError("video-viewer:  failed to create input stream\n");
+		return 0;
+	}
+
+	// capture/display loop
+	while( !signal_recieved )
+	{
+		uchar3* nextFrame = NULL;
+
+		if( !inputStream->Capture(&nextFrame, 1000) )
+		{
+			LogError("video-viewer:  failed to capture video frame\n");
+			continue;
+		}
+
+		if( outputStream != NULL )
+		{
+			outputStream->Render(nextFrame, inputStream->GetWidth(), inputStream->GetHeight());
+
+			// update status bar
+			char str[256];
+			sprintf(str, "Video Viewer (%ux%u) | %.1f FPS", inputStream->GetWidth(), inputStream->GetHeight(), outputStream->GetFrameRate());
+			outputStream->SetStatus(str);	
+
+			// check if the user quit
+			if( !outputStream->IsStreaming() )
+				signal_recieved = true;
+		}
+
+		if( !inputStream->IsStreaming() )
+			signal_recieved = true;
+	}
+
+	// destroy resources
+	SAFE_DELETE(inputStream);
+	SAFE_DELETE(outputStream);
+}
+```
 
 Streams are accessed using the [`videoSource`](https://github.com/dusty-nv/jetson-utils/video/videoSource.h) and [`videoOutput`](https://github.com/dusty-nv/jetson-utils/video/videoOutput.h) objects.  These have the ability to handle each of the above through a unified set of APIs.  The streams are identified via a resource URI.  The accepted formats and protocols of the resource URIs are documented below, along with example commands of using the `video-viewer` tool with them.  Note that you can substitute other examples such as `imagenet`, `detectnet`, `segnet` (and their respective `.py` Python versions) for `video-viewer` below, because they all accept the same command-line arguments.
 
