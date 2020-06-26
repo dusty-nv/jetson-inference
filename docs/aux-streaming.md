@@ -61,7 +61,7 @@ imagenet input.jpg output.jpg
 
 As mentioned above, any of the examples from jetson-inference can be substituted here, since they use the same command-line parsing.  Below are additional stream options that can be specified when running each example:
 
-### Input Options
+#### Input Options
 
 ```
     input_URI            resource URI of the input stream (see table above)
@@ -87,7 +87,7 @@ As mentioned above, any of the examples from jetson-inference can be substituted
                              * >0 = set number of loops
 ```
 
-### Output Options
+#### Output Options
 
 ```
     output_URI           resource URI of the output stream (see table above)
@@ -100,8 +100,6 @@ As mentioned above, any of the examples from jetson-inference can be substituted
                          in bits per second. The default is 4000000 (4 Mbps)
   --headless             don't create a default OpenGL GUI window
 ```
-
-## Streaming Examples
 
 Below are example commands of launching the `video-viewer` tool on various types of streams.  You can substitute the other programs for `video-viewer` in these commands, since they parse the same arguments.  In the [Source Code](#source-code) section of this page, you can browse the contents of the `video-viewer` source code to show how to use the `videoSource` and `videoOutput` APIs in your own applications.
 
