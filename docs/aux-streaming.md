@@ -142,21 +142,21 @@ $ video-viewer /dev/video0 rtp://<remote-ip>:1234 # broadcast output stream over
 
 #### V4L2 Formats
 
+By default, V4L2 cameras will be created using the camera format with the highest framerate that most closely matches the desired resolution (by default, that resolution is 1280x720).  The format with the highest framerate may be encoded (for example with H.264 or MJPEG), as USB cameras typically transmit uncompressed YUV/RGB at lower framerates.  In this case, that codec will be detected and the camera stream will automatically be decoded using the Jetson's hardware decoder to attain the highest framerate.
+
+If you explicitly want to choose the format used by the V4L2 camera, you can do so with the `--input-width`, `--input-height`, and `--input-codec` options.  Possible decoder codec options are `--input-codec=h264, h265, vp8, vp9, mpeg2, mpeg4, mjpeg`
+
+```bash
+$ video-viewer --input-width=1920 --input-height=1080 --input-codec=h264 /dev/video0
+```
+
 When you run one of the jetson-inference programs on a V4L2 source, the different formats that the V4L2 camera supports will be logged to the terminal.  However you can also list these supported formats with the `v4l2-ctl` command:
 
 ```bash
 $ sudo apt-get install v4l-utils
 $ v4l2-ctl --device=/dev/video0 --list-formats-ext
 ```
- 
-By default, V4L2 cameras will be created using the camera format with the highest framerate that most closely matches the desired resolution (by default, that resolution is 1280x720).  The format with the highest framerate may be encoded (for example with H.264 or MJPEG), as USB cameras typically transmit uncompressed YUV/RGB at lower framerates.  In this case, the codec will be detected and the camera stream will automatically be decoded using the Jetson's hardware decoder to attain the highest framerate.
-
-If you explicitly want to set the format used by the V4L2 camera, you can do so with the `--input-width`, `--input-height`, and `--input-codec` options.  Possible decoder codec options are `--input-codec=h264, h265, vp8, vp9, mpeg2, mpeg4, mjpeg`
-
-```bash
-$ video-viewer --input-width=1920 --input-height=1080 --input-codec=h264 /dev/video0
-```
- 
+  
 ### RTP
 
 RTP streams are broadcast to a particular host or multicast group over UDP/IP.  When recieving an RTP stream, additional options must be set (such as the resolution and codec) that match the source, because the RTP protocol doesn't include the ability to dynamically query these properties.
@@ -166,66 +166,68 @@ $ video-viewer --input-width=1280 --input-height=720 --input-codec=h264 rtp://@:
 $ video-viewer --input-width=1280 --input-height=720 --input-codec=h264 rtp://224.0.0.0:1234 # subscribe to multicast group
 ```
 
-#### RTP Outputs
-
-To transmit an RTP output stream, you needn't set the options above, but you can specify a different `--output-codec` if desired (the default is `--output-codec=h264`).  Possible encoder codec options are `--output-codec=h264, h265, vp8, vp9, mjpeg`.  You can also set the bitrate with `--bitrate` (the default is `--bitrate=4000000` or 4Mbps).
+To transmit an RTP output stream, you needn't set the options above, but if desired you can specify the bitrate (the default is `--bitrate=4000000` or 4Mbps) and/or the output codec (the default is `--output-codec=h264`).  Possible encoder codecs are `--output-codec=h264, h265, vp8, vp9, mjpeg`
 
 ```bash
-$ video-viewer --output-codec=h265 my_video.mp4 rtp://<remote-ip>:1234  # transmit a video file over RTP, encoded as H.265
 $ video-viewer --bitrate=1000000 csi://0 rtp://<remote-ip>:1234         # transmit camera over RTP, encoded as H.264 @ 1Mbps 
+$ video-viewer --output-codec=h265 my_video.mp4 rtp://<remote-ip>:1234  # transmit a video file over RTP, encoded as H.265
 ```
 
-When outputting RTP, you do need to explicitly set the IP address or hostname of the remote host or multicast group that the stream is being sent to (shown below as `<remote-ip>`).
+When outputting RTP, you do need to explicitly set the IP address or hostname of the remote host (or multicast group) that the stream is being sent to (shown above as `<remote-ip>`).
 
 ### RTSP
 
-RTSP streams are subscribed to from a remote host.  Unlike RTP, RTSP can dynamically query the stream properties (like resolution and codec), so these options needn't be explicitly provided.
+RTSP streams are subscribed to from a remote host over UDP/IP.  Unlike RTP, RTSP can dynamically query the stream properties (like resolution and codec), so these options don't need to be explicitly provided.
 
 ```bash
-$ video-viewer rtsp://<remote-ip>:1234 my_video.mp4	# subscribe to RTSP feed from <remote-ip>, port 1234 (and save it to file)
+$ video-viewer rtsp://<remote-ip>:1234 my_video.mp4  # subscribe to RTSP feed from <remote-ip>, port 1234 (and save it to file)
 ```
 
-> **note:** RTSP is supported as an input only.  Outputting RTSP would require additional support for an RTSP server in GStreamer.
+> **note:** RTSP is supported as an input only.  Outputting RTSP would require additional support in GStreamer for an RTSP server.
 
 ### Video Files
 
 You can playback and record video files in MP4, MKV, AVI, and FLV formats.
 
 ```bash
-$ video-viewer my_video.mp4						# display the video file
-$ video-viewer my_video.mp4 rtp://<remote-ip>:1234	# transmit the video over RTP
+# playback
+$ video-viewer my_video.mp4                            # display the video file
+$ video-viewer my_video.mp4 rtp://<remote-ip>:1234     # transmit the video over RTP
+
+# recording
 $ video-viewer csi://0 my_video.mp4                    # record CSI camera to video file
 $ video-viewer /dev/video0 my_video.mp4                # record V4L2 camera to video file
 ```
 
 #### Codecs
 
-The following codecs are supported:
-
-* Decode:  H.264, H.265, VP8, VP9, MPEG-2, MPEG-4, MJPEG
-* Encode:  H.264, H.265, VP8, VP9, MJPEG
-
-When loading video files, the codec and resolution is automatically detected, so these needn't be set.
+When loading video files, the codec and resolution is automatically detected, so these don't need to be set.
 When saving video files, the default codec is H.264, but this can be set with the `--output-codec` option.
 
 ```bash
-$ video-viewer --output-codec=h265 input.mp4 output.mp4  # transcode video to H.265
+$ video-viewer --output-codec=h265 input.mp4 output.mp4           # transcode video to H.265
 ```
+
+The following codecs are supported:
+
+* Decode - H.264, H.265, VP8, VP9, MPEG-2, MPEG-4, MJPEG
+* Encode - H.264, H.265, VP8, VP9, MJPEG
+
 
 #### Resizing Inputs
 
 When loading video files, the resolution is automatically detected.  However, if you would like the input video to be re-scaled to a different resolution, you can specify the `--input-width` and `--input-height` options:
 
 ```bash
-$ video-viewer --input-width=640 --input-height=480 my_video.mp4	 # resize video to 640x480
+$ video-viewer --input-width=640 --input-height=480 my_video.mp4  # resize video to 640x480
 ```
 
 #### Looping Inputs
 
-By default, the stream will terminate once the end of the video is reached (EOS).  However, by specifying the `--loop` option, you can set the number of loops that you want the video to run for.  Possible options for `--loop` are:
+By default, the video will terminate once the end of stream (EOS) is reached.  However, by specifying the `--loop` option, you can set the number of loops that you want the video to run for.  Possible options for `--loop` are:
 
 * `-1` = loop forever
-* ` 0` = don't loop (default)
+* &nbsp;` 0` = don't loop (default)
 * `>0` = set number of loops
 
 ```bash
@@ -244,7 +246,7 @@ You can load/save image files in the following formats:
 $ video-viewer input.jpg output.jpg	# load/save an image
 ```
 
-You can loop images and image sequences, see the [Looping Inputs](#looping-inputs) section above.
+You can also loop images and image sequences, see the [Looping Inputs](#looping-inputs) section above.
 
 #### Sequences
 
@@ -255,9 +257,11 @@ $ video-viewer input_dir/ output_dir/   # load all images from input_dir and sav
 $ video-viewer "*.jpg" output_%i.jpg    # load all jpg images and save them to output_0.jpg, output_1.jpg, ect
 ```
 
-> *note:* when using wildcards, always enclose it in quotes (`".jpg"`). Otherwise, the OS will auto-expand the sequence and modify the order of arguments on the command-line, which can result in one of the input images being overwritten by the output.
+> **note:** when using wildcards, always enclose it in quotes (`".jpg"`). Otherwise, the OS will auto-expand the sequence and modify the order of arguments on the command-line, which may result in one of the input images being overwritten by the output.
 
-When saving a sequence of images, if the path is just to a directory (`output_dir`), then the images will automatically be saved as JPG with the image number as it's filename (i.e. `output_dir/0.jpg`, `output_dir/1.jpg`, ect).  If you wish to specify the format, do so by using the printf-style `%i` in the path (i.e. `output_dir/image_%i.png`).  You can apply additional printf modifiers such as `%04i` to create filenames like `output_dir/0001.jpg`.
+When saving a sequence of images, if the path is just to a directory (`output_dir`), then the images will automatically be saved as JPG with the format `output_dir/%i.jpg`, using the image number as it's filename (`output_dir/0.jpg`, `output_dir/1.jpg`, ect).  
+
+If you wish to specify the filename format, do so by using the printf-style `%i` in the path (`output_dir/image_%i.png`).  You can apply additional printf modifiers such as `%04i` to create filenames like `output_dir/0001.jpg`.
 
 
 ## Source Code
