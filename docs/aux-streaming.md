@@ -164,7 +164,7 @@ $ video-viewer --input-width=1280 --input-height=720 --input-codec=h264 rtp://@:
 $ video-viewer --input-width=1280 --input-height=720 --input-codec=h264 rtp://224.0.0.0:1234 # subscribe to multicast group
 ```
 
-To transmit an RTP output stream, you needn't set the options above. If desired, you can specify the bitrate (the default is `--bitrate=4000000` or 4Mbps) and/or the output codec (the default is `--output-codec=h264`), which can be `h264, h265, vp8, vp9, mjpeg`.
+To transmit an RTP output stream, you needn't set the options above. If desired, you can specify the bitrate (the default is `--bitrate=4000000` or 4Mbps) and/or the output codec (the default is `--output-codec=h264`) which can be `h264, h265, vp8, vp9, mjpeg`
 
 ```bash
 $ video-viewer --bitrate=1000000 csi://0 rtp://<remote-ip>:1234         # transmit camera over RTP, encoded as H.264 @ 1Mbps 
