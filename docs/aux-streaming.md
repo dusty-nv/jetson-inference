@@ -20,8 +20,8 @@ Streams are identified via a resource URI and accessed through the [`videoSource
 
 |                  | Protocol     | Resource URI              | Notes                                                    |
 |------------------|--------------|---------------------------|----------------------------------------------------------|
-| [MIPI CSI cameras](#mipi-csi-cameras) | `csi://`     | `csi://0`                 | CSI camera 0 (substitute other camera numbers for `0`)                    |
-| [V4L2 cameras](#v4l2-cameras)     | `v4l2://`    | `v4l2:///dev/video0`      | V4L2 device 0 (substitute other camera numbers for `0`)                            |
+| [MIPI CSI camera](#mipi-csi-cameras) | `csi://`     | `csi://0`                 | CSI camera 0 (substitute other camera numbers for `0`)                    |
+| [V4L2 camera](#v4l2-cameras)     | `v4l2://`    | `v4l2:///dev/video0`      | V4L2 device 0 (substitute other camera numbers for `0`)                            |
 | [RTP stream](#rtp)       | `rtp://`     | `rtp://@:1234`            | localhost, port 1234 (requires additional configuration) |
 | [RTSP stream](#rtsp)      | `rtsp://`    | `rtsp://<remote-ip>:1234` | Replace `<remote-ip>` with remote host's IP or hostname  |
 | [Video file](#video-files)       | `file://`    | `file://my_video.mp4`     | Supports loading MP4, MKV, AVI, FLV (see codecs below)   |
@@ -35,11 +35,11 @@ Streams are identified via a resource URI and accessed through the [`videoSource
 
 |                  | Protocol     | Resource URI              | Notes                                                    |
 |------------------|--------------|---------------------------|----------------------------------------------------------|
-| [OpenGL display](#output-streams)   | `display://` | `display://0`             | Creates GUI window on screen 0                           |
 | [RTP stream](#rtp)              | `rtp://`     | `rtp://<remote-ip>:1234`  | Replace `<remote-ip>` with remote host's IP or hostname  |
 | [Video file](#video-files)       | `file://`    | `file://my_video.mp4`     | Supports saving MP4, MKV, AVI, FLV (see codecs below)    |
 | [Image file](#image-files)       | `file://`    | `file://my_image.jpg`     | Supports saving JPG, PNG, TGA, BMP                       |
 | [Image sequence](#image-files)   | `file://`    | `file://image_%i.jpg`     | `%i` is replaced by the image number in the sequence     |
+| [OpenGL display](#output-streams)   | `display://` | `display://0`             | Creates GUI window on screen 0                           |
 
 * Supported encoder codecs:  H.264, H.265, VP8, VP9, MJPEG
 * The `file://` protocol prefixes can be omitted from the URI as shorthand
@@ -105,15 +105,15 @@ As mentioned above, any of the examples from jetson-inference can be substituted
 
 Below are example commands of launching the `video-viewer` tool on various types of streams.  You can substitute the other programs for `video-viewer` in these commands, since they parse the same arguments.  In the [Source Code](#source-code) section of this page, you can browse the contents of the `video-viewer` source code to show how to use the `videoSource` and `videoOutput` APIs in your own applications.
 
-### MIPI CSI cameras
+## MIPI CSI cameras
 
 MIPI CSI cameras are compact sensors that are acquired directly by the Jetson's hardware CSI/ISP interface.  Supported CSI cameras include:
 
 * [Raspberry Pi Camera Module v2](https://www.raspberrypi.org/products/camera-module-v2/) (IMX219) for Jetson Nano and Jetson Xavier NX
-* OV5693 sensor that comes with the Jetson TX1/TX2 devkits.  
+* OV5693 camera module from the Jetson TX1/TX2 devkits.  
 * See the [Jetson Partner Supported Cameras](https://developer.nvidia.com/embedded/jetson-partner-supported-cameras) page for more sensors supported by the ecosystem.
 
-Here's a few examples of launching with a MIPI CSI camera.  If you have multiple CSI cameras attached, subsitute the camera number for `0`:
+Here's a few examples of launching with a MIPI CSI camera.  If you have multiple CSI cameras attached, subsitute the camera number for 0:
 
 ```bash
 $ video-viewer csi://0                        # MIPI CSI camera 0 (substitue other camera numbers)
@@ -121,13 +121,13 @@ $ video-viewer csi://0 output.mp4             # save output stream to MP4 file (
 $ video-viewer csi://0 rtp://<remote-ip>:1234 # broadcast output stream over RTP to <remote-ip>
 ```
 
-By default, CSI cameras will be created with a 1280x720 resolution.  To specify a different resolution, use the `--input-width` and `input-height` options.  Note that the specified resolution must be one of the formats supported by the camera.
+By default, CSI cameras will be created with a 1280x720 resolution.  To specify a different resolution, use the `--input-width` and `input-height` options.  Note that the specified resolution must match one of the formats supported by the camera.
 
 ```bash
 $ video-viewer --input-width=1920 --input-height=1080 csi://0
 ```
 
-### V4L2 cameras
+## V4L2 cameras
 
 USB webcams are most commonly supported as V4L2 devices, for example Logitech [C270](https://www.logitech.com/en-us/product/hd-webcam-c270) or [C920](https://www.logitech.com/en-us/product/hd-pro-webcam-c920).
 
@@ -138,7 +138,7 @@ $ video-viewer /dev/video0 output.mp4             # save output stream to MP4 fi
 $ video-viewer /dev/video0 rtp://<remote-ip>:1234 # broadcast output stream over RTP to <remote-ip>
 ```
 
-> **note:**  if you have a MIPI CSI camera plugged in, it will also show up as `/dev/video0`.  Then if you plug in a USB webcam, that would show up as `/dev/video1`, so you would want to substitue `/dev/video1` in the commands above.  Using CSI cameras through V4L2 is unsupported in this project, as in V4L2 they use raw Bayer without ISP (instead, use CSI cameras as shown [above](#mipi-csi-cameras).
+> **note:**  if you have a MIPI CSI camera plugged in, it will also show up as `/dev/video0`.  Then if you plug in a USB webcam, that would show up as `/dev/video1`, so you would want to substitue `/dev/video1` in the commands above.  Using CSI cameras through V4L2 is unsupported in this project, because through V4L2 they use raw Bayer without ISP (instead, use CSI cameras as shown [above](#mipi-csi-cameras)).
 
 #### V4L2 Formats
 
@@ -157,7 +157,7 @@ $ sudo apt-get install v4l-utils
 $ v4l2-ctl --device=/dev/video0 --list-formats-ext
 ```
   
-### RTP
+## RTP
 
 RTP network streams are broadcast to a particular host or multicast group over UDP/IP.  When recieving an RTP stream, additional options must be set (such as the resolution and codec) that match the source, because RTP doesn't have the ability to dynamically query these.
 
@@ -175,7 +175,7 @@ $ video-viewer --output-codec=h265 my_video.mp4 rtp://<remote-ip>:1234  # transm
 
 When outputting RTP, you do need to explicitly set the IP address or hostname of the remote host (or multicast group) that the stream is being sent to (shown above as `<remote-ip>`).
 
-### RTSP
+## RTSP
 
 RTSP network streams are subscribed to from a remote host over UDP/IP.  Unlike RTP, RTSP can dynamically query the stream properties (like resolution and codec), so these options don't need to be explicitly provided.
 
@@ -185,7 +185,7 @@ $ video-viewer rtsp://<remote-ip>:1234 my_video.mp4  # subscribe to RTSP feed fr
 
 > **note:** RTSP is supported as an input only.  Outputting RTSP would require additional support in GStreamer for an RTSP server.
 
-### Video Files
+## Video Files
 
 You can playback and record video files in MP4, MKV, AVI, and FLV formats.
 
@@ -235,7 +235,7 @@ $ video-viewer --loop=10 my_video.mp4    # loop the video 10 times
 $ video-viewer --loop=-1 my_video.mp4    # loop the video forever (until user quits)
 ```
 
-### Image Files
+## Image Files
 
 You can load/save image files in the following formats:
 
