@@ -48,6 +48,8 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 	* [Re-training on the Cat/Dog Dataset](docs/pytorch-cat-dog.md)
 	* [Re-training on the PlantCLEF Dataset](docs/pytorch-plants.md)
 	* [Collecting your own Datasets](docs/pytorch-collect.md)
+* [Appendix](README.md#hello-ai-world)
+	* [Camera Streaming and Multimedia](docs/aux-streaming.md)
 
 ## Two Days to a Demo (DIGITS)
 

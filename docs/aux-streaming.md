@@ -298,14 +298,11 @@ while output.IsStreaming():
 #include "videoSource.h"
 #include "videoOutput.h"
 
-
 int main( int argc, char** argv )
 {
-	commandLine cmdLine(argc, argv);
-
 	// create input/output streams
-	videoSource* inputStream = videoSource::Create(cmdLine, ARG_POSITION(0));
-	videoOutput* outputStream = videoOutput::Create(cmdLine, ARG_POSITION(1));
+	videoSource* inputStream = videoSource::Create(argc, argv, ARG_POSITION(0));
+	videoOutput* outputStream = videoOutput::Create(argc, argv, ARG_POSITION(1));
 	
 	if( !inputStream )
 		return 0;
