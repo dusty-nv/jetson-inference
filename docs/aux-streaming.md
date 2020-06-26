@@ -50,7 +50,7 @@ Streams are identified via a resource URI and accessed through the [`videoSource
 Each example C++ and Python program from jetson-inference accepts the same set of command-line arguments for specifying stream URIs and additional options. So these options can be used on any of the examples (e.g. [`imagenet`](../examples/imagenet/imagenet.cpp)/[`imagenet.py`](../examples/python/imagenet.py), [`detectnet`](../examples/detectnet/detectnet.cpp)/[`detectnet.py`](../examples/python/detectnet.py), [`segnet`](../examples/segnet/segnet.cpp)/[`segnet.py`](../examples/python/segnet.py), [`video-viewer`](https://github.com/dusty-nv/jetson-utils/tree/master/video/video-viewer/video-viewer.cpp)/[`video-viewer.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/video-viewer.py), ect).  These command-line arguments generally take the form:
 
 ```bash
-$ imagenet [options] input_URI [output_URI]  # output_URI is optional
+$ imagenet [options] input_URI [output_URI]  # output URI is optional
 ```
 
 where the input and output URIs are specified by two positional arguments.  For example:
