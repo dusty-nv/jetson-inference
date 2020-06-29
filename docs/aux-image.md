@@ -22,7 +22,7 @@ Unless you're customizing your own application or video interface, you may not t
 
 ## Image Formats
 
-Although the [video streaming](aux-streaming#source-code) APIs and DNN objects (such [`imageNet`](c/imageNet.h), [`detectNet`](c/detectNet.h), and [`segNet`](c/segNet.h)) expect images in RGB/RGBA format, a variety of other formats are defined for low-level I/O.  To convert images between data formats and/or colorspaces, see the [Color Conversion](#color-conversion) section below.
+Although the [video streaming](aux-streaming#source-code) APIs and DNN objects (such [`imageNet`](c/imageNet.h), [`detectNet`](c/detectNet.h), and [`segNet`](c/segNet.h)) expect images in RGB/RGBA format, a variety of other formats are defined for low-level I/O.  
 
 |                 | Format string | [`imageFormat` enum](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406)   | Data Type | Bit Depth |
 |-----------------|---------------|--------------------|-----------|-----------|
@@ -50,8 +50,9 @@ Although the [video streaming](aux-streaming#source-code) APIs and DNN objects (
 * The bit depth represents the effective number of bits per pixel
 * For detailed specifications of the YUV formats, refer to [fourcc.org](http://fourcc.org/yuv.php)
 
-> **note:** in C++, the RGB/RGBA formats are the only ones that should be used with the `uchar3`/`uchar4`/`float3`/`float4` vector types.  It is assumed that when these types are used, the images are in RGB/RGBA.
+> **note:** in C++, the RGB/RGBA formats are the only ones that should be used with the `uchar3`/`uchar4`/`float3`/`float4` vector types.  It is assumed that when these types are used, the images are in RGB/RGBA format.
 
+To convert images between data formats and/or colorspaces, see the [Color Conversion](#color-conversion) section below.
 
 ## Image Allocation
 
