@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="../README.md#hello-ai-world">Back</a> | <a href="aux-image-manipulation.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="aux-contents.md">Back</a> | <a href="aux-image-manipulation.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Appendix</sup></p>  
 
@@ -14,7 +14,7 @@ This project supports streaming video feeds and images via a variety of interfac
 * Sequences of images
 * OpenGL displays
 
-Streams are identified via a resource URI and accessed through the [`videoSource`](#videoSource) and [`videoOutput`](#videoOutput) APIs.  The tables below show the supported input/output protocols and example URIs for each type of stream:
+Streams are identified via a resource URI and accessed through the [`videoSource`](#source-code) and [`videoOutput`](#source-code) APIs.  The tables below show the supported input/output protocols and example URIs for each type of stream:
 
 ### Input Streams
 
@@ -264,7 +264,21 @@ If you wish to specify the filename format, do so by using the printf-style `%i`
 
 ## Source Code
 
-Streams are accessed using the [`videoSource`](https://github.com/dusty-nv/jetson-utils/video/videoSource.h) and [`videoOutput`](https://github.com/dusty-nv/jetson-utils/video/videoOutput.h) objects.  These have the ability to handle each of the streams above through a unified set of APIs.  
+Streams are accessed using the [`videoSource`](https://github.com/dusty-nv/jetson-utils/tree/master/video/videoSource.h) and [`videoOutput`](https://github.com/dusty-nv/jetson-utils/tree/master/video/videoOutput.h) objects.  These have the ability to handle each of the types of streams from above through a unified set of APIs.  
+
+Images can be captured and output in the following data formats:
+
+| Data Type | [imageFormat](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406) enum | Python string |
+|-----------|-------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| `uchar3`  | `IMAGE_RGB8`                                                                                                                              | `rgb8`        |
+| `uchar4`  | `IMAGE_RGBA8`                                                                                                                             | `rgba8`       |
+| `float3`  | `IMAGE_RGB32F`                                                                                                                            | `rgb32f`      |
+| `float4`  | `IMAGE_RGBA32F`                                                                                                                           | `rgba32f`     |
+
+* the Data Type and [imageFormat](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406) enum are C++ types
+* the Python format string can be passed to `videoSource.Capture()` to request a specific format (the default is `rgb8`)
+
+To convert images to/from different formats, see the [Image Manipulation with CUDA](aux-image-formats.md) page for more info.
 
 Below is the source code to `video-viewer.py` and `video-viewer.cpp`, slightly abbreviated to improve readability:
 
@@ -286,7 +300,7 @@ output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv)
 
 # capture frames until user exits
 while output.IsStreaming():
-	image = input.Capture()
+	image = input.Capture(format='rgb8')  // can also be format='rgba8', 'rgb32f', rgba32f'
 	output.Render(image)
 	output.SetStatus("Video Viewer | {:d}x{:d} | {:.1f} FPS".format(image.width, image.height, output.GetFrameRate()))
 ```
@@ -308,7 +322,7 @@ int main( int argc, char** argv )
 	// capture/display loop
 	while( true )
 	{
-		uchar3* nextFrame = NULL;
+		uchar3* nextFrame = NULL;  // can be uchar3, uchar4, float3, float4
 
 		if( !inputStream->Capture(&nextFrame, 1000) )
 			continue;
@@ -339,5 +353,7 @@ int main( int argc, char** argv )
 
 ##
 <p align="right">Next | <b><a href="aux-image-manipulation.md">Image Manipulation with CUDA</a></b>
-<p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
+<br/>
+Back | <b><a href="aux-contents.md">Appendix</a></p>
+</b><p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
 

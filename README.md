@@ -16,7 +16,6 @@ It's recommended to walk through the Hello AI World module first to familiarize 
 ### Table of Contents
 
 * [Hello AI World](#hello-ai-world)
-* [Two Days to a Demo](#two-days-to-a-demo-digits)
 * [API Reference](#api-reference)
 * [Code Examples](#code-examples)
 * [Pre-Trained Models](#pre-trained-models)
@@ -30,8 +29,13 @@ It's recommended to walk through the Hello AI World module first to familiarize 
 
 Hello AI World can be run completely onboard your Jetson, including inferencing with TensorRT and transfer learning with PyTorch.  The inference portion of Hello AI World - which includes coding your own image classification application for C++ or Python, object detection, and live camera demos - can be run on your Jetson in roughly two hours or less, while transfer learning is best left to leave running overnight.
 
+#### System Setup
+
 * [Setting up Jetson with JetPack](docs/jetpack-setup-2.md)
 * [Building the Project from Source](docs/building-repo-2.md)
+
+#### Inference
+
 * [Classifying Images with ImageNet](docs/imagenet-console-2.md)
 	* [Using the Console Program on Jetson](docs/imagenet-console-2.md#using-the-console-program-on-jetson)
 	* [Coding Your Own Image Recognition Program (Python)](docs/imagenet-example-python-2.md)
@@ -44,52 +48,22 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 * [Semantic Segmentation with SegNet](docs/segnet-console-2.md)
 	* [Segmenting Images from the Command Line](docs/segnet-console-2.md#segmenting-images-from-the-command-line)
 	* [Running the Live Camera Segmentation Demo](docs/segnet-camera-2.md)
+
+#### Training
+
 * [Transfer Learning with PyTorch](docs/pytorch-transfer-learning.md)
+* Classification/Recognition (ResNet-18)
 	* [Re-training on the Cat/Dog Dataset](docs/pytorch-cat-dog.md)
 	* [Re-training on the PlantCLEF Dataset](docs/pytorch-plants.md)
-	* [Collecting your own Datasets](docs/pytorch-collect.md)
-* [Appendix](README.md#hello-ai-world)
-	* [Camera Streaming and Multimedia](docs/aux-streaming.md)
+	* [Collecting your own Classification Datasets](docs/pytorch-collect.md)
+* Object Detection (SSD-Mobilenet)
+	* [Re-training SSD-Mobilenet](docs/pytorch-cat-dog.md)
+	* [Collecting your own Detection Datasets](docs/pytorch-collect.md)
 
-## Two Days to a Demo (DIGITS)
+#### Appendix
 
-The full tutorial includes training in the cloud or PC, and inference on the Jetson with TensorRT, and can take roughly two days or more depending on system setup, downloading the datasets, and the training speed of your GPU.
-
-* [DIGITS Workflow](docs/digits-workflow.md) 
-* [DIGITS System Setup](docs/digits-setup.md)
-* [Setting up Jetson with JetPack](docs/jetpack-setup.md)
-* [Building the Project from Source](docs/building-repo.md)
-* [Classifying Images with ImageNet](docs/imagenet-console.md)
-	* [Using the Console Program on Jetson](docs/imagenet-console.md#using-the-console-program-on-jetson)
-	* [Coding Your Own Image Recognition Program](docs/imagenet-example.md)
-	* [Running the Live Camera Recognition Demo](docs/imagenet-camera.md)
-	* [Re-Training the Network with DIGITS](docs/imagenet-training.md)
-	* [Downloading Image Recognition Dataset](docs/imagenet-training.md#downloading-image-recognition-dataset)
-	* [Customizing the Object Classes](docs/imagenet-training.md#customizing-the-object-classes)
-	* [Importing Classification Dataset into DIGITS](docs/imagenet-training.md#importing-classification-dataset-into-digits)
-	* [Creating Image Classification Model with DIGITS](docs/imagenet-training.md#creating-image-classification-model-with-digits)
-	* [Testing Classification Model in DIGITS](docs/imagenet-training.md#testing-classification-model-in-digits)
-	* [Downloading Model Snapshot to Jetson](docs/imagenet-snapshot.md)
-	* [Loading Custom Models on Jetson](docs/imagenet-custom.md)
-* [Locating Objects with DetectNet](docs/detectnet-training.md)
-	* [Detection Data Formatting in DIGITS](docs/detectnet-training.md#detection-data-formatting-in-digits)
-	* [Downloading the Detection Dataset](docs/detectnet-training.md#downloading-the-detection-dataset)
-	* [Importing the Detection Dataset into DIGITS](docs/detectnet-training.md#importing-the-detection-dataset-into-digits)
-	* [Creating DetectNet Model with DIGITS](docs/detectnet-training.md#creating-detectnet-model-with-digits)
-	* [Testing DetectNet Model Inference in DIGITS](docs/detectnet-training.md#testing-detectnet-model-inference-in-digits)
-	* [Downloading the Detection Model to Jetson](docs/detectnet-snapshot.md)
-	* [DetectNet Patches for TensorRT](docs/detectnet-snapshot.md#detectnet-patches-for-tensorrt)
-	* [Detecting Objects from the Command Line](docs/detectnet-console.md)
-	* [Multi-class Object Detection Models](docs/detectnet-console.md#multi-class-object-detection-models)
-	* [Running the Live Camera Detection Demo on Jetson](docs/detectnet-camera.md)
-* [Semantic Segmentation with SegNet](docs/segnet-dataset.md)
-	* [Downloading Aerial Drone Dataset](docs/segnet-dataset.md#downloading-aerial-drone-dataset)
-	* [Importing the Aerial Dataset into DIGITS](docs/segnet-dataset.md#importing-the-aerial-dataset-into-digits)
-	* [Generating Pretrained FCN-Alexnet](docs/segnet-pretrained.md)
-	* [Training FCN-Alexnet with DIGITS](docs/segnet-training.md)
-	* [Testing Inference Model in DIGITS](docs/segnet-training.md#testing-inference-model-in-digits)
-	* [FCN-Alexnet Patches for TensorRT](docs/segnet-patches.md)
-	* [Running Segmentation Models on Jetson](docs/segnet-console.md)
+* [Camera Streaming and Multimedia](docs/aux-streaming.md)
+* [Image Manipulation with CUDA](docs/aux-image-manipulation.md)
 
 ## API Reference
 
@@ -226,243 +200,51 @@ In this area, links and resources for deep learning are listed:
 * [NVIDIA AI IoT](https://github.com/NVIDIA-AI-IOT) - NVIDIA Jetson GitHub repositories
 * [Jetson eLinux Wiki](https://www.eLinux.org/Jetson) - Jetson eLinux Wiki
 
-## Legacy Links
 
-<details open>
-<summary>Since the documentation has been re-organized, below are links mapping the previous content to the new locations.</summary>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(click on the arrow above to hide this section)
-
-### DIGITS Workflow
-
-See [DIGITS Workflow](docs/digits-workflow.md)
-
-### System Setup
-
-See [DIGITS Setup](docs/digits-setup.md)
-
-#### Running JetPack on the Host
-
-See [JetPack Setup](docs/jetpack-setup.md)
-
-#### Installing Ubuntu on the Host
-
-See [DIGITS Setup](docs/digits-setup.md#installing-ubuntu-on-the-host)
-
-#### Setting up host training PC with NGC container	
-
-See [DIGITS Setup](docs/digits-setup.md#setting-up-host-training-pc-with-ngc-container)
-
-#### Installing the NVIDIA driver
-
-See [DIGITS Setup](docs/digits-setup.md#installing-the-nvidia-driver)
-
-#### Installing Docker
-
-See [DIGITS Setup](docs/digits-setup.md#installing-docker)
-
-#### NGC Sign-up 
-
-See [DIGITS Setup](docs/digits-setup.md#ngc-sign-up)
-
-#### Setting up data and job directories
-
-See [DIGITS Setup](docs/digits-setup.md#setting-up-data-and-job-directories)
-
-#### Starting DIGITS container
-
-See [DIGITS Setup](docs/digits-setup.md#starting-digits-container)
-
-#### Natively setting up DIGITS on the Host 
-
-See [DIGITS Native Setup](docs/digits-native.md)
-
-#### Installing NVIDIA Driver on the Host
-
-See [DIGITS Native Setup](docs/digits-native.md#installing-nvidia-driver-on-the-host)
-
-#### Installing cuDNN on the Host
-
-See [DIGITS Native Setup](docs/digits-native.md#installing-cudnn-on-the-host)
-
-#### Installing NVcaffe on the Host
-
-See [DIGITS Native Setup](docs/digits-native.md#installing-nvcaffe-on-the-host)
-
-#### Installing DIGITS on the Host
-
-See [DIGITS Native Setup](docs/digits-native.md#installing-digits-on-the-host)
-
-#### Starting the DIGITS Server
-
-See [DIGITS Native Setup](docs/digits-native.md#starting-the-digits-server)
-
-### Building from Source on Jetson
-
-See [Building the Repo from Source](docs/building-repo.md)
-      
-#### Cloning the Repo
-
-See [Building the Repo from Source](docs/building-repo.md#cloning-the-repo)
-
-#### Configuring with CMake
-
-See [Building the Repo from Source](docs/building-repo.md#configuring-with-cmake)
-
-#### Compiling the Project
-
-See [Building the Repo from Source](docs/building-repo.md#compiling-the-project)
-
-#### Digging Into the Code
-
-See [Building the Repo from Source](docs/building-repo.md#digging-into-the-code)
-
-### Classifying Images with ImageNet
-
-See [Classifying Images with ImageNet](docs/imagenet-console.md)
-
-#### Using the Console Program on Jetson
-
-See [Classifying Images with ImageNet](docs/imagenet-console.md#using-the-console-program-on-jetson)
-
-### Running the Live Camera Recognition Demo
-
-See [Running the Live Camera Recognition Demo](docs/imagenet-camera.md)
-
-### Re-training the Network with DIGITS
-
-See [Re-Training the Recognition Network](docs/imagenet-training.md)
-
-#### Downloading Image Recognition Dataset
-
-See [Re-Training the Recognition Network](docs/imagenet-training.md#downloading-image-recognition-dataset)
-
-#### Customizing the Object Classes
-
-See [Re-Training the Recognition Network](docs/imagenet-training.md#customizing-the-object-classes)
-
-#### Importing Classification Dataset into DIGITS
-
-See [Re-Training the Recognition Network](docs/imagenet-training.md#importing-classification-dataset-into-digits)
-
-#### Creating Image Classification Model with DIGITS
-
-See [Re-Training the Recognition Network](docs/imagenet-training.md#creating-image-classification-model-with-digits)
-
-#### Testing Classification Model in DIGITS
-
-See [Re-Training the Recognition Network](docs/imagenet-training.md#testing-classification-model-in-digits)
-
-#### Downloading Model Snapshot to Jetson
-
-See [Downloading Model Snapshots to Jetson](docs/imagenet-snapshot.md)
-
-### Loading Custom Models on Jetson
-
-See [Loading Custom Models on Jetson](docs/imagenet-custom.md)
-
-### Locating Object Coordinates using DetectNet
-
-See [Locating Object Coordinates using DetectNet](docs/detectnet-training.md)
-
-#### Detection Data Formatting in DIGITS
-
-See [Locating Object Coordinates using DetectNet](docs/detectnet-training.md#detection-data-formatting-in-digits)
-
-#### Downloading the Detection Dataset
-
-See [Locating Object Coordinates using DetectNet](docs/detectnet-training.md#downloading-the-detection-dataset)
-
-#### Importing the Detection Dataset into DIGITS
-
-See [Locating Object Coordinates using DetectNet](docs/detectnet-training.md#importing-the-detection-dataset-into-digits)
-
-#### Creating DetectNet Model with DIGITS
-
-See [Locating Object Coordinates using DetectNet](docs/detectnet-training.md#creating-detectnet-model-with-digits)
-
-#### Selecting DetectNet Batch Size
-
-See [Locating Object Coordinates using DetectNet](docs/detectnet-training.md#selecting-detectnet-batch-size)
-
-#### Specifying the DetectNet Prototxt 
-
-See [Locating Object Coordinates using DetectNet](docs/detectnet-training.md#specifying-the-detectnet-prototxt)
-
-#### Training the Model with Pretrained Googlenet
-
-See [Locating Object Coordinates using DetectNet](docs/detectnet-training.md#training-the-model-with-pretrained-googlenet)
-
-#### Testing DetectNet Model Inference in DIGITS
-
-See [Locating Object Coordinates using DetectNet](docs/detectnet-training.md#testing-detectnet-model-inference-in-digits)
-
-#### Downloading the Model Snapshot to Jetson
-
-See [Downloading the Detection Model to Jetson](docs/detectnet-snapshot.md)
-
-#### DetectNet Patches for TensorRT
-
-See [Downloading the Detection Model to Jetson](docs/detectnet-snapshot.md#detectnet-patches-for-tensorrt)
-
-### Processing Images from the Command Line on Jetson
-
-See [Detecting Objects from the Command Line](docs/detectnet-console.md)
-
-#### Launching With a Pretrained Model
-
-See [Detecting Objects from the Command Line](docs/detectnet-console.md#launching-with-a-pretrained-model)
-
-#### Pretrained DetectNet Models Available
-
-See [Detecting Objects from the Command Line](docs/detectnet-console.md#pretrained-detectnet-models-available)
-
-#### Running Other MS-COCO Models on Jetson
-
-See [Detecting Objects from the Command Line](docs/detectnet-console.md#running-other-ms-coco-models-on-jetson)
-
-#### Running Pedestrian Models on Jetson
-
-See [Detecting Objects from the Command Line](docs/detectnet-console.md#running-pedestrian-models-on-jetson)
-
-#### Multi-class Object Detection Models
-
-See [Detecting Objects from the Command Line](docs/detectnet-console.md#multi-class-object-detection-models)
-
-### Running the Live Camera Detection Demo on Jetson
-
-See [Running the Live Camera Detection Demo](docs/detectnet-camera.md)
-
-### Image Segmentation with SegNet
-
-See [Semantic Segmentation with SegNet](docs/segnet-dataset.md)
-
-#### Downloading Aerial Drone Dataset
-
-See [Semantic Segmentation with SegNet](docs/segnet-dataset.md#downloading-aerial-drone-dataset)
-
-#### Importing the Aerial Dataset into DIGITS
-
-See [Semantic Segmentation with SegNet](docs/segnet-dataset.md#importing-the-aerial-dataset-into-digits)
-
-#### Generating Pretrained FCN-Alexnet
-
-See [Generating Pretrained FCN-Alexnet](docs/segnet-pretrained.md)
-
-### Training FCN-Alexnet with DIGITS
-
-See [Training FCN-Alexnet with DIGITS](docs/segnet-training.md)
-
-#### Testing Inference Model in DIGITS
-
-See [Training FCN-Alexnet with DIGITS](docs/segnet-training.md#testing-inference-model-in-digits)
-
-#### FCN-Alexnet Patches for TensorRT
-
-See [FCN-Alexnet Patches for TensorRT](docs/segnet-patches.md)
-
-### Running Segmentation Models on Jetson
-
-See [Running Segmentation Models on Jetson](docs/segnet-console.md)
+## Two Days to a Demo (DIGITS)
+
+> **note::** the DIGITS/Caffe DNN training tutorial below is deprecated.  It's recommended to follow the [Transfer Learning with PyTorch](docs/pytorch-transfer-learning.md) tutorial from Hello AI World.
+ 
+<details>
+<summary>Expand this to see DIGITS tutorial (deprecated)</summary>
+
+The DIGITS tutorial includes training DNN's in the cloud or PC, and inference on the Jetson with TensorRT, and can take roughly two days or more depending on system setup, downloading the datasets, and the training speed of your GPU.
+
+* [DIGITS Workflow](docs/digits-workflow.md) 
+* [DIGITS System Setup](docs/digits-setup.md)
+* [Setting up Jetson with JetPack](docs/jetpack-setup.md)
+* [Building the Project from Source](docs/building-repo.md)
+* [Classifying Images with ImageNet](docs/imagenet-console.md)
+	* [Using the Console Program on Jetson](docs/imagenet-console.md#using-the-console-program-on-jetson)
+	* [Coding Your Own Image Recognition Program](docs/imagenet-example.md)
+	* [Running the Live Camera Recognition Demo](docs/imagenet-camera.md)
+	* [Re-Training the Network with DIGITS](docs/imagenet-training.md)
+	* [Downloading Image Recognition Dataset](docs/imagenet-training.md#downloading-image-recognition-dataset)
+	* [Customizing the Object Classes](docs/imagenet-training.md#customizing-the-object-classes)
+	* [Importing Classification Dataset into DIGITS](docs/imagenet-training.md#importing-classification-dataset-into-digits)
+	* [Creating Image Classification Model with DIGITS](docs/imagenet-training.md#creating-image-classification-model-with-digits)
+	* [Testing Classification Model in DIGITS](docs/imagenet-training.md#testing-classification-model-in-digits)
+	* [Downloading Model Snapshot to Jetson](docs/imagenet-snapshot.md)
+	* [Loading Custom Models on Jetson](docs/imagenet-custom.md)
+* [Locating Objects with DetectNet](docs/detectnet-training.md)
+	* [Detection Data Formatting in DIGITS](docs/detectnet-training.md#detection-data-formatting-in-digits)
+	* [Downloading the Detection Dataset](docs/detectnet-training.md#downloading-the-detection-dataset)
+	* [Importing the Detection Dataset into DIGITS](docs/detectnet-training.md#importing-the-detection-dataset-into-digits)
+	* [Creating DetectNet Model with DIGITS](docs/detectnet-training.md#creating-detectnet-model-with-digits)
+	* [Testing DetectNet Model Inference in DIGITS](docs/detectnet-training.md#testing-detectnet-model-inference-in-digits)
+	* [Downloading the Detection Model to Jetson](docs/detectnet-snapshot.md)
+	* [DetectNet Patches for TensorRT](docs/detectnet-snapshot.md#detectnet-patches-for-tensorrt)
+	* [Detecting Objects from the Command Line](docs/detectnet-console.md)
+	* [Multi-class Object Detection Models](docs/detectnet-console.md#multi-class-object-detection-models)
+	* [Running the Live Camera Detection Demo on Jetson](docs/detectnet-camera.md)
+* [Semantic Segmentation with SegNet](docs/segnet-dataset.md)
+	* [Downloading Aerial Drone Dataset](docs/segnet-dataset.md#downloading-aerial-drone-dataset)
+	* [Importing the Aerial Dataset into DIGITS](docs/segnet-dataset.md#importing-the-aerial-dataset-into-digits)
+	* [Generating Pretrained FCN-Alexnet](docs/segnet-pretrained.md)
+	* [Training FCN-Alexnet with DIGITS](docs/segnet-training.md)
+	* [Testing Inference Model in DIGITS](docs/segnet-training.md#testing-inference-model-in-digits)
+	* [FCN-Alexnet Patches for TensorRT](docs/segnet-patches.md)
+	* [Running Segmentation Models on Jetson](docs/segnet-console.md)
 
 </details>
 
