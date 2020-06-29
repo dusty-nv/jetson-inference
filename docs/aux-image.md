@@ -60,7 +60,7 @@ To allocate empty GPU memory for storing intermediate/output images (i.e. workin
 
 Memory allocated by [`cudaAllocMapped()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaMappedMemory.h) resides in a shared CPU/GPU memory space, so it is accessible from both the CPU and GPU without needing to perform a memory copy between them (hence it is also referred to as ZeroCopy memory).  
 
-Synchronization is required however - so if you want to access an image from the CPU after GPU processing has occurred, call [`cudaDeviceSynchronize()`](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__DEVICE.html#group__CUDART__DEVICE_1g10e20b05a95f638a4071a655503df25d) first.  To free the memory in C++, use the [`cudaFreeHost()`](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1g71c078689c17627566b2a91989184969) function.  In Python, the memory will automatically be released by the garbage collector, but you can do it explicitly with the `del` operator.  
+Synchronization is required however - so if you want to access an image from the CPU after GPU processing has occurred, call [`cudaDeviceSynchronize()`](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__DEVICE.html#group__CUDART__DEVICE_1g10e20b05a95f638a4071a655503df25d) first.  To free the memory in C++, use the [`cudaFreeHost()`](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1g71c078689c17627566b2a91989184969) function.  In Python, the memory will automatically be released by the garbage collector, but you can free it explicitly with the `del` operator.  
 
 Below is Python and C++ psuedocode for allocating/synchronizing/freeing the ZeroCopy memory:
 
@@ -83,7 +83,7 @@ del img
 
 **C++**
 ```cpp
-#include <jetson-utils/cudaAllocMapped.h>
+#include <jetson-utils/cudaMappedMemory.h>
 
 void* img = NULL;
 
@@ -101,7 +101,7 @@ CUDA(cudaDeviceSynchronize());
 CUDA(cudaFreeHost(img));
 ```
 
-In C++, you can often omit the explicit imageFormat enums if your pointers are typed as `uchar3/uchar4/float3/float4`.  Below is functionaly equivalent to the allocation above:
+In C++, you can often omit the explicit [`imageFormat`](#image-formats) enum if your pointers are typed as `uchar3/uchar4/float3/float4`.  Below is functionaly equivalent to the allocation above:
 
 ```cpp
 uchar3* img = NULL;	// can be uchar3 (rgb8), uchar4 (rgba8), float3 (rgb32f), float4 (rgba32f)
