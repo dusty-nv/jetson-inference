@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="pytorch-plants.md">Back</a> | <a href="../README.md#hello-ai-world">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="pytorch-cat-dog.md">Back</a> | <a href="../README.md#hello-ai-world">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Transfer Learning</sup></s></p>
 
@@ -193,5 +193,5 @@ Next, we're going to cover a camera-based tool for collecting and labelling your
 
 <p align="right">Next | <b><a href="pytorch-collect.md">Collecting your own Datasets</a></b>
 <br/>
-Back | <b><a href="pytorch-plants.md">Re-training on the Cat/Dog Dataset</a></p>
+Back | <b><a href="pytorch-cat-dog.md">Re-training on the Cat/Dog Dataset</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
