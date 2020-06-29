@@ -18,13 +18,13 @@ This page covers a number of image format, conversion, and pre/post-processing f
 **CUDA routines**
 * [Color Conversion](#color-conversion)
 
-This is all extra stuff that you typically may not use, unless perhaps you're customizing your own application or video interface.  Before diving in here, please see the previous page on [Camera Streaming and Multimedia](aux-streaming.md) for info about video capture and output, loading/saving images, ect.
+Unless you're customizing your own application or video interface, you may not typically encounter the topics covered below. Before diving in here, please see the previous page on [Camera Streaming and Multimedia](aux-streaming.md) for info about video capture and output, loading/saving images, ect.
 
 ## Image Formats
 
-Although the [`videoSource`](aux-streaming#source-code)/[`videoOutput`](aux-streaming#source-code) APIs and DNN objects (such [`imageNet`](c/imageNet.h), [`detectNet`](c/detectNet.h), and [`segNet`](c/segNet.h)), expect images in RGB/RGBA format, a variety of other formats are defined in the event a particular stream or image uses these:
+Although the [video streaming](aux-streaming#source-code) APIs and DNN objects (such [`imageNet`](c/imageNet.h), [`detectNet`](c/detectNet.h), and [`segNet`](c/segNet.h)) expect images in RGB/RGBA format, a variety of other formats are defined for low-level I/O.  To convert images between data formats and/or colorspaces, see the [Color Conversion](#color-conversion) section below.
 
-|                 | Format string | [imageFormat](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406) enum   | Data Type | Bit Depth |
+|                 | Format string | [`imageFormat` enum](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406)   | Data Type | Bit Depth |
 |-----------------|---------------|--------------------|-----------|-----------|
 | **RGB/RGBA**    | `rgb8`        | `IMAGE_RGB8`       | `uchar3`  | 24        |
 |                 | `rgba8`       | `IMAGE_RGBA8`      | `uchar4`  | 32        |
@@ -47,11 +47,11 @@ Although the [`videoSource`](aux-streaming#source-code)/[`videoOutput`](aux-stre
 |                 | `bayer-rggb`  | `IMAGE_BAYER_RGGB` | `uint8`   | 8         |
 | **Grayscale**   | `gray8`       | `IMAGE_GRAY8`      | `uint8`   | 8         |
 |                 | `gray32f`     | `IMAGE_GRAY32F`    | `float`   | 32        |
-* The bit depth represents the effective number of bits per pixel.
+* The bit depth represents the effective number of bits per pixel
 * For detailed specifications of the YUV formats, refer to [fourcc.org](http://fourcc.org/yuv.php)
-* In C++, the RGB/RGBA formats are the only ones that should be used with the templated `uchar3`/`uchar4`/`float3`/`float4` types.  It is assumed that when these types are used, the images are in RGB/RGBA.
 
-To convert images between data formats and/or colorspaces, see the [Color Conversion](#color-conversion) section.
+> **note:** in C++, the RGB/RGBA formats are the only ones that should be used with the `uchar3`/`uchar4`/`float3`/`float4` vector types.  It is assumed that when these types are used, the images are in RGB/RGBA.
+
 
 ## Image Allocation
 
