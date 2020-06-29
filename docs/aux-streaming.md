@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="aux-contents.md">Back</a> | <a href="aux-image-manipulation.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="../README.md#appendix">Back</a> | <a href="aux-image.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Appendix</sup></p>  
 
@@ -268,17 +268,18 @@ Streams are accessed using the [`videoSource`](https://github.com/dusty-nv/jetso
 
 Images can be captured and output in the following data formats:
 
-| Data Type | [imageFormat](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406) enum | Python string |
-|-----------|-------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| `uchar3`  | `IMAGE_RGB8`                                                                                                                              | `rgb8`        |
-| `uchar4`  | `IMAGE_RGBA8`                                                                                                                             | `rgba8`       |
-| `float3`  | `IMAGE_RGB32F`                                                                                                                            | `rgb32f`      |
-| `float4`  | `IMAGE_RGBA32F`                                                                                                                           | `rgba32f`     |
+| Format string | [imageFormat](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406) enum | Data Type | Bit Depth |
+|---------------|------------------|-----------|-----------|
+| `rgb8`        | `IMAGE_RGB8`     | `uchar3`  | 24        |
+| `rgba8`       | `IMAGE_RGBA8`    | `uchar4`  | 32        |
+| `rgb32f`      | `IMAGE_RGB32F`   | `float3`  | 96        |
+| `rgba32f`     | `IMAGE_RGBA32F`  | `float4`  | 128       |
 
 * the Data Type and [imageFormat](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406) enum are C++ types
-* the Python format string can be passed to `videoSource.Capture()` to request a specific format (the default is `rgb8`)
+* in Python, the format string can be passed to `videoSource.Capture()` to request a specific format (the default is `rgb8`)
+* in C++, the `videoSource::Capture()` template will infer the format from the data type of the output pointer
 
-To convert images to/from different formats, see the [Image Manipulation with CUDA](aux-image-formats.md) page for more info.
+To convert images to/from different formats, see the [Image Manipulation with CUDA](aux-image.md) page for more info.
 
 Below is the source code to `video-viewer.py` and `video-viewer.cpp`, slightly abbreviated to improve readability:
 
@@ -352,8 +353,6 @@ int main( int argc, char** argv )
 ```
 
 ##
-<p align="right">Next | <b><a href="aux-image-manipulation.md">Image Manipulation with CUDA</a></b>
-<br/>
-Back | <b><a href="aux-contents.md">Appendix</a></p>
-</b><p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
+<p align="right">Next | <b><a href="aux-image.md">Image Manipulation with CUDA</a></b>
+<p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
 

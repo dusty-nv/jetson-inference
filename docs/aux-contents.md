@@ -6,7 +6,7 @@
 # Appendix
 
 * [Camera Streaming and Multimedia](aux-streaming.md)
-* [Image Manipulation with CUDA](aux-image-manipulation.md)
+* [Image Manipulation with CUDA](aux-image.md)
 
 ##
 <p align="right">Next | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
