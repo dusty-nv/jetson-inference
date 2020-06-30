@@ -1,4 +1,4 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="aux-streaming.md">Back</a> | <a href="../README.md#hello-ai-world">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Appendix</sup></p>  
@@ -12,13 +12,13 @@ This page covers a number of image format, conversion, and pre/post-processing f
 * [Image Allocation](#image-allocation)
 * [Image Capsules in Python](#image-capsules-in-python)
 	* [Accessing Image Data in Python](#accessing-image-data-in-python)
-	* [Converting from Numpy Arrays](#converting-from-numpy-arrays)
 	* [Converting to Numpy Arrays](#converting-to-numpy-arrays)
+	* [Converting from Numpy Arrays](#converting-from-numpy-arrays)
 
 **CUDA routines**
 * [Color Conversion](#color-conversion)
 
-Unless you're customizing your own application or video interface, you may not typically encounter the topics covered below. Before diving in here, please see the previous page on [Camera Streaming and Multimedia](aux-streaming.md) for info about video capture and output, loading/saving images, ect.
+For examples of using these functions, see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py) in addition to the psuedocode below.  Before diving in here, it's recommended to read the previous page on [Camera Streaming and Multimedia](aux-streaming.md) for info about video capture and output, loading/saving images, ect.
 
 ## Image Formats
 
@@ -132,7 +132,7 @@ So you can do things like `img.width` and `img.height` to access properties abou
 
 ### Accessing Image Data in Python
 
-CUDA images are also subscriptable, meaning you can index them to access the pixel data:
+CUDA images are also subscriptable, meaning you can index them to directly access the pixel data from the CPU:
 
 ```python
 for y in range(img.height):
@@ -143,27 +143,76 @@ for y in range(img.height):
 
 > **note:** the Python subscripting index operator is only applicable if the image was allocated in mapped ZeroCopy memory (i.e. by [`cudaAllocMapped()`](#image-allocation)).  Otherwise, the data is not accessible from the CPU, and an exception will be thrown. 
 
-Although possible, individually accessing each pixel of a large image isn't recommended to do from Python, as it will significantly slow down the application.  Assuming that a GPU implementation isn't available, a better alternative is to use Numpy.
-
-### Converting from Numpy Arrays
-
-Let's say you have an image in a Numpy ndarray, perhaps provided by OpenCV.  As a Numpy array, it will only be accessible from the CPU.  You can use `jetson.utils.cudaFromNumpy()` to copy it to the GPU (into shared CPU/GPU ZeroCopy memory).  For an example, see [`cuda-from-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/dev/python/examples/cuda-from-numpy.py) from jetson-utils.
-
-Note that OpenCV images are in BGR colorspace, so if the image is coming from OpenCV, you should call `cv2.cvtColor()` with `cv2.COLOR_BGR2RGB` first.
+Although the image subscript operator is implemented, individually accessing each pixel of a large image isn't recommended to do from Python, as it will significantly slow down the application.  Assuming that a GPU implementation isn't available, a better alternative is to use Numpy (see below).
 
 ### Converting to Numpy Arrays
 
-You can access a `cudaImage` memory capsule from Numpy by calling `jetson.utils.cudaToNumpy()` on it first.  In this case, the underlying memory isn't copied and Numpy will access it directly - so be aware if you change the data in-place through Numpy, it will be changed in the `cudaImage` capsule as well.
+You can access a `cudaImage` memory capsule from Numpy by calling `jetson.utils.cudaToNumpy()` on it first.  The underlying memory isn't copied and Numpy will access it directly - so be aware if you change the data in-place through Numpy, it will be changed in the `cudaImage` capsule as well.
 
-For an example of using `cudaToNumpy()`, see [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/dev/python/examples/cuda-to-numpy.py) from jetson-utils.
+For an example of using `cudaToNumpy()`, see the [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/dev/python/examples/cuda-to-numpy.py) sample from jetson-utils.
 
 Note that OpenCV expects images in BGR colorspace, so if you plan on using the image with OpenCV, you should call `cv2.cvtColor()` with `cv2.COLOR_RGB2BGR` before using it in OpenCV.
 
+### Converting from Numpy Arrays
+
+Let's say you have an image in a Numpy ndarray, perhaps provided by OpenCV.  As a Numpy array, it will only be accessible from the CPU.  You can use `jetson.utils.cudaFromNumpy()` to copy it to the GPU (into shared CPU/GPU ZeroCopy memory).  
+
+For an example of using `cudaFromNumpy()`, see the [`cuda-from-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/dev/python/examples/cuda-from-numpy.py) sample from jetson-utils.
+
+Note that OpenCV images are in BGR colorspace, so if the image is coming from OpenCV, you should call `cv2.cvtColor()` with `cv2.COLOR_BGR2RGB` first.
+
 ## Color Conversion
 
-The [`cudaConvertColor()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaColorspace.h) function uses the GPU to convert between image formats and colorspaces.  For example, you can convert from RGB to BGR (or vice versa), from YUV to RGB, RGB to grayscale, ect.  You can also change the data type and number of channels (e.g. `rgb8` to `rgba32f`).  For more info about the different formats available, see the [Image Formats](#image-formats) section above.
+The [`cudaConvertColor()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaColorspace.h) function is available from both C++ and Python, and uses the GPU to convert between image formats and colorspaces.  For example, you can convert from RGB to BGR (or vice versa), from YUV to RGB, RGB to grayscale, ect.  You can also change the data type and number of channels (e.g. `rgb8` to `rgba32f`).  For more info about the different formats available to convert between, see the [Image Formats](#image-formats) section above.
 
-[`cudaConvertColor()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaColorspace.h) is defined in `cudaColorspace.h` for C++, and in Python as `jetson.utils.cudaConvertColor()`.
+[`cudaConvertColor()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaColorspace.h) has the following limitations and unsupported conversions:
+* The YUV formats don't support converting to BGR/BGRA or grayscale (RGB/RGBA only)
+* YUV NV12, YUYV, YVYU, and UYVY can only be converted to RGB/RGBA (not from)
+* Bayer formats can only be converted to RGB8 (`uchar3`) and RGBA8 (`uchar4`)
+
+The following Python/C++ examples load an image in RGB8, and convert it to RGBA32F (note that this is purely illustrative, since the image can be loaded directly as RGBA32F).  For a more comprehensive example, see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py).
+
+#### Python
+
+```python
+import jetson.utils
+
+# load the input image (default is rgb8)
+imgInput = jetson.utils.loadImage('my_image.jpg', format='rgb8')	# default format is 'rgb8', but can also be 'rgba8', 'rgb32f', 'rgba32f'
+
+# allocate the output as rgba32f, with the same width/height
+imgOutput = jetson.utils.cudaAllocMapped(width=imgInput.width, height=imgInput.height, format='rgba32f')
+
+# convert from rgb8 to rgba32f (the formats used are from the image capsules)
+jetson.utils.cudaConvertColor(imgInput, imgOutput)
+```
+
+#### C++
+
+```c++
+#include <jetson-utils/cudaColorspace.h>
+#include <jetson-utils/cudaMappedMemory.h>
+#include <jetson-utils/imageIO.h>
+
+uchar3* imgInput = NULL;   // input is rgb8 (uchar3)
+float4* imgOutput = NULL;  // output is rgba32f (float4)
+
+int width = 0;
+int height = 0;
+
+// load the image as rgb8 (uchar3)
+if( !loadImage("my_image.jpg", &imgInput, &width, &height) )
+	return false;
+
+// allocate the output as rgba32f (float4), with same width/height
+if( !cudaAllocMapped(&imgOutput, width, height) )
+	return false;
+
+// convert from rgb8 to rgba32f
+if( CUDA_FAILED(cudaConvertColor(imgInput, IMAGE_RGB8, imgOutput, IMAGE_RGBA32F, width, height)) )
+	return false;	// an error or unsupported conversion occurred
+```
+
 
 ##
 <p align="right">Back | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
