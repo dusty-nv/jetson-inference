@@ -145,15 +145,15 @@ for y in range(img.height):
 		img[y,x] = pixel    # set a pixel from a tuple (tuple length must match the number of channels)
 ```
 
-> **note:** the Python subscripting index operator is only applicable if the image was allocated in mapped ZeroCopy memory (i.e. by [`cudaAllocMapped()`](#image-allocation)).  Otherwise, the data is not accessible from the CPU, and an exception will be thrown. 
+> **note:** the Python subscripting index operator is only available if the image was allocated in mapped ZeroCopy memory (i.e. by [`cudaAllocMapped()`](#image-allocation)).  Otherwise, the data is not accessible from the CPU, and an exception will be thrown. 
 
-The subscripting index used to access an image may take the forms:
+The subscripting index used to access an image may take the following forms:
 
-* `img[y,x]` - note the `y,x` ordering, same as numpy
-* `img[y,x,channel]` - only access a particular channel (i.e. `0` for red, `1` for green, ect)
-* `img[y*img.width+x]` - flat 1D index, all channels in that pixel
+* `img[y,x]` - note the ordering of the `(y,x)` tuple, same as numpy
+* `img[y,x,channel]` - only access a particular channel (i.e. `0` for red, `1` for green, `2` for blue, `3` for alpha)
+* `img[y*img.width+x]` - flat 1D index, access all channels in that pixel
 
-Although the image subscript operator is implemented, individually accessing each pixel of a large image isn't recommended to do from Python, as it will significantly slow down the application.  Assuming that a GPU implementation isn't available, a better alternative is to use Numpy (see below).
+Although image subscripting is supported, individually accessing each pixel of a large image isn't recommended to do from Python, as it will significantly slow down the application.  Assuming that a GPU implementation isn't available, a better alternative is to use Numpy.
 
 ### Converting to Numpy Arrays
 
