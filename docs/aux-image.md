@@ -439,8 +439,7 @@ if( !loadImage("my_image_b.jpg", &imgInputB, &dimsB.x, &dimsB.y) )
 	return false;
 
 // allocate the output image, with dimensions to fit both inputs side-by-side
-const int2 dimsOutput = make_int2(dimsA.x + dimsB.x,
-                                  std::max(dimsA.y, dimsB.y));
+const int2 dimsOutput = make_int2(dimsA.x + dimsB.x, std::max(dimsA.y, dimsB.y));
 
 if( !cudaAllocMapped(&imgOutput, dimsOutput.x, dimsOutput.y) )
 	return false;
