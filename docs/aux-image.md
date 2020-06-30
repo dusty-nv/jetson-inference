@@ -68,7 +68,7 @@ Synchronization is required however - so if you want to access an image from the
 
 Below is Python and C++ psuedocode for allocating/synchronizing/freeing the ZeroCopy memory:
 
-**Python**
+#### Python
 ```python
 import jetson.utils
 
@@ -85,7 +85,7 @@ jetson.utils.cudaDeviceSynchronize()
 del img
 ```
 
-**C++**
+#### C++
 ```cpp
 #include <jetson-utils/cudaMappedMemory.h>
 
@@ -141,11 +141,17 @@ CUDA images are also subscriptable, meaning you can index them to directly acces
 ```python
 for y in range(img.height):
 	for x in range(img.width):
-		pixel = img[y,x]	# returns a tuple, i.e. (r,g,b) for RGB formats or (r,g,b,a) for RGBA formats
+		pixel = img[y,x]    # returns a tuple, i.e. (r,g,b) for RGB formats or (r,g,b,a) for RGBA formats
 		img[y,x] = pixel    # set a pixel from a tuple (tuple length must match the number of channels)
 ```
 
 > **note:** the Python subscripting index operator is only applicable if the image was allocated in mapped ZeroCopy memory (i.e. by [`cudaAllocMapped()`](#image-allocation)).  Otherwise, the data is not accessible from the CPU, and an exception will be thrown. 
+
+The subscripting index used to access an image may take the forms:
+
+* `img[y,x]` - note the `y,x` ordering, same as numpy
+* `img[y,x,channel]` - only access a particular channel (i.e. `0` for red, `1` for green, ect)
+* `img[y*img.width+x]` - flat 1D index, all channels in that pixel
 
 Although the image subscript operator is implemented, individually accessing each pixel of a large image isn't recommended to do from Python, as it will significantly slow down the application.  Assuming that a GPU implementation isn't available, a better alternative is to use Numpy (see below).
 
@@ -285,15 +291,15 @@ imgInput = jetson.utils.loadImage('my_image.jpg')
 # determine the amount of border pixels (cropping around the center by half)
 crop_factor = 0.5
 crop_border = ((1.0 - crop_factor) * 0.5 * imgInput.width,
-			(1.0 - crop_factor) * 0.5 * imgInput.height)
+               (1.0 - crop_factor) * 0.5 * imgInput.height)
 
 # compute the ROI as (left, top, right, bottom)
 crop_roi = (crop_border[0], crop_border[1], imgInput.width - crop_border[0], imgInput.height - crop_border[1])
 
 # allocate the output image, with the cropped size
 imgOutput = jetson.utils.cudaAllocMapped(width=imgInput.width * crop_factor,
-								height=imgInput.height * crop_factor,
-								format=imgInput.format)
+                                         height=imgInput.height * crop_factor,
+                                         format=imgInput.format)
 
 # crop the image to the ROI
 jetson.utils.cudaCrop(imgInput, imgOutput, crop_roi)
@@ -318,10 +324,10 @@ if( !loadImage("my_image.jpg", &imgInput, &inputWidth, &inputHeight) )
 // determine the amount of border pixels (cropping around the center by half)
 const float crop_factor = 0.5
 const int2  crop_border = make_int2((1.0f - crop_factor) * 0.5f * inputWidth,
-			                     (1.0f - crop_factor) * 0.5f * inputHeight);
+                                    (1.0f - crop_factor) * 0.5f * inputHeight);
 
 // compute the ROI as (left, top, right, bottom)
-const int2 crop_roi = make_int2(crop_border.x, crop_border.y, inputWidth - crop_border.x, inputHeight - crop_border.y)
+const int4 crop_roi = make_int4(crop_border.x, crop_border.y, inputWidth - crop_border.x, inputHeight - crop_border.y);
 
 // allocate the output image, with half the size of the input
 uchar3* imgOutput = NULL;
@@ -424,8 +430,6 @@ uchar3* imgOutput = NULL;
 
 int2 dimsA = make_int2(0,0);
 int2 dimsB = make_int2(0,0);
-
-int height = 0;
 
 // load the input images
 if( !loadImage("my_image_a.jpg", &imgInputA, &dimsA.x, &dimsA.y) )
