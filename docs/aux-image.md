@@ -17,6 +17,9 @@ This page covers a number of image format, conversion, and pre/post-processing f
 
 **CUDA routines**
 * [Color Conversion](#color-conversion)
+* [Resizing](#resizing)
+* [Cropping](#cropping)
+* [Normalization](#normalization)
 
 For examples of using these functions, see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py) in addition to the psuedocode below.  Before diving in here, it's recommended to read the previous page on [Camera Streaming and Multimedia](aux-streaming.md) for info about video capture and output, loading/saving images, ect.
 
@@ -163,27 +166,27 @@ Note that OpenCV images are in BGR colorspace, so if the image is coming from Op
 
 ## Color Conversion
 
-The [`cudaConvertColor()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaColorspace.h) function is available from both C++ and Python, and uses the GPU to convert between image formats and colorspaces.  For example, you can convert from RGB to BGR (or vice versa), from YUV to RGB, RGB to grayscale, ect.  You can also change the data type and number of channels (e.g. `rgb8` to `rgba32f`).  For more info about the different formats available to convert between, see the [Image Formats](#image-formats) section above.
+The [`cudaConvertColor()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaColorspace.h) function uses the GPU to convert between image formats and colorspaces.  For example, you can convert from RGB to BGR (or vice versa), from YUV to RGB, RGB to grayscale, ect.  You can also change the data type and number of channels (e.g. RGB8 to RGBA32F).  For more info about the different formats available to convert between, see the [Image Formats](#image-formats) section above.
 
 [`cudaConvertColor()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaColorspace.h) has the following limitations and unsupported conversions:
-* The YUV formats don't support converting to BGR/BGRA or grayscale (RGB/RGBA only)
+* The YUV formats don't support BGR/BGRA or grayscale (RGB/RGBA only)
 * YUV NV12, YUYV, YVYU, and UYVY can only be converted to RGB/RGBA (not from)
 * Bayer formats can only be converted to RGB8 (`uchar3`) and RGBA8 (`uchar4`)
 
-The following Python/C++ examples load an image in RGB8, and convert it to RGBA32F (note that this is purely illustrative, since the image can be loaded directly as RGBA32F).  For a more comprehensive example, see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py).
+The following Python/C++ psuedocode loads an image in RGB8, and convert it to RGBA32F (note that this is purely illustrative, since the image can be loaded directly as RGBA32F).  For a more comprehensive example, see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py).
 
 #### Python
 
 ```python
 import jetson.utils
 
-# load the input image (default is rgb8)
-imgInput = jetson.utils.loadImage('my_image.jpg', format='rgb8')	# default format is 'rgb8', but can also be 'rgba8', 'rgb32f', 'rgba32f'
+# load the input image (default format is rgb8)
+imgInput = jetson.utils.loadImage('my_image.jpg', format='rgb8') # default format is 'rgb8', but can also be 'rgba8', 'rgb32f', 'rgba32f'
 
-# allocate the output as rgba32f, with the same width/height
+# allocate the output as rgba32f, with the same width/height as the input
 imgOutput = jetson.utils.cudaAllocMapped(width=imgInput.width, height=imgInput.height, format='rgba32f')
 
-# convert from rgb8 to rgba32f (the formats used are from the image capsules)
+# convert from rgb8 to rgba32f (the formats used for the conversion are taken from the image capsules)
 jetson.utils.cudaConvertColor(imgInput, imgOutput)
 ```
 
@@ -204,7 +207,7 @@ int height = 0;
 if( !loadImage("my_image.jpg", &imgInput, &width, &height) )
 	return false;
 
-// allocate the output as rgba32f (float4), with same width/height
+// allocate the output as rgba32f (float4), with the same width/height
 if( !cudaAllocMapped(&imgOutput, width, height) )
 	return false;
 
@@ -213,6 +216,175 @@ if( CUDA_FAILED(cudaConvertColor(imgInput, IMAGE_RGB8, imgOutput, IMAGE_RGBA32F,
 	return false;	// an error or unsupported conversion occurred
 ```
 
+## Resizing
+
+The [`cudaResize()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaResize.h) function uses the GPU to rescale images to a different size (either downsampled or upsampled).  The following Python/C++ psuedocode loads an image, and resizes it by a certain factor (downsampled by half in the example).  For a more comprehensive example, see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py).
+
+#### Python
+
+```python
+import jetson.utils
+
+# load the input image
+imgInput = jetson.utils.loadImage('my_image.jpg')
+
+# allocate the output, with half the size of the input
+imgOutput = jetson.utils.cudaAllocMapped(width=imgInput.width * 0.5, 
+                                         height=imgInput.height * 0.5, 
+                                         format=imgInput.format)
+
+# rescale the image (the dimensions are taken from the image capsules)
+jetson.utils.cudaResize(imgInput, imgOutput)
+```
+
+#### C++
+
+```c++
+#include <jetson-utils/cudaResize.h>
+#include <jetson-utils/cudaMappedMemory.h>
+#include <jetson-utils/imageIO.h>
+
+// load the input image
+uchar3* imgInput = NULL;
+
+int inputWidth = 0;
+int inputHeight = 0;
+
+if( !loadImage("my_image.jpg", &imgInput, &inputWidth, &inputHeight) )
+	return false;
+
+// allocate the output image, with half the size of the input
+uchar3* imgOutput = NULL;
+
+int outputWidth = inputWidth * 0.5f;
+int outputHeight = inputHeight * 0.5f;
+
+if( !cudaAllocMapped(&imgOutput, outputWidth, outputHeight) )
+	return false;
+
+// rescale the image
+if( CUDA_FAILED(cudaResize(imgInput, inputWidth, inputHeight, imgOutput, outputWidth, outputHeight)) )
+	return false;
+```
+
+## Cropping
+
+The [`cudaCrop()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaCrop.h) function uses the GPU to crop an images to a particular region of interest (ROI).  The following Python/C++ psuedocode loads an image, and crops it around the center half of the image.  For a more comprehensive example, see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py).
+
+Note that the ROI rectangles are provided as `(left, top, right, bottom)` coordinates.
+
+#### Python
+
+```python
+import jetson.utils
+
+# load the input image
+imgInput = jetson.utils.loadImage('my_image.jpg')
+
+# determine the amount of border pixels (cropping around the center by half)
+crop_factor = 0.5
+crop_border = ((1.0 - crop_factor) * 0.5 * imgInput.width,
+			(1.0 - crop_factor) * 0.5 * imgInput.height)
+
+# compute the ROI as (left, top, right, bottom)
+crop_roi = (crop_border[0], crop_border[1], imgInput.width - crop_border[0], imgInput.height - crop_border[1])
+
+# allocate the output image, with the cropped size
+imgOutput = jetson.utils.cudaAllocMapped(width=imgInput.width * crop_factor,
+								height=imgInput.height * crop_factor,
+								format=imgInput.format)
+
+# crop the image to the ROI
+jetson.utils.cudaCrop(imgInput, imgOutput, crop_roi)
+```
+
+#### C++
+
+```c++
+#include <jetson-utils/cudaCrop.h>
+#include <jetson-utils/cudaMappedMemory.h>
+#include <jetson-utils/imageIO.h>
+
+// load the input image
+uchar3* imgInput = NULL;
+
+int inputWidth = 0;
+int inputHeight = 0;
+
+if( !loadImage("my_image.jpg", &imgInput, &inputWidth, &inputHeight) )
+	return false;
+
+// determine the amount of border pixels (cropping around the center by half)
+const float crop_factor = 0.5
+const int2  crop_border = make_int2((1.0f - crop_factor) * 0.5f * inputWidth,
+			                     (1.0f - crop_factor) * 0.5f * inputHeight);
+
+// compute the ROI as (left, top, right, bottom)
+const int2 crop_roi = make_int2(crop_border.x, crop_border.y, inputWidth - crop_border.x, inputHeight - crop_border.y)
+
+// allocate the output image, with half the size of the input
+uchar3* imgOutput = NULL;
+
+if( !cudaAllocMapped(&imgOutput, inputWidth * crop_factor, inputHeight * cropFactor) )
+	return false;
+
+// crop the image
+if( CUDA_FAILED(cudaCrop(imgInput, imgOutput, crop_roi, inputWidth, inputHeight)) )
+	return false;
+```
+
+## Normalization
+
+The [`cudaNormalize()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaNormalize.h) function uses the GPU to change the range of pixel intensities in an image.  For example, convert an image with pixel values between `[0,1]` to have pixel values between `[0,255]`.  Another common range for pixel values is between `[-1,1]`.
+
+> **note:** all of the other functions in jetson-inference and jetson-utils expect images with pixel ranges between `[0,255]`, so you wouldn't ordinarily need to use `cudaNormalize()`, but it is available in case you are working with data from an alternative source or destination.
+
+The following Python/C++ psuedocode loads an image, and normalizes it from `[0,255]` to `[0,1]`.
+
+#### Python
+
+```python
+import jetson.utils
+
+# load the input image (its pixels will be in the range of 0-255)
+imgInput = jetson.utils.loadImage('my_image.jpg')
+
+# allocate the output image, with the same dimensions as input
+imgOutput = jetson.utils.cudaAllocMapped(width=imgInput.width, height=imgInput.height, format=imgInput.format)
+
+# normalize the image from [0,255] to [0,1]
+jetson.utils.cudaNormalize(imgInput, (0,255), imgOutput, (0,1))
+```
+
+#### C++
+
+```c++
+#include <jetson-utils/cudaNormalize.h>
+#include <jetson-utils/cudaMappedMemory.h>
+#include <jetson-utils/imageIO.h>
+
+uchar3* imgInput = NULL;
+uchar3* imgOutput = NULL;
+
+int width = 0;
+int height = 0;
+
+// load the input image (its pixels will be in the range of 0-255)
+if( !loadImage("my_image.jpg", &imgInput, &width, &height) )
+	return false;
+
+// allocate the output image, with the same dimensions as input
+if( !cudaAllocMapped(&imgOutput, width, height) )
+	return false;
+
+# normalize the image from [0,255] to [0,1]
+if( CUDA_FAILED(cudaNormalize(imgInput, make_float2(0,255),
+                              imgOutput, make_float2(0,1),
+                              width, height)) )
+{
+	return false;
+}
+```
 
 ##
 <p align="right">Back | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
