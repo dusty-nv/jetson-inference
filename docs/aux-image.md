@@ -407,7 +407,7 @@ imgInputB = jetson.utils.loadImage('my_image_b.jpg')
 
 # allocate the output image, with dimensions to fit both inputs side-by-side
 imgOutput = jetson.utils.cudaAllocMapped(width=imgInputA.width + imgInputB.width, 
-                                         height=max(imgInputA.height, imgInputB.height,
+                                         height=max(imgInputA.height, imgInputB.height),
                                          format=imgInputA.format)
 
 # compost the two images (the last two arguments are x,y coordinates in the output image)
