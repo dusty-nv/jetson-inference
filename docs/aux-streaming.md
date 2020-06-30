@@ -1,4 +1,4 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="../README.md#appendix">Back</a> | <a href="aux-image.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Appendix</sup></p>  
@@ -7,12 +7,12 @@
 
 This project supports streaming video feeds and images via a variety of interfaces and protocols, including:
 
-* MIPI CSI cameras
-* V4L2 cameras
-* RTP/RTSP
-* Video & image files
-* Sequences of images
-* OpenGL displays
+* [MIPI CSI cameras](#mipi-csi-cameras)
+* [V4L2 cameras](#v4l2-cameras)
+* [RTP](#rtp) / [RTSP](#rtsp) 
+* [Videos](#video-files) & [Images](#image-files)
+* [Image sequences](#image-files)
+* [OpenGL windows](#output-streams)
 
 Streams are identified via a resource URI and accessed through the [`videoSource`](#source-code) and [`videoOutput`](#source-code) APIs.  The tables below show the supported input/output protocols and example URIs for each type of stream:
 
@@ -39,7 +39,7 @@ Streams are identified via a resource URI and accessed through the [`videoSource
 | [Video file](#video-files)       | `file://`    | `file://my_video.mp4`     | Supports saving MP4, MKV, AVI, FLV (see codecs below)    |
 | [Image file](#image-files)       | `file://`    | `file://my_image.jpg`     | Supports saving JPG, PNG, TGA, BMP                       |
 | [Image sequence](#image-files)   | `file://`    | `file://image_%i.jpg`     | `%i` is replaced by the image number in the sequence     |
-| [OpenGL display](#output-streams)   | `display://` | `display://0`             | Creates GUI window on screen 0                           |
+| [OpenGL window](#output-streams)   | `display://` | `display://0`             | Creates GUI window on screen 0                           |
 
 * Supported encoder codecs:  H.264, H.265, VP8, VP9, MJPEG
 * The `file://` protocol prefixes can be omitted from the URI as shorthand
