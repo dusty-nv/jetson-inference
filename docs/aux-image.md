@@ -15,11 +15,12 @@ This page covers a number of image format, conversion, and pre/post-processing f
 	* [Converting to Numpy Arrays](#converting-to-numpy-arrays)
 	* [Converting from Numpy Arrays](#converting-from-numpy-arrays)
 
-**CUDA routines**
+**CUDA Routines**
 * [Color Conversion](#color-conversion)
 * [Resizing](#resizing)
 * [Cropping](#cropping)
 * [Normalization](#normalization)
+* [Overlay](#overlay)
 
 For examples of using these functions, see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py) in addition to the psuedocode below.  Before diving in here, it's recommended to read the previous page on [Camera Streaming and Multimedia](aux-streaming.md) for info about video capture and output, loading/saving images, ect.
 
@@ -377,13 +378,72 @@ if( !loadImage("my_image.jpg", &imgInput, &width, &height) )
 if( !cudaAllocMapped(&imgOutput, width, height) )
 	return false;
 
-# normalize the image from [0,255] to [0,1]
-if( CUDA_FAILED(cudaNormalize(imgInput, make_float2(0,255),
-                              imgOutput, make_float2(0,1),
-                              width, height)) )
-{
+// normalize the image from [0,255] to [0,1]
+CUDA(cudaNormalize(imgInput, make_float2(0,255),
+                   imgOutput, make_float2(0,1),
+                   width, height));
+```
+
+## Overlay
+
+The [`cudaOverlay()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaOverlay.h) function uses the GPU to compost an input image on top of an output image at a particular location.  Overlay operations are typically called in sequence to form a composite of multiple images together.
+
+The following Python/C++ psuedocode loads two images, and composts them together side-by-side in an output image.
+
+#### Python
+
+```python
+import jetson.utils
+
+# load the input images
+imgInputA = jetson.utils.loadImage('my_image_a.jpg')
+imgInputB = jetson.utils.loadImage('my_image_b.jpg')
+
+# allocate the output image, with dimensions to fit both inputs side-by-side
+imgOutput = jetson.utils.cudaAllocMapped(width=imgInputA.width + imgInputB.width, 
+                                         height=max(imgInputA.height, imgInputB.height,
+                                         format=imgInputA.format)
+
+# compost the two images (the last two arguments are x,y coordinates in the output image)
+jetson.utils.cudaOverlay(imgInputA, imgOutput, 0, 0)
+jetson.utils.cudaOverlay(imgInputB, imgOutput, imgInputA.width, 0)
+```
+
+#### C++
+
+```c++
+#include <jetson-utils/cudaOverlay.h>
+#include <jetson-utils/cudaMappedMemory.h>
+#include <jetson-utils/imageIO.h>
+
+#include <algorithm>  // for std::max()
+
+uchar3* imgInputA = NULL;
+uchar3* imgInputB = NULL;
+uchar3* imgOutput = NULL;
+
+int2 dimsA = make_int2(0,0);
+int2 dimsB = make_int2(0,0);
+
+int height = 0;
+
+// load the input images
+if( !loadImage("my_image_a.jpg", &imgInputA, &dimsA.x, &dimsA.y) )
 	return false;
-}
+
+if( !loadImage("my_image_b.jpg", &imgInputB, &dimsB.x, &dimsB.y) )
+	return false;
+
+// allocate the output image, with dimensions to fit both inputs side-by-side
+const int2 dimsOutput = make_int2(dimsA.x + dimsB.x,
+                                  std::max(dimsA.y, dimsB.y));
+
+if( !cudaAllocMapped(&imgOutput, dimsOutput.x, dimsOutput.y) )
+	return false;
+
+// compost the two images (the last two arguments are x,y coordinates in the output image)
+CUDA(cudaOverlay(imgInputA, dimsA, imgOutput, dimsOutput, 0, 0));
+CUDA(cudaOverlay(imgInputB, dimsB, imgOutput, dimsOutput, dimsA.x, 0));
 ```
 
 ##
