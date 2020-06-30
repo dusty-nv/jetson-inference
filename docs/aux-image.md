@@ -122,14 +122,14 @@ When you allocate an image in Python, or capture an image from a video feed with
 
 ```python
 <jetson.utils.cudaImage>
- .ptr      # memory address (not typically used)
- .size     # size in bytes
- .shape    # (height,width,channels) tuple
- .width    # width in pixels
- .height   # height in pixels
- .channels # number of color channels
- .format   # format string
- .mapped   # true if ZeroCopy
+  .ptr      # memory address (not typically used)
+  .size     # size in bytes
+  .shape    # (height,width,channels) tuple
+  .width    # width in pixels
+  .height   # height in pixels
+  .channels # number of color channels
+  .format   # format string
+  .mapped   # true if ZeroCopy
 ```
 
 So you can do things like `img.width` and `img.height` to access properties about the image.
