@@ -178,7 +178,8 @@ When outputting RTP, you do need to explicitly set the IP address or hostname of
 RTSP network streams are subscribed to from a remote host over UDP/IP.  Unlike RTP, RTSP can dynamically query the stream properties (like resolution and codec), so these options don't need to be explicitly provided.
 
 ```bash
-$ video-viewer rtsp://<remote-ip>:1234 my_video.mp4  # subscribe to RTSP feed from <remote-ip>, port 1234 (and save it to file)
+$ video-viewer rtsp://<remote-ip>:1234 my_video.mp4      # subscribe to RTSP feed from <remote-ip>, port 1234 (and save it to file)
+$ video-viewer rtsp://username:password@<remote-ip>:1234 # with authentication (replace username/password with credentials)
 ```
 
 > **note:** RTSP is supported as an input only.  Outputting RTSP would require additional support in GStreamer for an RTSP server.
