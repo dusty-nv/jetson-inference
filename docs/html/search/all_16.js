@@ -9,6 +9,8 @@ var searchData=
   ['vgg_5f16',['VGG_16',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a4a1ff14a90c30b505d6a2e563ad02bdc',1,'imageNet']]],
   ['vgg_5f19',['VGG_19',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470ab44362ca647faaeb0b4a3124aef6a6fa',1,'imageNet']]],
   ['video_20streaming',['Video Streaming',['../group__video.html',1,'']]],
+  ['video_5foutput_5fusage_5fstring',['VIDEO_OUTPUT_USAGE_STRING',['../group__video.html#ga408346b18d1f4c711279010d2351f7ce',1,'videoOutput.h']]],
+  ['video_5fsource_5fusage_5fstring',['VIDEO_SOURCE_USAGE_STRING',['../group__video.html#ga2f89bd1b25834e27c1be213ee862d5ae',1,'videoSource.h']]],
   ['videooptions',['videoOptions',['../structvideoOptions.html',1,'videoOptions'],['../structvideoOptions.html#afa1cc55ed3beeca6917d90607334079e',1,'videoOptions::videoOptions()']]],
   ['videooptions_2eh',['videoOptions.h',['../videoOptions_8h.html',1,'']]],
   ['videooutput',['videoOutput',['../classvideoOutput.html',1,'videoOutput'],['../classvideoOutput.html#a02b39780efc6480ab424764dafe082ba',1,'videoOutput::videoOutput()']]],

@@ -7,7 +7,6 @@ var searchData=
   ['parsedeep',['ParseDeep',['../classtinyxml2_1_1XMLNode.html#a5cef2b1dacd8c6bc61373c9221fe01a3',1,'tinyxml2::XMLNode::ParseDeep()'],['../classtinyxml2_1_1XMLText.html#ac895ee9b8a664d94d71b41ba3c28e8a5',1,'tinyxml2::XMLText::ParseDeep()'],['../classtinyxml2_1_1XMLComment.html#ab5da828fe023869b8c5bb69554d41bb1',1,'tinyxml2::XMLComment::ParseDeep()'],['../classtinyxml2_1_1XMLDeclaration.html#a85e217f63cf47c65f81a44d360927cf7',1,'tinyxml2::XMLDeclaration::ParseDeep()'],['../classtinyxml2_1_1XMLUnknown.html#a105fc419c67018bf57927b2eaf842ec5',1,'tinyxml2::XMLUnknown::ParseDeep()'],['../classtinyxml2_1_1XMLElement.html#a84c63832a2e7dd9ed6168fe808e88801',1,'tinyxml2::XMLElement::ParseDeep()']]],
   ['parsename',['ParseName',['../classtinyxml2_1_1StrPair.html#a8452c0c7f140d4d613134e952ce54f14',1,'tinyxml2::StrPair']]],
   ['parsetext',['ParseText',['../classtinyxml2_1_1StrPair.html#a17fcee610027ae142297f3317d619c04',1,'tinyxml2::StrPair']]],
-  ['path',['path',['../structURI.html#a18b7b6f3328197824e58dc4cf46301df',1,'URI']]],
   ['pathdir',['pathDir',['../group__filesystem.html#ga54a247d108dcb744e97b74cfb2c8cbdf',1,'filesystem.h']]],
   ['pathjoin',['pathJoin',['../group__filesystem.html#ga51f3dc6065231b5ecde30f7e3f18f918',1,'filesystem.h']]],
   ['pednet',['PEDNET',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3',1,'detectNet']]],

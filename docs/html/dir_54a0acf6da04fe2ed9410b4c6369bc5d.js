@@ -64,7 +64,7 @@ var dir_54a0acf6da04fe2ed9410b4c6369bc5d =
     [ "URI.h", "URI_8h.html", null ],
     [ "v4l2Camera.h", "v4l2Camera_8h.html", null ],
     [ "videoOptions.h", "videoOptions_8h.html", "videoOptions_8h" ],
-    [ "videoOutput.h", "videoOutput_8h.html", null ],
-    [ "videoSource.h", "videoSource_8h.html", null ],
+    [ "videoOutput.h", "videoOutput_8h.html", "videoOutput_8h" ],
+    [ "videoSource.h", "videoSource_8h.html", "videoSource_8h" ],
     [ "XML.h", "XML_8h.html", "XML_8h" ]
 ];

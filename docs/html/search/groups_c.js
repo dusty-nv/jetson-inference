@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['utilities_20library_20_28jetson_2dutils_29',['Utilities Library (jetson-utils)',['../group__util.html',1,'']]]
+  ['tensornet',['tensorNet',['../group__tensorNet.html',1,'']]],
+  ['time',['Time',['../group__time.html',1,'']]]
 ];

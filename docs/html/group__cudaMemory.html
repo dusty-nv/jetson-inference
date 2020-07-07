@@ -99,6 +99,12 @@ Functions</h2></td></tr>
 <tr class="memitem:gaebaf526c95c617fba65d29943b88333d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cudaMemory.html#gaebaf526c95c617fba65d29943b88333d">cudaAllocMapped</a> (void **ptr, size_t size)</td></tr>
 <tr class="memdesc:gaebaf526c95c617fba65d29943b88333d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate ZeroCopy mapped memory, shared between CUDA and CPU.  <a href="#gaebaf526c95c617fba65d29943b88333d">More...</a><br /></td></tr>
 <tr class="separator:gaebaf526c95c617fba65d29943b88333d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa52f87e1fd1acb41b7fecd08e698d652"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cudaMemory.html#gaa52f87e1fd1acb41b7fecd08e698d652">cudaAllocMapped</a> (void **ptr, size_t width, size_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
+<tr class="memdesc:gaa52f87e1fd1acb41b7fecd08e698d652"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate ZeroCopy mapped memory, shared between CUDA and CPU.  <a href="#gaa52f87e1fd1acb41b7fecd08e698d652">More...</a><br /></td></tr>
+<tr class="separator:gaa52f87e1fd1acb41b7fecd08e698d652"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8a2888fa56181613241c517a156351d9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cudaMemory.html#ga8a2888fa56181613241c517a156351d9">cudaAllocMapped</a> (void **ptr, const int2 &amp;dims, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
+<tr class="memdesc:ga8a2888fa56181613241c517a156351d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate ZeroCopy mapped memory, shared between CUDA and CPU.  <a href="#ga8a2888fa56181613241c517a156351d9">More...</a><br /></td></tr>
+<tr class="separator:ga8a2888fa56181613241c517a156351d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaab0dab07a3448b93f7022ce304a47a8b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:gaab0dab07a3448b93f7022ce304a47a8b"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cudaMemory.html#gaab0dab07a3448b93f7022ce304a47a8b">cudaAllocMapped</a> (T **ptr, size_t width, size_t height)</td></tr>
 <tr class="memdesc:gaab0dab07a3448b93f7022ce304a47a8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate ZeroCopy mapped memory, shared between CUDA and CPU.  <a href="#gaab0dab07a3448b93f7022ce304a47a8b">More...</a><br /></td></tr>
@@ -112,7 +118,7 @@ Functions</h2></td></tr>
 <p>Allocation of CUDA mapped zero-copy memory. </p>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga08121b272362dcd6f06d71a5a660c1e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga08121b272362dcd6f06d71a5a660c1e9">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga08121b272362dcd6f06d71a5a660c1e9">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -166,7 +172,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="gaebaf526c95c617fba65d29943b88333d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaebaf526c95c617fba65d29943b88333d">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gaebaf526c95c617fba65d29943b88333d">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -212,8 +218,123 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="gaa52f87e1fd1acb41b7fecd08e698d652"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa52f87e1fd1acb41b7fecd08e698d652">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[3/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cudaAllocMapped </td>
+          <td>(</td>
+          <td class="paramtype">void **&#160;</td>
+          <td class="paramname"><em>ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Allocate ZeroCopy mapped memory, shared between CUDA and CPU. </p>
+<p>This overload is for allocating images from an imageFormat type and the image dimensions. The overall size of the allocation will be calculated with the <a class="el" href="group__imageFormat.html#gae8779cdbde4c4543a26a736ef7222fae" title="Compute the size of an image (in bytes) ">imageFormatSize()</a> function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">ptr</td><td>Returned pointer to the shared CPU/GPU memory. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">width</td><td>Width (in pixels) to allocate. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">height</td><td>Height (in pixels) to allocate. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">format</td><td>Format of the image.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the allocation succeeded, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ga8a2888fa56181613241c517a156351d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8a2888fa56181613241c517a156351d9">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cudaAllocMapped </td>
+          <td>(</td>
+          <td class="paramtype">void **&#160;</td>
+          <td class="paramname"><em>ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int2 &amp;&#160;</td>
+          <td class="paramname"><em>dims</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Allocate ZeroCopy mapped memory, shared between CUDA and CPU. </p>
+<p>This overload is for allocating images from an imageFormat type and the image dimensions. The overall size of the allocation will be calculated with the <a class="el" href="group__imageFormat.html#gae8779cdbde4c4543a26a736ef7222fae" title="Compute the size of an image (in bytes) ">imageFormatSize()</a> function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">ptr</td><td>Returned pointer to the shared CPU/GPU memory. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dims</td><td><code>int2</code> vector where <code>width=dims.x</code> and <code>height=dims.y</code> </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">format</td><td>Format of the image.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the allocation succeeded, <code>false</code> otherwise. </dd></dl>
+
+</div>
+</div>
 <a id="gaab0dab07a3448b93f7022ce304a47a8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaab0dab07a3448b93f7022ce304a47a8b">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gaab0dab07a3448b93f7022ce304a47a8b">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -269,7 +390,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="gae2c4c5bb3fe6978716bb275b8f863eee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae2c4c5bb3fe6978716bb275b8f863eee">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gae2c4c5bb3fe6978716bb275b8f863eee">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -322,7 +443,7 @@ template&lt;typename T &gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Jun 23 2020 16:52:23 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 7 2020 14:35:06 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['segnet',['segNet',['../group__segNet.html',1,'']]]
+  ['resize',['Resize',['../group__resize.html',1,'']]]
 ];

@@ -103,21 +103,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a446633b337ea11f5ad79b38c45894cd7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a446633b337ea11f5ad79b38c45894cd7">commandLine</a> (const int <a class="el" href="classcommandLine.html#a7e44bdf5e5dcafee061bd3827002117a">argc</a>, char **<a class="el" href="classcommandLine.html#adb4c762405ba4b6bb81d99daa85f98bf">argv</a>, const char **extraArgs)</td></tr>
 <tr class="memdesc:a446633b337ea11f5ad79b38c45894cd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor, takes the command line from <code>main()</code>  <a href="#a446633b337ea11f5ad79b38c45894cd7">More...</a><br /></td></tr>
 <tr class="separator:a446633b337ea11f5ad79b38c45894cd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac55413fb0d401c0cb6c81e2a4f679bea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#ac55413fb0d401c0cb6c81e2a4f679bea">GetFlag</a> (const char *argName) const</td></tr>
-<tr class="memdesc:ac55413fb0d401c0cb6c81e2a4f679bea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks to see whether the specified flag was included on the command line.  <a href="#ac55413fb0d401c0cb6c81e2a4f679bea">More...</a><br /></td></tr>
-<tr class="separator:ac55413fb0d401c0cb6c81e2a4f679bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cef3f58471a2d5c6b8ab7b1ab8340d0"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a8cef3f58471a2d5c6b8ab7b1ab8340d0">GetFloat</a> (const char *argName, float defaultValue=0.0f) const</td></tr>
-<tr class="memdesc:a8cef3f58471a2d5c6b8ab7b1ab8340d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get float argument.  <a href="#a8cef3f58471a2d5c6b8ab7b1ab8340d0">More...</a><br /></td></tr>
-<tr class="separator:a8cef3f58471a2d5c6b8ab7b1ab8340d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa275b52f8e88591a97616069210c7dc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#aaa275b52f8e88591a97616069210c7dc">GetInt</a> (const char *argName, int defaultValue=0) const</td></tr>
-<tr class="memdesc:aaa275b52f8e88591a97616069210c7dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get integer argument.  <a href="#aaa275b52f8e88591a97616069210c7dc">More...</a><br /></td></tr>
-<tr class="separator:aaa275b52f8e88591a97616069210c7dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60439740d9249704910a1258cb04a66e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a60439740d9249704910a1258cb04a66e">GetUnsignedInt</a> (const char *argName, uint32_t defaultValue=0) const</td></tr>
-<tr class="memdesc:a60439740d9249704910a1258cb04a66e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get unsigned integer argument.  <a href="#a60439740d9249704910a1258cb04a66e">More...</a><br /></td></tr>
-<tr class="separator:a60439740d9249704910a1258cb04a66e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42243477fcd1bcb8cb9675fbd83abf58"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a42243477fcd1bcb8cb9675fbd83abf58">GetString</a> (const char *argName, const char *defaultValue=NULL) const</td></tr>
-<tr class="memdesc:a42243477fcd1bcb8cb9675fbd83abf58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get string argument.  <a href="#a42243477fcd1bcb8cb9675fbd83abf58">More...</a><br /></td></tr>
-<tr class="separator:a42243477fcd1bcb8cb9675fbd83abf58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8264c15d7154918323bb14ded89565b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#ae8264c15d7154918323bb14ded89565b">GetFlag</a> (const char *argName, bool allowOtherDelimiters=true) const</td></tr>
+<tr class="memdesc:ae8264c15d7154918323bb14ded89565b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks to see whether the specified flag was included on the command line.  <a href="#ae8264c15d7154918323bb14ded89565b">More...</a><br /></td></tr>
+<tr class="separator:ae8264c15d7154918323bb14ded89565b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ca2a1cb2c4f8f835c8ce0c89ccb92d8"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a7ca2a1cb2c4f8f835c8ce0c89ccb92d8">GetFloat</a> (const char *argName, float defaultValue=0.0f, bool allowOtherDelimiters=true) const</td></tr>
+<tr class="memdesc:a7ca2a1cb2c4f8f835c8ce0c89ccb92d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get float argument.  <a href="#a7ca2a1cb2c4f8f835c8ce0c89ccb92d8">More...</a><br /></td></tr>
+<tr class="separator:a7ca2a1cb2c4f8f835c8ce0c89ccb92d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82502d6930cc10b5147ab32ec412c996"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a82502d6930cc10b5147ab32ec412c996">GetInt</a> (const char *argName, int defaultValue=0, bool allowOtherDelimiters=true) const</td></tr>
+<tr class="memdesc:a82502d6930cc10b5147ab32ec412c996"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get integer argument.  <a href="#a82502d6930cc10b5147ab32ec412c996">More...</a><br /></td></tr>
+<tr class="separator:a82502d6930cc10b5147ab32ec412c996"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9604b3b315b3a62177d6f920fb6bec9"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#aa9604b3b315b3a62177d6f920fb6bec9">GetUnsignedInt</a> (const char *argName, uint32_t defaultValue=0, bool allowOtherDelimiters=true) const</td></tr>
+<tr class="memdesc:aa9604b3b315b3a62177d6f920fb6bec9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get unsigned integer argument.  <a href="#aa9604b3b315b3a62177d6f920fb6bec9">More...</a><br /></td></tr>
+<tr class="separator:aa9604b3b315b3a62177d6f920fb6bec9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79b0fc5258dbd12ba4b0cb5df77d424c"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#a79b0fc5258dbd12ba4b0cb5df77d424c">GetString</a> (const char *argName, const char *defaultValue=NULL, bool allowOtherDelimiters=true) const</td></tr>
+<tr class="memdesc:a79b0fc5258dbd12ba4b0cb5df77d424c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get string argument.  <a href="#a79b0fc5258dbd12ba4b0cb5df77d424c">More...</a><br /></td></tr>
+<tr class="separator:a79b0fc5258dbd12ba4b0cb5df77d424c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5de00debc91a7ef79014a301a9b4a9f"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcommandLine.html#ab5de00debc91a7ef79014a301a9b4a9f">GetPosition</a> (unsigned int position, const char *defaultValue=NULL) const</td></tr>
 <tr class="memdesc:ab5de00debc91a7ef79014a301a9b4a9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get positional string argument.  <a href="#ab5de00debc91a7ef79014a301a9b4a9f">More...</a><br /></td></tr>
 <tr class="separator:ab5de00debc91a7ef79014a301a9b4a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -282,8 +282,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ac55413fb0d401c0cb6c81e2a4f679bea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac55413fb0d401c0cb6c81e2a4f679bea">&#9670;&nbsp;</a></span>GetFlag()</h2>
+<a id="ae8264c15d7154918323bb14ded89565b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8264c15d7154918323bb14ded89565b">&#9670;&nbsp;</a></span>GetFlag()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -292,20 +292,36 @@ Public Attributes</h2></td></tr>
           <td class="memname">bool commandLine::GetFlag </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>argName</em></td><td>)</td>
-          <td> const</td>
+          <td class="paramname"><em>argName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>allowOtherDelimiters</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Checks to see whether the specified flag was included on the command line. </p>
 <p>For example, if argv contained <code>--foo</code>, then <code>GetFlag("foo")</code> would return <code>true</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">allowOtherDelimiters</td><td>if true (default), the argName will be matched against occurances containing either <code>-</code> or <code>_</code>. For example, <code>--foo-bar</code> and <code>--foo_bar</code> would be the same.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code>, if the flag with argName was found <code>false</code>, if the flag with argName was not found </dd></dl>
 
 </div>
 </div>
-<a id="a8cef3f58471a2d5c6b8ab7b1ab8340d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8cef3f58471a2d5c6b8ab7b1ab8340d0">&#9670;&nbsp;</a></span>GetFloat()</h2>
+<a id="a7ca2a1cb2c4f8f835c8ce0c89ccb92d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ca2a1cb2c4f8f835c8ce0c89ccb92d8">&#9670;&nbsp;</a></span>GetFloat()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -320,7 +336,13 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>defaultValue</em> = <code>0.0f</code>&#160;</td>
+          <td class="paramname"><em>defaultValue</em> = <code>0.0f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>allowOtherDelimiters</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -332,12 +354,18 @@ Public Attributes</h2></td></tr>
 
 <p>Get float argument. </p>
 <p>For example if argv contained <code>--foo=3.14159</code>, then <code>GetInt("foo")</code> would return <code>3.14159f</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">allowOtherDelimiters</td><td>if true (default), the argName will be matched against occurances containing either <code>-</code> or <code>_</code>. For example, <code>--foo-bar</code> and <code>--foo_bar</code> would be the same.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd><code>defaultValue</code> if the argument couldn't be found. (<code>0.0</code> by default). Otherwise, returns the value of the argument. </dd></dl>
 
 </div>
 </div>
-<a id="aaa275b52f8e88591a97616069210c7dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa275b52f8e88591a97616069210c7dc">&#9670;&nbsp;</a></span>GetInt()</h2>
+<a id="a82502d6930cc10b5147ab32ec412c996"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82502d6930cc10b5147ab32ec412c996">&#9670;&nbsp;</a></span>GetInt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -352,7 +380,13 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>defaultValue</em> = <code>0</code>&#160;</td>
+          <td class="paramname"><em>defaultValue</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>allowOtherDelimiters</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -364,6 +398,12 @@ Public Attributes</h2></td></tr>
 
 <p>Get integer argument. </p>
 <p>For example if argv contained <code>--foo=100</code>, then <code>GetInt("foo")</code> would return <code>100</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">allowOtherDelimiters</td><td>if true (default), the argName will be matched against occurances containing either <code>-</code> or <code>_</code>. For example, <code>--foo-bar</code> and <code>--foo_bar</code> would be the same.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd><code>defaultValue</code> if the argument couldn't be found (<code>0</code> by default). Otherwise, returns the value of the argument. </dd></dl>
 
 </div>
@@ -420,8 +460,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a42243477fcd1bcb8cb9675fbd83abf58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42243477fcd1bcb8cb9675fbd83abf58">&#9670;&nbsp;</a></span>GetString()</h2>
+<a id="a79b0fc5258dbd12ba4b0cb5df77d424c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79b0fc5258dbd12ba4b0cb5df77d424c">&#9670;&nbsp;</a></span>GetString()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -436,7 +476,13 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>defaultValue</em> = <code>NULL</code>&#160;</td>
+          <td class="paramname"><em>defaultValue</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>allowOtherDelimiters</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -448,12 +494,18 @@ Public Attributes</h2></td></tr>
 
 <p>Get string argument. </p>
 <p>For example if argv contained <code>--foo=bar</code>, then <code>GetString("foo")</code> would return <code>"bar"</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">allowOtherDelimiters</td><td>if true (default), the argName will be matched against occurances containing either <code>-</code> or <code>_</code>. For example, <code>--foo-bar</code> and <code>--foo_bar</code> would be the same.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd><code>defaultValue</code> if the argument couldn't be found (<code>NULL</code> by default). Otherwise, returns a pointer to the argument value string from the <code>argv</code> array. </dd></dl>
 
 </div>
 </div>
-<a id="a60439740d9249704910a1258cb04a66e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60439740d9249704910a1258cb04a66e">&#9670;&nbsp;</a></span>GetUnsignedInt()</h2>
+<a id="aa9604b3b315b3a62177d6f920fb6bec9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9604b3b315b3a62177d6f920fb6bec9">&#9670;&nbsp;</a></span>GetUnsignedInt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -468,7 +520,13 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>defaultValue</em> = <code>0</code>&#160;</td>
+          <td class="paramname"><em>defaultValue</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>allowOtherDelimiters</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -480,6 +538,12 @@ Public Attributes</h2></td></tr>
 
 <p>Get unsigned integer argument. </p>
 <p>For example if argv contained <code>--foo=100</code>, then <code>GetUnsignedInt("foo")</code> would return <code>100</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">allowOtherDelimiters</td><td>if true (default), the argName will be matched against occurances containing either <code>-</code> or <code>_</code>. For example, <code>--foo-bar</code> and <code>--foo_bar</code> would be the same.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd><code>defaultValue</code> if the argument couldn't be found, or if the value was negative (<code>0</code> by default). Otherwise, returns the parsed value. </dd></dl>
 
 </div>
@@ -545,7 +609,7 @@ Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classcommandLine.html">commandLine</a></li>
-    <li class="footer">Generated on Tue Jun 23 2020 16:52:23 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 7 2020 14:35:06 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

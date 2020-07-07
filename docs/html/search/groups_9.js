@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['resize',['Resize',['../group__resize.html',1,'']]]
+  ['pixel_20filtering',['Pixel Filtering',['../group__cudaFilter.html',1,'']]],
+  ['point_20cloud',['Point Cloud',['../group__pointCloud.html',1,'']]]
 ];

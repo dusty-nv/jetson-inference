@@ -178,6 +178,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ac529c5b81c74eb71436e2031a6c1f214"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classvideoSource.html">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoSource.html#ac529c5b81c74eb71436e2031a6c1f214">Create</a> (const <a class="el" href="classcommandLine.html">commandLine</a> &amp;cmdLine, int positionArg=-1)</td></tr>
 <tr class="memdesc:ac529c5b81c74eb71436e2031a6c1f214"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="classvideoSource.html" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras...">videoSource</a> interface by parsing command line arguments, including the resource <a class="el" href="structURI.html" title="Resource URI of a video device, IP stream, or file/directory. ">URI</a>.  <a href="#ac529c5b81c74eb71436e2031a6c1f214">More...</a><br /></td></tr>
 <tr class="separator:ac529c5b81c74eb71436e2031a6c1f214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac254b0c9d38c76c62e6c5f8ad20ef447"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoSource.html#ac254b0c9d38c76c62e6c5f8ad20ef447">Usage</a> ()</td></tr>
+<tr class="memdesc:ac254b0c9d38c76c62e6c5f8ad20ef447"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="classvideoSource.html#aadf5947b119db934f02fefcd8ffe23ee" title="Create videoSource interface from a videoOptions struct that&#39;s already been filled out...">Create()</a>  <a href="#ac254b0c9d38c76c62e6c5f8ad20ef447">More...</a><br /></td></tr>
+<tr class="separator:ac254b0c9d38c76c62e6c5f8ad20ef447"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac080abc0de51300f838596d11b5544a8"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoSource.html#ac080abc0de51300f838596d11b5544a8">TypeToStr</a> (uint32_t type)</td></tr>
 <tr class="memdesc:ac080abc0de51300f838596d11b5544a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a class type to a string.  <a href="#ac080abc0de51300f838596d11b5544a8">More...</a><br /></td></tr>
 <tr class="separator:ac080abc0de51300f838596d11b5544a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -212,8 +215,10 @@ Protected Attributes</h2></td></tr>
    as these values cannot be discovered from the RTP stream itself and need to be provided.
    @see videoOptions for more info about `--input-codec`, `--input-width`, and `--input-height`.
 
-- `rtsp://192.168.1.1:1234` to subscribe to an RTSP network stream, where `192.168.1.1` should
-   be substituted for the remote host's IP address or hostname, and `1234` is the port.
+- `rtsp://username:password@&lt;remote-host&gt;:1234` to subscribe to an RTSP network stream, where
+   `&lt;remote-host&gt;` should be substituted for the remote host's IP address or hostname, and 
+   `1234` is the port.  For example, `rtsp://192.168.1.2:5000`.  The `username` and `password` 
+   are optional, and are only used for RTSP streams that require authentication.
 
 - `file:///home/user/my_video.mp4` for disk-based videos, images, and directories of images.
    You can leave off the `file://` protocol identifier and it will be deduced from the path.
@@ -1024,6 +1029,33 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="ac254b0c9d38c76c62e6c5f8ad20ef447"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac254b0c9d38c76c62e6c5f8ad20ef447">&#9670;&nbsp;</a></span>Usage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const char* videoSource::Usage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Usage string for command line arguments to <a class="el" href="classvideoSource.html#aadf5947b119db934f02fefcd8ffe23ee" title="Create videoSource interface from a videoOptions struct that&#39;s already been filled out...">Create()</a> </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="aa3c05686659fae747ff8709be2c9b445"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa3c05686659fae747ff8709be2c9b445">&#9670;&nbsp;</a></span>mOptions</h2>
@@ -1078,7 +1110,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classvideoSource.html">videoSource</a></li>
-    <li class="footer">Generated on Tue Jun 23 2020 16:52:24 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 7 2020 14:35:07 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

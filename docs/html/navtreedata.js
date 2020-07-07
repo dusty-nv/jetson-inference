@@ -51,9 +51,9 @@ var NAVTREEINDEX =
 "cudaMath_8h.html#a96f3477b0c986285c1e8961a91c03318",
 "dir_2e4d84877693cd000e5cb535f4b23486.html",
 "group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749feaa2199f69612be7b5e44d25fab5dab570",
-"group__imageFormat.html#ga339c56a589a78dc7af3666f192423525",
-"group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1a4ed47814b2f80f0e92daad5af7bc38",
-"structglWidget_1_1eventHandler.html#ad2afcf0fb176377e284563dc9d630e75"
+"group__imageFormat.html#ga08cfd96f1a84b8b583030ab095619b51",
+"group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725ad8c909322673d53ee28de66aa57bcccd",
+"structdetectNet_1_1Detection.html#a344619ce0a8fc04050b3cb6238a815f9"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

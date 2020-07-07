@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['tensornet',['tensorNet',['../group__tensorNet.html',1,'']]],
-  ['time',['Time',['../group__time.html',1,'']]]
+  ['segnet',['segNet',['../group__segNet.html',1,'']]]
 ];

@@ -9,6 +9,7 @@ var group__util =
     [ "Image Formats", "group__imageFormat.html", "group__imageFormat" ],
     [ "Image I/O", "group__image.html", "group__image" ],
     [ "Input", "group__input.html", "group__input" ],
+    [ "Logging", "group__log.html", "group__log" ],
     [ "Matrix", "group__matrix.html", "group__matrix" ],
     [ "Multithreading", "group__threads.html", "group__threads" ],
     [ "Networking", "group__network.html", "group__network" ],

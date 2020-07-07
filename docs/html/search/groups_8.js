@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['pixel_20filtering',['Pixel Filtering',['../group__cudaFilter.html',1,'']]],
-  ['point_20cloud',['Point Cloud',['../group__pointCloud.html',1,'']]]
+  ['opengl',['OpenGL',['../group__OpenGL.html',1,'']]],
+  ['overlay',['Overlay',['../group__overlay.html',1,'']]]
 ];

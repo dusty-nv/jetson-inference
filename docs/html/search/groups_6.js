@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['networking',['Networking',['../group__network.html',1,'']]],
-  ['normalization',['Normalization',['../group__normalization.html',1,'']]]
+  ['memory_20management',['Memory Management',['../group__cudaMemory.html',1,'']]],
+  ['matrix',['Matrix',['../group__matrix.html',1,'']]],
+  ['multithreading',['Multithreading',['../group__threads.html',1,'']]]
 ];
