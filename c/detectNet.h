@@ -77,7 +77,7 @@
 		  "                            * coco-dog\n" 								\
 		  "  --model=MODEL         path to custom model to load (caffemodel, uff, or onnx)\n" 					\
 		  "  --prototxt=PROTOTXT   path to custom prototxt to load (for .caffemodel only)\n" 					\
-		  "  --class-labels=LABELS path to text file containing the labels for each class\n" 					\
+		  "  --labels=LABELS       path to text file containing the labels for each class\n" 					\
 		  "  --input-blob=INPUT    name of the input layer (default is '" DETECTNET_DEFAULT_INPUT "')\n" 			\
 		  "  --output-cvg=COVERAGE name of the coverge output layer (default is '" DETECTNET_DEFAULT_COVERAGE "')\n" 	\
 		  "  --output-bbox=BOXES   name of the bounding output layer (default is '" DETECTNET_DEFAULT_BBOX "')\n" 	\

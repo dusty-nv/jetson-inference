@@ -367,6 +367,9 @@ detectNet* detectNet::Create( const commandLine& cmdLine )
 			if( !out_bbox ) out_bbox = DETECTNET_DEFAULT_BBOX;
 		}
 
+		if( !class_labels )
+			class_labels = cmdLine.GetString("labels");
+
 		float meanPixel = cmdLine.GetFloat("mean_pixel");
 
 		net = detectNet::Create(prototxt, modelName, meanPixel, class_labels, threshold, input, 
