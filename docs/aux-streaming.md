@@ -157,11 +157,11 @@ $ v4l2-ctl --device=/dev/video0 --list-formats-ext
   
 ## RTP
 
-RTP network streams are broadcast to a particular host or multicast group over UDP/IP.  When recieving an RTP stream, additional options must be set (such as the resolution and codec) that match the source, because RTP doesn't have the ability to dynamically query these.
+RTP network streams are broadcast to a particular host or multicast group over UDP/IP.  When recieving an RTP stream, the codec must be specified (`--input-codec`), because RTP doesn't have the ability to dynamically query this.
 
 ```bash
-$ video-viewer --input-width=1280 --input-height=720 --input-codec=h264 rtp://@:1234         # recieve on localhost port 1234
-$ video-viewer --input-width=1280 --input-height=720 --input-codec=h264 rtp://224.0.0.0:1234 # subscribe to multicast group
+$ video-viewer --input-codec=h264 rtp://@:1234         # recieve on localhost port 1234
+$ video-viewer --input-codec=h264 rtp://224.0.0.0:1234 # subscribe to multicast group
 ```
 
 To transmit an RTP output stream, you needn't set the options above. If desired, you can specify the bitrate (the default is `--bitrate=4000000` or 4Mbps) and/or the output codec (the default is `--output-codec=h264`) which can be `h264, h265, vp8, vp9, mjpeg`
