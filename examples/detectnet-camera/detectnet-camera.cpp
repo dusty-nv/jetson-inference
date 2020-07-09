@@ -56,6 +56,7 @@ int usage()
      printf("                    by default, MIPI CSI camera 0 will be used.\n");
 	printf("  --width WIDTH     desired width of camera stream (default is 1280 pixels)\n");
 	printf("  --height HEIGHT   desired height of camera stream (default is 720 pixels)\n");
+	printf("  --fps FPS         desired FPS of camera stream (default is 30)\n");
 	printf("  --threshold VALUE minimum threshold for detection (default is 0.5)\n\n");
 
 	printf("%s\n", detectNet::Usage());
@@ -86,6 +87,7 @@ int main( int argc, char** argv )
 	 */
 	gstCamera* camera = gstCamera::Create(cmdLine.GetInt("width", gstCamera::DefaultWidth),
 								   cmdLine.GetInt("height", gstCamera::DefaultHeight),
+								   cmdLine.GetInt("fps", gstCamera::DefaultFps),
 								   cmdLine.GetString("camera"));
 
 	if( !camera )
@@ -93,18 +95,19 @@ int main( int argc, char** argv )
 		printf("\ndetectnet-camera:  failed to initialize camera device\n");
 		return 0;
 	}
-	
+
 	printf("\ndetectnet-camera:  successfully initialized camera device\n");
 	printf("    width:  %u\n", camera->GetWidth());
 	printf("   height:  %u\n", camera->GetHeight());
+	printf("      fps:  %u\n", camera->GetFps());
 	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
-	
+
 
 	/*
 	 * create detection network
 	 */
 	detectNet* net = detectNet::Create(argc, argv);
-	
+
 	if( !net )
 	{
 		printf("detectnet-camera:   failed to load detectNet model\n");
@@ -113,14 +116,14 @@ int main( int argc, char** argv )
 
 	// parse overlay flags
 	const uint32_t overlayFlags = detectNet::OverlayFlagsFromStr(cmdLine.GetString("overlay", "box,labels,conf"));
-	
+
 
 	/*
 	 * create openGL window
 	 */
 	glDisplay* display = glDisplay::Create();
 
-	if( !display ) 
+	if( !display )
 		printf("detectnet-camera:  failed to create openGL display\n");
 
 
@@ -132,38 +135,38 @@ int main( int argc, char** argv )
 		printf("detectnet-camera:  failed to open camera for streaming\n");
 		return 0;
 	}
-	
+
 	printf("detectnet-camera:  camera open for streaming\n");
-	
-	
+
+
 	/*
 	 * processing loop
 	 */
 	float confidence = 0.0f;
-	
+
 	while( !signal_recieved )
 	{
 		// capture RGBA image
 		float* imgRGBA = NULL;
-		
+
 		if( !camera->CaptureRGBA(&imgRGBA, 1000) )
 			printf("detectnet-camera:  failed to capture RGBA image from camera\n");
 
 		// detect objects in the frame
 		detectNet::Detection* detections = NULL;
-	
+
 		const int numDetections = net->Detect(imgRGBA, camera->GetWidth(), camera->GetHeight(), &detections, overlayFlags);
-		
+
 		if( numDetections > 0 )
 		{
 			printf("%i objects detected\n", numDetections);
-		
+
 			for( int n=0; n < numDetections; n++ )
 			{
 				printf("detected obj %i  class #%u (%s)  confidence=%f\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence);
-				printf("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
+				printf("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height());
 			}
-		}	
+		}
 
 		// update display
 		if( display != NULL )
@@ -184,13 +187,13 @@ int main( int argc, char** argv )
 		// print out timing info
 		net->PrintProfilerTimes();
 	}
-	
+
 
 	/*
 	 * destroy resources
 	 */
 	printf("detectnet-camera:  shutting down...\n");
-	
+
 	SAFE_DELETE(camera);
 	SAFE_DELETE(display);
 	SAFE_DELETE(net);

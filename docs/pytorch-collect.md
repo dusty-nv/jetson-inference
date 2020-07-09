@@ -71,7 +71,7 @@ Next, we'll cover the command-line options for starting the tool.
 
 ## Launching the Tool
 
-The source for the `camera-capture` tool can be found under [`jetson-inference/tools/camera-capture/`](../tools/camera-capture), and like the other programs from the repo it gets built to the `aarch64/bin` directory and installed under `/usr/local/bin/`  
+The source for the `camera-capture` tool can be found under [`jetson-inference/tools/camera-capture/`](../tools/camera-capture), and like the other programs from the repo it gets built to the `aarch64/bin` directory and installed under `/usr/local/bin/`
 
 The `camera-capture` tool accepts 3 optional command-line arguments:
 
@@ -81,11 +81,12 @@ The `camera-capture` tool accepts 3 optional command-line arguments:
 	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
 - `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
 	- The resolution should be set to a format that the camera supports.
-     - Query the available formats with the following commands:  
+     - Query the available formats with the following commands:
           ``` bash
           $ sudo apt-get install v4l-utils
           $ v4l2-ctl --list-formats-ext
           ```
+- `--fps` flag setting the camera fps (default is `30`)
 
 Below are some example commands for launching the tool:
 
@@ -106,7 +107,7 @@ Below is the `Data Capture Control` window, which allows you to pick the desired
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-collection-widget.jpg" >
 
-First, open the dataset path and class labels.  The tool will then create the dataset structure discussed above (unless these subdirectories already exist), and you will see your object labels populated inside the `Current Class` drop-down.  
+First, open the dataset path and class labels.  The tool will then create the dataset structure discussed above (unless these subdirectories already exist), and you will see your object labels populated inside the `Current Class` drop-down.
 
 Then position the camera at the object or scene you have currently selected in the drop-down, and click the `Capture` button (or press the spacebar) when you're ready to take an image.  The images will be saved under that class subdirectory in the train, val, or test set.  The status bar displays how many images have been saved under that category.
 
@@ -162,7 +163,7 @@ Next we encourage you to experiment and apply what you've learned to other proje
 
 * use GPIO to trigger external actuators or LEDs when an object is detected
 * an autonomous robot that can find or follow an object
-* a handheld battery-powered camera + Jetson + mini-display 
+* a handheld battery-powered camera + Jetson + mini-display
 * an interactive toy or treat dispenser for your pet
 * a smart doorbell camera that greets your guests
 

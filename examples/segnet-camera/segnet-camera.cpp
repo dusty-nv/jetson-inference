@@ -57,6 +57,7 @@ int usage()
      printf("                    by default, MIPI CSI camera 0 will be used.\n");
 	printf("  --width WIDTH     desired width of camera stream (default: 1280 pixels)\n");
 	printf("  --height HEIGHT   desired height of camera stream (default: 720 pixels)\n");
+	printf("  --fps FPS         desired fps of camera stream (default: 30)\n");
 	printf("  --alpha ALPHA     overlay alpha blending value, range 0-255 (default: 120)\n");
 	printf("  --filter-mode MODE   filtering mode used during visualization,\n");
 	printf("                       options are 'point' or 'linear' (default: 'linear')\n");
@@ -77,7 +78,7 @@ int main( int argc, char** argv )
 	if( cmdLine.GetFlag("help") )
 		return usage();
 
-	
+
 	/*
 	 * attach signal handler
 	 */
@@ -90,6 +91,7 @@ int main( int argc, char** argv )
 	 */
 	gstCamera* camera = gstCamera::Create(cmdLine.GetInt("width", gstCamera::DefaultWidth),
 								   cmdLine.GetInt("height", gstCamera::DefaultHeight),
+								   cmdLine.GetInt("fps", gstCamera::DefaultFps),
 								   cmdLine.GetString("camera"));
 
 	if( !camera )
@@ -97,28 +99,30 @@ int main( int argc, char** argv )
 		printf("\nsegnet-camera:  failed to initialize camera device\n");
 		return 0;
 	}
-	
+
 	const uint32_t width = camera->GetWidth();
 	const uint32_t height = camera->GetHeight();
+	const uint32_t fps = camera->GetFps();
 
 	printf("\nsegnet-camera:  successfully initialized camera device\n");
 	printf("    width:  %u\n", width);
 	printf("   height:  %u\n", height);
+	printf("      fps:  %u\n", fps);
 	printf("    depth:  %u (bpp)\n\n", camera->GetPixelDepth());
-	
+
 
 	/*
 	 * create segmentation network
 	 */
 	segNet* net = segNet::Create(argc, argv);
-	
+
 	if( !net )
 	{
 		printf("segnet-camera:   failed to initialize imageNet\n");
 		return 0;
 	}
 
-	// set alpha blending value for classes that don't explicitly already have an alpha	
+	// set alpha blending value for classes that don't explicitly already have an alpha
 	net->SetOverlayAlpha(cmdLine.GetFloat("alpha", 120.0f));
 
 	// get the desired alpha blend filtering mode
@@ -127,7 +131,7 @@ int main( int argc, char** argv )
 	// get the object class to ignore (if any)
 	const char* ignoreClass = cmdLine.GetString("ignore-class", "void");
 
-	
+
 	/*
 	 * allocate segmentation overlay output buffers
  	 */
@@ -145,16 +149,16 @@ int main( int argc, char** argv )
 		printf("segnet-camera:  failed to allocate CUDA memory for mask image\n");
 		return 0;
 	}
-	
+
 
 	/*
 	 * create openGL window
 	 */
 	glDisplay* display = glDisplay::Create();
-	
+
 	if( !display )
 		printf("segnet-camera:  failed to create openGL display\n");
-	
+
 
 	/*
 	 * start streaming
@@ -164,20 +168,20 @@ int main( int argc, char** argv )
 		printf("segnet-camera:  failed to open camera for streaming\n");
 		return 0;
 	}
-	
+
 	printf("segnet-camera:  camera open for streaming\n");
-	
-	
+
+
 	/*
 	 * processing loop
 	 */
 	float confidence = 0.0f;
-	
+
 	while( !signal_recieved )
 	{
 		// capture RGBA image
 		float* imgRGBA = NULL;
-		
+
 		if( !camera->CaptureRGBA(&imgRGBA, 1000, true) )
 			printf("segnet-camera:  failed to convert from NV12 to RGBA\n");
 
@@ -187,7 +191,7 @@ int main( int argc, char** argv )
 			printf("segnet-console:  failed to process segmentation\n");
 			continue;
 		}
-		
+
 		// generate overlay
 		if( !net->Overlay(imgOverlay, width, height, filterMode) )
 		{
@@ -201,7 +205,7 @@ int main( int argc, char** argv )
 			printf("segnet-console:  failed to process segmentation mask.\n");
 			continue;
 		}
-		
+
 		// update display
 		if( display != NULL )
 		{
@@ -225,19 +229,19 @@ int main( int argc, char** argv )
 				signal_recieved = true;
 		}
 
-		// wait for the GPU to finish		
+		// wait for the GPU to finish
 		CUDA(cudaDeviceSynchronize());
 
 		// print out timing info
 		net->PrintProfilerTimes();
 	}
-	
+
 
 	/*
 	 * destroy resources
 	 */
 	printf("segnet-camera:  shutting down...\n");
-	
+
 	SAFE_DELETE(camera);
 	SAFE_DELETE(display);
 	SAFE_DELETE(net);
