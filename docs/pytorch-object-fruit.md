@@ -13,11 +13,12 @@ In the example below, we'll train a custom detection model that locates 8 differ
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-fruit.jpg">
 
-To get started, first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6** on your Jetson, then download the base model from below and install some packages that are needed for training the SSD model.  Then after downloading your desired object classes, you will kick off the training script (and probably let it run overnight).  After that, we'll test the re-trained detection model in TensorRT on some static images and a live camera feed. 
+To get started, first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6** on your Jetson.  JetPack 4.4 includes TensorRT 7.1, which is the minimum TensorRT version that supports loading SSD-Mobilenet via ONNX.  The PyTorch training scripts used for training SSD-Mobilenet are for Python3, so PyTorch should be installed for Python 3.6.
 
 ## Setup
 
-> **note:** first make sure that you have [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6** on your Jetson  
+> **note:** first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer on your Jetson
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6**
 
 The PyTorch code for training SSD-Mobilenet is found in the repo under [`jetson-inference/python/training/detection/ssd`](https://github.com/dusty-nv/pytorch-ssd).  There are a couple steps required before using it:
 
@@ -39,50 +40,98 @@ The [Open Images](https://storage.googleapis.com/openimages/web/visualizer/index
 
 ```bash
 $ python3 open_images_downloader.py --class_names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
-
-2020-07-08 17:02:39,877 - root - Starting to download 6750 images.
-2020-07-08 17:02:49,710 - root - Downloaded 100 images.
-2020-07-08 17:02:54,382 - root - Downloaded 200 images.
-2020-07-08 17:03:00,127 - root - Downloaded 300 images.
-2020-07-08 17:03:04,542 - root - Downloaded 400 images.
-2020-07-08 17:03:09,346 - root - Downloaded 500 images.
 ...
-2020-07-08 17:45:30,192 - root - Task Done.
+2020-07-09 16:20:42,778 - Starting to download 6360 images.
+2020-07-09 16:20:42,821 - Downloaded 100 images.
+2020-07-09 16:20:42,833 - Downloaded 200 images.
+2020-07-09 16:20:42,845 - Downloaded 300 images.
+2020-07-09 16:20:42,862 - Downloaded 400 images.
+2020-07-09 16:20:42,877 - Downloaded 500 images.
+2020-07-09 16:20:46,494 - Downloaded 600 images.
+...
+2020-07-09 16:32:12,321 - Task Done.
 ```
 
-By default, the dataset will be download to the `ssd/data` directory, but you can change that by specifying the `--root <PATH>` option.  Depending on the size of your dataset, it may be necessary to use external storage.
+By default, the dataset will be download to the `jetson-inference/python/training/detection/ssd/data` directory, but you can change that by specifying the `--root <PATH>` option.  Depending on the size of your dataset, it may be necessary to use external storage.
 
 ### Limiting the Amount of Data
 
-Depending on the classes that you select, Open Images can contain lots of data - in some cases too much to be feasibly trained on a Jetson.  In particular the classes containing people and vehicles have an abundance of images.  
+Depending on the classes that you select, Open Images can contain lots of data - in some cases too much to be trained in a reasonable amount of time for our purposes.  In particular, the classes containing people and vehicles have a large amount of images (>250GB).  
 
-So when selecting your own classes, before downloading the data it's recommended to first run the downloader script with the `--stats-only` option.  This will show how many bounding box instances and images there are in your classes, without actually downloading any images.  
+So when selecting your own classes, before downloading the data it's recommended to first run the downloader script with the `--stats-only` option.  This will show how many images there are for your classes, without actually downloading any images.  
 
 ``` bash
 $ python3 open_images_downloader.py --stats-only --class_names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
 ...
--------------------------------------
- overall bounding box counts
--------------------------------------
-  train set:      24863
-  validation set: 853
-  test set:       2874
+2020-07-09 16:18:06,879 - Total available images: 6360
+2020-07-09 16:18:06,879 - Total available boxes:  27188
 
-total bounding boxes: 28590
-total images:         6750
+-------------------------------------
+ 'train' set statistics
+-------------------------------------
+  Image count:  5145
+  Bounding box count:  23539
+  Bounding box distribution:
+    Strawberry:  7553/23539 = 0.32
+    Orange:  6186/23539 = 0.26
+    Apple:  3622/23539 = 0.15
+    Grape:  2560/23539 = 0.11
+    Banana:  1574/23539 = 0.07
+    Pear:  757/23539 = 0.03
+    Watermelon:  753/23539 = 0.03
+    Pineapple:  534/23539 = 0.02
+
+
+-------------------------------------
+ 'validation' set statistics
+-------------------------------------
+  Image count:  285
+  Bounding box count:  825
+  Bounding box distribution:
+    Strawberry:  326/825 = 0.40
+    Grape:  153/825 = 0.19
+    Orange:  148/825 = 0.18
+    Apple:  102/825 = 0.12
+    Watermelon:  31/825 = 0.04
+    Pineapple:  25/825 = 0.03
+    Banana:  22/825 = 0.03
+    Pear:  18/825 = 0.02
+
+
+-------------------------------------
+ 'test' set statistics
+-------------------------------------
+  Image count:  930
+  Bounding box count:  2824
+  Bounding box distribution:
+    Orange:  826/2824 = 0.29
+    Strawberry:  754/2824 = 0.27
+    Grape:  446/2824 = 0.16
+    Apple:  329/2824 = 0.12
+    Banana:  132/2824 = 0.05
+    Watermelon:  125/2824 = 0.04
+    Pear:  107/2824 = 0.04
+    Pineapple:  105/2824 = 0.04
+
+
+-------------------------------------
+ Overall statistics
+-------------------------------------
+  Image count:  6360
+  Bounding box count:  27188
 ```
 
-> **note:** `--stats-only` does download the bounding box annotation data (approximately ~1GB), but not the images yet.  
+> **note:** `--stats-only` does download the annotation data (approximately ~1GB), but not the images yet.  
 
-In practice, to keep the training time down (and disk space), you probably want to keep the total number of bounding boxes <50K.  You can limit the amount of data downloaded with the `--max-boxes` option, which indirectly scales the number of images downloaded (trying to directly limit the number of images isn't easily done, as each image may have multiple bounding boxes from multiple classes, so instead we control the number of bounding annotations).
+In practice, to keep the training time down (and disk space), you probably want to keep the total number of images <10K.  You can limit the amount of data downloaded with the `--max-images` option.
 
-For example, if you wanted to only download 15K boxes for the fruit dataset, you would launch the image download like this instead:
+For example, if you wanted to only use 2500 images for the fruit dataset (instead of the ~6500 images available), you would launch the image downloader like this instead:
 
 ``` bash
-$ python3 open_images_downloader.py --max-boxes=15000 --class_names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
+$ python3 open_images_downloader.py --max-images=2500 --class_names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
 ```
 
-If `--max-boxes` isn't set, by default all the data available will be downloaded - so be sure to check the amount of data with `--stats-only` first before downloading.  Setting `--max-boxes` will split the annotation allocations between 80% train, 10% val, and 10% test sets.
+If `--max-boxes` isn't set, by default all the data available will be downloaded - so be sure to check the amount of data with `--stats-only` first before downloading.  Unfortunately it isn't possible in advance to determe the actual disk size requirements of the images, but a general rule of thumb for this dataset is to budget ~350KB per image.
 
 
 Mirrors of the dataset are available here:
