@@ -9,16 +9,15 @@ Next, we'll train our own SSD-Mobilenet object detection model using PyTorch and
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-ssd-mobilenet.jpg">
 
-In the example below, we'll train a custom detection model that locates 8 different varieties of fruit, although you are welcome to pick from any of the [600 classes](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt) in the Open Images dataset to train your model on.
+In the example below, we'll train a custom detection model that locates 8 different varieties of fruit, although you are welcome to pick from any of the [600 classes](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt) in the Open Images dataset to train your model on.  You can visually browse the dataset [here](https://storage.googleapis.com/openimages/web/visualizer/index.html?set=train&type=detection).
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-fruit.jpg">
 
-To get started, first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6** on your Jetson.  JetPack 4.4 includes TensorRT 7.1, which is the minimum TensorRT version that supports loading SSD-Mobilenet via ONNX.  The PyTorch training scripts used for training SSD-Mobilenet are for Python3, so PyTorch should be installed for Python 3.6.
+To get started, first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6** on your Jetson.  JetPack 4.4 includes TensorRT 7.1, which is the minimum TensorRT version that supports loading SSD-Mobilenet via ONNX.  And the PyTorch training scripts used for training SSD-Mobilenet are for Python3, so PyTorch should be installed for Python 3.6.
 
 ## Setup
 
-> **note:** first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer on your Jetson
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6**
+> **note:** first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer on your Jetson and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6**
 
 The PyTorch code for training SSD-Mobilenet is found in the repo under [`jetson-inference/python/training/detection/ssd`](https://github.com/dusty-nv/pytorch-ssd).  There are a couple steps required before using it:
 
@@ -33,10 +32,12 @@ This will download the [base model](https://nvidia.box.com/shared/static/djf5w54
 
 ## Downloading the Data
 
-The [Open Images](https://storage.googleapis.com/openimages/web/visualizer/index.html?set=train&type=detection&c=%2Fm%2F0fp6w) dataset contains over [600 object classes](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt) that you can pick and choose from.  There is a script provided called `open_images_downloader.py` which will automatically download the desired object classes for you.  The example classes that we'll be using are `"Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"` (although you can substitute your own choices selected from the [class list](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt)). 
+The [Open Images](https://storage.googleapis.com/openimages/web/visualizer/index.html?set=train&type=detection&c=%2Fm%2F0fp6w) dataset contains over [600 object classes](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt) that you can pick and choose from.  There is a script provided called `open_images_downloader.py` which will automatically download the desired object classes for you.  
 
-> **note:**  the fewer classes used, the faster the model will run during inferencing
+> **note:**  the fewer classes used, the faster the model will run during inferencing.  </br>
 > &nbsp;&nbsp;&nbsp;&nbsp; before downloading your own classes, see [Limiting the Amount of Data](#limiting-the-amount-of-data) below.
+
+The example classes that we'll be using are `"Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"` (although you can substitute your own choices selected from the [class list](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt)). 
 
 ```bash
 $ python3 open_images_downloader.py --class_names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
@@ -52,7 +53,7 @@ $ python3 open_images_downloader.py --class_names "Apple,Orange,Banana,Strawberr
 2020-07-09 16:32:12,321 - Task Done.
 ```
 
-By default, the dataset will be download to the `jetson-inference/python/training/detection/ssd/data` directory, but you can change that by specifying the `--root <PATH>` option.  Depending on the size of your dataset, it may be necessary to use external storage.
+By default, the dataset will be download to the `ssd/data` directory, but you can change that by specifying the `--root <PATH>` option.  Depending on the size of your dataset, it may be necessary to use external storage (for example, via a USB3->SATA adapter or an M.2 NVMe drive).
 
 ### Limiting the Amount of Data
 
@@ -81,38 +82,7 @@ $ python3 open_images_downloader.py --stats-only --class_names "Apple,Orange,Ban
     Watermelon:  753/23539 = 0.03
     Pineapple:  534/23539 = 0.02
 
-
--------------------------------------
- 'validation' set statistics
--------------------------------------
-  Image count:  285
-  Bounding box count:  825
-  Bounding box distribution:
-    Strawberry:  326/825 = 0.40
-    Grape:  153/825 = 0.19
-    Orange:  148/825 = 0.18
-    Apple:  102/825 = 0.12
-    Watermelon:  31/825 = 0.04
-    Pineapple:  25/825 = 0.03
-    Banana:  22/825 = 0.03
-    Pear:  18/825 = 0.02
-
-
--------------------------------------
- 'test' set statistics
--------------------------------------
-  Image count:  930
-  Bounding box count:  2824
-  Bounding box distribution:
-    Orange:  826/2824 = 0.29
-    Strawberry:  754/2824 = 0.27
-    Grape:  446/2824 = 0.16
-    Apple:  329/2824 = 0.12
-    Banana:  132/2824 = 0.05
-    Watermelon:  125/2824 = 0.04
-    Pear:  107/2824 = 0.04
-    Pineapple:  105/2824 = 0.04
-
+...
 
 -------------------------------------
  Overall statistics
@@ -123,15 +93,15 @@ $ python3 open_images_downloader.py --stats-only --class_names "Apple,Orange,Ban
 
 > **note:** `--stats-only` does download the annotation data (approximately ~1GB), but not the images yet.  
 
-In practice, to keep the training time down (and disk space), you probably want to keep the total number of images <10K.  You can limit the amount of data downloaded with the `--max-images` option.
+In practice, to keep the training time down (and disk space), you probably want to keep the total number of images <10K.  Although the more images, the more accurate your model will be.  You can limit the amount of data downloaded with the `--max-images` option.
 
-For example, if you wanted to only use 2500 images for the fruit dataset (instead of the ~6500 images available), you would launch the image downloader like this instead:
+For example, if you wanted to only use 2500 images for the fruit dataset, you would launch the downloader like this:
 
 ``` bash
 $ python3 open_images_downloader.py --max-images=2500 --class_names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
 ```
 
-If `--max-boxes` isn't set, by default all the data available will be downloaded - so be sure to check the amount of data with `--stats-only` first before downloading.  Unfortunately it isn't possible in advance to determe the actual disk size requirements of the images, but a general rule of thumb for this dataset is to budget ~350KB per image.
+If the `--max-boxes` option isn't set, by default all the data available will be downloaded - so be sure to check the amount of data with `--stats-only` first before downloading.  Unfortunately it isn't possible in advance to determine the actual disk size requirements of the images, but a general rule of thumb for this dataset is to budget ~350KB per image.
 
 
 Mirrors of the dataset are available here:
