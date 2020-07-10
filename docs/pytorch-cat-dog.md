@@ -1,7 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
 <p align="right"><sup><a href="pytorch-transfer-learning.md">Back</a> | <a href="pytorch-plants.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
-<sup>Transfer Learning</sup></s></p>
+<sup>Transfer Learning - Classification</sup></s></p>
 
 # Re-training on the Cat/Dog Dataset
 

@@ -1,7 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="pytorch-plants.md">Back</a> | <a href="../README.md#hello-ai-world">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="pytorch-plants.md">Back</a> | <a href="pytorch-ssd.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
-<sup>Transfer Learning</sup></s></p>
+<sup>Transfer Learning - Classification</sup></s></p>
 
 # Collecting your own Datasets
 
@@ -171,5 +171,7 @@ For more examples to inspire your creativity, see the **[Jetson Projects](https:
 You can also follow our **[Two Days to a Demo](https://github.com/dusty-nv/jetson-inference#two-days-to-a-demo-DIGITS)** tutorial, which covers training of even larger datasets in the cloud or on a PC using discrete NVIDIA GPU(s).  Two Days to a Demo also covers semantic segmentation, which is like image classification, but on a per-pixel level instead of predicting one class for the entire image.
 
 
+<p align="right">Next | <b><a href="pytorch-ssd.md">Re-training SSD-Mobilenet</a></b>
+<br/>
 <p align="right">Back | <b><a href="pytorch-plants.md">Re-training on the PlantCLEF Dataset</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
