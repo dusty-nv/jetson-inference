@@ -7,7 +7,7 @@
 
 Next, we'll train our own SSD-Mobilenet object detection model using PyTorch and the [Open Images](https://storage.googleapis.com/openimages/web/visualizer/index.html?set=train&type=detection&c=%2Fm%2F06l9r) dataset.  SSD-Mobilenet is a popular network architecture for realtime object detection on mobile and embedded devices that combines the [SSD-300](https://arxiv.org/abs/1512.02325) Single-Shot MultiBox Detector with a [Mobilenet](https://arxiv.org/abs/1704.04861) backbone.  
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-ssd-mobilenet.jpg">
+<a href="https://arxiv.org/abs/1512.02325"><img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-ssd-mobilenet.jpg"></a>
 
 In the example below, we'll train a custom detection model that locates 8 different varieties of fruit, although you are welcome to pick from any of the [600 classes](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt) in the Open Images dataset to train your model on.  You can visually browse the dataset [here](https://storage.googleapis.com/openimages/web/visualizer/index.html?set=train&type=detection).
 
@@ -33,8 +33,7 @@ This will download the [base model](https://nvidia.box.com/shared/static/djf5w54
 
 The [Open Images](https://storage.googleapis.com/openimages/web/visualizer/index.html?set=train&type=detection&c=%2Fm%2F0fp6w) dataset contains over [600 object classes](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt) that you can pick and choose from.  There is a script provided called `open_images_downloader.py` which will automatically download the desired object classes for you.  
 
-> **note:**  the fewer classes used, the faster the model will run during inferencing.  </br>
-> &nbsp;&nbsp;&nbsp;&nbsp; before downloading your own classes, see [Limiting the Amount of Data](#limiting-the-amount-of-data) below.
+> **note:**  the fewer classes used, the faster the model will run during inferencing.  Before downloading your own classes, see [Limiting the Amount of Data](#limiting-the-amount-of-data) below.
 
 The classes that we'll be using are `"Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"`, for example for a fruit-picking robot. Although you are welcome to substitute your own choices from the [class list](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt). 
 
@@ -134,7 +133,7 @@ Over time, you should see the loss decreasing:
 2020-07-10 13:19:26,997 - Saved model models/fruit/mb1-ssd-Epoch-0-Loss-5.672993580500285.pth
 ```
 
-If you want to test your model before training for the full number of epochs, you can press `Ctrl+C` to kill the training script, and resume it again later on using the `--resume=<CHECKPOINT>` argument.
+If you want to test your model before the full number of epochs have completed training, you can press `Ctrl+C` to kill the training script, and resume it again later on using the `--resume=<CHECKPOINT>` argument.
 
 ## Converting the Model to ONNX
 
@@ -144,25 +143,25 @@ Next we need to convert our trained model from PyTorch to ONNX, so that we can l
 python3 onnx_export.py --model-dir=models/fruit
 ```
 
-This will create a model called `ssd-mobilenet.onnx` under `jetson-inference/python/training/detection/ssd/models/fruit/`
+This will save a model called `ssd-mobilenet.onnx` under `jetson-inference/python/training/detection/ssd/models/fruit/`
 
 ## Processing Images with TensorRT
 
-To classify some static test images, we'll use the extended command-line parameters to `detectnet` (or `detectnet.py`) to load our custom SSD-Mobilenet ONNX model.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/classification/`
+To classify some static test images, we'll use the extended command-line parameters to `detectnet` (or `detectnet.py`) to load our custom SSD-Mobilenet ONNX model.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/detection/ssd/`
 
 ```bash
 mkdir test_fruit
 
 detectnet --model=models/fruit/ssd-mobilenet.onnx --labels=models/fruit/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
-		"images/fruit_*.jpg" test_fruit
+          "images/fruit_*.jpg" test_fruit
 ```
 
 > **note:**  `detectnet.py` can be substituted above to run the Python version of the program
 
 Below are some of the images output to the `test_fruit/` directory:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-plants-2.jpg"
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-plants-2.jpg">
 
 ## Running the Live Camera Program
 
@@ -171,10 +170,10 @@ You can also try running your re-trained plant model on a camera or video stream
 ```bash
 detectnet --model=models/fruit/ssd-mobilenet.onnx --labels=models/fruit/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
-		csi://0
+          csi://0
 ```
 
-For more details about camera/video options, please see [Camera Streaming and Multimedia](aux-streaming.md).
+For more details about camera/video sources, please see [Camera Streaming and Multimedia](aux-streaming.md).
 
 <p align="right">Next | <b><a href="TODO">Collecting your own Detection Datasets (TODO)</a></b>
 <br/>
