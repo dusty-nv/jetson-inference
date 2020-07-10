@@ -173,7 +173,7 @@ detectnet --model=models/fruit/ssd-mobilenet.onnx --labels=models/fruit/labels.t
           csi://0
 ```
 
-For more details about camera/video sources, please see [Camera Streaming and Multimedia](aux-streaming.md).
+For more details about other camera/video sources, please see [Camera Streaming and Multimedia](aux-streaming.md).
 
 <p align="right">Next | <b><a href="TODO">Collecting your own Detection Datasets (TODO)</a></b>
 <br/>
