@@ -133,7 +133,7 @@ Over time, you should see the loss decreasing:
 2020-07-10 13:19:26,997 - Saved model models/fruit/mb1-ssd-Epoch-0-Loss-5.672993580500285.pth
 ```
 
-If you want to test your model before the full number of epochs have completed training, you can press `Ctrl+C` to kill the training script, and resume it again later on using the `--resume=<CHECKPOINT>` argument.
+If you want to test your model before the full number of epochs have completed training, you can press `Ctrl+C` to kill the training script, and resume it again later on using the `--resume=<CHECKPOINT>` argument.  You can download the fruit model that was already trained for 100 epochs from [here](https://nvidia.box.com/shared/static/gq0zlf0g2r258g3ldabl9o7vch18cxmi.gz).
 
 ## Converting the Model to ONNX
 
@@ -161,7 +161,7 @@ detectnet --model=models/fruit/ssd-mobilenet.onnx --labels=models/fruit/labels.t
 
 Below are some of the images output to the `test_fruit/` directory:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-plants-2.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-fruit-2.jpg">
 
 ## Running the Live Camera Program
 
