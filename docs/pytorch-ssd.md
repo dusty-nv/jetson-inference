@@ -38,17 +38,17 @@ The [Open Images](https://storage.googleapis.com/openimages/web/visualizer/index
 The classes that we'll be using are `"Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"`, for example for a fruit-picking robot. Although you are welcome to substitute your own choices from the [class list](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt). 
 
 ```bash
-$ python3 open_images_downloader.py --class_names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
+$ python3 open_images_downloader.py --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
 ...
-2020-07-09 16:20:42,778 - Starting to download 6360 images.
-2020-07-09 16:20:42,821 - Downloaded 100 images.
-2020-07-09 16:20:42,833 - Downloaded 200 images.
-2020-07-09 16:20:42,845 - Downloaded 300 images.
-2020-07-09 16:20:42,862 - Downloaded 400 images.
-2020-07-09 16:20:42,877 - Downloaded 500 images.
-2020-07-09 16:20:46,494 - Downloaded 600 images.
+2020-07-09 16:20:42 - Starting to download 6360 images.
+2020-07-09 16:20:42 - Downloaded 100 images.
+2020-07-09 16:20:42 - Downloaded 200 images.
+2020-07-09 16:20:42 - Downloaded 300 images.
+2020-07-09 16:20:42 - Downloaded 400 images.
+2020-07-09 16:20:42 - Downloaded 500 images.
+2020-07-09 16:20:46 - Downloaded 600 images.
 ...
-2020-07-09 16:32:12,321 - Task Done.
+2020-07-09 16:32:12 - Task Done.
 ```
 
 By default, the dataset will be downloaded to the `data/` directory under `jetson-inference/python/training/detection/ssd`, but you can change that by specifying the `--data=<PATH>` option.  Depending on the size of your dataset, it may be necessary to use external storage.  And if you download multiple datasets, you should store each dataset in their own subdirectory.
@@ -60,10 +60,10 @@ Depending on the classes that you select, Open Images can contain lots of data -
 So when selecting your own classes, before downloading the data it's recommended to first run the downloader script with the `--stats-only` option.  This will show how many images there are for your classes, without actually downloading any images.  
 
 ``` bash
-$ python3 open_images_downloader.py --stats-only --class_names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
+$ python3 open_images_downloader.py --stats-only --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
 ...
-2020-07-09 16:18:06,879 - Total available images: 6360
-2020-07-09 16:18:06,879 - Total available boxes:  27188
+2020-07-09 16:18:06 - Total available images: 6360
+2020-07-09 16:18:06 - Total available boxes:  27188
 
 -------------------------------------
  'train' set statistics
@@ -96,11 +96,21 @@ In practice, to keep the training time down (and disk space), you probably want 
 For example, if you wanted to only use 2500 images for the fruit dataset, you would launch the downloader like this:
 
 ``` bash
-$ python3 open_images_downloader.py --max-images=2500 --class_names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
+$ python3 open_images_downloader.py --max-images=2500 --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
 ```
 
 If the `--max-boxes` option isn't set, by default all the data available will be downloaded - so be sure to check the amount of data first with `--stats-only`.  Unfortunately it isn't possible in advance to determine the actual disk size requirements of the images, but a general rule of thumb for this dataset is to budget ~350KB per image.
 
+### Training Performance
+
+Below is approximate SSD-Mobilenet training performance to help estimate the time required for training:
+
+|           | Images/sec | Time per epoch* |
+|-----------|:----------:|:---------------:|
+| Nano      |    TODO    |       TODO      |
+| Xavier NX |    14.65   |   5 min 50 sec  |
+
+* measured on the fruits dataset (5145 training images, batch size 4)
 
 ## Training the SSD-Mobilenet Model
 
@@ -109,6 +119,8 @@ Once your data has finished downloading, run the `train_ssd.py` script to launch
 ```bash
 python3 train_ssd.py --model-dir=models/fruit --batch-size=4 --num-epochs=30
 ```
+
+> **note:** if you encounter memory errors or "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap)
 
 Here are some common options that you can run the training script with:
 
@@ -123,14 +135,14 @@ Here are some common options that you can run the training script with:
 Over time, you should see the loss decreasing:
 
 ```bash
-2020-07-10 13:14:12,076 - Epoch: 0, Step: 10/1287, Avg Loss: 12.4240, Avg Regression Loss 3.5747, Avg Classification Loss: 8.8493
-2020-07-10 13:14:12,688 - Epoch: 0, Step: 20/1287, Avg Loss: 9.6947, Avg Regression Loss 4.1911, Avg Classification Loss: 5.5036
-2020-07-10 13:14:13,145 - Epoch: 0, Step: 30/1287, Avg Loss: 8.7409, Avg Regression Loss 3.4078, Avg Classification Loss: 5.3332
-2020-07-10 13:14:13,688 - Epoch: 0, Step: 40/1287, Avg Loss: 7.3736, Avg Regression Loss 2.5356, Avg Classification Loss: 4.8379
-2020-07-10 13:14:14,293 - Epoch: 0, Step: 50/1287, Avg Loss: 6.3461, Avg Regression Loss 2.2286, Avg Classification Loss: 4.1175
+2020-07-10 13:14:12 - Epoch: 0, Step: 10/1287, Avg Loss: 12.4240, Avg Regression Loss 3.5747, Avg Classification Loss: 8.8493
+2020-07-10 13:14:12 - Epoch: 0, Step: 20/1287, Avg Loss: 9.6947, Avg Regression Loss 4.1911, Avg Classification Loss: 5.5036
+2020-07-10 13:14:13 - Epoch: 0, Step: 30/1287, Avg Loss: 8.7409, Avg Regression Loss 3.4078, Avg Classification Loss: 5.3332
+2020-07-10 13:14:13 - Epoch: 0, Step: 40/1287, Avg Loss: 7.3736, Avg Regression Loss 2.5356, Avg Classification Loss: 4.8379
+2020-07-10 13:14:14 - Epoch: 0, Step: 50/1287, Avg Loss: 6.3461, Avg Regression Loss 2.2286, Avg Classification Loss: 4.1175
 ...
-2020-07-10 13:19:26,971 - Epoch: 0, Validation Loss: 5.6730, Validation Regression Loss 1.7096, Validation Classification Loss: 3.9634
-2020-07-10 13:19:26,997 - Saved model models/fruit/mb1-ssd-Epoch-0-Loss-5.672993580500285.pth
+2020-07-10 13:19:26 - Epoch: 0, Validation Loss: 5.6730, Validation Regression Loss 1.7096, Validation Classification Loss: 3.9634
+2020-07-10 13:19:26 - Saved model models/fruit/mb1-ssd-Epoch-0-Loss-5.672993580500285.pth
 ```
 
 If you want to test your model before the full number of epochs have completed training, you can press `Ctrl+C` to kill the training script, and resume it again later on using the `--resume=<CHECKPOINT>` argument.  You can download the fruit model that was already trained for 100 epochs from [here](https://nvidia.box.com/shared/static/gq0zlf0g2r258g3ldabl9o7vch18cxmi.gz).
