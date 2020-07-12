@@ -52,7 +52,7 @@ Note that the torch version should be reported as `1.1.0` and the torchvision ve
 
 ## Mounting Swap
 
-If you're using Jetson Nano, you should mount 4GB of swap space, as training uses up a lot of extra memory.  
+Unless you are on Jetson AGX Xavier, you should mount 4GB of swap space, as training uses up a lot of extra memory.  
 
 Run these commands on Nano to create a swap file:
 
