@@ -35,7 +35,7 @@ The [Open Images](https://storage.googleapis.com/openimages/web/visualizer/index
 
 > **note:**  the fewer classes used, the faster the model will run during inferencing.  Open Images can also contain hundreds of gigabytes of data depending on the classes you pick - so before downloading your own classes, see the [Limiting the Amount of Data](#limiting-the-amount-of-data) section below.
 
-The classes that we'll be using are `"Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"`, for example for a fruit-picking robot - although you are welcome to substitute your own choices from the [class list](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt). The fruit classes have ~6500 images, which isn't too few or too many.
+The classes that we'll be using are `"Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"`, for example for a fruit-picking robot - although you are welcome to substitute your own choices from the [class list](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt). The fruit classes have ~6500 images, which is a happy medium.
 
 ```bash
 $ python3 open_images_downloader.py --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
@@ -99,7 +99,7 @@ For example, if you wanted to only use 2500 images for the fruit dataset, you wo
 $ python3 open_images_downloader.py --max-images=2500 --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
 ```
 
-If the `--max-boxes` option isn't set, by default all the data available will be downloaded - so be sure to check the amount of data first with `--stats-only`.  Unfortunately it isn't possible in advance to determine the actual disk size requirements of the images, but a general rule of thumb for this dataset is to budget ~350KB per image.
+If the `--max-boxes` option isn't set, by default all the data available will be downloaded - so beforehand, be sure to check the amount of data first with `--stats-only`.  Unfortunately it isn't possible in advance to determine the actual disk size requirements of the images, but a general rule of thumb for this dataset is to budget ~350KB per image (~2GB for the fruits).
 
 ### Training Performance
 
