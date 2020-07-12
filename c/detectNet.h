@@ -87,7 +87,7 @@
             "  --alpha=ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\
 		  "  --overlay=OVERLAY     detection overlay flags (e.g. --overlay=box,labels,conf)\n"					\
 		  "                        valid combinations are:  'box', 'labels', 'conf', 'none'\n"					\
-		  "  --profile             enable layer profiling in TensorRT\n"
+		  "  --profile             enable layer profiling in TensorRT\n\n"
 
 
 /**

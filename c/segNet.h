@@ -74,7 +74,7 @@
             "  --alpha=ALPHA        overlay alpha blending value, range 0-255 (default: 120)\n"			\
 		  "  --visualize=VISUAL   visualization flags (e.g. --visualize=overlay,mask)\n"				\
 		  "                       valid combinations are:  'overlay', 'mask'\n"						\
-		  "  --profile            enable layer profiling in TensorRT\n"
+		  "  --profile            enable layer profiling in TensorRT\n\n"
 
 
 /**

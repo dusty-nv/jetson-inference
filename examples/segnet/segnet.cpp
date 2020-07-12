@@ -26,20 +26,17 @@
 #include "cudaOverlay.h"
 #include "cudaMappedMemory.h"
 
-#include "logging.h"
-#include "commandLine.h"
-
 #include "segNet.h"
 
 #include <signal.h>
 
 
 #ifdef HEADLESS
-	#define IS_HEADLESS() "headless"	// run without display
-	#define DEFAULT_VISUALIZATION "overlay"
+	#define IS_HEADLESS() "headless"             // run without display
+	#define DEFAULT_VISUALIZATION "overlay"      // output overlay only
 #else
-	#define IS_HEADLESS() (const char*)NULL
-	#define DEFAULT_VISUALIZATION "overlay|mask"
+	#define IS_HEADLESS() (const char*)NULL      // use display (if attached)
+	#define DEFAULT_VISUALIZATION "overlay|mask" // output overlay + mask
 #endif
 
 

@@ -64,7 +64,7 @@
 		  "  --input-blob=INPUT   name of the input layer (default is '" IMAGENET_DEFAULT_INPUT "')\n" 	\
 		  "  --output-blob=OUTPUT name of the output layer (default is '" IMAGENET_DEFAULT_OUTPUT "')\n" 	\
 		  "  --batch-size=BATCH   maximum batch size (default is 1)\n"								\
-		  "  --profile            enable layer profiling in TensorRT\n"
+		  "  --profile            enable layer profiling in TensorRT\n\n"
 
 
 /**

@@ -24,9 +24,6 @@
 #include "videoOutput.h"
 
 #include "cudaFont.h"
-#include "commandLine.h"
-#include "logging.h"
-
 #include "imageNet.h"
 
 #include <signal.h>
@@ -60,10 +57,10 @@ int usage()
 	printf("    input_URI       resource URI of input stream  (see videoSource below)\n");
 	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
 
-	printf("%s\n", imageNet::Usage());
-	printf("%s\n", videoSource::Usage());
-	printf("%s\n", videoOutput::Usage());
-	printf("%s\n", Log::Usage());
+	printf("%s", imageNet::Usage());
+	printf("%s", videoSource::Usage());
+	printf("%s", videoOutput::Usage());
+	printf("%s", Log::Usage());
 
 	return 0;
 }
