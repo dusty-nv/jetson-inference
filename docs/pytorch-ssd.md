@@ -33,9 +33,9 @@ This will download the [base model](https://nvidia.box.com/shared/static/djf5w54
 
 The [Open Images](https://storage.googleapis.com/openimages/web/visualizer/index.html?set=train&type=detection&c=%2Fm%2F0fp6w) dataset contains over [600 object classes](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt) that you can pick and choose from.  There is a script provided called `open_images_downloader.py` which will automatically download the desired object classes for you.  
 
-> **note:**  the fewer classes used, the faster the model will run during inferencing.  Before downloading your own classes, see [Limiting the Amount of Data](#limiting-the-amount-of-data) below.
+> **note:**  the fewer classes used, the faster the model will run during inferencing.  Open Images can also contain hundreds of gigabytes of data depending on the classes you pick - so before downloading your own classes, see the [Limiting the Amount of Data](#limiting-the-amount-of-data) section below.
 
-The classes that we'll be using are `"Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"`, for example for a fruit-picking robot. Although you are welcome to substitute your own choices from the [class list](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt). 
+The classes that we'll be using are `"Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"`, for example for a fruit-picking robot - although you are welcome to substitute your own choices from the [class list](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt). The fruit classes have ~6500 images, which is a reasonable amount to start with.
 
 ```bash
 $ python3 open_images_downloader.py --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon"
