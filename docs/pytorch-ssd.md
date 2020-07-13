@@ -107,7 +107,7 @@ Below is approximate SSD-Mobilenet training performance to help estimate the tim
 
 |           | Images/sec | Time per epoch* |
 |-----------|:----------:|:---------------:|
-| Nano      |    TODO    |       TODO      |
+| Nano      |    4.77    |  17 min 55 sec  |
 | Xavier NX |    14.65   |   5 min 50 sec  |
 
 * measured on the fruits dataset (5145 training images, batch size 4)
