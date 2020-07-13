@@ -120,7 +120,7 @@ Once your data has finished downloading, run the `train_ssd.py` script to launch
 python3 train_ssd.py --model-dir=models/fruit --batch-size=4 --num-epochs=30
 ```
 
-> **note:** if you encounter memory errors or "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap)
+> **note:** if you encounter memory errors or your process is "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap)
 
 Here are some common options that you can run the training script with:
 
