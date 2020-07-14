@@ -1,4 +1,4 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="imagenet-example-python-2.md">Back</a> | <a href="imagenet-camera-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
@@ -6,9 +6,7 @@
 # Coding Your Own Image Recognition Program (C++)
 In the previous step, we ran an application that came with the jetson-inference repo.  
 
-Now, we're going to walk through creating a new program from scratch for image recognition called [`my-recognition`](../examples/my-recognition/my-recognition.cpp).  This program will be able to exist as a standalone project outside the repo, hence if you wish to use the jetson-inference library in your own projects and applications, you can follow this example.  
-
-For your convenience and reference, the completed files are available in the [`examples/my-recognition`](../examples/my-recognition) directory of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing.   
+Now, we're going to walk through creating a new program from scratch for image recognition called [`my-recognition`](../examples/my-recognition/my-recognition.cpp).  This program will be able to exist as a standalone project outside the repo, hence if you wish to use the jetson-inference library in your own projects and applications, you can follow this example.    
 
 ``` cpp
 #include <jetson-inference/imageNet.h>
@@ -29,9 +27,9 @@ int main( int argc, char** argv )
 	const char* imgFilename = argv[1];
 
 	// these variables will store the image data pointer and dimensions
-	uchar3* imgPtr = NULL;	// CPU/GPU pointer to image data
-	int imgWidth   = 0;		// width of the image (in pixels)
-	int imgHeight  = 0;		// height of the image (in pixels)
+	uchar3* imgPtr = NULL;   // shared CPU/GPU pointer to image
+	int imgWidth   = 0;      // width of the image (in pixels)
+	int imgHeight  = 0;      // height of the image (in pixels)
 		
 	// load the image from disk as uchar3 RGB (24 bits per pixel)
 	if( !loadImage(imgFilename, &imgPtr, &imgWidth, &imgHeight) )
@@ -78,6 +76,8 @@ int main( int argc, char** argv )
 	return 0;
 }
 ```
+
+For your convenience and reference, the completed files are available in the [`examples/my-recognition`](../examples/my-recognition) directory of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing. 
 
 ## Setting up the Project
 
@@ -156,9 +156,9 @@ Declare some variables that will store the dimensions of the image and pointers 
 
 ``` cpp
 	// these variables will store the image data pointer and dimensions
-	uchar3* imgPtr = NULL;	// CPU/GPU pointer to image data
-	int imgWidth   = 0;		// width of the image (in pixels)
-	int imgHeight  = 0;		// height of the image (in pixels)
+	uchar3* imgPtr = NULL;   // shared CPU/GPU pointer to image
+	int imgWidth   = 0;      // width of the image (in pixels)
+	int imgHeight  = 0;      // height of the image (in pixels)
 		
 	// load the image from disk as uchar3 RGB (24 bits per pixel)
 	if( !loadImage(imgFilename, &imgPtr, &imgWidth, &imgHeight) )
