@@ -123,7 +123,7 @@ Add this line to load the image with the filename that was specified from the co
 img = jetson.utils.loadImage(opt.filename)
 ```
 
-The returned image will be a [`jetson.utils.cudaImage`](aux-image.md#image-capsules-in-python) object that contains info like width, height, and pixel format:
+The returned image will be a [`jetson.utils.cudaImage`](aux-image.md#image-capsules-in-python) object that contains attributes like width, height, and pixel format:
 
 ```python
 <jetson.utils.cudaImage>
@@ -137,7 +137,7 @@ The returned image will be a [`jetson.utils.cudaImage`](aux-image.md#image-capsu
   .mapped   # true if ZeroCopy
 ```
 
-For more information about accessing images from Python, see the [Image Manipulation with CUDA](aux-image.md) page.  To load a video or sequence of images, you would want to use the [`videoSource`](aux-streaming.md#source-code) API like the previous [`imagenet.py`](../python/examples/imagenet.py) sample does.
+For more information about accessing images from Python, see the [Image Manipulation with CUDA](aux-image.md) page.  For simplicity, we just load a single image here. To load a video or sequence of images, you would want to use the [`videoSource`](aux-streaming.md#source-code) API like the previous [`imagenet.py`](../python/examples/imagenet.py) sample does.
 
 #### Loading the Image Recognition Network
 
