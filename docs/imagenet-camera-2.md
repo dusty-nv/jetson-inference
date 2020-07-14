@@ -5,7 +5,7 @@
 
 # Running the Live Camera Recognition Demo
 
-The [`imagenet.cpp`](../examples/imagenet/imagenet) / [`imagenet.py`](../python/examples/imagenet.py) sample that we used previously can also be used for realtime camera streaming.  The types of cameras it supports include:
+The [`imagenet.cpp`](../examples/imagenet/imagenet.cpp) / [`imagenet.py`](../python/examples/imagenet.py) samples that we used previously can also be used for realtime camera streaming.  The types of supported cameras include:
 
 - MIPI CSI cameras (`csi://0`)
 - V4L2 cameras (`/dev/video0`)
