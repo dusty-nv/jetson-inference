@@ -1,4 +1,4 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="imagenet-camera-2.md">Back</a> | <a href="detectnet-camera-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></s></p>
@@ -6,7 +6,7 @@
 # Locating Objects with DetectNet
 The previous recognition examples output class probabilities representing the entire input image.  Next we're going to focus on **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image classification, object detection networks are capable of detecting many different objects per frame.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet.jpg" width="900">
 
 The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See below for various [pre-trained detection models](#pre-trained-detection-models-available)  available for download.  The default model used is a [91-class](../data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
 
@@ -39,7 +39,7 @@ $ ./detectnet --network=ssd-mobilenet-v2 images/peds_0.jpg output.jpg     # --ne
 $ ./detectnet.py --network=ssd-mobilenet-v2 images/peds_0.jpg output.jpg  # --network flag is optional
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-0.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-0.jpg" width="900">
 
 ``` bash
 # C++
@@ -49,14 +49,14 @@ $ ./detectnet images/peds_1.jpg output.jpg
 $ ./detectnet.py images/peds_1.jpg output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-1.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-1.jpg" width="900">
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
 
 Below are more detection examples output from the console programs.  The [91-class](../data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-animals.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-animals.jpg" width="900">
 
 Various images are found under `images/` for testing, such as `cat_*.jpg`, `dog_*.jpg`, `horse_*.jpg`, `peds_*.jpg`, ect. 
 
@@ -76,9 +76,9 @@ If you have multiple images that you'd like to process at one time, you can laun
 
 For more info about loading/saving sequences of images, see the [Camera Streaming and Multimedia](aux-streaming.md#sequences) page.
 
-### Processing a Video
+### Processing Video Files
 
-You can also process a video from disk.  There are some sample videos from VisionWorks found on your Jetson under `/usr/share/visionworks/sources/data`.
+You can also process videos from disk.  There are some test videos from VisionWorks found on your Jetson under `/usr/share/visionworks/sources/data`
 
 ``` bash
 # C++
