@@ -6,7 +6,7 @@
 # Coding Your Own Image Recognition Program (Python)
 In the previous step, we ran a sample application that came with the `jetson-inference` repo.  
 
-Now, we're going to walk through creating a new program from scratch in Python for image recognition called [`my-recognition.py`](../python/examples/my-recognition.py).  This script will load an arbitrary image from disk and classify it using the [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) object.  The completed source is available in [`python/examples/my-recognition.py`](../python/examples/my-recognition.py).
+Now, we're going to walk through creating a new program from scratch in Python for image recognition called [`my-recognition.py`](../python/examples/my-recognition.py).  This script will load an arbitrary image from disk and classify it using the [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) object.  The completed source at [`python/examples/my-recognition.py`](../python/examples/my-recognition.py)
 
 ``` python
 #!/usr/bin/python3
