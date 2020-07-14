@@ -37,8 +37,6 @@ parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of 
 parser.add_argument("--network", type=str, default="ssd-mobilenet-v2", help="pre-trained model to load (see below for options)")
 parser.add_argument("--overlay", type=str, default="box,labels,conf", help="detection overlay flags (e.g. --overlay=box,labels,conf)\nvalid combinations are:  'box', 'labels', 'conf', 'none'")
 parser.add_argument("--threshold", type=float, default=0.5, help="minimum detection threshold to use") 
-parser.add_argument("--width", type=int, default=1280, help="desired width of camera stream (default is 1280 pixels)")
-parser.add_argument("--height", type=int, default=720, help="desired height of camera stream (default is 720 pixels)")
 
 is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
 
