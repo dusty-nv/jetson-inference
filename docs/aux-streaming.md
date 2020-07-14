@@ -256,7 +256,7 @@ $ video-viewer input_dir/ output_dir/   # load all images from input_dir and sav
 $ video-viewer "*.jpg" output_%i.jpg    # load all jpg images and save them to output_0.jpg, output_1.jpg, ect
 ```
 
-> **note:** when using wildcards, always enclose it in quotes (`".jpg"`). Otherwise, the OS will auto-expand the sequence and modify the order of arguments on the command-line, which may result in one of the input images being overwritten by the output.
+> **note:** when using wildcards, always enclose it in quotes (`"*.jpg"`). Otherwise, the OS will auto-expand the sequence and modify the order of arguments on the command-line, which may result in one of the input images being overwritten by the output.
 
 When saving a sequence of images, if the path is just to a directory (`output_dir`), then the images will automatically be saved as JPG with the format `output_dir/%i.jpg`, using the image number as it's filename (`output_dir/0.jpg`, `output_dir/1.jpg`, ect).  
 

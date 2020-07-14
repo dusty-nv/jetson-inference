@@ -1,4 +1,4 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="imagenet-example-2.md">Back</a> | <a href="detectnet-console-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
@@ -7,9 +7,9 @@
 
 The [`imagenet.cpp`](../examples/imagenet/imagenet) / [`imagenet.py`](../python/examples/imagenet.py) sample that we used previously can also be used for realtime camera streaming.  The types of cameras it supports include:
 
-- MIPI CSI cameras (e.g. `csi://0`)
-- V4L2 cameras (e.g. `/dev/video0`)
-- RTP/RTSP streams (e.g. `rtsp://username:password@ip:port`)
+- MIPI CSI cameras (`csi://0`)
+- V4L2 cameras (`/dev/video0`)
+- RTP/RTSP streams (`rtsp://username:password@ip:port`)
 
 For more information about video streams and URI formats, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
@@ -18,17 +18,17 @@ Below are some typical scenarios for launching the program on a camera feed (run
 #### C++
 
 ``` bash
-$ ./imagenet csi://0                    # MIPI CSI camera (1280x720)
-$ ./imagenet /dev/video0                # V4L2 camera (1280x720)
-$ ./imagenet /dev/video0 output.mp4     # save the results to video file
+$ ./imagenet csi://0                    # MIPI CSI camera
+$ ./imagenet /dev/video0                # V4L2 camera
+$ ./imagenet /dev/video0 output.mp4     # save to video file
 ```
 
 #### Python
 
 ``` bash
-$ ./imagenet.py csi://0                 # MIPI CSI camera (1280x720)
-$ ./imagenet.py /dev/video0             # V4L2 camera (1280x720)
-$ ./imagenet.py /dev/video0 output.mp4  # save the results to video file
+$ ./imagenet.py csi://0                 # MIPI CSI camera
+$ ./imagenet.py /dev/video0             # V4L2 camera
+$ ./imagenet.py /dev/video0 output.mp4  # save to video file
 ```
 
 > **note**:  for example cameras to use, see these sections of the Jetson Wiki: <br/>
