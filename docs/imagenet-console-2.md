@@ -32,10 +32,10 @@ Next, let's classify an example image with the `imagenet` program, using either 
 
 ``` bash
 # C++
-$ ./imagenet-console --network=googlenet images/orange_0.jpg output_0.jpg           # --network flag is optional (default is googlenet)
+$ ./imagenet-console --network=googlenet images/orange_0.jpg output_0.jpg     # --network flag is optional (default is googlenet)
 
 # Python
-$ python3 imagenet-console.py --network=googlenet images/orange_0.jpg output_0.jpg  # --network flag is optional (default is googlenet)
+$ ./imagenet-console.py --network=googlenet images/orange_0.jpg output_0.jpg  # --network flag is optional (default is googlenet)
 ```
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
@@ -114,7 +114,7 @@ $ ./imagenet --network=resnet-18 images/coral.jpg output_coral.jpg
 $ ./imagenet.py --network=resnet-18 images/coral.jpg output_coral.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="800">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="650">
 
 Feel free to experiment with using the different models and see how their accuracies and performance differ - you can download more models with the [Model Downloader](building-repo-2.md#downloading-models) tool.  There are also various test images found under `images/`
 
@@ -133,7 +133,7 @@ $ ./imagenet --network=resnet-18 jellyfish.mkv jellyfish_resnet18.mkv
 $ ./imagenet.py --network=resnet-18 jellyfish.mkv jellyfish_resnet18.mkv
 ```
 
-<a href="https://www.youtube.com/watch?v=GhTleNPXqyU"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-jellyfish-video.jpg width="650"></a>
+<a href="https://www.youtube.com/watch?v=GhTleNPXqyU"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-jellyfish-video.jpg width="750"></a>
 
 Next, we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
 
