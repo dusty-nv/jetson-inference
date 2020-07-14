@@ -26,7 +26,7 @@ while display.IsStreaming():
 	display.SetStatus("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
 ```
 
-There's also a video screencast of this coding tutorial on YouTube:
+There's also a video screencast of this coding tutorial available on YouTube:
 
 <a href="https://www.youtube.com/watch?v=bcM5AQSAzUY" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-youtube.jpg width="750"></a>
 
