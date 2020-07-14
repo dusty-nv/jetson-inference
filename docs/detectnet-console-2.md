@@ -88,7 +88,7 @@ You can also process videos from disk.  There are some test videos from VisionWo
 ./detectnet.py /usr/share/visionworks/sources/data/pedestrians.mp4 pedestrians_ssd.mp4
 ```
 
-<a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
+<a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
 
 ``` bash
 # C++
@@ -98,7 +98,7 @@ You can also process videos from disk.  There are some test videos from VisionWo
 ./detectnet.py /usr/share/visionworks/sources/data/parking.avi parking_ssd.avi
 ```
 
-<a href="https://www.youtube.com/watch?v=iB86W-kloPE"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-parking-video.jpg width="585"></a>
+<a href="https://www.youtube.com/watch?v=iB86W-kloPE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-parking-video.jpg width="585"></a>
 
 Remember that you can use the `--threshold` setting to change the detection sensitivity.
 

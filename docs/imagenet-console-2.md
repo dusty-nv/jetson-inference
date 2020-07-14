@@ -135,7 +135,7 @@ $ ./imagenet --network=resnet-18 jellyfish.mkv jellyfish_resnet18.mkv
 $ ./imagenet.py --network=resnet-18 jellyfish.mkv jellyfish_resnet18.mkv
 ```
 
-<a href="https://www.youtube.com/watch?v=GhTleNPXqyU"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-jellyfish-video.jpg width="750"></a>
+<a href="https://www.youtube.com/watch?v=GhTleNPXqyU" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-jellyfish-video.jpg width="750"></a>
 
 Next we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
 
