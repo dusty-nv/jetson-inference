@@ -43,9 +43,9 @@ int main( int argc, char** argv )
 	const char* imgFilename = argv[1];
 
 	// these variables will store the image data pointer and dimensions
-	uchar3* imgPtr = NULL;	// CPU/GPU pointer to image data
-	int imgWidth   = 0;		// width of the image (in pixels)
-	int imgHeight  = 0;		// height of the image (in pixels)
+	uchar3* imgPtr = NULL;   // shared CPU/GPU pointer to image
+	int imgWidth   = 0;      // width of the image (in pixels)
+	int imgHeight  = 0;      // height of the image (in pixels)
 		
 	// load the image from disk as uchar3 RGB (24 bits per pixel)
 	if( !loadImage(imgFilename, &imgPtr, &imgWidth, &imgHeight) )
