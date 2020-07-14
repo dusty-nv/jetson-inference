@@ -40,9 +40,7 @@ print("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence".format
 
 ## Setting up the Project
 
-You can store the `my-recognition.py` example that we will be creating wherever you want on your Jetson.  
-
-For simplicity, this guide will create it along with some test images inside a directory under the user's home directory located at `~/my-recognition-python`.
+You can store the `my-recognition.py` example that we will be creating wherever you want on your Jetson.  For simplicity, this guide will create it along with some test images inside a directory under the user's home directory located at `~/my-recognition-python`.
 
 Run these commands from a terminal to create the directory and files required:  
 
@@ -112,12 +110,12 @@ The desired image filename to be loaded should be substituted for `my_image.jpg`
 $ ./my-recognition.py --network=resnet-18 my_image.jpg
 ```
 
-See the [Downloading Other Classification Models](imagenet-console-2.md#downloading-other-classification-models) section from the previous page for more information about downloading other recognition networks.
+See the [Downloading Other Classification Models](imagenet-console-2.md#downloading-other-classification-models) section from the previous page for more information about downloading other networks.
 
 
 #### Loading the Image from Disk
 
-You can load images from disk into GPU memory using the `loadImage()` function.  JPG, PNG, TGA, and BMP formats are supported.
+You can load images from disk into shared CPU/GPU memory using the `loadImage()` function. Supported formats are JPG, PNG, TGA, and BMP.
 
 Add this line to load the image with the filename that was specified from the command line:
 
@@ -125,7 +123,7 @@ Add this line to load the image with the filename that was specified from the co
 img = jetson.utils.loadImage(opt.filename)
 ```
 
-The returned image will be a [`jetson.utils.cudaImage`](aux_image.md#image-capsules-in-python) object that contains info like width, height, and pixel format:
+The returned image will be a [`jetson.utils.cudaImage`](aux-image.md#image-capsules-in-python) object that contains info like width, height, and pixel format:
 
 ```python
 <jetson.utils.cudaImage>
@@ -139,7 +137,7 @@ The returned image will be a [`jetson.utils.cudaImage`](aux_image.md#image-capsu
   .mapped   # true if ZeroCopy
 ```
 
-For more information about accessing images from Python, see the [Image Manipulation with CUDA](docs/aux-image.md) page.  By default, the loaded image will be stored in shared memory that's mapped to both the CPU and GPU.  Since the Jetson's CPU and integrated GPU share the same physical memory, memory copies (i.e. `cudaMemcpy()`) between devices aren't needed. 
+For more information about accessing images from Python, see the [Image Manipulation with CUDA](aux-image.md) page.  To load a video or sequence of images, you would want to use the [`videoSource`](aux-streaming.md#source-code) API like the previous [`imagenet.py`](../python/examples/imagenet.py) sample does.
 
 #### Loading the Image Recognition Network
 
