@@ -78,7 +78,7 @@ For more info about loading/saving sequences of images, see the [Camera Streamin
 
 ### Processing Video Files
 
-You can also process videos from disk.  There are some test videos from VisionWorks found on your Jetson under `/usr/share/visionworks/sources/data`
+You can also process videos from disk.  There are some test videos found on your Jetson under `/usr/share/visionworks/sources/data`
 
 ``` bash
 # C++
@@ -100,7 +100,7 @@ You can also process videos from disk.  There are some test videos from VisionWo
 
 <a href="https://www.youtube.com/watch?v=iB86W-kloPE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-parking-video.jpg width="585"></a>
 
-Remember that you can use the `--threshold` setting to change the detection sensitivity.
+Remember that you can use the `--threshold` setting to change the detection sensitivity up or down (the default is 0.5).
 
 ### Pre-trained Detection Models Available
 
