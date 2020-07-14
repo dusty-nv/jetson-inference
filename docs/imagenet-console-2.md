@@ -15,7 +15,7 @@ As an example of using the [`imageNet`](../c/imageNet.h) class, we provide sampl
 - [`imagenet.cpp`](../examples/imagenet/imagenet.cpp) (C++) 
 - [`imagenet.py`](../python/examples/imagenet.py) (Python) 
 
-These samples are able to classify images, videos, and camera feeds.  For more info about the various types of input/output streams supported, see the [Camera Streaming and Multimedia](docs/aux-streaming.md) page.
+These samples are able to classify images, videos, and camera feeds.  For more info about the various types of input/output streams supported, see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
 
 ### Using the ImageNet Program on Jetson
@@ -53,7 +53,7 @@ $ ./imagenet.py images/strawberry_0.jpg output_1.jpg
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-strawberry.jpg" width="650">
 
-In addition to loading single images, you can also load a directory or sequence of images, or a video file.  For more info, see the [Camera Streaming and Multimedia](docs/aux-streaming.md) page or launch the application with the `--help` flag.
+In addition to loading single images, you can also load a directory or sequence of images, or a video file.  For more info, see the [Camera Streaming and Multimedia](aux-streaming.md) page or launch the application with the `--help` flag.
 
 ### Downloading Other Classification Models
 
@@ -120,10 +120,12 @@ Feel free to experiment with using the different models and see how their accura
 
 ### Processing a Video
 
-The [Camera Streaming and Multimedia](docs/aux-streaming.md) page shows the different types of streams that the `imagenet` program can handle.  Here is an example of running it on a video stored on disk:
+The [Camera Streaming and Multimedia](aux-streaming.md) page shows the different types of streams that the `imagenet` program can handle.  
+
+Here is an example of running it on a video from disk:
 
 ``` bash
-# Download test video (thanks to http://jell.yfish.us/)
+# Download test video (thanks to jell.yfish.us)
 $ wget https://nvidia.box.com/shared/static/tlswont1jnyu3ix2tbf7utaekpzcx4rc.mkv -O jellyfish.mkv
 
 # C++
@@ -135,7 +137,7 @@ $ ./imagenet.py --network=resnet-18 jellyfish.mkv jellyfish_resnet18.mkv
 
 <a href="https://www.youtube.com/watch?v=GhTleNPXqyU"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-jellyfish-video.jpg width="750"></a>
 
-Next, we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
+Next we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
 
 ##
 <p align="right">Next | <b><a href="imagenet-example-python-2.md">Coding Your Own Image Recognition Program (Python)</a></b>

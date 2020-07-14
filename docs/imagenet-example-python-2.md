@@ -4,11 +4,41 @@
 <sup>Image Recognition</sup></p>  
 
 # Coding Your Own Image Recognition Program (Python)
-In the previous step, we ran an application that came with the `jetson-inference` repo.  
+In the previous step, we ran a sample application that came with the `jetson-inference` repo.  
 
 Now, we're going to walk through creating a new program from scratch in Python for image recognition called [`my-recognition.py`](../python/examples/my-recognition.py).  This script will load an arbitrary image from disk and classify it using the [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) object.  
 
 For your convenience and reference, the completed source is available in the [`python/examples/my-recognition.py`](../python/examples/my-recognition.py) file of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing.   
+
+``` python
+#!/usr/bin/python3
+
+import jetson.inference
+import jetson.utils
+
+import argparse
+
+# parse the command line
+parser = argparse.ArgumentParser()
+parser.add_argument("filename", type=str, help="filename of the image to process")
+parser.add_argument("--network", type=str, default="googlenet", help="model to use, can be:  googlenet, resnet-18, ect.")
+opt = parser.parse_args()
+
+# load an image (into shared CPU/GPU memory)
+img = jetson.utils.loadImage(opt.filename)
+
+# load the recognition network
+net = jetson.inference.imageNet(opt.network)
+
+# classify the image
+class_idx, confidence = net.Classify(img)
+
+# find the object description
+class_desc = net.GetClassDesc(class_idx)
+
+# print out the result
+print("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence".format(class_desc, class_idx, confidence * 100))
+```
 
 ## Setting up the Project
 
@@ -40,7 +70,7 @@ Open up `my-recognition.py` in your editor of choice (or run `gedit my-recogniti
 First, let's add a shebang sequence to the very top of the file to automatically use the Python interpreter:
 
 ``` python
-#!/usr/bin/python
+#!/usr/bin/python3
 ```
 
 Next, we'll import the Python modules that we're going to use in the script.
@@ -89,18 +119,29 @@ See the [Downloading Other Classification Models](imagenet-console-2.md#download
 
 #### Loading the Image from Disk
 
-You can load images from disk into GPU memory using the `loadImageRGBA()` function.  JPG, PNG, TGA, and BMP formats are supported.
+You can load images from disk into GPU memory using the `loadImage()` function.  JPG, PNG, TGA, and BMP formats are supported.
 
 Add this line to load the image with the filename that was specified from the command line:
 
 ``` python
-img, width, height = jetson.utils.loadImageRGBA(opt.filename)
+img = jetson.utils.loadImage(opt.filename)
 ```
 
-The loaded image will be stored in shared memory that's mapped to both the CPU and GPU.  Since the Jetson's CPU and integrated GPU share the same physical memory, memory copies (i.e. `cudaMemcpy()`) between devices aren't needed.  
+The returned image will be a [`jetson.utils.cudaImage`](aux_image.md#image-capsules-in-python) object that contains info like width, height, and pixel format:
 
-Note that the image is loaded in `float4` RGBA format, with pixel values between 0.0 and 255.0.  
+```python
+<jetson.utils.cudaImage>
+  .ptr      # memory address (not typically used)
+  .size     # size in bytes
+  .shape    # (height,width,channels) tuple
+  .width    # width in pixels
+  .height   # height in pixels
+  .channels # number of color channels
+  .format   # format string
+  .mapped   # true if ZeroCopy
+```
 
+For more information about accessing images from Python, see the [Image Manipulation with CUDA](docs/aux-image.md) page.  By default, the loaded image will be stored in shared memory that's mapped to both the CPU and GPU.  Since the Jetson's CPU and integrated GPU share the same physical memory, memory copies (i.e. `cudaMemcpy()`) between devices aren't needed. 
 
 #### Loading the Image Recognition Network
 
@@ -119,7 +160,7 @@ Next, we are going to classify the image with the recognition network using the 
 
 ``` python
 # classify the image
-class_idx, confidence = net.Classify(img, width, height)
+class_idx, confidence = net.Classify(img)
 ```
 
 `imageNet.Classify()` accepts the image and it's dimensions, and performs the inferencing with TensorRT.  
@@ -140,41 +181,7 @@ print("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence".format
 
 `imageNet.Classify()` returns the index of the recognized object class (between `0` and `999` for these models that were trained on ILSVRC).  Given the class index, the `imageNet.GetClassDesc()` function will then return the string containing the text description of that class.  These descriptions are automatically loaded from [`ilsvrc12_synset_words.txt`](../data/networks/ilsvrc12_synset_words.txt).
 
-That's it!  That is all the Python code we need for image classification.
-
-#### Source Listing
-
-For completeness, here is the full source of the Python script that we just created.  You can also find it in the repo at [`python/examples/my-recognition.py`](../python/examples/my-recognition.py)
-
-``` python
-#!/usr/bin/python
-
-import jetson.inference
-import jetson.utils
-
-import argparse
-
-# parse the command line
-parser = argparse.ArgumentParser()
-parser.add_argument("filename", type=str, help="filename of the image to process")
-parser.add_argument("--network", type=str, default="googlenet", help="model to use, can be:  googlenet, resnet-18, ect. (see --help for others)")
-opt = parser.parse_args()
-
-# load an image (into shared CPU/GPU memory)
-img, width, height = jetson.utils.loadImageRGBA(opt.filename)
-
-# load the recognition network
-net = jetson.inference.imageNet(opt.network)
-
-# classify the image
-class_idx, confidence = net.Classify(img, width, height)
-
-# find the object description
-class_desc = net.GetClassDesc(class_idx)
-
-# print out the result
-print("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence".format(class_desc, class_idx, confidence * 100))
-```
+That's it!  That is all the Python code we need for image classification.  See the [completed source](#coding-your-own-image-recognition-program-python) above.
 
 ## Running the Example
 
@@ -187,7 +194,7 @@ image is recognized as 'ice bear, polar bear, Ursus Maritimus, Thalarctos mariti
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/data/images/polar_bear.jpg" width="400">
 
 ``` bash
-$ ./my-recognition brown_bear.jpg
+$ ./my-recognition.py brown_bear.jpg
 image is recognized as 'brown bear, bruin, Ursus arctos' (class #294) with 99.928925% confidence
 ```
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/data/images/brown_bear.jpg" width="400">
