@@ -30,6 +30,8 @@ namespace nvinfer1 { class IInt8Calibrator; }
 #include <NvInfer.h>
 
 #include <jetson-utils/cudaUtility.h>
+#include <jetson-utils/commandLine.h>
+#include <jetson-utils/imageFormat.h>
 #include <jetson-utils/timespec.h>
 #include <jetson-utils/logging.h>
 

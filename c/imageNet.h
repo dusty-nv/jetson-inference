@@ -25,8 +25,6 @@
 
 
 #include "tensorNet.h"
-#include "imageFormat.h"
-#include "commandLine.h"
 
 
 /**
