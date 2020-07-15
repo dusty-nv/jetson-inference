@@ -5,7 +5,14 @@ var menudata={children:[
 {text:"Namespaces",url:"namespaces.html",children:[
 {text:"Namespace List",url:"namespaces.html"},
 {text:"Namespace Members",url:"namespacemembers.html",children:[
-{text:"All",url:"namespacemembers.html"},
+{text:"All",url:"namespacemembers.html",children:[
+{text:"a",url:"namespacemembers.html#index_a"},
+{text:"c",url:"namespacemembers.html#index_c"},
+{text:"p",url:"namespacemembers.html#index_p"},
+{text:"u",url:"namespacemembers.html#index_u"},
+{text:"w",url:"namespacemembers.html#index_w"},
+{text:"x",url:"namespacemembers.html#index_x"}]},
+{text:"Functions",url:"namespacemembers_func.html"},
 {text:"Enumerations",url:"namespacemembers_enum.html"},
 {text:"Enumerator",url:"namespacemembers_eval.html"}]}]},
 {text:"Classes",url:"annotated.html",children:[

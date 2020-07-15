@@ -18,6 +18,7 @@ var classgstDecoder =
     [ "mBufferRGB", "classgstDecoder.html#a2961aa30e74cbdaf1eeb0f1f1ab0a75c", null ],
     [ "mBufferYUV", "classgstDecoder.html#ad2ff5c79e0729805956352cdf6fbe719", null ],
     [ "mBus", "classgstDecoder.html#a34d6074626af52502232e50ce5565bac", null ],
+    [ "mCustomRate", "classgstDecoder.html#ab167fae471c8406c627683ef7cd040ab", null ],
     [ "mCustomSize", "classgstDecoder.html#a42f40dede8b2160e0c46abf817672ddc", null ],
     [ "mEOS", "classgstDecoder.html#a2a9c9f5486d33efe5d8435dfb1776653", null ],
     [ "mFormatYUV", "classgstDecoder.html#aacff8b07ac2f17e7f457ed63df3c1f34", null ],

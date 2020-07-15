@@ -1,5 +1,8 @@
 var hierarchy =
 [
+    [ "binary_function", null, [
+      [ "doj::alphanum_less< Ty >", "structdoj_1_1alphanum__less.html", null ]
+    ] ],
     [ "commandLine", "classcommandLine.html", null ],
     [ "csvData", "classcsvData.html", null ],
     [ "csvReader", "classcsvReader.html", null ],

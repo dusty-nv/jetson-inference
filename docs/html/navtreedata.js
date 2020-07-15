@@ -7,6 +7,7 @@ var NAVTREE =
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
+        [ "Functions", "namespacemembers_func.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ],
         [ "Enumerator", "namespacemembers_eval.html", null ]
       ] ]
@@ -43,17 +44,17 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Endian_8h.html",
-"classcudaFont.html#a197f16427c97ea6bd6e38244d7487283",
-"classglTexture.html#a8c607bd04f6f27df58ad2fa50546fb60",
-"classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a156f0fff24330aa26b9b7f75472cf271",
-"classtinyxml2_1_1XMLDocument.html#a867cf5fa3e3ff6ae4847a8b7ee8ec083",
-"classv4l2Camera.html#addd045d6f50e92cc4b0c96f156eebcd6",
-"cudaMath_8h.html#a96f3477b0c986285c1e8961a91c03318",
-"dir_2e4d84877693cd000e5cb535f4b23486.html",
-"group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749feaa2199f69612be7b5e44d25fab5dab570",
-"group__imageFormat.html#ga08cfd96f1a84b8b583030ab095619b51",
-"group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725ad8c909322673d53ee28de66aa57bcccd",
-"structdetectNet_1_1Detection.html#a344619ce0a8fc04050b3cb6238a815f9"
+"classcsvWriter.html#a737aaa1bcff9100fe4fd85a4f2e1c96b",
+"classglDisplay.html#ae5eeb341bb438b349634928c6ee92813",
+"classsegNet.html#a656d709bbfb00fb0b9b4d55296aae463",
+"classtinyxml2_1_1XMLDocument.html#a4085d9c52f1d93214311459d6d1fcf17",
+"classtinyxml2_1_1XMLVisitor.html#acb3c22fc5f60eb9db98f533f2761f67d",
+"cudaMath_8h.html#a84292bb1bdb8fa70961b76f9e4563fce",
+"cudaYUV_8h.html#ad23e4b1e37eeb63dec25e65368e86896",
+"group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749fea387b8a2503db0238598215649168bed3",
+"group__image.html#ga27eecc15662ad22366515de5cc054342",
+"group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623",
+"structcudaVectorTypeInfo_3_01uchar3_01_4.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

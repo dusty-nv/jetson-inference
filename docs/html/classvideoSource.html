@@ -211,9 +211,9 @@ Protected Attributes</h2></td></tr>
 
 - `rtp://@:1234` to recieve an RTP network stream, where `1234` is the port and `@` is shorthand
    for localhost.  `@` can also be substituted for the IP address of a multicast group.
-   Note that it is important to manually specify the codec and width/height when using RTP,
-   as these values cannot be discovered from the RTP stream itself and need to be provided.
-   @see videoOptions for more info about `--input-codec`, `--input-width`, and `--input-height`.
+   Note that it is important to manually specify the codec of the stream when using RTP,
+   as the codec cannot be discovered from the RTP stream itself and need to be provided.
+   @see videoOptions for more info about the `--input-codec` option.
 
 - `rtsp://username:password@&lt;remote-host&gt;:1234` to subscribe to an RTSP network stream, where
    `&lt;remote-host&gt;` should be substituted for the remote host's IP address or hostname, and 
@@ -1110,7 +1110,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classvideoSource.html">videoSource</a></li>
-    <li class="footer">Generated on Tue Jul 7 2020 14:35:07 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 14 2020 21:59:35 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

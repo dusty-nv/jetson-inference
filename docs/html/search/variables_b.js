@@ -38,6 +38,7 @@ var searchData=
   ['mcontextgl',['mContextGL',['../classglDisplay.html#aecdedd41e0d674fb614b88fd9ca9fa15',1,'glDisplay']]],
   ['mcoveragethreshold',['mCoverageThreshold',['../classdetectNet.html#a2a95020a83b2c33353450505355af0ca',1,'detectNet']]],
   ['mcursors',['mCursors',['../classglDisplay.html#a05d0a6f141e5e77df7fddca438627b2b',1,'glDisplay']]],
+  ['mcustomrate',['mCustomRate',['../classgstDecoder.html#ab167fae471c8406c627683ef7cd040ab',1,'gstDecoder']]],
   ['mcustomsize',['mCustomSize',['../classgstDecoder.html#a42f40dede8b2160e0c46abf817672ddc',1,'gstDecoder']]],
   ['mdefaultcursor',['mDefaultCursor',['../classglDisplay.html#ae5eeb341bb438b349634928c6ee92813',1,'glDisplay']]],
   ['mdepthresize',['mDepthResize',['../classcudaPointCloud.html#a6dbd64d695427ac9c83c8c5cec54a320',1,'cudaPointCloud']]],

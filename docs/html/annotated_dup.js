@@ -1,5 +1,6 @@
 var annotated_dup =
 [
+    [ "doj", "namespacedoj.html", "namespacedoj" ],
     [ "tinyxml2", "namespacetinyxml2.html", "namespacetinyxml2" ],
     [ "commandLine", "classcommandLine.html", "classcommandLine" ],
     [ "csvData", "classcsvData.html", "classcsvData" ],
