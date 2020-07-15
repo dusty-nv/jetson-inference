@@ -33,6 +33,8 @@ Major updates and new features to this project will be listed in this document.
 * DIGITS tutorial is now marked as deprecated (replaced by PyTorch transfer learning tutorial)
 * Logging can now be controlled/disabled from the command line (e.g. `--log-level=verbose`)
 
+Thanks to everyone from the forums and GitHub who helped to test these updates in advance.
+
 ## October 3, 2019
 
 * Added new pre-trained FCN-ResNet18 semantic segmentation models:
