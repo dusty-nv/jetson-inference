@@ -1,4 +1,4 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="segnet-console-2.md">Back</a> | <a href="pytorch-transfer-learning.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Semantic Segmentation</sup></s></p>
@@ -24,19 +24,17 @@ Below are some typical scenarios for launching the program - see [this table](se
 #### C++
 
 ``` bash
-# set --network to one of the segmentation models
-$ ./segnet --network=xyz csi://0                    # MIPI CSI camera
-$ ./segnet --network=xyz /dev/video0                # V4L2 camera
-$ ./segnet --network=xyz /dev/video0 output.mp4     # save to video file
+$ ./segnet --network=<model> csi://0                    # MIPI CSI camera
+$ ./segnet --network=<model> /dev/video0                # V4L2 camera
+$ ./segnet --network=<model> /dev/video0 output.mp4     # save to video file
 ```
 
 #### Python
 
 ``` bash
-# set --network to one of the segmentation models
-$ ./segnet.py --network=xyz csi://0                 # MIPI CSI camera
-$ ./segnet.py --network=xyz /dev/video0             # V4L2 camera
-$ ./segnet.py --network=xyz /dev/video0 output.mp4  # save to video file
+$ ./segnet.py --network=<model> csi://0                 # MIPI CSI camera
+$ ./segnet.py --network=<model> /dev/video0             # V4L2 camera
+$ ./segnet.py --network=<model> /dev/video0 output.mp4  # save to video file
 ```
 
 > **note**:  for example cameras to use, see these sections of the Jetson Wiki: <br/>
@@ -78,7 +76,9 @@ $ ./segnet.py --network=fcn-resnet18-deepscene csi://0
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-camera.jpg" width="900">
 
-Feel free to experiment with the different models and resolutions for indoor and outdoor environments.  Next, we're going to introduce the concepts of [Transfer Learning](pytorch-transfer-learning.md) and train some example DNN models on our Jetson using PyTorch.
+Feel free to experiment with the different models and resolutions for indoor and outdoor environments.  
+
+Next, we're going to introduce the concepts of [Transfer Learning](pytorch-transfer-learning.md) and train some example DNN models on our Jetson using PyTorch.
 
 ##
 <p align="right">Next | <b><a href="pytorch-transfer-learning.md">Transfer Learning with PyTorch</a></b>

@@ -15,11 +15,6 @@ As examples of using the `segNet` class, we provide sample programs C++ and Pyth
 - [`segnet.cpp`](../examples/segnet/segnet.cpp) (C++) 
 - [`segnet.py`](../python/examples/segnet.py) (Python) 
 
-Later in the tutorial, we'll also cover segmentation on live camera streams from C++ and Python:
-
-- [`segnet-camera.cpp`](../examples/segnet-camera/segnet-camera.cpp) (C++)
-- [`segnet-camera.py`](../python/examples/segnet-camera.py) (Python) 
-
 These samples are able to segment images, videos, and camera feeds.  For more info about the various types of input/output streams supported, see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
 See [below](#pretrained-segmentation-models-available) for various pre-trained segmentation models available that use the FCN-ResNet18 network with realtime performance on Jetson.  Models are provided for a variety of environments and subject matter, including urban cities, off-road trails, and indoor office spaces and homes.
@@ -79,7 +74,6 @@ $ ./segnet.py --network=<model> input.jpg output.jpg                  # overlay 
 $ ./segnet.py --network=<model> --alpha=200 input.jpg output.jpg      # make the overlay less opaque
 $ ./segnet.py --network=<model> --visualize=mask input.jpg output.jpg # output the segmentation mask
 ```
-<br/>
 
 ### Cityscapes
 
@@ -182,6 +176,9 @@ If you want to process a directory or sequence of images, you can launch the pro
 ``` bash
 # C++
 $ ./segnet --network=fcn-resnet18-sun "images/room_*.jpg" room_output_%i.jpg
+
+# Python
+$ ./segnet.py --network=fcn-resnet18-sun "images/room_*.jpg" room_output_%i.jpg
 ```
 
 > **note:** when using wildcards, always enclose it in quotes (`"*.jpg"`). Otherwise, the OS will auto-expand the sequence and modify the order of arguments on the command-line, which may result in one of the input images being overwritten by the output.
