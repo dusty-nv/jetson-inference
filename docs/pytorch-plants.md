@@ -153,7 +153,7 @@ If you want to classify all of the test images at once, you can run the program 
 ``` bash
 $ mkdir $DATASET/test_output
 $ imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/../labels.txt \
-           $DATASET/test $DATASET/test_output
+             $DATASET/test $DATASET/test_output
 ```
 
 In this instance, all the images will be read from the dataset's `test/` directory, and saved to the `test_output/` directory.  

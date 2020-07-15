@@ -78,8 +78,8 @@ The `camera-capture` tool accepts the same input URI's on the command line that 
 Below are some example commands for launching the tool:
 
 ``` bash
-$ camera-capture csi://0      # using default MIPI CSI camera
-$ camera-capture /dev/video0  # using V4L2 camera /dev/video0
+$ camera-capture csi://0       # using default MIPI CSI camera
+$ camera-capture /dev/video0   # using V4L2 camera /dev/video0
 ```
 
 > **note**:  for example cameras to use, see these sections of the Jetson Wiki: <br/>
