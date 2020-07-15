@@ -67,20 +67,20 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 
 ## API Reference
 
-Below are links to reference documentation for the [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/index.html) and [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.html) libraries from the repo:
+Below are links to reference documentation for the [C++](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/index.html) and [Python](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.html) libraries from the repo:
 
 #### jetson-inference
 
-|                   | [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) |
+|                   | [C++](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html) |
 |-------------------|--------------|--------------|
-| Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) |
-| Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet)
-| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) |
+| Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#imageNet) |
+| Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#detectNet)
+| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) |
 
 #### jetson-utils
 
-* [C++](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/group__util.html)
-* [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html)
+* [C++](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__util.html)
+* [Python](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.utils.html)
 
 These libraries are able to be used in external projects by linking to `libjetson-inference` and `libjetson-utils`.
 

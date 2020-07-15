@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="pytorch-plants.md">Back</a> | <a href="../README.md#hello-ai-world">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="pytorch-collect.md">Back</a> | <a href="pytorch-collect-detection.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Transfer Learning - Object Detection</sup></s></p>
 
@@ -187,7 +187,7 @@ detectnet --model=models/fruit/ssd-mobilenet.onnx --labels=models/fruit/labels.t
 
 For more details about other camera/video sources, please see [Camera Streaming and Multimedia](aux-streaming.md).
 
-<p align="right">Next | <b><a href="TODO">Collecting your own Detection Datasets (TODO)</a></b>
+<p align="right">Next | <b><a href="pytorch-collect-detection.md">Collecting your own Detection Datasets</a></b>
 <br/>
-Back | <b><a href="pytorch-transfer-learning.md">Transfer Learning with PyTorch</a></p>
+Back | <b><a href="pytorch-collect.md">Collecting your own Classification Datasets</a></p>
 </b><p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

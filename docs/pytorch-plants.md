@@ -183,7 +183,7 @@ Looks like I should be watching out for poison ivy!
 
 Next, we're going to cover a camera-based tool for collecting and labelling your own datasets captured from live video.  
 
-<p align="right">Next | <b><a href="pytorch-collect.md">Collecting your own Datasets</a></b>
+<p align="right">Next | <b><a href="pytorch-collect.md">Collecting your own Classification Datasets</a></b>
 <br/>
 Back | <b><a href="pytorch-cat-dog.md">Re-training on the Cat/Dog Dataset</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

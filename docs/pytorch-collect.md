@@ -3,7 +3,7 @@
 <br/>
 <sup>Transfer Learning - Classification</sup></s></p>
 
-# Collecting your own Datasets
+# Collecting your own Classification Datasets
 
 In order to collect your own datasets for training customized models to classify objects or scenes of your choosing, we've created an easy-to-use tool called `camera-capture` for capturing and labelling images on your Jetson from live video:
 
@@ -71,7 +71,7 @@ Next, we'll cover the command-line options for starting the tool.
 
 ## Launching the Tool
 
-The source for the `camera-capture` tool can be found under [`jetson-inference/tools/camera-capture/`](../tools/camera-capture), and like the other programs from the repo it gets built to the `aarch64/bin` directory and installed under `/usr/local/bin/`  
+The source for the `camera-capture` tool can be found under [`jetson-inference/tools/camera-capture/`](https://github.com/dusty-nv/camera-capture), and like the other programs from the repo it gets built to the `aarch64/bin` directory and installed under `/usr/local/bin/`  
 
 The `camera-capture` tool accepts the same input URI's on the command line that are found on the [Camera Streaming and Multimedia](aux-streaming.md#sequences) page. 
 
@@ -93,7 +93,7 @@ Below is the `Data Capture Control` window, which allows you to pick the desired
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-collection-widget.jpg" >
 
-First, open the dataset path and class labels.  The tool will then create the dataset structure discussed above (unless these subdirectories already exist), and you will see your object labels populated inside the `Current Class` drop-down.  
+First, open the dataset path and class labels.  The tool will then create the dataset structure discussed above (unless these subdirectories already exist), and you will see your object labels populated inside the `Current Class` drop-down.  Leave the `Dataset Type` drop-down set to Classification mode.
 
 Then position the camera at the object or scene you have currently selected in the drop-down, and click the `Capture` button (or press the spacebar) when you're ready to take an image.  The images will be saved under that class subdirectory in the train, val, or test set.  The status bar displays how many images have been saved under that category.
 
@@ -133,30 +133,7 @@ imagenet.py --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blo
 
 If you need to, go back and collect more training data and re-train your model again.  You can restart the again and pick up where you left off using the `--resume` and `--epoch-start` flags (run `python train.py --help` for more info).  Remember to re-export the model to ONNX after re-training.
 
-
-## What's Next
-
-This is the last step of the *Hello AI World* tutorial, which covers inferencing and transfer learning on Jetson with TensorRT and PyTorch.  To recap, together we've covered:
-
-* Using image recognition networks to classify images
-* Coding your own image recognition programs in Python and C++
-* Classifying video from a live camera stream
-* Performing object detection to locate object coordinates
-* Re-training models with PyTorch using transfer learning
-* Collecting your own datasets and training your own models
-
-Next we encourage you to experiment and apply what you've learned to other projects, perhaps taking advantage of Jetson's embedded form-factor - for example an autonomous robot or intelligent camera-based system.  Here are some example ideas that you could play around with:
-
-* use GPIO to trigger external actuators or LEDs when an object is detected
-* an autonomous robot that can find or follow an object
-* a handheld battery-powered camera + Jetson + mini-display 
-* an interactive toy or treat dispenser for your pet
-* a smart doorbell camera that greets your guests
-
-For more examples to inspire your creativity, see the **[Jetson Projects](https://developer.nvidia.com/embedded/community/jetson-projects)** page.  Have fun and good luck!
-
-You can also follow our **[Two Days to a Demo](https://github.com/dusty-nv/jetson-inference#two-days-to-a-demo-DIGITS)** tutorial, which covers training of even larger datasets in the cloud or on a PC using discrete NVIDIA GPU(s).  Two Days to a Demo also covers semantic segmentation, which is like image classification, but on a per-pixel level instead of predicting one class for the entire image.
-
+Next, we're going to cover training our own object detection models with PyTorch.
 
 <p align="right">Next | <b><a href="pytorch-ssd.md">Re-training SSD-Mobilenet</a></b>
 <br/>
