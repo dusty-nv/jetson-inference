@@ -20,10 +20,11 @@ It's recommended to walk through the Hello AI World module first to familiarize 
 * [Code Examples](#code-examples)
 * [Pre-Trained Models](#pre-trained-models)
 * [System Requirements](#recommended-system-requirements)
-* [Extra Resources](#extra-resources)
+* [Change Log](CHANGELOG.md)
 
 > &gt; &nbsp; Jetson Xavier NX and JetPack 4.4 is now supported in the repo. <br/>
-> &gt; &nbsp; See our latest technical blog on the [`NVIDIA Jetson Xavier NX Developer Kit`](https://devblogs.nvidia.com/bringing-cloud-native-agility-to-edge-ai-with-jetson-xavier-nxBringing). <br/>
+> &gt; &nbsp; Try the new [Re-training SSD-Mobilenet](docs/pytorch-ssd.md) object detection tutorial. <br/>
+> &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 
 ## Hello AI World
 
@@ -93,18 +94,13 @@ Introductory code walkthroughs of using the library are covered during these ste
 
 Additional C++ and Python samples for running the networks on static images and live camera streams can be found here:
 
-|                   | Images              | Camera              |
+|                   | C++             | Python             |
 |-------------------|---------------------|---------------------|
-| **C++ ([`examples`](examples/))** | |
-| &nbsp;&nbsp;&nbsp;Image Recognition | [`imagenet-console`](examples/imagenet-console/imagenet-console.cpp) | [`imagenet-camera`](examples/imagenet-camera/imagenet-camera.cpp) |
-| &nbsp;&nbsp;&nbsp;Object Detection  | [`detectnet-console`](examples/detectnet-console/detectnet-console.cpp) | [`detectnet-camera`](examples/detectnet-camera/detectnet-camera.cpp)
-| &nbsp;&nbsp;&nbsp;Segmentation      | [`segnet-console`](examples/segnet-console/segnet-console.cpp) | [`segnet-camera`](examples/segnet-camera/segnet-camera.cpp) |
-| **Python ([`python/examples`](python/examples/))** | | |
-| &nbsp;&nbsp;&nbsp;Image Recognition | [`imagenet-console.py`](python/examples/imagenet-console.py) | [`imagenet-camera.py`](python/examples/imagenet-camera.py) |
-| &nbsp;&nbsp;&nbsp;Object Detection  | [`detectnet-console.py`](python/examples/detectnet-console.py) | [`detectnet-camera.py`](python/examples/detectnet-camera.py) |
-| &nbsp;&nbsp;&nbsp;Segmentation      | [`segnet-console.py`](python/examples/segnet-console.py) | [`segnet-camera.py`](python/examples/segnet-camera.py) |
+| &nbsp;&nbsp;&nbsp;Image Recognition | [`imagenet.cpp`](examples/imagenet/imagenet.cpp) | [`imagenet.py`](python/examples/imagenet.py) |
+| &nbsp;&nbsp;&nbsp;Object Detection  | [`detectnet.cpp`](examples/detectnet/detectnet.cpp) | [`detectnet.py`](python/examples/detectnet.py) |
+| &nbsp;&nbsp;&nbsp;Segmentation      | [`segnet.cpp`](examples/segnet/segnet.cpp) | [`segnet.py`](python/examples/segnet-console.py) |
 
-> **note**:  for working with numpy arrays, see [`cuda-from-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-numpy.py) and [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-numpy.py)
+> **note**:  for working with numpy arrays, see [Converting to Numpy Arrays](docs/aux-image.md#converting-to-numpy-arrays) and [Converting from Numpy Arrays](docs/aux-image.md#converting-from-numpy-arrays)
 
 These examples will automatically be compiled while [Building the Project from Source](docs/building-repo-2.md), and are able to run the pre-trained models listed below in addition to custom models provided by the user.  Launch each example with `--help` for usage info.
 

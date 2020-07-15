@@ -5,7 +5,7 @@
 
 # Collecting your own Classification Datasets
 
-In order to collect your own datasets for training customized models to classify objects or scenes of your choosing, we've created an easy-to-use tool called `camera-capture` for capturing and labelling images on your Jetson from live video:
+In order to collect your own datasets for training customized models to classify objects or scenes of your choosing, we've created an easy-to-use tool called `camera-capture` for capturing and labeling images on your Jetson from live video:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-collection.jpg" >
 

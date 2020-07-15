@@ -181,7 +181,7 @@ imagenet.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=outp
 
 Looks like I should be watching out for poison ivy!  
 
-Next, we're going to cover a camera-based tool for collecting and labelling your own datasets captured from live video.  
+Next, we're going to cover a camera-based tool for collecting and labeling your own datasets captured from live video.  
 
 <p align="right">Next | <b><a href="pytorch-collect.md">Collecting your own Classification Datasets</a></b>
 <br/>

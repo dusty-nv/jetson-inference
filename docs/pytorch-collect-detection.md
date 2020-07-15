@@ -51,7 +51,7 @@ Below is the `Data Capture Control` window after the `Dataset Type` drop-down ha
 
 Then, open the dataset path and class labels that you created.  The `Freeze/Edit` and `Save` buttons will then become active. 
 
-Position the camera at the object(s) in your scene, and click the `Freeze/Edit` button (or press the spacebar).  The live camera view will then be 'frozen' and you will be able to draw bounding boxes over the objects.  You can then select the appropriate object class for each bounding box in the grid table in the control window.  When you are done labelling the image, click the depressed `Freeze/Edit` button again to save the data and unfreeze the camera view for the next image.
+Position the camera at the object(s) in your scene, and click the `Freeze/Edit` button (or press the spacebar).  The live camera view will then be 'frozen' and you will be able to draw bounding boxes over the objects.  You can then select the appropriate object class for each bounding box in the grid table in the control window.  When you are done labeling the image, click the depressed `Freeze/Edit` button again to save the data and unfreeze the camera view for the next image.
 
 Other widgets in the control window include:
 
