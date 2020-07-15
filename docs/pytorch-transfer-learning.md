@@ -85,7 +85,7 @@ Below are step-by-step instructions to re-training models on some example datase
 This table contains a summary of the datasets and their associated training times:
 
 | Model | Dataset   | Size  |  Classes | Training Images | Time per Epoch* | Training Time** |
-|-----------||-----------|-------|----------|-----------------|-----------------|-----------------|
+|-----------|-----------|-------|----------|-----------------|-----------------|-----------------|
 | ResNet-18 | [`Cat/Dog`](pytorch-cat-dog.md)   | 800MB |    2    |      5,000      |  ~7-8 minutes   |    ~4 hours     |
 | ResNet-18 | [`PlantCLEF`](pytorch-plants.md) | 1.5GB |   20    |     10,475      | ~15 minutes     |    ~8 hours     |
 | SSD-Mobilenet | [`Plants`](pytorch-ssd.md) | 2GB |   8    |     6,375      | ~15 minutes     |    ~8 hours     |
