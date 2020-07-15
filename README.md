@@ -1,7 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 
 # Deploying Deep Learning
-Welcome to our instructional guide for inference and realtime [DNN vision](#api-reference) library for NVIDIA **[Jetson Nano/TX1/TX2/Xavier](http://www.nvidia.com/object/embedded-systems.html)**.
+Welcome to our instructional guide for inference and realtime [DNN vision](#api-reference) library for NVIDIA **[Jetson Nano/TX1/TX2/Xavier NX/AGX Xavier](http://www.nvidia.com/object/embedded-systems.html)**.
 
 This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for efficiently deploying neural networks onto the embedded Jetson platform, improving performance and power efficiency using graph optimizations, kernel fusion, and FP16/INT8 precision.
 
@@ -23,7 +23,7 @@ It's recommended to walk through the Hello AI World module first to familiarize 
 * [Change Log](CHANGELOG.md)
 
 > &gt; &nbsp; Jetson Xavier NX and JetPack 4.4 is now supported in the repo. <br/>
-> &gt; &nbsp; Try the new [Re-training SSD-Mobilenet](docs/pytorch-ssd.md) object detection tutorial. <br/>
+> &gt; &nbsp; Try the new [Re-training SSD-Mobilenet](docs/pytorch-ssd.md) object detection tutorial! <br/>
 > &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 
 ## Hello AI World
