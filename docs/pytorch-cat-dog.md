@@ -146,7 +146,23 @@ imagenet.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=out
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-dog.jpg">
 
-There are 200 test images included with the dataset between the cat and dog classes, or you can download your own pictures to try.  Next, we'll try running our re-trained model on a live camera feed.
+### Processing all the Test Images
+
+There are 200 test images included with the dataset between the cat and dog classes, or you can download your own pictures to try.  You can process them all like this:
+
+``` bash
+$ mkdir $DATASET/test_output_cat $DATASET/test_output_dog
+
+$ imagenet-console --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/../labels.txt $DATASET/test/cat $DATASET/test_output_cat
+
+$ imagenet-console --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/../labels.txt $DATASET/test/dog $DATASET/test_output_dog
+```
+
+In this instance, all the images will be read from the dataset's `test/` directory, and saved to the `test_output/` directory.  
+
+For more info about loading/saving sequences of images, see the [Camera Streaming and Multimedia](aux-streaming.md#sequences) page.
+
+Next, we'll try running our re-trained model on a live camera feed.
 
 ## Running the Live Camera Program
 
