@@ -166,7 +166,7 @@ mkdir test_fruit
 
 detectnet --model=models/fruit/ssd-mobilenet.onnx --labels=models/fruit/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
-          "images/fruit_*.jpg" test_fruit
+            "images/fruit_*.jpg" test_fruit
 ```
 
 > **note:**  `detectnet.py` can be substituted above to run the Python version of the program
@@ -182,7 +182,7 @@ You can also try running your re-trained plant model on a camera or video stream
 ```bash
 detectnet --model=models/fruit/ssd-mobilenet.onnx --labels=models/fruit/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
-          csi://0
+            csi://0
 ```
 
 For more details about other camera/video sources, please see [Camera Streaming and Multimedia](aux-streaming.md).
