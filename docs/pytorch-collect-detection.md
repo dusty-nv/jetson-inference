@@ -9,7 +9,7 @@ The previously-used `camera-capture` tool can also label object detection datase
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-collection-detect.jpg" >
 
-When the `Dataset Type` drop-down is set to Detection, the tool will create datasets in [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/) format (which can be loaded by the SSD-Mobilenet PyTorch training code).
+When the `Dataset Type` drop-down is in Detection mode, the tool creates datasets in [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/) format (which is supported by the training code).
 
 > **note:** if you wish to label a set of images that you already have (as opposed to capturing them from camera), try using a tool like [LabelImg](https://github.com/tzutalin/labelImg) that also saves in Pascal VOC format. 
 
