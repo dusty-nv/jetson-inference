@@ -351,7 +351,6 @@ int main( int argc, char** argv )
 }
 ```
 
-##
 <p align="right">Next | <b><a href="aux-image.md">Image Manipulation with CUDA</a></b>
 <p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
 
