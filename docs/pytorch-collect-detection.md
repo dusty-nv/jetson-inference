@@ -5,7 +5,7 @@
 
 # Collecting your own Detection Datasets
 
-The previously-used `camera-capture` tool can also label object detection datasets from live video:
+The previously used `camera-capture` tool can also label object detection datasets from live video:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-collection-detect.jpg" >
 
@@ -45,7 +45,7 @@ $ camera-capture /dev/video0   # using V4L2 camera /dev/video0
 
 ## Collecting Data
 
-Below is the `Data Capture Control` window after the `Dataset Type` drop-down has been set to Detection mode (do this first).
+Below is the `Data Capture Control` window, after the `Dataset Type` drop-down has been set to Detection mode (do this first).
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-collection-detection-widget.jpg" >
 
@@ -58,16 +58,16 @@ Other widgets in the control window include:
 * `Save on Unfreeze` - automatically save the data when `Freeze/Edit` is unfreezed
 * `Clear on Unfreeze` - automatically remove the previous bounding boxes on unfreeze
 * `Merge Sets` - save the same data across the train, val, and test sets
-* `Current Set` - select from train/val/test
+* `Current Set` - select from train/val/test sets
     * for object detection, you need at least train and test sets
-    * although if you check `Merge Sets`, the data will be replicated as train, val, **and** test
-* `JPEG Quality` - control the encoding quality and size of the saved images
+    * although if you check `Merge Sets`, the data will be replicated as train, val, and test
+* `JPEG Quality` - control the encoding quality and disk size of the saved images
 
 It's important that your data is collected from varying object orientations, camera viewpoints, lighting conditions, and ideally with different backgrounds to create a model that is robust to noise and changes in environment.  If you find that you're model isn't performing as well as you'd like, try adding more training data and playing around with the conditions.
 
 ## Training your Model
 
-When you've collected a bunch of data, then you can try training a model on it using the same `train_ssd.py` script.  The training process is the same as the previous examples, with the exception that the `--dataset-type=voc` and `--data=<PATH>` arguments should be set:
+When you've collected a bunch of data, then you can try training a model on it using the same `train_ssd.py` script.  The training process is the same as the previous example, with the exception that the `--dataset-type=voc` and `--data=<PATH>` arguments should be set:
 
 ```bash
 $ cd jetson-inference/python/training/detection/ssd
@@ -80,7 +80,7 @@ Like before, after training you'll need to convert your PyTorch model to ONNX:
 $ python3 onnx_export.py --model-dir=<YOUR-MODEL>
 ```
 
-The converted model will be saved under `<YOUR-MODEL>/ssd-mobilenet.onnx`, which you can then load with the `detectnet` programs like we did in the previous examples:
+The converted model will then be saved under `<YOUR-MODEL>/ssd-mobilenet.onnx`, which you can then load with the `detectnet` programs like we did in the previous examples:
 
 ```bash
 DATASET=<PATH-TO-YOUR-DATASET>
@@ -90,7 +90,7 @@ detectnet --model=<YOUR-MODEL>/ssd-mobilenet.onnx --labels=<YOUR-MODEL>/labels.t
             csi://0
 ```
 
-> **note:** it's important to run inference with the labels file that gets generated to your model directory, and not the one that you originally created from your dataset.  This is because a `BACKGROUND` class gets added to the class labels by `train_ssd.py` and saved to the model directory (which the trained model expects to use).
+> **note:** it's important to run inference with the labels file that gets generated to your model directory, and not the one that you originally created for your dataset.  This is because a `BACKGROUND` class gets added to the class labels by `train_ssd.py` and saved to the model directory (which the trained model expects to use).
 
 If you need to, go back and collect more training data and re-train your model again.  You can restart again and pick up where you left off using the `--resume` argument (run `python3 train_ssd.py --help` for more info).  Remember to re-export the model to ONNX after re-training.
 
@@ -100,10 +100,10 @@ This is the last step of the *Hello AI World* tutorial, which covers inferencing
 
 To recap, together we've covered:
 
-* Using image recognition networks to classify images
-* Coding your own image recognition programs in Python and C++
-* Classifying video from a live camera stream
+* Using image recognition networks to classify images and video
+* Coding your own inferencing programs in Python and C++
 * Performing object detection to locate object coordinates
+* Segmenting images and video with fully-convolutional networks
 * Re-training models with PyTorch using transfer learning
 * Collecting your own datasets and training your own models
 
