@@ -10,31 +10,32 @@ Major updates and new features to this project will be listed in this document.
 
 * [Re-training SSD-Mobilenet](docs/pytorch-ssd.md) Object Detection tutorial with PyTorch
 * Support for collection of object detection datasets and bounding-box labeling in `camera-capture` tool
-* [`videoSource`](docs/aux-streaming.md) and [`videoOutput`](docs/aux-streaming.md) APIs for C++/Python that supports multiple types of video streams:
-   * MIPI CSI cameras
-   * V4L2 cameras
-   * RTP / RTSP
-   * Video & Images
-   * Image sequences
-   * OpenGL windows
+* [`videoSource`](docs/aux-streaming.md#source-code) and [`videoOutput`](docs/aux-streaming.md#source-code) APIs for C++/Python that supports multiple types of video streams:
+   * [MIPI CSI cameras](docs/aux-streaming.md#mipi-csi-cameras)
+   * [V4L2 cameras](docs/aux-streaming.md#v4l2-cameras)
+   * [RTP](docs/aux-streaming.md#rtp) / [RTSP](docs/aux-streaming.md#rtsp) 
+   * [Videos](docs/aux-streaming.md#video-files) & [Images](docs/aux-streaming.md#image-files)
+   * [Image sequences](docs/aux-streaming.md#image-files)
+   * [OpenGL windows](docs/aux-streaming.md#output-streams)
 * Unified the `-console` and `-camera` samples to process both images and video streams
    * [`imagenet.cpp`](examples/imagenet/imagenet.cpp) / [`imagenet.py`](python/examples/imagenet.py)
    * [`detectnet.cpp`](examples/detectnet/detectnet.cpp) / [`detectnet.py`](python/examples/detectnet.py)
-   * [`segnet.cpp`](examples/segnet/segnet.cpp) / [`segnet.py`](python/examples/segnet-console.py)
+   * [`segnet.cpp`](examples/segnet/segnet.cpp) / [`segnet.py`](python/examples/segnet.py)
 * Support for `uchar3/uchar4/float3/float4` images (default is now `uchar3` as opposed to `float4`)
-* Replaced opaque Python image capsule with [`jetson.utils.cudaImage`](docs/aux-image.md#image-capsules-in-python) object
+* Replaced opaque Python memory capsule with [`jetson.utils.cudaImage`](docs/aux-image.md#image-capsules-in-python) object
    * See [Image Capsules in Python](docs/aux-image.md#image-capsules-in-python) for more info
    * Images are now subscriptable/indexable from Python to directly access the pixel dataset
    * Numpy ndarray conversion now supports `uchar3/uchar4/float3/float4` formats
 * [`cudaConvertColor()`](https://github.com/dusty-nv/jetson-utils/blob/a587c20ad95d71efd47f9c91e3fbf703ad48644d/cuda/cudaColorspace.h#L31) automated colorspace conversion function (RGB, BGR, YUV, Bayer, grayscale, ect)
 * Python CUDA bindings for `cudaResize()`, `cudaCrop()`, `cudaNormalize()`, `cudaOverlay()`
    * See [Image Manipulation with CUDA](docs/aux-image.md) and [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-examples.py) for examples of using these 
+* Transitioned to using Python3 by default since Python 2.7 is now past EOL
 * DIGITS tutorial is now marked as deprecated (replaced by PyTorch transfer learning tutorial)
 * Logging can now be controlled/disabled from the command line (e.g. `--log-level=verbose`)
 
 ## October 3, 2019
 
-* Added new FCN-ResNet18 semantic segmentation models:
+* Added new pre-trained FCN-ResNet18 semantic segmentation models:
 
 | Dataset      | Resolution | CLI Argument | Accuracy | Jetson Nano | Jetson Xavier |
 |:------------:|:----------:|--------------|:--------:|:-----------:|:-------------:|

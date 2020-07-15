@@ -98,7 +98,7 @@ Additional C++ and Python samples for running the networks on static images and 
 |-------------------|---------------------|---------------------|
 | &nbsp;&nbsp;&nbsp;Image Recognition | [`imagenet.cpp`](examples/imagenet/imagenet.cpp) | [`imagenet.py`](python/examples/imagenet.py) |
 | &nbsp;&nbsp;&nbsp;Object Detection  | [`detectnet.cpp`](examples/detectnet/detectnet.cpp) | [`detectnet.py`](python/examples/detectnet.py) |
-| &nbsp;&nbsp;&nbsp;Segmentation      | [`segnet.cpp`](examples/segnet/segnet.cpp) | [`segnet.py`](python/examples/segnet-console.py) |
+| &nbsp;&nbsp;&nbsp;Segmentation      | [`segnet.cpp`](examples/segnet/segnet.cpp) | [`segnet.py`](python/examples/segnet.py) |
 
 > **note**:  for working with numpy arrays, see [Converting to Numpy Arrays](docs/aux-image.md#converting-to-numpy-arrays) and [Converting from Numpy Arrays](docs/aux-image.md#converting-from-numpy-arrays)
 
