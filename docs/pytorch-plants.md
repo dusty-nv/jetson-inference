@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="pytorch-plants.md">Back</a> | <a href="pytorch-collect.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="pytorch-cat-dog.md">Back</a> | <a href="pytorch-collect.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Transfer Learning - Classification</sup></s></p>
 
@@ -166,10 +166,10 @@ You can also try running your re-trained plant model on a live camera stream lik
 ```bash
 DATASET=~/datasets/PlantCLEF_Subset
 
-# C++
+# C++ (MIPI CSI)
 imagenet --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 
-# Python
+# Python (MIPI CSI)
 imagenet.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 ```
 
@@ -183,5 +183,5 @@ Next, we're going to cover a camera-based tool for collecting and labelling your
 
 <p align="right">Next | <b><a href="pytorch-collect.md">Collecting your own Datasets</a></b>
 <br/>
-Back | <b><a href="pytorch-plants.md">Re-training on the Cat/Dog Dataset</a></p>
+Back | <b><a href="pytorch-cat-dog.md">Re-training on the Cat/Dog Dataset</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

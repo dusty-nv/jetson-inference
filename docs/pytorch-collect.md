@@ -124,10 +124,10 @@ The converted model will be saved under `<YOUR-MODEL>/resnet18.onnx`, which you 
 ```bash
 DATASET=<PATH-TO-YOUR-DATASET>
 
-# C++
+# C++ (MIPI CSI)
 imagenet --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 
-# Python
+# Python (MIPI CSI)
 imagenet.py --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 ```
 
@@ -160,5 +160,5 @@ You can also follow our **[Two Days to a Demo](https://github.com/dusty-nv/jetso
 
 <p align="right">Next | <b><a href="pytorch-ssd.md">Re-training SSD-Mobilenet</a></b>
 <br/>
-<p align="right">Back | <b><a href="pytorch-plants.md">Re-training on the PlantCLEF Dataset</a></p>
+Back | <b><a href="pytorch-plants.md">Re-training on the PlantCLEF Dataset</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
