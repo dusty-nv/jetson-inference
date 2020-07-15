@@ -93,7 +93,7 @@ Below is the `Data Capture Control` window, which allows you to pick the desired
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-collection-widget.jpg" >
 
-First, open the dataset path and class labels.  The tool will then create the dataset structure discussed above (unless these subdirectories already exist), and you will see your object labels populated inside the `Current Class` drop-down.  Leave the `Dataset Type` drop-down set to Classification mode.
+First, open the dataset path and class labels.  The tool will then create the dataset structure discussed above (unless these subdirectories already exist), and you will see your object labels populated inside the `Current Class` drop-down.  Leave the `Dataset Type` as Classification.
 
 Then position the camera at the object or scene you have currently selected in the drop-down, and click the `Capture` button (or press the spacebar) when you're ready to take an image.  The images will be saved under that class subdirectory in the train, val, or test set.  The status bar displays how many images have been saved under that category.
 
@@ -133,7 +133,7 @@ imagenet.py --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blo
 
 If you need to, go back and collect more training data and re-train your model again.  You can restart the again and pick up where you left off using the `--resume` and `--epoch-start` flags (run `python train.py --help` for more info).  Remember to re-export the model to ONNX after re-training.
 
-Next, we're going to cover training our own object detection models with PyTorch.
+Next, we're going to train our own object detection models with PyTorch.
 
 <p align="right">Next | <b><a href="pytorch-ssd.md">Re-training SSD-Mobilenet</a></b>
 <br/>
