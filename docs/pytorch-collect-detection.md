@@ -11,7 +11,7 @@ The previously-used `camera-capture` tool can also label object detection datase
 
 When the `Dataset Type` drop-down is in Detection mode, the tool creates datasets in [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/) format (which is supported during training).
 
-> **note:** if you want to label a set of images that you already have (as opposed to capturing them from camera), try using a tool like [LabelImg](https://github.com/tzutalin/labelImg) that also saves in Pascal VOC format.  If you need to label a video, dump the video frames to images first.
+> **note:** if you want to label a set of images that you already have (as opposed to capturing them from camera), try using a tool like [LabelImg](https://github.com/tzutalin/labelImg) that also saves in Pascal VOC format.  If you need to label a video file, dump the video frames to images first.
 
 ## Creating the Label File
 
