@@ -9,7 +9,7 @@ Major updates and new features to this project will be listed in this document.
 > **note:** API changes from this update are intended to be backwards-compatible, so previous code should still run.
 
 * [Re-training SSD-Mobilenet](docs/pytorch-ssd.md) Object Detection tutorial with PyTorch
-* Support for collection of object detection datasets and bounding-box labeling in `camera-capture` tool
+* Support for [collection of object detection datasets](docs/pytorch-collect-detection.md) and bounding-box labeling in `camera-capture` tool
 * [`videoSource`](docs/aux-streaming.md#source-code) and [`videoOutput`](docs/aux-streaming.md#source-code) APIs for C++/Python that supports multiple types of video streams:
    * [MIPI CSI cameras](docs/aux-streaming.md#mipi-csi-cameras)
    * [V4L2 cameras](docs/aux-streaming.md#v4l2-cameras)
