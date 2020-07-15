@@ -4,45 +4,39 @@
 <sup>Semantic Segmentation</sup></s></p>
 
 # Running the Live Camera Segmentation Demo
-Next we'll run realtime semantic segmentation on a live camera feed, available for C++ and Python:
+The [`segnet.cpp`](../examples/segnet/segnet.cpp) / [`segnet.py`](../python/examples/segnet.py) sample that we used previously can also be used for realtime camera streaming.  The types of supported cameras include:
 
-- [`segnet-camera.cpp`](../examples/segnet-camera/segnet-camera.cpp) (C++)
-- [`segnet-camera.py`](../python/examples/segnet-camera.py) (Python) 
+- MIPI CSI cameras (`csi://0`)
+- V4L2 cameras (`/dev/video0`)
+- RTP/RTSP streams (`rtsp://username:password@ip:port`)
 
-Similar to the previous [`segnet-console`](segnet-console-2.md) example, these camera applications use segmentation networks, except that they process a live video feed instead.  `segnet-camera` accepts various **optional** command-line parameters, including:
+For more information about video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
-- `--network` flag changes the segmentation model being used (see [available networks](segnet-console-2.md#pre-trained-segmentation-models-available))
-- `--alpha` flag sets the alpha blending value for the overlay (default is `120`)
-- `--filter-mode` flag accepts `point` or `linear` sampling (default is `linear`)
-- `--camera` flag setting the camera device to use
-	- MIPI CSI cameras are used by specifying the sensor index (`0` or `1`, ect.)
-	- V4L2 USB cameras are used by specifying their `/dev/video` node (`/dev/video0`, `/dev/video1`, ect.)
-	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
-- `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
-	- The resolution should be set to a format that the camera supports.
-     - Query the available formats with the following commands:  
-          ``` bash
-          $ sudo apt-get install v4l-utils
-          $ v4l2-ctl --list-formats-ext
-          ```
-You can combine the usage of these flags as needed, and there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info, or see the [`Examples`](../README.md#code-examples) readme.
+Run the program with `--help` to see a full list of options - some of them specific to segNet include:
+
+- optional `--network` flag changes the segmentation model being used (see [available networks](segnet-console-2.md#pre-trained-segmentation-models-available))
+- optional `--visualize` flag accepts `mask` and/or `overlay` modes (default is `overlay`)
+- optional `--alpha` flag sets the alpha blending value for the overlay (default is `120`)
+- optional `--filter-mode` flag accepts `point` or `linear` sampling (default is `linear`)
 
 Below are some typical scenarios for launching the program - see [this table](segnet-console-2.md#pre-trained-segmentation-models-available) for the models available to use.
 
 #### C++
 
 ``` bash
-$ ./segnet-camera --network=fcn-resnet18-mhp  # default MIPI CSI camera (1280x720)
-$ ./segnet-camera --camera=/dev/video0        # V4L2 camera /dev/video0 (1280x720)
-$ ./segnet-camera --width=640 --height=480    # default MIPI CSI camera (640x480)
+# set --network to one of the segmentation models
+$ ./segnet --network=xyz csi://0                    # MIPI CSI camera
+$ ./segnet --network=xyz /dev/video0                # V4L2 camera
+$ ./segnet --network=xyz /dev/video0 output.mp4     # save to video file
 ```
 
 #### Python
 
 ``` bash
-$ ./segnet-camera.py --network=fcn-resnet18-mhp  # default MIPI CSI camera (1280x720)
-$ ./segnet-camera.py --camera=/dev/video0        # V4L2 camera /dev/video0 (1280x720)
-$ ./segnet-camera.py --width=640 --height=480    # default MIPI CSI camera (640x480)
+# set --network to one of the segmentation models
+$ ./segnet.py --network=xyz csi://0                 # MIPI CSI camera
+$ ./segnet.py --network=xyz /dev/video0             # V4L2 camera
+$ ./segnet.py --network=xyz /dev/video0 output.mp4  # save to video file
 ```
 
 > **note**:  for example cameras to use, see these sections of the Jetson Wiki: <br/>
@@ -56,30 +50,30 @@ Displayed in the OpenGL window are the live camera stream overlayed with the seg
 
 ``` bash
 # C++
-$ ./segnet-camera --network=fcn-resnet18-mhp
+$ ./segnet --network=fcn-resnet18-mhp csi://0
 
 # Python
-$ ./segnet-camera.py --network=fcn-resnet18-mhp
+$ ./segnet.py --network=fcn-resnet18-mhp csi://0
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-mhp-camera.jpg" width="900">
 
 ``` bash
 # C++
-$ ./segnet-camera --network=fcn-resnet18-sun
+$ ./segnet --network=fcn-resnet18-sun csi://0
 
 # Python
-$ ./segnet-camera.py --network=fcn-resnet18-sun
+$ ./segnet.py --network=fcn-resnet18-sun csi://0
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun-camera.jpg" width="900">
 
 ``` bash
 # C++
-$ ./segnet-camera --network=fcn-resnet18-deepscene
+$ ./segnet --network=fcn-resnet18-deepscene csi://0
 
 # Python
-$ ./segnet-camera.py --network=fcn-resnet18-deepscene
+$ ./segnet.py --network=fcn-resnet18-deepscene csi://0
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-camera.jpg" width="900">

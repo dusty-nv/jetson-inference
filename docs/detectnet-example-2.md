@@ -65,7 +65,7 @@ To connect to the camera device for streaming, we'll create an instance of the [
 camera = jetson.utils.videoSource("csi://0")      # '/dev/video0' for V4L2
 ```
 
-The string passed to `videoSource()` can actually be any valid resource URI, whether it be a camera, video file, or network stream.  For more information about video streams and URI formats, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
+The string passed to `videoSource()` can actually be any valid resource URI, whether it be a camera, video file, or network stream.  For more information about video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
 > **note**:  for compatible cameras to use, see these sections of the Jetson Wiki: <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Nano:&nbsp;&nbsp;[`https://eLinux.org/Jetson_Nano#Cameras`](https://elinux.org/Jetson_Nano#Cameras) <br/>

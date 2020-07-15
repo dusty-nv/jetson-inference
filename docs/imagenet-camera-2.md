@@ -11,7 +11,7 @@ The [`imagenet.cpp`](../examples/imagenet/imagenet.cpp) / [`imagenet.py`](../pyt
 - V4L2 cameras (`/dev/video0`)
 - RTP/RTSP streams (`rtsp://username:password@ip:port`)
 
-For more information about video streams and URI formats, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
+For more information about video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
 Below are some typical scenarios for launching the program on a camera feed (run `--help` for more options):
 

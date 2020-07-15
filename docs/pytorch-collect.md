@@ -73,26 +73,13 @@ Next, we'll cover the command-line options for starting the tool.
 
 The source for the `camera-capture` tool can be found under [`jetson-inference/tools/camera-capture/`](../tools/camera-capture), and like the other programs from the repo it gets built to the `aarch64/bin` directory and installed under `/usr/local/bin/`  
 
-The `camera-capture` tool accepts 3 optional command-line arguments:
-
-- `--camera` flag setting the camera device to use
-	- MIPI CSI cameras are used by specifying the sensor index (`0` or `1`, ect.)
-	- V4L2 USB cameras are used by specifying their `/dev/video` node (`/dev/video0`, `/dev/video1`, ect.)
-	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
-- `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
-	- The resolution should be set to a format that the camera supports.
-     - Query the available formats with the following commands:  
-          ``` bash
-          $ sudo apt-get install v4l-utils
-          $ v4l2-ctl --list-formats-ext
-          ```
+The `camera-capture` tool accepts the same input URI's on the command line that are found on the [Camera Streaming and Multimedia](aux-streaming.md#sequences) page. 
 
 Below are some example commands for launching the tool:
 
 ``` bash
-$ camera-capture                          # using default MIPI CSI camera (1280x720)
-$ camera-capture --camera=/dev/video0     # using V4L2 camera /dev/video0 (1280x720)
-$ camera-capture --width=640 --height=480 # using default MIPI CSI camera (640x480)
+$ camera-capture csi://0         # using default MIPI CSI camera
+$ camera-capture /dev/video0     # using V4L2 camera /dev/video0
 ```
 
 > **note**:  for example cameras to use, see these sections of the Jetson Wiki: <br/>
@@ -132,16 +119,16 @@ Like before, after training you'll need to convert your PyTorch model to ONNX:
 $ python onnx_export.py --model-dir=<YOUR-MODEL>
 ```
 
-The converted model will be saved under `<YOUR-MODEL>/resnet18.onnx`, which you can then load with the `imagenet-console` and `imagenet-camera` programs like we did in the previous examples:
+The converted model will be saved under `<YOUR-MODEL>/resnet18.onnx`, which you can then load with the `imagenet` programs like we did in the previous examples:
 
 ```bash
 DATASET=<PATH-TO-YOUR-DATASET>
 
 # C++
-imagenet-camera --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
+imagenet --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 
 # Python
-imagenet-camera.py --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
+imagenet.py --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 ```
 
 If you need to, go back and collect more training data and re-train your model again.  You can restart the again and pick up where you left off using the `--resume` and `--epoch-start` flags (run `python train.py --help` for more info).  Remember to re-export the model to ONNX after re-training.

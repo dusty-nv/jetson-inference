@@ -10,7 +10,7 @@ There are multiple types of deep learning networks available, including recognit
 
 The [`imageNet`](../c/imageNet.h) object accepts an input image and outputs the probability for each class.  Having been trained on the ImageNet ILSVRC dataset of **[1000 objects](../data/networks/ilsvrc12_synset_words.txt)**, the GoogleNet and ResNet-18 models were automatically downloaded during the build step.  See [below](#downloading-other-classification-models) for other classification models that can be downloaded and used as well.
 
-As an example of using the [`imageNet`](../c/imageNet.h) class, we provide sample applications for C++ and Python:
+As an example of using the [`imageNet`](../c/imageNet.h) class, we provide sample programs for C++ and Python:
 
 - [`imagenet.cpp`](../examples/imagenet/imagenet.cpp) (C++) 
 - [`imagenet.py`](../python/examples/imagenet.py) (Python) 

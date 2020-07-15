@@ -5,13 +5,13 @@
 
 # Running the Live Camera Detection Demo
 
-The [`detectnet.cpp`](../examples/detectnet/detectnet) / [`detectnet.py`](../python/examples/detectnet.py) sample that we used previously can also be used for realtime camera streaming.  The types of supported cameras include:
+The [`detectnet.cpp`](../examples/detectnet/detectnet.cpp) / [`detectnet.py`](../python/examples/detectnet.py) sample that we used previously can also be used for realtime camera streaming.  The types of supported cameras include:
 
 - MIPI CSI cameras (`csi://0`)
 - V4L2 cameras (`/dev/video0`)
 - RTP/RTSP streams (`rtsp://username:password@ip:port`)
 
-For more information about video streams and URI formats, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
+For more information about video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
 Run the program with `--help` to see a full list of options - some of them specific to detectNet include:
 

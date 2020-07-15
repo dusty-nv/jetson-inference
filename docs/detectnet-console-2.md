@@ -10,7 +10,7 @@ The previous recognition examples output class probabilities representing the en
 
 The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See below for various [pre-trained detection models](#pre-trained-detection-models-available)  available for download.  The default model used is a [91-class](../data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
 
-As examples of using the `detectNet` class, we provide sample applications for C++ and Python:
+As examples of using the `detectNet` class, we provide sample programs for C++ and Python:
 
 - [`detectnet.cpp`](../examples/detectnet/detectnet.cpp) (C++) 
 - [`detectnet.py`](../python/examples/detectnet.py) (Python) 
