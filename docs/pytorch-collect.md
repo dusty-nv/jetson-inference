@@ -131,7 +131,7 @@ imagenet --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blob=o
 imagenet.py --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 ```
 
-If you need to, go back and collect more training data and re-train your model again.  You can restart the again and pick up where you left off using the `--resume` and `--epoch-start` flags (run `python train.py --help` for more info).  Remember to re-export the model to ONNX after re-training.
+If you need to, go back and collect more data and re-train your model again.  You can restart the training from where you left off using the `--resume` and `--epoch-start` flags (run `python train.py --help` for more info).  Then remember to re-export the model.
 
 Next, we're going to train our own object detection models with PyTorch.
 
