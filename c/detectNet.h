@@ -58,11 +58,11 @@
 #define DETECTNET_DEFAULT_ALPHA 120
 
 /**
- * Command-line options able to be passed to imageNet::Create()
+ * Standard command-line options able to be passed to detectNet::Create()
  * @ingroup imageNet
  */
 #define DETECTNET_USAGE_STRING  "detectNet arguments: \n" 								\
-		  "  --network NETWORK     pre-trained model to load, one of the following:\n" 		\
+		  "  --network=NETWORK     pre-trained model to load, one of the following:\n" 		\
 		  "                            * ssd-mobilenet-v1\n" 							\
 		  "                            * ssd-mobilenet-v2 (default)\n" 					\
 		  "                            * ssd-inception-v2\n" 							\
@@ -73,17 +73,19 @@
 		  "                            * coco-bottle\n" 								\
 		  "                            * coco-chair\n" 								\
 		  "                            * coco-dog\n" 								\
-		  "  --model MODEL         path to custom model to load (caffemodel, uff, or onnx)\n" 					\
-		  "  --prototxt PROTOTXT   path to custom prototxt to load (for .caffemodel only)\n" 					\
-		  "  --class_labels LABELS path to text file containing the labels for each class\n" 					\
-		  "  --threshold THRESHOLD minimum threshold for detection (default is 0.5)\n"							\
-		  "  --input_blob INPUT    name of the input layer (default is '" DETECTNET_DEFAULT_INPUT "')\n" 			\
-		  "  --output_cvg COVERAGE name of the coverge output layer (default is '" DETECTNET_DEFAULT_COVERAGE "')\n" 	\
-		  "  --output_bbox BOXES   name of the bounding output layer (default is '" DETECTNET_DEFAULT_BBOX "')\n" 	\
-		  "  --mean_pixel PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
-		  "  --batch_size BATCH    maximum batch size (default is 1)\n"										\
-            "  --alpha ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\
-		  "  --profile             enable layer profiling in TensorRT\n"
+		  "  --model=MODEL         path to custom model to load (caffemodel, uff, or onnx)\n" 					\
+		  "  --prototxt=PROTOTXT   path to custom prototxt to load (for .caffemodel only)\n" 					\
+		  "  --labels=LABELS       path to text file containing the labels for each class\n" 					\
+		  "  --input-blob=INPUT    name of the input layer (default is '" DETECTNET_DEFAULT_INPUT "')\n" 			\
+		  "  --output-cvg=COVERAGE name of the coverge output layer (default is '" DETECTNET_DEFAULT_COVERAGE "')\n" 	\
+		  "  --output-bbox=BOXES   name of the bounding output layer (default is '" DETECTNET_DEFAULT_BBOX "')\n" 	\
+		  "  --mean-pixel=PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
+		  "  --batch-size=BATCH    maximum batch size (default is 1)\n"										\
+		  "  --threshold=THRESHOLD minimum threshold for detection (default is 0.5)\n"							\
+            "  --alpha=ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\
+		  "  --overlay=OVERLAY     detection overlay flags (e.g. --overlay=box,labels,conf)\n"					\
+		  "                        valid combinations are:  'box', 'labels', 'conf', 'none'\n"					\
+		  "  --profile             enable layer profiling in TensorRT\n\n"
 
 
 /**
@@ -288,6 +290,11 @@ public:
 	static detectNet* Create( int argc, char** argv );
 	
 	/**
+	 * Load a new network instance by parsing the command line.
+	 */
+	static detectNet* Create( const commandLine& cmdLine );
+	
+	/**
 	 * Usage string for command line arguments to Create()
 	 */
 	static inline const char* Usage() 		{ return DETECTNET_USAGE_STRING; }
@@ -298,7 +305,54 @@ public:
 	virtual ~detectNet();
 	
 	/**
+	 * Detect object locations from an image, returning an array containing the detection results.
+	 * @param[in]  input input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] detections pointer that will be set to array of detection results (residing in shared CPU/GPU memory)
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
+	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
+	 */
+	template<typename T> int Detect( T* image, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay=OVERLAY_BOX )		{ return Detect((void*)image, width, height, imageFormatFromType<T>(), detections, overlay); }
+	
+	/**
+	 * Detect object locations in an image, into an array of the results allocated by the user.
+	 * @param[in]  input input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] detections pointer to user-allocated array that will be filled with the detection results.
+	 *                        @see GetMaxDetections() for the number of detection results that should be allocated in this buffer.
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
+	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
+	 */
+	template<typename T> int Detect( T* image, uint32_t width, uint32_t height, Detection* detections, uint32_t overlay=OVERLAY_BOX )			{ return Detect((void*)image, width, height, imageFormatFromType<T>(), detections, overlay); }
+	
+	/**
+	 * Detect object locations from an image, returning an array containing the detection results.
+	 * @param[in]  input input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] detections pointer that will be set to array of detection results (residing in shared CPU/GPU memory)
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
+	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
+	 */
+	int Detect( void* input, uint32_t width, uint32_t height, imageFormat format, Detection** detections, uint32_t overlay=OVERLAY_BOX );
+
+	/**
+	 * Detect object locations from an image, into an array of the results allocated by the user.
+	 * @param[in]  input input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] detections pointer to user-allocated array that will be filled with the detection results.
+	 *                        @see GetMaxDetections() for the number of detection results that should be allocated in this buffer.
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
+	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
+	 */
+	int Detect( void* input, uint32_t width, uint32_t height, imageFormat format, Detection* detections, uint32_t overlay=OVERLAY_BOX );
+	
+	/**
 	 * Detect object locations from an RGBA image, returning an array containing the detection results.
+      * @deprecated this overload of Detect() provides legacy compatibility with `float*` type (RGBA32F). 
 	 * @param[in]  input float4 RGBA input image in CUDA device memory.
 	 * @param[in]  width width of the input image in pixels.
 	 * @param[in]  height height of the input image in pixels.
@@ -310,6 +364,7 @@ public:
 
 	/**
 	 * Detect object locations in an RGBA image, into an array of the results allocated by the user.
+	 * @deprecated this overload of Detect() provides legacy compatibility with `float*` type (RGBA32F). 
 	 * @param[in]  input float4 RGBA input image in CUDA device memory.
 	 * @param[in]  width width of the input image in pixels.
 	 * @param[in]  height height of the input image in pixels.
@@ -323,11 +378,20 @@ public:
 	/**
 	 * Draw the detected bounding boxes overlayed on an RGBA image.
 	 * @note Overlay() will automatically be called by default by Detect(), if the overlay parameter is true 
-	 * @param input float4 RGBA input image in CUDA device memory.
-	 * @param output float4 RGBA output image in CUDA device memory.
+	 * @param input input image in CUDA device memory.
+	 * @param output output image in CUDA device memory.
 	 * @param detections Array of detections allocated in CUDA device memory.
 	 */
-	bool Overlay( float* input, float* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections, uint32_t flags=OVERLAY_BOX );
+	template<typename T> bool Overlay( T* input, T* output, uint32_t width, uint32_t height, Detection* detections, uint32_t numDetections, uint32_t flags=OVERLAY_BOX )			{ return Overlay(input, output, width, height, imageFormatFromType<T>(), detections, flags); }
+	
+	/**
+	 * Draw the detected bounding boxes overlayed on an RGBA image.
+	 * @note Overlay() will automatically be called by default by Detect(), if the overlay parameter is true 
+	 * @param input input image in CUDA device memory.
+	 * @param output output image in CUDA device memory.
+	 * @param detections Array of detections allocated in CUDA device memory.
+	 */
+	bool Overlay( void* input, void* output, uint32_t width, uint32_t height, imageFormat format, Detection* detections, uint32_t numDetections, uint32_t flags=OVERLAY_BOX );
 	
 	/**
 	 * Retrieve the minimum threshold for detection.
@@ -381,6 +445,20 @@ public:
 	 */
 	void SetOverlayAlpha( float alpha );
 
+	/**
+	 * Load class descriptions from a label file.
+	 */
+	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, int expectedClasses=-1 );
+
+	/**
+	 * Load class descriptions and synset strings from a label file.
+	 */
+	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses=-1 );
+
+	/**
+	 * Procedurally generate a bounding box color for a class index.
+	 */
+	static void GenerateColor( uint32_t classID, uint8_t* rgb ); 
 	
 protected:
 
@@ -389,8 +467,7 @@ protected:
 
 	bool allocDetections();
 	bool defaultColors();
-	void defaultClassDesc();
-	bool loadClassDesc( const char* filename );
+	bool loadClassInfo( const char* filename );
 
 	bool init( const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_labels, 
 			 float threshold, const char* input, const char* coverage, const char* bboxes, uint32_t maxBatchSize, 
@@ -409,7 +486,6 @@ protected:
 	std::vector<std::string> mClassSynset;
 
 	std::string mClassPath;
-	uint32_t    mCustomClasses;
 	uint32_t	  mNumClasses;
 
 	Detection* mDetectionSets[2];	// list of detections, mNumDetectionSets * mMaxDetections

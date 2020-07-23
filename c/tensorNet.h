@@ -30,14 +30,24 @@ namespace nvinfer1 { class IInt8Calibrator; }
 #include <NvInfer.h>
 
 #include <jetson-utils/cudaUtility.h>
+#include <jetson-utils/commandLine.h>
+#include <jetson-utils/imageFormat.h>
 #include <jetson-utils/timespec.h>
+#include <jetson-utils/logging.h>
 
 #include <vector>
 #include <sstream>
 #include <math.h>
 
 
-#if NV_TENSORRT_MAJOR > 1
+#if NV_TENSORRT_MAJOR > 5
+typedef nvinfer1::Dims3 Dims3;
+
+#define DIMS_C(x) x.d[0]
+#define DIMS_H(x) x.d[1]
+#define DIMS_W(x) x.d[2]
+
+#elif NV_TENSORRT_MAJOR > 1
 typedef nvinfer1::DimsCHW Dims3;
 
 #define DIMS_C(x) x.d[0]
@@ -68,7 +78,7 @@ typedef nvinfer1::Dims3 Dims3;
  * Prefix used for tagging printed log output from TensorRT.
  * @ingroup tensorNet
  */
-#define LOG_TRT "[TRT]   "
+#define LOG_TRT "[TRT]    "
 
 
 /**
@@ -134,7 +144,8 @@ enum modelType
 	MODEL_CUSTOM = 0,	/**< Created directly with TensorRT API */
 	MODEL_CAFFE,		/**< caffemodel */
 	MODEL_ONNX,		/**< ONNX */
-	MODEL_UFF			/**< UFF */
+	MODEL_UFF,		/**< UFF */
+	MODEL_ENGINE		/**< TensorRT engine/plan */
 };
 
 /**
@@ -148,6 +159,12 @@ const char* modelTypeToStr( modelType type );
  * @ingroup tensorNet
  */
 modelType modelTypeFromStr( const char* str );
+
+/**
+ * Parse the model format from a file path.
+ * @ingroup tensorNet
+ */
+modelType modelTypeFromPath( const char* path );
 
 /**
  * Profiling queries
@@ -224,6 +241,23 @@ public:
 				   nvinfer1::IInt8Calibrator* calibrator=NULL, cudaStream_t stream=NULL );
 
 	/**
+	 * Load a new network instance with multiple input layers.
+	 * @param prototxt File path to the deployable network prototxt
+	 * @param model File path to the caffemodel 
+	 * @param mean File path to the mean value binary proto (NULL if none)
+	 * @param input_blobs List of names of the inputs blob data to the network.
+	 * @param output_blobs List of names of the output blobs from the network.
+	 * @param maxBatchSize The maximum batch size that the network will be optimized for.
+	 */
+	bool LoadNetwork( const char* prototxt, const char* model, const char* mean,
+				   const std::vector<std::string>& input_blobs, 
+				   const std::vector<std::string>& output_blobs,
+				   uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+				   precisionType precision=TYPE_FASTEST,
+				   deviceType device=DEVICE_GPU, bool allowGPUFallback=true,
+				   nvinfer1::IInt8Calibrator* calibrator=NULL, cudaStream_t stream=NULL );
+
+	/**
 	 * Load a new network instance (this variant is used for UFF models)
 	 * @param prototxt File path to the deployable network prototxt
 	 * @param model File path to the caffemodel 
@@ -242,6 +276,70 @@ public:
 				   nvinfer1::IInt8Calibrator* calibrator=NULL, cudaStream_t stream=NULL );
 
 	/**
+	 * Load a new network instance with multiple input layers (used for UFF models)
+	 * @param prototxt File path to the deployable network prototxt
+	 * @param model File path to the caffemodel 
+	 * @param mean File path to the mean value binary proto (NULL if none)
+	 * @param input_blobs List of names of the inputs blob data to the network.
+	 * @param input_dims List of the dimensions of the input blobs (used for UFF).
+	 * @param output_blobs List of names of the output blobs from the network.
+	 * @param maxBatchSize The maximum batch size that the network will be optimized for.
+	 */
+	bool LoadNetwork( const char* prototxt, const char* model, const char* mean,
+				   const std::vector<std::string>& input_blobs, 
+				   const std::vector<Dims3>& input_dims, 
+				   const std::vector<std::string>& output_blobs,
+				   uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+				   precisionType precision=TYPE_FASTEST,
+				   deviceType device=DEVICE_GPU, bool allowGPUFallback=true,
+				   nvinfer1::IInt8Calibrator* calibrator=NULL, cudaStream_t stream=NULL );
+
+	/**
+	 * Load a network instance from a serialized engine plan file.
+	 * @param engine_filename path to the serialized engine plan file.
+	 * @param input_blobs List of names of the inputs blob data to the network.
+	 * @param output_blobs List of names of the output blobs from the network.
+	 */
+	bool LoadEngine( const char* engine_filename,
+				  const std::vector<std::string>& input_blobs, 
+				  const std::vector<std::string>& output_blobs,
+				  nvinfer1::IPluginFactory* pluginFactory=NULL,
+				  deviceType device=DEVICE_GPU,
+				  cudaStream_t stream=NULL );
+
+	/**
+	 * Load a network instance from a serialized engine plan file.
+	 * @param engine_stream Memory containing the serialized engine plan file.
+	 * @param engine_size Size of the serialized engine stream (in bytes).
+	 * @param input_blobs List of names of the inputs blob data to the network.
+	 * @param output_blobs List of names of the output blobs from the network.
+	 */
+	bool LoadEngine( char* engine_stream, size_t engine_size,
+				  const std::vector<std::string>& input_blobs, 
+				  const std::vector<std::string>& output_blobs,
+				  nvinfer1::IPluginFactory* pluginFactory=NULL,
+				  deviceType device=DEVICE_GPU,
+				  cudaStream_t stream=NULL );
+
+	/**
+	 * Load network resources from an existing TensorRT engine instance.
+	 * @param engine_stream Memory containing the serialized engine plan file.
+	 * @param engine_size Size of the serialized engine stream (in bytes).
+	 * @param input_blobs List of names of the inputs blob data to the network.
+	 * @param output_blobs List of names of the output blobs from the network.
+	 */
+	bool LoadEngine( nvinfer1::ICudaEngine* engine,
+				  const std::vector<std::string>& input_blobs, 
+				  const std::vector<std::string>& output_blobs,
+				  deviceType device=DEVICE_GPU,
+				  cudaStream_t stream=NULL );
+
+	/**
+	 * Load a serialized engine plan file into memory.
+	 */
+	bool LoadEngine( const char* filename, char** stream, size_t* size );
+
+	/**
 	 * Manually enable layer profiling times.	
 	 */
 	void EnableLayerProfiler();
@@ -254,22 +352,27 @@ public:
 	/**
  	 * Return true if GPU fallback is enabled.
 	 */
-	inline bool AllowGPUFallback() const				{ return mAllowGPUFallback; }
+	inline bool AllowGPUFallback() const					{ return mAllowGPUFallback; }
 
 	/**
  	 * Retrieve the device being used for execution.
 	 */
-	inline deviceType GetDevice() const				{ return mDevice; }
+	inline deviceType GetDevice() const					{ return mDevice; }
 
 	/**
 	 * Retrieve the type of precision being used.
 	 */
-	inline precisionType GetPrecision() const			{ return mPrecision; }
+	inline precisionType GetPrecision() const				{ return mPrecision; }
 
 	/**
 	 * Check if a particular precision is being used.
 	 */
-	inline bool IsPrecision( precisionType type ) const	{ return (mPrecision == type); }
+	inline bool IsPrecision( precisionType type ) const		{ return (mPrecision == type); }
+
+	/**
+	 * Resolve a desired precision to a specific one that's available.
+	 */
+	static precisionType SelectPrecision( precisionType precision, deviceType device=DEVICE_GPU, bool allowInt8=true );
 
 	/**
 	 * Determine the fastest native precision on a device.
@@ -294,7 +397,7 @@ public:
 	/**
 	 * Retrieve the stream that the device is operating on.
 	 */
-	inline cudaStream_t GetStream() const				{ return mStream; }
+	inline cudaStream_t GetStream() const					{ return mStream; }
 
 	/**
 	 * Create and use a new stream for execution.
@@ -309,37 +412,87 @@ public:
 	/**
 	 * Retrieve the path to the network prototxt file.
 	 */
-	inline const char* GetPrototxtPath() const			{ return mPrototxtPath.c_str(); }
+	inline const char* GetPrototxtPath() const				{ return mPrototxtPath.c_str(); }
 
 	/**
 	 * Retrieve the path to the network model file.
 	 */
-	inline const char* GetModelPath() const				{ return mModelPath.c_str(); }
+	inline const char* GetModelPath() const					{ return mModelPath.c_str(); }
 
 	/**
 	 * Retrieve the format of the network model.
 	 */
-	inline modelType GetModelType() const				{ return mModelType; }
+	inline modelType GetModelType() const					{ return mModelType; }
 
 	/**
 	 * Return true if the model is of the specified format.
 	 */
-	inline bool IsModelType( modelType type ) const		{ return (mModelType == type); }
+	inline bool IsModelType( modelType type ) const			{ return (mModelType == type); }
+
+	/**
+	 * Retrieve the number of input layers to the network.
+	 */
+	inline uint32_t GetInputLayers() const					{ return mInputs.size(); }
+
+	/**
+	 * Retrieve the number of output layers to the network.
+	 */
+	inline uint32_t GetOutputLayers() const					{ return mOutputs.size(); }
+
+	/**
+	 * Retrieve the dimensions of network input layer.
+	 */
+	inline Dims3 GetInputDims( uint32_t layer=0 ) const		{ return mInputs[layer].dims; }
+
+	/**
+	 * Retrieve the width of network input layer.
+	 */
+	inline uint32_t GetInputWidth( uint32_t layer=0 ) const	{ return DIMS_W(mInputs[layer].dims); }
+
+	/**
+	 * Retrieve the height of network input layer.
+	 */
+	inline uint32_t GetInputHeight( uint32_t layer=0 ) const	{ return DIMS_H(mInputs[layer].dims); }
+
+	/**
+	 * Retrieve the size (in bytes) of network input layer.
+	 */
+	inline uint32_t GetInputSize( uint32_t layer=0 ) const		{ return mInputs[layer].size; }
+
+	/**
+	 * Retrieve the dimensions of network output layer.
+	 */
+	inline Dims3 GetOutputDims( uint32_t layer=0 ) const		{ return mOutputs[layer].dims; }
+
+	/**
+	 * Retrieve the width of network output layer.
+	 */
+	inline uint32_t GetOutputWidth( uint32_t layer=0 ) const	{ return DIMS_W(mOutputs[layer].dims); }
+
+	/**
+	 * Retrieve the height of network output layer.
+	 */
+	inline uint32_t GetOutputHeight( uint32_t layer=0 ) const	{ return DIMS_H(mOutputs[layer].dims); }
+
+	/**
+	 * Retrieve the size (in bytes) of network output layer.
+	 */
+	inline uint32_t GetOutputSize( uint32_t layer=0 ) const	{ return mOutputs[layer].size; }
 
 	/**
 	 * Retrieve the network frames per second (FPS).
 	 */
-	inline float GetNetworkFPS()										{ return 1000.0f / GetNetworkTime(); }
+	inline float GetNetworkFPS()							{ return 1000.0f / GetNetworkTime(); }
 
 	/**
 	 * Retrieve the network runtime (in milliseconds).
 	 */
-	inline float GetNetworkTime()										{ return GetProfilerTime(PROFILER_NETWORK, PROFILER_CUDA); }
+	inline float GetNetworkTime()							{ return GetProfilerTime(PROFILER_NETWORK, PROFILER_CUDA); }
 	
 	/**
 	 * Retrieve the profiler runtime (in milliseconds).
 	 */
-	inline float2 GetProfilerTime( profilerQuery query )					{ PROFILER_QUERY(query); return mProfilerTimes[query]; }
+	inline float2 GetProfilerTime( profilerQuery query )		{ PROFILER_QUERY(query); return mProfilerTimes[query]; }
 	
 	/**
 	 * Retrieve the profiler runtime (in milliseconds).
@@ -351,27 +504,27 @@ public:
 	 */
 	inline void PrintProfilerTimes()
 	{
-		printf("\n");
-		printf(LOG_TRT "------------------------------------------------\n");
-		printf(LOG_TRT "Timing Report %s\n", GetModelPath());
-		printf(LOG_TRT "------------------------------------------------\n");
+		LogInfo("\n");
+		LogInfo(LOG_TRT "------------------------------------------------\n");
+		LogInfo(LOG_TRT "Timing Report %s\n", GetModelPath());
+		LogInfo(LOG_TRT "------------------------------------------------\n");
 
 		for( uint32_t n=0; n <= PROFILER_TOTAL; n++ )
 		{
 			const profilerQuery query = (profilerQuery)n;
 
 			if( PROFILER_QUERY(query) )
-				printf(LOG_TRT "%-12s  CPU %9.5fms  CUDA %9.5fms\n", profilerQueryToStr(query), mProfilerTimes[n].x, mProfilerTimes[n].y);
+				LogInfo(LOG_TRT "%-12s  CPU %9.5fms  CUDA %9.5fms\n", profilerQueryToStr(query), mProfilerTimes[n].x, mProfilerTimes[n].y);
 		}
 
-		printf(LOG_TRT "------------------------------------------------\n\n");
+		LogInfo(LOG_TRT "------------------------------------------------\n\n");
 
 		static bool first_run=true;
 
 		if( first_run )
 		{
-			printf(LOG_TRT "note -- when processing a single image, run 'sudo jetson_clocks' before\n"
-				  "                to disable DVFS for more accurate profiling/timing measurements\n\n");
+			LogWarning(LOG_TRT "note -- when processing a single image, run 'sudo jetson_clocks' before\n"
+				      "                to disable DVFS for more accurate profiling/timing measurements\n\n");
 			
 			first_run = false;
 		}
@@ -383,7 +536,16 @@ protected:
 	 * Constructor.
 	 */
 	tensorNet();
-			  
+		
+	/**
+	 * Execute processing of the network.
+	 * @param sync if true (default), the device will be synchronized after processing
+	 *             and the thread/function will block until processing is complete. 
+	 *             if false, the function will return immediately after the processing
+	 *             has been enqueued to the CUDA stream indicated by GetStream().
+	 */
+	bool ProcessNetwork( bool sync=true );
+	  
 	/**
 	 * Create and output an optimized network model
 	 * @note this function is automatically used by LoadNetwork, but also can 
@@ -395,22 +557,47 @@ protected:
 	 * @param modelStream output model stream
 	 */
 	bool ProfileModel( const std::string& deployFile, const std::string& modelFile,
-					const char* input, const Dims3& inputDims,
+				    const std::vector<std::string>& inputs, const std::vector<Dims3>& inputDims,
 				    const std::vector<std::string>& outputs, uint32_t maxBatchSize, 
 				    precisionType precision, deviceType device, bool allowGPUFallback,
-				    nvinfer1::IInt8Calibrator* calibrator, std::ostream& modelStream);
+				    nvinfer1::IInt8Calibrator* calibrator, char** engineStream, size_t* engineSize );
+
+	/**
+	 * Configure builder options
+	 */
+	bool ConfigureBuilder( nvinfer1::IBuilder* builder, uint32_t maxBatchSize, 
+					   uint32_t workspaceSize, precisionType precision, 
+					   deviceType device, bool allowGPUFallback, 
+					   nvinfer1::IInt8Calibrator* calibrator );
 
 	/**
 	 * Logger class for GIE info/warning/errors
 	 */
 	class Logger : public nvinfer1::ILogger			
 	{
+	public:
 		void log( Severity severity, const char* msg ) override
 		{
-			//if( severity != Severity::kINFO /*|| mEnableDebug*/ )
-				printf(LOG_TRT "%s\n", msg);
+			if( severity == Severity::kWARNING )
+			{
+				LogWarning(LOG_TRT "%s\n", msg);
+			}
+			else if( severity == Severity::kINFO )
+			{
+				LogInfo(LOG_TRT "%s\n", msg);
+			}
+		#if NV_TENSORRT_MAJOR > 5
+			else if( severity == Severity::kVERBOSE )
+			{
+				LogVerbose(LOG_TRT "%s\n", msg);
+			}
+		#endif
+			else
+			{
+				LogError(LOG_TRT "%s\n", msg);
+			}
 		}
-	} gLogger;
+	} static gLogger;
 
 	/**
 	 * Profiler interface for measuring layer timings
@@ -422,12 +609,11 @@ protected:
 		
 		virtual void reportLayerTime(const char* layerName, float ms)
 		{
-			printf(LOG_TRT "layer %s - %f ms\n", layerName, ms);
+			LogVerbose(LOG_TRT "layer %s - %f ms\n", layerName, ms);
 			timingAccumulator += ms;
 		}
 		
 		float timingAccumulator;
-		
 	} gProfiler;
 
 	/**
@@ -460,10 +646,10 @@ protected:
 
 		if( mEnableProfiler && query == PROFILER_NETWORK ) 
 		{ 
-			printf(LOG_TRT "layer network time - %f ms\n", gProfiler.timingAccumulator); 
+			LogVerbose(LOG_TRT "layer network time - %f ms\n", gProfiler.timingAccumulator); 
 			gProfiler.timingAccumulator = 0.0f; 
-			printf(LOG_TRT "note -- when processing a single image, run 'sudo jetson_clocks' before\n"
-				  "                to disable DVFS for more accurate profiling/timing measurements\n"); 
+			LogWarning(LOG_TRT "note -- when processing a single image, run 'sudo jetson_clocks' before\n"
+				      "                to disable DVFS for more accurate profiling/timing measurements\n"); 
 		}
 	}
 	
@@ -514,7 +700,6 @@ protected:
 	std::string mPrototxtPath;
 	std::string mModelPath;
 	std::string mMeanPath;
-	std::string mInputBlobName;
 	std::string mCacheEnginePath;
 	std::string mCacheCalibrationPath;
 
@@ -529,31 +714,28 @@ protected:
 	nvinfer1::ICudaEngine* mEngine;
 	nvinfer1::IExecutionContext* mContext;
 	
-	uint32_t mWidth;
-	uint32_t mHeight;
-	uint32_t mInputSize;
-	float*   mInputCPU;
-	float*   mInputCUDA;
 	float2   mProfilerTimes[PROFILER_TOTAL + 1];
 	uint32_t mProfilerQueriesUsed;
 	uint32_t mProfilerQueriesDone;
+	uint32_t mWorkspaceSize;
 	uint32_t mMaxBatchSize;
 	bool	    mEnableProfiler;
 	bool     mEnableDebug;
 	bool	    mAllowGPUFallback;
+	void**   mBindings;
 
-	Dims3 mInputDims;
-	
-	struct outputLayer
+	struct layerInfo
 	{
 		std::string name;
 		Dims3 dims;
 		uint32_t size;
+		uint32_t binding;
 		float* CPU;
 		float* CUDA;
 	};
 	
-	std::vector<outputLayer> mOutputs;
+	std::vector<layerInfo> mInputs;
+	std::vector<layerInfo> mOutputs;
 };
 
 #endif

@@ -1,17 +1,17 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="segnet-camera-2.md">Back</a> | <a href="pytorch-cat-dog.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Transfer Learning</sup></s></p>
 
 # Transfer Learning with PyTorch
 
-Transfer learning is a technique for re-training a DNN model on a new dataset, which takes less time than training a network from scratch.  With transfer learning, the weights of a pre-trained model are fine-tuned to classify a customized dataset.  In these examples, we'll be using the <a href="https://arxiv.org/abs/1512.03385">ResNet-18</a> network, although you can experiment with other networks too.
+Transfer learning is a technique for re-training a DNN model on a new dataset, which takes less time than training a network from scratch.  With transfer learning, the weights of a pre-trained model are fine-tuned to classify a customized dataset.  In these examples, we'll be using the <a href="https://arxiv.org/abs/1512.03385">ResNet-18</a> and [SSD-Mobilenet](pytorch-ssd.md) networks, although you can experiment with other networks too.
 
 <p align="center"><a href="https://arxiv.org/abs/1512.03385"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-resnet-18.png" width="600"></a></p>
 
 Although training is typically performed on a PC, server, or cloud instance with discrete GPU(s) due to the often large datasets used and the associated computational demands, by using transfer learning we're able to re-train various networks onboard Jetson to get started with training and deploying our own DNN models.  
 
-<a href=https://pytorch.org/>PyTorch</a> is the machine learning framework that we'll be using, and example datasets along with training scripts are provided to use below, in addition to a camera-based tool for collecting and labelling your own training datasets.  
+<a href=https://pytorch.org/>PyTorch</a> is the machine learning framework that we'll be using, and example datasets along with training scripts are provided to use below, in addition to a camera-based tool for collecting and labeling your own training datasets.  
 
 ## Installing PyTorch
 
@@ -25,7 +25,7 @@ $ ./install-pytorch.sh
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/pytorch-installer.jpg" width="650">
 
 > **note**: the automated PyTorch installation tool requires JetPack 4.2 or newer.<br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for other versions, see [`http://eLinux.org/Jetson_Zoo`](https://elinux.org/Jetson_Zoo#PyTorch_.28Caffe2.29) to build from source.
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and if you want to do [Object Detection Training](pytorch-ssd.md), you should use JetPack 4.4 or newer and install PyTorch for **Python 3.6**.
 
 ### Verifying PyTorch
 
@@ -52,7 +52,7 @@ Note that the torch version should be reported as `1.1.0` and the torchvision ve
 
 ## Mounting Swap
 
-If you're using Jetson Nano, you should mount 4GB of swap space, as training uses up a lot of extra memory.  
+Unless you are on Jetson AGX Xavier, you should mount 4GB of swap space, as training uses up a lot of extra memory.  
 
 Run these commands on Nano to create a swap file:
 
@@ -74,16 +74,21 @@ Now your swap file will automatically be mounted after reboots.  To check the us
 
 Below are step-by-step instructions to re-training models on some example datasets with transfer learning, in addition to collecting your own data to create your own customized models: 
 
-* [Re-training on the Cat/Dog Dataset](pytorch-cat-dog.md)
-* [Re-training on the PlantCLEF Dataset](pytorch-plants.md)
-* [Collecting your own Datasets](pytorch-collect.md)
+* Classification/Recognition (ResNet-18)
+	* [Re-training on the Cat/Dog Dataset](pytorch-cat-dog.md)
+	* [Re-training on the PlantCLEF Dataset](pytorch-plants.md)
+	* [Collecting your own Classification Datasets](pytorch-collect.md)
+* Object Detection (SSD-Mobilenet)
+	* [Re-training SSD-Mobilenet](pytorch-ssd.md)
+	* [Collecting your own Detection Datasets](pytorch-collect.md)
 
 This table contains a summary of the datasets and their associated training times:
 
-| Dataset   | Size  |  Classes | Training Images | Time per Epoch* | Training Time** |
-|-----------|-------|----------|-----------------|-----------------|-----------------|
-| [`Cat/Dog`](pytorch-cat-dog.md)   | 800MB |    2    |      5,000      |  ~7-8 minutes   |    ~4 hours     |
-| [`PlantCLEF`](pytorch-plants.md) | 1.5GB |   20    |     10,475      | ~15 minutes     |    ~8 hours     |
+| Type | Dataset   | Size  |  Classes | Training Images | Time per Epoch* | Training Time** |
+|:-----------:|:-----------:|:-------:|:----------:|:-----------------:|:-----------------:|:-----------------:|
+| Classification | [`Cat/Dog`](pytorch-cat-dog.md)   | 800MB |    2    |      5,000      |  ~7-8 minutes   |    ~4 hours     |
+| Classification | [`PlantCLEF`](pytorch-plants.md) | 1.5GB |   20    |     10,475      | ~15 minutes     |    ~8 hours     |
+| Detection | [`Fruit`](pytorch-ssd.md) | 2GB |   8    |     6,375      | ~15 minutes     |    ~8 hours     |
 
 *&nbsp;&nbsp;Approximate time for one complete training pass over the dataset with Jetson Nano  
 ** Approximate time for training the model for 35 epochs with Jetson Nano

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['instance',['Instance',['../structdetectNet_1_1Detection.html#a388eef39f557028d777d9102acd3c646',1,'detectNet::Detection']]],
-  ['ipaddress',['ipAddress',['../structnetworkAdapter__t.html#a309dd0e73b680f0ee5a24e70db253ab2',1,'networkAdapter_t']]]
+  ['height',['height',['../structcudaFont_1_1GlyphInfo.html#adc968847d5a41d8a878c30f183342540',1,'cudaFont::GlyphInfo::height()'],['../structvideoOptions.html#a66660b049937fd088b5ab29a0aa2187c',1,'videoOptions::height()']]]
 ];

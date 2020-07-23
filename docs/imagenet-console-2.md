@@ -1,4 +1,4 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="building-repo-2.md">Back</a> | <a href="imagenet-example-python-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
@@ -10,20 +10,17 @@ There are multiple types of deep learning networks available, including recognit
 
 The [`imageNet`](../c/imageNet.h) object accepts an input image and outputs the probability for each class.  Having been trained on the ImageNet ILSVRC dataset of **[1000 objects](../data/networks/ilsvrc12_synset_words.txt)**, the GoogleNet and ResNet-18 models were automatically downloaded during the build step.  See [below](#downloading-other-classification-models) for other classification models that can be downloaded and used as well.
 
-As examples of using [`imageNet`](../c/imageNet.h) we provide versions of a command-line interface for C++ and Python:
+As an example of using the [`imageNet`](../c/imageNet.h) class, we provide sample programs for C++ and Python:
 
-- [`imagenet-console.cpp`](../examples/imagenet-console/imagenet-console.cpp) (C++) 
-- [`imagenet-console.py`](../python/examples/imagenet-console.py) (Python) 
+- [`imagenet.cpp`](../examples/imagenet/imagenet.cpp) (C++) 
+- [`imagenet.py`](../python/examples/imagenet.py) (Python) 
 
-Later in the tutorial, we'll also cover versions of a live camera recognition program for C++ and Python:
-
-- [`imagenet-camera.cpp`](../examples/imagenet-camera/imagenet-camera.cpp) (C++)
-- [`imagenet-camera.py`](../python/examples/imagenet-camera.py) (Python) 
+These samples are able to classify images, videos, and camera feeds.  For more info about the various types of input/output streams supported, see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
 
-### Using the Console Program on Jetson
+### Using the ImageNet Program on Jetson
 
-First, let's try using the `imagenet-console` program to test imageNet recognition on some example images.  It loads an image, uses TensorRT and the `imageNet` class to perform the inference, then overlays the classification result and saves the output image.  The project comes with sample images for you to use located under the `images/` directory.
+First, let's try using the `imagenet` program to test imageNet recognition on some example images.  It loads an image (or images), uses TensorRT and the `imageNet` class to perform the inference, then overlays the classification result and saves the output image.  The project comes with sample images for you to use located under the `images/` directory.
 
 After [building](building-repo-2.md) the project, make sure your terminal is located in the `aarch64/bin` directory:
 
@@ -31,49 +28,36 @@ After [building](building-repo-2.md) the project, make sure your terminal is loc
 $ cd jetson-inference/build/aarch64/bin
 ```
 
-Next, let's classify an example image with the `imagenet-console` program, using either the [C++](../examples/imagenet-console/imagenet-console.cpp) or [Python](../python/examples/imagenet-console.py) variants.  
+Next, let's classify an example image with the `imagenet` program, using either the [C++](../examples/imagenet/imagenet.cpp) or [Python](../python/examples/imagenet.py) variants:
 
-`imagenet-console` accepts 3 command-line arguments:  
-
-- the path to an input image  (`jpg, png, tga, bmp`)
-- optional path to output image  (`jpg, png, tga, bmp`)
-- optional `--network` flag which changes the classification model being used (the default is GoogleNet).  
-
-Note that there are additional command line parameters available for loading customized models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Code Examples`](../README.md#code-examples) readme.
-
-Here are a couple examples of running the program in C++ or Python:
-
-#### C++
 ``` bash
-$ ./imagenet-console --network=googlenet images/orange_0.jpg output_0.jpg     # --network flag is optional
-```
+# C++
+$ ./imagenet-console --network=googlenet images/orange_0.jpg output_0.jpg     # --network flag is optional (default is googlenet)
 
-#### Python
-``` bash
-$ ./imagenet-console.py --network=googlenet images/orange_0.jpg output_0.jpg  # --network flag is optional
+# Python
+$ ./imagenet-console.py --network=googlenet images/orange_0.jpg output_0.jpg  # --network flag is optional (default is googlenet)
 ```
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="500">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-orange.jpg" width="650">
 
-#### C++
 ``` bash
-$ ./imagenet-console images/granny_smith_1.jpg output_1.jpg
+# C++
+$ ./imagenet images/strawberry_0.jpg output_1.jpg
+
+# Python
+$ ./imagenet.py images/strawberry_0.jpg output_1.jpg
 ```
 
-#### Python
-``` bash
-$ ./imagenet-console.py images/granny_smith_1.jpg output_1.jpg
-```
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-strawberry.jpg" width="650">
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-apple.jpg" width="500">
-
+In addition to loading single images, you can also load a directory or sequence of images, or a video file.  For more info, see the [Camera Streaming and Multimedia](aux-streaming.md) page or launch the application with the `--help` flag.
 
 ### Downloading Other Classification Models
 
-By default, the project is set to download the GoogleNet and ResNet-18 networks during the build step.
+By default, the project will download the GoogleNet and ResNet-18 networks during the build step.
 
 There are other pre-trained models that you can use as well, should you choose to [download](building-repo-2.md#downloading-models) them:
 
@@ -104,37 +88,56 @@ Below are some examples of using the ResNet-18 model:
 
 ``` bash
 # C++
-$ ./imagenet-console --network=resnet-18 images/jellyfish.jpg output_jellyfish.jpg
+$ ./imagenet --network=resnet-18 images/jellyfish.jpg output_jellyfish.jpg
 
 # Python
-$ ./imagenet-console.py --network=resnet-18 images/jellyfish.jpg output_jellyfish.jpg
+$ ./imagenet.py --network=resnet-18 images/jellyfish.jpg output_jellyfish.jpg
 ```
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_jellyfish.jpg" width="650">
 
 ``` bash
 # C++
-$ ./imagenet-console --network=resnet-18 images/stingray.jpg output_stingray.jpg
+$ ./imagenet --network=resnet-18 images/stingray.jpg output_stingray.jpg
 
 # Python
-$ ./imagenet-console.py --network=resnet-18 images/stingray.jpg output_stingray.jpg
+$ ./imagenet.py --network=resnet-18 images/stingray.jpg output_stingray.jpg
 ```
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_stingray.jpg" width="650">
 
 ``` bash
 # C++
-$ ./imagenet-console.py --network=resnet-18 images/coral.jpg output_coral.jpg
+$ ./imagenet --network=resnet-18 images/coral.jpg output_coral.jpg
 
 # Python
-$ ./imagenet-console.py --network=resnet-18 images/coral.jpg output_coral.jpg
+$ ./imagenet.py --network=resnet-18 images/coral.jpg output_coral.jpg
 ```
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="650">
 
 Feel free to experiment with using the different models and see how their accuracies and performance differ - you can download more models with the [Model Downloader](building-repo-2.md#downloading-models) tool.  There are also various test images found under `images/`
 
-Next, we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
+### Processing a Video
+
+The [Camera Streaming and Multimedia](aux-streaming.md) page shows the different types of streams that the `imagenet` program can handle.  
+
+Here is an example of running it on a video from disk:
+
+``` bash
+# Download test video (thanks to jell.yfish.us)
+$ wget https://nvidia.box.com/shared/static/tlswont1jnyu3ix2tbf7utaekpzcx4rc.mkv -O jellyfish.mkv
+
+# C++
+$ ./imagenet --network=resnet-18 jellyfish.mkv jellyfish_resnet18.mkv
+
+# Python
+$ ./imagenet.py --network=resnet-18 jellyfish.mkv jellyfish_resnet18.mkv
+```
+
+<a href="https://www.youtube.com/watch?v=GhTleNPXqyU" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-jellyfish-video.jpg width="750"></a>
+
+Next we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
 
 ##
 <p align="right">Next | <b><a href="imagenet-example-python-2.md">Coding Your Own Image Recognition Program (Python)</a></b>

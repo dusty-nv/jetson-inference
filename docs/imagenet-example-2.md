@@ -1,4 +1,4 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="imagenet-example-python-2.md">Back</a> | <a href="imagenet-camera-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
@@ -6,9 +6,78 @@
 # Coding Your Own Image Recognition Program (C++)
 In the previous step, we ran an application that came with the jetson-inference repo.  
 
-Now, we're going to walk through creating a new program from scratch for image recognition called [`my-recognition`](../examples/my-recognition/my-recognition.cpp).  This program will be able to exist as a standalone project outside the repo, hence if you wish to use the jetson-inference library in your own projects and applications, you can follow this example.  
+Now, we're going to walk through creating a new program from scratch for image recognition called [`my-recognition`](../examples/my-recognition/my-recognition.cpp).  This program will be able to exist as a standalone project outside the repo, hence if you wish to use the jetson-inference library in your own projects and applications, you can follow this example.    
 
-For your convenience and reference, the completed files are available in the [`examples/my-recognition`](../examples/my-recognition) directory of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing.   
+``` cpp
+#include <jetson-inference/imageNet.h>
+#include <jetson-utils/loadImage.h>
+
+int main( int argc, char** argv )
+{
+	// a command line argument containing the image filename is expected,
+	// so make sure we have at least 2 args (the first arg is the program)
+	if( argc < 2 )
+	{
+		printf("my-recognition:  expected image filename as argument\n");
+		printf("example usage:   ./my-recognition my_image.jpg\n");
+		return 0;
+	}
+
+	// retrieve the image filename from the array of command line args
+	const char* imgFilename = argv[1];
+
+	// these variables will store the image data pointer and dimensions
+	uchar3* imgPtr = NULL;   // shared CPU/GPU pointer to image
+	int imgWidth   = 0;      // width of the image (in pixels)
+	int imgHeight  = 0;      // height of the image (in pixels)
+		
+	// load the image from disk as uchar3 RGB (24 bits per pixel)
+	if( !loadImage(imgFilename, &imgPtr, &imgWidth, &imgHeight) )
+	{
+		printf("failed to load image '%s'\n", imgFilename);
+		return 0;
+	}
+
+	// load the GoogleNet image recognition network with TensorRT
+	// you can use imageNet::RESNET_18 to load ResNet-18 model instead
+	imageNet* net = imageNet::Create(imageNet::GOOGLENET);
+
+	// check to make sure that the network model loaded properly
+	if( !net )
+	{
+		printf("failed to load image recognition network\n");
+		return 0;
+	}
+
+	// this variable will store the confidence of the classification (between 0 and 1)
+	float confidence = 0.0;
+
+	// classify the image, return the object class index (or -1 on error)
+	const int classIndex = net->Classify(imgPtr, imgWidth, imgHeight, &confidence);
+
+	// make sure a valid classification result was returned	
+	if( classIndex >= 0 )
+	{
+		// retrieve the name/description of the object class index
+		const char* classDescription = net->GetClassDesc(classIndex);
+
+		// print out the classification results
+		printf("image is recognized as '%s' (class #%i) with %f%% confidence\n", 
+			  classDescription, classIndex, confidence * 100.0f);
+	}
+	else
+	{
+		// if Classify() returned < 0, an error occurred
+		printf("failed to classify image\n");
+	}
+	
+	// free the network's resources before shutting down
+	delete net;
+	return 0;
+}
+```
+
+For your convenience and reference, the completed files are available in the [`examples/my-recognition`](../examples/my-recognition) directory of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing. 
 
 ## Setting up the Project
 
@@ -83,34 +152,27 @@ The desired image filename to be loaded should be substituted for `my_image.jpg`
 
 #### Loading the Image from Disk
 
-Declare some variables that will store the dimensions of the image and pointers to it's memory, and then load the image from disk with the [`loadImageRGBA()`](https://github.com/dusty-nv/jetson-utils/blob/master/loadImage.h#L30) function.
+Declare some variables that will store the dimensions of the image and pointers to it's memory, and then load the image from disk with the [`loadImage()`](https://github.com/dusty-nv/jetson-utils/blob/master/image/imageIO.h) function.
 
 ``` cpp
-	// these variables will be used to store the image data and dimensions
-	// the image data will be stored in shared CPU/GPU memory, so there are
-	// pointers for the CPU and GPU (both reference the same physical memory)
-	float* imgCPU    = NULL;    // CPU pointer to floating-point RGBA image data
-	float* imgCUDA   = NULL;    // GPU pointer to floating-point RGBA image data
-	int    imgWidth  = 0;       // width of the image (in pixels)
-	int    imgHeight = 0;       // height of the image (in pixels)
+	// these variables will store the image data pointer and dimensions
+	uchar3* imgPtr = NULL;   // shared CPU/GPU pointer to image
+	int imgWidth   = 0;      // width of the image (in pixels)
+	int imgHeight  = 0;      // height of the image (in pixels)
 		
-	// load the image from disk as float4 RGBA (32 bits per channel, 128 bits per pixel)
-	if( !loadImageRGBA(imgFilename, (float4**)&imgCPU, (float4**)&imgCUDA, &imgWidth, &imgHeight) )
+	// load the image from disk as uchar3 RGB (24 bits per pixel)
+	if( !loadImage(imgFilename, &imgPtr, &imgWidth, &imgHeight) )
 	{
 		printf("failed to load image '%s'\n", imgFilename);
 		return 0;
 	}
 ```
 
-The loaded image will be stored in shared memory that's mapped to both the CPU and GPU.  There are two pointers available for access in the CPU and GPU address spaces, but there is really only one copy of the image in memory.  Both the CPU and GPU pointers resolve to the same physical memory, without needing to perform memory copies (i.e. `cudaMemcpy()`).  
-
-When accessing the image from CPU code, the `imgCPU` pointer should be used, and when accessing the image from within a CUDA kernel on the GPU, the `imgCUDA` pointer should be used.  Since our operations in this example will run on the GPU with TensorRT, we will be using the `imgCUDA` pointer.  
-
-The image is loaded in `float4` RGBA format, with pixel values between 0.0 and 255.0.  
+The loaded image will be stored in shared memory that's mapped to both the CPU and GPU.  The image is loaded in `uchar3` RGB format, but the pixel type can be `uchar3, uchar4, float3, float4`.  For more info, see the [Image Manipulation with CUDA](aux-image.md) page.
 
 #### Loading the Image Recognition Network
 
-Using the [`imageNet::Create()`](../c/imageNet.h#L70) function, the following code will load the GoogleNet model with TensorRT, which was already downloaded when you initially [built the `jetson-inference` repo](building-repo-2.md#downloading-models).  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](../data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many different species of animals, along with everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
+Using the [`imageNet::Create()`](../c/imageNet.h#L108) function, the following code will load the GoogleNet model with TensorRT, which was already downloaded when you initially [built the repo](building-repo-2.md#downloading-models).  The model is pre-trained on the ImageNet ILSVRC12 dataset, which can recognize up to [1000 different classes](../data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many different species of animals, along with everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
 
 ``` cpp
 	// load the GoogleNet image recognition network with TensorRT
@@ -130,24 +192,23 @@ If desired, you can load other pre-trained models by changing the enum passed to
 
 #### Classifying the Image
 
-Next, we are going to classify the image with the image recognition network using the [`imageNet::Classify()`](../c/imageNet.h#L103) function:  
+Next, we are going to classify the image with the image recognition network using the [`imageNet::Classify()`](../c/imageNet.h#L159) function:  
 
 ``` cpp
 	// this variable will store the confidence of the classification (between 0 and 1)
 	float confidence = 0.0;
 
-	// classify the image with TensorRT on the GPU (hence we use the CUDA pointer)
-	// this will return the index of the object class that the image was recognized as (or -1 on error)
-	const int classIndex = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
+	// classify the image, return the object class index (or -1 on error)
+	const int classIndex = net->Classify(imgPtr, imgWidth, imgHeight, &confidence);
 ```
 
-[`imageNet::Classify()`](../c/imageNet.h#L103) accepts an image pointer in GPU memory, and performs the inferencing with TensorRT.  
+[`imageNet::Classify()`](../c/imageNet.h#L159) accepts an image pointer in GPU memory, and performs the inferencing with TensorRT.  
 
 It returns the index of the object class that the image was recognized as, along with the confidence value of the result.
 
 #### Interpreting the Results
 
-Unless the call to [`imageNet::Classify()`](../c/imageNet.h#L103) resulted in an error, let's print out the classification info of the recognized object:   
+Unless the call to [`imageNet::Classify()`](../c/imageNet.h#L159) resulted in an error, let's print out the classification info of the recognized object:   
 
 ``` cpp
 	// make sure a valid classification result was returned	
@@ -167,7 +228,7 @@ Unless the call to [`imageNet::Classify()`](../c/imageNet.h#L103) resulted in an
 	}
 ```
 
-Since [`imageNet::Classify()`](../c/imageNet.h#L103) returns an integer-based index of the object class (between 0 and 1000 for ILSVRC12), we use the [`imageNet::GetClassDesc()`](../c/imageNet.h#L140) function to retrieve a human-readable description of the object.  
+Since [`imageNet::Classify()`](../c/imageNet.h#L159) returns an integer-based index of the object class (between 0 and 1000 for ILSVRC12), we use the [`imageNet::GetClassDesc()`](../c/imageNet.h#L140) function to retrieve a human-readable description of the object.  
 
 These descriptions of the 1000 classes are parsed from [`ilsvrc12_synset_words.txt`](../data/networks/ilsvrc12_synset_words.txt) when the network gets loaded (this file was previously downloaded when the jetson-inference repo was built).  
 

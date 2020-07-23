@@ -1,7 +1,7 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="pytorch-transfer-learning.md">Back</a> | <a href="pytorch-plants.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
-<sup>Transfer Learning</sup></s></p>
+<sup>Transfer Learning - Classification</sup></s></p>
 
 # Re-training on the Cat/Dog Dataset
 
@@ -122,45 +122,65 @@ This will create a model called `resnet18.onnx` under `jetson-inference/python/t
 
 ## Processing Images with TensorRT
 
-To classify some static test images, we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/classification/`
+To classify some static test images, we'll use the extended command-line parameters to `imagenet` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/classification/`
 
 ```bash
 DATASET=~/datasets/cat_dog
 
 # C++
-imagenet-console --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
+imagenet --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
 
 # Python
-imagenet-console.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
+imagenet.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat.jpg">
 
 ```bash
 # C++
-imagenet-console --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
+imagenet --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
 
 # Python
-imagenet-console.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
+imagenet.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-dog.jpg">
 
-There are 200 test images included with the dataset between the cat and dog classes, or you can download your own pictures to try.  Next, we'll try running our re-trained model on a live camera feed.
+### Processing all the Test Images
+
+There are 200 test images included with the dataset between the cat and dog classes, or you can download your own pictures to try.  You can process them all like this:
+
+``` bash
+mkdir $DATASET/test_output_cat $DATASET/test_output_dog
+
+imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/../labels.txt \
+           $DATASET/test/cat $DATASET/test_output_cat
+
+imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/../labels.txt \
+           $DATASET/test/dog $DATASET/test_output_dog
+```
+
+In this instance, all the images will be read from the dataset's `test/` directory, and saved to the `test_output/` directory.  
+
+For more info about loading/saving sequences of images, see the [Camera Streaming and Multimedia](aux-streaming.md#sequences) page.
+
+Next, we'll try running our re-trained model on a live camera feed.
 
 ## Running the Live Camera Program
 
-If you have a furry friend at home, you can run the camera program and see how it works!  Like the previous step, `imagenet-camera` supports extended command-line parameters for loading customized models:
+If you have a furry friend at home, you can run the camera program and see how it works!  Like the previous step, `imagenet` supports extended command-line parameters for loading customized models:
 
 ```bash
 DATASET=~/datasets/cat_dog
 
-# C++
-imagenet-camera --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
+# C++ (MIPI CSI)
+imagenet --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 
-# Python
-imagenet-camera.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
+# Python (MIPI CSI)
+imagenet.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 ```
+> **note:** for information about supported video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
+
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-otto.jpg" width="500">
 
 ## Generating More Data (Optional)

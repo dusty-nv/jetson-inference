@@ -1,30 +1,27 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="detectnet-example-2.md">Back</a> | <a href="segnet-camera-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Semantic Segmentation</sup></s></p>
 
 # Semantic Segmentation with SegNet
-The next deep learning capability we'll cover in this tutorial is **semantic segmentation**.  Semantic segmentation is based on image recognition, except the classifications occur at the pixel level as opposed to the entire image.  This is accomplished by *convolutionalizing* a pre-trained image recognition backbone, which transforms the model into a [Fully Convolutional Network (FCN)](https://arxiv.org/abs/1605.06211) capable of per-pixel labelling.  Especially useful for environmental perception, segmentation yields dense per-pixel classifications of many different potential objects per scene, including scene foregrounds and backgrounds.
+The next deep learning capability we'll cover in this tutorial is **semantic segmentation**.  Semantic segmentation is based on image recognition, except the classifications occur at the pixel level as opposed to the entire image.  This is accomplished by *convolutionalizing* a pre-trained image recognition backbone, which transforms the model into a [Fully Convolutional Network (FCN)](https://arxiv.org/abs/1605.06211) capable of per-pixel labeling.  Especially useful for environmental perception, segmentation yields dense per-pixel classifications of many different potential objects per scene, including scene foregrounds and backgrounds.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation.jpg" width="900">
 
 `segNet` accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.  `segNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) and [C++](../c/segNet.h).  
 
-As examples of using `segNet` we provide versions of a command-line interface for C++ and Python:
+As examples of using the `segNet` class, we provide sample programs C++ and Python:
 
-- [`segnet-console.cpp`](../examples/segnet-console/segnet-console.cpp) (C++) 
-- [`segnet-console.py`](../python/examples/segnet-console.py) (Python) 
+- [`segnet.cpp`](../examples/segnet/segnet.cpp) (C++) 
+- [`segnet.py`](../python/examples/segnet.py) (Python) 
 
-Later in the tutorial, we'll also cover segmentation on live camera streams from C++ and Python:
-
-- [`segnet-camera.cpp`](../examples/segnet-camera/segnet-camera.cpp) (C++)
-- [`segnet-camera.py`](../python/examples/segnet-camera.py) (Python) 
+These samples are able to segment images, videos, and camera feeds.  For more info about the various types of input/output streams supported, see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
 See [below](#pretrained-segmentation-models-available) for various pre-trained segmentation models available that use the FCN-ResNet18 network with realtime performance on Jetson.  Models are provided for a variety of environments and subject matter, including urban cities, off-road trails, and indoor office spaces and homes.
 
 ### Pre-Trained Segmentation Models Available
 
-Below is a table of the pre-trained semantic segmentation models available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `segnet-console` used for loading them.  They're based on the 21-class FCN-ResNet18 network and have been trained on various datasets and resolutions using [PyTorch](https://github.com/dusty-nv/pytorch-segmentation), and were exported to [ONNX format](https://onnx.ai/) to be loaded with TensorRT.
+Below is a table of the pre-trained semantic segmentation models available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `segnet` used for loading them.  They're based on the 21-class FCN-ResNet18 network and have been trained on various datasets and resolutions using [PyTorch](https://github.com/dusty-nv/pytorch-segmentation), and were exported to [ONNX format](https://onnx.ai/) to be loaded with TensorRT.
 
 | Dataset      | Resolution | CLI Argument | Accuracy | Jetson Nano | Jetson Xavier |
 |:------------:|:----------:|--------------|:--------:|:-----------:|:-------------:|
@@ -47,39 +44,35 @@ Below is a table of the pre-trained semantic segmentation models available for [
 > **note**:  to download additional networks, run the [Model Downloader](building-repo-2.md#downloading-models) tool<br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
-<br/>
 
 ### Segmenting Images from the Command Line
 
-The `segnet-console` program can be used to segment static images.  It accepts 3 command line parameters:
+First, let's try using the `segnet` program to segment static images.  In addition to the input/output paths, there are some additional command-line options:
 
-- the path to an input image  (`jpg, png, tga, bmp`)
-- optional path to output image  (`jpg, png, tga, bmp`)
 - optional `--network` flag changes the segmentation model being used (see [above](#pre-trained-segmentation-models-available))
-- optional `--visualize` flag accepts `mask` or `overlay` modes (default is `overlay`)
+- optional `--visualize` flag accepts `mask` and/or `overlay` modes (default is `overlay`)
 - optional `--alpha` flag sets the alpha blending value for `overlay` (default is `120`)
 - optional `--filter-mode` flag accepts `point` or `linear` sampling (default is `linear`)
 
-Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Code Examples`](../README.md#code-examples) readme.
+Launch the application with the `--help` flag for more info, and refer to the [Camera Streaming and Multimedia](aux-streaming.md) page for supported input/output protocols.
 
 Here are some example usages of the program:
 
 #### C++
 
 ``` bash
-$ ./segnet-console --network=<model> input.jpg output.jpg                  # overlay segmentation on original
-$ ./segnet-console --network=<model> --alpha=200 input.jpg output.jpg      # make the overlay less opaque
-$ ./segnet-console --network=<model> --visualize=mask input.jpg output.jpg # output the solid segmentation mask
+$ ./segnet --network=<model> input.jpg output.jpg                  # overlay segmentation on original
+$ ./segnet --network=<model> --alpha=200 input.jpg output.jpg      # make the overlay less opaque
+$ ./segnet --network=<model> --visualize=mask input.jpg output.jpg # output the solid segmentation mask
 ```
 
 #### Python
 
 ``` bash
-$ ./segnet-console.py --network=<model> input.jpg output.jpg                  # overlay segmentation on original
-$ ./segnet-console.py --network=<model> --alpha=200 input.jpg output.jpg      # make the overlay less opaque
-$ ./segnet-console.py --network=<model> --visualize=mask input.jpg output.jpg # output the segmentation mask
+$ ./segnet.py --network=<model> input.jpg output.jpg                  # overlay segmentation on original
+$ ./segnet.py --network=<model> --alpha=200 input.jpg output.jpg      # make the overlay less opaque
+$ ./segnet.py --network=<model> --visualize=mask input.jpg output.jpg # output the segmentation mask
 ```
-<br/>
 
 ### Cityscapes
 
@@ -87,10 +80,10 @@ Let's look at some different scenarios.  Here's an example of segmenting an urba
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-cityscapes images/city_0.jpg output.jpg
+$ ./segnet --network=fcn-resnet18-cityscapes images/city_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-cityscapes images/city_0.jpg output.jpg
+$ ./segnet.py --network=fcn-resnet18-cityscapes images/city_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-city.jpg" width="900">
@@ -104,14 +97,14 @@ Here's an example of generating the segmentation overlay and mask by specifying 
 
 #### C++
 ``` bash
-$ ./segnet-console --network=fcn-resnet18-deepscene images/trail_0.jpg output_overlay.jpg                # overlay
-$ ./segnet-console --network=fcn-resnet18-deepscene --visualize=mask images/trail_0.jpg output_mask.jpg  # mask
+$ ./segnet --network=fcn-resnet18-deepscene images/trail_0.jpg output_overlay.jpg                # overlay
+$ ./segnet --network=fcn-resnet18-deepscene --visualize=mask images/trail_0.jpg output_mask.jpg  # mask
 ```
 
 #### Python
 ``` bash
-$ ./segnet-console.py --network=fcn-resnet18-deepscene images/trail_0.jpg output_overlay.jpg               # overlay
-$ ./segnet-console.py --network=fcn-resnet18-deepscene --visualize=mask images/trail_0.jpg output_mask.jpg # mask
+$ ./segnet.py --network=fcn-resnet18-deepscene images/trail_0.jpg output_overlay.jpg               # overlay
+$ ./segnet.py --network=fcn-resnet18-deepscene --visualize=mask images/trail_0.jpg output_mask.jpg # mask
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-overlay.jpg" width="850">
@@ -126,10 +119,10 @@ There are more sample images called `trail-*.jpg` located under the `images/` su
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-mhp images/humans_0.jpg output.jpg
+$ ./segnet --network=fcn-resnet18-mhp images/humans_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-mhp images/humans_0.jpg output.jpg
+$ ./segnet.py --network=fcn-resnet18-mhp images/humans_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-mhp-0.jpg" width="825">
@@ -145,10 +138,10 @@ $ ./segnet-console.py --network=fcn-resnet18-mhp images/humans_0.jpg output.jpg
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-voc images/object_0.jpg output.jpg
+$ ./segnet --network=fcn-resnet18-voc images/object_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-voc images/object_0.jpg output.jpg
+$ ./segnet.py --network=fcn-resnet18-voc images/object_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc.jpg" width="900">
@@ -163,10 +156,10 @@ The [SUN RGB-D](http://rgbd.cs.princeton.edu/) dataset provides segmentation gro
 
 ``` bash
 # C++
-$ ./segnet-console --network=fcn-resnet18-sun images/room_0.jpg output.jpg
+$ ./segnet --network=fcn-resnet18-sun images/room_0.jpg output.jpg
 
 # Python
-$ ./segnet-console.py --network=fcn-resnet18-sun images/room_0.jpg output.jpg
+$ ./segnet.py --network=fcn-resnet18-sun images/room_0.jpg output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun.jpg" width="900">
@@ -175,17 +168,21 @@ $ ./segnet-console.py --network=fcn-resnet18-sun images/room_0.jpg output.jpg
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun-legend.jpg">
 
-### Processing a Directory of Images
+### Processing a Directory or Sequence of Images
 
-For convenience, there's also a Python script provided called [`segnet-batch.py`](../python/examples/segnet-batch.py) for batch processing folders of images.
-
-It's launched by specifying the `--network` option like above, and providing paths to the input and output directories:
+If you want to process a directory or sequence of images, you can launch the program with the path to the directory that contains images or a wildcard sequence:
 
 ``` bash
-$ ./segnet-batch.py --network=<model> <input-dir> <output-dir>
+# C++
+$ ./segnet --network=fcn-resnet18-sun "images/room_*.jpg" room_output_%i.jpg
+
+# Python
+$ ./segnet.py --network=fcn-resnet18-sun "images/room_*.jpg" room_output_%i.jpg
 ```
 
-That wraps up the segmentation models and command-line utilities.  Next, we'll run it on a live camera stream.
+> **note:** when using wildcards, always enclose it in quotes (`"*.jpg"`). Otherwise, the OS will auto-expand the sequence and modify the order of arguments on the command-line, which may result in one of the input images being overwritten by the output.
+
+For more info about loading/saving sequences of images, see the [Camera Streaming and Multimedia](aux-streaming.md#sequences) page.  Next, we'll run segmentation on a live camera or video stream.
 
 ##
 <p align="right">Next | <b><a href="segnet-camera-2.md">Running the Live Camera Segmentation Demo</a></b>

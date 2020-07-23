@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('classcudaFont.html','');});
 <a href="#pro-static-attribs">Static Protected Attributes</a> &#124;
 <a href="classcudaFont-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">cudaFont Class Reference<div class="ingroups"><a class="el" href="group__util.html">Utilities Library (jetson-utils)</a> &raquo; <a class="el" href="group__cuda.html">CUDA</a> &raquo; <a class="el" href="group__cudaFont.html">cudaFont</a></div></div>  </div>
+<div class="title">cudaFont Class Reference<div class="ingroups"><a class="el" href="group__util.html">Utilities Library (jetson-utils)</a> &raquo; <a class="el" href="group__cuda.html">CUDA</a> &raquo; <a class="el" href="group__cudaFont.html">Fonts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -109,12 +109,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1637d4c711b3ed83184e49734d540f5a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcudaFont.html#a1637d4c711b3ed83184e49734d540f5a">~cudaFont</a> ()</td></tr>
 <tr class="memdesc:a1637d4c711b3ed83184e49734d540f5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#a1637d4c711b3ed83184e49734d540f5a">More...</a><br /></td></tr>
 <tr class="separator:a1637d4c711b3ed83184e49734d540f5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a760fe2fac4668374143199f97455b9be"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcudaFont.html#a760fe2fac4668374143199f97455b9be">OverlayText</a> (float4 *image, uint32_t width, uint32_t height, const char *str, int x, int y, const float4 &amp;color=make_float4(0, 0, 0, 255), const float4 &amp;background=make_float4(0, 0, 0, 0), int backgroundPadding=5)</td></tr>
-<tr class="memdesc:a760fe2fac4668374143199f97455b9be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render text overlay onto image.  <a href="#a760fe2fac4668374143199f97455b9be">More...</a><br /></td></tr>
-<tr class="separator:a760fe2fac4668374143199f97455b9be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95a0b6cc1d264f3b2f5f835befefd57c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcudaFont.html#a95a0b6cc1d264f3b2f5f835befefd57c">OverlayText</a> (float4 *image, uint32_t width, uint32_t height, const std::vector&lt; std::pair&lt; std::string, int2 &gt; &gt; &amp;text, const float4 &amp;color=make_float4(0, 0, 0, 255), const float4 &amp;background=make_float4(0, 0, 0, 0), int backgroundPadding=5)</td></tr>
-<tr class="memdesc:a95a0b6cc1d264f3b2f5f835befefd57c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render text overlay onto image.  <a href="#a95a0b6cc1d264f3b2f5f835befefd57c">More...</a><br /></td></tr>
-<tr class="separator:a95a0b6cc1d264f3b2f5f835befefd57c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a609ae416dfaf09d631968d73c5edd059"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcudaFont.html#a609ae416dfaf09d631968d73c5edd059">OverlayText</a> (void *image, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, uint32_t width, uint32_t height, const char *str, int x, int y, const float4 &amp;<a class="el" href="cudaPointCloud_8h.html#a549d5369c70bd71a70798aa5b1ea4270">color</a>=<a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0, 0, 0, 255), const float4 &amp;background=<a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0, 0, 0, 0), int backgroundPadding=5)</td></tr>
+<tr class="memdesc:a609ae416dfaf09d631968d73c5edd059"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render text overlay onto image.  <a href="#a609ae416dfaf09d631968d73c5edd059">More...</a><br /></td></tr>
+<tr class="separator:a609ae416dfaf09d631968d73c5edd059"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e90abe01820bbe0d30b80a7c9a7bc2d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcudaFont.html#a4e90abe01820bbe0d30b80a7c9a7bc2d">OverlayText</a> (void *image, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, uint32_t width, uint32_t height, const std::vector&lt; std::pair&lt; std::string, int2 &gt; &gt; &amp;text, const float4 &amp;<a class="el" href="cudaPointCloud_8h.html#a549d5369c70bd71a70798aa5b1ea4270">color</a>=<a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0, 0, 0, 255), const float4 &amp;background=<a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0, 0, 0, 0), int backgroundPadding=5)</td></tr>
+<tr class="memdesc:a4e90abe01820bbe0d30b80a7c9a7bc2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render text overlay onto image.  <a href="#a4e90abe01820bbe0d30b80a7c9a7bc2d">More...</a><br /></td></tr>
+<tr class="separator:a4e90abe01820bbe0d30b80a7c9a7bc2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a26e9ac15e9471527a012d6c0629546"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a3a26e9ac15e9471527a012d6c0629546"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcudaFont.html#a3a26e9ac15e9471527a012d6c0629546">OverlayText</a> (T *image, uint32_t width, uint32_t height, const char *str, int x, int y, const float4 &amp;<a class="el" href="cudaPointCloud_8h.html#a549d5369c70bd71a70798aa5b1ea4270">color</a>=<a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0, 0, 0, 255), const float4 &amp;background=<a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0, 0, 0, 0), int backgroundPadding=5)</td></tr>
+<tr class="memdesc:a3a26e9ac15e9471527a012d6c0629546"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render text overlay onto image.  <a href="#a3a26e9ac15e9471527a012d6c0629546">More...</a><br /></td></tr>
+<tr class="separator:a3a26e9ac15e9471527a012d6c0629546"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0c958d1f5c6ad053835919f792824b6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ac0c958d1f5c6ad053835919f792824b6"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcudaFont.html#ac0c958d1f5c6ad053835919f792824b6">OverlayText</a> (T *image, uint32_t width, uint32_t height, const std::vector&lt; std::pair&lt; std::string, int2 &gt; &gt; &amp;text, const float4 &amp;<a class="el" href="cudaPointCloud_8h.html#a549d5369c70bd71a70798aa5b1ea4270">color</a>=<a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0, 0, 0, 255), const float4 &amp;background=<a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0, 0, 0, 0), int backgroundPadding=5)</td></tr>
+<tr class="memdesc:ac0c958d1f5c6ad053835919f792824b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render text overlay onto image.  <a href="#ac0c958d1f5c6ad053835919f792824b6">More...</a><br /></td></tr>
+<tr class="separator:ac0c958d1f5c6ad053835919f792824b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afadb0093101fb2f95f0929191c59c47d"><td class="memItemLeft" align="right" valign="top">int4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcudaFont.html#afadb0093101fb2f95f0929191c59c47d">TextExtents</a> (const char *str, int x=0, int y=0)</td></tr>
 <tr class="memdesc:afadb0093101fb2f95f0929191c59c47d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the bounding rectangle of the given text string.  <a href="#afadb0093101fb2f95f0929191c59c47d">More...</a><br /></td></tr>
 <tr class="separator:afadb0093101fb2f95f0929191c59c47d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -382,8 +390,8 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a760fe2fac4668374143199f97455b9be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a760fe2fac4668374143199f97455b9be">&#9670;&nbsp;</a></span>OverlayText() <span class="overload">[1/2]</span></h2>
+<a id="a609ae416dfaf09d631968d73c5edd059"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a609ae416dfaf09d631968d73c5edd059">&#9670;&nbsp;</a></span>OverlayText() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -391,7 +399,156 @@ Static Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">bool cudaFont::OverlayText </td>
           <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float4 &amp;&#160;</td>
+          <td class="paramname"><em>color</em> = <code><a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0,&#160;0,&#160;0,&#160;255)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float4 &amp;&#160;</td>
+          <td class="paramname"><em>background</em> = <code><a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0,&#160;0,&#160;0,&#160;0)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>backgroundPadding</em> = <code>5</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Render text overlay onto image. </p>
+
+</div>
+</div>
+<a id="a4e90abe01820bbe0d30b80a7c9a7bc2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e90abe01820bbe0d30b80a7c9a7bc2d">&#9670;&nbsp;</a></span>OverlayText() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cudaFont::OverlayText </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::pair&lt; std::string, int2 &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float4 &amp;&#160;</td>
+          <td class="paramname"><em>color</em> = <code><a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0,&#160;0,&#160;0,&#160;255)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float4 &amp;&#160;</td>
+          <td class="paramname"><em>background</em> = <code><a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0,&#160;0,&#160;0,&#160;0)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>backgroundPadding</em> = <code>5</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Render text overlay onto image. </p>
+
+</div>
+</div>
+<a id="a3a26e9ac15e9471527a012d6c0629546"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a26e9ac15e9471527a012d6c0629546">&#9670;&nbsp;</a></span>OverlayText() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cudaFont::OverlayText </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
           <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
@@ -428,13 +585,13 @@ Static Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const float4 &amp;&#160;</td>
-          <td class="paramname"><em>color</em> = <code>make_float4(0,&#160;0,&#160;0,&#160;255)</code>, </td>
+          <td class="paramname"><em>color</em> = <code><a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0,&#160;0,&#160;0,&#160;255)</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const float4 &amp;&#160;</td>
-          <td class="paramname"><em>background</em> = <code>make_float4(0,&#160;0,&#160;0,&#160;0)</code>, </td>
+          <td class="paramname"><em>background</em> = <code><a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0,&#160;0,&#160;0,&#160;0)</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -448,22 +605,32 @@ Static Protected Attributes</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Render text overlay onto image. </p>
 
 </div>
 </div>
-<a id="a95a0b6cc1d264f3b2f5f835befefd57c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95a0b6cc1d264f3b2f5f835befefd57c">&#9670;&nbsp;</a></span>OverlayText() <span class="overload">[2/2]</span></h2>
+<a id="ac0c958d1f5c6ad053835919f792824b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0c958d1f5c6ad053835919f792824b6">&#9670;&nbsp;</a></span>OverlayText() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool cudaFont::OverlayText </td>
           <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
+          <td class="paramtype">T *&#160;</td>
           <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
@@ -488,13 +655,13 @@ Static Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const float4 &amp;&#160;</td>
-          <td class="paramname"><em>color</em> = <code>make_float4(0,&#160;0,&#160;0,&#160;255)</code>, </td>
+          <td class="paramname"><em>color</em> = <code><a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0,&#160;0,&#160;0,&#160;255)</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const float4 &amp;&#160;</td>
-          <td class="paramname"><em>background</em> = <code>make_float4(0,&#160;0,&#160;0,&#160;0)</code>, </td>
+          <td class="paramname"><em>background</em> = <code><a class="el" href="cudaMath_8h.html#aec09216896e043fa3f4c982091cc3726">make_float4</a>(0,&#160;0,&#160;0,&#160;0)</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -508,6 +675,11 @@ Static Protected Attributes</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Render text overlay onto image. </p>
@@ -890,7 +1062,7 @@ Static Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classcudaFont.html">cudaFont</a></li>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 14 2020 21:59:34 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -82,10 +82,12 @@ $(document).ready(function(){initNavTree('classglDisplay.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#pro-static-attribs">Static Protected Attributes</a> &#124;
 <a href="classglDisplay-members.html">List of all members</a>  </div>
@@ -94,84 +96,295 @@ $(document).ready(function(){initNavTree('classglDisplay.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p>OpenGL display window / video viewer.  
+<p>OpenGL display window and image/video renderer with CUDA interoperability.  
  <a href="classglDisplay.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="glDisplay_8h_source.html">glDisplay.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for glDisplay:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classglDisplay.png" usemap="#glDisplay_map" alt=""/>
+  <map id="glDisplay_map" name="glDisplay_map">
+<area href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w..." alt="videoOutput" shape="rect" coords="0,0,80,24"/>
+</map>
+ </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structglDisplay_1_1eventHandler.html">eventHandler</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3978a9f43490e6f19268ca5225679c60"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a3978a9f43490e6f19268ca5225679c60">~glDisplay</a> ()</td></tr>
 <tr class="memdesc:a3978a9f43490e6f19268ca5225679c60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy window.  <a href="#a3978a9f43490e6f19268ca5225679c60">More...</a><br /></td></tr>
 <tr class="separator:a3978a9f43490e6f19268ca5225679c60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33ed83d87e71cbfcef7347b41f541203"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a33ed83d87e71cbfcef7347b41f541203">BeginRender</a> (bool userEvents=true)</td></tr>
-<tr class="memdesc:a33ed83d87e71cbfcef7347b41f541203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear window and begin rendering a frame.  <a href="#a33ed83d87e71cbfcef7347b41f541203">More...</a><br /></td></tr>
-<tr class="separator:a33ed83d87e71cbfcef7347b41f541203"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97612036c5849cb4d7026337f2603c87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a97612036c5849cb4d7026337f2603c87">EndRender</a> ()</td></tr>
-<tr class="memdesc:a97612036c5849cb4d7026337f2603c87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finish rendering and refresh / flip the backbuffer.  <a href="#a97612036c5849cb4d7026337f2603c87">More...</a><br /></td></tr>
-<tr class="separator:a97612036c5849cb4d7026337f2603c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a528c58b4fcecd7d3d516f44de3233538"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a528c58b4fcecd7d3d516f44de3233538">Render</a> (<a class="el" href="classglTexture.html">glTexture</a> *texture, float x=5.0f, float y=30.0f)</td></tr>
-<tr class="memdesc:a528c58b4fcecd7d3d516f44de3233538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render an OpenGL texture.  <a href="#a528c58b4fcecd7d3d516f44de3233538">More...</a><br /></td></tr>
-<tr class="separator:a528c58b4fcecd7d3d516f44de3233538"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a763b4f1878de0b6c1e2d1961064d158b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a763b4f1878de0b6c1e2d1961064d158b">Render</a> (float *image, uint32_t width, uint32_t height, float x=0.0f, float y=30.0f, bool normalize=true)</td></tr>
-<tr class="memdesc:a763b4f1878de0b6c1e2d1961064d158b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a CUDA float4 image using OpenGL interop If normalize is true, the image's pixel values will be rescaled from the range of [0-255] to [0-1] If normalize is false, the image's pixel values are assumed to already be in the range of [0-1] Note that if normalization is selected to be performed, it will be done in-place on the image.  <a href="#a763b4f1878de0b6c1e2d1961064d158b">More...</a><br /></td></tr>
-<tr class="separator:a763b4f1878de0b6c1e2d1961064d158b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a616a3220a6575d31bad5de69eca71e0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a616a3220a6575d31bad5de69eca71e0f">RenderOnce</a> (float *image, uint32_t width, uint32_t height, float x=5.0f, float y=30.0f, bool normalize=true)</td></tr>
-<tr class="memdesc:a616a3220a6575d31bad5de69eca71e0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin the frame, render one CUDA float4 image using OpenGL interop, and end the frame.  <a href="#a616a3220a6575d31bad5de69eca71e0f">More...</a><br /></td></tr>
-<tr class="separator:a616a3220a6575d31bad5de69eca71e0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12363aea016c16935833e2b58806d4c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a12363aea016c16935833e2b58806d4c8">UserEvents</a> ()</td></tr>
-<tr class="memdesc:a12363aea016c16935833e2b58806d4c8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classProcess.html" title="Static functions for retrieving information about the running process. ">Process</a> UI events.  <a href="#a12363aea016c16935833e2b58806d4c8">More...</a><br /></td></tr>
-<tr class="separator:a12363aea016c16935833e2b58806d4c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5dd4727a6a11d533c49a37c68791123f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a5dd4727a6a11d533c49a37c68791123f">onEvent</a> (uint msg, int a, int b)</td></tr>
-<tr class="memdesc:a5dd4727a6a11d533c49a37c68791123f"><td class="mdescLeft">&#160;</td><td class="mdescRight">UI event handler.  <a href="#a5dd4727a6a11d533c49a37c68791123f">More...</a><br /></td></tr>
-<tr class="separator:a5dd4727a6a11d533c49a37c68791123f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c96e8b41901e1b0555baef0433d5794"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a7c96e8b41901e1b0555baef0433d5794">IsOpen</a> () const</td></tr>
 <tr class="memdesc:a7c96e8b41901e1b0555baef0433d5794"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the window is open.  <a href="#a7c96e8b41901e1b0555baef0433d5794">More...</a><br /></td></tr>
 <tr class="separator:a7c96e8b41901e1b0555baef0433d5794"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a634ed5ff30a1d2944f3667157a649c9a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a634ed5ff30a1d2944f3667157a649c9a">IsClosed</a> () const</td></tr>
 <tr class="memdesc:a634ed5ff30a1d2944f3667157a649c9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the window has been closed.  <a href="#a634ed5ff30a1d2944f3667157a649c9a">More...</a><br /></td></tr>
 <tr class="separator:a634ed5ff30a1d2944f3667157a649c9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89c660203dc7e4c95ebf1069681121b1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a89c660203dc7e4c95ebf1069681121b1">IsRendering</a> () const</td></tr>
+<tr class="memdesc:a89c660203dc7e4c95ebf1069681121b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if between <a class="el" href="classglDisplay.html#aa8abd41c4dbaca15b2d092168ee14a83" title="Clear window and begin rendering a frame. ">BeginRender()</a> and <a class="el" href="classglDisplay.html#a97612036c5849cb4d7026337f2603c87" title="Finish rendering and refresh / flip the backbuffer. ">EndRender()</a>  <a href="#a89c660203dc7e4c95ebf1069681121b1">More...</a><br /></td></tr>
+<tr class="separator:a89c660203dc7e4c95ebf1069681121b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a130822b4a5eda58692c0899627790700"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a130822b4a5eda58692c0899627790700">GetFPS</a> () const</td></tr>
 <tr class="memdesc:a130822b4a5eda58692c0899627790700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the average frame time (in milliseconds).  <a href="#a130822b4a5eda58692c0899627790700">More...</a><br /></td></tr>
 <tr class="separator:a130822b4a5eda58692c0899627790700"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a438d449fcde781da3d817855768ff1fd"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a438d449fcde781da3d817855768ff1fd">GetWidth</a> () const</td></tr>
-<tr class="memdesc:a438d449fcde781da3d817855768ff1fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the width of the window (in pixels)  <a href="#a438d449fcde781da3d817855768ff1fd">More...</a><br /></td></tr>
-<tr class="separator:a438d449fcde781da3d817855768ff1fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d1a9d351c3245607283c6d40af5d6d7"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a7d1a9d351c3245607283c6d40af5d6d7">GetHeight</a> () const</td></tr>
-<tr class="memdesc:a7d1a9d351c3245607283c6d40af5d6d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the height of the window (in pixels)  <a href="#a7d1a9d351c3245607283c6d40af5d6d7">More...</a><br /></td></tr>
-<tr class="separator:a7d1a9d351c3245607283c6d40af5d6d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a4943779f0d036af2e49fc9d9a8aade"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a4a4943779f0d036af2e49fc9d9a8aade">SetTitle</a> (const char *str)</td></tr>
-<tr class="memdesc:a4a4943779f0d036af2e49fc9d9a8aade"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the window title string.  <a href="#a4a4943779f0d036af2e49fc9d9a8aade">More...</a><br /></td></tr>
-<tr class="separator:a4a4943779f0d036af2e49fc9d9a8aade"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeccd8e8b25430ff8f9cf91cf79a4d7fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aeccd8e8b25430ff8f9cf91cf79a4d7fa">SetBackgroundColor</a> (float r, float g, float b, float a)</td></tr>
-<tr class="memdesc:aeccd8e8b25430ff8f9cf91cf79a4d7fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the background color.  <a href="#aeccd8e8b25430ff8f9cf91cf79a4d7fa">More...</a><br /></td></tr>
-<tr class="separator:aeccd8e8b25430ff8f9cf91cf79a4d7fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14cf9b4f8c585e52963e8f644b816cd1"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a14cf9b4f8c585e52963e8f644b816cd1">GetID</a> () const</td></tr>
+<tr class="memdesc:a14cf9b4f8c585e52963e8f644b816cd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the ID of this display instance into <a class="el" href="group__OpenGL.html#ga6af68c26b9f5254ee676de8b6f332ad4" title="Retrieve a display window object. ">glGetDisplay()</a>  <a href="#a14cf9b4f8c585e52963e8f644b816cd1">More...</a><br /></td></tr>
+<tr class="separator:a14cf9b4f8c585e52963e8f644b816cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dd585c39b61c2b06c4bf21b9663ef93"><td class="memItemLeft" align="right" valign="top">virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a2dd585c39b61c2b06c4bf21b9663ef93">GetType</a> () const</td></tr>
+<tr class="memdesc:a2dd585c39b61c2b06c4bf21b9663ef93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the interface type (<a class="el" href="classglDisplay.html#a13bebe88c1df15a70255134da202a131" title="Unique type identifier of glDisplay class. ">glDisplay::Type</a>)  <a href="#a2dd585c39b61c2b06c4bf21b9663ef93">More...</a><br /></td></tr>
+<tr class="separator:a2dd585c39b61c2b06c4bf21b9663ef93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Frame Begin + End</div></td></tr>
+<tr class="memitem:aa8abd41c4dbaca15b2d092168ee14a83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aa8abd41c4dbaca15b2d092168ee14a83">BeginRender</a> (bool processEvents=true)</td></tr>
+<tr class="memdesc:aa8abd41c4dbaca15b2d092168ee14a83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear window and begin rendering a frame.  <a href="#aa8abd41c4dbaca15b2d092168ee14a83">More...</a><br /></td></tr>
+<tr class="separator:aa8abd41c4dbaca15b2d092168ee14a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97612036c5849cb4d7026337f2603c87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a97612036c5849cb4d7026337f2603c87">EndRender</a> ()</td></tr>
+<tr class="memdesc:a97612036c5849cb4d7026337f2603c87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finish rendering and refresh / flip the backbuffer.  <a href="#a97612036c5849cb4d7026337f2603c87">More...</a><br /></td></tr>
+<tr class="separator:a97612036c5849cb4d7026337f2603c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Image Rendering</div></td></tr>
+<tr class="memitem:a528c58b4fcecd7d3d516f44de3233538"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a528c58b4fcecd7d3d516f44de3233538">Render</a> (<a class="el" href="classglTexture.html">glTexture</a> *texture, float x=5.0f, float y=30.0f)</td></tr>
+<tr class="memdesc:a528c58b4fcecd7d3d516f44de3233538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render an OpenGL texture.  <a href="#a528c58b4fcecd7d3d516f44de3233538">More...</a><br /></td></tr>
+<tr class="separator:a528c58b4fcecd7d3d516f44de3233538"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a763b4f1878de0b6c1e2d1961064d158b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a763b4f1878de0b6c1e2d1961064d158b">Render</a> (float *image, uint32_t width, uint32_t height, float x=0.0f, float y=30.0f, bool normalize=true)</td></tr>
+<tr class="memdesc:a763b4f1878de0b6c1e2d1961064d158b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a CUDA float4 image using OpenGL interop If normalize is true, the image's pixel values will be rescaled from the range of [0-255] to [0-1] If normalize is false, the image's pixel values are assumed to already be in the range of [0-1] Note that if normalization is selected to be performed, it will be done in-place on the image.  <a href="#a763b4f1878de0b6c1e2d1961064d158b">More...</a><br /></td></tr>
+<tr class="separator:a763b4f1878de0b6c1e2d1961064d158b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17d12d2c47a7015917dd047734eb3e73"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a17d12d2c47a7015917dd047734eb3e73"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a17d12d2c47a7015917dd047734eb3e73">Render</a> (T *image, uint32_t width, uint32_t height)</td></tr>
+<tr class="memdesc:a17d12d2c47a7015917dd047734eb3e73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a CUDA image (uchar3, uchar4, float3, float4) using OpenGL interop.  <a href="#a17d12d2c47a7015917dd047734eb3e73">More...</a><br /></td></tr>
+<tr class="separator:a17d12d2c47a7015917dd047734eb3e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f4e4625ea4d5c1d875dc521d38ace0d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a5f4e4625ea4d5c1d875dc521d38ace0d">Render</a> (void *image, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
+<tr class="memdesc:a5f4e4625ea4d5c1d875dc521d38ace0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a CUDA image (uchar3, uchar4, float3, float4) using OpenGL interop.  <a href="#a5f4e4625ea4d5c1d875dc521d38ace0d">More...</a><br /></td></tr>
+<tr class="separator:a5f4e4625ea4d5c1d875dc521d38ace0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5209a3268ef0abe27d00dd012594f793"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a5209a3268ef0abe27d00dd012594f793">RenderImage</a> (void *image, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, float x=0.0f, float y=30.0f, bool normalize=true)</td></tr>
+<tr class="memdesc:a5209a3268ef0abe27d00dd012594f793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a CUDA image (uchar3, uchar4, float3, float4) using OpenGL interop.  <a href="#a5209a3268ef0abe27d00dd012594f793">More...</a><br /></td></tr>
+<tr class="separator:a5209a3268ef0abe27d00dd012594f793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a117190eeed8ed905cb9330552edd9625"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a117190eeed8ed905cb9330552edd9625">RenderOnce</a> (void *image, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, float x=5.0f, float y=30.0f, bool normalize=true)</td></tr>
+<tr class="memdesc:a117190eeed8ed905cb9330552edd9625"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin the frame, render one CUDA image using OpenGL interop, and end the frame.  <a href="#a117190eeed8ed905cb9330552edd9625">More...</a><br /></td></tr>
+<tr class="separator:a117190eeed8ed905cb9330552edd9625"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a616a3220a6575d31bad5de69eca71e0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a616a3220a6575d31bad5de69eca71e0f">RenderOnce</a> (float *image, uint32_t width, uint32_t height, float x=5.0f, float y=30.0f, bool normalize=true)</td></tr>
+<tr class="memdesc:a616a3220a6575d31bad5de69eca71e0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin the frame, render one CUDA float4 image using OpenGL interop, and end the frame.  <a href="#a616a3220a6575d31bad5de69eca71e0f">More...</a><br /></td></tr>
+<tr class="separator:a616a3220a6575d31bad5de69eca71e0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Vector Rendering</div></td></tr>
+<tr class="memitem:a13db65eada3b098f3e301fee10de9917"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a13db65eada3b098f3e301fee10de9917">RenderLine</a> (float x1, float y1, float x2, float y2, float r, float g, float b, float a=1.0f, float thickness=2.0f)</td></tr>
+<tr class="memdesc:a13db65eada3b098f3e301fee10de9917"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a line in screen coordinates with the specified color.  <a href="#a13db65eada3b098f3e301fee10de9917">More...</a><br /></td></tr>
+<tr class="separator:a13db65eada3b098f3e301fee10de9917"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58a8c3a68b96d5e52484354634ffec3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a58a8c3a68b96d5e52484354634ffec3b">RenderOutline</a> (float x, float y, float width, float height, float r, float g, float b, float a=1.0f, float thickness=2.0f)</td></tr>
+<tr class="memdesc:a58a8c3a68b96d5e52484354634ffec3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the outline of a rect in screen coordinates with the specified color.  <a href="#a58a8c3a68b96d5e52484354634ffec3b">More...</a><br /></td></tr>
+<tr class="separator:a58a8c3a68b96d5e52484354634ffec3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac390303fad04b7ffac04f208f48ea536"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#ac390303fad04b7ffac04f208f48ea536">RenderRect</a> (float x, float y, float width, float height, float r, float g, float b, float a=1.0f)</td></tr>
+<tr class="memdesc:ac390303fad04b7ffac04f208f48ea536"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a filled rect in screen coordinates with the specified color.  <a href="#ac390303fad04b7ffac04f208f48ea536">More...</a><br /></td></tr>
+<tr class="separator:ac390303fad04b7ffac04f208f48ea536"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9621c6abd6509bf14feb104684477861"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a9621c6abd6509bf14feb104684477861">RenderRect</a> (float r, float g, float b, float a=1.0f)</td></tr>
+<tr class="memdesc:a9621c6abd6509bf14feb104684477861"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a filled rect covering the current viewport with the specified color.  <a href="#a9621c6abd6509bf14feb104684477861">More...</a><br /></td></tr>
+<tr class="separator:a9621c6abd6509bf14feb104684477861"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Window Resizing</div></td></tr>
+<tr class="memitem:a52516d4523e536c9ed2e40113ee3856e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a52516d4523e536c9ed2e40113ee3856e">SetSize</a> (uint32_t width, uint32_t height)</td></tr>
+<tr class="memdesc:a52516d4523e536c9ed2e40113ee3856e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the window's size.  <a href="#a52516d4523e536c9ed2e40113ee3856e">More...</a><br /></td></tr>
+<tr class="separator:a52516d4523e536c9ed2e40113ee3856e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8149384dbd4a389281d1420608e8418"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aa8149384dbd4a389281d1420608e8418">SetMaximized</a> (bool maximized)</td></tr>
+<tr class="memdesc:aa8149384dbd4a389281d1420608e8418"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximize or un-maximize the window.  <a href="#aa8149384dbd4a389281d1420608e8418">More...</a><br /></td></tr>
+<tr class="separator:aa8149384dbd4a389281d1420608e8418"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bfec8d5ad04e8737a3ef7cfb13bc06f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a3bfec8d5ad04e8737a3ef7cfb13bc06f">IsMaximized</a> ()</td></tr>
+<tr class="memdesc:a3bfec8d5ad04e8737a3ef7cfb13bc06f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the window is maximized or not.  <a href="#a3bfec8d5ad04e8737a3ef7cfb13bc06f">More...</a><br /></td></tr>
+<tr class="separator:a3bfec8d5ad04e8737a3ef7cfb13bc06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Viewport Options</div></td></tr>
+<tr class="memitem:a5e115cfde574e1b517a6422b1c3fbf02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a5e115cfde574e1b517a6422b1c3fbf02">GetBackgroundColor</a> (float *r, float *g, float *b, float *a=NULL)</td></tr>
+<tr class="memdesc:a5e115cfde574e1b517a6422b1c3fbf02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the window's background color.  <a href="#a5e115cfde574e1b517a6422b1c3fbf02">More...</a><br /></td></tr>
+<tr class="separator:a5e115cfde574e1b517a6422b1c3fbf02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1494b4f48cc98493ff9d38537df076e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a1494b4f48cc98493ff9d38537df076e7">SetBackgroundColor</a> (float r, float g, float b, float a=1.0f)</td></tr>
+<tr class="memdesc:a1494b4f48cc98493ff9d38537df076e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the window's background color.  <a href="#a1494b4f48cc98493ff9d38537df076e7">More...</a><br /></td></tr>
+<tr class="separator:a1494b4f48cc98493ff9d38537df076e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61179bfa1ba61d66ff243273c71bf5a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a61179bfa1ba61d66ff243273c71bf5a3">SetViewport</a> (int left, int top, int right, int bottom)</td></tr>
+<tr class="memdesc:a61179bfa1ba61d66ff243273c71bf5a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the active viewport being rendered to.  <a href="#a61179bfa1ba61d66ff243273c71bf5a3">More...</a><br /></td></tr>
+<tr class="separator:a61179bfa1ba61d66ff243273c71bf5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23dd7a9f481c772766f049d8056a8dad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a23dd7a9f481c772766f049d8056a8dad">ResetViewport</a> ()</td></tr>
+<tr class="memdesc:a23dd7a9f481c772766f049d8056a8dad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset to the full viewport (and change back GL_PROJECTION)  <a href="#a23dd7a9f481c772766f049d8056a8dad">More...</a><br /></td></tr>
+<tr class="separator:a23dd7a9f481c772766f049d8056a8dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Event Handling</div></td></tr>
+<tr class="memitem:a27bf4053fddbb4e0fdc88e142b2a7bb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a27bf4053fddbb4e0fdc88e142b2a7bb7">ProcessEvents</a> ()</td></tr>
+<tr class="memdesc:a27bf4053fddbb4e0fdc88e142b2a7bb7"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classProcess.html" title="Static functions for retrieving information about the running process. ">Process</a> UI event messages.  <a href="#a27bf4053fddbb4e0fdc88e142b2a7bb7">More...</a><br /></td></tr>
+<tr class="separator:a27bf4053fddbb4e0fdc88e142b2a7bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab84607fffba7eb6a8dc4cd71981aefb6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#ab84607fffba7eb6a8dc4cd71981aefb6">AddEventHandler</a> (<a class="el" href="group__OpenGL.html#gacbcfc0668226b31d1becba25887ff47e">glEventHandler</a> callback, void *user=NULL)</td></tr>
+<tr class="memdesc:ab84607fffba7eb6a8dc4cd71981aefb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register an event message handler that will be called by <a class="el" href="classglDisplay.html#a27bf4053fddbb4e0fdc88e142b2a7bb7" title="Process UI event messages. ">ProcessEvents()</a>  <a href="#ab84607fffba7eb6a8dc4cd71981aefb6">More...</a><br /></td></tr>
+<tr class="separator:ab84607fffba7eb6a8dc4cd71981aefb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1c19aa18e413da822f284c500a2af6f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aa1c19aa18e413da822f284c500a2af6f">RemoveEventHandler</a> (<a class="el" href="group__OpenGL.html#gacbcfc0668226b31d1becba25887ff47e">glEventHandler</a> callback, void *user=NULL)</td></tr>
+<tr class="memdesc:aa1c19aa18e413da822f284c500a2af6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an event message handler from being called by <a class="el" href="classglDisplay.html#a27bf4053fddbb4e0fdc88e142b2a7bb7" title="Process UI event messages. ">ProcessEvents()</a> <a class="el" href="classglDisplay.html#aa1c19aa18e413da822f284c500a2af6f" title="Remove an event message handler from being called by ProcessEvents() RemoveEventHandler() will search...">RemoveEventHandler()</a> will search for previously registered event handlers that have the same function pointer and/or user pointer, and remove them for being called again in the future.  <a href="#aa1c19aa18e413da822f284c500a2af6f">More...</a><br /></td></tr>
+<tr class="separator:aa1c19aa18e413da822f284c500a2af6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Mouse + Keyboard State</div></td></tr>
+<tr class="memitem:a84eb9bf5d9f74d79fe8ba412081a8998"><td class="memItemLeft" align="right" valign="top">const int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a84eb9bf5d9f74d79fe8ba412081a8998">GetMousePosition</a> () const</td></tr>
+<tr class="memdesc:a84eb9bf5d9f74d79fe8ba412081a8998"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the mouse position.  <a href="#a84eb9bf5d9f74d79fe8ba412081a8998">More...</a><br /></td></tr>
+<tr class="separator:a84eb9bf5d9f74d79fe8ba412081a8998"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57d3f8b1bec6eba7925e187367adab47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a57d3f8b1bec6eba7925e187367adab47">GetMousePosition</a> (int *x, int *y) const</td></tr>
+<tr class="memdesc:a57d3f8b1bec6eba7925e187367adab47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the mouse position.  <a href="#a57d3f8b1bec6eba7925e187367adab47">More...</a><br /></td></tr>
+<tr class="separator:a57d3f8b1bec6eba7925e187367adab47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a611350bedb3e68adfd0e691f3612fc89"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a611350bedb3e68adfd0e691f3612fc89">GetMouseButton</a> (uint32_t button) const</td></tr>
+<tr class="memdesc:a611350bedb3e68adfd0e691f3612fc89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the mouse button state.  <a href="#a611350bedb3e68adfd0e691f3612fc89">More...</a><br /></td></tr>
+<tr class="separator:a611350bedb3e68adfd0e691f3612fc89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11c7c3c210333feb222d6f2480dbbc85"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a11c7c3c210333feb222d6f2480dbbc85">GetKey</a> (uint32_t key) const</td></tr>
+<tr class="memdesc:a11c7c3c210333feb222d6f2480dbbc85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the state of a key (lowercase, without modifiers applied)  <a href="#a11c7c3c210333feb222d6f2480dbbc85">More...</a><br /></td></tr>
+<tr class="separator:a11c7c3c210333feb222d6f2480dbbc85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Mouse Cursor</div></td></tr>
+<tr class="memitem:a93f2524dad00aad905af487e6e30c5e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a93f2524dad00aad905af487e6e30c5e3">SetCursor</a> (uint32_t cursor)</td></tr>
+<tr class="memdesc:a93f2524dad00aad905af487e6e30c5e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the active mouse cursor.  <a href="#a93f2524dad00aad905af487e6e30c5e3">More...</a><br /></td></tr>
+<tr class="separator:a93f2524dad00aad905af487e6e30c5e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ebb8bd67bd55d9a1a24189ba46d09ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a8ebb8bd67bd55d9a1a24189ba46d09ab">SetDefaultCursor</a> (uint32_t cursor, bool activate=true)</td></tr>
+<tr class="memdesc:a8ebb8bd67bd55d9a1a24189ba46d09ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the default mouse cursor that gets used by <a class="el" href="classglDisplay.html#a55c92bc0159c94b720a5bdd06cefcd69" title="Reset the mouse cursor back to it&#39;s default. ">ResetCursor()</a>  <a href="#a8ebb8bd67bd55d9a1a24189ba46d09ab">More...</a><br /></td></tr>
+<tr class="separator:a8ebb8bd67bd55d9a1a24189ba46d09ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55c92bc0159c94b720a5bdd06cefcd69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a55c92bc0159c94b720a5bdd06cefcd69">ResetCursor</a> ()</td></tr>
+<tr class="memdesc:a55c92bc0159c94b720a5bdd06cefcd69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the mouse cursor back to it's default.  <a href="#a55c92bc0159c94b720a5bdd06cefcd69">More...</a><br /></td></tr>
+<tr class="separator:a55c92bc0159c94b720a5bdd06cefcd69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a617f568a9a94622e9c687540e36ea064"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a617f568a9a94622e9c687540e36ea064">ResetDefaultCursor</a> (bool activate=true)</td></tr>
+<tr class="memdesc:a617f568a9a94622e9c687540e36ea064"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the default cursor back to it's original, the arrow.  <a href="#a617f568a9a94622e9c687540e36ea064">More...</a><br /></td></tr>
+<tr class="separator:a617f568a9a94622e9c687540e36ea064"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Widgets</div></td></tr>
+<tr class="memitem:a50563f4387bcc0d66a61bf29cfa521a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classglWidget.html">glWidget</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a50563f4387bcc0d66a61bf29cfa521a9">AddWidget</a> (<a class="el" href="classglWidget.html">glWidget</a> *widget)</td></tr>
+<tr class="memdesc:a50563f4387bcc0d66a61bf29cfa521a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a widget to the window that recieves events and is rendered.  <a href="#a50563f4387bcc0d66a61bf29cfa521a9">More...</a><br /></td></tr>
+<tr class="separator:a50563f4387bcc0d66a61bf29cfa521a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6de44eb3a03c6053ee61cb5cccce3f28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a6de44eb3a03c6053ee61cb5cccce3f28">RemoveWidget</a> (<a class="el" href="classglWidget.html">glWidget</a> *widget, bool deleteWidget=true)</td></tr>
+<tr class="memdesc:a6de44eb3a03c6053ee61cb5cccce3f28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a widget from the window (and optionally delete it)  <a href="#a6de44eb3a03c6053ee61cb5cccce3f28">More...</a><br /></td></tr>
+<tr class="separator:a6de44eb3a03c6053ee61cb5cccce3f28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad50e13424000eaf6f5ecb08e4acbfeb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#ad50e13424000eaf6f5ecb08e4acbfeb8">RemoveWidget</a> (uint32_t index, bool deleteWidget=true)</td></tr>
+<tr class="memdesc:ad50e13424000eaf6f5ecb08e4acbfeb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a widget from the window (and optionally delete it)  <a href="#ad50e13424000eaf6f5ecb08e4acbfeb8">More...</a><br /></td></tr>
+<tr class="separator:ad50e13424000eaf6f5ecb08e4acbfeb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e209d2b90b11c2948a0cd98c19624e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a5e209d2b90b11c2948a0cd98c19624e7">RemoveAllWidgets</a> (bool deleteWidgets=true)</td></tr>
+<tr class="memdesc:a5e209d2b90b11c2948a0cd98c19624e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all widgets from the window (and optionally delete them)  <a href="#a5e209d2b90b11c2948a0cd98c19624e7">More...</a><br /></td></tr>
+<tr class="separator:a5e209d2b90b11c2948a0cd98c19624e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80669db30cd225b4f6d0b8ab59237a97"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a80669db30cd225b4f6d0b8ab59237a97">GetNumWidgets</a> () const</td></tr>
+<tr class="memdesc:a80669db30cd225b4f6d0b8ab59237a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of widgets.  <a href="#a80669db30cd225b4f6d0b8ab59237a97">More...</a><br /></td></tr>
+<tr class="separator:a80669db30cd225b4f6d0b8ab59237a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab03fa54f8098a9db65bbdc1f00622ab0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classglWidget.html">glWidget</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#ab03fa54f8098a9db65bbdc1f00622ab0">GetWidget</a> (const uint32_t index) const</td></tr>
+<tr class="memdesc:ab03fa54f8098a9db65bbdc1f00622ab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a widget.  <a href="#ab03fa54f8098a9db65bbdc1f00622ab0">More...</a><br /></td></tr>
+<tr class="separator:ab03fa54f8098a9db65bbdc1f00622ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d13a48ff0860c5da554443a27413ad9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a2d13a48ff0860c5da554443a27413ad9">GetWidgetIndex</a> (const <a class="el" href="classglWidget.html">glWidget</a> *widget) const</td></tr>
+<tr class="memdesc:a2d13a48ff0860c5da554443a27413ad9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the index of a widget (or -1 if not found)  <a href="#a2d13a48ff0860c5da554443a27413ad9">More...</a><br /></td></tr>
+<tr class="separator:a2d13a48ff0860c5da554443a27413ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d0985706dcaac9919dd75c858466546"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classglWidget.html">glWidget</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a9d0985706dcaac9919dd75c858466546">FindWidget</a> (int x, int y)</td></tr>
+<tr class="memdesc:a9d0985706dcaac9919dd75c858466546"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find first widget by coordinate, or NULL if no widget overlaps with that coordinate.  <a href="#a9d0985706dcaac9919dd75c858466546">More...</a><br /></td></tr>
+<tr class="separator:a9d0985706dcaac9919dd75c858466546"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a2cdebdf11ee3087900592d651bcceb"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classglWidget.html">glWidget</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a5a2cdebdf11ee3087900592d651bcceb">FindWidgets</a> (int x, int y)</td></tr>
+<tr class="memdesc:a5a2cdebdf11ee3087900592d651bcceb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find all widgets by coordinate, or NULL if no widget overlaps with that coordinate.  <a href="#a5a2cdebdf11ee3087900592d651bcceb">More...</a><br /></td></tr>
+<tr class="separator:a5a2cdebdf11ee3087900592d651bcceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classvideoOutput"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classvideoOutput')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classvideoOutput.html">videoOutput</a></td></tr>
+<tr class="memitem:a2186412156484860e31d827c10becf96 inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a2186412156484860e31d827c10becf96">~videoOutput</a> ()</td></tr>
+<tr class="memdesc:a2186412156484860e31d827c10becf96 inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy interface and release all resources.  <a href="classvideoOutput.html#a2186412156484860e31d827c10becf96">More...</a><br /></td></tr>
+<tr class="separator:a2186412156484860e31d827c10becf96 inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_classvideoOutput"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_classvideoOutput"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#ac63d627d52174400c01c28bb0de82993">Render</a> (T *image, uint32_t width, uint32_t height)</td></tr>
+<tr class="memdesc:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render and output the next frame to the stream.  <a href="classvideoOutput.html#ac63d627d52174400c01c28bb0de82993">More...</a><br /></td></tr>
+<tr class="separator:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58d163c8d3e54f336bf2dda4a759750e inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a58d163c8d3e54f336bf2dda4a759750e">Open</a> ()</td></tr>
+<tr class="memdesc:a58d163c8d3e54f336bf2dda4a759750e inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin streaming the device.  <a href="classvideoOutput.html#a58d163c8d3e54f336bf2dda4a759750e">More...</a><br /></td></tr>
+<tr class="separator:a58d163c8d3e54f336bf2dda4a759750e inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a552252a397249335e77755e0b911225e inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a552252a397249335e77755e0b911225e">Close</a> ()</td></tr>
+<tr class="memdesc:a552252a397249335e77755e0b911225e inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop streaming the device.  <a href="classvideoOutput.html#a552252a397249335e77755e0b911225e">More...</a><br /></td></tr>
+<tr class="separator:a552252a397249335e77755e0b911225e inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a3cf8d6230e26e27c5d22b29a150bdc inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a2a3cf8d6230e26e27c5d22b29a150bdc">IsStreaming</a> () const</td></tr>
+<tr class="memdesc:a2a3cf8d6230e26e27c5d22b29a150bdc inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the device is actively streaming or not.  <a href="classvideoOutput.html#a2a3cf8d6230e26e27c5d22b29a150bdc">More...</a><br /></td></tr>
+<tr class="separator:a2a3cf8d6230e26e27c5d22b29a150bdc inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaba8521f7ff078293ee4052a28ee71c inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#afaba8521f7ff078293ee4052a28ee71c">GetWidth</a> () const</td></tr>
+<tr class="memdesc:afaba8521f7ff078293ee4052a28ee71c inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the width of the stream, in pixels.  <a href="classvideoOutput.html#afaba8521f7ff078293ee4052a28ee71c">More...</a><br /></td></tr>
+<tr class="separator:afaba8521f7ff078293ee4052a28ee71c inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa225fb199069cf2a4b30f467e237da73 inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#aa225fb199069cf2a4b30f467e237da73">GetHeight</a> () const</td></tr>
+<tr class="memdesc:aa225fb199069cf2a4b30f467e237da73 inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the height of the stream, in pixels.  <a href="classvideoOutput.html#aa225fb199069cf2a4b30f467e237da73">More...</a><br /></td></tr>
+<tr class="separator:aa225fb199069cf2a4b30f467e237da73 inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26c37f79e965f1b9741b4d9b3923bd6b inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a26c37f79e965f1b9741b4d9b3923bd6b">GetFrameRate</a> () const</td></tr>
+<tr class="memdesc:a26c37f79e965f1b9741b4d9b3923bd6b inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the framerate, in Hz or FPS.  <a href="classvideoOutput.html#a26c37f79e965f1b9741b4d9b3923bd6b">More...</a><br /></td></tr>
+<tr class="separator:a26c37f79e965f1b9741b4d9b3923bd6b inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47edea2ad237e50cfbd6d0a192280ee5 inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structURI.html">URI</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a47edea2ad237e50cfbd6d0a192280ee5">GetResource</a> () const</td></tr>
+<tr class="memdesc:a47edea2ad237e50cfbd6d0a192280ee5 inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the resource <a class="el" href="structURI.html" title="Resource URI of a video device, IP stream, or file/directory. ">URI</a> of the stream.  <a href="classvideoOutput.html#a47edea2ad237e50cfbd6d0a192280ee5">More...</a><br /></td></tr>
+<tr class="separator:a47edea2ad237e50cfbd6d0a192280ee5 inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59f21f27a0efe56541fbe15f1d5f46ce inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structvideoOptions.html">videoOptions</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a59f21f27a0efe56541fbe15f1d5f46ce">GetOptions</a> () const</td></tr>
+<tr class="memdesc:a59f21f27a0efe56541fbe15f1d5f46ce inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <a class="el" href="structvideoOptions.html" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> of the stream.  <a href="classvideoOutput.html#a59f21f27a0efe56541fbe15f1d5f46ce">More...</a><br /></td></tr>
+<tr class="separator:a59f21f27a0efe56541fbe15f1d5f46ce inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2da4bab42fbd19a851e205647443ea5 inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#ad2da4bab42fbd19a851e205647443ea5">AddOutput</a> (<a class="el" href="classvideoOutput.html">videoOutput</a> *output)</td></tr>
+<tr class="memdesc:ad2da4bab42fbd19a851e205647443ea5 inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an output sub-stream.  <a href="classvideoOutput.html#ad2da4bab42fbd19a851e205647443ea5">More...</a><br /></td></tr>
+<tr class="separator:ad2da4bab42fbd19a851e205647443ea5 inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4b749b5ed6728bfa818a1a1cafd2e19 inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#af4b749b5ed6728bfa818a1a1cafd2e19">GetNumOutputs</a> (<a class="el" href="classvideoOutput.html">videoOutput</a> *output) const</td></tr>
+<tr class="memdesc:af4b749b5ed6728bfa818a1a1cafd2e19 inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of sub-streams.  <a href="classvideoOutput.html#af4b749b5ed6728bfa818a1a1cafd2e19">More...</a><br /></td></tr>
+<tr class="separator:af4b749b5ed6728bfa818a1a1cafd2e19 inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1a64933421c48f1af63ea12a8217421 inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classvideoOutput.html">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#aa1a64933421c48f1af63ea12a8217421">GetOutput</a> (uint32_t index) const</td></tr>
+<tr class="memdesc:aa1a64933421c48f1af63ea12a8217421 inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a sub-stream.  <a href="classvideoOutput.html#aa1a64933421c48f1af63ea12a8217421">More...</a><br /></td></tr>
+<tr class="separator:aa1a64933421c48f1af63ea12a8217421 inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a3ed32e27da1e996dc21c0339dc5a95 inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a0a3ed32e27da1e996dc21c0339dc5a95">IsType</a> (uint32_t type) const</td></tr>
+<tr class="memdesc:a0a3ed32e27da1e996dc21c0339dc5a95 inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this stream is of a particular type.  <a href="classvideoOutput.html#a0a3ed32e27da1e996dc21c0339dc5a95">More...</a><br /></td></tr>
+<tr class="separator:a0a3ed32e27da1e996dc21c0339dc5a95 inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_classvideoOutput"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_classvideoOutput"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#aa5463fc78e3d259fa18ea2e6349e21c8">IsType</a> () const</td></tr>
+<tr class="memdesc:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a this stream is of a particular type.  <a href="classvideoOutput.html#aa5463fc78e3d259fa18ea2e6349e21c8">More...</a><br /></td></tr>
+<tr class="separator:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a6c66bde88abdfa857bc9715acb8314 inherit pub_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a5a6c66bde88abdfa857bc9715acb8314">TypeToStr</a> () const</td></tr>
+<tr class="memdesc:a5a6c66bde88abdfa857bc9715acb8314 inherit pub_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert this stream's class type to string.  <a href="classvideoOutput.html#a5a6c66bde88abdfa857bc9715acb8314">More...</a><br /></td></tr>
+<tr class="separator:a5a6c66bde88abdfa857bc9715acb8314 inherit pub_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a7bbeddde55655b595933142c3a616d1d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classglDisplay.html">glDisplay</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a7bbeddde55655b595933142c3a616d1d">Create</a> (float r=0.05f, float g=0.05f, float b=0.05f, float a=1.0f)</td></tr>
-<tr class="memdesc:a7bbeddde55655b595933142c3a616d1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new maximized openGL display window.  <a href="#a7bbeddde55655b595933142c3a616d1d">More...</a><br /></td></tr>
-<tr class="separator:a7bbeddde55655b595933142c3a616d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabe1af44764b94b5a2460f6ac815ef30"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classglDisplay.html">glDisplay</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aabe1af44764b94b5a2460f6ac815ef30">Create</a> (const char *title, float r=0.05f, float g=0.05f, float b=0.05f, float a=1.0f)</td></tr>
-<tr class="memdesc:aabe1af44764b94b5a2460f6ac815ef30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new maximized openGL display window.  <a href="#aabe1af44764b94b5a2460f6ac815ef30">More...</a><br /></td></tr>
-<tr class="separator:aabe1af44764b94b5a2460f6ac815ef30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37ade3534f9a2eae6f77170310d1e9f0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classglDisplay.html">glDisplay</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a37ade3534f9a2eae6f77170310d1e9f0">Create</a> (const char *title=NULL, int width=-1, int height=-1, float r=0.05f, float g=0.05f, float b=0.05f, float a=1.0f)</td></tr>
+<tr class="memdesc:a37ade3534f9a2eae6f77170310d1e9f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new OpenGL display window with the specified options.  <a href="#a37ade3534f9a2eae6f77170310d1e9f0">More...</a><br /></td></tr>
+<tr class="separator:a37ade3534f9a2eae6f77170310d1e9f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af32cdc5fd1d374f9c4a7a877c4d1d9e7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classglDisplay.html">glDisplay</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#af32cdc5fd1d374f9c4a7a877c4d1d9e7">Create</a> (const <a class="el" href="structvideoOptions.html">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:af32cdc5fd1d374f9c4a7a877c4d1d9e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new OpenGL display window with the specified options.  <a href="#af32cdc5fd1d374f9c4a7a877c4d1d9e7">More...</a><br /></td></tr>
+<tr class="separator:af32cdc5fd1d374f9c4a7a877c4d1d9e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_classvideoOutput"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classvideoOutput')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classvideoOutput.html">videoOutput</a></td></tr>
+<tr class="memitem:aa2754b5d31e5466ad35db3f2832209f1 inherit pub_static_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classvideoOutput.html">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#aa2754b5d31e5466ad35db3f2832209f1">Create</a> (const <a class="el" href="structvideoOptions.html">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:aa2754b5d31e5466ad35db3f2832209f1 inherit pub_static_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a <a class="el" href="structvideoOptions.html" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> struct that's already been filled out.  <a href="classvideoOutput.html#aa2754b5d31e5466ad35db3f2832209f1">More...</a><br /></td></tr>
+<tr class="separator:aa2754b5d31e5466ad35db3f2832209f1 inherit pub_static_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a461077573ce4c48ef632956251b64c0a inherit pub_static_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classvideoOutput.html">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a461077573ce4c48ef632956251b64c0a">Create</a> (const char *<a class="el" href="structURI.html">URI</a>, const <a class="el" href="structvideoOptions.html">videoOptions</a> &amp;options=<a class="el" href="structvideoOptions.html">videoOptions</a>())</td></tr>
+<tr class="memdesc:a461077573ce4c48ef632956251b64c0a inherit pub_static_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a resource <a class="el" href="structURI.html" title="Resource URI of a video device, IP stream, or file/directory. ">URI</a> string and optional <a class="el" href="structvideoOptions.html" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a>.  <a href="classvideoOutput.html#a461077573ce4c48ef632956251b64c0a">More...</a><br /></td></tr>
+<tr class="separator:a461077573ce4c48ef632956251b64c0a inherit pub_static_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc89d40f9294ffbd096aa2e9bcc9a4fb inherit pub_static_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classvideoOutput.html">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#acc89d40f9294ffbd096aa2e9bcc9a4fb">Create</a> (const char *<a class="el" href="structURI.html">URI</a>, const <a class="el" href="classcommandLine.html">commandLine</a> &amp;cmdLine)</td></tr>
+<tr class="memdesc:acc89d40f9294ffbd096aa2e9bcc9a4fb inherit pub_static_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a resource <a class="el" href="structURI.html" title="Resource URI of a video device, IP stream, or file/directory. ">URI</a> string and parsing command line arguments.  <a href="classvideoOutput.html#acc89d40f9294ffbd096aa2e9bcc9a4fb">More...</a><br /></td></tr>
+<tr class="separator:acc89d40f9294ffbd096aa2e9bcc9a4fb inherit pub_static_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a343fb7daf02469fa5d5e604b638b81ff inherit pub_static_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classvideoOutput.html">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a343fb7daf02469fa5d5e604b638b81ff">Create</a> (const char *<a class="el" href="structURI.html">URI</a>, const int argc, char **argv)</td></tr>
+<tr class="memdesc:a343fb7daf02469fa5d5e604b638b81ff inherit pub_static_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a resource <a class="el" href="structURI.html" title="Resource URI of a video device, IP stream, or file/directory. ">URI</a> string and parsing command line arguments.  <a href="classvideoOutput.html#a343fb7daf02469fa5d5e604b638b81ff">More...</a><br /></td></tr>
+<tr class="separator:a343fb7daf02469fa5d5e604b638b81ff inherit pub_static_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a346028a278dd67f6b1d69a69cd496e inherit pub_static_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classvideoOutput.html">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a7a346028a278dd67f6b1d69a69cd496e">Create</a> (const int argc, char **argv, int positionArg=-1)</td></tr>
+<tr class="memdesc:a7a346028a278dd67f6b1d69a69cd496e inherit pub_static_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface by parsing command line arguments, including the resource <a class="el" href="structURI.html" title="Resource URI of a video device, IP stream, or file/directory. ">URI</a>.  <a href="classvideoOutput.html#a7a346028a278dd67f6b1d69a69cd496e">More...</a><br /></td></tr>
+<tr class="separator:a7a346028a278dd67f6b1d69a69cd496e inherit pub_static_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a754e0468210780b75641e08aff6604de inherit pub_static_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classvideoOutput.html">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a754e0468210780b75641e08aff6604de">Create</a> (const <a class="el" href="classcommandLine.html">commandLine</a> &amp;cmdLine, int positionArg=-1)</td></tr>
+<tr class="memdesc:a754e0468210780b75641e08aff6604de inherit pub_static_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface by parsing command line arguments, including the resource <a class="el" href="structURI.html" title="Resource URI of a video device, IP stream, or file/directory. ">URI</a>.  <a href="classvideoOutput.html#a754e0468210780b75641e08aff6604de">More...</a><br /></td></tr>
+<tr class="separator:a754e0468210780b75641e08aff6604de inherit pub_static_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0122813d68dd88f0e1d1d92fbbc7edd1 inherit pub_static_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classvideoOutput.html">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a0122813d68dd88f0e1d1d92fbbc7edd1">CreateNullOutput</a> ()</td></tr>
+<tr class="memdesc:a0122813d68dd88f0e1d1d92fbbc7edd1 inherit pub_static_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface that acts as a NULL output and does nothing with incoming frames.  <a href="classvideoOutput.html#a0122813d68dd88f0e1d1d92fbbc7edd1">More...</a><br /></td></tr>
+<tr class="separator:a0122813d68dd88f0e1d1d92fbbc7edd1 inherit pub_static_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ffc51285e0dc05addf926b5f4598b88 inherit pub_static_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a4ffc51285e0dc05addf926b5f4598b88">Usage</a> ()</td></tr>
+<tr class="memdesc:a4ffc51285e0dc05addf926b5f4598b88 inherit pub_static_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="classvideoOutput.html#aa2754b5d31e5466ad35db3f2832209f1" title="Create videoOutput interface from a videoOptions struct that&#39;s already been filled out...">Create()</a>  <a href="classvideoOutput.html#a4ffc51285e0dc05addf926b5f4598b88">More...</a><br /></td></tr>
+<tr class="separator:a4ffc51285e0dc05addf926b5f4598b88 inherit pub_static_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b8d053b9564bb2ec042ef9760de23bb inherit pub_static_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a1b8d053b9564bb2ec042ef9760de23bb">TypeToStr</a> (uint32_t type)</td></tr>
+<tr class="memdesc:a1b8d053b9564bb2ec042ef9760de23bb inherit pub_static_methods_classvideoOutput"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a class type to a string.  <a href="classvideoOutput.html#a1b8d053b9564bb2ec042ef9760de23bb">More...</a><br /></td></tr>
+<tr class="separator:a1b8d053b9564bb2ec042ef9760de23bb inherit pub_static_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a1fc9d28ddbc0f849aea7b80e96b09a68"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a1fc9d28ddbc0f849aea7b80e96b09a68">DEFAULT_TITLE</a></td></tr>
-<tr class="memdesc:a1fc9d28ddbc0f849aea7b80e96b09a68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default title bar name.  <a href="#a1fc9d28ddbc0f849aea7b80e96b09a68">More...</a><br /></td></tr>
-<tr class="separator:a1fc9d28ddbc0f849aea7b80e96b09a68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13bebe88c1df15a70255134da202a131"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a13bebe88c1df15a70255134da202a131">Type</a> = (1 &lt;&lt; 3)</td></tr>
+<tr class="memdesc:a13bebe88c1df15a70255134da202a131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique type identifier of <a class="el" href="classglDisplay.html" title="OpenGL display window and image/video renderer with CUDA interoperability. ">glDisplay</a> class.  <a href="#a13bebe88c1df15a70255134da202a131">More...</a><br /></td></tr>
+<tr class="separator:a13bebe88c1df15a70255134da202a131"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a3a192a037ecc3e0f568dc439e4b4c4af"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a3a192a037ecc3e0f568dc439e4b4c4af">glDisplay</a> ()</td></tr>
-<tr class="separator:a3a192a037ecc3e0f568dc439e4b4c4af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2559c6f33ab5760f3f2efe345bf9fa97"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a2559c6f33ab5760f3f2efe345bf9fa97">glDisplay</a> (const <a class="el" href="structvideoOptions.html">videoOptions</a> &amp;options)</td></tr>
+<tr class="separator:a2559c6f33ab5760f3f2efe345bf9fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d545e3ad748e899a413b1c954dc06d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a2d545e3ad748e899a413b1c954dc06d4">initWindow</a> ()</td></tr>
 <tr class="separator:a2d545e3ad748e899a413b1c954dc06d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a022eebf333e5acf6df0fcf2f632a470a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a022eebf333e5acf6df0fcf2f632a470a">initGL</a> ()</td></tr>
 <tr class="separator:a022eebf333e5acf6df0fcf2f632a470a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6553b4eee50dfa0ddedd0960123583df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classglTexture.html">glTexture</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a6553b4eee50dfa0ddedd0960123583df">allocTexture</a> (uint32_t width, uint32_t height)</td></tr>
-<tr class="separator:a6553b4eee50dfa0ddedd0960123583df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a518774deb1f2fa3e57e046b1150c7c5d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classglTexture.html">glTexture</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a518774deb1f2fa3e57e046b1150c7c5d">allocTexture</a> (uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
+<tr class="separator:a518774deb1f2fa3e57e046b1150c7c5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac62b17bd5fc32d79a65c4fe675ba643c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#ac62b17bd5fc32d79a65c4fe675ba643c">activateViewport</a> ()</td></tr>
+<tr class="separator:ac62b17bd5fc32d79a65c4fe675ba643c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a003b6aa5e7a7e32eee46b2720e6f1f1f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a003b6aa5e7a7e32eee46b2720e6f1f1f">dispatchEvent</a> (uint16_t msg, int a, int b)</td></tr>
+<tr class="separator:a003b6aa5e7a7e32eee46b2720e6f1f1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classvideoOutput"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classvideoOutput')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classvideoOutput.html">videoOutput</a></td></tr>
+<tr class="memitem:a02b39780efc6480ab424764dafe082ba inherit pro_methods_classvideoOutput"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a02b39780efc6480ab424764dafe082ba">videoOutput</a> (const <a class="el" href="structvideoOptions.html">videoOptions</a> &amp;options)</td></tr>
+<tr class="separator:a02b39780efc6480ab424764dafe082ba inherit pro_methods_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
+Static Protected Member Functions</h2></td></tr>
+<tr class="memitem:a0b7479b6bc4e384c66b164411333f00e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a0b7479b6bc4e384c66b164411333f00e">onEvent</a> (uint16_t msg, int a, int b, void *user)</td></tr>
+<tr class="separator:a0b7479b6bc4e384c66b164411333f00e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -185,37 +398,141 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a59861c4376b388d34c57f06c9a460e97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aecdedd41e0d674fb614b88fd9ca9fa15"><td class="memItemLeft" align="right" valign="top">GLXContext&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aecdedd41e0d674fb614b88fd9ca9fa15">mContextGL</a></td></tr>
 <tr class="separator:aecdedd41e0d674fb614b88fd9ca9fa15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd8adcb680935b9ea3ce974b141e5969"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#acd8adcb680935b9ea3ce974b141e5969">mWindowClosed</a></td></tr>
-<tr class="separator:acd8adcb680935b9ea3ce974b141e5969"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05d0a6f141e5e77df7fddca438627b2b"><td class="memItemLeft" align="right" valign="top">Cursor&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a05d0a6f141e5e77df7fddca438627b2b">mCursors</a> [256]</td></tr>
+<tr class="separator:a05d0a6f141e5e77df7fddca438627b2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab1f8e0d4ac630ab4c9ab681c61d8419"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aab1f8e0d4ac630ab4c9ab681c61d8419">mActiveCursor</a></td></tr>
+<tr class="separator:aab1f8e0d4ac630ab4c9ab681c61d8419"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5eeb341bb438b349634928c6ee92813"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#ae5eeb341bb438b349634928c6ee92813">mDefaultCursor</a></td></tr>
+<tr class="separator:ae5eeb341bb438b349634928c6ee92813"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82d14054eb62a16e6101a57e32a050e1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a82d14054eb62a16e6101a57e32a050e1">mRendering</a></td></tr>
+<tr class="separator:a82d14054eb62a16e6101a57e32a050e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50e2a59369c56c0b43cb2c45ae1bdb9f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a50e2a59369c56c0b43cb2c45ae1bdb9f">mResizedToFeed</a></td></tr>
+<tr class="separator:a50e2a59369c56c0b43cb2c45ae1bdb9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d20a9b3eb655b1719c3896f9af608e4"><td class="memItemLeft" align="right" valign="top">Atom&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a4d20a9b3eb655b1719c3896f9af608e4">mWindowClosedMsg</a></td></tr>
 <tr class="separator:a4d20a9b3eb655b1719c3896f9af608e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2dd92f37832e555d1475e5f8c2484043"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a2dd92f37832e555d1475e5f8c2484043">mWidth</a></td></tr>
-<tr class="separator:a2dd92f37832e555d1475e5f8c2484043"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee7874bab6e7f29546cd0d3ad04b424a"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aee7874bab6e7f29546cd0d3ad04b424a">mHeight</a></td></tr>
-<tr class="separator:aee7874bab6e7f29546cd0d3ad04b424a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fa64e4b894f4084fb9c6ba1fb249658"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46c">DragMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a0fa64e4b894f4084fb9c6ba1fb249658">mDragMode</a></td></tr>
+<tr class="separator:a0fa64e4b894f4084fb9c6ba1fb249658"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3af6f1d107f3deb4b18230af4e3561a8"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a3af6f1d107f3deb4b18230af4e3561a8">mID</a></td></tr>
+<tr class="separator:a3af6f1d107f3deb4b18230af4e3561a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a893682bb4ca0ae400c48aed020408128"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a893682bb4ca0ae400c48aed020408128">mScreenWidth</a></td></tr>
+<tr class="separator:a893682bb4ca0ae400c48aed020408128"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfe7e2b2b85b8888b21c07e56718ef57"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#adfe7e2b2b85b8888b21c07e56718ef57">mScreenHeight</a></td></tr>
+<tr class="separator:adfe7e2b2b85b8888b21c07e56718ef57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a060f50c9661124d2d8aa457dfe30d4bc"><td class="memItemLeft" align="right" valign="top">timespec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a060f50c9661124d2d8aa457dfe30d4bc">mLastTime</a></td></tr>
 <tr class="separator:a060f50c9661124d2d8aa457dfe30d4bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5696e63a87c34b0d50d1615bca5072ad"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a5696e63a87c34b0d50d1615bca5072ad">mAvgTime</a></td></tr>
 <tr class="separator:a5696e63a87c34b0d50d1615bca5072ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56e08dd6f4895451391ff9ce7e7b9390"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a56e08dd6f4895451391ff9ce7e7b9390">mBgColor</a> [4]</td></tr>
 <tr class="separator:a56e08dd6f4895451391ff9ce7e7b9390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8aeb33cd6f58d26db77c9fce47fe746b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a8aeb33cd6f58d26db77c9fce47fe746b">mViewport</a> [4]</td></tr>
+<tr class="separator:a8aeb33cd6f58d26db77c9fce47fe746b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ac59e4ff11c7ccb0a6e86ddc0a164da"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a4ac59e4ff11c7ccb0a6e86ddc0a164da">mMousePos</a> [2]</td></tr>
+<tr class="separator:a4ac59e4ff11c7ccb0a6e86ddc0a164da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90ec991e713327245bcbc0e70af66232"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a90ec991e713327245bcbc0e70af66232">mMouseDrag</a> [2]</td></tr>
+<tr class="separator:a90ec991e713327245bcbc0e70af66232"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7d6851d22a0f03db3d17cf36ca6497d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aa7d6851d22a0f03db3d17cf36ca6497d">mMouseDragOrigin</a> [2]</td></tr>
+<tr class="separator:aa7d6851d22a0f03db3d17cf36ca6497d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7798109b583a2443473d895e62afce67"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a7798109b583a2443473d895e62afce67">mMouseButtons</a> [16]</td></tr>
+<tr class="separator:a7798109b583a2443473d895e62afce67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a8ca8f41ba40ac0e3f4c7775e8ecf58"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a5a8ca8f41ba40ac0e3f4c7775e8ecf58">mKeyStates</a> [1024]</td></tr>
+<tr class="separator:a5a8ca8f41ba40ac0e3f4c7775e8ecf58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a927c5467f9926f769d96ab60c0d55724"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a927c5467f9926f769d96ab60c0d55724">mNormalizedCUDA</a></td></tr>
 <tr class="separator:a927c5467f9926f769d96ab60c0d55724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3a52573738ea17a2dd9d4263c166759"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#ac3a52573738ea17a2dd9d4263c166759">mNormalizedWidth</a></td></tr>
 <tr class="separator:ac3a52573738ea17a2dd9d4263c166759"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebc8ffc67311372c24f60a8c33652f48"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aebc8ffc67311372c24f60a8c33652f48">mNormalizedHeight</a></td></tr>
 <tr class="separator:aebc8ffc67311372c24f60a8c33652f48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4009a157353ae44f371fd3d5ca4bc08"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classglWidget.html">glWidget</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#af4009a157353ae44f371fd3d5ca4bc08">mWidgets</a></td></tr>
+<tr class="separator:af4009a157353ae44f371fd3d5ca4bc08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a377aaed358a4452760e02580f89ac2ab"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classglTexture.html">glTexture</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a377aaed358a4452760e02580f89ac2ab">mTextures</a></td></tr>
 <tr class="separator:a377aaed358a4452760e02580f89ac2ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63318712adb85328a1b42fc5237ba1d4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structglDisplay_1_1eventHandler.html">eventHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a63318712adb85328a1b42fc5237ba1d4">mEventHandlers</a></td></tr>
+<tr class="separator:a63318712adb85328a1b42fc5237ba1d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classvideoOutput"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classvideoOutput')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classvideoOutput.html">videoOutput</a></td></tr>
+<tr class="memitem:a473772043b363d7c8dc00cddb70b0aa9 inherit pro_attribs_classvideoOutput"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a473772043b363d7c8dc00cddb70b0aa9">mStreaming</a></td></tr>
+<tr class="separator:a473772043b363d7c8dc00cddb70b0aa9 inherit pro_attribs_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af749bcbea4200ea33a1135f4f040879d inherit pro_attribs_classvideoOutput"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvideoOptions.html">videoOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#af749bcbea4200ea33a1135f4f040879d">mOptions</a></td></tr>
+<tr class="separator:af749bcbea4200ea33a1135f4f040879d inherit pro_attribs_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a583b2977fc4b9e1747f1b9199bc583ea inherit pro_attribs_classvideoOutput"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classvideoOutput.html">videoOutput</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvideoOutput.html#a583b2977fc4b9e1747f1b9199bc583ea">mOutputs</a></td></tr>
+<tr class="separator:a583b2977fc4b9e1747f1b9199bc583ea inherit pro_attribs_classvideoOutput"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
 Static Protected Attributes</h2></td></tr>
 <tr class="memitem:a987e05d68219418d2d232665d92cc1a2"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a987e05d68219418d2d232665d92cc1a2">screenIdx</a> = 0</td></tr>
 <tr class="separator:a987e05d68219418d2d232665d92cc1a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+Status Bar Text</h2></td></tr>
+<tr class="memitem:a1fc9d28ddbc0f849aea7b80e96b09a68"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a1fc9d28ddbc0f849aea7b80e96b09a68">DEFAULT_TITLE</a></td></tr>
+<tr class="memdesc:a1fc9d28ddbc0f849aea7b80e96b09a68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default title bar name.  <a href="#a1fc9d28ddbc0f849aea7b80e96b09a68">More...</a><br /></td></tr>
+<tr class="separator:a1fc9d28ddbc0f849aea7b80e96b09a68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63804bbc679034342b14fe4c2c4da042"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a63804bbc679034342b14fe4c2c4da042">SetStatus</a> (const char *str)</td></tr>
+<tr class="memdesc:a63804bbc679034342b14fe4c2c4da042"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the window title string.  <a href="#a63804bbc679034342b14fe4c2c4da042">More...</a><br /></td></tr>
+<tr class="separator:a63804bbc679034342b14fe4c2c4da042"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a4943779f0d036af2e49fc9d9a8aade"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a4a4943779f0d036af2e49fc9d9a8aade">SetTitle</a> (const char *str)</td></tr>
+<tr class="memdesc:a4a4943779f0d036af2e49fc9d9a8aade"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the window title string.  <a href="#a4a4943779f0d036af2e49fc9d9a8aade">More...</a><br /></td></tr>
+<tr class="separator:a4a4943779f0d036af2e49fc9d9a8aade"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
+Mouse Dragging</h2></td></tr>
+<tr class="memitem:a0d39d6f011999828560d8353edadf46c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46c">DragMode</a> { <a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46ca84194cf4cdc04745c23f8dc7b844c880">DragDefault</a>, 
+<a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46ca886b6f2e955b7c47975603e2b9077107">DragDisabled</a>, 
+<a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46ca7c0c23139342b3550ff19b6025087575">DragSelect</a>, 
+<a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46ca96547b2cd90fa0568fac9236a4cf9ff2">DragCreate</a>
+ }<tr class="memdesc:a0d39d6f011999828560d8353edadf46c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drag behavior enum.  <a href="classglDisplay.html#a0d39d6f011999828560d8353edadf46c">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a0d39d6f011999828560d8353edadf46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2869b89190621c2fc502c0263035ca10"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46c">DragMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a2869b89190621c2fc502c0263035ca10">GetDragMode</a> () const</td></tr>
+<tr class="memdesc:a2869b89190621c2fc502c0263035ca10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the dragging behavior mode.  <a href="#a2869b89190621c2fc502c0263035ca10">More...</a><br /></td></tr>
+<tr class="separator:a2869b89190621c2fc502c0263035ca10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad873a9d842442644747bdb3176efad8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#aad873a9d842442644747bdb3176efad8">SetDragMode</a> (<a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46c">DragMode</a> mode)</td></tr>
+<tr class="memdesc:aad873a9d842442644747bdb3176efad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the dragging behavior mode.  <a href="#aad873a9d842442644747bdb3176efad8">More...</a><br /></td></tr>
+<tr class="separator:aad873a9d842442644747bdb3176efad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f26c928e592b54e91d95e3edd96575a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a6f26c928e592b54e91d95e3edd96575a">IsDragging</a> (<a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46c">DragMode</a> mode=<a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46ca84194cf4cdc04745c23f8dc7b844c880">DragDefault</a>) const</td></tr>
+<tr class="memdesc:a6f26c928e592b54e91d95e3edd96575a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the mouse currently dragging in the specified mode?  <a href="#a6f26c928e592b54e91d95e3edd96575a">More...</a><br /></td></tr>
+<tr class="separator:a6f26c928e592b54e91d95e3edd96575a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a1bbe0f4e81a8a639ad1262e2e984e1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a2a1bbe0f4e81a8a639ad1262e2e984e1">GetDragRect</a> (int *x, int *y, int *width, int *height)</td></tr>
+<tr class="memdesc:a2a1bbe0f4e81a8a639ad1262e2e984e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current dragging rectangle, or return false if not dragging.  <a href="#a2a1bbe0f4e81a8a639ad1262e2e984e1">More...</a><br /></td></tr>
+<tr class="separator:a2a1bbe0f4e81a8a639ad1262e2e984e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a737d99f08c2b1cedcacb1f1f559bf1aa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classglDisplay.html#a737d99f08c2b1cedcacb1f1f559bf1aa">GetDragCoords</a> (int *x1, int *y1, int *x2, int *y2)</td></tr>
+<tr class="memdesc:a737d99f08c2b1cedcacb1f1f559bf1aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current dragging coordinates, or return false if not dragging.  <a href="#a737d99f08c2b1cedcacb1f1f559bf1aa">More...</a><br /></td></tr>
+<tr class="separator:a737d99f08c2b1cedcacb1f1f559bf1aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>OpenGL display window / video viewer. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<div class="textblock"><p>OpenGL display window and image/video renderer with CUDA interoperability. </p>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="classglDisplay.html" title="OpenGL display window and image/video renderer with CUDA interoperability. ">glDisplay</a> implements the <a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface and is intended to be used through that as opposed to directly. <a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> implements additional command-line parsing of <a class="el" href="structvideoOptions.html" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> to construct instances.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> </dd></dl>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a0d39d6f011999828560d8353edadf46c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d39d6f011999828560d8353edadf46c">&#9670;&nbsp;</a></span>DragMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46c">glDisplay::DragMode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Drag behavior enum. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classglDisplay.html#a2869b89190621c2fc502c0263035ca10" title="Get the dragging behavior mode. ">GetDragMode()</a> </dd>
+<dd>
+<a class="el" href="classglDisplay.html#aad873a9d842442644747bdb3176efad8" title="Set the dragging behavior mode. ">SetDragMode()</a> </dd></dl>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0d39d6f011999828560d8353edadf46ca84194cf4cdc04745c23f8dc7b844c880"></a>DragDefault&#160;</td><td class="fielddoc"><p>Issue MOUSE_DRAG events, but nothing else. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0d39d6f011999828560d8353edadf46ca886b6f2e955b7c47975603e2b9077107"></a>DragDisabled&#160;</td><td class="fielddoc"><p>Disable issuing all MOUSE_DRAG events. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0d39d6f011999828560d8353edadf46ca7c0c23139342b3550ff19b6025087575"></a>DragSelect&#160;</td><td class="fielddoc"><p>Select widgets from a dragging rectangle, and issue WIDGET_SELECTED events. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0d39d6f011999828560d8353edadf46ca96547b2cd90fa0568fac9236a4cf9ff2"></a>DragCreate&#160;</td><td class="fielddoc"><p>Create a new widget from a dragging rectangle, and issue WIDGET_CREATED events. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3978a9f43490e6f19268ca5225679c60"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3978a9f43490e6f19268ca5225679c60">&#9670;&nbsp;</a></span>~glDisplay()</h2>
 
@@ -235,8 +552,8 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3a192a037ecc3e0f568dc439e4b4c4af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a192a037ecc3e0f568dc439e4b4c4af">&#9670;&nbsp;</a></span>glDisplay()</h2>
+<a id="a2559c6f33ab5760f3f2efe345bf9fa97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2559c6f33ab5760f3f2efe345bf9fa97">&#9670;&nbsp;</a></span>glDisplay()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -246,6 +563,33 @@ Static Protected Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">glDisplay::glDisplay </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structvideoOptions.html">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ac62b17bd5fc32d79a65c4fe675ba643c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac62b17bd5fc32d79a65c4fe675ba643c">&#9670;&nbsp;</a></span>activateViewport()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::activateViewport </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -260,9 +604,65 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6553b4eee50dfa0ddedd0960123583df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6553b4eee50dfa0ddedd0960123583df">&#9670;&nbsp;</a></span>allocTexture()</h2>
+<a id="ab84607fffba7eb6a8dc4cd71981aefb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab84607fffba7eb6a8dc4cd71981aefb6">&#9670;&nbsp;</a></span>AddEventHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::AddEventHandler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__OpenGL.html#gacbcfc0668226b31d1becba25887ff47e">glEventHandler</a>&#160;</td>
+          <td class="paramname"><em>callback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Register an event message handler that will be called by <a class="el" href="classglDisplay.html#a27bf4053fddbb4e0fdc88e142b2a7bb7" title="Process UI event messages. ">ProcessEvents()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td>function pointer to the event message handler callback </td></tr>
+    <tr><td class="paramname">user</td><td>optional user-specified pointer that will be passed to all invocations of this event handler (typically an object) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a50563f4387bcc0d66a61bf29cfa521a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50563f4387bcc0d66a61bf29cfa521a9">&#9670;&nbsp;</a></span>AddWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classglWidget.html">glWidget</a>* glDisplay::AddWidget </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classglWidget.html">glWidget</a> *&#160;</td>
+          <td class="paramname"><em>widget</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a widget to the window that recieves events and is rendered. </p>
+
+</div>
+</div>
+<a id="a518774deb1f2fa3e57e046b1150c7c5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a518774deb1f2fa3e57e046b1150c7c5d">&#9670;&nbsp;</a></span>allocTexture()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -280,7 +680,13 @@ Static Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>height</em>&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -297,8 +703,8 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a33ed83d87e71cbfcef7347b41f541203"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33ed83d87e71cbfcef7347b41f541203">&#9670;&nbsp;</a></span>BeginRender()</h2>
+<a id="aa8abd41c4dbaca15b2d092168ee14a83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8abd41c4dbaca15b2d092168ee14a83">&#9670;&nbsp;</a></span>BeginRender()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -307,78 +713,19 @@ Static Protected Attributes</h2></td></tr>
           <td class="memname">void glDisplay::BeginRender </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>userEvents</em> = <code>true</code></td><td>)</td>
+          <td class="paramname"><em>processEvents</em> = <code>true</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Clear window and begin rendering a frame. </p>
-<p>If userEvents is true, <a class="el" href="classglDisplay.html#a12363aea016c16935833e2b58806d4c8" title="Process UI events. ">UserEvents()</a> will automatically be processed. </p>
+<p>If processEvents is true, <a class="el" href="classglDisplay.html#a27bf4053fddbb4e0fdc88e142b2a7bb7" title="Process UI event messages. ">ProcessEvents()</a> will automatically be called. </p>
 
 </div>
 </div>
-<a id="a7bbeddde55655b595933142c3a616d1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bbeddde55655b595933142c3a616d1d">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="classglDisplay.html">glDisplay</a>* glDisplay::Create </td>
-          <td>(</td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>r</em> = <code>0.05f</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>g</em> = <code>0.05f</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>b</em> = <code>0.05f</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>a</em> = <code>1.0f</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Create a new maximized openGL display window. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">r</td><td>default background RGBA color, red component (0.0-1.0f) </td></tr>
-    <tr><td class="paramname">g</td><td>default background RGBA color, green component (0.0-1.0f) </td></tr>
-    <tr><td class="paramname">b</td><td>default background RGBA color, blue component (0.0-1.0f) </td></tr>
-    <tr><td class="paramname">a</td><td>default background RGBA color, alpha component (0.0-1.0f) </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="aabe1af44764b94b5a2460f6ac815ef30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabe1af44764b94b5a2460f6ac815ef30">&#9670;&nbsp;</a></span>Create() <span class="overload">[2/2]</span></h2>
+<a id="a37ade3534f9a2eae6f77170310d1e9f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37ade3534f9a2eae6f77170310d1e9f0">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -390,7 +737,19 @@ Static Protected Attributes</h2></td></tr>
           <td class="memname">static <a class="el" href="classglDisplay.html">glDisplay</a>* glDisplay::Create </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>title</em>, </td>
+          <td class="paramname"><em>title</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>width</em> = <code>-1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>height</em> = <code>-1</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -429,10 +788,12 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Create a new maximized openGL display window. </p>
+<p>Create a new OpenGL display window with the specified options. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">title</td><td>window title bar label string </td></tr>
+    <tr><td class="paramname">title</td><td>window title bar string, or NULL for a default title </td></tr>
+    <tr><td class="paramname">width</td><td>desired width of the window, or -1 to be maximized </td></tr>
+    <tr><td class="paramname">height</td><td>desired height of the window, or -1 to be maximized </td></tr>
     <tr><td class="paramname">r</td><td>default background RGBA color, red component (0.0-1.0f) </td></tr>
     <tr><td class="paramname">g</td><td>default background RGBA color, green component (0.0-1.0f) </td></tr>
     <tr><td class="paramname">b</td><td>default background RGBA color, blue component (0.0-1.0f) </td></tr>
@@ -440,6 +801,76 @@ Static Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="af32cdc5fd1d374f9c4a7a877c4d1d9e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af32cdc5fd1d374f9c4a7a877c4d1d9e7">&#9670;&nbsp;</a></span>Create() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classglDisplay.html">glDisplay</a>* glDisplay::Create </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structvideoOptions.html">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a new OpenGL display window with the specified options. </p>
+
+</div>
+</div>
+<a id="a003b6aa5e7a7e32eee46b2720e6f1f1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a003b6aa5e7a7e32eee46b2720e6f1f1f">&#9670;&nbsp;</a></span>dispatchEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::dispatchEvent </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -459,6 +890,219 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Finish rendering and refresh / flip the backbuffer. </p>
+
+</div>
+</div>
+<a id="a9d0985706dcaac9919dd75c858466546"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d0985706dcaac9919dd75c858466546">&#9670;&nbsp;</a></span>FindWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classglWidget.html">glWidget</a>* glDisplay::FindWidget </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Find first widget by coordinate, or NULL if no widget overlaps with that coordinate. </p>
+
+</div>
+</div>
+<a id="a5a2cdebdf11ee3087900592d651bcceb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a2cdebdf11ee3087900592d651bcceb">&#9670;&nbsp;</a></span>FindWidgets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="classglWidget.html">glWidget</a>*&gt; glDisplay::FindWidgets </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Find all widgets by coordinate, or NULL if no widget overlaps with that coordinate. </p>
+
+</div>
+</div>
+<a id="a5e115cfde574e1b517a6422b1c3fbf02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e115cfde574e1b517a6422b1c3fbf02">&#9670;&nbsp;</a></span>GetBackgroundColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::GetBackgroundColor </td>
+          <td>(</td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>a</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the window's background color. </p>
+
+</div>
+</div>
+<a id="a737d99f08c2b1cedcacb1f1f559bf1aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a737d99f08c2b1cedcacb1f1f559bf1aa">&#9670;&nbsp;</a></span>GetDragCoords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool glDisplay::GetDragCoords </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>x1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>y1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>x2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>y2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the current dragging coordinates, or return false if not dragging. </p>
+
+</div>
+</div>
+<a id="a2869b89190621c2fc502c0263035ca10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2869b89190621c2fc502c0263035ca10">&#9670;&nbsp;</a></span>GetDragMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46c">DragMode</a> glDisplay::GetDragMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the dragging behavior mode. </p>
+
+</div>
+</div>
+<a id="a2a1bbe0f4e81a8a639ad1262e2e984e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a1bbe0f4e81a8a639ad1262e2e984e1">&#9670;&nbsp;</a></span>GetDragRect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool glDisplay::GetDragRect </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the current dragging rectangle, or return false if not dragging. </p>
 
 </div>
 </div>
@@ -489,8 +1133,8 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a7d1a9d351c3245607283c6d40af5d6d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d1a9d351c3245607283c6d40af5d6d7">&#9670;&nbsp;</a></span>GetHeight()</h2>
+<a id="a14cf9b4f8c585e52963e8f644b816cd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14cf9b4f8c585e52963e8f644b816cd1">&#9670;&nbsp;</a></span>GetID()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -499,7 +1143,7 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t glDisplay::GetHeight </td>
+          <td class="memname">uint32_t glDisplay::GetID </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -512,12 +1156,12 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the height of the window (in pixels) </p>
+<p>Get the ID of this display instance into <a class="el" href="group__OpenGL.html#ga6af68c26b9f5254ee676de8b6f332ad4" title="Retrieve a display window object. ">glGetDisplay()</a> </p>
 
 </div>
 </div>
-<a id="a438d449fcde781da3d817855768ff1fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a438d449fcde781da3d817855768ff1fd">&#9670;&nbsp;</a></span>GetWidth()</h2>
+<a id="a11c7c3c210333feb222d6f2480dbbc85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11c7c3c210333feb222d6f2480dbbc85">&#9670;&nbsp;</a></span>GetKey()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -526,7 +1170,94 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t glDisplay::GetWidth </td>
+          <td class="memname">bool glDisplay::GetKey </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the state of a key (lowercase, without modifiers applied) </p>
+<p>Similar to glEvent::KEY_STATE, <a class="el" href="classglDisplay.html#a11c7c3c210333feb222d6f2480dbbc85" title="Get the state of a key (lowercase, without modifiers applied) ">GetKey()</a> queries the raw key state without being translated by modifier keys such as Shift, CapsLock, NumLock, ect. Alphanumeric keys will be left as lowercase, so query lowercase keys - uppercase keys will always return false.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>the <code>XK_</code> key symbol (see <code>/usr/include/X11/keysymdef.h</code>) <pre class="fragment">       Uppercase keys like XK_A or XK_plus will always return false.
+       Instead, query the lowercase keys such as XK_a, XK_1, ect.
+
+       Other keys like F1-F12, shift, tab, ctrl/alt, arrow keys, 
+       backspace, delete, escape, and enter can all be queried.
+
+       GetKey() caches the first 1024 key symbols. Other keys will
+       return false, but can be subscribed to through a glEventHander.
+</pre></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the key is pressed, otherwise false </dd></dl>
+
+</div>
+</div>
+<a id="a611350bedb3e68adfd0e691f3612fc89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a611350bedb3e68adfd0e691f3612fc89">&#9670;&nbsp;</a></span>GetMouseButton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool glDisplay::GetMouseButton </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>button</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the mouse button state. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">button</td><td>the button number, starting with 1. In X11, the left mouse button is 1. Here are the mouse button numbers:</td></tr>
+  </table>
+  </dd>
+</dl>
+<ul>
+<li>1 MOUSE_LEFT (left button)</li>
+</ul>
+<p>2 MOUSE_MIDDLE (middle button / scroll wheel button)</p><ul>
+<li>3 MOUSE_RIGHT (right button)</li>
+<li>4 MOUSE_WHEEL_UP (scroll wheel up)</li>
+<li>5 MOUSE_WHEEL_DOWN (scroll wheel down)</li>
+</ul>
+<dl class="section return"><dt>Returns</dt><dd>true if the button is pressed, otherwise false </dd></dl>
+
+</div>
+</div>
+<a id="a84eb9bf5d9f74d79fe8ba412081a8998"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84eb9bf5d9f74d79fe8ba412081a8998">&#9670;&nbsp;</a></span>GetMousePosition() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int* glDisplay::GetMousePosition </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -539,7 +1270,149 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the width of the window (in pixels) </p>
+<p>Get the mouse position. </p>
+
+</div>
+</div>
+<a id="a57d3f8b1bec6eba7925e187367adab47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57d3f8b1bec6eba7925e187367adab47">&#9670;&nbsp;</a></span>GetMousePosition() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::GetMousePosition </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the mouse position. </p>
+
+</div>
+</div>
+<a id="a80669db30cd225b4f6d0b8ab59237a97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80669db30cd225b4f6d0b8ab59237a97">&#9670;&nbsp;</a></span>GetNumWidgets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t glDisplay::GetNumWidgets </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieve the number of widgets. </p>
+
+</div>
+</div>
+<a id="a2dd585c39b61c2b06c4bf21b9663ef93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2dd585c39b61c2b06c4bf21b9663ef93">&#9670;&nbsp;</a></span>GetType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint32_t glDisplay::GetType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the interface type (<a class="el" href="classglDisplay.html#a13bebe88c1df15a70255134da202a131" title="Unique type identifier of glDisplay class. ">glDisplay::Type</a>) </p>
+
+<p>Reimplemented from <a class="el" href="classvideoOutput.html#aaedce68dfff9bd5c3e76c32468632512">videoOutput</a>.</p>
+
+</div>
+</div>
+<a id="ab03fa54f8098a9db65bbdc1f00622ab0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab03fa54f8098a9db65bbdc1f00622ab0">&#9670;&nbsp;</a></span>GetWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classglWidget.html">glWidget</a>* glDisplay::GetWidget </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieve a widget. </p>
+
+</div>
+</div>
+<a id="a2d13a48ff0860c5da554443a27413ad9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d13a48ff0860c5da554443a27413ad9">&#9670;&nbsp;</a></span>GetWidgetIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int glDisplay::GetWidgetIndex </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classglWidget.html">glWidget</a> *&#160;</td>
+          <td class="paramname"><em>widget</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the index of a widget (or -1 if not found) </p>
 
 </div>
 </div>
@@ -620,6 +1493,53 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a6f26c928e592b54e91d95e3edd96575a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f26c928e592b54e91d95e3edd96575a">&#9670;&nbsp;</a></span>IsDragging()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool glDisplay::IsDragging </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46c">DragMode</a>&#160;</td>
+          <td class="paramname"><em>mode</em> = <code><a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46ca84194cf4cdc04745c23f8dc7b844c880">DragDefault</a></code></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is the mouse currently dragging in the specified mode? </p>
+
+</div>
+</div>
+<a id="a3bfec8d5ad04e8737a3ef7cfb13bc06f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bfec8d5ad04e8737a3ef7cfb13bc06f">&#9670;&nbsp;</a></span>IsMaximized()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool glDisplay::IsMaximized </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determine if the window is maximized or not. </p>
+
+</div>
+</div>
 <a id="a7c96e8b41901e1b0555baef0433d5794"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7c96e8b41901e1b0555baef0433d5794">&#9670;&nbsp;</a></span>IsOpen()</h2>
 
@@ -647,16 +1567,46 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5dd4727a6a11d533c49a37c68791123f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5dd4727a6a11d533c49a37c68791123f">&#9670;&nbsp;</a></span>onEvent()</h2>
+<a id="a89c660203dc7e4c95ebf1069681121b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89c660203dc7e4c95ebf1069681121b1">&#9670;&nbsp;</a></span>IsRendering()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void glDisplay::onEvent </td>
+          <td class="memname">bool glDisplay::IsRendering </td>
           <td>(</td>
-          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns true if between <a class="el" href="classglDisplay.html#aa8abd41c4dbaca15b2d092168ee14a83" title="Clear window and begin rendering a frame. ">BeginRender()</a> and <a class="el" href="classglDisplay.html#a97612036c5849cb4d7026337f2603c87" title="Finish rendering and refresh / flip the backbuffer. ">EndRender()</a> </p>
+
+</div>
+</div>
+<a id="a0b7479b6bc4e384c66b164411333f00e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b7479b6bc4e384c66b164411333f00e">&#9670;&nbsp;</a></span>onEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool glDisplay::onEvent </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
           <td class="paramname"><em>msg</em>, </td>
         </tr>
         <tr>
@@ -669,7 +1619,90 @@ Static Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a27bf4053fddbb4e0fdc88e142b2a7bb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27bf4053fddbb4e0fdc88e142b2a7bb7">&#9670;&nbsp;</a></span>ProcessEvents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::ProcessEvents </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classProcess.html" title="Static functions for retrieving information about the running process. ">Process</a> UI event messages. </p>
+<p>Any queued events will be dispatched to the event message handlers that were registered with RegisterEventHandler()</p>
+<p><a class="el" href="classglDisplay.html#a27bf4053fddbb4e0fdc88e142b2a7bb7" title="Process UI event messages. ">ProcessEvents()</a> usually gets called automatically by BeginFrame(), so it is not typically necessary to explicitly call it unless you passed <code>false</code> to BeginFrame() and wish to process events at another time of your choosing.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__OpenGL.html#gadad47fc5cdbc7af41eee1991038749fe" title="User interface event message types. ">glEventType</a> </dd>
+<dd>
+<a class="el" href="group__OpenGL.html#gacbcfc0668226b31d1becba25887ff47e" title="Event message handler callback for recieving UI messages from a window. ">glEventHandler</a> </dd></dl>
+
+</div>
+</div>
+<a id="a5e209d2b90b11c2948a0cd98c19624e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e209d2b90b11c2948a0cd98c19624e7">&#9670;&nbsp;</a></span>RemoveAllWidgets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::RemoveAllWidgets </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>deleteWidgets</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remove all widgets from the window (and optionally delete them) </p>
+
+</div>
+</div>
+<a id="aa1c19aa18e413da822f284c500a2af6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1c19aa18e413da822f284c500a2af6f">&#9670;&nbsp;</a></span>RemoveEventHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::RemoveEventHandler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__OpenGL.html#gacbcfc0668226b31d1becba25887ff47e">glEventHandler</a>&#160;</td>
+          <td class="paramname"><em>callback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user</em> = <code>NULL</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -679,12 +1712,72 @@ Static Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>UI event handler. </p>
+<p>Remove an event message handler from being called by <a class="el" href="classglDisplay.html#a27bf4053fddbb4e0fdc88e142b2a7bb7" title="Process UI event messages. ">ProcessEvents()</a> <a class="el" href="classglDisplay.html#aa1c19aa18e413da822f284c500a2af6f" title="Remove an event message handler from being called by ProcessEvents() RemoveEventHandler() will search...">RemoveEventHandler()</a> will search for previously registered event handlers that have the same function pointer and/or user pointer, and remove them for being called again in the future. </p>
+
+</div>
+</div>
+<a id="a6de44eb3a03c6053ee61cb5cccce3f28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6de44eb3a03c6053ee61cb5cccce3f28">&#9670;&nbsp;</a></span>RemoveWidget() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::RemoveWidget </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classglWidget.html">glWidget</a> *&#160;</td>
+          <td class="paramname"><em>widget</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>deleteWidget</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remove a widget from the window (and optionally delete it) </p>
+
+</div>
+</div>
+<a id="ad50e13424000eaf6f5ecb08e4acbfeb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad50e13424000eaf6f5ecb08e4acbfeb8">&#9670;&nbsp;</a></span>RemoveWidget() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::RemoveWidget </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>deleteWidget</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remove a widget from the window (and optionally delete it) </p>
 
 </div>
 </div>
 <a id="a528c58b4fcecd7d3d516f44de3233538"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a528c58b4fcecd7d3d516f44de3233538">&#9670;&nbsp;</a></span>Render() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a528c58b4fcecd7d3d516f44de3233538">&#9670;&nbsp;</a></span>Render() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -722,7 +1815,7 @@ Static Protected Attributes</h2></td></tr>
 </div>
 </div>
 <a id="a763b4f1878de0b6c1e2d1961064d158b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a763b4f1878de0b6c1e2d1961064d158b">&#9670;&nbsp;</a></span>Render() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a763b4f1878de0b6c1e2d1961064d158b">&#9670;&nbsp;</a></span>Render() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -775,8 +1868,303 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a17d12d2c47a7015917dd047734eb3e73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17d12d2c47a7015917dd047734eb3e73">&#9670;&nbsp;</a></span>Render() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool glDisplay::Render </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Render a CUDA image (uchar3, uchar4, float3, float4) using OpenGL interop. </p>
+<p>This is similar to <a class="el" href="classglDisplay.html#a117190eeed8ed905cb9330552edd9625" title="Begin the frame, render one CUDA image using OpenGL interop, and end the frame. ">RenderOnce()</a>, in that it will begin/end the frame also. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="classvideoOutput.html#ac63d627d52174400c01c28bb0de82993" title="Render and output the next frame to the stream. ">videoOutput::Render</a> </dd></dl>
+
+</div>
+</div>
+<a id="a5f4e4625ea4d5c1d875dc521d38ace0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f4e4625ea4d5c1d875dc521d38ace0d">&#9670;&nbsp;</a></span>Render() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool glDisplay::Render </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Render a CUDA image (uchar3, uchar4, float3, float4) using OpenGL interop. </p>
+<p>This is similar to <a class="el" href="classglDisplay.html#a117190eeed8ed905cb9330552edd9625" title="Begin the frame, render one CUDA image using OpenGL interop, and end the frame. ">RenderOnce()</a>, in that it will begin/end the frame also. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="classvideoOutput.html#ac63d627d52174400c01c28bb0de82993" title="Render and output the next frame to the stream. ">videoOutput::Render</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classvideoOutput.html#a8e53017c0e49212405391f82fbac876f">videoOutput</a>.</p>
+
+</div>
+</div>
+<a id="a5209a3268ef0abe27d00dd012594f793"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5209a3268ef0abe27d00dd012594f793">&#9670;&nbsp;</a></span>RenderImage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::RenderImage </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em> = <code>0.0f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em> = <code>30.0f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalize</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Render a CUDA image (uchar3, uchar4, float3, float4) using OpenGL interop. </p>
+<p>If normalize is true, the image's pixel values will be rescaled from the range of [0-255] to [0-1] If normalize is false, the image's pixel values are assumed to already be in the range of [0-1] Note that if normalization is selected to be performed, it will be done in-place on the image </p>
+
+</div>
+</div>
+<a id="a13db65eada3b098f3e301fee10de9917"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13db65eada3b098f3e301fee10de9917">&#9670;&nbsp;</a></span>RenderLine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::RenderLine </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>a</em> = <code>1.0f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>thickness</em> = <code>2.0f</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Render a line in screen coordinates with the specified color. </p>
+<dl class="section note"><dt>Note</dt><dd>the RGBA color values are expected to be in the range of [0-1] </dd></dl>
+
+</div>
+</div>
+<a id="a117190eeed8ed905cb9330552edd9625"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a117190eeed8ed905cb9330552edd9625">&#9670;&nbsp;</a></span>RenderOnce() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::RenderOnce </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em> = <code>5.0f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em> = <code>30.0f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalize</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Begin the frame, render one CUDA image using OpenGL interop, and end the frame. </p>
+<p>Note that this function is only useful if you are rendering a single texture per frame. If normalize is true, the image's pixel values will be rescaled from the range of [0-255] to [0-1] If normalize is false, the image's pixel values are assumed to already be in the range of [0-1] Note that if normalization is selected to be performed, it will be done in-place on the image </p>
+
+</div>
+</div>
 <a id="a616a3220a6575d31bad5de69eca71e0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a616a3220a6575d31bad5de69eca71e0f">&#9670;&nbsp;</a></span>RenderOnce()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a616a3220a6575d31bad5de69eca71e0f">&#9670;&nbsp;</a></span>RenderOnce() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -830,14 +2218,267 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aeccd8e8b25430ff8f9cf91cf79a4d7fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeccd8e8b25430ff8f9cf91cf79a4d7fa">&#9670;&nbsp;</a></span>SetBackgroundColor()</h2>
+<a id="a58a8c3a68b96d5e52484354634ffec3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58a8c3a68b96d5e52484354634ffec3b">&#9670;&nbsp;</a></span>RenderOutline()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::RenderOutline </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>a</em> = <code>1.0f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>thickness</em> = <code>2.0f</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Render the outline of a rect in screen coordinates with the specified color. </p>
+<dl class="section note"><dt>Note</dt><dd>the RGBA color values are expected to be in the range of [0-1] </dd></dl>
+
+</div>
+</div>
+<a id="ac390303fad04b7ffac04f208f48ea536"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac390303fad04b7ffac04f208f48ea536">&#9670;&nbsp;</a></span>RenderRect() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::RenderRect </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>a</em> = <code>1.0f</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Render a filled rect in screen coordinates with the specified color. </p>
+<dl class="section note"><dt>Note</dt><dd>the RGBA color values are expected to be in the range of [0-1] </dd></dl>
+
+</div>
+</div>
+<a id="a9621c6abd6509bf14feb104684477861"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9621c6abd6509bf14feb104684477861">&#9670;&nbsp;</a></span>RenderRect() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::RenderRect </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>a</em> = <code>1.0f</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Render a filled rect covering the current viewport with the specified color. </p>
+<dl class="section note"><dt>Note</dt><dd>the RGBA color values are expected to be in the range of [0-1] </dd></dl>
+
+</div>
+</div>
+<a id="a55c92bc0159c94b720a5bdd06cefcd69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55c92bc0159c94b720a5bdd06cefcd69">&#9670;&nbsp;</a></span>ResetCursor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::ResetCursor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reset the mouse cursor back to it's default. </p>
+<p>The default mouse cursor is defined by <a class="el" href="classglDisplay.html#a8ebb8bd67bd55d9a1a24189ba46d09ab" title="Set the default mouse cursor that gets used by ResetCursor() ">SetDefaultCursor()</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classglDisplay.html#a8ebb8bd67bd55d9a1a24189ba46d09ab" title="Set the default mouse cursor that gets used by ResetCursor() ">SetDefaultCursor()</a> </dd>
+<dd>
+<a class="el" href="classglDisplay.html#a93f2524dad00aad905af487e6e30c5e3" title="Set the active mouse cursor. ">SetCursor()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a617f568a9a94622e9c687540e36ea064"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a617f568a9a94622e9c687540e36ea064">&#9670;&nbsp;</a></span>ResetDefaultCursor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::ResetDefaultCursor </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>activate</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reset the default cursor back to it's original, the arrow. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">activate</td><td>if <code>true</code> (default), the active cursor will be changed to this new default cursor immediately. If <code>false</code>, the active cursor will stay the same until <a class="el" href="classglDisplay.html#a55c92bc0159c94b720a5bdd06cefcd69" title="Reset the mouse cursor back to it&#39;s default. ">ResetCursor()</a> gets called in the future.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classglDisplay.html#a8ebb8bd67bd55d9a1a24189ba46d09ab" title="Set the default mouse cursor that gets used by ResetCursor() ">SetDefaultCursor()</a> </dd>
+<dd>
+<a class="el" href="classglDisplay.html#a93f2524dad00aad905af487e6e30c5e3" title="Set the active mouse cursor. ">SetCursor()</a> </dd>
+<dd>
+<a class="el" href="classglDisplay.html#a55c92bc0159c94b720a5bdd06cefcd69" title="Reset the mouse cursor back to it&#39;s default. ">ResetCursor()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a23dd7a9f481c772766f049d8056a8dad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23dd7a9f481c772766f049d8056a8dad">&#9670;&nbsp;</a></span>ResetViewport()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::ResetViewport </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reset to the full viewport (and change back GL_PROJECTION) </p>
+
+</div>
+</div>
+<a id="a1494b4f48cc98493ff9d38537df076e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1494b4f48cc98493ff9d38537df076e7">&#9670;&nbsp;</a></span>SetBackgroundColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void glDisplay::SetBackgroundColor </td>
@@ -861,7 +2502,7 @@ Static Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>a</em>&#160;</td>
+          <td class="paramname"><em>a</em> = <code>1.0f</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -869,14 +2510,9 @@ Static Protected Attributes</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Set the background color. </p>
+<p>Set the window's background color. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">r</td><td>background RGBA color, red component (0.0-1.0f) </td></tr>
@@ -886,6 +2522,193 @@ Static Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a93f2524dad00aad905af487e6e30c5e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93f2524dad00aad905af487e6e30c5e3">&#9670;&nbsp;</a></span>SetCursor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::SetCursor </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>cursor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the active mouse cursor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cursor</td><td>one of the cursor ID's from <code>X11/cursorfont.h</code></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classglDisplay.html#a55c92bc0159c94b720a5bdd06cefcd69" title="Reset the mouse cursor back to it&#39;s default. ">ResetCursor()</a> to restore the cursor back to default </dd>
+<dd>
+<a class="el" href="classglDisplay.html#a8ebb8bd67bd55d9a1a24189ba46d09ab" title="Set the default mouse cursor that gets used by ResetCursor() ">SetDefaultCursor()</a> to change the default cursor </dd></dl>
+
+</div>
+</div>
+<a id="a8ebb8bd67bd55d9a1a24189ba46d09ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ebb8bd67bd55d9a1a24189ba46d09ab">&#9670;&nbsp;</a></span>SetDefaultCursor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::SetDefaultCursor </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>cursor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>activate</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the default mouse cursor that gets used by <a class="el" href="classglDisplay.html#a55c92bc0159c94b720a5bdd06cefcd69" title="Reset the mouse cursor back to it&#39;s default. ">ResetCursor()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cursor</td><td>one of the cursor ID's from <code>X11/cursorfont.h</code>. This will be the default cursor that gets set when <a class="el" href="classglDisplay.html#a55c92bc0159c94b720a5bdd06cefcd69" title="Reset the mouse cursor back to it&#39;s default. ">ResetCursor()</a> is called.</td></tr>
+    <tr><td class="paramname">activate</td><td>if <code>true</code> (default), the active cursor will be changed to this new default cursor immediately. If <code>false</code>, the active cursor will stay the same until <a class="el" href="classglDisplay.html#a55c92bc0159c94b720a5bdd06cefcd69" title="Reset the mouse cursor back to it&#39;s default. ">ResetCursor()</a> gets called in the future.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classglDisplay.html#a55c92bc0159c94b720a5bdd06cefcd69" title="Reset the mouse cursor back to it&#39;s default. ">ResetCursor()</a> </dd>
+<dd>
+<a class="el" href="classglDisplay.html#a617f568a9a94622e9c687540e36ea064" title="Reset the default cursor back to it&#39;s original, the arrow. ">ResetDefaultCursor()</a> </dd>
+<dd>
+<a class="el" href="classglDisplay.html#a93f2524dad00aad905af487e6e30c5e3" title="Set the active mouse cursor. ">SetCursor()</a> </dd></dl>
+
+</div>
+</div>
+<a id="aad873a9d842442644747bdb3176efad8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad873a9d842442644747bdb3176efad8">&#9670;&nbsp;</a></span>SetDragMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::SetDragMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46c">DragMode</a>&#160;</td>
+          <td class="paramname"><em>mode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the dragging behavior mode. </p>
+
+</div>
+</div>
+<a id="aa8149384dbd4a389281d1420608e8418"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8149384dbd4a389281d1420608e8418">&#9670;&nbsp;</a></span>SetMaximized()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::SetMaximized </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>maximized</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Maximize or un-maximize the window. </p>
+
+</div>
+</div>
+<a id="a52516d4523e536c9ed2e40113ee3856e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52516d4523e536c9ed2e40113ee3856e">&#9670;&nbsp;</a></span>SetSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void glDisplay::SetSize </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the window's size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>the desired width of the window, in pixels. </td></tr>
+    <tr><td class="paramname">height</td><td>the desired height of the window, in pixels.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>modifying the window's size will reset the viewport to cover the full area of the new size of the window. </dd></dl>
+
+</div>
+</div>
+<a id="a63804bbc679034342b14fe4c2c4da042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63804bbc679034342b14fe4c2c4da042">&#9670;&nbsp;</a></span>SetStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void glDisplay::SetStatus </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the window title string. </p>
+
+<p>Reimplemented from <a class="el" href="classvideoOutput.html#a7968711adc8814a9ec4e127e7b3a8bb2">videoOutput</a>.</p>
 
 </div>
 </div>
@@ -906,25 +2729,51 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set the window title string. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000008">Deprecated:</a></b></dt><dd><a class="el" href="classglDisplay.html#a4a4943779f0d036af2e49fc9d9a8aade" title="Set the window title string. ">SetTitle()</a> has been superceded by <a class="el" href="classglDisplay.html#a63804bbc679034342b14fe4c2c4da042" title="Set the window title string. ">SetStatus()</a> from <a class="el" href="classvideoOutput.html" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> API. <a class="el" href="classglDisplay.html#a4a4943779f0d036af2e49fc9d9a8aade" title="Set the window title string. ">SetTitle()</a> is functionally the same as <a class="el" href="classglDisplay.html#a63804bbc679034342b14fe4c2c4da042" title="Set the window title string. ">SetStatus()</a>. </dd></dl>
 
 </div>
 </div>
-<a id="a12363aea016c16935833e2b58806d4c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12363aea016c16935833e2b58806d4c8">&#9670;&nbsp;</a></span>UserEvents()</h2>
+<a id="a61179bfa1ba61d66ff243273c71bf5a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61179bfa1ba61d66ff243273c71bf5a3">&#9670;&nbsp;</a></span>SetViewport()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void glDisplay::UserEvents </td>
+          <td class="memname">void glDisplay::SetViewport </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>top</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>right</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>bottom</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classProcess.html" title="Static functions for retrieving information about the running process. ">Process</a> UI events. </p>
+<p>Set the active viewport being rendered to. </p>
+<p><a class="el" href="classglDisplay.html#a61179bfa1ba61d66ff243273c71bf5a3" title="Set the active viewport being rendered to. ">SetViewport()</a> will update the GL_PROJECTION matrix with a new ortho matrix to reflect these changes.</p>
+<p>After done rendering to this viewport, you should reset it back to it's original with <a class="el" href="classglDisplay.html#a23dd7a9f481c772766f049d8056a8dad" title="Reset to the full viewport (and change back GL_PROJECTION) ">ResetViewport()</a> </p>
 
 </div>
 </div>
@@ -950,6 +2799,28 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Default title bar name. </p>
+
+</div>
+</div>
+<a id="aab1f8e0d4ac630ab4c9ab681c61d8419"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab1f8e0d4ac630ab4c9ab681c61d8419">&#9670;&nbsp;</a></span>mActiveCursor</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int glDisplay::mActiveCursor</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1019,6 +2890,50 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a05d0a6f141e5e77df7fddca438627b2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05d0a6f141e5e77df7fddca438627b2b">&#9670;&nbsp;</a></span>mCursors</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Cursor glDisplay::mCursors[256]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae5eeb341bb438b349634928c6ee92813"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5eeb341bb438b349634928c6ee92813">&#9670;&nbsp;</a></span>mDefaultCursor</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int glDisplay::mDefaultCursor</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad809588391d7a2edafb0df1ea96ac35a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad809588391d7a2edafb0df1ea96ac35a">&#9670;&nbsp;</a></span>mDisplayX</h2>
 
@@ -1041,8 +2956,8 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aee7874bab6e7f29546cd0d3ad04b424a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee7874bab6e7f29546cd0d3ad04b424a">&#9670;&nbsp;</a></span>mHeight</h2>
+<a id="a0fa64e4b894f4084fb9c6ba1fb249658"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fa64e4b894f4084fb9c6ba1fb249658">&#9670;&nbsp;</a></span>mDragMode</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1051,7 +2966,73 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t glDisplay::mHeight</td>
+          <td class="memname"><a class="el" href="classglDisplay.html#a0d39d6f011999828560d8353edadf46c">DragMode</a> glDisplay::mDragMode</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a63318712adb85328a1b42fc5237ba1d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63318712adb85328a1b42fc5237ba1d4">&#9670;&nbsp;</a></span>mEventHandlers</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structglDisplay_1_1eventHandler.html">eventHandler</a>&gt; glDisplay::mEventHandlers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3af6f1d107f3deb4b18230af4e3561a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3af6f1d107f3deb4b18230af4e3561a8">&#9670;&nbsp;</a></span>mID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t glDisplay::mID</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5a8ca8f41ba40ac0e3f4c7775e8ecf58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a8ca8f41ba40ac0e3f4c7775e8ecf58">&#9670;&nbsp;</a></span>mKeyStates</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool glDisplay::mKeyStates[1024]</td>
         </tr>
       </table>
   </td>
@@ -1074,6 +3055,94 @@ Static Protected Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">timespec glDisplay::mLastTime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7798109b583a2443473d895e62afce67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7798109b583a2443473d895e62afce67">&#9670;&nbsp;</a></span>mMouseButtons</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool glDisplay::mMouseButtons[16]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a90ec991e713327245bcbc0e70af66232"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90ec991e713327245bcbc0e70af66232">&#9670;&nbsp;</a></span>mMouseDrag</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int glDisplay::mMouseDrag[2]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa7d6851d22a0f03db3d17cf36ca6497d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7d6851d22a0f03db3d17cf36ca6497d">&#9670;&nbsp;</a></span>mMouseDragOrigin</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int glDisplay::mMouseDragOrigin[2]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4ac59e4ff11c7ccb0a6e86ddc0a164da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ac59e4ff11c7ccb0a6e86ddc0a164da">&#9670;&nbsp;</a></span>mMousePos</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int glDisplay::mMousePos[2]</td>
         </tr>
       </table>
   </td>
@@ -1151,6 +3220,94 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a82d14054eb62a16e6101a57e32a050e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82d14054eb62a16e6101a57e32a050e1">&#9670;&nbsp;</a></span>mRendering</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool glDisplay::mRendering</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a50e2a59369c56c0b43cb2c45ae1bdb9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50e2a59369c56c0b43cb2c45ae1bdb9f">&#9670;&nbsp;</a></span>mResizedToFeed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool glDisplay::mResizedToFeed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adfe7e2b2b85b8888b21c07e56718ef57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfe7e2b2b85b8888b21c07e56718ef57">&#9670;&nbsp;</a></span>mScreenHeight</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t glDisplay::mScreenHeight</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a893682bb4ca0ae400c48aed020408128"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a893682bb4ca0ae400c48aed020408128">&#9670;&nbsp;</a></span>mScreenWidth</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t glDisplay::mScreenWidth</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a90154b9452e23a0665360e2008950e23"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a90154b9452e23a0665360e2008950e23">&#9670;&nbsp;</a></span>mScreenX</h2>
 
@@ -1195,6 +3352,28 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a8aeb33cd6f58d26db77c9fce47fe746b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8aeb33cd6f58d26db77c9fce47fe746b">&#9670;&nbsp;</a></span>mViewport</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int glDisplay::mViewport[4]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a327c40adf83a91f4fb4916bc577ae0ab"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a327c40adf83a91f4fb4916bc577ae0ab">&#9670;&nbsp;</a></span>mVisualX</h2>
 
@@ -1217,8 +3396,8 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a2dd92f37832e555d1475e5f8c2484043"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2dd92f37832e555d1475e5f8c2484043">&#9670;&nbsp;</a></span>mWidth</h2>
+<a id="af4009a157353ae44f371fd3d5ca4bc08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4009a157353ae44f371fd3d5ca4bc08">&#9670;&nbsp;</a></span>mWidgets</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1227,29 +3406,7 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t glDisplay::mWidth</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="acd8adcb680935b9ea3ce974b141e5969"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd8adcb680935b9ea3ce974b141e5969">&#9670;&nbsp;</a></span>mWindowClosed</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool glDisplay::mWindowClosed</td>
+          <td class="memname">std::vector&lt;<a class="el" href="classglWidget.html">glWidget</a>*&gt; glDisplay::mWidgets</td>
         </tr>
       </table>
   </td>
@@ -1327,6 +3484,30 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a13bebe88c1df15a70255134da202a131"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13bebe88c1df15a70255134da202a131">&#9670;&nbsp;</a></span>Type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint32_t glDisplay::Type = (1 &lt;&lt; 3)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unique type identifier of <a class="el" href="classglDisplay.html" title="OpenGL display window and image/video renderer with CUDA interoperability. ">glDisplay</a> class. </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>jetson-utils/<a class="el" href="glDisplay_8h_source.html">glDisplay.h</a></li>
 </ul>
@@ -1336,7 +3517,7 @@ Static Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classglDisplay.html">glDisplay</a></li>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:12 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 14 2020 21:59:35 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

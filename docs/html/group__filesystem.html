@@ -82,43 +82,82 @@ $(document).ready(function(){initNavTree('group__filesystem.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Filesystem<div class="ingroups"><a class="el" href="group__util.html">Utilities Library (jetson-utils)</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>network Networking TCP/UDP sockets and IP address manipulation.  
+<p>Functions for listing files in directories and manipulating file paths.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:gad1f15dffa07492b842b0446759083939"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#gad1f15dffa07492b842b0446759083939">fileTypes</a> { <br />
+&#160;&#160;<a class="el" href="group__filesystem.html#ggad1f15dffa07492b842b0446759083939a674ed0f47143f80c97b188885d263fe7">FILE_MISSING</a> = 0, 
+<a class="el" href="group__filesystem.html#ggad1f15dffa07492b842b0446759083939aa2a2d933a005816134ee11ad33143366">FILE_REGULAR</a> = (1 &lt;&lt; 0), 
+<a class="el" href="group__filesystem.html#ggad1f15dffa07492b842b0446759083939a02f0758cc0104382b56cf6409c5c5c0a">FILE_DIR</a> = (1 &lt;&lt; 1), 
+<a class="el" href="group__filesystem.html#ggad1f15dffa07492b842b0446759083939aacbb267698a21335b5eb936fd0959c43">FILE_LINK</a> = (1 &lt;&lt; 2), 
+<br />
+&#160;&#160;<a class="el" href="group__filesystem.html#ggad1f15dffa07492b842b0446759083939a9639392635f5f22fbc6cc8009045c980">FILE_CHAR</a> = (1 &lt;&lt; 3), 
+<a class="el" href="group__filesystem.html#ggad1f15dffa07492b842b0446759083939a3ed1a948b86ee98aebc19b81bdbde831">FILE_BLOCK</a> = (1 &lt;&lt; 4), 
+<a class="el" href="group__filesystem.html#ggad1f15dffa07492b842b0446759083939a57ca535dc6f0b553f54667617f2f6095">FILE_FIFO</a> = (1 &lt;&lt; 5), 
+<a class="el" href="group__filesystem.html#ggad1f15dffa07492b842b0446759083939ac0a81bd8bc6a17f93b3cce7522793d8c">FILE_SOCKET</a> = (1 &lt;&lt; 6)
+<br />
+ }<tr class="memdesc:gad1f15dffa07492b842b0446759083939"><td class="mdescLeft">&#160;</td><td class="mdescRight">File types.  <a href="group__filesystem.html#gad1f15dffa07492b842b0446759083939">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:gad1f15dffa07492b842b0446759083939"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga2cc7cb09746b8181f3389dfee1113f78"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga2cc7cb09746b8181f3389dfee1113f78">absolutePath</a> (const std::string &amp;relative_path)</td></tr>
-<tr class="memdesc:ga2cc7cb09746b8181f3389dfee1113f78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a relative path, resolve the absolute path based on the location of the process that calls the function.  <a href="#ga2cc7cb09746b8181f3389dfee1113f78">More...</a><br /></td></tr>
+<tr class="memdesc:ga2cc7cb09746b8181f3389dfee1113f78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a relative path, resolve the absolute path using the working directory.  <a href="#ga2cc7cb09746b8181f3389dfee1113f78">More...</a><br /></td></tr>
 <tr class="separator:ga2cc7cb09746b8181f3389dfee1113f78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga09605d11f78fcd2d936793371d1c2ccc"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga09605d11f78fcd2d936793371d1c2ccc">locateFile</a> (const std::string &amp;path)</td></tr>
-<tr class="memdesc:ga09605d11f78fcd2d936793371d1c2ccc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a list of all the files in the specified directory.  <a href="#ga09605d11f78fcd2d936793371d1c2ccc">More...</a><br /></td></tr>
+<tr class="memdesc:ga09605d11f78fcd2d936793371d1c2ccc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Locate a file from common system locations.  <a href="#ga09605d11f78fcd2d936793371d1c2ccc">More...</a><br /></td></tr>
 <tr class="separator:ga09605d11f78fcd2d936793371d1c2ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0209cabb0f62f9cfec99a763b5a0bbd1"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga0209cabb0f62f9cfec99a763b5a0bbd1">locateFile</a> (const std::string &amp;path, std::vector&lt; std::string &gt; &amp;locations)</td></tr>
 <tr class="memdesc:ga0209cabb0f62f9cfec99a763b5a0bbd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Locate a file from a set of locations provided by the user, in addition to common system locations such as "/opt" and "/usr/local".  <a href="#ga0209cabb0f62f9cfec99a763b5a0bbd1">More...</a><br /></td></tr>
 <tr class="separator:ga0209cabb0f62f9cfec99a763b5a0bbd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa032b1df8daa37cc992f30f7b0bf29a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#gaa032b1df8daa37cc992f30f7b0bf29a7">fileExists</a> (const char *path, bool regularFilesOnly=false)</td></tr>
-<tr class="memdesc:gaa032b1df8daa37cc992f30f7b0bf29a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify path and return true if the file exists.  <a href="#gaa032b1df8daa37cc992f30f7b0bf29a7">More...</a><br /></td></tr>
-<tr class="separator:gaa032b1df8daa37cc992f30f7b0bf29a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1cce1a89b61cff6664fee0bb89fa2ee9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga1cce1a89b61cff6664fee0bb89fa2ee9">fileSize</a> (const char *path)</td></tr>
-<tr class="memdesc:ga1cce1a89b61cff6664fee0bb89fa2ee9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the size (in bytes) of the specified file.  <a href="#ga1cce1a89b61cff6664fee0bb89fa2ee9">More...</a><br /></td></tr>
-<tr class="separator:ga1cce1a89b61cff6664fee0bb89fa2ee9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9d60da122af0d3e44fe78b4ac73444a1"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga9d60da122af0d3e44fe78b4ac73444a1">filePath</a> (const std::string &amp;filename)</td></tr>
-<tr class="memdesc:ga9d60da122af0d3e44fe78b4ac73444a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the path out of the supplied string, removing the filename and extension For example, <code>filePath("~/user/somefile.xml")</code> would return <code>~/user</code>  <a href="#ga9d60da122af0d3e44fe78b4ac73444a1">More...</a><br /></td></tr>
-<tr class="separator:ga9d60da122af0d3e44fe78b4ac73444a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga51f3dc6065231b5ecde30f7e3f18f918"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga51f3dc6065231b5ecde30f7e3f18f918">pathJoin</a> (const std::string &amp;a, const std::string &amp;b)</td></tr>
+<tr class="memdesc:ga51f3dc6065231b5ecde30f7e3f18f918"><td class="mdescLeft">&#160;</td><td class="mdescRight">Join two paths, and properly include a path separator (<code>/</code>) as needed.  <a href="#ga51f3dc6065231b5ecde30f7e3f18f918">More...</a><br /></td></tr>
+<tr class="separator:ga51f3dc6065231b5ecde30f7e3f18f918"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga54a247d108dcb744e97b74cfb2c8cbdf"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga54a247d108dcb744e97b74cfb2c8cbdf">pathDir</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:ga54a247d108dcb744e97b74cfb2c8cbdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the parent directory of the specified path, removing the filename and extension.  <a href="#ga54a247d108dcb744e97b74cfb2c8cbdf">More...</a><br /></td></tr>
+<tr class="separator:ga54a247d108dcb744e97b74cfb2c8cbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafccdab42bbe88448a26f3485e04cd6f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#gafccdab42bbe88448a26f3485e04cd6f2">listDir</a> (const std::string &amp;path, std::vector&lt; std::string &gt; &amp;list, uint32_t mask=0)</td></tr>
+<tr class="memdesc:gafccdab42bbe88448a26f3485e04cd6f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a sorted list of the files in the specified directory.  <a href="#gafccdab42bbe88448a26f3485e04cd6f2">More...</a><br /></td></tr>
+<tr class="separator:gafccdab42bbe88448a26f3485e04cd6f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga70cae24b8865ece1b2dbc16cbbcfe700"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga70cae24b8865ece1b2dbc16cbbcfe700">fileExists</a> (const std::string &amp;path, uint32_t mask=0)</td></tr>
+<tr class="memdesc:ga70cae24b8865ece1b2dbc16cbbcfe700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify path and return true if the file exists.  <a href="#ga70cae24b8865ece1b2dbc16cbbcfe700">More...</a><br /></td></tr>
+<tr class="separator:ga70cae24b8865ece1b2dbc16cbbcfe700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2fae54af76a7a9056e1589b8b25bcc1a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga2fae54af76a7a9056e1589b8b25bcc1a">fileIsType</a> (const std::string &amp;path, uint32_t mask)</td></tr>
+<tr class="memdesc:ga2fae54af76a7a9056e1589b8b25bcc1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the file is one of the types in the fileTypes mask.  <a href="#ga2fae54af76a7a9056e1589b8b25bcc1a">More...</a><br /></td></tr>
+<tr class="separator:ga2fae54af76a7a9056e1589b8b25bcc1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5b9080296348ef2841dcd4c690c59001"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga5b9080296348ef2841dcd4c690c59001">fileType</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:ga5b9080296348ef2841dcd4c690c59001"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the file type, or FILE_MISSING if it doesn't exist.  <a href="#ga5b9080296348ef2841dcd4c690c59001">More...</a><br /></td></tr>
+<tr class="separator:ga5b9080296348ef2841dcd4c690c59001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga300756f37fbacd5c996a384d698a151f"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga300756f37fbacd5c996a384d698a151f">fileSize</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:ga300756f37fbacd5c996a384d698a151f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the size (in bytes) of the specified file.  <a href="#ga300756f37fbacd5c996a384d698a151f">More...</a><br /></td></tr>
+<tr class="separator:ga300756f37fbacd5c996a384d698a151f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga45ff5e488382fe54d24f27d340fcb5d2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga45ff5e488382fe54d24f27d340fcb5d2">fileExtension</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:ga45ff5e488382fe54d24f27d340fcb5d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the file extension from the path.  <a href="#ga45ff5e488382fe54d24f27d340fcb5d2">More...</a><br /></td></tr>
 <tr class="separator:ga45ff5e488382fe54d24f27d340fcb5d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabd437b0bcd116aa71e6ef6e49be351f1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#gabd437b0bcd116aa71e6ef6e49be351f1">fileHasExtension</a> (const std::string &amp;path, const std::string &amp;extension)</td></tr>
+<tr class="memdesc:gabd437b0bcd116aa71e6ef6e49be351f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the file has the given extension, otherwise false.  <a href="#gabd437b0bcd116aa71e6ef6e49be351f1">More...</a><br /></td></tr>
+<tr class="separator:gabd437b0bcd116aa71e6ef6e49be351f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafc84dff3ce2435020bf2bcd4c02edda7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#gafc84dff3ce2435020bf2bcd4c02edda7">fileHasExtension</a> (const std::string &amp;path, const std::vector&lt; std::string &gt; &amp;extensions)</td></tr>
+<tr class="memdesc:gafc84dff3ce2435020bf2bcd4c02edda7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the file has one of the given extensions, otherwise false.  <a href="#gafc84dff3ce2435020bf2bcd4c02edda7">More...</a><br /></td></tr>
+<tr class="separator:gafc84dff3ce2435020bf2bcd4c02edda7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga684efd9f7360be64d2f0601c47552870"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#ga684efd9f7360be64d2f0601c47552870">fileHasExtension</a> (const std::string &amp;path, const char **extensions)</td></tr>
+<tr class="memdesc:ga684efd9f7360be64d2f0601c47552870"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the file has one of the given extensions, otherwise false.  <a href="#ga684efd9f7360be64d2f0601c47552870">More...</a><br /></td></tr>
+<tr class="separator:ga684efd9f7360be64d2f0601c47552870"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaad68e41c1ebdc261ba49694e18eb8d15"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#gaad68e41c1ebdc261ba49694e18eb8d15">fileRemoveExtension</a> (const std::string &amp;filename)</td></tr>
-<tr class="memdesc:gaad68e41c1ebdc261ba49694e18eb8d15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the input string with the file extension removed For example, <code>strRemoveExtension("~/user/somefile.xml")</code> would return <code>~/user/somefile</code>.  <a href="#gaad68e41c1ebdc261ba49694e18eb8d15">More...</a><br /></td></tr>
+<tr class="memdesc:gaad68e41c1ebdc261ba49694e18eb8d15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the input string with the file extension removed For example, <code>fileRemoveExtension("~/workspace/somefile.xml")</code> would return <code>~/user/somefile</code>.  <a href="#gaad68e41c1ebdc261ba49694e18eb8d15">More...</a><br /></td></tr>
 <tr class="separator:gaad68e41c1ebdc261ba49694e18eb8d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac5d5187920a9c4e1743dbd0b57ea8294"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#gac5d5187920a9c4e1743dbd0b57ea8294">fileChangeExtension</a> (const std::string &amp;filename, const std::string &amp;newExtension)</td></tr>
-<tr class="memdesc:gac5d5187920a9c4e1743dbd0b57ea8294"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the input string with a changed file extension For example, <code>strChangeExtension("~/user/somefile.xml", "zip")</code> would return <code>~/user/somefile.zip</code>.  <a href="#gac5d5187920a9c4e1743dbd0b57ea8294">More...</a><br /></td></tr>
+<tr class="memdesc:gac5d5187920a9c4e1743dbd0b57ea8294"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the input string with a changed file extension For example, <code>fileChangeExtension("~/workspace/somefile.xml", "zip")</code> would return <code>~/user/somefile.zip</code>.  <a href="#gac5d5187920a9c4e1743dbd0b57ea8294">More...</a><br /></td></tr>
 <tr class="separator:gac5d5187920a9c4e1743dbd0b57ea8294"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad5f5bdf6b25f89fe18d5e93191cb1fd5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filesystem.html#gad5f5bdf6b25f89fe18d5e93191cb1fd5">processPath</a> ()</td></tr>
 <tr class="memdesc:gad5f5bdf6b25f89fe18d5e93191cb1fd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the absolute path that of the calling process executable, include the process executable's filename.  <a href="#gad5f5bdf6b25f89fe18d5e93191cb1fd5">More...</a><br /></td></tr>
@@ -131,8 +170,34 @@ Functions</h2></td></tr>
 <tr class="separator:ga7587e5be3b694cbb4d0003eeb64ed365"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p>network Networking TCP/UDP sockets and IP address manipulation. </p>
 <p>Functions for listing files in directories and manipulating file paths. </p>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="gad1f15dffa07492b842b0446759083939"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad1f15dffa07492b842b0446759083939">&#9670;&nbsp;</a></span>fileTypes</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__filesystem.html#gad1f15dffa07492b842b0446759083939">fileTypes</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>File types. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggad1f15dffa07492b842b0446759083939a674ed0f47143f80c97b188885d263fe7"></a>FILE_MISSING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ggad1f15dffa07492b842b0446759083939aa2a2d933a005816134ee11ad33143366"></a>FILE_REGULAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ggad1f15dffa07492b842b0446759083939a02f0758cc0104382b56cf6409c5c5c0a"></a>FILE_DIR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ggad1f15dffa07492b842b0446759083939aacbb267698a21335b5eb936fd0959c43"></a>FILE_LINK&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ggad1f15dffa07492b842b0446759083939a9639392635f5f22fbc6cc8009045c980"></a>FILE_CHAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ggad1f15dffa07492b842b0446759083939a3ed1a948b86ee98aebc19b81bdbde831"></a>FILE_BLOCK&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ggad1f15dffa07492b842b0446759083939a57ca535dc6f0b553f54667617f2f6095"></a>FILE_FIFO&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ggad1f15dffa07492b842b0446759083939ac0a81bd8bc6a17f93b3cce7522793d8c"></a>FILE_SOCKET&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga2cc7cb09746b8181f3389dfee1113f78"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga2cc7cb09746b8181f3389dfee1113f78">&#9670;&nbsp;</a></span>absolutePath()</h2>
@@ -150,8 +215,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Given a relative path, resolve the absolute path based on the location of the process that calls the function. </p>
-<p>For example, if the application is located at "/home/user/my_process" and <code>absolutePath("resources/example")</code> is called, then this function would return the path "/home/user/resources/example". </p>
+<p>Given a relative path, resolve the absolute path using the working directory. </p>
+<p>For example, if the current working directory <code>/home/user/</code> and <code>absolutePath("resources/example")</code> is called, then this function would return the path <code>/home/user/resources/example</code>.</p>
+<p>If the path is already an absolute path (i.e. it begins with <code>/</code> or <code>~/</code>) then this function will be ignored and the path will be returned as-is. </p>
 
 </div>
 </div>
@@ -181,12 +247,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Return the input string with a changed file extension For example, <code>strChangeExtension("~/user/somefile.xml", "zip")</code> would return <code>~/user/somefile.zip</code>. </p>
+<p>Return the input string with a changed file extension For example, <code>fileChangeExtension("~/workspace/somefile.xml", "zip")</code> would return <code>~/user/somefile.zip</code>. </p>
 
 </div>
 </div>
-<a id="gaa032b1df8daa37cc992f30f7b0bf29a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa032b1df8daa37cc992f30f7b0bf29a7">&#9670;&nbsp;</a></span>fileExists()</h2>
+<a id="ga70cae24b8865ece1b2dbc16cbbcfe700"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga70cae24b8865ece1b2dbc16cbbcfe700">&#9670;&nbsp;</a></span>fileExists()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -194,14 +260,14 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">bool fileExists </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>path</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>regularFilesOnly</em> = <code>false</code>&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>mask</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -214,11 +280,10 @@ Functions</h2></td></tr>
 <p>Verify path and return true if the file exists. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">regularFilesOnly</td><td>If false (which is the default), then <a class="el" href="group__filesystem.html#gaa032b1df8daa37cc992f30f7b0bf29a7" title="Verify path and return true if the file exists. ">fileExists()</a> includes filesystem entries like directories, device files, and sockets when verifying the path.</td></tr>
+    <tr><td class="paramname">mask</td><td>filter by file type (by default, any file including directories will be checked). The mask should consist of fileTypes OR'd together (e.g. <code>FILE_REGULAR|FILE_DIR</code>). </td></tr>
   </table>
   </dd>
 </dl>
-<p>If regularFilesOnly parameter is true, then <a class="el" href="group__filesystem.html#gaa032b1df8daa37cc992f30f7b0bf29a7" title="Verify path and return true if the file exists. ">fileExists()</a> will verify the path is to a readable, "regular" file. Other file types (for example directories) will result in <a class="el" href="group__filesystem.html#gaa032b1df8daa37cc992f30f7b0bf29a7" title="Verify path and return true if the file exists. ">fileExists()</a> returning false. </p>
 
 </div>
 </div>
@@ -243,23 +308,137 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga9d60da122af0d3e44fe78b4ac73444a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9d60da122af0d3e44fe78b4ac73444a1">&#9670;&nbsp;</a></span>filePath()</h2>
+<a id="gabd437b0bcd116aa71e6ef6e49be351f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabd437b0bcd116aa71e6ef6e49be351f1">&#9670;&nbsp;</a></span>fileHasExtension() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string filePath </td>
+          <td class="memname">bool fileHasExtension </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>extension</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Extract the path out of the supplied string, removing the filename and extension For example, <code>filePath("~/user/somefile.xml")</code> would return <code>~/user</code> </p>
+<p>Return true if the file has the given extension, otherwise false. </p>
+<p>For example, <code>fileHasExtension("~/workspace/image.jpg", "jpg")</code> would return true. </p>
+
+</div>
+</div>
+<a id="gafc84dff3ce2435020bf2bcd4c02edda7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafc84dff3ce2435020bf2bcd4c02edda7">&#9670;&nbsp;</a></span>fileHasExtension() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool fileHasExtension </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>extensions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return true if the file has one of the given extensions, otherwise false. </p>
+
+</div>
+</div>
+<a id="ga684efd9f7360be64d2f0601c47552870"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga684efd9f7360be64d2f0601c47552870">&#9670;&nbsp;</a></span>fileHasExtension() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool fileHasExtension </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char **&#160;</td>
+          <td class="paramname"><em>extensions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return true if the file has one of the given extensions, otherwise false. </p>
+<p>For example, <code>fileHasExtension("image.jpg", {"jpg", "jpeg", NULL})</code> would return true. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">extensions</td><td>list of extensions, should end with <code>NULL</code> sentinel. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga2fae54af76a7a9056e1589b8b25bcc1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2fae54af76a7a9056e1589b8b25bcc1a">&#9670;&nbsp;</a></span>fileIsType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool fileIsType </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return true if the file is one of the types in the fileTypes mask. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mask</td><td>file types to check against (</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filesystem.html#gad1f15dffa07492b842b0446759083939" title="File types. ">fileTypes</a>) The mask should consist of <a class="el" href="group__filesystem.html#gad1f15dffa07492b842b0446759083939" title="File types. ">fileTypes</a> OR'd together (e.g. <code>FILE_REGULAR|FILE_DIR</code>). </dd></dl>
 
 </div>
 </div>
@@ -279,12 +458,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Return the input string with the file extension removed For example, <code>strRemoveExtension("~/user/somefile.xml")</code> would return <code>~/user/somefile</code>. </p>
+<p>Return the input string with the file extension removed For example, <code>fileRemoveExtension("~/workspace/somefile.xml")</code> would return <code>~/user/somefile</code>. </p>
 
 </div>
 </div>
-<a id="ga1cce1a89b61cff6664fee0bb89fa2ee9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1cce1a89b61cff6664fee0bb89fa2ee9">&#9670;&nbsp;</a></span>fileSize()</h2>
+<a id="ga300756f37fbacd5c996a384d698a151f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga300756f37fbacd5c996a384d698a151f">&#9670;&nbsp;</a></span>fileSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -292,7 +471,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">size_t fileSize </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
@@ -307,6 +486,72 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>if successful, the size of the file in bytes otherwise, 0 will be returned. </dd></dl>
+
+</div>
+</div>
+<a id="ga5b9080296348ef2841dcd4c690c59001"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5b9080296348ef2841dcd4c690c59001">&#9670;&nbsp;</a></span>fileType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t fileType </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the file type, or FILE_MISSING if it doesn't exist. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__filesystem.html#gad1f15dffa07492b842b0446759083939" title="File types. ">fileTypes</a> </dd></dl>
+
+</div>
+</div>
+<a id="gafccdab42bbe88448a26f3485e04cd6f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafccdab42bbe88448a26f3485e04cd6f2">&#9670;&nbsp;</a></span>listDir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool listDir </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>list</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>mask</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return a sorted list of the files in the specified directory. </p>
+<p><a class="el" href="group__filesystem.html#gafccdab42bbe88448a26f3485e04cd6f2" title="Return a sorted list of the files in the specified directory. ">listDir()</a> will glob files from the specified path, and filter against wildcard characters including <code>*</code> and <code>?</code>. For example, valid paths would include <code>~/workspace</code>, <code>~/workspace/*.jpg</code>, ect. </p><dl class="section see"><dt>See also</dt><dd>here for a description of wildcard matching: <a href="https://www.man7.org/linux/man-pages/man7/glob.7.html">https://www.man7.org/linux/man-pages/man7/glob.7.html</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">path</td><td>the path of the directory (may include wildcard characters) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">list</td><td>the alphanumerically sorted output list of the files in the directory </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">mask</td><td>filter by file type (by default, any file including directories will be included). The mask should consist of fileTypes OR'd together (e.g. <code>FILE_REGULAR|FILE_DIR</code>). </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -326,15 +571,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Return a list of all the files in the specified directory. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td>the path of the directory </td></tr>
-    <tr><td class="paramname">list</td><td>the output list of all files in the directory </td></tr>
-    <tr><td class="paramname">includePath</td><td>if true, the list of filenames will be prefixed with the path if false (default), the list of filenames will contain filenames/extensions only Locate a file from common system locations. First, this function will check if the file exists at the path provided, and if not it will check for the existance of the file in common system locations such as "/opt", "/usr/local", and "/usr/local/bin".</td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Locate a file from common system locations. </p>
+<p>First, this function will check if the file exists at the path provided, and if not it will check for the existance of the file in common system locations such as "/opt", "/usr/local", and "/usr/local/bin".</p>
 <dl class="section return"><dt>Returns</dt><dd>the confirmed path of the located file, or empty string if the file could not be found </dd></dl>
 
 </div>
@@ -367,6 +605,58 @@ Functions</h2></td></tr>
 
 <p>Locate a file from a set of locations provided by the user, in addition to common system locations such as "/opt" and "/usr/local". </p>
 <dl class="section return"><dt>Returns</dt><dd>the confirmed path of the located file, or empty string if the file could not be found </dd></dl>
+
+</div>
+</div>
+<a id="ga54a247d108dcb744e97b74cfb2c8cbdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga54a247d108dcb744e97b74cfb2c8cbdf">&#9670;&nbsp;</a></span>pathDir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string pathDir </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the parent directory of the specified path, removing the filename and extension. </p>
+<p>For example, <code>pathDir("~/workspace/somefile.xml")</code> would return <code>~/workspace/</code> </p>
+
+</div>
+</div>
+<a id="ga51f3dc6065231b5ecde30f7e3f18f918"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga51f3dc6065231b5ecde30f7e3f18f918">&#9670;&nbsp;</a></span>pathJoin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string pathJoin </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Join two paths, and properly include a path separator (<code>/</code>) as needed. </p>
+<p>For example, 'pathJoin("~/workspace", "somefile.xml")<code>would return</code>~/workspace/somefile.xml`. </p>
 
 </div>
 </div>
@@ -435,7 +725,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 14 2020 21:59:34 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

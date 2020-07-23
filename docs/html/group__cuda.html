@@ -83,7 +83,6 @@ $(document).ready(function(){initNavTree('group__cuda.html','');});
 <div class="header">
   <div class="summary">
 <a href="#groups">Modules</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">CUDA<div class="ingroups"><a class="el" href="group__util.html">Utilities Library (jetson-utils)</a></div></div>  </div>
@@ -95,536 +94,52 @@ $(document).ready(function(){initNavTree('group__cuda.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 Modules</h2></td></tr>
-<tr class="memitem:group__cudaFont"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cudaFont.html">cudaFont</a></td></tr>
-<tr class="memdesc:group__cudaFont"><td class="mdescLeft">&#160;</td><td class="mdescRight">TTF font rasterization and image overlay rendering using CUDA. <br /></td></tr>
+<tr class="memitem:group__colormap"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colormap.html">Color Mapping</a></td></tr>
+<tr class="memdesc:group__colormap"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines various colormaps and color mapping functions. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__colorspace"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__colorspace.html">Color Conversion</a></td></tr>
-<tr class="memdesc:group__colorspace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Colorspace conversion functions for various YUV formats, RGB, BGR, ect. <br /></td></tr>
+<tr class="memdesc:group__colorspace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Colorspace conversion functions for various YUV formats, RGB, BGR, Bayer, and grayscale. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__crop"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__crop.html">Cropping</a></td></tr>
+<tr class="memdesc:group__crop"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crop an image to the specified region of interest (ROI). <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__cudaError"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cudaError.html">Error Checking</a></td></tr>
+<tr class="memdesc:group__cudaError"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error checking and logging macros. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__cudaFont"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cudaFont.html">Fonts</a></td></tr>
+<tr class="memdesc:group__cudaFont"><td class="mdescLeft">&#160;</td><td class="mdescRight">TTF font rasterization and image overlay rendering using CUDA. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__cudaMemory"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cudaMemory.html">Memory Management</a></td></tr>
+<tr class="memdesc:group__cudaMemory"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocation of CUDA mapped zero-copy memory. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__normalization"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__normalization.html">Normalization</a></td></tr>
+<tr class="memdesc:group__normalization"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize the pixel intensities of an image between two ranges. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__overlay"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__overlay.html">Overlay</a></td></tr>
+<tr class="memdesc:group__overlay"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overlay images and vector shapes onto other images. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__cudaFilter"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cudaFilter.html">Pixel Filtering</a></td></tr>
+<tr class="memdesc:group__cudaFilter"><td class="mdescLeft">&#160;</td><td class="mdescRight">CUDA device functions for sampling pixels with bilinear filtering. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__pointCloud"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pointCloud.html">Point Cloud</a></td></tr>
+<tr class="memdesc:group__pointCloud"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D point cloud processing and visualization. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__resize"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__resize.html">Resize</a></td></tr>
+<tr class="memdesc:group__resize"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rescale an image to a different resolution. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__warping"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__warping.html">Warping</a></td></tr>
 <tr class="memdesc:group__warping"><td class="mdescLeft">&#160;</td><td class="mdescRight">Various image warps and matrix transforms. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:ga5af54ef2b094a11a88feb67b327e1d19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga5af54ef2b094a11a88feb67b327e1d19">CUDA</a>(x)&#160;&#160;&#160;<a class="el" href="group__cuda.html#ga1bab99bd137e538276d8c75a12779f61">cudaCheckError</a>((x), #x, __FILE__, __LINE__)</td></tr>
-<tr class="memdesc:ga5af54ef2b094a11a88feb67b327e1d19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a CUDA call and print out any errors.  <a href="#ga5af54ef2b094a11a88feb67b327e1d19">More...</a><br /></td></tr>
-<tr class="separator:ga5af54ef2b094a11a88feb67b327e1d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga83cbda41b1503ffc548dadc3a10e12af"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga83cbda41b1503ffc548dadc3a10e12af">CUDA_SUCCESS</a>(x)&#160;&#160;&#160;(<a class="el" href="group__cuda.html#ga5af54ef2b094a11a88feb67b327e1d19">CUDA</a>(x) == cudaSuccess)</td></tr>
-<tr class="memdesc:ga83cbda41b1503ffc548dadc3a10e12af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates to true on success.  <a href="#ga83cbda41b1503ffc548dadc3a10e12af">More...</a><br /></td></tr>
-<tr class="separator:ga83cbda41b1503ffc548dadc3a10e12af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad12b27627f04dd0ecf3eb9e2468a846e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gad12b27627f04dd0ecf3eb9e2468a846e">CUDA_FAILED</a>(x)&#160;&#160;&#160;(<a class="el" href="group__cuda.html#ga5af54ef2b094a11a88feb67b327e1d19">CUDA</a>(x) != cudaSuccess)</td></tr>
-<tr class="memdesc:gad12b27627f04dd0ecf3eb9e2468a846e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates to true on failure.  <a href="#gad12b27627f04dd0ecf3eb9e2468a846e">More...</a><br /></td></tr>
-<tr class="separator:gad12b27627f04dd0ecf3eb9e2468a846e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga422e1f398e12cf567ed890a5b499eeef"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga422e1f398e12cf567ed890a5b499eeef">CUDA_VERIFY</a>(x)&#160;&#160;&#160;if(<a class="el" href="group__cuda.html#gad12b27627f04dd0ecf3eb9e2468a846e">CUDA_FAILED</a>(x))	return false;</td></tr>
-<tr class="memdesc:ga422e1f398e12cf567ed890a5b499eeef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return from the boolean function if CUDA call fails.  <a href="#ga422e1f398e12cf567ed890a5b499eeef">More...</a><br /></td></tr>
-<tr class="separator:ga422e1f398e12cf567ed890a5b499eeef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae6c4176aa6f8270000ec2b626a2a8b3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gae6c4176aa6f8270000ec2b626a2a8b3c">LOG_CUDA</a>&#160;&#160;&#160;&quot;[cuda]  &quot;</td></tr>
-<tr class="memdesc:gae6c4176aa6f8270000ec2b626a2a8b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">LOG_CUDA string.  <a href="#gae6c4176aa6f8270000ec2b626a2a8b3c">More...</a><br /></td></tr>
-<tr class="separator:gae6c4176aa6f8270000ec2b626a2a8b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga08121b272362dcd6f06d71a5a660c1e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga08121b272362dcd6f06d71a5a660c1e9">cudaAllocMapped</a> (void **cpuPtr, void **gpuPtr, size_t size)</td></tr>
-<tr class="memdesc:ga08121b272362dcd6f06d71a5a660c1e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate ZeroCopy mapped memory, shared between CUDA and CPU.  <a href="#ga08121b272362dcd6f06d71a5a660c1e9">More...</a><br /></td></tr>
-<tr class="separator:ga08121b272362dcd6f06d71a5a660c1e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaebaf526c95c617fba65d29943b88333d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#gaebaf526c95c617fba65d29943b88333d">cudaAllocMapped</a> (void **ptr, size_t size)</td></tr>
-<tr class="memdesc:gaebaf526c95c617fba65d29943b88333d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate ZeroCopy mapped memory, shared between CUDA and CPU.  <a href="#gaebaf526c95c617fba65d29943b88333d">More...</a><br /></td></tr>
-<tr class="separator:gaebaf526c95c617fba65d29943b88333d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga641d60fd373491363742afa04c5b3ad2"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga641d60fd373491363742afa04c5b3ad2">cudaNormalizeRGBA</a> (float4 *input, const float2 &amp;input_range, float4 *output, const float2 &amp;output_range, size_t width, size_t height)</td></tr>
-<tr class="memdesc:ga641d60fd373491363742afa04c5b3ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rebase the pixel intensities of an image between two scales.  <a href="#ga641d60fd373491363742afa04c5b3ad2">More...</a><br /></td></tr>
-<tr class="separator:ga641d60fd373491363742afa04c5b3ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3b1fd7b9beb55e86396f5ef126a59161"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga3b1fd7b9beb55e86396f5ef126a59161">cudaRectFill</a> (float4 *input, float4 *output, uint32_t width, uint32_t height, float4 *rects, int numRects, const float4 &amp;color)</td></tr>
-<tr class="memdesc:ga3b1fd7b9beb55e86396f5ef126a59161"><td class="mdescLeft">&#160;</td><td class="mdescRight">cudaRectFill  <a href="#ga3b1fd7b9beb55e86396f5ef126a59161">More...</a><br /></td></tr>
-<tr class="separator:ga3b1fd7b9beb55e86396f5ef126a59161"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9">cudaResize</a> (float *input, size_t inputWidth, size_t inputHeight, float *output, size_t outputWidth, size_t outputHeight)</td></tr>
-<tr class="memdesc:ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function for increasing or decreasing the size of an image on the GPU.  <a href="#ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9">More...</a><br /></td></tr>
-<tr class="separator:ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga45b35710852389820ca9b07b1d8a1997"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga45b35710852389820ca9b07b1d8a1997">cudaResizeRGBA</a> (float4 *input, size_t inputWidth, size_t inputHeight, float4 *output, size_t outputWidth, size_t outputHeight)</td></tr>
-<tr class="memdesc:ga45b35710852389820ca9b07b1d8a1997"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function for increasing or decreasing the size of an image on the GPU.  <a href="#ga45b35710852389820ca9b07b1d8a1997">More...</a><br /></td></tr>
-<tr class="separator:ga45b35710852389820ca9b07b1d8a1997"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1bab99bd137e538276d8c75a12779f61"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga1bab99bd137e538276d8c75a12779f61">cudaCheckError</a> (cudaError_t retval, const char *txt, const char *file, int line)</td></tr>
-<tr class="memdesc:ga1bab99bd137e538276d8c75a12779f61"><td class="mdescLeft">&#160;</td><td class="mdescRight">cudaCheckError  <a href="#ga1bab99bd137e538276d8c75a12779f61">More...</a><br /></td></tr>
-<tr class="separator:ga1bab99bd137e538276d8c75a12779f61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga46df5cd83bb2b50cd45d429154a7699b"><td class="memItemLeft" align="right" valign="top">__device__ __host__ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga46df5cd83bb2b50cd45d429154a7699b">iDivUp</a> (int a, int b)</td></tr>
 <tr class="memdesc:ga46df5cd83bb2b50cd45d429154a7699b"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a / b has a remainder, round up.  <a href="#ga46df5cd83bb2b50cd45d429154a7699b">More...</a><br /></td></tr>
 <tr class="separator:ga46df5cd83bb2b50cd45d429154a7699b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>CUDA utilities and image processing kernels. </p>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ga5af54ef2b094a11a88feb67b327e1d19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5af54ef2b094a11a88feb67b327e1d19">&#9670;&nbsp;</a></span>CUDA</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CUDA</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="group__cuda.html#ga1bab99bd137e538276d8c75a12779f61">cudaCheckError</a>((x), #x, __FILE__, __LINE__)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Execute a CUDA call and print out any errors. </p>
-<dl class="section return"><dt>Returns</dt><dd>the original cudaError_t result </dd></dl>
-
-</div>
-</div>
-<a id="gad12b27627f04dd0ecf3eb9e2468a846e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad12b27627f04dd0ecf3eb9e2468a846e">&#9670;&nbsp;</a></span>CUDA_FAILED</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CUDA_FAILED</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;(<a class="el" href="group__cuda.html#ga5af54ef2b094a11a88feb67b327e1d19">CUDA</a>(x) != cudaSuccess)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Evaluates to true on failure. </p>
-
-</div>
-</div>
-<a id="ga83cbda41b1503ffc548dadc3a10e12af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga83cbda41b1503ffc548dadc3a10e12af">&#9670;&nbsp;</a></span>CUDA_SUCCESS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CUDA_SUCCESS</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;(<a class="el" href="group__cuda.html#ga5af54ef2b094a11a88feb67b327e1d19">CUDA</a>(x) == cudaSuccess)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Evaluates to true on success. </p>
-
-</div>
-</div>
-<a id="ga422e1f398e12cf567ed890a5b499eeef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga422e1f398e12cf567ed890a5b499eeef">&#9670;&nbsp;</a></span>CUDA_VERIFY</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CUDA_VERIFY</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;if(<a class="el" href="group__cuda.html#gad12b27627f04dd0ecf3eb9e2468a846e">CUDA_FAILED</a>(x))	return false;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Return from the boolean function if CUDA call fails. </p>
-
-</div>
-</div>
-<a id="gae6c4176aa6f8270000ec2b626a2a8b3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae6c4176aa6f8270000ec2b626a2a8b3c">&#9670;&nbsp;</a></span>LOG_CUDA</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LOG_CUDA&#160;&#160;&#160;&quot;[cuda]  &quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>LOG_CUDA string. </p>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga08121b272362dcd6f06d71a5a660c1e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga08121b272362dcd6f06d71a5a660c1e9">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool cudaAllocMapped </td>
-          <td>(</td>
-          <td class="paramtype">void **&#160;</td>
-          <td class="paramname"><em>cpuPtr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void **&#160;</td>
-          <td class="paramname"><em>gpuPtr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Allocate ZeroCopy mapped memory, shared between CUDA and CPU. </p>
-<dl class="section note"><dt>Note</dt><dd>although two pointers are returned, one for CPU and GPU, they both resolve to the same physical memory. </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">cpuPtr</td><td>Returned CPU pointer to the shared memory. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">gpuPtr</td><td>Returned GPU pointer to the shared memory. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Size (in bytes) of the shared memory to allocate. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the allocation succeeded, <code>false</code> otherwise. </dd></dl>
-
-</div>
-</div>
-<a id="gaebaf526c95c617fba65d29943b88333d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaebaf526c95c617fba65d29943b88333d">&#9670;&nbsp;</a></span>cudaAllocMapped() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool cudaAllocMapped </td>
-          <td>(</td>
-          <td class="paramtype">void **&#160;</td>
-          <td class="paramname"><em>ptr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Allocate ZeroCopy mapped memory, shared between CUDA and CPU. </p>
-<dl class="section note"><dt>Note</dt><dd>this overload of cudaAllocMapped returns one pointer, assumes that the CPU and GPU addresses will match (as is the case with any recent CUDA version). </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">ptr</td><td>Returned pointer to the shared CPU/GPU memory. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Size (in bytes) of the shared memory to allocate. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the allocation succeeded, <code>false</code> otherwise. </dd></dl>
-
-</div>
-</div>
-<a id="ga1bab99bd137e538276d8c75a12779f61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1bab99bd137e538276d8c75a12779f61">&#9670;&nbsp;</a></span>cudaCheckError()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaCheckError </td>
-          <td>(</td>
-          <td class="paramtype">cudaError_t&#160;</td>
-          <td class="paramname"><em>retval</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>txt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>line</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>cudaCheckError </p>
-
-</div>
-</div>
-<a id="ga641d60fd373491363742afa04c5b3ad2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga641d60fd373491363742afa04c5b3ad2">&#9670;&nbsp;</a></span>cudaNormalizeRGBA()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaNormalizeRGBA </td>
-          <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float2 &amp;&#160;</td>
-          <td class="paramname"><em>input_range</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float2 &amp;&#160;</td>
-          <td class="paramname"><em>output_range</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>height</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Rebase the pixel intensities of an image between two scales. </p>
-<p>For example, convert an image with values 0.0-255 to 0.0-1.0. </p>
-
-</div>
-</div>
-<a id="ga3b1fd7b9beb55e86396f5ef126a59161"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3b1fd7b9beb55e86396f5ef126a59161">&#9670;&nbsp;</a></span>cudaRectFill()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaRectFill </td>
-          <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>height</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>rects</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>numRects</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float4 &amp;&#160;</td>
-          <td class="paramname"><em>color</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>cudaRectFill </p>
-
-</div>
-</div>
-<a id="ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9">&#9670;&nbsp;</a></span>cudaResize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaResize </td>
-          <td>(</td>
-          <td class="paramtype">float *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>inputWidth</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>inputHeight</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>outputWidth</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>outputHeight</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Function for increasing or decreasing the size of an image on the GPU. </p>
-
-</div>
-</div>
-<a id="ga45b35710852389820ca9b07b1d8a1997"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga45b35710852389820ca9b07b1d8a1997">&#9670;&nbsp;</a></span>cudaResizeRGBA()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">cudaError_t cudaResizeRGBA </td>
-          <td>(</td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>inputWidth</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>inputHeight</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float4 *&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>outputWidth</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>outputHeight</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Function for increasing or decreasing the size of an image on the GPU. </p>
-
-</div>
-</div>
 <a id="ga46df5cd83bb2b50cd45d429154a7699b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga46df5cd83bb2b50cd45d429154a7699b">&#9670;&nbsp;</a></span>iDivUp()</h2>
 
@@ -660,6 +175,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>If a / b has a remainder, round up. </p>
+<p>This function is commonly using when launching CUDA kernels, to compute a grid size inclusive of the entire dataset if it's dimensions aren't evenly divisible by the block size.</p>
+<p>For example:</p>
+<p>const dim3 blockDim(8,8); const dim3 gridDim(iDivUp(imgWidth,blockDim.x), iDivUp(imgHeight,blockDim.y));</p>
+<p>Then inside the CUDA kernel, there is typically a check that thread index is in-bounds.</p>
+<p>Without the use of <a class="el" href="group__cuda.html#ga46df5cd83bb2b50cd45d429154a7699b" title="If a / b has a remainder, round up. ">iDivUp()</a>, if the data dimensions weren't evenly divisible by the block size, parts of the data wouldn't be covered by the grid and not processed. </p>
 
 </div>
 </div>
@@ -668,7 +188,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 14 2020 21:59:34 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

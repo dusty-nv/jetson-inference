@@ -1,4 +1,4 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="imagenet-camera-2.md">Back</a> | <a href="detectnet-camera-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></s></p>
@@ -6,70 +6,105 @@
 # Locating Objects with DetectNet
 The previous recognition examples output class probabilities representing the entire input image.  Next we're going to focus on **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image classification, object detection networks are capable of detecting many different objects per frame.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet.jpg" width="900">
 
 The `detectNet` object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  `detectNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See below for various [pre-trained detection models](#pre-trained-detection-models-available)  available for download.  The default model used is a [91-class](../data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
 
-As examples of using `detectNet` we provide versions of a command-line interface for C++ and Python:
+As examples of using the `detectNet` class, we provide sample programs for C++ and Python:
 
-- [`detectnet-console.cpp`](../examples/detectnet-console/detectnet-console.cpp) (C++) 
-- [`detectnet-console.py`](../python/examples/detectnet-console.py) (Python) 
+- [`detectnet.cpp`](../examples/detectnet/detectnet.cpp) (C++) 
+- [`detectnet.py`](../python/examples/detectnet.py) (Python) 
 
-Later in the tutorial, we'll also cover object detection on live camera streams from C++ and Python:
+These samples are able to detect objects in images, videos, and camera feeds.  For more info about the various types of input/output streams supported, see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
-- [`detectnet-camera.cpp`](../examples/detectnet-camera/detectnet-camera.cpp) (C++)
-- [`detectnet-camera.py`](../python/examples/detectnet-camera.py) (Python) 
+### Detecting Objects from Images
 
+First, let's try using the `detectnet` program to locates objects in static images.  In addition to the input/output paths, there are some additional command-line options:
 
-### Detecting Objects from the Command Line
-
-The `detectnet-console` program locates objects in static images.  Some of it's important command line parameters are:
-
-- the path to an input image  (`jpg, png, tga, bmp`)
-- optional path to output image  (`jpg, png, tga, bmp`)
 - optional `--network` flag which changes the [detection model](detectnet-console-2.md#pre-trained-detection-models-available) being used (the default is SSD-Mobilenet-v2).
 - optional `--overlay` flag which can be comma-separated combinations of `box`, `labels`, `conf`, and `none`
 	- The default is `--overlay=box,labels,conf` which displays boxes, labels, and confidence values
 - optional `--alpha` value which sets the alpha blending value used during overlay (the default is `120`).
 - optional `--threshold` value which sets the minimum threshold for detection (the default is `0.5`).  
 
-Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them, or see the [`Code Examples`](../README.md#code-examples) readme.
+Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them.
 
 Here are some examples of detecting pedestrians in images with the default SSD-Mobilenet-v2 model:
 
 ``` bash
 # C++
-$ ./detectnet-console --network=ssd-mobilenet-v2 images/peds_0.jpg output.jpg     # --network flag is optional
+$ ./detectnet --network=ssd-mobilenet-v2 images/peds_0.jpg output.jpg     # --network flag is optional
 
 # Python
-$ ./detectnet-console.py --network=ssd-mobilenet-v2 images/peds_0.jpg output.jpg  # --network flag is optional
+$ ./detectnet.py --network=ssd-mobilenet-v2 images/peds_0.jpg output.jpg  # --network flag is optional
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-0.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-0.jpg" width="900">
 
 ``` bash
 # C++
-$ ./detectnet-console images/peds_1.jpg output.jpg
+$ ./detectnet images/peds_1.jpg output.jpg
 
 # Python
-$ ./detectnet-console.py images/peds_1.jpg output.jpg
+$ ./detectnet.py images/peds_1.jpg output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-ssd-peds-1.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-1.jpg" width="900">
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
 
 Below are more detection examples output from the console programs.  The [91-class](../data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/detectnet-animals.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-animals.jpg" width="900">
 
 Various images are found under `images/` for testing, such as `cat_*.jpg`, `dog_*.jpg`, `horse_*.jpg`, `peds_*.jpg`, ect. 
 
+### Processing a Directory or Sequence of Images
+
+If you have multiple images that you'd like to process at one time, you can launch the `detectnet` program with the path to a directory that contains images or a wildcard sequence:
+
+```bash
+# C++
+./detectnet "images/peds_*.jpg" peds_output_%i.jpg
+
+# Python
+./detectnet.py "images/peds_*.jpg" peds_output_%i.jpg
+```
+
+> **note:** when using wildcards, always enclose it in quotes (`"*.jpg"`). Otherwise, the OS will auto-expand the sequence and modify the order of arguments on the command-line, which may result in one of the input images being overwritten by the output.
+
+For more info about loading/saving sequences of images, see the [Camera Streaming and Multimedia](aux-streaming.md#sequences) page.
+
+### Processing Video Files
+
+You can also process videos from disk.  There are some test videos found on your Jetson under `/usr/share/visionworks/sources/data`
+
+``` bash
+# C++
+./detectnet /usr/share/visionworks/sources/data/pedestrians.mp4 pedestrians_ssd.mp4
+
+# Python
+./detectnet.py /usr/share/visionworks/sources/data/pedestrians.mp4 pedestrians_ssd.mp4
+```
+
+<a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
+
+``` bash
+# C++
+./detectnet /usr/share/visionworks/sources/data/parking.avi parking_ssd.avi
+
+# Python
+./detectnet.py /usr/share/visionworks/sources/data/parking.avi parking_ssd.avi
+```
+
+<a href="https://www.youtube.com/watch?v=iB86W-kloPE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-parking-video.jpg width="585"></a>
+
+Remember that you can use the `--threshold` setting to change the detection sensitivity up or down (the default is 0.5).
 
 ### Pre-trained Detection Models Available
 
-Below is a table of the pre-trained object detection networks available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `detectnet-console` used for loading the pre-trained models:
+Below is a table of the pre-trained object detection networks available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `detectnet` used for loading the pre-trained models:
 
 | Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
@@ -97,15 +132,15 @@ For example, if you chose to download SSD-Inception-v2 with the [Model Downloade
 
 ``` bash
 # C++
-$ ./detectnet-console --network=ssd-inception-v2 input.jpg output.jpg
+$ ./detectnet --network=ssd-inception-v2 input.jpg output.jpg
 
 # Python
-$ ./detectnet-console.py --network=ssd-inception-v2 input.jpg output.jpg
+$ ./detectnet.py --network=ssd-inception-v2 input.jpg output.jpg
 ```
 
 ### Source Code
 
-For reference, below is the source code to [`detectnet-console.py`](../python/examples/detectnet-console.py):
+For reference, below is the source code to [`detectnet.py`](../python/examples/detectnet.py):
 
 ``` python
 import jetson.inference
@@ -115,37 +150,54 @@ import argparse
 import sys
 
 # parse the command line
-parser = argparse.ArgumentParser(description="Locate objects in an image using an object detection DNN.", 
-                                 formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.detectNet.Usage())
+parser = argparse.ArgumentParser(description="Locate objects in a live camera stream using an object detection DNN.")
 
-parser.add_argument("file_in", type=str, help="filename of the input image to process")
-parser.add_argument("file_out", type=str, help="filename of the output image to save")
+parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
+parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
 parser.add_argument("--network", type=str, default="ssd-mobilenet-v2", help="pre-trained model to load (see below for options)")
 parser.add_argument("--overlay", type=str, default="box,labels,conf", help="detection overlay flags (e.g. --overlay=box,labels,conf)\nvalid combinations are:  'box', 'labels', 'conf', 'none'")
-parser.add_argument("--threshold", type=float, default=0.5, help="minimum detection threshold to use")
+parser.add_argument("--threshold", type=float, default=0.5, help="minimum detection threshold to use") 
 
-opt = parser.parse_known_args()[0]
-
-# load an image (into shared CPU/GPU memory)
-img, width, height = jetson.utils.loadImageRGBA(opt.file_in)
+try:
+	opt = parser.parse_known_args()[0]
+except:
+	print("")
+	parser.print_help()
+	sys.exit(0)
 
 # load the object detection network
 net = jetson.inference.detectNet(opt.network, sys.argv, opt.threshold)
 
-# detect objects in the image (with overlay)
-detections = net.Detect(img, width, height, opt.overlay)
+# create video sources & outputs
+input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
+output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv)
 
-# print the detections
-print("detected {:d} objects in image".format(len(detections)))
+# process frames until the user exits
+while True:
+	# capture the next image
+	img = input.Capture()
 
-for detection in detections:
-	print(detection)
+	# detect objects in the image (with overlay)
+	detections = net.Detect(img, overlay=opt.overlay)
 
-# print out timing info
-net.PrintProfilerTimes()
+	# print the detections
+	print("detected {:d} objects in image".format(len(detections)))
 
-# save the output image with the bounding box overlays
-jetson.utils.saveImageRGBA(opt.file_out, img, width, height)
+	for detection in detections:
+		print(detection)
+
+	# render the image
+	output.Render(img)
+
+	# update the title bar
+	output.SetStatus("{:s} | Network {:.0f} FPS".format(opt.network, net.GetNetworkFPS()))
+
+	# print out performance info
+	net.PrintProfilerTimes()
+
+	# exit on input/output EOS
+	if not input.IsStreaming() or not output.IsStreaming():
+		break
 ```
 
 Next, we'll run object detection on a live camera stream.

@@ -10,7 +10,7 @@
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="jetson.html"><font color="#ffffff">jetson</font></a>.inference</strong></big></big></font></td
 ><td align=right valign=bottom
 ><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/lib/python2.7/dist-packages/jetson/inference/__init__.py">/usr/lib/python2.7/dist-packages/jetson/inference/__init__.py</a></font></td></tr></table>
-    <p></p>
+    <p><tt>#print("jetson.inference.__init__.py")</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -67,7 +67,7 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default&nbsp;value&nbsp;is&nbsp;0.5<br>
 &nbsp;<br>
 <a href="#detectNet">detectNet</a>&nbsp;arguments:&nbsp;<br>
-&nbsp;&nbsp;--network&nbsp;NETWORK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pre-trained&nbsp;model&nbsp;to&nbsp;load,&nbsp;one&nbsp;of&nbsp;the&nbsp;following:<br>
+&nbsp;&nbsp;--network=NETWORK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pre-trained&nbsp;model&nbsp;to&nbsp;load,&nbsp;one&nbsp;of&nbsp;the&nbsp;following:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-mobilenet-v1<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-mobilenet-v2&nbsp;(default)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-inception-v2<br>
@@ -78,16 +78,18 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-bottle<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-chair<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-dog<br>
-&nbsp;&nbsp;--model&nbsp;MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(caffemodel,&nbsp;uff,&nbsp;or&nbsp;onnx)<br>
-&nbsp;&nbsp;--prototxt&nbsp;PROTOTXT&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
-&nbsp;&nbsp;--class_labels&nbsp;LABELS&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
-&nbsp;&nbsp;--threshold&nbsp;THRESHOLD&nbsp;minimum&nbsp;threshold&nbsp;for&nbsp;detection&nbsp;(default&nbsp;is&nbsp;0.5)<br>
-&nbsp;&nbsp;--input_blob&nbsp;INPUT&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'data')<br>
-&nbsp;&nbsp;--output_cvg&nbsp;COVERAGE&nbsp;name&nbsp;of&nbsp;the&nbsp;coverge&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'coverage')<br>
-&nbsp;&nbsp;--output_bbox&nbsp;BOXES&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;bounding&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'bboxes')<br>
-&nbsp;&nbsp;--mean_pixel&nbsp;PIXEL&nbsp;&nbsp;&nbsp;&nbsp;mean&nbsp;pixel&nbsp;value&nbsp;to&nbsp;subtract&nbsp;from&nbsp;input&nbsp;(default&nbsp;is&nbsp;0.0)<br>
-&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
-&nbsp;&nbsp;--alpha&nbsp;ALPHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overlay&nbsp;alpha&nbsp;blending&nbsp;value,&nbsp;range&nbsp;0-255&nbsp;(default:&nbsp;120)<br>
+&nbsp;&nbsp;--model=MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(caffemodel,&nbsp;uff,&nbsp;or&nbsp;onnx)<br>
+&nbsp;&nbsp;--prototxt=PROTOTXT&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
+&nbsp;&nbsp;--labels=LABELS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
+&nbsp;&nbsp;--input-blob=INPUT&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'data')<br>
+&nbsp;&nbsp;--output-cvg=COVERAGE&nbsp;name&nbsp;of&nbsp;the&nbsp;coverge&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'coverage')<br>
+&nbsp;&nbsp;--output-bbox=BOXES&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;bounding&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'bboxes')<br>
+&nbsp;&nbsp;--mean-pixel=PIXEL&nbsp;&nbsp;&nbsp;&nbsp;mean&nbsp;pixel&nbsp;value&nbsp;to&nbsp;subtract&nbsp;from&nbsp;input&nbsp;(default&nbsp;is&nbsp;0.0)<br>
+&nbsp;&nbsp;--batch-size=BATCH&nbsp;&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
+&nbsp;&nbsp;--threshold=THRESHOLD&nbsp;minimum&nbsp;threshold&nbsp;for&nbsp;detection&nbsp;(default&nbsp;is&nbsp;0.5)<br>
+&nbsp;&nbsp;--alpha=ALPHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overlay&nbsp;alpha&nbsp;blending&nbsp;value,&nbsp;range&nbsp;0-255&nbsp;(default:&nbsp;120)<br>
+&nbsp;&nbsp;--overlay=OVERLAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;detection&nbsp;overlay&nbsp;flags&nbsp;(e.g.&nbsp;--overlay=box,labels,conf)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid&nbsp;combinations&nbsp;are:&nbsp;&nbsp;'box',&nbsp;'labels',&nbsp;'conf',&nbsp;'none'<br>
 &nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
@@ -250,7 +252,7 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;below&nbsp;for&nbsp;available&nbsp;options.<br>
 &nbsp;<br>
 <a href="#imageNet">imageNet</a>&nbsp;arguments:&nbsp;<br>
-&nbsp;&nbsp;--network&nbsp;NETWORK&nbsp;&nbsp;&nbsp;&nbsp;pre-trained&nbsp;model&nbsp;to&nbsp;load,&nbsp;one&nbsp;of&nbsp;the&nbsp;following:<br>
+&nbsp;&nbsp;--network=NETWORK&nbsp;&nbsp;&nbsp;&nbsp;pre-trained&nbsp;model&nbsp;to&nbsp;load,&nbsp;one&nbsp;of&nbsp;the&nbsp;following:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;alexnet<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;googlenet&nbsp;(default)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;googlenet-12<br>
@@ -261,12 +263,12 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;vgg-16<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;vgg-19<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;inception-v4<br>
-&nbsp;&nbsp;--model&nbsp;MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(caffemodel,&nbsp;uff,&nbsp;or&nbsp;onnx)<br>
-&nbsp;&nbsp;--prototxt&nbsp;PROTOTXT&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
-&nbsp;&nbsp;--labels&nbsp;LABELS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
-&nbsp;&nbsp;--input_blob&nbsp;INPUT&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'data')<br>
-&nbsp;&nbsp;--output_blob&nbsp;OUTPUT&nbsp;name&nbsp;of&nbsp;the&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'prob')<br>
-&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
+&nbsp;&nbsp;--model=MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(caffemodel,&nbsp;uff,&nbsp;or&nbsp;onnx)<br>
+&nbsp;&nbsp;--prototxt=PROTOTXT&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
+&nbsp;&nbsp;--labels=LABELS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
+&nbsp;&nbsp;--input-blob=INPUT&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'data')<br>
+&nbsp;&nbsp;--output-blob=OUTPUT&nbsp;name&nbsp;of&nbsp;the&nbsp;output&nbsp;layer&nbsp;(default&nbsp;is&nbsp;'prob')<br>
+&nbsp;&nbsp;--batch-size=BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
 &nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
@@ -375,7 +377,7 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see&nbsp;below&nbsp;for&nbsp;available&nbsp;options.<br>
 &nbsp;<br>
 <a href="#segNet">segNet</a>&nbsp;arguments:&nbsp;<br>
-&nbsp;&nbsp;--network&nbsp;NETWORK&nbsp;&nbsp;&nbsp;&nbsp;pre-trained&nbsp;model&nbsp;to&nbsp;load,&nbsp;one&nbsp;of&nbsp;the&nbsp;following:<br>
+&nbsp;&nbsp;--network=NETWORK&nbsp;&nbsp;&nbsp;&nbsp;pre-trained&nbsp;model&nbsp;to&nbsp;load,&nbsp;one&nbsp;of&nbsp;the&nbsp;following:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-cityscapes-512x256<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-cityscapes-1024x512<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-cityscapes-2048x1024<br>
@@ -387,14 +389,16 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-voc-512x320<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-sun-512x400<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;fcn-resnet18-sun-640x512<br>
-&nbsp;&nbsp;--model&nbsp;MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(caffemodel,&nbsp;uff,&nbsp;or&nbsp;onnx)<br>
-&nbsp;&nbsp;--prototxt&nbsp;PROTOTXT&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
-&nbsp;&nbsp;--labels&nbsp;LABELS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
-&nbsp;&nbsp;--colors&nbsp;COLORS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;colors&nbsp;for&nbsp;each&nbsp;class<br>
-&nbsp;&nbsp;--input_blob&nbsp;INPUT&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default:&nbsp;'data')<br>
-&nbsp;&nbsp;--output_blob&nbsp;OUTPUT&nbsp;name&nbsp;of&nbsp;the&nbsp;output&nbsp;layer&nbsp;(default:&nbsp;'score_fr_21classes')<br>
-&nbsp;&nbsp;--batch_size&nbsp;BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
-&nbsp;&nbsp;--alpha&nbsp;ALPHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overlay&nbsp;alpha&nbsp;blending&nbsp;value,&nbsp;range&nbsp;0-255&nbsp;(default:&nbsp;120)<br>
+&nbsp;&nbsp;--model=MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(caffemodel,&nbsp;uff,&nbsp;or&nbsp;onnx)<br>
+&nbsp;&nbsp;--prototxt=PROTOTXT&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
+&nbsp;&nbsp;--labels=LABELS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
+&nbsp;&nbsp;--colors=COLORS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;colors&nbsp;for&nbsp;each&nbsp;class<br>
+&nbsp;&nbsp;--input-blob=INPUT&nbsp;&nbsp;&nbsp;name&nbsp;of&nbsp;the&nbsp;input&nbsp;layer&nbsp;(default:&nbsp;'data')<br>
+&nbsp;&nbsp;--output-blob=OUTPUT&nbsp;name&nbsp;of&nbsp;the&nbsp;output&nbsp;layer&nbsp;(default:&nbsp;'score_fr_21classes')<br>
+&nbsp;&nbsp;--batch-size=BATCH&nbsp;&nbsp;&nbsp;maximum&nbsp;batch&nbsp;size&nbsp;(default&nbsp;is&nbsp;1)<br>
+&nbsp;&nbsp;--alpha=ALPHA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overlay&nbsp;alpha&nbsp;blending&nbsp;value,&nbsp;range&nbsp;0-255&nbsp;(default:&nbsp;120)<br>
+&nbsp;&nbsp;--visualize=VISUAL&nbsp;&nbsp;&nbsp;visualization&nbsp;flags&nbsp;(e.g.&nbsp;--visualize=overlay,mask)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid&nbsp;combinations&nbsp;are:&nbsp;&nbsp;'overlay',&nbsp;'mask'<br>
 &nbsp;&nbsp;--profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enable&nbsp;layer&nbsp;profiling&nbsp;in&nbsp;TensorRT<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
@@ -411,6 +415,36 @@ Parameters:<br>
 &nbsp;<br>
 Returns:<br>
 &nbsp;&nbsp;(string)&nbsp;--&nbsp;the&nbsp;text&nbsp;description&nbsp;of&nbsp;the&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;class</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetGridHeight"><strong>GetGridHeight</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;number&nbsp;of&nbsp;rows&nbsp;in&nbsp;the&nbsp;segmentation&nbsp;mask&nbsp;classification&nbsp;grid.<br>
+These&nbsp;are&nbsp;the&nbsp;raw&nbsp;dimensions,&nbsp;they&nbsp;are&nbsp;typically&nbsp;smaller&nbsp;than&nbsp;the&nbsp;image&nbsp;size.<br>
+In&nbsp;<a href="#segNet">segNet</a>.<a href="#segNet-Mask">Mask</a>()&nbsp;the&nbsp;classification&nbsp;grid&nbsp;gets&nbsp;upscaled&nbsp;to&nbsp;match&nbsp;the&nbsp;image&nbsp;size,<br>
+but&nbsp;this&nbsp;function&nbsp;returns&nbsp;the&nbsp;original&nbsp;unscaled&nbsp;size&nbsp;of&nbsp;the&nbsp;grid.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;height&nbsp;of&nbsp;the&nbsp;segmentation&nbsp;mask's&nbsp;classification&nbsp;grid</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetGridSize"><strong>GetGridSize</strong></a>(...)</dt><dd><tt>Return&nbsp;a&nbsp;(width,&nbsp;height)&nbsp;tuple&nbsp;with&nbsp;the&nbsp;dimensions&nbsp;of&nbsp;the&nbsp;segmentation&nbsp;mask&nbsp;classification&nbsp;grid.<br>
+These&nbsp;are&nbsp;the&nbsp;raw&nbsp;dimensions,&nbsp;they&nbsp;are&nbsp;typically&nbsp;smaller&nbsp;than&nbsp;the&nbsp;image&nbsp;size.<br>
+In&nbsp;<a href="#segNet">segNet</a>.<a href="#segNet-Mask">Mask</a>()&nbsp;the&nbsp;classification&nbsp;grid&nbsp;gets&nbsp;upscaled&nbsp;to&nbsp;match&nbsp;the&nbsp;image&nbsp;size,<br>
+but&nbsp;this&nbsp;function&nbsp;returns&nbsp;the&nbsp;original&nbsp;unscaled&nbsp;size&nbsp;of&nbsp;the&nbsp;grid.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(int,&nbsp;int)&nbsp;--&nbsp;tuple&nbsp;containing&nbsp;the&nbsp;width&nbsp;and&nbsp;height&nbsp;of&nbsp;the&nbsp;segmentation&nbsp;mask's&nbsp;classification&nbsp;grid</tt></dd></dl>
+
+<dl><dt><a name="segNet-GetGridWidth"><strong>GetGridWidth</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;number&nbsp;of&nbsp;columns&nbsp;in&nbsp;the&nbsp;segmentation&nbsp;mask&nbsp;classification&nbsp;grid.<br>
+These&nbsp;are&nbsp;the&nbsp;raw&nbsp;dimensions,&nbsp;they&nbsp;are&nbsp;typically&nbsp;smaller&nbsp;than&nbsp;the&nbsp;image&nbsp;size.<br>
+In&nbsp;<a href="#segNet">segNet</a>.<a href="#segNet-Mask">Mask</a>()&nbsp;the&nbsp;classification&nbsp;grid&nbsp;gets&nbsp;upscaled&nbsp;to&nbsp;match&nbsp;the&nbsp;image&nbsp;size,<br>
+but&nbsp;this&nbsp;function&nbsp;returns&nbsp;the&nbsp;original&nbsp;unscaled&nbsp;size&nbsp;of&nbsp;the&nbsp;grid.<br>
+&nbsp;<br>
+Parameters:&nbsp;&nbsp;(none)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;(int)&nbsp;--&nbsp;width&nbsp;of&nbsp;the&nbsp;segmentation&nbsp;mask's&nbsp;classification&nbsp;grid</tt></dd></dl>
 
 <dl><dt><a name="segNet-GetNetworkName"><strong>GetNetworkName</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;built-in&nbsp;network&nbsp;used&nbsp;by&nbsp;the&nbsp;model.<br>
 &nbsp;<br>

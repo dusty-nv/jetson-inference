@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['commandline',['commandLine',['../classcommandLine.html',1,'']]],
-  ['cudafont',['cudaFont',['../classcudaFont.html',1,'']]]
+  ['alphanum_5fless',['alphanum_less',['../structdoj_1_1alphanum__less.html',1,'doj']]]
 ];

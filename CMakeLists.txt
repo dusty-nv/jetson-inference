@@ -22,10 +22,11 @@ if( NOT EXISTS "${PROJECT_SOURCE_DIR}/utils/.git" )
 endif()
 
 
-# setup tensorRT flags
+# setup build flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-write-strings -Wno-deprecated-declarations")	# -std=c++14 
 set(BUILD_DEPS "YES" CACHE BOOL "If YES, will install dependencies into sandbox.  Automatically reset to NO after dependencies are installed.")
 set(BUILD_INTERACTIVE "YES" CACHE BOOL "If NO, will download/install the default DNN models without prompting the user, and skip installation of PyTorch.")
+set(BUILD_EXPERIMENTAL "NO" CACHE BOOL "If YES, will enable support for experimental DNNs, examples, and plugins")
 
 
 # copy configuration tools to build dir
@@ -70,24 +71,6 @@ if(CUDA_VERSION_MAJOR GREATER 9)
 		${CUDA_NVCC_FLAGS}; 
 		-gencode arch=compute_72,code=sm_72
 	)
-
-	# OpenCV used for findHomography() and decomposeHomography()
-	# OpenCV version >= 3.0.0 required for decomposeHomography()
-	find_package(OpenCV COMPONENTS core calib3d)
-
-	if( NOT OpenCV_FOUND )
-		message("-- didn't find OpenCV on system, disabling OpenCV")
-	else()
-		message("-- OpenCV version:  " ${OpenCV_VERSION})
-
-		if( ${OpenCV_VERSION_MAJOR} LESS 3 )
-			message("-- OpenCV version less than 3.0, disabling OpenCV")
-		else()
-			message("-- OpenCV version >= 3.0.0, enabling OpenCV")
-			set(HAS_OPENCV 1)
-			add_definitions(-DHAS_OPENCV)
-		endif()	
-	endif()
 endif()
 
 # setup project output paths
@@ -109,11 +92,42 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 include_directories(${PROJECT_INCLUDE_DIR} ${PROJECT_INCLUDE_DIR}/jetson-inference ${PROJECT_INCLUDE_DIR}/jetson-utils)
 include_directories(/usr/include/gstreamer-1.0 /usr/lib/aarch64-linux-gnu/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/aarch64-linux-gnu/glib-2.0/include/)
 
-file(GLOB inferenceSources c/*.cpp c/*.cu calibration/*.cpp plugins/*.cpp)
+file(GLOB inferenceSources c/*.cpp c/*.cu calibration/*.cpp)
 file(GLOB inferenceIncludes c/*.h c/*.cuh calibration/*.h)
 
-cuda_add_library(jetson-inference SHARED ${inferenceSources})
-#target_link_libraries(jetson-inference nvcaffe_parser nvinfer)		# gstreamer-0.10 gstbase-0.10 gstapp-0.10 
+if(BUILD_EXPERIMENTAL)
+	message("-- BUILD_EXPERIMENTAL enabled")
+
+	# OpenCV used for findHomography() and decomposeHomography()
+	# OpenCV version >= 3.0.0 required for decomposeHomography()
+	find_package(OpenCV COMPONENTS core calib3d)
+
+	if( NOT OpenCV_FOUND )
+		message("-- didn't find OpenCV on system, disabling OpenCV")
+	else()
+		message("-- OpenCV version:  " ${OpenCV_VERSION})
+
+		if( ${OpenCV_VERSION_MAJOR} LESS 3 )
+			message("-- OpenCV version less than 3.0, disabling OpenCV")
+		else()
+			message("-- OpenCV version >= 3.0.0, enabling OpenCV")
+			set(HAS_OPENCV 1)
+			add_definitions(-DHAS_OPENCV)
+		endif()	
+	endif()
+
+	file(GLOB experimentalSources c/experimental/*.cpp c/experimental/*.cu)
+	file(GLOB experimentalIncludes c/experimental/*.h c/experimental/*.cuh)
+	file(GLOB_RECURSE pluginSources plugins/*.cpp plugins/*.cu)
+
+	list(APPEND inferenceSources ${experimentalSources})
+	list(APPEND inferenceIncludes ${experimentalIncludes})
+else()
+	message("-- BUILD_EXPERIMENTAL disabled")
+	file(GLOB pluginSources plugins/*.cpp plugins/*.cu)
+endif()
+	
+cuda_add_library(jetson-inference SHARED ${inferenceSources} ${pluginSources})
 
 
 # transfer all headers to the include directory
@@ -124,6 +138,9 @@ foreach(include ${inferenceIncludes})
 	configure_file(${include} ${PROJECT_INCLUDE_DIR}/jetson-inference COPYONLY)
 endforeach()
 
+#if(BUILD_EXPERIMENTAL)
+
+#endif()
 
 # create symbolic link for network and image data
 execute_process( COMMAND "${CMAKE_COMMAND}" "-E" "create_symlink" "${PROJECT_SOURCE_DIR}/data/networks" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/networks" )

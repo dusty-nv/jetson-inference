@@ -88,14 +88,24 @@ $(document).ready(function(){initNavTree('cudaNormalize_8h.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="cudaUtility_8h_source.html">cudaUtility.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="imageFormat_8h_source.html">imageFormat.h</a>&quot;</code><br />
 </div>
 <p><a href="cudaNormalize_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga641d60fd373491363742afa04c5b3ad2"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga641d60fd373491363742afa04c5b3ad2">cudaNormalizeRGBA</a> (float4 *input, const float2 &amp;input_range, float4 *output, const float2 &amp;output_range, size_t width, size_t height)</td></tr>
-<tr class="memdesc:ga641d60fd373491363742afa04c5b3ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rebase the pixel intensities of an image between two scales.  <a href="group__cuda.html#ga641d60fd373491363742afa04c5b3ad2">More...</a><br /></td></tr>
-<tr class="separator:ga641d60fd373491363742afa04c5b3ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga982a42f089e22a0caa6921435be3ce62"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__normalization.html#ga982a42f089e22a0caa6921435be3ce62">cudaNormalize</a> (float *input, const float2 &amp;input_range, float *output, const float2 &amp;output_range, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga982a42f089e22a0caa6921435be3ce62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize the pixel intensities of a floating-point grayscale image between two scales.  <a href="group__normalization.html#ga982a42f089e22a0caa6921435be3ce62">More...</a><br /></td></tr>
+<tr class="separator:ga982a42f089e22a0caa6921435be3ce62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9cd6a648c82695d4c856e5acefddad0c"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__normalization.html#ga9cd6a648c82695d4c856e5acefddad0c">cudaNormalize</a> (float3 *input, const float2 &amp;input_range, float3 *output, const float2 &amp;output_range, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga9cd6a648c82695d4c856e5acefddad0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize the pixel intensities of a float3 RGB/BGR image between two scales.  <a href="group__normalization.html#ga9cd6a648c82695d4c856e5acefddad0c">More...</a><br /></td></tr>
+<tr class="separator:ga9cd6a648c82695d4c856e5acefddad0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga726290f57cf01728290e0fe3572a1d7c"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__normalization.html#ga726290f57cf01728290e0fe3572a1d7c">cudaNormalize</a> (float4 *input, const float2 &amp;input_range, float4 *output, const float2 &amp;output_range, size_t width, size_t height)</td></tr>
+<tr class="memdesc:ga726290f57cf01728290e0fe3572a1d7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize the pixel intensities of a float4 RGBA/BGRA image between two scales.  <a href="group__normalization.html#ga726290f57cf01728290e0fe3572a1d7c">More...</a><br /></td></tr>
+<tr class="separator:ga726290f57cf01728290e0fe3572a1d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2d5164603e6d889b6603f2de46bab2ea"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__normalization.html#ga2d5164603e6d889b6603f2de46bab2ea">cudaNormalize</a> (void *input, const float2 &amp;input_range, void *output, const float2 &amp;output_range, size_t width, size_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
+<tr class="memdesc:ga2d5164603e6d889b6603f2de46bab2ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize the pixel intensities of an image between two scales.  <a href="group__normalization.html#ga2d5164603e6d889b6603f2de46bab2ea">More...</a><br /></td></tr>
+<tr class="separator:ga2d5164603e6d889b6603f2de46bab2ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -103,7 +113,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_54a0acf6da04fe2ed9410b4c6369bc5d.html">jetson-utils</a></li><li class="navelem"><a class="el" href="cudaNormalize_8h.html">cudaNormalize.h</a></li>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 14 2020 21:59:34 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

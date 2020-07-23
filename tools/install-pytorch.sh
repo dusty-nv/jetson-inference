@@ -24,7 +24,7 @@
 APP_TITLE="Hello AI World (jetson-inference)"
 LOG="[jetson-inference] "
 WGET_QUIET="--quiet"
-BUILD_INTERACTIVE=$1
+BUILD_INTERACTIVE=${1:-"YES"}
 
 
 #
@@ -225,7 +225,50 @@ function install_deb_package()
 #
 # install PyTorch
 #
-function install_pytorch_v110_python27()
+function install_pytorch()
+{
+	local pytorch_version=$1
+	local python_version=$2
+     local l4t_release=$3
+	local l4t_revision=$4
+	
+	if [ $pytorch_version = "1.1.0" ]; then
+	
+		if [ $python_version == "python27" ]; then
+			install_pytorch_v110_python27_jp42
+		elif [ $python_version == "python36" ]; then
+			install_pytorch_v110_python36_jp42
+		fi
+		
+	elif [ $pytorch_version = "1.4.0" ]; then
+			
+		if [ $JETSON_L4T_RELEASE -eq 32 ]; then
+			if [ $JETSON_L4T_REVISION = "4.2" ]; then
+				if [ $python_version == "python27" ]; then	# JetPack 4.4 DP
+					install_pytorch_v140_python27_jp44
+				elif [ $python_version == "python36" ]; then
+					install_pytorch_v140_python36_jp44
+				fi
+			else
+				if [ $python_version == "python27" ]; then	# JetPack 4.2, 4.3
+					install_pytorch_v140_python27_jp42
+				elif [ $python_version == "python36" ]; then
+					install_pytorch_v140_python36_jp42
+				fi
+			fi
+		fi
+		
+	elif [ $pytorch_version = "1.6.0" ]; then
+		install_pytorch_v160_python36_jp44
+	else
+		echo "$LOG invalid PyTorch version selected:  PyTorch $pytorch_version"
+		exit_message 1
+	fi
+
+	return $?
+}
+	
+function install_pytorch_v110_python27_jp42()
 {
 	echo "$LOG Downloading PyTorch v1.1.0 (Python 2.7)..."
 
@@ -247,10 +290,10 @@ function install_pytorch_v110_python27()
 
 	# build torchvision
 	echo "$LOG cloning torchvision..."
-	rm -r -f torchvision-27
+	sudo rm -r -f torchvision-27
 	git clone -bv0.3.0 https://github.com/dusty-nv/vision torchvision-27
 	cd torchvision-27
-	echo "$LOG building torchvision for Python 3.6..."
+	echo "$LOG building torchvision for Python 2.7..."
 	sudo python setup.py install
 	cd ../
 
@@ -260,8 +303,7 @@ function install_pytorch_v110_python27()
 	return 0
 }
 
-
-function install_pytorch_v110_python36()
+function install_pytorch_v110_python36_jp42()
 {
 	echo "$LOG Downloading PyTorch v1.1.0 (Python 3.6)..."
 
@@ -283,7 +325,7 @@ function install_pytorch_v110_python36()
 
 	# build torchvision
 	echo "$LOG cloning torchvision..."
-	rm -r -f torchvision-36
+	sudo rm -r -f torchvision-36
 	git clone -bv0.3.0 https://github.com/dusty-nv/vision torchvision-36
 	cd torchvision-36
 	echo "$LOG building torchvision for Python 3.6..."
@@ -296,6 +338,200 @@ function install_pytorch_v110_python36()
 	return 0
 }
 
+function install_pytorch_v140_python27_jp42()
+{
+	echo "$LOG Downloading PyTorch v1.4.0 (Python 2.7)..."
+
+	# install apt packages
+	install_deb_package "python-pip" FOUND_PIP
+	install_deb_package "qtbase5-dev" FOUND_QT5
+	install_deb_package "libjpeg-dev" FOUND_JPEG
+	install_deb_package "zlib1g-dev" FOUND_ZLIB
+	install_deb_package "libopenblas-base" FOUND_OPENBLAS
+	install_deb_package "libopenmpi-dev" FOUND_OPENMPI
+
+	# install pip packages
+	pip install future
+
+	# install pytorch wheel
+	download_wheel pip "torch-1.4.0-cp27-cp27mu-linux_aarch64.whl" "https://nvidia.box.com/shared/static/1v2cc4ro6zvsbu0p8h6qcuaqco1qcsif.whl"
+
+	local wheel_status=$?
+
+	if [ $wheel_status != 0 ]; then
+		echo "$LOG failed to install PyTorch v1.4.0 (Python 2.7)"
+		return 1
+	fi
+
+	# patch for https://github.com/python-pillow/Pillow/issues/4478
+	pip install 'pillow<7'
+
+	# build torchvision
+	echo "$LOG cloning torchvision..."
+	sudo rm -r -f torchvision-27
+	git clone -bv0.5.0 https://github.com/pytorch/vision torchvision-27
+	cd torchvision-27
+	echo "$LOG building torchvision for Python 2.7..."
+	sudo python setup.py install
+	cd ../
+	
+	return 0
+}
+
+function install_pytorch_v140_python36_jp42()
+{
+	echo "$LOG Downloading PyTorch v1.4.0 (Python 3.6)..."
+
+	# install apt packages
+	install_deb_package "python3-pip" FOUND_PIP3
+	install_deb_package "qtbase5-dev" FOUND_QT5
+	install_deb_package "libjpeg-dev" FOUND_JPEG
+	install_deb_package "zlib1g-dev" FOUND_ZLIB
+	install_deb_package "libopenblas-base" FOUND_OPENBLAS
+	install_deb_package "libopenmpi-dev" FOUND_OPENMPI
+
+	# install pip packages
+	pip3 install Cython
+	pip3 install numpy --verbose
+
+	# install pytorch wheel
+	download_wheel pip3 "torch-1.4.0-cp36-cp36m-linux_aarch64.whl" "https://nvidia.box.com/shared/static/ncgzus5o23uck9i5oth2n8n06k340l6k.whl"
+
+	local wheel_status=$?
+
+	if [ $wheel_status != 0 ]; then
+		echo "$LOG failed to install PyTorch v1.4.0 (Python 3.6)"
+		return 1
+	fi
+
+	# build torchvision
+	echo "$LOG cloning torchvision..."
+	sudo rm -r -f torchvision-36
+	git clone -bv0.5.0 https://github.com/pytorch/vision torchvision-36
+	cd torchvision-36
+	echo "$LOG building torchvision for Python 3.6..."
+	sudo python3 setup.py install
+	cd ../
+	
+	return 0
+}
+
+function install_pytorch_v140_python27_jp44()
+{
+	echo "$LOG Downloading PyTorch v1.4.0 (Python 2.7)..."
+
+	# install apt packages
+	install_deb_package "python-pip" FOUND_PIP
+	install_deb_package "qtbase5-dev" FOUND_QT5
+	install_deb_package "libjpeg-dev" FOUND_JPEG
+	install_deb_package "zlib1g-dev" FOUND_ZLIB
+	install_deb_package "libopenblas-base" FOUND_OPENBLAS
+	install_deb_package "libopenmpi-dev" FOUND_OPENMPI
+
+	# install pip packages
+	pip install future
+
+	# install pytorch wheel
+	download_wheel pip "torch-1.4.0-cp27-cp27mu-linux_aarch64.whl" "https://nvidia.box.com/shared/static/yhlmaie35hu8jv2xzvtxsh0rrpcu97yj.whl"
+
+	local wheel_status=$?
+
+	if [ $wheel_status != 0 ]; then
+		echo "$LOG failed to install PyTorch v1.4.0 (Python 2.7)"
+		return 1
+	fi
+
+	# patch for https://github.com/python-pillow/Pillow/issues/4478
+	pip install 'pillow<7'
+
+	# build torchvision
+	echo "$LOG cloning torchvision..."
+	sudo rm -r -f torchvision-27
+	git clone -bv0.5.0 https://github.com/pytorch/vision torchvision-27
+	cd torchvision-27
+	echo "$LOG building torchvision for Python 2.7..."
+	sudo python setup.py install
+	cd ../
+	
+	return 0
+}
+
+function install_pytorch_v140_python36_jp44()
+{
+	echo "$LOG Downloading PyTorch v1.4.0 (Python 3.6)..."
+
+	# install apt packages
+	install_deb_package "python3-pip" FOUND_PIP3
+	install_deb_package "qtbase5-dev" FOUND_QT5
+	install_deb_package "libjpeg-dev" FOUND_JPEG
+	install_deb_package "zlib1g-dev" FOUND_ZLIB
+	install_deb_package "libopenblas-base" FOUND_OPENBLAS
+	install_deb_package "libopenmpi-dev" FOUND_OPENMPI
+
+	# install pip packages
+	pip3 install Cython
+	pip3 install numpy --verbose
+
+	# install pytorch wheel
+	download_wheel pip3 "torch-1.4.0-cp36-cp36m-linux_aarch64.whl" "https://nvidia.box.com/shared/static/c3d7vm4gcs9m728j6o5vjay2jdedqb55.whl"
+
+	local wheel_status=$?
+
+	if [ $wheel_status != 0 ]; then
+		echo "$LOG failed to install PyTorch v1.4.0 (Python 3.6)"
+		return 1
+	fi
+
+	# build torchvision
+	echo "$LOG cloning torchvision..."
+	sudo rm -r -f torchvision-36
+	git clone -bv0.5.0 https://github.com/pytorch/vision torchvision-36
+	cd torchvision-36
+	echo "$LOG building torchvision for Python 3.6..."
+	sudo python3 setup.py install
+	cd ../
+	
+	return 0
+}
+
+function install_pytorch_v160_python36_jp44()
+{
+	echo "$LOG Downloading PyTorch v1.6.0 (Python 3.6)..."
+
+	# install apt packages
+	install_deb_package "python3-pip" FOUND_PIP3
+	install_deb_package "qtbase5-dev" FOUND_QT5
+	install_deb_package "libjpeg-dev" FOUND_JPEG
+	install_deb_package "zlib1g-dev" FOUND_ZLIB
+	install_deb_package "libopenblas-base" FOUND_OPENBLAS
+	install_deb_package "libopenmpi-dev" FOUND_OPENMPI
+
+	# install pip packages
+	pip3 install Cython
+	pip3 install numpy --verbose
+
+	# install pytorch wheel
+	download_wheel pip3 "torch-1.6.0rc2-cp36-cp36m-linux_aarch64.whl" "https://nvidia.box.com/shared/static/yr6sjswn25z7oankw8zy1roow9cy5ur1.whl"
+
+	local wheel_status=$?
+
+	if [ $wheel_status != 0 ]; then
+		echo "$LOG failed to install PyTorch v1.6.0 (Python 3.6)"
+		return 1
+	fi
+
+	# build torchvision
+	echo "$LOG cloning torchvision..."
+	sudo rm -r -f torchvision-36
+	git clone -bv0.7.0-rc2 https://github.com/pytorch/vision torchvision-36
+	cd torchvision-36
+	echo "$LOG building torchvision for Python 3.6..."
+	sudo python3 setup.py install
+	cd ../
+	
+	return 0
+}
+
 
 #
 # check L4T version
@@ -304,7 +540,7 @@ function check_L4T_version()
 {
 	JETSON_L4T_STRING=$(head -n 1 /etc/nv_tegra_release)
 
-	if [ -z $2 ]; then
+	if [ -z $JETSON_L4T_STRING ]; then
 		echo "$LOG reading L4T version from \"dpkg-query --show nvidia-l4t-core\""
 
 		JETSON_L4T_STRING=$(dpkg-query --showformat='${Version}' --show nvidia-l4t-core)
@@ -381,16 +617,45 @@ check_L4T_version
 #
 while true; do
 
-	packages_selected=$(dialog --backtitle "$APP_TITLE" \
-							  --title "PyTorch Installer (L4T R$JETSON_L4T_VERSION)" \
-							  --cancel-label "Skip" \
-							  --colors \
-							  --checklist "If you want to train DNN models on your Jetson, this tool will download and install PyTorch.  Select the desired versions of pre-built packages below, or see \Zbhttp://eLinux.org/Jetson_Zoo\Zn for instructions to build from source. \n\nYou can skip this step and select Skip if you don't want to install PyTorch.\n\n\ZbKeys:\Zn\n  ↑↓ Navigate Menu\n  Space to Select \n  Enter to Continue\n\n\ZbPackages to Install:\Zn" 20 80 2 \
-							  --output-fd 1 \
-							  1 "PyTorch v1.1.0 for Python 2.7" off \
-							  2 "PyTorch v1.1.0 for Python 3.6" off \
-							 )
+	HAS_PYTHON2=true
+	
+	if [ $JETSON_L4T_RELEASE -eq 32 ]; then
+		if [ $JETSON_L4T_REVISION = "4.3" ]; then
+			PYTORCH_VERSION="1.6.0"  # JetPack 4.4 GA
+			HAS_PYTHON2=false
+		elif [ $JETSON_L4T_REVISION = "4.2" ]; then
+			PYTORCH_VERSION="1.4.0"	# JetPack 4.4 DP
+		else
+			PYTORCH_VERSION="1.4.0"	# JetPack 4.2, 4.3
+		fi
+	fi
 
+     if [ "$HAS_PYTHON2" = true ]; then
+		PYTHON_VERSION_ONE="python27"
+		PYTHON_VERSION_TWO="python36"
+		
+		packages_selected=$(dialog --backtitle "$APP_TITLE" \
+						  --title "PyTorch Installer (L4T R$JETSON_L4T_VERSION)" \
+						  --cancel-label "Skip" \
+						  --colors \
+						  --checklist "If you want to train DNN models on your Jetson, this tool will download and install PyTorch.  Select the desired versions of pre-built packages below, or see \Zbhttp://eLinux.org/Jetson_Zoo\Zn for instructions to build from source. \n\nYou can skip this step and select Skip if you don't want to install PyTorch.\n\n\ZbKeys:\Zn\n  ↑↓ Navigate Menu\n  Space to Select \n  Enter to Continue\n\n\ZbPackages to Install:\Zn" 20 80 2 \
+						  --output-fd 1 \
+						  1 "PyTorch $PYTORCH_VERSION for Python 2.7" off \
+						  2 "PyTorch $PYTORCH_VERSION for Python 3.6" off \
+						 )
+	else
+		PYTHON_VERSION_ONE="python36"
+		
+		packages_selected=$(dialog --backtitle "$APP_TITLE" \
+						  --title "PyTorch Installer (L4T R$JETSON_L4T_VERSION)" \
+						  --cancel-label "Skip" \
+						  --colors \
+						  --checklist "If you want to train DNN models on your Jetson, this tool will download and install PyTorch.  Select the desired versions of pre-built packages below, or see \Zbhttp://eLinux.org/Jetson_Zoo\Zn for instructions to build from source. \n\nYou can skip this step and select Skip if you don't want to install PyTorch.\n\n\ZbKeys:\Zn\n  ↑↓ Navigate Menu\n  Space to Select \n  Enter to Continue\n\n\ZbPackages to Install:\Zn" 20 80 1 \
+						  --output-fd 1 \
+						  1 "PyTorch $PYTORCH_VERSION for Python 3.6" off \
+						 )
+	fi
+	
 	package_selection_status=$?
 	clear
 
@@ -406,9 +671,9 @@ while true; do
 			for pkg in $packages_selected
 			do
 				if [ $pkg = 1 ]; then
-					install_pytorch_v110_python27
+					install_pytorch $PYTORCH_VERSION $PYTHON_VERSION_ONE $JETSON_L4T_RELEASE $JETSON_L4T_REVISION
 				elif [ $pkg = 2 ]; then
-					install_pytorch_v110_python36
+					install_pytorch $PYTORCH_VERSION $PYTHON_VERSION_TWO $JETSON_L4T_RELEASE $JETSON_L4T_REVISION
 				fi
 			done
 		fi

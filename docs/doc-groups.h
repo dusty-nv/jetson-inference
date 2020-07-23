@@ -7,10 +7,10 @@
  *   - \ref imageNet for image recognition
  *   - \ref detectNet for object detection + localization
  *   - \ref segNet for segmentation
- *   - \ref homographyNet for homography estimation
- *   - \ref superResNet for super-resolution upsampling
  *
  * The different primitives each inherit from the shared \ref tensorNet object.
+ *
+ * @see \ref util for various utilities, including \ref cuda functions and \ref video interfaces.
  */
 
 
@@ -41,32 +41,15 @@
  */
 
 /**
- * @defgroup homographyNet homographyNet
- * Homography estimation DNN for registering and aligning images.
- * @ingroup deepVision
- */
-
-/**
- * @defgroup superResNet superResNet
- * Super resolution DNN for upscaling images.
- * @ingroup deepVision
- */
-
-/**
  * @defgroup util Utilities Library (jetson-utils)
- * Tools and utilities for camera streaming, codecs, display, and visualization.
+ * Tools and utilities for video streaming, codecs, display, and CUDA processing.
  */
 
 /**
  * @defgroup camera Camera Capture
- * Camera capture and streaming for MIPI CSI and V4L2 devices.
+ * Camera capture and streaming for MIPI CSI and V4L2 devices (deprecated).
+ * @deprecated See the updated \ref video APIs.
  * @ingroup util
- */
-
-/**
- * @defgroup gstCamera gstCamera
- * Camera capture and streaming using GStreamer for MIPI CSI and V4L2 devices.
- * @ingroup camera
  */
 
 /**
@@ -74,7 +57,20 @@
  * Hardware-accelerated video encoder and decoder (H.264/H.265) using GStreamer.
  * @ingroup util
  */
- 
+
+/**
+ * @defgroup commandLine Command-Line Parsing
+ * Parsing of command line arguments, flags, and variables.
+ * @ingroup util
+ */
+
+/**
+ * @defgroup csv CSV Parsing
+ * Text file parsing for Comma-Separated Value (CSV) formats, with user-defined
+ * delimiters beyond just commas, including spaces, tabs, or other symbols.
+ * @ingroup util
+ */
+
 /**
  * @defgroup cuda CUDA
  * CUDA utilities and image processing kernels.
@@ -82,14 +78,70 @@
  */
 
 /**
- * @defgroup cudaFont cudaFont
- * TTF font rasterization and image overlay rendering using CUDA.
+ * @defgroup colormap Color Mapping
+ * Defines various colormaps and color mapping functions.
  * @ingroup cuda
  */
 
 /**
  * @defgroup colorspace Color Conversion
- * Colorspace conversion functions for various YUV formats, RGB, BGR, ect.
+ * Colorspace conversion functions for various YUV formats, RGB, BGR, Bayer, and grayscale.
+ * @see cudaConvertColor for automated format conversion.
+ * @see cudaYUV.h for the YUV functions.
+ * @ingroup cuda
+ */
+
+/**
+ * @defgroup crop Cropping
+ * Crop an image to the specified region of interest (ROI).
+ * @ingroup cuda
+ */
+
+/**
+ * @defgroup cudaError Error Checking
+ * Error checking and logging macros.
+ * @ingroup cuda
+ */
+
+/**
+ * @defgroup cudaFont Fonts
+ * TTF font rasterization and image overlay rendering using CUDA.
+ * @ingroup cuda
+ */
+
+/**
+ * @defgroup cudaMemory Memory Management
+ * Allocation of CUDA mapped zero-copy memory.
+ * @ingroup cuda
+ */
+
+/**
+ * @defgroup normalization Normalization
+ * Normalize the pixel intensities of an image between two ranges.
+ * @ingroup cuda
+ */
+
+/**
+ * @defgroup overlay Overlay
+ * Overlay images and vector shapes onto other images.
+ * @ingroup cuda
+ */
+
+/**
+ * @defgroup cudaFilter Pixel Filtering
+ * CUDA device functions for sampling pixels with bilinear filtering.
+ * @ingroup cuda
+ */
+
+/**
+ * @defgroup pointCloud Point Cloud
+ * 3D point cloud processing and visualization.
+ * @ingroup cuda
+ */
+
+/**
+ * @defgroup resize Resize
+ * Rescale an image to a different resolution.
  * @ingroup cuda
  */
 
@@ -100,8 +152,14 @@
  */
  
 /**
- * @defgroup OpenGL OpenGL
- * OpenGL textures and display window (X11/GLX).
+ * @defgroup filesystem Filesystem
+ * Functions for listing files in directories and manipulating file paths.
+ * @ingroup util
+ */
+
+/**
+ * @defgroup imageFormat Image Formats
+ * Enumerations and helper functions for different types of image formats.
  * @ingroup util
  */
 
@@ -118,6 +176,12 @@
  */
 
 /**
+ * @defgroup log Logging
+ * Message logging with a variable level of output and destinations.
+ * @ingroup util
+ */
+
+/**
  * @defgroup matrix Matrix
  * 3x3 matrix operations from `mat33.h`
  * @ingroup util
@@ -130,19 +194,26 @@
  */
  
 /**
- * @degroup network Networking
+ * @defgroup network Networking
  * TCP/UDP sockets and IP address manipulation.
+ * @ingroup util
  */
  
 /**
- * @defgroup filesystem Filesystem
- * Functions for listing files in directories and manipulating file paths.
+ * @defgroup OpenGL OpenGL
+ * OpenGL textures and display window (X11/GLX).
  * @ingroup util
  */
 
 /**
  * @defgroup time Time
  * Timestamping operations for measuring the timing of CPU code.
+ * @ingroup util
+ */
+
+/**
+ * @defgroup video Video Streaming
+ * videoSource and videoOutput APIs for input and output video streams.
  * @ingroup util
  */
 

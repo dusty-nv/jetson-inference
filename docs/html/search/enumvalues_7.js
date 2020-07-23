@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['needs_5fentity_5fprocessing',['NEEDS_ENTITY_PROCESSING',['../classtinyxml2_1_1StrPair.html#a0301ef962e15dd94574431f1c61266c5a4f1e01a55f8efe4ca72c32d454060237',1,'tinyxml2::StrPair']]],
-  ['needs_5fnewline_5fnormalization',['NEEDS_NEWLINE_NORMALIZATION',['../classtinyxml2_1_1StrPair.html#a0301ef962e15dd94574431f1c61266c5a8f2045d56e70745d718672c0da91d0e0',1,'tinyxml2::StrPair']]],
-  ['needs_5fwhitespace_5fcollapsing',['NEEDS_WHITESPACE_COLLAPSING',['../classtinyxml2_1_1StrPair.html#a0301ef962e15dd94574431f1c61266c5a13996e9d4ed18fd2d6af59bbab291b63',1,'tinyxml2::StrPair']]],
-  ['num_5fdevices',['NUM_DEVICES',['../group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4a3025e0cdcbdfca820726c95f384ebf87',1,'tensorNet.h']]],
-  ['num_5fprecisions',['NUM_PRECISIONS',['../group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623ad5386697191943144fa63df529e1a310',1,'tensorNet.h']]]
+  ['key_5fchar',['KEY_CHAR',['../group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749fea8f72d21c8a5a305ff69f576d6a799c08',1,'glEvents.h']]],
+  ['key_5fmodified',['KEY_MODIFIED',['../group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749feac72a03e9a29e852b03999c7a8a2076b5',1,'glEvents.h']]],
+  ['key_5fstate',['KEY_STATE',['../group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749feaa7990d29ca8911d1d65ebe318e3bfdad',1,'glEvents.h']]]
 ];

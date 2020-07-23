@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['x',['x',['../structcudaFont_1_1GlyphInfo.html#a26af531287bec61297ee734469db5040',1,'cudaFont::GlyphInfo']]],
+  ['x',['X',['../classglWidget.html#a4b0b580a068e05f6a4f96292e24a63b6',1,'glWidget::X()'],['../structcudaFont_1_1GlyphInfo.html#a26af531287bec61297ee734469db5040',1,'cudaFont::GlyphInfo::x()']]],
   ['xadvance',['xAdvance',['../structcudaFont_1_1GlyphInfo.html#ae0fbc83e18b01d9960b41ac396f27ce0',1,'cudaFont::GlyphInfo']]],
   ['xml_2eh',['XML.h',['../XML_8h.html',1,'']]],
   ['xml_5fcan_5fnot_5fconvert_5ftext',['XML_CAN_NOT_CONVERT_TEXT',['../namespacetinyxml2.html#a1fbf88509c3ac88c09117b1947414e08afdb8840395a7c13dfe6a3e104401c095',1,'tinyxml2']]],

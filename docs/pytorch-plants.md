@@ -1,7 +1,7 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
-<p align="right"><sup><a href="pytorch-plants.md">Back</a> | <a href="../README.md#hello-ai-world">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
+<p align="right"><sup><a href="pytorch-cat-dog.md">Back</a> | <a href="pytorch-collect.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
-<sup>Transfer Learning</sup></s></p>
+<sup>Transfer Learning - Classification</sup></s></p>
 
 # Re-training on the PlantCLEF Dataset
 
@@ -110,36 +110,36 @@ This will create a model called `resnet18.onnx` under `jetson-inference/python/t
 
 ## Processing Images with TensorRT
 
-To classify some static test images, like before we'll use the extended command-line parameters to `imagenet-console` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/classification/`
+To classify some static test images, like before we'll use the extended command-line parameters to `imagenet` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/classification/`
 
 ```bash
 DATASET=~/datasets/PlantCLEF_Subset
 
 # C++
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
+imagenet --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
 
 # Python
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
+imagenet.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-cattail.jpg" width="500">
 
 ```bash
 # C++
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
+imagenet --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
 
 # Python
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
+imagenet.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-elm.jpg" width="500">
 
 ```bash
 # C++
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
+imagenet --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
 
 # Python
-imagenet-console --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
+imagenet.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-juniper.jpg" width="500">
@@ -148,26 +148,18 @@ There are a bunch of test images included with the dataset, or you can download 
 
 ### Processing all the Test Images
 
-If you want to classify all of the test images without having to do them individually, you can create a simple script like below that loops over them and outputs to the `test_output` directory under the dataset:
+If you want to classify all of the test images at once, you can run the program on the entire directory:
 
-```bash
-#!/bin/bash  
-NET="~/jetson-inference/python/training/classification/plants"
-DATASET="~/datasets/PlantCLEF_Subset"
+``` bash
+mkdir $DATASET/test_output
 
-cd $DATASET
-cp -r test test_output
-
-FILES="$DATASET/test_output/*.jpg"
-
-cd $DATA
-
-for f in $FILES
-do
-     echo "Processing $f"
-     imagenet-console --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/../labels.txt $f $f
-done
+imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/../labels.txt \
+           $DATASET/test $DATASET/test_output
 ```
+
+In this instance, all the images will be read from the dataset's `test/` directory, and saved to the `test_output/` directory.  
+
+For more info about loading/saving sequences of images, see the [Camera Streaming and Multimedia](aux-streaming.md#sequences) page.
 
 ## Running the Live Camera Program
 
@@ -176,11 +168,11 @@ You can also try running your re-trained plant model on a live camera stream lik
 ```bash
 DATASET=~/datasets/PlantCLEF_Subset
 
-# C++
-imagenet-camera --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
+# C++ (MIPI CSI)
+imagenet --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 
-# Python
-imagenet-camera.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt
+# Python (MIPI CSI)
+imagenet.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-fern.jpg" width="500">
@@ -189,9 +181,9 @@ imagenet-camera.py --model=plants/resnet18.onnx --input_blob=input_0 --output_bl
 
 Looks like I should be watching out for poison ivy!  
 
-Next, we're going to cover a camera-based tool for collecting and labelling your own datasets captured from live video.  
+Next, we're going to cover a camera-based tool for collecting and labeling your own datasets captured from live video.  
 
-<p align="right">Next | <b><a href="pytorch-collect.md">Collecting your own Datasets</a></b>
+<p align="right">Next | <b><a href="pytorch-collect.md">Collecting your own Classification Datasets</a></b>
 <br/>
-Back | <b><a href="pytorch-plants.md">Re-training on the Cat/Dog Dataset</a></p>
+Back | <b><a href="pytorch-cat-dog.md">Re-training on the Cat/Dog Dataset</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

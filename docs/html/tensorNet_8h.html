@@ -94,7 +94,10 @@ $(document).ready(function(){initNavTree('tensorNet_8h.html','');});
 <div class="contents">
 <div class="textblock"><code>#include &lt;NvInfer.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="cudaUtility_8h_source.html">jetson-utils/cudaUtility.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="commandLine_8h_source.html">jetson-utils/commandLine.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="imageFormat_8h_source.html">jetson-utils/imageFormat.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="timespec_8h_source.html">jetson-utils/timespec.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="logging_8h_source.html">jetson-utils/logging.h</a>&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;math.h&gt;</code><br />
@@ -112,7 +115,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtensorNet_1_1Profiler.html">tensorNet::Profiler</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classtensorNet_1_1Profiler.html" title="Profiler interface for measuring layer timings. ">Profiler</a> interface for measuring layer timings.  <a href="classtensorNet_1_1Profiler.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtensorNet_1_1outputLayer.html">tensorNet::outputLayer</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtensorNet_1_1layerInfo.html">tensorNet::layerInfo</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -135,7 +138,7 @@ Macros</h2></td></tr>
 <tr class="memitem:ga5a46a965749d6118e01307fd4d4865c9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>&#160;&#160;&#160;1</td></tr>
 <tr class="memdesc:ga5a46a965749d6118e01307fd4d4865c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default maximum batch size.  <a href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">More...</a><br /></td></tr>
 <tr class="separator:ga5a46a965749d6118e01307fd4d4865c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3c048e603c3c16fb810eb11c36242f82"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga3c048e603c3c16fb810eb11c36242f82">LOG_TRT</a>&#160;&#160;&#160;&quot;[TRT]   &quot;</td></tr>
+<tr class="memitem:ga3c048e603c3c16fb810eb11c36242f82"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga3c048e603c3c16fb810eb11c36242f82">LOG_TRT</a>&#160;&#160;&#160;&quot;[TRT]    &quot;</td></tr>
 <tr class="memdesc:ga3c048e603c3c16fb810eb11c36242f82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prefix used for tagging printed log output from TensorRT.  <a href="group__tensorNet.html#ga3c048e603c3c16fb810eb11c36242f82">More...</a><br /></td></tr>
 <tr class="separator:ga3c048e603c3c16fb810eb11c36242f82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -169,10 +172,14 @@ Enumerations</h2></td></tr>
  }<tr class="memdesc:gaa5d3f9981cdbd91516c1474006a80fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration for indicating the desired device that the network should run on, if available in hardware.  <a href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:gaa5d3f9981cdbd91516c1474006a80fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5d4597e0e7beae7133d542e220528725"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">modelType</a> { <a class="el" href="group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725aad94b3fe48299211488aae3c133721b1">MODEL_CUSTOM</a> = 0, 
+<tr class="memitem:ga5d4597e0e7beae7133d542e220528725"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">modelType</a> { <br />
+&#160;&#160;<a class="el" href="group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725aad94b3fe48299211488aae3c133721b1">MODEL_CUSTOM</a> = 0, 
 <a class="el" href="group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725af850960ce09a0b0d4b38edef40e5d0e4">MODEL_CAFFE</a>, 
 <a class="el" href="group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725a90e832c5673631bdfe24da7cd8eb52c9">MODEL_ONNX</a>, 
-<a class="el" href="group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725ad8c909322673d53ee28de66aa57bcccd">MODEL_UFF</a>
+<a class="el" href="group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725ad8c909322673d53ee28de66aa57bcccd">MODEL_UFF</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__tensorNet.html#gga5d4597e0e7beae7133d542e220528725ad0f2ee11de0bfff76dace6976463556b">MODEL_ENGINE</a>
+<br />
  }<tr class="memdesc:ga5d4597e0e7beae7133d542e220528725"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration indicating the format of the model that's imported in TensorRT (either caffe, ONNX, or UFF).  <a href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:ga5d4597e0e7beae7133d542e220528725"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -213,6 +220,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga85f7b445f4341d24c65bb3bbc4a3204c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">modelType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga85f7b445f4341d24c65bb3bbc4a3204c">modelTypeFromStr</a> (const char *str)</td></tr>
 <tr class="memdesc:ga85f7b445f4341d24c65bb3bbc4a3204c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the model format from a string.  <a href="group__tensorNet.html#ga85f7b445f4341d24c65bb3bbc4a3204c">More...</a><br /></td></tr>
 <tr class="separator:ga85f7b445f4341d24c65bb3bbc4a3204c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga675fb15bc5d4e2b8c4758c62adc6920d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">modelType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ga675fb15bc5d4e2b8c4758c62adc6920d">modelTypeFromPath</a> (const char *path)</td></tr>
+<tr class="memdesc:ga675fb15bc5d4e2b8c4758c62adc6920d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the model format from a file path.  <a href="group__tensorNet.html#ga675fb15bc5d4e2b8c4758c62adc6920d">More...</a><br /></td></tr>
+<tr class="separator:ga675fb15bc5d4e2b8c4758c62adc6920d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf219ba5ec806feca1433d20367e0f049"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#gaf219ba5ec806feca1433d20367e0f049">profilerQueryToStr</a> (<a class="el" href="group__tensorNet.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> query)</td></tr>
 <tr class="memdesc:gaf219ba5ec806feca1433d20367e0f049"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringize function that returns profilerQuery in text.  <a href="group__tensorNet.html#gaf219ba5ec806feca1433d20367e0f049">More...</a><br /></td></tr>
 <tr class="separator:gaf219ba5ec806feca1433d20367e0f049"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -321,7 +331,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_2e4d84877693cd000e5cb535f4b23486.html">jetson-inference</a></li><li class="navelem"><a class="el" href="tensorNet_8h.html">tensorNet.h</a></li>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 14 2020 21:59:34 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -21,13 +21,15 @@
  */
 
 #include "PyTensorNet.h"
+
 #include "tensorNet.h"
+#include "logging.h"
 
 
 // New
 static PyObject* PyTensorNet_New( PyTypeObject *type, PyObject *args, PyObject *kwds )
 {
-	printf(LOG_PY_INFERENCE "PyTensorNet_New()\n");
+	LogDebug(LOG_PY_INFERENCE "PyTensorNet_New()\n");
 	
 	// allocate a new container
 	PyTensorNet_Object* self = (PyTensorNet_Object*)type->tp_alloc(type, 0);
@@ -35,7 +37,7 @@ static PyObject* PyTensorNet_New( PyTypeObject *type, PyObject *args, PyObject *
 	if( !self )
 	{
 		PyErr_SetString(PyExc_MemoryError, LOG_PY_INFERENCE "tensorNet tp_alloc() failed to allocate a new object");
-		printf(LOG_PY_INFERENCE "tensorNet tp_alloc() failed to allocate a new object\n");
+		LogError(LOG_PY_INFERENCE "tensorNet tp_alloc() failed to allocate a new object\n");
 		return NULL;
 	}
 	
@@ -47,7 +49,7 @@ static PyObject* PyTensorNet_New( PyTypeObject *type, PyObject *args, PyObject *
 // Deallocate
 static void PyTensorNet_Dealloc( PyTensorNet_Object* self )
 {
-	printf("PyTensorNet_Dealloc()\n");
+	LogDebug("PyTensorNet_Dealloc()\n");
 
 	// free the network
 	if( self->net != NULL )
@@ -210,7 +212,7 @@ bool PyTensorNet_Register( PyObject* module )
 	 
 	if( PyType_Ready(&pyTensorNet_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "tensorNet PyType_Ready() failed\n");
+		LogError(LOG_PY_INFERENCE "tensorNet PyType_Ready() failed\n");
 		return false;
 	}
 	
@@ -218,7 +220,7 @@ bool PyTensorNet_Register( PyObject* module )
     
 	if( PyModule_AddObject(module, "tensorNet", (PyObject*)&pyTensorNet_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "tensorNet PyModule_AddObject('tensorNet') failed\n");
+		LogError(LOG_PY_INFERENCE "tensorNet PyModule_AddObject('tensorNet') failed\n");
 		return false;
 	}
 	

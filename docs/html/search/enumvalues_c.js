@@ -1,10 +1,13 @@
 var searchData=
 [
-  ['text_5felement',['TEXT_ELEMENT',['../classtinyxml2_1_1StrPair.html#a0301ef962e15dd94574431f1c61266c5aae519eb5a639858591763aa5fc6cc953',1,'tinyxml2::StrPair']]],
-  ['text_5felement_5fleave_5fentities',['TEXT_ELEMENT_LEAVE_ENTITIES',['../classtinyxml2_1_1StrPair.html#a0301ef962e15dd94574431f1c61266c5a96be48cf899bfeea0aa227f984f1fa63',1,'tinyxml2::StrPair']]],
-  ['type_5fdisabled',['TYPE_DISABLED',['../group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1a4ed47814b2f80f0e92daad5af7bc38',1,'tensorNet.h']]],
-  ['type_5ffastest',['TYPE_FASTEST',['../group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9',1,'tensorNet.h']]],
-  ['type_5ffp16',['TYPE_FP16',['../group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a085813e6021d0d8884d768725151a526',1,'tensorNet.h']]],
-  ['type_5ffp32',['TYPE_FP32',['../group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a5bbefcad9ecb657a3841c2e8db6828d3',1,'tensorNet.h']]],
-  ['type_5fint8',['TYPE_INT8',['../group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a12cf69049b0ce2b80538213ab4ee4908',1,'tensorNet.h']]]
+  ['pednet',['PEDNET',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3',1,'detectNet']]],
+  ['pednet_5fmulti',['PEDNET_MULTI',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53',1,'detectNet']]],
+  ['preserve_5fwhitespace',['PRESERVE_WHITESPACE',['../namespacetinyxml2.html#a7f91d00f77360f850fd5da0861e27dd5a751769aa625fe5fe5286e9779edec56a',1,'tinyxml2']]],
+  ['profiler_5fcpu',['PROFILER_CPU',['../group__tensorNet.html#ggaaa4127ed22c7165a32d0474ebf97975eaf33631f978127920224cd10c937e78d5',1,'tensorNet.h']]],
+  ['profiler_5fcuda',['PROFILER_CUDA',['../group__tensorNet.html#ggaaa4127ed22c7165a32d0474ebf97975eadbfd2a2033cd2a8df5fa51e13ff528b7',1,'tensorNet.h']]],
+  ['profiler_5fnetwork',['PROFILER_NETWORK',['../group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a624bb4adf22f078ad2804595dca02992',1,'tensorNet.h']]],
+  ['profiler_5fpostprocess',['PROFILER_POSTPROCESS',['../group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a1fbcfa83e963d20d06f7c633bb2e4904',1,'tensorNet.h']]],
+  ['profiler_5fpreprocess',['PROFILER_PREPROCESS',['../group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a7f84ee2f6773727f3b11408e8b2e150e',1,'tensorNet.h']]],
+  ['profiler_5ftotal',['PROFILER_TOTAL',['../group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809af9132edd0371e716aed4d46e3da5e9ea',1,'tensorNet.h']]],
+  ['profiler_5fvisualize',['PROFILER_VISUALIZE',['../group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809a8cef88bc690e0a794987ade986169ee5',1,'tensorNet.h']]]
 ];

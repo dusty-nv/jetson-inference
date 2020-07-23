@@ -88,17 +88,33 @@ $(document).ready(function(){initNavTree('cudaResize_8h.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="cudaUtility_8h_source.html">cudaUtility.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="imageFormat_8h_source.html">imageFormat.h</a>&quot;</code><br />
 </div>
 <p><a href="cudaResize_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9">cudaResize</a> (float *input, size_t inputWidth, size_t inputHeight, float *output, size_t outputWidth, size_t outputHeight)</td></tr>
-<tr class="memdesc:ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function for increasing or decreasing the size of an image on the GPU.  <a href="group__cuda.html#ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9">More...</a><br /></td></tr>
+<tr class="memitem:ga85017dfdb91dd711ed78051a572e3346"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__resize.html#ga85017dfdb91dd711ed78051a572e3346">cudaResize</a> (uint8_t *input, size_t inputWidth, size_t inputHeight, uint8_t *output, size_t outputWidth, size_t outputHeight)</td></tr>
+<tr class="memdesc:ga85017dfdb91dd711ed78051a572e3346"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rescale a uint8 grayscale image on the GPU.  <a href="group__resize.html#ga85017dfdb91dd711ed78051a572e3346">More...</a><br /></td></tr>
+<tr class="separator:ga85017dfdb91dd711ed78051a572e3346"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__resize.html#ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9">cudaResize</a> (float *input, size_t inputWidth, size_t inputHeight, float *output, size_t outputWidth, size_t outputHeight)</td></tr>
+<tr class="memdesc:ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rescale a floating-point grayscale image on the GPU.  <a href="group__resize.html#ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9">More...</a><br /></td></tr>
 <tr class="separator:ga7cce2a5c3c6e92bda8bcfd5a6a1f05e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga45b35710852389820ca9b07b1d8a1997"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cuda.html#ga45b35710852389820ca9b07b1d8a1997">cudaResizeRGBA</a> (float4 *input, size_t inputWidth, size_t inputHeight, float4 *output, size_t outputWidth, size_t outputHeight)</td></tr>
-<tr class="memdesc:ga45b35710852389820ca9b07b1d8a1997"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function for increasing or decreasing the size of an image on the GPU.  <a href="group__cuda.html#ga45b35710852389820ca9b07b1d8a1997">More...</a><br /></td></tr>
-<tr class="separator:ga45b35710852389820ca9b07b1d8a1997"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab8a44748371c55dbc2e21748dba31aaa"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__resize.html#gab8a44748371c55dbc2e21748dba31aaa">cudaResize</a> (uchar3 *input, size_t inputWidth, size_t inputHeight, uchar3 *output, size_t outputWidth, size_t outputHeight)</td></tr>
+<tr class="memdesc:gab8a44748371c55dbc2e21748dba31aaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rescale a uchar3 RGB/BGR image on the GPU.  <a href="group__resize.html#gab8a44748371c55dbc2e21748dba31aaa">More...</a><br /></td></tr>
+<tr class="separator:gab8a44748371c55dbc2e21748dba31aaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf038c1ac6c377f3dec916cab161b5656"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__resize.html#gaf038c1ac6c377f3dec916cab161b5656">cudaResize</a> (float3 *input, size_t inputWidth, size_t inputHeight, float3 *output, size_t outputWidth, size_t outputHeight)</td></tr>
+<tr class="memdesc:gaf038c1ac6c377f3dec916cab161b5656"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rescale a float3 RGB/BGR image on the GPU.  <a href="group__resize.html#gaf038c1ac6c377f3dec916cab161b5656">More...</a><br /></td></tr>
+<tr class="separator:gaf038c1ac6c377f3dec916cab161b5656"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7801b3fe40e4c877ed7555828f52b02a"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__resize.html#ga7801b3fe40e4c877ed7555828f52b02a">cudaResize</a> (uchar4 *input, size_t inputWidth, size_t inputHeight, uchar4 *output, size_t outputWidth, size_t outputHeight)</td></tr>
+<tr class="memdesc:ga7801b3fe40e4c877ed7555828f52b02a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rescale a uchar4 RGBA/BGRA image on the GPU.  <a href="group__resize.html#ga7801b3fe40e4c877ed7555828f52b02a">More...</a><br /></td></tr>
+<tr class="separator:ga7801b3fe40e4c877ed7555828f52b02a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafffc93cd1c6b6172ab0b0c5a2bc5f2cd"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__resize.html#gafffc93cd1c6b6172ab0b0c5a2bc5f2cd">cudaResize</a> (float4 *input, size_t inputWidth, size_t inputHeight, float4 *output, size_t outputWidth, size_t outputHeight)</td></tr>
+<tr class="memdesc:gafffc93cd1c6b6172ab0b0c5a2bc5f2cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rescale a float4 RGBA/BGRA image on the GPU.  <a href="group__resize.html#gafffc93cd1c6b6172ab0b0c5a2bc5f2cd">More...</a><br /></td></tr>
+<tr class="separator:gafffc93cd1c6b6172ab0b0c5a2bc5f2cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7d99f67a2685af4c63a3a1cf86413f00"><td class="memItemLeft" align="right" valign="top">cudaError_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__resize.html#ga7d99f67a2685af4c63a3a1cf86413f00">cudaResize</a> (void *input, size_t inputWidth, size_t inputHeight, void *output, size_t outputWidth, size_t outputHeight, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
+<tr class="memdesc:ga7d99f67a2685af4c63a3a1cf86413f00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rescale an image on the GPU (supports grayscale, RGB/BGR, RGBA/BGRA)  <a href="group__resize.html#ga7d99f67a2685af4c63a3a1cf86413f00">More...</a><br /></td></tr>
+<tr class="separator:ga7d99f67a2685af4c63a3a1cf86413f00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -106,7 +122,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_54a0acf6da04fe2ed9410b4c6369bc5d.html">jetson-utils</a></li><li class="navelem"><a class="el" href="cudaResize_8h.html">cudaResize.h</a></li>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 14 2020 21:59:34 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

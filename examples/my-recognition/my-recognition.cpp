@@ -42,16 +42,13 @@ int main( int argc, char** argv )
 	// retrieve the image filename from the array of command line args
 	const char* imgFilename = argv[1];
 
-	// these variables will be used to store the image data and dimensions
-	// the image data will be stored in shared CPU/GPU memory, so there are
-	// pointers for the CPU and GPU (both reference the same physical memory)
-	float* imgCPU    = NULL;		// CPU pointer to floating-point RGBA image data
-	float* imgCUDA   = NULL;		// GPU pointer to floating-point RGBA image data
-	int    imgWidth  = 0;		// width of the image (in pixels)
-	int    imgHeight = 0;		// height of the image (in pixels)
+	// these variables will store the image data pointer and dimensions
+	uchar3* imgPtr = NULL;   // shared CPU/GPU pointer to image
+	int imgWidth   = 0;      // width of the image (in pixels)
+	int imgHeight  = 0;      // height of the image (in pixels)
 		
-	// load the image from disk as float4 RGBA (32 bits per channel, 128 bits per pixel)
-	if( !loadImageRGBA(imgFilename, (float4**)&imgCPU, (float4**)&imgCUDA, &imgWidth, &imgHeight) )
+	// load the image from disk as uchar3 RGB (24 bits per pixel)
+	if( !loadImage(imgFilename, &imgPtr, &imgWidth, &imgHeight) )
 	{
 		printf("failed to load image '%s'\n", imgFilename);
 		return 0;
@@ -71,9 +68,8 @@ int main( int argc, char** argv )
 	// this variable will store the confidence of the classification (between 0 and 1)
 	float confidence = 0.0;
 
-	// classify the image with TensorRT on the GPU (hence we use the CUDA pointer)
-	// this will return the index of the object class that the image was recognized as (or -1 on error)
-	const int classIndex = net->Classify(imgCUDA, imgWidth, imgHeight, &confidence);
+	// classify the image, return the object class index (or -1 on error)
+	const int classIndex = net->Classify(imgPtr, imgWidth, imgHeight, &confidence);
 
 	// make sure a valid classification result was returned	
 	if( classIndex >= 0 )

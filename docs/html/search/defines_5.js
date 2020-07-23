@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['pi',['PI',['../pi_8h.html#a598a3330b3c21701223ee0ca14316eca',1,'pi.h']]],
-  ['pi_5fover_5ftwo',['PI_OVER_TWO',['../pi_8h.html#adadbae7d9856635bbacdc4c9f546ef81',1,'pi.h']]]
+  ['nv_5ftensorrt_5fmajor',['NV_TENSORRT_MAJOR',['../tensorNet_8h.html#aca5940a61fa51e91f41d88d9198bf935',1,'tensorNet.h']]],
+  ['nv_5ftensorrt_5fminor',['NV_TENSORRT_MINOR',['../tensorNet_8h.html#a7df0f049b87bee17d6aed394544e8979',1,'tensorNet.h']]]
 ];

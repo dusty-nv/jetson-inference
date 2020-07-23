@@ -21,7 +21,7 @@
  */
  
 #include "segNet.h"
-#include "imageNet.cuh"
+#include "tensorConvert.h"
 
 #include "cudaMappedMemory.h"
 #include "cudaOverlay.h"
@@ -39,6 +39,7 @@ segNet::segNet() : tensorNet()
 	mLastInputImg    = NULL;
 	mLastInputWidth  = 0;
 	mLastInputHeight = 0;
+	mLastInputFormat = IMAGE_UNKNOWN;
 
 	mClassColors[0] = NULL;	// cpu ptr
 	mClassColors[1] = NULL;  // gpu ptr
@@ -54,6 +55,56 @@ segNet::segNet() : tensorNet()
 segNet::~segNet()
 {
 	
+}
+
+
+// VisualizationFlagsFromStr
+uint32_t segNet::VisualizationFlagsFromStr( const char* str_user, uint32_t default_value )
+{
+	if( !str_user )
+		return default_value;
+
+	// copy the input string into a temporary array,
+	// because strok modifies the string
+	const size_t str_length = strlen(str_user);
+
+	if( str_length == 0 )
+		return default_value;
+
+	char* str = (char*)malloc(str_length + 1);
+
+	if( !str )
+		return default_value;
+
+	strcpy(str, str_user);
+
+	// tokenize string by delimiters ',' and '|'
+	const char* delimiters = ",|";
+	char* token = strtok(str, delimiters);
+
+	if( !token )
+	{
+		free(str);
+		return default_value;
+	}
+
+	// look for the tokens:  "overlay", "mask"
+	uint32_t flags = 0;
+
+	while( token != NULL )
+	{
+		//printf("%s\n", token);
+
+		if( strcasecmp(token, "overlay") == 0 )
+			flags |= VISUALIZE_OVERLAY;
+		else if( strcasecmp(token, "mask") == 0 )
+			flags |= VISUALIZE_MASK;
+
+		token = strtok(NULL, delimiters);
+	}	
+
+	free(str);
+	return flags;
 }
 
 
@@ -219,11 +270,16 @@ segNet* segNet::Create( NetworkType networkType, uint32_t maxBatchSize,
 // Create
 segNet* segNet::Create( int argc, char** argv )
 {
+	return Create(commandLine(argc, argv));
+}
+
+
+// Create
+segNet* segNet::Create( const commandLine& cmdLine )
+{
 	segNet* net = NULL;
 
 	// obtain the model name
-	commandLine cmdLine(argc, argv);
-
 	const char* modelName = cmdLine.GetString("model");
 
 	if( !modelName )
@@ -287,15 +343,15 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	if( !net )
 		return NULL;
 
-	printf("\n");
-	printf("segNet -- loading segmentation network model from:\n");
-	printf("       -- prototxt:   %s\n", prototxt);
-	printf("       -- model:      %s\n", model);
-	printf("       -- labels:     %s\n", labels_path);
-	printf("       -- colors:     %s\n", colors_path);
-	printf("       -- input_blob  '%s'\n", input_blob);
-	printf("       -- output_blob '%s'\n", output_blob);
-	printf("       -- batch_size  %u\n\n", maxBatchSize);
+	LogInfo("\n");
+	LogInfo("segNet -- loading segmentation network model from:\n");
+	LogInfo("       -- prototxt:   %s\n", prototxt);
+	LogInfo("       -- model:      %s\n", model);
+	LogInfo("       -- labels:     %s\n", labels_path);
+	LogInfo("       -- colors:     %s\n", colors_path);
+	LogInfo("       -- input_blob  '%s'\n", input_blob);
+	LogInfo("       -- output_blob '%s'\n", output_blob);
+	LogInfo("       -- batch_size  %u\n\n", maxBatchSize);
 	
 	//net->EnableProfiler();	
 	//net->EnableDebug();
@@ -308,7 +364,7 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	if( !net->LoadNetwork(prototxt, model, NULL, input_blob, output_blobs, maxBatchSize,
 					  precision, device, allowGPUFallback) )
 	{
-		printf("segNet -- failed to initialize.\n");
+		LogError(LOG_TRT "segNet -- failed to load.\n");
 		return NULL;
 	}
 	
@@ -331,7 +387,7 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	const int s_h = DIMS_H(net->mOutputs[0].dims);
 	const int s_c = DIMS_C(net->mOutputs[0].dims);
 		
-	printf(LOG_TRT "segNet outputs -- s_w %i  s_h %i  s_c %i\n", s_w, s_h, s_c);
+	LogVerbose(LOG_TRT "segNet outputs -- s_w %i  s_h %i  s_c %i\n", s_w, s_h, s_c);
 
 	if( !cudaAllocMapped((void**)&net->mClassMap[0], (void**)&net->mClassMap[1], s_w * s_h * sizeof(uint8_t)) )
 		return NULL;
@@ -355,7 +411,7 @@ bool segNet::loadClassColors( const char* filename )
 
 	if( path.length() == 0 )
 	{
-		printf("segNet -- failed to find %s\n", filename);
+		LogError(LOG_TRT "segNet -- failed to find %s\n", filename);
 		return false;
 	}
 
@@ -364,7 +420,7 @@ bool segNet::loadClassColors( const char* filename )
 	
 	if( !f )
 	{
-		printf("segNet -- failed to open %s\n", path.c_str());
+		LogError(LOG_TRT "segNet -- failed to open %s\n", path.c_str());
 		return false;
 	}
 	
@@ -387,7 +443,7 @@ bool segNet::loadClassColors( const char* filename )
 			int a = 255;
 
 			sscanf(str, "%i %i %i %i", &r, &g, &b, &a);
-			printf("segNet -- class %02i  color %i %i %i %i\n", idx, r, g, b, a);
+			LogVerbose(LOG_TRT "segNet -- class %02i  color %i %i %i %i\n", idx, r, g, b, a);
 			SetClassColor(idx, r, g, b, a);
 			idx++; 
 		}
@@ -395,7 +451,7 @@ bool segNet::loadClassColors( const char* filename )
 	
 	fclose(f);
 	
-	printf("segNet -- loaded %i class colors\n", idx);
+	LogVerbose(LOG_TRT "segNet -- loaded %i class colors\n", idx);
 	
 	if( idx == 0 )
 		return false;
@@ -415,7 +471,7 @@ bool segNet::loadClassLabels( const char* filename )
 
 	if( path.length() == 0 )
 	{
-		printf("segNet -- failed to find %s\n", filename);
+		LogError(LOG_TRT "segNet -- failed to find %s\n", filename);
 		return false;
 	}
 
@@ -424,7 +480,7 @@ bool segNet::loadClassLabels( const char* filename )
 	
 	if( !f )
 	{
-		printf("segNet -- failed to open %s\n", path.c_str());
+		LogError(LOG_TRT "segNet -- failed to open %s\n", path.c_str());
 		return false;
 	}
 	
@@ -440,14 +496,14 @@ bool segNet::loadClassLabels( const char* filename )
 			if( str[len-1] == '\n' )
 				str[len-1] = 0;
 
-			printf("segNet -- class %02zu  label '%s'\n", mClassLabels.size(), str);
+			LogVerbose(LOG_TRT "segNet -- class %02zu  label '%s'\n", mClassLabels.size(), str);
 			mClassLabels.push_back(str);
 		}
 	}
 	
 	fclose(f);
 	
-	printf("segNet -- loaded %zu class labels\n", mClassLabels.size());
+	LogVerbose(LOG_TRT "segNet -- loaded %zu class labels\n", mClassLabels.size());
 	
 	if( mClassLabels.size() == 0 )
 		return false;
@@ -601,10 +657,29 @@ int segNet::FindClassID( const char* label_name )
 // Process
 bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* ignore_class )
 {
-	if( !rgba || width == 0 || height == 0 )
+	return Process(rgba, width, height, IMAGE_RGBA32F, ignore_class);
+}
+
+
+// Process
+bool segNet::Process( void* image, uint32_t width, uint32_t height, imageFormat format, const char* ignore_class )
+{
+	if( !image || width == 0 || height == 0 )
 	{
-		printf("segNet::Process( 0x%p, %u, %u ) -> invalid parameters\n", rgba, width, height);
+		LogError(LOG_TRT "segNet::Process( 0x%p, %u, %u ) -> invalid parameters\n", image, width, height);
 		return false;
+	}
+
+	if( !imageFormatIsRGB(format) )
+	{
+		LogError(LOG_TRT "segNet -- unsupported image format (%s)\n", imageFormatToStr(format));
+		LogError(LOG_TRT "          supported formats are:\n");
+		LogError(LOG_TRT "              * rgb8\n");		
+		LogError(LOG_TRT "              * rgba8\n");		
+		LogError(LOG_TRT "              * rgb32f\n");		
+		LogError(LOG_TRT "              * rgba32f\n");
+
+		return cudaErrorInvalidValue;
 	}
 
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
@@ -612,22 +687,25 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 	if( IsModelType(MODEL_ONNX) )
 	{
 		// downsample, convert to band-sequential RGB, and apply pixel normalization, mean pixel subtraction and standard deviation
-		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, 
-										   make_float2(0.0f, 1.0f), 
-										   make_float3(0.485f, 0.456f, 0.406f),
-										   make_float3(0.229f, 0.224f, 0.225f), 
-										   GetStream())) )
+		if( CUDA_FAILED(cudaTensorNormMeanRGB(image, format, width, height,
+									   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+									   make_float2(0.0f, 1.0f), 
+									   make_float3(0.485f, 0.456f, 0.406f),
+									   make_float3(0.229f, 0.224f, 0.225f), 
+									   GetStream())) )
 		{
-			printf(LOG_TRT "segNet::Process() -- cudaPreImageNetNormMeanRGB() failed\n");
+			LogError(LOG_TRT "segNet::Process() -- cudaTensorNormMeanRGB() failed\n");
 			return false;
 		}
 	}
 	else
 	{
 		// downsample and convert to band-sequential BGR
-		if( CUDA_FAILED(cudaPreImageNetBGR((float4*)rgba, width, height, mInputCUDA, mWidth, mHeight, GetStream())) )
+		if( CUDA_FAILED(cudaTensorMeanBGR(image, format, width, height, 
+								    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+								    make_float3(0,0,0), GetStream())) )
 		{
-			printf("segNet::Process() -- cudaPreImageNetBGR() failed\n");
+			LogError(LOG_TRT "segNet::Process() -- cudaTensorMeanBGR() failed\n");
 			return false;
 		}
 	}
@@ -636,13 +714,8 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 	PROFILER_BEGIN(PROFILER_NETWORK);
 	
 	// process with TensorRT
-	void* inferenceBuffers[] = { mInputCUDA, mOutputs[0].CUDA };
-	
-	if( !mContext->execute(1, inferenceBuffers) )
-	{
-		printf(LOG_TRT "segNet::Process() -- failed to execute TensorRT context\n");
+	if( !ProcessNetwork() )
 		return false;
-	}
 
 	PROFILER_END(PROFILER_NETWORK);
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
@@ -654,9 +727,10 @@ bool segNet::Process( float* rgba, uint32_t width, uint32_t height, const char* 
 	PROFILER_END(PROFILER_POSTPROCESS);
 
 	// cache pointer to last image processed
-	mLastInputImg = rgba;
-	mLastInputWidth = width;
+	mLastInputImg    = image;
+	mLastInputWidth  = width;
 	mLastInputHeight = height;
+	mLastInputFormat = format;
 
 	return true;
 }
@@ -687,8 +761,8 @@ bool segNet::classify( const char* ignore_class )
 		
 	//const float s_x = float(width) / float(s_w);		// TODO bug: this should use mWidth/mHeight dimensions, in case user dimensions are different
 	//const float s_y = float(height) / float(s_h);
-	const float s_x = float(s_w) / float(mWidth);
-	const float s_y = float(s_h) / float(mHeight);
+	const float s_x = float(s_w) / float(GetInputWidth());
+	const float s_y = float(s_h) / float(GetInputHeight());
 
 
 	// if desired, find the ID of the class to ignore (typically void)
@@ -738,7 +812,7 @@ bool segNet::Mask( uint8_t* output, uint32_t out_width, uint32_t out_height )
 {
 	if( !output || out_width == 0 || out_height == 0 )
 	{
-		printf("segNet::Mask( 0x%p, %u, %u ) -> invalid parameters\n", output, out_width, out_height); 
+		LogError(LOG_TRT "segNet::Mask( 0x%p, %u, %u ) -> invalid parameters\n", output, out_width, out_height); 
 		return false;
 	}	
 
@@ -750,26 +824,32 @@ bool segNet::Mask( uint8_t* output, uint32_t out_width, uint32_t out_height )
 	const int s_w = DIMS_W(mOutputs[0].dims);
 	const int s_h = DIMS_H(mOutputs[0].dims);
 		
-	const float s_x = float(s_w) / float(out_width);
-	const float s_y = float(s_h) / float(out_height);
-
-
-	// overlay pixels onto original
-	for( uint32_t y=0; y < out_height; y++ )
+	if( out_width == s_w && out_height == s_h )
 	{
-		for( uint32_t x=0; x < out_width; x++ )
+		memcpy(output, classMap, s_w * s_h * sizeof(uint8_t));
+	}
+	else
+	{
+		const float s_x = float(s_w) / float(out_width);
+		const float s_y = float(s_h) / float(out_height);
+
+		// overlay pixels onto original
+		for( uint32_t y=0; y < out_height; y++ )
 		{
-			const int cx = float(x) * s_x;
-			const int cy = float(y) * s_y;
+			for( uint32_t x=0; x < out_width; x++ )
+			{
+				const int cx = float(x) * s_x;
+				const int cy = float(y) * s_y;
 
-			// get the class ID of this cell
-			const uint8_t classIdx = classMap[cy * s_w + cx];
+				// get the class ID of this cell
+				const uint8_t classIdx = classMap[cy * s_w + cx];
 
-			// output the pixel
-			output[y * out_width + x] = classIdx;
+				// output the pixel
+				output[y * out_width + x] = classIdx;
+			}
 		}
 	}
-
+	
 	PROFILER_END(PROFILER_VISUALIZE);
 	return true;
 }
@@ -778,17 +858,24 @@ bool segNet::Mask( uint8_t* output, uint32_t out_width, uint32_t out_height )
 // Mask (colorized)
 bool segNet::Mask( float* output, uint32_t width, uint32_t height, FilterMode filter )
 {
+	return Mask(output, width, height, IMAGE_RGBA32F, filter);
+}
+
+
+// Mask (colorized)
+bool segNet::Mask( void* output, uint32_t width, uint32_t height, imageFormat format, FilterMode filter )
+{
 	if( !output || width == 0 || height == 0 )
 	{
-		printf("segNet::Mask( 0x%p, %u, %u ) -> invalid parameters\n", output, width, height); 
+		LogError(LOG_TRT "segNet::Mask( 0x%p, %u, %u ) -> invalid parameters\n", output, width, height); 
 		return false;
 	}	
 
 	// filter in point or linear
 	if( filter == FILTER_POINT )
-		return overlayPoint(NULL, 0, 0, output, width, height, true);
+		return overlayPoint(NULL, 0, 0, IMAGE_UNKNOWN, output, width, height, format, true);
 	else if( filter == FILTER_LINEAR )
-		return overlayLinear(NULL, 0, 0, output, width, height, true);
+		return overlayLinear(NULL, 0, 0, IMAGE_UNKNOWN, output, width, height, format, true);
 
 	return false;
 }
@@ -797,23 +884,30 @@ bool segNet::Mask( float* output, uint32_t width, uint32_t height, FilterMode fi
 // Overlay
 bool segNet::Overlay( float* output, uint32_t width, uint32_t height, FilterMode filter )
 {
+	return Overlay(output, width, height, IMAGE_RGBA32F, filter);
+}
+
+
+// Overlay
+bool segNet::Overlay( void* output, uint32_t width, uint32_t height, imageFormat format, segNet::FilterMode filter )
+{
 	if( !output || width == 0 || height == 0 )
 	{
-		printf("segNet::Overlay( 0x%p, %u, %u ) -> invalid parameters\n", output, width, height); 
+		LogError(LOG_TRT "segNet::Overlay( 0x%p, %u, %u ) -> invalid parameters\n", output, width, height); 
 		return false;
 	}	
 	
 	if( !mLastInputImg )
 	{
-		printf(LOG_TRT "segNet -- Process() must be called before Overlay()\n");
+		LogError(LOG_TRT "segNet -- Process() must be called before Overlay()\n");
 		return false;
 	}
 
 	// filter in point or linear
 	if( filter == FILTER_POINT )
-		return overlayPoint(mLastInputImg, mLastInputWidth, mLastInputHeight, output, width, height, false);
+		return overlayPoint(mLastInputImg, mLastInputWidth, mLastInputHeight, mLastInputFormat, output, width, height, format, false);
 	else if( filter == FILTER_LINEAR )
-		return overlayLinear(mLastInputImg, mLastInputWidth, mLastInputHeight, output, width, height, false);
+		return overlayLinear(mLastInputImg, mLastInputWidth, mLastInputHeight, mLastInputFormat, output, width, height, format, false);
 
 	return false;
 }
@@ -822,24 +916,30 @@ bool segNet::Overlay( float* output, uint32_t width, uint32_t height, FilterMode
 #define OVERLAY_CUDA 
 
 // declaration from segNet.cu
-cudaError_t cudaSegOverlay( float4* input, uint32_t in_width, uint32_t in_height,
-				        float4* output, uint32_t out_width, uint32_t out_height,
+cudaError_t cudaSegOverlay( void* input, uint32_t in_width, uint32_t in_height,
+				        void* output, uint32_t out_width, uint32_t out_height, imageFormat format,
 					   float4* class_colors, uint8_t* scores, const int2& scores_dim,
 					   bool filter_linear, bool mask_only, cudaStream_t stream );
 
 
 // overlayLinear
-bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only )
+bool segNet::overlayPoint( void* input, uint32_t in_width, uint32_t in_height, imageFormat in_format, void* output, uint32_t out_width, uint32_t out_height, imageFormat out_format, bool mask_only )
 {
+	if( input != NULL && in_format != out_format )
+	{
+		LogError(LOG_TRT "segNet -- input image format (%s) and overlay/mask image format (%s) don't match\n", imageFormatToStr(in_format), imageFormatToStr(out_format));
+		return false;
+	}
+
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 
 #ifdef OVERLAY_CUDA
 	// generate overlay on the GPU
-	if( CUDA_FAILED(cudaSegOverlay((float4*)input, in_width, in_height, (float4*)output, out_width, out_height,
+	if( CUDA_FAILED(cudaSegOverlay(input, in_width, in_height, output, out_width, out_height, out_format,
 							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
 							 false, mask_only, GetStream())) )
 	{
-		printf(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
+		LogError(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
 		return false;
 	}
 #else
@@ -903,17 +1003,23 @@ bool segNet::overlayPoint( float* input, uint32_t in_width, uint32_t in_height, 
 
 
 // overlayLinear
-bool segNet::overlayLinear( float* input, uint32_t in_width, uint32_t in_height, float* output, uint32_t out_width, uint32_t out_height, bool mask_only )
+bool segNet::overlayLinear( void* input, uint32_t in_width, uint32_t in_height, imageFormat in_format, void* output, uint32_t out_width, uint32_t out_height, imageFormat out_format, bool mask_only )
 {
+	if( input != NULL && in_format != out_format )
+	{
+		LogError(LOG_TRT "segNet -- input image format (%s) and overlay/mask image format (%s) don't match\n", imageFormatToStr(in_format), imageFormatToStr(out_format));
+		return false;
+	}
+
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 
 #ifdef OVERLAY_CUDA
 	// generate overlay on the GPU
-	if( CUDA_FAILED(cudaSegOverlay((float4*)input, in_width, in_height, (float4*)output, out_width, out_height,
+	if( CUDA_FAILED(cudaSegOverlay(input, in_width, in_height, output, out_width, out_height, out_format,
 							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
 							 true, mask_only, GetStream())) )
 	{
-		printf(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
+		LogError(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
 		return false;
 	}
 #else

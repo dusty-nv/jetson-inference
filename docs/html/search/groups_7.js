@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['opengl',['OpenGL',['../group__OpenGL.html',1,'']]]
+  ['networking',['Networking',['../group__network.html',1,'']]],
+  ['normalization',['Normalization',['../group__normalization.html',1,'']]]
 ];

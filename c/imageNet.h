@@ -41,11 +41,11 @@
 
 
 /**
- * Command-line options able to be passed to imageNet::Create()
+ * Standard command-line options able to be passed to imageNet::Create()
  * @ingroup imageNet
  */
 #define IMAGENET_USAGE_STRING  "imageNet arguments: \n" 							\
-		  "  --network NETWORK    pre-trained model to load, one of the following:\n" 	\
+		  "  --network=NETWORK    pre-trained model to load, one of the following:\n" 	\
 		  "                           * alexnet\n" 								\
 		  "                           * googlenet (default)\n" 					\
 		  "                           * googlenet-12\n" 							\
@@ -56,13 +56,13 @@
 		  "                           * vgg-16\n" 								\
 		  "                           * vgg-19\n" 								\
 		  "                           * inception-v4\n" 							\
-		  "  --model MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
-		  "  --prototxt PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
-		  "  --labels LABELS      path to text file containing the labels for each class\n" 				\
-		  "  --input_blob INPUT   name of the input layer (default is '" IMAGENET_DEFAULT_INPUT "')\n" 	\
-		  "  --output_blob OUTPUT name of the output layer (default is '" IMAGENET_DEFAULT_OUTPUT "')\n" 	\
-		  "  --batch_size BATCH   maximum batch size (default is 1)\n"								\
-		  "  --profile            enable layer profiling in TensorRT\n"
+		  "  --model=MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
+		  "  --prototxt=PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
+		  "  --labels=LABELS      path to text file containing the labels for each class\n" 				\
+		  "  --input-blob=INPUT   name of the input layer (default is '" IMAGENET_DEFAULT_INPUT "')\n" 	\
+		  "  --output-blob=OUTPUT name of the output layer (default is '" IMAGENET_DEFAULT_OUTPUT "')\n" 	\
+		  "  --batch-size=BATCH   maximum batch size (default is 1)\n"								\
+		  "  --profile            enable layer profiling in TensorRT\n\n"
 
 
 /**
@@ -133,6 +133,11 @@ public:
 	static imageNet* Create( int argc, char** argv );
 
 	/**
+	 * Load a new network instance by parsing the command line.
+	 */
+	static imageNet* Create( const commandLine& cmdLine );
+
+	/**
 	 * Usage string for command line arguments to Create()
 	 */
 	static inline const char* Usage() 		{ return IMAGENET_USAGE_STRING; }
@@ -145,34 +150,36 @@ public:
 	/**
 	 * Determine the maximum likelihood image class.
 	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
-	 * @param rgba float4 input image in CUDA device memory.
+	 * @param rgba input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param confidence optional pointer to float filled with confidence value.
 	 * @returns Index of the maximum class, or -1 on error.
 	 */
-	int Classify( float* rgba, uint32_t width, uint32_t height, float* confidence=NULL );
-
+	template<typename T> int Classify( T* image, uint32_t width, uint32_t height, float* confidence=NULL )		{ return Classify((void*)image, width, height, imageFormatFromType<T>(), confidence); }
+	
 	/**
 	 * Determine the maximum likelihood image class.
-	 * @note before calling this function, you must call PreProcess() with the image. 
+	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
+	 * @param rgba input image in CUDA device memory.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
 	 * @param confidence optional pointer to float filled with confidence value.
 	 * @returns Index of the maximum class, or -1 on error.
 	 */
-	int Classify( float* confidence=NULL );
+	int Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence=NULL );
 
 	/**
-	 * Perform pre-processing on the image to apply mean-value subtraction and
-	 * to organize the data into NCHW format and BGR colorspace that the networks expect.
- 	 * After calling PreProcess(), you can call Classify() without supplying all the parameters.
+	 * Determine the maximum likelihood image class.
+	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
+	 * @deprecated this overload of Classify() provides legacy compatibility with `float*` type (RGBA32F).
+      * @param rgba float4 input image in CUDA device memory.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
+	 * @param confidence optional pointer to float filled with confidence value.
+	 * @returns Index of the maximum class, or -1 on error.
 	 */
-	bool PreProcess( float* rgba, uint32_t width, uint32_t height );
-
-	/**
-	 * Process the network, without determining the classification argmax.
-	 * To perform the actual classification via post-processing, Classify() should be used instead.
-	 */
-	bool Process();
+	int Classify( float* rgba, uint32_t width, uint32_t height, float* confidence=NULL, imageFormat format=IMAGE_RGBA32F );
 
 	/**
 	 * Retrieve the number of image recognition classes (typically 1000)
@@ -217,6 +224,10 @@ public:
 protected:
 	imageNet();
 	
+	int  Classify( float* confidence=NULL );
+	bool PreProcess( void* image, uint32_t width, uint32_t height, imageFormat format );
+	bool Process();
+
 	bool init( NetworkType networkType, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool loadClassInfo( const char* filename, int expectedClasses=-1 );

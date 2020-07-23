@@ -1,51 +1,34 @@
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="imagenet-example-2.md">Back</a> | <a href="detectnet-console-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Image Recognition</sup></p>  
 
 # Running the Live Camera Recognition Demo
 
-Next we have a realtime image recognition camera demo available for C++ and Python:
+The [`imagenet.cpp`](../examples/imagenet/imagenet.cpp) / [`imagenet.py`](../python/examples/imagenet.py) samples that we used previously can also be used for realtime camera streaming.  The types of supported cameras include:
 
-- [`imagenet-camera.cpp`](../examples/imagenet-camera/imagenet-camera.cpp) (C++) 
-- [`imagenet-camera.py`](../python/examples/imagenet-camera.py) (Python) 
+- MIPI CSI cameras (`csi://0`)
+- V4L2 cameras (`/dev/video0`)
+- RTP/RTSP streams (`rtsp://username:password@ip:port`)
 
-Similar to the previous [`imagenet-console`](imagenet-console-2.md) example, the camera applications are built to the `/aarch64/bin` directory. They run on a live camera stream with OpenGL rendering and accept 4 optional command-line arguments:
+For more information about video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
-- `--network` flag setting the classification model (default is GoogleNet)
-	- See [Downloading Other Classification Models](imagenet-console-2.md#downloading-other-classification-models) for the networks available to use.
-- `--camera` flag setting the camera device to use
-	- MIPI CSI cameras are used by specifying the sensor index (`0` or `1`, ect.)
-	- V4L2 USB cameras are used by specifying their `/dev/video` node (`/dev/video0`, `/dev/video1`, ect.)
-	- The default is to use MIPI CSI sensor 0 (`--camera=0`)
-- `--width` and `--height` flags setting the camera resolution (default is `1280x720`)
-	- The resolution should be set to a format that the camera supports.
-     - Query the available formats with the following commands:  
-          ``` bash
-          $ sudo apt-get install v4l-utils
-          $ v4l2-ctl --list-formats-ext
-          ```
-
-You can combine the usage of these flags as needed, and there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info, or see the [`Examples`](../README.md#code-examples) readme.
-
-Below are some typical scenarios for launching the program:
+Below are some typical scenarios for launching the program on a camera feed (run `--help` for more options):
 
 #### C++
 
 ``` bash
-$ ./imagenet-camera                          # using GoogleNet, default MIPI CSI camera (1280x720)
-$ ./imagenet-camera --network=resnet-18      # using ResNet-18, default MIPI CSI camera (1280x720)
-$ ./imagenet-camera --camera=/dev/video0     # using GoogleNet, V4L2 camera /dev/video0 (1280x720)
-$ ./imagenet-camera --width=640 --height=480 # using GoogleNet, default MIPI CSI camera (640x480)
+$ ./imagenet csi://0                    # MIPI CSI camera
+$ ./imagenet /dev/video0                # V4L2 camera
+$ ./imagenet /dev/video0 output.mp4     # save to video file
 ```
 
 #### Python
 
 ``` bash
-$ ./imagenet-camera.py                          # using GoogleNet, default MIPI CSI camera (1280x720)
-$ ./imagenet-camera.py --network=resnet-18      # using ResNet-18, default MIPI CSI camera (1280x720)
-$ ./imagenet-camera.py --camera=/dev/video0     # using GoogleNet, V4L2 camera /dev/video0 (1280x720)
-$ ./imagenet-camera.py --width=640 --height=480 # using GoogleNet, default MIPI CSI camera (640x480)
+$ ./imagenet.py csi://0                 # MIPI CSI camera
+$ ./imagenet.py /dev/video0             # V4L2 camera
+$ ./imagenet.py /dev/video0 output.mp4  # save to video file
 ```
 
 > **note**:  for example cameras to use, see these sections of the Jetson Wiki: <br/>
@@ -61,7 +44,7 @@ Displayed in the OpenGL window are the live camera stream, the classified object
 
 The application can recognize up to 1000 different types of objects, since the classification models are trained on the ILSVRC ImageNet dataset which contains 1000 classes of objects.  The mapping of names for the 1000 types of objects, you can find in the repo under [`data/networks/ilsvrc12_synset_words.txt`](http://github.com/dusty-nv/jetson-inference/blob/master/data/networks/ilsvrc12_synset_words.txt)
 
-This concludes the section of Hello AI World on Image Recognition.  Next, we're going to start using Object Detection networks, which provide us with the bounding box coordinates of multiple objects per frame.
+This concludes this section of the Hello AI World tutorial on image classification.  Next, we're going to start using Object Detection networks, which provide us with the bounding box coordinates of multiple objects per frame.
 
 ##
 <p align="right">Next | <b><a href="detectnet-console-2.md">Locating Object Coordinates with DetectNet</a></b>

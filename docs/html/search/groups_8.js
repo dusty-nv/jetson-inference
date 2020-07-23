@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['segnet',['segNet',['../group__segNet.html',1,'']]],
-  ['superresnet',['superResNet',['../group__superResNet.html',1,'']]]
+  ['opengl',['OpenGL',['../group__OpenGL.html',1,'']]],
+  ['overlay',['Overlay',['../group__overlay.html',1,'']]]
 ];

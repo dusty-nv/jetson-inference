@@ -83,8 +83,7 @@ $(document).ready(function(){initNavTree('group__codec.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">Codec<div class="ingroups"><a class="el" href="group__util.html">Utilities Library (jetson-utils)</a></div></div>  </div>
 </div><!--header-->
@@ -96,10 +95,10 @@ $(document).ready(function(){initNavTree('group__codec.html','');});
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html">gstDecoder</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hardware-accelerated H.264/H.265 video decoder for Jetson using GStreamer.  <a href="classgstDecoder.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hardware-accelerated video decoder for Jetson using GStreamer.  <a href="classgstDecoder.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstEncoder.html">gstEncoder</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hardware-accelerated H.264/H.265 video encoder for Jetson using GStreamer.  <a href="classgstEncoder.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hardware-accelerated video encoder for Jetson using GStreamer.  <a href="classgstEncoder.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -107,14 +106,6 @@ Macros</h2></td></tr>
 <tr class="memitem:ga7d4bea04aad22460cc3c9c8152c6e3ed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ga7d4bea04aad22460cc3c9c8152c6e3ed">LOG_GSTREAMER</a>&#160;&#160;&#160;&quot;[gstreamer] &quot;</td></tr>
 <tr class="memdesc:ga7d4bea04aad22460cc3c9c8152c6e3ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">LOG_GSTREAMER logging prefix.  <a href="#ga7d4bea04aad22460cc3c9c8152c6e3ed">More...</a><br /></td></tr>
 <tr class="separator:ga7d4bea04aad22460cc3c9c8152c6e3ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:ga32ee01b5f56c4765d7c36fec97ba2260"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a> { <a class="el" href="group__codec.html#gga32ee01b5f56c4765d7c36fec97ba2260a73d4787e8d115e863e75646b8a90dc3c">GST_CODEC_H264</a> = 0, 
-<a class="el" href="group__codec.html#gga32ee01b5f56c4765d7c36fec97ba2260a49d3697551fd07ab7cab295eb9dd8255">GST_CODEC_H265</a>
- }<tr class="memdesc:ga32ee01b5f56c4765d7c36fec97ba2260"><td class="mdescLeft">&#160;</td><td class="mdescRight">Video codec (H.264/H.265) enumeration.  <a href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">More...</a><br /></td></tr>
-</td></tr>
-<tr class="separator:ga32ee01b5f56c4765d7c36fec97ba2260"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Hardware-accelerated video encoder and decoder (H.264/H.265) using GStreamer. </p>
@@ -135,33 +126,12 @@ Enumerations</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="ga32ee01b5f56c4765d7c36fec97ba2260"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga32ee01b5f56c4765d7c36fec97ba2260">&#9670;&nbsp;</a></span>gstCodec</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="group__codec.html#ga32ee01b5f56c4765d7c36fec97ba2260">gstCodec</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Video codec (H.264/H.265) enumeration. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga32ee01b5f56c4765d7c36fec97ba2260a73d4787e8d115e863e75646b8a90dc3c"></a>GST_CODEC_H264&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="gga32ee01b5f56c4765d7c36fec97ba2260a49d3697551fd07ab7cab295eb9dd8255"></a>GST_CODEC_H265&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 14 2020 21:59:34 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

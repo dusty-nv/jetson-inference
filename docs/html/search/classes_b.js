@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['outputlayer',['outputLayer',['../structtensorNet_1_1outputLayer.html',1,'tensorNet']]]
+  ['process',['Process',['../classProcess.html',1,'']]],
+  ['profiler',['Profiler',['../classtensorNet_1_1Profiler.html',1,'tensorNet']]]
 ];

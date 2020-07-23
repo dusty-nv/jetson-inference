@@ -91,6 +91,7 @@ $(document).ready(function(){initNavTree('glUtility_8h.html','');});
 <div class="textblock"><code>#include &lt;GL/glew.h&gt;</code><br />
 <code>#include &lt;GL/glx.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="logging_8h_source.html">logging.h</a>&quot;</code><br />
 </div>
 <p><a href="glUtility_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -111,10 +112,6 @@ Macros</h2></td></tr>
 <tr class="memitem:ga99a7852633ed1a98e0f1918367355ec0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OpenGL.html#ga99a7852633ed1a98e0f1918367355ec0">GL_CHECK</a>(msg)&#160;&#160;&#160;{ <a class="el" href="group__OpenGL.html#ga9c5211ebc6e2eee2b12288cd52c4236e">glCheckError</a>(msg, __FILE__, __LINE__); }</td></tr>
 <tr class="memdesc:ga99a7852633ed1a98e0f1918367355ec0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a message on OpenGL error.  <a href="group__OpenGL.html#ga99a7852633ed1a98e0f1918367355ec0">More...</a><br /></td></tr>
 <tr class="separator:ga99a7852633ed1a98e0f1918367355ec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad36bf08b723b4d19079cf67054a28c10"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="glUtility_8h.html#ad36bf08b723b4d19079cf67054a28c10">GL_GPU_MEM_INFO_TOTAL_AVAILABLE_MEM_NVX</a>&#160;&#160;&#160;0x9048</td></tr>
-<tr class="separator:ad36bf08b723b4d19079cf67054a28c10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6742682a27903641a258e686a0db0368"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="glUtility_8h.html#a6742682a27903641a258e686a0db0368">GL_GPU_MEM_INFO_CURRENT_AVAILABLE_MEM_NVX</a>&#160;&#160;&#160;0x9049</td></tr>
-<tr class="separator:a6742682a27903641a258e686a0db0368"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -127,43 +124,23 @@ Functions</h2></td></tr>
 <tr class="memitem:gae70530a98d9a14c84fffea7e3f3083ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OpenGL.html#gae70530a98d9a14c84fffea7e3f3083ab">glPrintFreeMem</a> ()</td></tr>
 <tr class="memdesc:gae70530a98d9a14c84fffea7e3f3083ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the amount of free GPU memory.  <a href="group__OpenGL.html#gae70530a98d9a14c84fffea7e3f3083ab">More...</a><br /></td></tr>
 <tr class="separator:gae70530a98d9a14c84fffea7e3f3083ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae1351087d1392a2515441ba778e05259"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OpenGL.html#gae1351087d1392a2515441ba778e05259">glDrawLine</a> (float x1, float y1, float x2, float y2, float r, float g, float b, float a=1.0f, float thickness=2.0f)</td></tr>
+<tr class="memdesc:gae1351087d1392a2515441ba778e05259"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a line in screen coordinates with the specified color.  <a href="group__OpenGL.html#gae1351087d1392a2515441ba778e05259">More...</a><br /></td></tr>
+<tr class="separator:gae1351087d1392a2515441ba778e05259"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga660ba418bd80bc2d03f4074f96b36b95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OpenGL.html#ga660ba418bd80bc2d03f4074f96b36b95">glDrawOutline</a> (float x, float y, float width, float height, float r, float g, float b, float a=1.0f, float thickness=2.0f)</td></tr>
+<tr class="memdesc:ga660ba418bd80bc2d03f4074f96b36b95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the outline of a rect in screen coordinates with the specified color.  <a href="group__OpenGL.html#ga660ba418bd80bc2d03f4074f96b36b95">More...</a><br /></td></tr>
+<tr class="separator:ga660ba418bd80bc2d03f4074f96b36b95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3b01504c8fc6cf9553989916a471ce23"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OpenGL.html#ga3b01504c8fc6cf9553989916a471ce23">glDrawRect</a> (float x, float y, float width, float height, float r, float g, float b, float a=1.0f)</td></tr>
+<tr class="memdesc:ga3b01504c8fc6cf9553989916a471ce23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render a filled rect in screen coordinates with the specified color.  <a href="group__OpenGL.html#ga3b01504c8fc6cf9553989916a471ce23">More...</a><br /></td></tr>
+<tr class="separator:ga3b01504c8fc6cf9553989916a471ce23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a6742682a27903641a258e686a0db0368"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6742682a27903641a258e686a0db0368">&#9670;&nbsp;</a></span>GL_GPU_MEM_INFO_CURRENT_AVAILABLE_MEM_NVX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GL_GPU_MEM_INFO_CURRENT_AVAILABLE_MEM_NVX&#160;&#160;&#160;0x9049</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad36bf08b723b4d19079cf67054a28c10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad36bf08b723b4d19079cf67054a28c10">&#9670;&nbsp;</a></span>GL_GPU_MEM_INFO_TOTAL_AVAILABLE_MEM_NVX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GL_GPU_MEM_INFO_TOTAL_AVAILABLE_MEM_NVX&#160;&#160;&#160;0x9048</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_54a0acf6da04fe2ed9410b4c6369bc5d.html">jetson-utils</a></li><li class="navelem"><a class="el" href="glUtility_8h.html">glUtility.h</a></li>
-    <li class="footer">Generated on Thu Sep 26 2019 12:19:11 for Jetson Inference by
+    <li class="footer">Generated on Tue Jul 14 2020 21:59:34 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

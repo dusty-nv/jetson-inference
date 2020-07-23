@@ -24,6 +24,7 @@
 #include "PyImageNet.h"
 
 #include "imageNet.h"
+#include "logging.h"
 
 #include "../../utils/python/bindings/PyCUDA.h"
 
@@ -52,7 +53,7 @@ typedef struct {
 // Init
 static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *kwds )
 {
-	printf(LOG_PY_INFERENCE "PyImageNet_Init()\n");
+	LogDebug(LOG_PY_INFERENCE "PyImageNet_Init()\n");
 	
 	// parse arguments
 	PyObject* argList     = NULL;
@@ -98,7 +99,7 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 				return -1;
 			}
 
-			printf(LOG_PY_INFERENCE "imageNet.__init__() argv[%zu] = '%s'\n", n, argv[n]);
+			LogDebug(LOG_PY_INFERENCE "imageNet.__init__() argv[%zu] = '%s'\n", n, argv[n]);
 		}
 
 		// load the network using (argc, argv)
@@ -161,35 +162,29 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
 	int width = 0;
 	int height = 0;
 
-	static char* kwlist[] = {"image", "width", "height", NULL};
+	const char* format_str = "rgba32f";
+	static char* kwlist[] = {"image", "width", "height", "format", NULL};
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "Oii", kwlist, &capsule, &width, &height))
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iis", kwlist, &capsule, &width, &height, &format_str))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple");
 		printf(LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple\n");
 		return NULL;
 	}
 
-	// verify dimensions
-	if( width <= 0 || height <= 0 )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() image dimensions are invalid");
-		return NULL;
-	}
+	// parse format string
+	imageFormat format = imageFormatFromStr(format_str);
 
 	// get pointer to image data
-	void* img = PyCUDA_GetPointer(capsule);
+	void* ptr = PyCUDA_GetImage(capsule, &width, &height, &format);
 
-	if( !img )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() failed to get image pointer from PyCapsule container");
+	if( !ptr )
 		return NULL;
-	}
 
 	// classify the image
 	float confidence = 0.0f;
 
-	const int img_class = self->net->Classify((float*)img, width, height, &confidence);
+	const int img_class = self->net->Classify(ptr, width, height, format, &confidence);
 
 	if( img_class < 0 )
 	{
@@ -362,7 +357,7 @@ bool PyImageNet_Register( PyObject* module )
 	 
 	if( PyType_Ready(&pyImageNet_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "imageNet PyType_Ready() failed\n");
+		LogError(LOG_PY_INFERENCE "imageNet PyType_Ready() failed\n");
 		return false;
 	}
 	
@@ -370,7 +365,7 @@ bool PyImageNet_Register( PyObject* module )
     
 	if( PyModule_AddObject(module, "imageNet", (PyObject*)&pyImageNet_Type) < 0 )
 	{
-		printf(LOG_PY_INFERENCE "imageNet PyModule_AddObject('imageNet') failed\n");
+		LogError(LOG_PY_INFERENCE "imageNet PyModule_AddObject('imageNet') failed\n");
 		return false;
 	}
 	
