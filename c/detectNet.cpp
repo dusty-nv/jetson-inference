@@ -1051,6 +1051,17 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 		return false;
 	}
 
+	// if input and output are different images, copy the input to the output first
+	// then overlay the bounding boxes, ect. on top of the output image
+	if( input != output )
+	{
+		if( CUDA_FAILED(cudaMemcpy(output, input, imageFormatSize(format, width, height), cudaMemcpyDeviceToDevice)) )
+		{
+			LogError(LOG_TRT "detectNet -- Overlay() failed to copy input image to output image\n");
+			return false;
+		}
+	}
+
 	// bounding box overlay
 	if( flags & OVERLAY_BOX )
 	{
@@ -1102,7 +1113,7 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 			}
 		}
 
-		font->OverlayText(input, format, width, height, labels, make_float4(255,255,255,255));
+		font->OverlayText(output, format, width, height, labels, make_float4(255,255,255,255));
 	}
 	
 	PROFILER_END(PROFILER_VISUALIZE);
