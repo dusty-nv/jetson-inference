@@ -1062,6 +1062,13 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 		}
 	}
 
+	// make sure there are actually detections
+	if( numDetections <= 0 )
+	{
+		PROFILER_END(PROFILER_VISUALIZE);
+		return true;
+	}
+
 	// bounding box overlay
 	if( flags & OVERLAY_BOX )
 	{
