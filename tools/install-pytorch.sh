@@ -511,7 +511,7 @@ function install_pytorch_v160_python36_jp44()
 	pip3 install numpy --verbose
 
 	# install pytorch wheel
-	download_wheel pip3 "torch-1.6.0rc2-cp36-cp36m-linux_aarch64.whl" "https://nvidia.box.com/shared/static/yr6sjswn25z7oankw8zy1roow9cy5ur1.whl"
+	download_wheel pip3 "torch-1.6.0-cp36-cp36m-linux_aarch64.whl" "https://nvidia.box.com/shared/static/9eptse6jyly1ggt9axbja2yrmj6pbarc.whl"
 
 	local wheel_status=$?
 
@@ -523,7 +523,7 @@ function install_pytorch_v160_python36_jp44()
 	# build torchvision
 	echo "$LOG cloning torchvision..."
 	sudo rm -r -f torchvision-36
-	git clone -bv0.7.0-rc2 https://github.com/pytorch/vision torchvision-36
+	git clone -bv0.7.0 https://github.com/pytorch/vision torchvision-36
 	cd torchvision-36
 	echo "$LOG building torchvision for Python 3.6..."
 	sudo python3 setup.py install
