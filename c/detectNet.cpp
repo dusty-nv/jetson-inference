@@ -110,7 +110,17 @@ bool detectNet::init( const char* prototxt, const char* model, const char* mean_
 	
 	// ONNX SSD models require larger workspace size
 	if( modelTypeFromPath(model) == MODEL_ONNX )
-		mWorkspaceSize = 2048 << 20;
+	{
+		size_t gpuMemFree = 0;
+		size_t gpuMemTotal = 0;
+		
+		CUDA(cudaMemGetInfo(&gpuMemFree, &gpuMemTotal));
+
+		if( gpuMemTotal <= (2048 << 20) )
+			mWorkspaceSize = 512 << 20;
+		else
+			mWorkspaceSize = 2048 << 20;
+	}
 
 	// load the model
 	if( !LoadNetwork(prototxt, model, mean_binary, input_blob, output_blobs, 

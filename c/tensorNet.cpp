@@ -771,7 +771,8 @@ bool tensorNet::ConfigureBuilder( nvinfer1::IBuilder* builder, uint32_t maxBatch
 
 	LogInfo(LOG_TRT "device %s, building FP16:  %s\n", deviceTypeToStr(device), isFp16Enabled(builder) ? "ON" : "OFF"); 
 	LogInfo(LOG_TRT "device %s, building INT8:  %s\n", deviceTypeToStr(device), isInt8Enabled(builder) ? "ON" : "OFF"); 
-	
+	LogInfo(LOG_TRT "device %s, workspace size: %u\n", deviceTypeToStr(device), workspaceSize);
+
 	return true;
 }
 
