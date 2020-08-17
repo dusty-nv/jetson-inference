@@ -558,6 +558,9 @@ function check_L4T_version()
 		JETSON_L4T_REVISION=$(echo $JETSON_L4T_STRING | cut -f 2 -d ',' | grep -Po '(?<=REVISION: )[^;]+')
 	fi
 
+	JETSON_L4T_REVISION_MAJOR=${JETSON_L4T_REVISION:0:1}
+	JETSON_L4T_REVISION_MINOR=${JETSON_L4T_REVISION:2:1}
+
 	JETSON_L4T_VERSION="$JETSON_L4T_RELEASE.$JETSON_L4T_REVISION"
 	echo "$LOG Jetson BSP Version:  L4T R$JETSON_L4T_VERSION"
 
@@ -620,7 +623,7 @@ while true; do
 	HAS_PYTHON2=true
 	
 	if [ $JETSON_L4T_RELEASE -eq 32 ]; then
-		if [ $JETSON_L4T_REVISION = "4.3" ]; then
+		if [ $JETSON_L4T_REVISION = "4.3" ] || [ $JETSON_L4T_REVISION_MAJOR -gt 4 ]; then
 			PYTORCH_VERSION="1.6.0"  # JetPack 4.4 GA
 			HAS_PYTHON2=false
 		elif [ $JETSON_L4T_REVISION = "4.2" ]; then
