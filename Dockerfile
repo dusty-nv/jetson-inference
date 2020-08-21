@@ -79,6 +79,6 @@ RUN mkdir docs && \
     cmake ../ && \
     make -j$(nproc) && \
     make install && \
-    /bin/bash -O extglob -c "cd /jetson-inference/build; rm -rf -v !(aarch64|download-models.*)"
+    /bin/bash -O extglob -c "cd /jetson-inference/build; rm -rf -v !(aarch64|download-models.*)" && \
     rm -rf /var/lib/apt/lists/*
     
