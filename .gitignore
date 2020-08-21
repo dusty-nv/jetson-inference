@@ -1,4 +1,6 @@
 build/
 data/networks/
+data/images/test
+logs/
 *.pyc
 *.tar.gz
