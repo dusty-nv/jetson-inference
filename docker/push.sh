@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DOCKER_USER="dustynv"
+DOCKER_USER=$1
 
 push_retag() 
 {
