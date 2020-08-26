@@ -128,12 +128,11 @@ int main( int argc, char** argv )
 
 		if( !input->Capture(&image, 1000) )
 		{
-			LogError("detectnet:  failed to capture video frame\n");
-
 			// check for EOS
 			if( !input->IsStreaming() )
-				signal_recieved = true; 
+				break; 
 
+			LogError("detectnet:  failed to capture video frame\n");
 			continue;
 		}
 

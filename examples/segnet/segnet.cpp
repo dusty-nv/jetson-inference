@@ -220,12 +220,11 @@ int main( int argc, char** argv )
 
 		if( !input->Capture(&imgInput, 1000) )
 		{
-			LogError("segnet:  failed to capture video frame\n");
-
 			// check for EOS
 			if( !input->IsStreaming() )
-				signal_recieved = true; 
+				break; 
 
+			LogError("segnet:  failed to capture video frame\n");
 			continue;
 		}
 
