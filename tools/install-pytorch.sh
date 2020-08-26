@@ -223,6 +223,27 @@ function install_deb_package()
 
 
 #
+# move/restore ffmpeg
+# (this is so torchvision doesn't inadvertently try to build with it)
+#
+function move_ffmpeg()
+{
+	if [ -f "/usr/bin/ffmpeg" ]; then
+		echo "$LOG temporarily moving /usr/bin/ffmpeg -> /usr/bin/ffmpeg_bak"
+		sudo mv /usr/bin/ffmpeg /usr/bin/ffmpeg_bak
+	fi
+}
+
+function restore_ffmpeg()
+{
+	if [ -f "/usr/bin/ffmpeg_bak" ]; then
+		echo "$LOG restoring /usr/bin/ffmpeg from /usr/bin/ffmpeg_bak"
+		sudo mv /usr/bin/ffmpeg_bak /usr/bin/ffmpeg
+	fi
+}
+
+
+#
 # install PyTorch
 #
 function install_pytorch()
@@ -289,6 +310,7 @@ function install_pytorch_v110_python27_jp42()
 	fi
 
 	# build torchvision
+	move_ffmpeg
 	echo "$LOG cloning torchvision..."
 	sudo rm -r -f torchvision-27
 	git clone -bv0.3.0 https://github.com/dusty-nv/vision torchvision-27
@@ -296,6 +318,7 @@ function install_pytorch_v110_python27_jp42()
 	echo "$LOG building torchvision for Python 2.7..."
 	sudo python setup.py install
 	cd ../
+	restore_ffmpeg
 
 	# patch for https://github.com/pytorch/vision/issues/1712
 	pip install 'pillow<7'
@@ -324,6 +347,7 @@ function install_pytorch_v110_python36_jp42()
 	fi
 
 	# build torchvision
+	move_ffmpeg
 	echo "$LOG cloning torchvision..."
 	sudo rm -r -f torchvision-36
 	git clone -bv0.3.0 https://github.com/dusty-nv/vision torchvision-36
@@ -331,6 +355,7 @@ function install_pytorch_v110_python36_jp42()
 	echo "$LOG building torchvision for Python 3.6..."
 	sudo python3 setup.py install
 	cd ../
+	restore_ffmpeg
 
 	# patch for https://github.com/pytorch/vision/issues/1712
 	pip3 install 'pillow<7'
@@ -367,6 +392,7 @@ function install_pytorch_v140_python27_jp42()
 	pip install 'pillow<7'
 
 	# build torchvision
+	move_ffmpeg
 	echo "$LOG cloning torchvision..."
 	sudo rm -r -f torchvision-27
 	git clone -bv0.5.0 https://github.com/pytorch/vision torchvision-27
@@ -374,6 +400,7 @@ function install_pytorch_v140_python27_jp42()
 	echo "$LOG building torchvision for Python 2.7..."
 	sudo python setup.py install
 	cd ../
+	restore_ffmpeg
 	
 	return 0
 }
@@ -405,6 +432,7 @@ function install_pytorch_v140_python36_jp42()
 	fi
 
 	# build torchvision
+	move_ffmpeg
 	echo "$LOG cloning torchvision..."
 	sudo rm -r -f torchvision-36
 	git clone -bv0.5.0 https://github.com/pytorch/vision torchvision-36
@@ -412,7 +440,8 @@ function install_pytorch_v140_python36_jp42()
 	echo "$LOG building torchvision for Python 3.6..."
 	sudo python3 setup.py install
 	cd ../
-	
+	restore_ffmpeg
+
 	return 0
 }
 
@@ -445,6 +474,7 @@ function install_pytorch_v140_python27_jp44()
 	pip install 'pillow<7'
 
 	# build torchvision
+	move_ffmpeg
 	echo "$LOG cloning torchvision..."
 	sudo rm -r -f torchvision-27
 	git clone -bv0.5.0 https://github.com/pytorch/vision torchvision-27
@@ -452,7 +482,8 @@ function install_pytorch_v140_python27_jp44()
 	echo "$LOG building torchvision for Python 2.7..."
 	sudo python setup.py install
 	cd ../
-	
+	restore_ffmpeg
+
 	return 0
 }
 
@@ -483,6 +514,7 @@ function install_pytorch_v140_python36_jp44()
 	fi
 
 	# build torchvision
+	move_ffmpeg
 	echo "$LOG cloning torchvision..."
 	sudo rm -r -f torchvision-36
 	git clone -bv0.5.0 https://github.com/pytorch/vision torchvision-36
@@ -490,7 +522,8 @@ function install_pytorch_v140_python36_jp44()
 	echo "$LOG building torchvision for Python 3.6..."
 	sudo python3 setup.py install
 	cd ../
-	
+	restore_ffmpeg
+
 	return 0
 }
 
@@ -521,6 +554,7 @@ function install_pytorch_v160_python36_jp44()
 	fi
 
 	# build torchvision
+	move_ffmpeg
 	echo "$LOG cloning torchvision..."
 	sudo rm -r -f torchvision-36
 	git clone -bv0.7.0 https://github.com/pytorch/vision torchvision-36
@@ -528,7 +562,8 @@ function install_pytorch_v160_python36_jp44()
 	echo "$LOG building torchvision for Python 3.6..."
 	sudo python3 setup.py install
 	cd ../
-	
+	restore_ffmpeg
+
 	return 0
 }
 
