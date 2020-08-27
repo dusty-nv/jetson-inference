@@ -150,9 +150,12 @@ echo "USER_COMMAND:  $USER_COMMAND"
 # check for V4L2 devices
 V4L2_DEVICES=" "
 
-if [ -a "/dev/video0" ] || [ -a "/dev/video1" ]; then
-	V4L2_DEVICES=" --device /dev/video* "
-fi
+for i in {0..9}
+do
+	if [ -a "/dev/video$i" ]; then
+		V4L2_DEVICES="$V4L2_DEVICES --device /dev/video$i "
+	fi
+done
 
 echo "V4L2_DEVICES:  $V4L2_DEVICES"
 
@@ -164,3 +167,4 @@ sudo docker run --runtime nvidia -it --rm --network host -e DISPLAY=$DISPLAY \
     -v /tmp/argus_socket:/tmp/argus_socket \
     $V4L2_DEVICES $DATA_VOLUME $USER_VOLUME \
     $CONTAINER_IMAGE $USER_COMMAND
+
