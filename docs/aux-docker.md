@@ -5,13 +5,13 @@
 
 # Running in Docker Containers
 
-Docker container images for this project are hosted on DockerHub at [`dustynv/jetson-inference`](https://hub.docker.com/r/dustynv/jetson-inference)   
+Docker container images for this project are hosted on DockerHub at [`dustynv/jetson-inference`](https://hub.docker.com/r/dustynv/jetson-inference/tags)   
 
 Below are the currently available tags:
 
 | Container Tag                                                                           | L4T version |          JetPack version         |
 |-----------------------------------------------------------------------------------------|:-----------:|:--------------------------------:|
-| [`dustynv/jetson-inference:r32.4.3`](https://hub.docker.com/r/dustynv/jetson-inference) | L4T R32.4.3 | JetPack 4.4 (production release) |
+| [`dustynv/jetson-inference:r32.4.3`](https://hub.docker.com/r/dustynv/jetson-inference/tags) | L4T R32.4.3 | JetPack 4.4 (production release) |
 
 > **note:** the version of JetPack-L4T that you have installed on your Jetson needs to match the tag above
 
@@ -49,15 +49,7 @@ If you wish to mount your own directory into the container, you can use the `--v
 $ docker/run.sh --volume /my/host/path:/my/container/path    # these should be absolute paths
 ```
 
-For more info, see `docker/run.sh --help`:
-
-```bash
-   -v, --volume HOST_DIR:MOUNT_DIR Mount a path from the host system into the container.  Should be specified as:
-
-                                      -v /my/host/path:/my/container/path
-
-                                   (these should be absolute paths)
-```
+For more info, run `docker/run.sh --help` or see the help text inside [`docker/run.sh`](../docker/run.sh)
 
 ## Running Applications
 
