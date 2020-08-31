@@ -5,7 +5,7 @@
 
 # Running in Docker Containers
 
-Docker container images for this project are hosted at [`dustynv/jetson-inference`](https://hub.docker.com/r/dustynv/jetson-inference).  
+Docker container images for this project are hosted on DockerHub at [`dustynv/jetson-inference`](https://hub.docker.com/r/dustynv/jetson-inference)   
 
 Below are the currently available tags:
 
@@ -13,13 +13,13 @@ Below are the currently available tags:
 |-----------------------------------------------------------------------------------------|:-----------:|:--------------------------------:|
 | [`dustynv/jetson-inference:r32.4.3`](https://hub.docker.com/r/dustynv/jetson-inference) | L4T R32.4.3 | JetPack 4.4 (production release) |
 
-> ***note:*** the version of JetPack-L4T that you have installed on your Jetson needs to match the tag above.
+> **note:** the version of JetPack-L4T that you have installed on your Jetson needs to match the tag above
 
-These containers use the l4t-pytorch base container, so support for transfer learning / re-training is already included.
+These containers use the [`l4t-pytorch`](https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch) base container, so support for transfer learning / re-training is already included.
 
 ## Launching the Container
 
-Due to various mounts and devices needed to run the container, it's recommended to use the [`docker/run.sh`](../docker/run.sh) script to run the jetson-inference container:
+Due to various mounts and devices needed to run the container, it's recommended to use the [`docker/run.sh`](../docker/run.sh) script to run the container:
 
 ```bash
 $ git clone --recursive https://github.com/dusty-nv/jetson-inference
@@ -27,9 +27,9 @@ $ cd jetson-inference
 $ docker/run.sh
 ```
 
-> ***note:***  because of the Docker scripts used and the data directory structure that gets mounted into the container, you should still clone the project on your host device (i.e. even if not intending to build/install the project natively)
+> **note:**  because of the Docker scripts used and the data directory structure that gets mounted into the container, you should still clone the project on your host device (i.e. even if not intending to build/install the project natively)
 
-[`docker/run.sh`](../docker/run.sh) will automatically pull the correct container tag from DockerHub based on your currently-installed version of JetPack-L4T, and mount the appropriate data directories and devices so that you can use cameras/display/ect from within the container.  It will also prompt you to download DNN models if you haven't already done so, which get mounted into the container to use.
+[`docker/run.sh`](../docker/run.sh) will automatically pull the correct container tag from DockerHub based on your currently-installed version of JetPack-L4T, and mount the appropriate data directories and devices so that you can use cameras/display/ect from within the container.  It will also prompt you to [download DNN models](building-repo-2.md#downloading-models) if you haven't already done so, which get mounted into the container to load.
 
 ### Mounted Data Volumes
 
@@ -43,17 +43,16 @@ For reference, the following paths automatically get mounted from your host devi
 
 These mounted volumes assure that the models and datasets are stored outside the container, and aren't lost when the container is shut down.
 
-If you wish to mount your own path into the container, you can use the `--volume HOST_DIR:MOUNT_DIR` argument to [`docker/run.sh`](../docker/run.sh):
+If you wish to mount your own directory into the container, you can use the `--volume HOST_DIR:MOUNT_DIR` argument to [`docker/run.sh`](../docker/run.sh):
 
 ```bash
-$ docker/run.sh --volume /my/host/path:/my/container/path
+$ docker/run.sh --volume /my/host/path:/my/container/path    # these should be absolute paths
 ```
 
 For more info, see `docker/run.sh --help`:
 
 ```bash
-   -v, --volume HOST_DIR:MOUNT_DIR Mount a path from the host system into
-                                   the container.  Should be specified as:
+   -v, --volume HOST_DIR:MOUNT_DIR Mount a path from the host system into the container.  Should be specified as:
 
                                       -v /my/host/path:/my/container/path
 
@@ -62,13 +61,14 @@ For more info, see `docker/run.sh --help`:
 
 ## Running Applications
 
-Once the container is running, you can run example programs from the tutorial like normal:
+Once the container is up and running, you can then run example programs from the tutorial like normal inside the container:
 
 ```bash
 # cd build/aarch64/bin
 # ./video-viewer /dev/video0
 # ./imagenet images/jellyfish.jpg images/test/jellyfish.jpg
 # ./detectnet images/peds_0.jpg images/test/peds_0.jpg
+# (press Ctrl+D to exit the container)
 ```
 
 ## Building the Container
@@ -79,8 +79,9 @@ If you wish to re-build the container or build your own, you can use the [`docke
 $ docker/build.sh
 ```
 
->  ***note:*** first you should set your default `docker-runtime` to nvidia, see [here](https://github.com/dusty-nv/jetson-containers#docker-default-runtime) for the details.
+>  **note:** you should first set your default `docker-runtime` to nvidia, see [here](https://github.com/dusty-nv/jetson-containers#docker-default-runtime) for the details.
 
+You can also base your own container on this one by using the line `FROM dustynv/jetson-inference:r32.4.3` in your own Dockerfile.
 
 ##
 <p align="right">Back | <b><a href="aux-image.md">Image Manipulation with CUDA</a></p>
