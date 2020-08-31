@@ -4,6 +4,12 @@
 
 Major updates and new features to this project will be listed in this document.
 
+## August 31, 2020
+
+* Added initial support for [Running in Docker Containers](docs/aux-docker.md)
+* Changed OpenGL behavior to show window on first frame
+* Minor bug fixes and improvements
+
 ## July 15, 2020
 
 > **note:** API changes from this update are intended to be backwards-compatible, so previous code should still run.

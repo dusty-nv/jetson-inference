@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="aux-streaming.md">Back</a> | <a href="../README.md#hello-ai-world">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="aux-streaming.md">Back</a> | <a href="aux-docker.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Appendix</sup></p>  
 
@@ -450,6 +450,8 @@ CUDA(cudaOverlay(imgInputB, dimsB, imgOutput, dimsOutput, dimsA.x, 0));
 ```
 
 ##
-<p align="right">Back | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></p>
+<p align="right">Next | <b><a href="aux-docker.md">Running in Docker Containers</a></b>
+<br/>
+Back | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></p>
 <p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
 

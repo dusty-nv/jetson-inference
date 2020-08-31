@@ -65,6 +65,7 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 
 * [Camera Streaming and Multimedia](docs/aux-streaming.md)
 * [Image Manipulation with CUDA](docs/aux-image.md)
+* [Running in Docker Containers](docs/aux-docker.md)
 * [Deep Learning Nodes for ROS/ROS2](https://github.com/dusty-nv/ros_deep_learning)
 
 ## API Reference
