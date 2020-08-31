@@ -661,6 +661,9 @@ while true; do
 		if [ $JETSON_L4T_REVISION = "4.3" ] || [ $JETSON_L4T_REVISION_MAJOR -gt 4 ]; then
 			PYTORCH_VERSION="1.6.0"  # JetPack 4.4 GA
 			HAS_PYTHON2=false
+		elif [ $JETSON_L4T_REVISION_MAJOR -eq 4 ] && [ $JETSON_L4T_REVISION_MINOR -ge 3 ]; then
+			PYTORCH_VERSION="1.6.0"
+			HAS_PYTHON2=false
 		elif [ $JETSON_L4T_REVISION = "4.2" ]; then
 			PYTORCH_VERSION="1.4.0"	# JetPack 4.4 DP
 		else
