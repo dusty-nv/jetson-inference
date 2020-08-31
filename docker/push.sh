@@ -1,26 +1,16 @@
 #!/usr/bin/env bash
 
-DOCKER_USER=$1
-
-push_retag() 
-{
-	local src_tag=$1
-	local dst_tag=$2
-	
-	sudo docker rmi $DOCKER_USER/$dst_tag
-	sudo docker tag $src_tag $DOCKER_USER/$dst_tag
-	
-	echo "pushing image $DOCKER_USER/$dst_tag"
-	sudo docker push $DOCKER_USER/$dst_tag
-}
-
-push() 
-{
-	push_retag $1 $1
-}
-
-# find L4T_VERSION
-source tools/l4t-version.sh
+# find container tag from L4T version
+source docker/tag.sh
 
 # push image
+push() 
+{
+	sudo docker rmi $CONTAINER_REMOTE_IMAGE
+	sudo docker tag $1 $CONTAINER_REMOTE_IMAGE
+	
+	echo "pushing image $CONTAINER_REMOTE_IMAGE"
+	sudo docker push $CONTAINER_REMOTE_IMAGE
+}
+
 push "jetson-inference:r$L4T_VERSION"

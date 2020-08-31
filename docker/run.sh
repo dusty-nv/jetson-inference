@@ -43,9 +43,8 @@ die() {
     exit 1
 }
 
-# find L4T_VERSION
-source tools/l4t-version.sh
-CONTAINER_IMAGE="jetson-inference:r$L4T_VERSION"
+# find container tag from L4T version
+source docker/tag.sh
 
 # paths to some project directories
 NETWORKS_DIR="data/networks"
@@ -60,10 +59,12 @@ SIZE_MODELS=$(du -sb $NETWORKS_DIR | cut -f 1)
 echo "size of $NETWORKS_DIR:  $SIZE_MODELS bytes"
   
 if [[ $SIZE_MODELS -lt 204800 ]]; then  # some text files come with the repo (~78KB), so check for a bit more than that
-    echo "Models have not yet been downloaded, running model downloader tool now..."
-    cd tools
-    ./download-models.sh
-    cd ../
+	sudo apt-get update
+	sudo apt-get install dialog
+	echo "Models have not yet been downloaded, running model downloader tool now..."
+	cd tools
+	./download-models.sh
+	cd ../
 fi
 
 # check for pytorch-ssd base model

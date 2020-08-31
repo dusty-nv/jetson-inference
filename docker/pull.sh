@@ -7,10 +7,8 @@
 #     $ docker/pull.sh
 #
 
-# find L4T_VERSION
-source tools/l4t-version.sh
-
-CONTAINER_IMAGE="jetson-inference:r$L4T_VERSION"
+# find container tag from L4T version
+source docker/tag.sh
 
 echo "pulling $CONTAINER_IMAGE"
 sudo docker pull $CONTAINER_IMAGE
