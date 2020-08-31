@@ -29,6 +29,8 @@ show_help() {
     echo " "
     echo "                                      -v /my/host/path:/my/container/path"
     echo " "
+    echo "                                   (these should be absolute paths)"
+    echo " "
     echo "   -r, --run RUN_COMMAND  Command to run once the container is started."
     echo "                          Note that this argument must be invoked last,"
     echo "                          as all further arguments will form the command."
