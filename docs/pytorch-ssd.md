@@ -121,7 +121,7 @@ python3 train_ssd.py --model-dir=models/fruit --batch-size=4 --num-epochs=30
 ```
 
 > **note:** if you run out of memory or your process is "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui). <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; you can also reduce the `--batch-size` (default 4) and `--num-workers` (default 2) to save memory.
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to save memory, you can also reduce the `--batch-size` (default 4) and `--num-workers` (default 2)
   
 Here are some common options that you can run the training script with:
 
