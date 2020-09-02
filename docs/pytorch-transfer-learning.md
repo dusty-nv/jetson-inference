@@ -69,6 +69,28 @@ Then add the following line to the end of `/etc/fstab` to make the change persis
 ```
 
 Now your swap file will automatically be mounted after reboots.  To check the usage, run `swapon -s` or `tegrastats`.
+
+## Disabling the Desktop GUI
+
+If you are running low on memory while training, you may want to try disabling the Ubuntu desktop GUI while you are training.  This will free up extra memory that the window manager and desktop uses:
+
+You can disable the desktop temporarily, run commands in the console, and then re-start the desktop when you are done training: 
+
+``` bash
+$ sudo init 3     # stop the desktop
+# log your user back into the console
+# run the PyTorch training scripts
+$ sudo init 5     # restart the desktop
+```
+
+If you wish to make this persistent across reboots, you can use the follow commands to change the boot-up behavior:
+
+``` bash
+$ sudo systemctl set-default multi-user.target     # disable desktop on boot
+$ sudo systemctl set-default graphical.target      # enable desktop on boot
+```
+
+Then after you reboot, the desktop will remain disabled or enabled (whichever default you set).
  
 ## Training Datasets
 
