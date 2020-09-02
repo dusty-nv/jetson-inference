@@ -72,7 +72,7 @@ Now your swap file will automatically be mounted after reboots.  To check the us
 
 ## Disabling the Desktop GUI
 
-If you are running low on memory while training, you may want to try disabling the Ubuntu desktop GUI while you are training.  This will free up extra memory that the window manager and desktop uses:
+If you are running low on memory while training, you may want to try disabling the Ubuntu desktop GUI while you are training.  This will free up extra memory that the window manager and desktop uses (around ~800MB for Unity/GNOME or ~250MB for LXDE)  
 
 You can disable the desktop temporarily, run commands in the console, and then re-start the desktop when you are done training: 
 

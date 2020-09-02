@@ -120,17 +120,19 @@ Once your data has finished downloading, run the `train_ssd.py` script to launch
 python3 train_ssd.py --model-dir=models/fruit --batch-size=4 --num-epochs=30
 ```
 
-> **note:** if you encounter out-of-memory errors or your process is "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui)
-
+> **note:** if you run out of memory or your process is "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui) <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; you can also reduce `--batch-size` (default 4) and `--num-workers` (default 2) 
+  
 Here are some common options that you can run the training script with:
 
-| Argument       |  Default  | Description                                             |
-|----------------|:---------:|---------------------------------------------------------|
-| `--data`       |  `data/`  | the location of the dataset                             |
-| `--model-dir`  | `models/` | directory to output the trained model checkpoints       |
-| `--resume`     |    None   | path to an existing checkpoint to resume training from  |
-| `--batch-size` |     4     | try increasing depending on available memory            |
-| `--num-epochs` |     30    | up to 100 is desirable, but will increase training time |
+| Argument        |  Default  | Description                                                |
+|-----------------|:---------:|------------------------------------------------------------|
+| `--data`        |  `data/`  | the location of the dataset                                |
+| `--model-dir`   | `models/` | directory to output the trained model checkpoints          |
+| `--resume`      |    None   | path to an existing checkpoint to resume training from     |
+| `--batch-size`  |     4     | try increasing depending on available memory               |
+| `--num-epochs`  |     30    | up to 100 is desirable, but will increase training time    |
+| `--num-workers` |     2     | number of data loader threads (0 = disable multithreading) |
 
 Over time, you should see the loss decreasing:
 
