@@ -62,6 +62,9 @@ $ cd jetson-inference/python/training/classification
 $ python train.py --model-dir=plants ~/datasets/PlantCLEF_Subset
 ```
 
+> **note:** if you run out of memory or your process is "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui). <br/>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to save memory, you can also reduce the `--batch-size` (default 8) and `num-workers` (default 2)
+  
 As training begins, you should see text from the console like the following:
 
 ``` bash
