@@ -43,8 +43,6 @@ For reference, the following paths automatically get mounted from your host devi
 
 These mounted volumes assure that the models and datasets are stored outside the container, and aren't lost when the container is shut down.
 
-> **note:** when you are saving images from one of the sample programs (like imagenet or detectnet), it's recommended to save them to `images/test`.  These images will then be easily viewable from your host device in the `jetson-inference/data/images/test` directory.  
-
 If you wish to mount your own directory into the container, you can use the `--volume HOST_DIR:MOUNT_DIR` argument to [`docker/run.sh`](../docker/run.sh):
 
 ```bash
@@ -64,6 +62,8 @@ Once the container is up and running, you can then run example programs from the
 # ./detectnet images/peds_0.jpg images/test/peds_0.jpg
 # (press Ctrl+D to exit the container)
 ```
+
+> **note:** when you are saving images from one of the sample programs (like imagenet or detectnet), it's recommended to save them to `images/test`.  These images will then be easily viewable from your host device in the `jetson-inference/data/images/test` directory.  
 
 ## Building the Container
 
