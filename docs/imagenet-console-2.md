@@ -28,14 +28,14 @@ After [building](building-repo-2.md) the project, make sure your terminal is loc
 $ cd jetson-inference/build/aarch64/bin
 ```
 
-Next, let's classify an example image with the `imagenet` program, using either the [C++](../examples/imagenet/imagenet.cpp) or [Python](../python/examples/imagenet.py) variants:
+Next, let's classify an example image with the `imagenet` program, using either the [C++](../examples/imagenet/imagenet.cpp) or [Python](../python/examples/imagenet.py) variants.  If you are using the [Docker container](aux-docker.md), it's recommended to save the classified output image to the `images/test` mounted directory.  These images will then be easily viewable from your host device in the `jetson-inference/data/images/test` directory (for more info, see [Mounted Data Volumes](aux-docker.md#mounted-data-volumes)).  
 
 ``` bash
 # C++
-$ ./imagenet --network=googlenet images/orange_0.jpg output_0.jpg     # --network flag is optional (default is googlenet)
+$ ./imagenet --network=googlenet images/orange_0.jpg images/test/output_0.jpg     # --network flag is optional (default is googlenet)
 
 # Python
-$ ./imagenet.py --network=googlenet images/orange_0.jpg output_0.jpg  # --network flag is optional (default is googlenet)
+$ ./imagenet.py --network=googlenet images/orange_0.jpg images/test/output_0.jpg  # --network flag is optional (default is googlenet)
 ```
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
@@ -45,10 +45,10 @@ $ ./imagenet.py --network=googlenet images/orange_0.jpg output_0.jpg  # --networ
 
 ``` bash
 # C++
-$ ./imagenet images/strawberry_0.jpg output_1.jpg
+$ ./imagenet images/strawberry_0.jpg images/test/output_1.jpg
 
 # Python
-$ ./imagenet.py images/strawberry_0.jpg output_1.jpg
+$ ./imagenet.py images/strawberry_0.jpg images/test/output_1.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-strawberry.jpg" width="650">
@@ -88,30 +88,30 @@ Below are some examples of using the ResNet-18 model:
 
 ``` bash
 # C++
-$ ./imagenet --network=resnet-18 images/jellyfish.jpg output_jellyfish.jpg
+$ ./imagenet --network=resnet-18 images/jellyfish.jpg images/test/output_jellyfish.jpg
 
 # Python
-$ ./imagenet.py --network=resnet-18 images/jellyfish.jpg output_jellyfish.jpg
+$ ./imagenet.py --network=resnet-18 images/jellyfish.jpg images/test/output_jellyfish.jpg
 ```
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_jellyfish.jpg" width="650">
 
 ``` bash
 # C++
-$ ./imagenet --network=resnet-18 images/stingray.jpg output_stingray.jpg
+$ ./imagenet --network=resnet-18 images/stingray.jpg images/test/output_stingray.jpg
 
 # Python
-$ ./imagenet.py --network=resnet-18 images/stingray.jpg output_stingray.jpg
+$ ./imagenet.py --network=resnet-18 images/stingray.jpg images/test/output_stingray.jpg
 ```
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_stingray.jpg" width="650">
 
 ``` bash
 # C++
-$ ./imagenet --network=resnet-18 images/coral.jpg output_coral.jpg
+$ ./imagenet --network=resnet-18 images/coral.jpg images/test/output_coral.jpg
 
 # Python
-$ ./imagenet.py --network=resnet-18 images/coral.jpg output_coral.jpg
+$ ./imagenet.py --network=resnet-18 images/coral.jpg images/test/output_coral.jpg
 ```
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="650">
