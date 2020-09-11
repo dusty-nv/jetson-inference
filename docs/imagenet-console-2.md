@@ -32,10 +32,10 @@ Next, let's classify an example image with the `imagenet` program, using either 
 
 ``` bash
 # C++
-$ ./imagenet --network=googlenet images/orange_0.jpg images/test/output_0.jpg     # --network flag optional (default is googlenet)
+$ ./imagenet images/orange_0.jpg images/test/output_0.jpg     # (default network is googlenet)
 
 # Python
-$ ./imagenet.py --network=googlenet images/orange_0.jpg images/test/output_0.jpg  # --network flag optional (default is googlenet)
+$ ./imagenet.py images/orange_0.jpg images/test/output_0.jpg  # (default network is googlenet)
 ```
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
