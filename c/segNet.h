@@ -43,7 +43,7 @@
  * Default alpha blending value used during overlay
  * @ingroup segNet
  */
-#define SEGNET_DEFAULT_ALPHA 120
+#define SEGNET_DEFAULT_ALPHA 150
 
 /**
  * Standard command-line options able to be passed to segNet::Create()
@@ -69,7 +69,7 @@
 		  "  --input-blob=INPUT   name of the input layer (default: '" SEGNET_DEFAULT_INPUT "')\n" 		\
 		  "  --output-blob=OUTPUT name of the output layer (default: '" SEGNET_DEFAULT_OUTPUT "')\n" 		\
 		  "  --batch-size=BATCH   maximum batch size (default is 1)\n"								\
-            "  --alpha=ALPHA        overlay alpha blending value, range 0-255 (default: 120)\n"			\
+            "  --alpha=ALPHA        overlay alpha blending value, range 0-255 (default: 150)\n"			\
 		  "  --visualize=VISUAL   visualization flags (e.g. --visualize=overlay,mask)\n"				\
 		  "                       valid combinations are:  'overlay', 'mask'\n"						\
 		  "  --profile            enable layer profiling in TensorRT\n\n"
@@ -363,6 +363,7 @@ protected:
 	std::vector<std::string> mClassLabels;
 	std::string mClassPath;
 
+	bool*    mColorsAlphaSet;	/**< true if class color had been explicitly set from file or user */
 	float*   mClassColors[2];	/**< array of overlay colors in shared CPU/GPU memory */
 	uint8_t* mClassMap[2];		/**< runtime buffer for the argmax-classified class index of each tile */
 	

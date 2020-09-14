@@ -197,7 +197,7 @@ int main( int argc, char** argv )
 	}
 
 	// set alpha blending value for classes that don't explicitly already have an alpha	
-	net->SetOverlayAlpha(cmdLine.GetFloat("alpha", 180.0f));
+	net->SetOverlayAlpha(cmdLine.GetFloat("alpha", 150.0f));
 
 	// get the desired overlay/mask filtering mode
 	const segNet::FilterMode filterMode = segNet::FilterModeFromStr(cmdLine.GetString("filter-mode", "linear"));

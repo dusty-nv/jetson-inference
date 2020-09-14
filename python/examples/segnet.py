@@ -40,7 +40,7 @@ parser.add_argument("--network", type=str, default="fcn-resnet18-voc", help="pre
 parser.add_argument("--filter-mode", type=str, default="linear", choices=["point", "linear"], help="filtering mode used during visualization, options are:\n  'point' or 'linear' (default: 'linear')")
 parser.add_argument("--visualize", type=str, default="overlay,mask", help="Visualization options (can be 'overlay' 'mask' 'overlay,mask'")
 parser.add_argument("--ignore-class", type=str, default="void", help="optional name of class to ignore in the visualization results (default: 'void')")
-parser.add_argument("--alpha", type=float, default=175.0, help="alpha blending value to use during overlay, between 0.0 and 255.0 (default: 175.0)")
+parser.add_argument("--alpha", type=float, default=150.0, help="alpha blending value to use during overlay, between 0.0 and 255.0 (default: 150.0)")
 parser.add_argument("--stats", action="store_true", help="compute statistics about segmentation mask class output")
 
 is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]

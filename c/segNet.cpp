@@ -41,6 +41,7 @@ segNet::segNet() : tensorNet()
 	mLastInputHeight = 0;
 	mLastInputFormat = IMAGE_UNKNOWN;
 
+	mColorsAlphaSet = NULL;
 	mClassColors[0] = NULL;	// cpu ptr
 	mClassColors[1] = NULL;  // gpu ptr
 
@@ -382,6 +383,16 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 		net->mClassColors[0][n*4+3] = 255.0f;	// a
 	}
 	
+	net->mColorsAlphaSet = (bool*)malloc(numClasses * sizeof(bool));
+
+	if( !net->mColorsAlphaSet )
+	{
+		printf(LOG_TRT "segNet -- failed to allocate class colors alpha flag array\n");
+		return NULL;
+	}
+
+	memset(net->mColorsAlphaSet, 0, numClasses * sizeof(bool));
+	
 	// initialize array of classified argmax
 	const int s_w = DIMS_W(net->mOutputs[0].dims);
 	const int s_h = DIMS_H(net->mOutputs[0].dims);
@@ -620,6 +631,8 @@ void segNet::SetClassColor( uint32_t classIndex, float r, float g, float b, floa
 	mClassColors[0][i+1] = g;
 	mClassColors[0][i+2] = b;
 	mClassColors[0][i+3] = a;
+
+	mColorsAlphaSet[classIndex] = (a == 255) ? false : true;
 }
 
 
@@ -630,7 +643,7 @@ void segNet::SetOverlayAlpha( float alpha, bool explicit_exempt )
 
 	for( uint32_t n=0; n < numClasses; n++ )
 	{
-		if( !explicit_exempt || mClassColors[0][n*4+3] == 255 )
+		if( !explicit_exempt || !mColorsAlphaSet[n] /*mClassColors[0][n*4+3] == 255*/ )
 			mClassColors[0][n*4+3] = alpha;
 	}
 }
