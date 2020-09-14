@@ -114,7 +114,7 @@ $ python train.py --model-dir=<YOUR-MODEL> <PATH-TO-YOUR-DATASET>
 ```
 
 > **note:** if you run out of memory or your process is "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui). <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to save memory, you can also reduce the `--batch-size` (default 8) and `num-workers` (default 2)
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to save memory, you can also reduce the `--batch-size` (default 8) and `--workers` (default 2)
   
 Like before, after training you'll need to convert your PyTorch model to ONNX:
 
