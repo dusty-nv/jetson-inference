@@ -308,7 +308,7 @@ public:
 	/**
 	 * Retrieve the RGBA visualization color a particular class.
 	 */
-	inline float* GetClassColor( uint32_t id ) const				{ return mClassColors[0] + (id*4); }
+	inline float* GetClassColor( uint32_t id ) const				{ return mClassColors + (id*4); }
 
 	/**
 	 * Set the visualization color of a particular class of object.
@@ -364,8 +364,8 @@ protected:
 	std::string mClassPath;
 
 	bool*    mColorsAlphaSet;	/**< true if class color had been explicitly set from file or user */
-	float*   mClassColors[2];	/**< array of overlay colors in shared CPU/GPU memory */
-	uint8_t* mClassMap[2];		/**< runtime buffer for the argmax-classified class index of each tile */
+	float*   mClassColors;		/**< array of overlay colors in shared CPU/GPU memory */
+	uint8_t* mClassMap;			/**< runtime buffer for the argmax-classified class index of each tile */
 	
 	void*  	  mLastInputImg;	/**< last input image to be processed, stored for overlay */
 	uint32_t 	  mLastInputWidth;	/**< width in pixels of last input image to be processed */

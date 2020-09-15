@@ -42,11 +42,8 @@ segNet::segNet() : tensorNet()
 	mLastInputFormat = IMAGE_UNKNOWN;
 
 	mColorsAlphaSet = NULL;
-	mClassColors[0] = NULL;	// cpu ptr
-	mClassColors[1] = NULL;  // gpu ptr
-
-	mClassMap[0] = NULL;
-	mClassMap[1] = NULL;
+	mClassColors    = NULL;
+	mClassMap       = NULL;
 
 	mNetworkType = SEGNET_CUSTOM;
 }
@@ -55,7 +52,14 @@ segNet::segNet() : tensorNet()
 // destructor
 segNet::~segNet()
 {
+	CUDA_FREE_HOST(mClassColors);
+	CUDA_FREE_HOST(mClassMap);
 	
+	if( mColorsAlphaSet != NULL )
+	{
+		free(mColorsAlphaSet);
+		mColorsAlphaSet = NULL;
+	}
 }
 
 
@@ -372,15 +376,15 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	// initialize array of class colors
 	const uint32_t numClasses = net->GetNumClasses();
 	
-	if( !cudaAllocMapped((void**)&net->mClassColors[0], (void**)&net->mClassColors[1], numClasses * sizeof(float4)) )
+	if( !cudaAllocMapped((void**)&net->mClassColors, numClasses * sizeof(float4)) )
 		return NULL;
 	
 	for( uint32_t n=0; n < numClasses; n++ )
 	{
-		net->mClassColors[0][n*4+0] = 255.0f;	// r
-		net->mClassColors[0][n*4+1] = 0.0f;	// g
-		net->mClassColors[0][n*4+2] = 0.0f;	// b
-		net->mClassColors[0][n*4+3] = 255.0f;	// a
+		net->mClassColors[n*4+0] = 255.0f;	// r
+		net->mClassColors[n*4+1] = 0.0f;	// g
+		net->mClassColors[n*4+2] = 0.0f;	// b
+		net->mClassColors[n*4+3] = 255.0f;	// a
 	}
 	
 	net->mColorsAlphaSet = (bool*)malloc(numClasses * sizeof(bool));
@@ -400,7 +404,7 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 		
 	LogVerbose(LOG_TRT "segNet outputs -- s_w %i  s_h %i  s_c %i\n", s_w, s_h, s_c);
 
-	if( !cudaAllocMapped((void**)&net->mClassMap[0], (void**)&net->mClassMap[1], s_w * s_h * sizeof(uint8_t)) )
+	if( !cudaAllocMapped((void**)&net->mClassMap, s_w * s_h * sizeof(uint8_t)) )
 		return NULL;
 
 	// load class info
@@ -622,15 +626,15 @@ bool segNet::saveClassLegend( const char* filename )
 // SetClassColor
 void segNet::SetClassColor( uint32_t classIndex, float r, float g, float b, float a )
 {
-	if( classIndex >= GetNumClasses() || !mClassColors[0] )
+	if( classIndex >= GetNumClasses() || !mClassColors )
 		return;
 	
 	const uint32_t i = classIndex * 4;
 	
-	mClassColors[0][i+0] = r;
-	mClassColors[0][i+1] = g;
-	mClassColors[0][i+2] = b;
-	mClassColors[0][i+3] = a;
+	mClassColors[i+0] = r;
+	mClassColors[i+1] = g;
+	mClassColors[i+2] = b;
+	mClassColors[i+3] = a;
 
 	mColorsAlphaSet[classIndex] = (a == 255) ? false : true;
 }
@@ -643,8 +647,8 @@ void segNet::SetOverlayAlpha( float alpha, bool explicit_exempt )
 
 	for( uint32_t n=0; n < numClasses; n++ )
 	{
-		if( !explicit_exempt || !mColorsAlphaSet[n] /*mClassColors[0][n*4+3] == 255*/ )
-			mClassColors[0][n*4+3] = alpha;
+		if( !explicit_exempt || !mColorsAlphaSet[n] /*mClassColors[n*4+3] == 255*/ )
+			mClassColors[n*4+3] = alpha;
 	}
 }
 
@@ -773,7 +777,7 @@ bool segNet::classify( const char* ignore_class )
 
 
 	// find the argmax-classified class of each tile
-	uint8_t* classMap = mClassMap[0];
+	uint8_t* classMap = mClassMap;
 
 	for( uint32_t y=0; y < s_h; y++ )
 	{
@@ -819,7 +823,7 @@ bool segNet::Mask( uint8_t* output, uint32_t out_width, uint32_t out_height )
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 
 	// retrieve classification map
-	uint8_t* classMap = mClassMap[0];
+	uint8_t* classMap = mClassMap;
 
 	const int s_w = DIMS_W(mOutputs[0].dims);
 	const int s_h = DIMS_H(mOutputs[0].dims);
@@ -936,7 +940,7 @@ bool segNet::overlayPoint( void* input, uint32_t in_width, uint32_t in_height, i
 #ifdef OVERLAY_CUDA
 	// generate overlay on the GPU
 	if( CUDA_FAILED(cudaSegOverlay(input, in_width, in_height, output, out_width, out_height, out_format,
-							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
+							 (float4*)mClassColors, mClassMap, make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
 							 false, mask_only, GetStream())) )
 	{
 		LogError(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
@@ -944,7 +948,7 @@ bool segNet::overlayPoint( void* input, uint32_t in_width, uint32_t in_height, i
 	}
 #else
 	// retrieve classification map
-	uint8_t* classMap = mClassMap[0];
+	uint8_t* classMap = mClassMap;
 
 	const int s_w = DIMS_W(mOutputs[0].dims);
 	const int s_h = DIMS_H(mOutputs[0].dims);
@@ -1016,7 +1020,7 @@ bool segNet::overlayLinear( void* input, uint32_t in_width, uint32_t in_height, 
 #ifdef OVERLAY_CUDA
 	// generate overlay on the GPU
 	if( CUDA_FAILED(cudaSegOverlay(input, in_width, in_height, output, out_width, out_height, out_format,
-							 (float4*)mClassColors[1], mClassMap[1], make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
+							 (float4*)mClassColors, mClassMap, make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
 							 true, mask_only, GetStream())) )
 	{
 		LogError(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
@@ -1024,7 +1028,7 @@ bool segNet::overlayLinear( void* input, uint32_t in_width, uint32_t in_height, 
 	}
 #else
 	// retrieve classification map
-	uint8_t* classMap = mClassMap[0];
+	uint8_t* classMap = mClassMap;
 
 	const int s_w = DIMS_W(mOutputs[0].dims);
 	const int s_h = DIMS_H(mOutputs[0].dims);
