@@ -157,21 +157,57 @@ $ v4l2-ctl --device=/dev/video0 --list-formats-ext
   
 ## RTP
 
-RTP network streams are broadcast to a particular host or multicast group over UDP/IP.  When recieving an RTP stream, the codec must be specified (`--input-codec`), because RTP doesn't have the ability to dynamically query this.
+RTP network streams are broadcast to a particular host or multicast group over UDP/IP.  When recieving an RTP stream, the codec must be specified (`--input-codec`), because RTP doesn't have the ability to dynamically query this.  This will use RTP as input from another device:
 
 ```bash
 $ video-viewer --input-codec=h264 rtp://@:1234         # recieve on localhost port 1234
 $ video-viewer --input-codec=h264 rtp://224.0.0.0:1234 # subscribe to multicast group
 ```
 
-To transmit an RTP output stream, you needn't set the options above. If desired, you can specify the bitrate (the default is `--bitrate=4000000` or 4Mbps) and/or the output codec (the default is `--output-codec=h264`) which can be `h264, h265, vp8, vp9, mjpeg`
+The commands above specify RTP as the input source, where another remote host on the network is streaming to the Jetson.  However, you can also output an RTP stream and transmit it from the Jetson to another remote host.
+
+#### Transmitting RTP
+
+To transmit an RTP output stream, specify the target IP as the `output_URI`. If desired, you can specify the bitrate (the default is `--bitrate=4000000` or 4Mbps) and/or the output codec (the default is `--output-codec=h264`) which can be `h264, h265, vp8, vp9, mjpeg`
 
 ```bash
 $ video-viewer --bitrate=1000000 csi://0 rtp://<remote-ip>:1234         # transmit camera over RTP, encoded as H.264 @ 1Mbps 
 $ video-viewer --output-codec=h265 my_video.mp4 rtp://<remote-ip>:1234  # transmit a video file over RTP, encoded as H.265
 ```
 
-When outputting RTP, you do need to explicitly set the IP address or hostname of the remote host (or multicast group) that the stream is being sent to (shown above as `<remote-ip>`).
+When outputting RTP, you need to explicitly set the IP address or hostname of the remote host (or multicast group) that the stream is being sent to (shown above as `<remote-ip>`).  See below for some pointers on viewing the RTP stream from a PC.
+
+#### Viewing RTP Remotely
+
+If your Jetson is transmitting RTP to another remote host (like a PC), here are some example commands that you can use to view the stream:
+
+* Using GStreamer:
+	* [Install GStreamer](https://gstreamer.freedesktop.org/documentation/installing/index.html) and run this pipeline (replace `port=1234` with the port you are using)
+	
+	```bash
+	$ gst-launch-1.0 -v udpsrc port=1234 \
+	caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! \
+	rtph264depay ! decodebin ! videoconvert ! autovideosink
+	```
+	
+* Using VLC Player:
+	* Create a SDP file (.sdp) with the following contents (replace `1234` with the port you are using)
+	
+	```
+	c=IN IP4 127.0.0.1
+     m=video 1234 RTP/AVP 96
+     a=rtpmap:96 H264/90000
+	```
+	
+	* Open the stream in VLC by double-clicking the SDP file
+	* You may want to reduce the `File caching` and `Network caching` settings in VLC as [shown here](https://www.howtogeek.com/howto/windows/fix-for-vlc-skipping-and-lagging-playing-high-def-video-files/)
+	
+* Remote host is a Jetson:
+	* Use the same `video-viewer` command as [above](#rtp) (replace `1234` with the port you are using)
+	
+	```bash
+	$ video-viewer --input-codec=h264 rtp://@:1234
+     ```
 
 ## RTSP
 
