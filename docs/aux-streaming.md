@@ -164,11 +164,11 @@ $ video-viewer --input-codec=h264 rtp://@:1234         # recieve on localhost po
 $ video-viewer --input-codec=h264 rtp://224.0.0.0:1234 # subscribe to multicast group
 ```
 
-The commands above specify RTP as the input source, where another remote host on the network is streaming to the Jetson.  However, you can also output an RTP stream and transmit it from the Jetson to another remote host.
+The commands above specify RTP as the input source, where another remote host on the network is streaming to the Jetson.  However, you can also output an RTP stream from your Jetson and transmit it to another remote host on the network.
 
 #### Transmitting RTP
 
-To transmit an RTP output stream, specify the target IP as the `output_URI`. If desired, you can specify the bitrate (the default is `--bitrate=4000000` or 4Mbps) and/or the output codec (the default is `--output-codec=h264`) which can be `h264, h265, vp8, vp9, mjpeg`
+To transmit an RTP output stream, specify the target IP/port as the `output_URI`. If desired, you can specify the bitrate (the default is `--bitrate=4000000` or 4Mbps) and/or the output codec (the default is `--output-codec=h264`) which can be `h264, h265, vp8, vp9, mjpeg`
 
 ```bash
 $ video-viewer --bitrate=1000000 csi://0 rtp://<remote-ip>:1234         # transmit camera over RTP, encoded as H.264 @ 1Mbps 
@@ -194,7 +194,7 @@ If your Jetson is transmitting RTP to another remote host (like a PC), here are 
 	* Create a SDP file (.sdp) with the following contents (replace `1234` with the port you are using)
 	
 	```
-	c=IN IP4 127.0.0.1
+     c=IN IP4 127.0.0.1
      m=video 1234 RTP/AVP 96
      a=rtpmap:96 H264/90000
 	```
@@ -202,7 +202,7 @@ If your Jetson is transmitting RTP to another remote host (like a PC), here are 
 	* Open the stream in VLC by double-clicking the SDP file
 	* You may want to reduce the `File caching` and `Network caching` settings in VLC as [shown here](https://www.howtogeek.com/howto/windows/fix-for-vlc-skipping-and-lagging-playing-high-def-video-files/)
 	
-* Remote host is a Jetson:
+* If your remote host is another Jetson:
 	* Use the same `video-viewer` command as [above](#rtp) (replace `1234` with the port you are using)
 	
 	```bash
