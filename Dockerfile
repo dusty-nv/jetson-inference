@@ -42,6 +42,7 @@ WORKDIR jetson-inference
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
             cmake \
+            python3-opencv \
     && rm -rf /var/lib/apt/lists/*
     
 # pip dependencies for pytorch-ssd
