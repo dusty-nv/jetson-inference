@@ -19,7 +19,7 @@ NVIDIA **[JetPack](https://developer.nvidia.com/embedded/jetpack)** is a compreh
 
 Before attempting to build the repo, make sure that your Jetson has been setup with the latest version of JetPack.
 
-### Jetson Nano
+### Jetson Nano and Jetson Xavier NX
 
 The recommended install method for the Jetson Nano Developer Kit and Jetson Xavier NX Developer Kit is to use the **[SD card images](https://developer.nvidia.com/embedded/downloads)**.  
 
