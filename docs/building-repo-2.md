@@ -25,7 +25,7 @@ If you are using the container, you can skip ahead to [Classifying Images with I
 
 ### Quick Reference
 
-Here's a condensed form of the commands to download, build, and install the project:
+If you aren't using the [Docker container](aux-docker.md), here's a condensed form of the commands to build/install the project directly on your Jetson:
 
 ``` bash
 $ sudo apt-get update
