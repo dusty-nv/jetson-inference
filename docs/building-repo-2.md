@@ -21,7 +21,7 @@ $ cd jetson-inference
 $ docker/run.sh
 ```
 
-If you are using the container, you can skip ahead to [Classifying Images with ImageNet](imagenet-console-2.md).  However if you wish to build/install the project directly on your outside of container or if you are on a different version of JetPack, please proceed with the steps below.
+If you are using the container, you can skip ahead to [Classifying Images with ImageNet](imagenet-console-2.md).  However if you wish to build/install the project directly on your Jetson (outside of container) or if you are on a different version of JetPack, please proceed with the steps below.
 
 ### Quick Reference
 
