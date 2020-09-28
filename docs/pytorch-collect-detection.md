@@ -25,7 +25,7 @@ Diet Coke
 Ginger ale
 ```
 
-If you are using the container, you'll want to store your dataset in a [Mounted Directory](aux-docker.md#mounted-data-volumes) like above, so your dataset isn't lost when the container shuts down.
+If you're using the container, you'll want to store your dataset in a [Mounted Directory](aux-docker.md#mounted-data-volumes) like above, so it's saved after the container shuts down.
 
 ## Launching the Tool
 
