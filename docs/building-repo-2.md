@@ -7,7 +7,7 @@
 
 Provided with the repo is a library of TensorRT-accelerated deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  This inferencing library (`libjetson-inference`) is intended to be run on the Jetson, and includes support for both C++ and Python.  Various pre-trained DNN models are automatically downloaded to get you up and running quickly.
 
-The latest source code or [Docker container](aux-docker.md) can be used onboard your Jetson once your device has been [flashed with JetPack](jetpack-setup-2.md) or setup with the pre-populated [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write).  You can run the pre-built [Docker container](aux-docker.md) without needing to compile the project yourself.
+The latest source code or [Docker container](aux-docker.md) can be used onboard your Jetson once your device has been [flashed with JetPack](jetpack-setup-2.md) or setup with the pre-populated [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write).  You can run the pre-built [Docker container](aux-docker.md) without needing to compile the project or install PyTorch yourself.
 
 ### Quick Reference
 
