@@ -5,13 +5,11 @@ Welcome to our instructional guide for inference and realtime [DNN vision](#api-
 
 This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for efficiently deploying neural networks onto the embedded Jetson platform, improving performance and power efficiency using graph optimizations, kernel fusion, and FP16/INT8 precision.
 
-Vision primitives, such as [`imageNet`](c/imageNet.h) for image recognition, [`detectNet`](c/detectNet.h) for object localization, and [`segNet`](c/segNet.h) for semantic segmentation, inherit from the shared [`tensorNet`](c/tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images.  See the **[API Reference](#api-reference)** section for detailed reference documentation of the C++ and Python libraries. 
+Vision primitives, such as [`imageNet`](c/imageNet.h) for image recognition, [`detectNet`](c/detectNet.h) for object detection, and [`segNet`](c/segNet.h) for semantic segmentation, inherit from the shared [`tensorNet`](c/tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images.  See the **[API Reference](#api-reference)** section for detailed reference documentation of the C++ and Python libraries. 
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
 
-There are multiple tracks of the tutorial that you can choose to follow, including [Hello AI World](#hello-ai-world) for running inference and transfer learning onboard your Jetson, or the full [Two Days to a Demo](#two-days-to-a-demo-digits) tutorial for training on a PC or server with DIGITS.  
-
-It's recommended to walk through the Hello AI World module first to familiarize yourself with machine learning and inference with TensorRT, before proceeding to training in the cloud with DIGITS.
+Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and transfer learning onboard your Jetson, including collecting your own datasets and training your own models.  It covers image classification, object detection, and semantic segmentation.
 
 ### Table of Contents
 
