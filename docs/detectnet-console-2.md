@@ -27,7 +27,7 @@ First, let's try using the `detectnet` program to locates objects in static imag
 - optional `--alpha` value which sets the alpha blending value used during overlay (the default is `120`).
 - optional `--threshold` value which sets the minimum threshold for detection (the default is `0.5`).  
 
-If you're using the [Docker container](aux-docker.md), it's recommended to save the classified output image to the `images/test` mounted directory.  These images will then be easily viewable from your host device in the `jetson-inference/data/images/test` directory (for more info, see [Mounted Data Volumes](aux-docker.md#mounted-data-volumes)). 
+If you're using the [Docker container](aux-docker.md), it's recommended to save the output images to the `images/test` mounted directory.  These images will then be easily viewable from your host device (for more info, see [Mounted Data Volumes](aux-docker.md#mounted-data-volumes)). 
 
 Here are some examples of detecting pedestrians in images with the default SSD-Mobilenet-v2 model:
 
