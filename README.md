@@ -31,6 +31,7 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 #### System Setup
 
 * [Setting up Jetson with JetPack](docs/jetpack-setup-2.md)
+* [Running the Docker Container](docs/aux-docker.md)
 * [Building the Project from Source](docs/building-repo-2.md)
 
 #### Inference
@@ -63,7 +64,6 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 
 * [Camera Streaming and Multimedia](docs/aux-streaming.md)
 * [Image Manipulation with CUDA](docs/aux-image.md)
-* [Running in Docker Containers](docs/aux-docker.md)
 * [Deep Learning Nodes for ROS/ROS2](https://github.com/dusty-nv/ros_deep_learning)
 
 ## API Reference

@@ -1,19 +1,19 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="aux-image.md">Back</a> | <a href="../README.md#hello-ai-world">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="jetpack-setup-2.md">Back</a> | <a href="building-repo-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
-<sup>Appendix</sup></p>  
+<sup>System Setup</sup></p>  
 
-# Running in Docker Containers
+# Running the Docker Container
 
-Docker container images for this project are hosted on DockerHub at [`dustynv/jetson-inference`](https://hub.docker.com/r/dustynv/jetson-inference/tags)   
+Pre-built Docker container images for this project are hosted on DockerHub at [`dustynv/jetson-inference`](https://hub.docker.com/r/dustynv/jetson-inference/tags).  Alternatively, you can [Build the Project from Source](building-repo-2.md).   
 
-Below are the currently available tags:
+Below are the currently available container tags:
 
 | Container Tag                                                                           | L4T version |          JetPack version         |
 |-----------------------------------------------------------------------------------------|:-----------:|:--------------------------------:|
 | [`dustynv/jetson-inference:r32.4.3`](https://hub.docker.com/r/dustynv/jetson-inference/tags) | L4T R32.4.3 | JetPack 4.4 (production release) |
 
-> **note:** the version of JetPack-L4T that you have installed on your Jetson needs to match the tag above
+> **note:** the version of JetPack-L4T that you have installed on your Jetson needs to match the tag above.  If you have a different version of JetPack-L4T installed, either upgrade to the latest JetPack or [Build the Project from Source](docs/building-repo-2.md) to compile the project directly. 
 
 These containers use the [`l4t-pytorch`](https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch) base container, so support for transfer learning / re-training is already included.
 
@@ -29,7 +29,7 @@ $ docker/run.sh
 
 > **note:**  because of the Docker scripts used and the data directory structure that gets mounted into the container, you should still clone the project on your host device (i.e. even if not intending to build/install the project natively)
 
-[`docker/run.sh`](../docker/run.sh) will automatically pull the correct container tag from DockerHub based on your currently-installed version of JetPack-L4T, and mount the appropriate data directories and devices so that you can use cameras/display/ect from within the container.  It will also prompt you to [download DNN models](building-repo-2.md#downloading-models) if you haven't already done so, which get mounted into the container to load.
+[`docker/run.sh`](../docker/run.sh) will automatically pull the correct container tag from DockerHub based on your currently-installed version of JetPack-L4T, and mount the appropriate data directories and devices so that you can use cameras/display/ect from within the container.  It will also prompt you to [download DNN models](building-repo-2.md#downloading-models) if you haven't already done so, which get mounted into the container to load.  This initial setup is only done once.
 
 ### Mounted Data Volumes
 
@@ -67,7 +67,7 @@ Once the container is up and running, you can then run example programs from the
 
 ## Building the Container
 
-If you wish to re-build the container or build your own, you can use the [`docker/build.sh`](../docker/build.sh) script which builds the project's [`Dockerfile`](../Dockerfile):
+If you are following the tutorial, you can ignore this section and skip ahead to the next step.  But if you wish to re-build the container or build your own, you can use the [`docker/build.sh`](../docker/build.sh) script which builds the project's [`Dockerfile`](../Dockerfile):
 
 ```bash
 $ docker/build.sh
@@ -77,7 +77,15 @@ $ docker/build.sh
 
 You can also base your own container on this one by using the line `FROM dustynv/jetson-inference:r32.4.3` in your own Dockerfile.
 
+## Getting Started
+
+If you have chosen to run the project inside the Docker container, you can proceed to [Classifying Images with ImageNet](imagenet-console-2.md).
+
+However, if you would prefer to build the project directly on your Jetson (outside of container), go to [Building the Project from Source](building-repo-2.md).
+ 
 ##
-<p align="right">Back | <b><a href="aux-image.md">Image Manipulation with CUDA</a></p>
+<p align="right">Next | <b><a href="building-repo-2.md">Building the Project from Source</a></b>
+<br/>
+Back | <b><a href="jetpack-setup-2.md">Setting up Jetson with JetPack</a></p>
 <p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
 

@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="jetpack-setup-2.md">Back</a> | <a href="imagenet-console-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="aux-docker.md">Back</a> | <a href="imagenet-console-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>System Setup</sup></p>   
 
@@ -291,5 +291,5 @@ Next, we'll use the `imageNet` object to perform image recognition in Python or 
 ##
 <p align="right">Next | <b><a href="imagenet-console-2.md">Classifying Images with ImageNet</a></b>
 <br/>
-Back | <b><a href="jetpack-setup-2.md">Setting up Jetson with JetPack</a></p>
+Back | <b><a href="aux-docker.md">Running the Docker Container</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
