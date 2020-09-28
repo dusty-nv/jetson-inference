@@ -22,7 +22,7 @@ To get started, first make sure that you have [JetPack 4.4](https://developer.nv
 The PyTorch code for training SSD-Mobilenet is found in the repo under [`jetson-inference/python/training/detection/ssd`](https://github.com/dusty-nv/pytorch-ssd).  If you aren't [Running the Docker Container](aux-docker.md), there are a couple steps required before using it:
 
 ```bash
-# you only need to run these if you *aren't* using the container
+# you only need to run these if you aren't using the container
 $ cd jetson-inference/python/training/detection/ssd
 $ wget https://nvidia.box.com/shared/static/djf5w54rjvpqocsiztzaandq1m3avr7c.pth -O models/mobilenet-v1-ssd-mp-0_675.pth
 $ pip3 install -v -r requirements.txt
@@ -148,7 +148,7 @@ Over time, you should see the loss decreasing:
 2020-07-10 13:19:26 - Saved model models/fruit/mb1-ssd-Epoch-0-Loss-5.672993580500285.pth
 ```
 
-If you want to test your model before the full number of epochs have completed training, you can press `Ctrl+C` to kill the training script, and resume it again later on using the `--resume=<CHECKPOINT>` argument.  You can download the fruit model that was already trained for 100 epochs from [here](https://nvidia.box.com/shared/static/gq0zlf0g2r258g3ldabl9o7vch18cxmi.gz).
+If you want to test your model before the full number of epochs have completed training, you can press `Ctrl+C` to kill the training script, and resume it again later with the `--resume=<CHECKPOINT>` argument.  You can download the fruit model that was already trained for 100 epochs [here](https://nvidia.box.com/shared/static/gq0zlf0g2r258g3ldabl9o7vch18cxmi.gz).
 
 ## Converting the Model to ONNX
 
@@ -165,11 +165,11 @@ This will save a model called `ssd-mobilenet.onnx` under `jetson-inference/pytho
 To classify some static test images, we'll use the extended command-line parameters to `detectnet` (or `detectnet.py`) to load our custom SSD-Mobilenet ONNX model.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/detection/ssd/`
 
 ```bash
-mkdir test_fruit
+mkdir images/test/test_fruit
 
 detectnet --model=models/fruit/ssd-mobilenet.onnx --labels=models/fruit/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
-            "images/fruit_*.jpg" test_fruit
+            "images/fruit_*.jpg" images/test/test_fruit
 ```
 
 > **note:**  `detectnet.py` can be substituted above to run the Python version of the program

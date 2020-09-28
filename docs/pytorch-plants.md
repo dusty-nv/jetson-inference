@@ -109,7 +109,7 @@ Just like with the Cat/Dog example, next we need to convert our trained model fr
 python3 onnx_export.py --model-dir=model/plants
 ```
 
-This will create a model called `resnet18.onnx` under `jetson-inference/python/training/classification/plants/`
+This will create a model called `resnet18.onnx` under `jetson-inference/python/training/classification/models/plants/`
 
 ## Processing Images with TensorRT
 

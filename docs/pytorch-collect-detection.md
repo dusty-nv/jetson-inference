@@ -25,7 +25,7 @@ Diet Coke
 Ginger ale
 ```
 
-Next, we'll cover the command-line options for starting the tool.
+If you are using the container, you'll want to store your dataset in a [Mounted Directory](aux-docker.md#mounted-data-volumes) like above, so your dataset isn't lost when the container shuts down.
 
 ## Launching the Tool
 

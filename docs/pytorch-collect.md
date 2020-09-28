@@ -67,7 +67,7 @@ And here's the corresponding directory structure that the tool will create:
 	• velociraptor/
 ```
 
-Next, we'll cover the command-line options for starting the tool.
+If you are using the container, you'll want to store your dataset in a [Mounted Directory](aux-docker.md#mounted-data-volumes) like above, so your dataset isn't lost when the container shuts down.
 
 ## Launching the Tool
 
@@ -122,7 +122,7 @@ Like before, after training you'll need to convert your PyTorch model to ONNX:
 $ python3 onnx_export.py --model-dir=models/<YOUR-MODEL>
 ```
 
-The converted model will be saved under `<YOUR-MODEL>/resnet18.onnx`, which you can then load with the `imagenet` programs like we did in the previous examples:
+The converted model will be saved under `models/<YOUR-MODEL>/resnet18.onnx`, which you can then load with the `imagenet` programs like we did in the previous examples:
 
 ```bash
 NET=models/<YOUR-MODEL>

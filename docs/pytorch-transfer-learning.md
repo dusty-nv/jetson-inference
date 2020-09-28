@@ -15,7 +15,7 @@ Although training is typically performed on a PC, server, or cloud instance with
 
 ## Installing PyTorch
 
-If you are [`Running the Docker Container`](aux-docker.md) or optionally chose to install PyTorch back when you [Built the Project](building-repo-2.md#installing-pytorch), it should already be installed on your Jetson to use.  Otherwise, if you aren't using the container and want to proceed with transfer learning, you can install it now:
+If you are [Running the Docker Container](aux-docker.md) or optionally chose to install PyTorch back when you [Built the Project](building-repo-2.md#installing-pytorch), it should already be installed on your Jetson to use.  Otherwise, if you aren't using the container and want to proceed with transfer learning, you can install it now:
 
 ``` bash
 $ cd jetson-inference/build
@@ -54,7 +54,7 @@ Note that the torch version should be reported as `1.1.0` and the torchvision ve
 
 Unless you are on Jetson AGX Xavier, you should mount 4GB of swap space, as training uses up a lot of extra memory.  
 
-Run these commands on Nano to create a swap file:
+Run these commands on your Jetson (outside of container) to create a swap file:
 
 ``` bash
 sudo fallocate -l 4G /mnt/4GB.swap

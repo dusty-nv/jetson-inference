@@ -97,14 +97,14 @@ Here's an example of generating the segmentation overlay and mask by specifying 
 
 #### C++
 ``` bash
-$ ./segnet --network=fcn-resnet18-deepscene images/trail_0.jpg output_overlay.jpg                # overlay
-$ ./segnet --network=fcn-resnet18-deepscene --visualize=mask images/trail_0.jpg output_mask.jpg  # mask
+$ ./segnet --network=fcn-resnet18-deepscene images/trail_0.jpg images/test/output_overlay.jpg                # overlay
+$ ./segnet --network=fcn-resnet18-deepscene --visualize=mask images/trail_0.jpg images/test/output_mask.jpg  # mask
 ```
 
 #### Python
 ``` bash
-$ ./segnet.py --network=fcn-resnet18-deepscene images/trail_0.jpg output_overlay.jpg               # overlay
-$ ./segnet.py --network=fcn-resnet18-deepscene --visualize=mask images/trail_0.jpg output_mask.jpg # mask
+$ ./segnet.py --network=fcn-resnet18-deepscene images/trail_0.jpg images/test/output_overlay.jpg               # overlay
+$ ./segnet.py --network=fcn-resnet18-deepscene --visualize=mask images/trail_0.jpg images/test/output_mask.jpg # mask
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-deepscene-0-overlay.jpg" width="850">

@@ -59,8 +59,7 @@ $ wget https://github.com/dusty-nv/jetson-inference/raw/master/data/images/polar
 Then when you start the container, [mount the directory](aux-docker.md#mounted-data-volumes) that you just created:
 
 ```bash
-# this will mount your directory to /my-recognition-python inside the container
-$ docker/run.sh --volume ~/my-recognition-python:/my-recognition-python
+$ docker/run.sh --volume ~/my-recognition-python:/my-recognition-python   # mounted inside the container to /my-recognition-python 
 ```
 
 Next, we'll add the Python code for the program to the empty source file we created here.

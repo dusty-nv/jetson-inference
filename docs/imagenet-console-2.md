@@ -28,7 +28,7 @@ After [building](building-repo-2.md) the project, make sure your terminal is loc
 $ cd jetson-inference/build/aarch64/bin
 ```
 
-Next, let's classify an example image with the `imagenet` program, using either the [C++](../examples/imagenet/imagenet.cpp) or [Python](../python/examples/imagenet.py) variants.  If you are using the [Docker container](aux-docker.md), it's recommended to save the classified output image to the `images/test` mounted directory.  These images will then be easily viewable from your host device in the `jetson-inference/data/images/test` directory (for more info, see [Mounted Data Volumes](aux-docker.md#mounted-data-volumes)).  
+Next, let's classify an example image with the `imagenet` program, using either the [C++](../examples/imagenet/imagenet.cpp) or [Python](../python/examples/imagenet.py) variants.  If you're using the [Docker container](aux-docker.md), it's recommended to save the classified output image to the `images/test` mounted directory.  These images will then be easily viewable from your host device in the `jetson-inference/data/images/test` directory (for more info, see [Mounted Data Volumes](aux-docker.md#mounted-data-volumes)).  
 
 ``` bash
 # C++

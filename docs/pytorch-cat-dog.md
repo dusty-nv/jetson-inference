@@ -66,7 +66,7 @@ Epoch: [0][100/625]	Time  0.093 ( 0.097)	Data  0.000 ( 0.008)	Loss 7.4379e-01 (7
 
 To stop training at any time, you can press `Ctrl+C`.  You can also restart the training again later using the `--resume` and `--epoch-start` flags, so you don't need to wait for training to complete before testing out the model.  
 
-Run `python train.py --help` for more information about each option that's available for you to use, including other networks that you can try with the `--arch` flag.
+Run `python3 train.py --help` for more information about each option that's available for you to use, including other networks that you can try with the `--arch` flag.
 
 ### Training Metrics
 
@@ -103,7 +103,7 @@ By default the training script is set to run for 35 epochs, but if you don't wis
 
 * <a href="https://nvidia.box.com/s/zlvb4y43djygotpjn6azjhwu0r3j0yxc">https://nvidia.box.com/s/zlvb4y43djygotpjn6azjhwu0r3j0yxc</a>
 
-Note that the models are saved under `jetson-inference/python/training/classification/models/cat_dog/`, including a checkpoint from the latest epoch and the best-performing model that has the highest classification accuracy.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
+Note that the models are saved under `jetson-inference/python/training/classification/models/cat_dog/`, including a checkpoint from the latest epoch and the best-performing model that has the highest classification accuracy.  This `classification/models` directory is automatically [mounted into the container](aux-docker.md#mounted-data-volumes), so your trained models will persist after the container is shutdown.
 
 ## Converting the Model to ONNX
 
