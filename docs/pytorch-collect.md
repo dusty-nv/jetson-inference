@@ -32,7 +32,7 @@ Note that above is the organization structure expected by the PyTorch training s
 
 ## Creating the Label File
 
-First, create an empty directory for storing your dataset and a text file that will define the class labels (usually called `labels.txt`).  The label file contains one class label per line, and is alphabetized (this is important so the ordering of the classes in the label file matches the ordering of the corresponding subdirectories on disk).  As mentioned above, the `camera-capture` tool will automatically populate the necessary subdirectories for each class from this label file.
+Under `jetson-inference/python/training/classification/data`, create an empty directory for storing your dataset and a text file that will define the class labels (usually called `labels.txt`).  The label file contains one class label per line, and is alphabetized (this is important so the ordering of the classes in the label file matches the ordering of the corresponding subdirectories on disk).  As mentioned above, the `camera-capture` tool will automatically populate the necessary subdirectories for each class from this label file.
 
 Here's an example `labels.txt` file with 5 classes:
 
@@ -110,7 +110,7 @@ When you've collected a bunch of data, then you can try training a model on it, 
 
 ```bash
 $ cd jetson-inference/python/training/classification
-$ python train.py --model-dir=<YOUR-MODEL> <PATH-TO-YOUR-DATASET>
+$ python3 train.py --model-dir=models/<YOUR-MODEL> data/<YOUR-DATASET>
 ```
 
 > **note:** if you run out of memory or your process is "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui). <br/>
@@ -119,22 +119,23 @@ $ python train.py --model-dir=<YOUR-MODEL> <PATH-TO-YOUR-DATASET>
 Like before, after training you'll need to convert your PyTorch model to ONNX:
 
 ```bash
-$ python onnx_export.py --model-dir=<YOUR-MODEL>
+$ python3 onnx_export.py --model-dir=models/<YOUR-MODEL>
 ```
 
 The converted model will be saved under `<YOUR-MODEL>/resnet18.onnx`, which you can then load with the `imagenet` programs like we did in the previous examples:
 
 ```bash
-DATASET=<PATH-TO-YOUR-DATASET>
+NET=models/<YOUR-MODEL>
+DATASET=data/<YOUR-DATASET>
 
 # C++ (MIPI CSI)
-imagenet --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
+imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 
 # Python (MIPI CSI)
-imagenet.py --model=<YOUR-MODEL>/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
+imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 ```
 
-If you need to, go back and collect more data and re-train your model again.  You can restart the training from where you left off using the `--resume` and `--epoch-start` flags (run `python train.py --help` for more info).  Then remember to re-export the model.
+If you need to, go back and collect more data and re-train your model again.  You can restart the training from where you left off using the `--resume` and `--epoch-start` flags (run `python3 train.py --help` for more info).  Then remember to re-export the model.
 
 Next, we're going to train our own object detection models with PyTorch.
 

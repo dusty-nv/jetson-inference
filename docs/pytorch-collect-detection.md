@@ -15,7 +15,7 @@ When the `Dataset Type` drop-down is in Detection mode, the tool creates dataset
 
 ## Creating the Label File
 
-First, create an empty directory for storing your dataset and a text file that will define the class labels (usually called `labels.txt`).  The label file contains one class label per line, for example:
+Under `jetson-inference/python/training/detection/ssd/data`, create an empty directory for storing your dataset and a text file that will define the class labels (usually called `labels.txt`).  The label file contains one class label per line, for example:
 
 ``` bash
 Water
@@ -71,7 +71,7 @@ When you've collected a bunch of data, then you can try training a model on it u
 
 ```bash
 $ cd jetson-inference/python/training/detection/ssd
-$ python3 train_ssd.py --dataset-type=voc --data=<PATH-TO-YOUR-DATASET> --model-dir=<YOUR-MODEL>
+$ python3 train_ssd.py --dataset-type=voc --data=data/<YOUR-DATASET> --model-dir=models/<YOUR-MODEL>
 ```
 
 > **note:** if you run out of memory or your process is "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui). <br/>
@@ -80,15 +80,15 @@ $ python3 train_ssd.py --dataset-type=voc --data=<PATH-TO-YOUR-DATASET> --model-
 Like before, after training you'll need to convert your PyTorch model to ONNX:
 
 ```bash
-$ python3 onnx_export.py --model-dir=<YOUR-MODEL>
+$ python3 onnx_export.py --model-dir=models/<YOUR-MODEL>
 ```
 
 The converted model will then be saved under `<YOUR-MODEL>/ssd-mobilenet.onnx`, which you can then load with the `detectnet` programs like we did in the previous examples:
 
 ```bash
-DATASET=<PATH-TO-YOUR-DATASET>
+NET=models/<YOUR-MODEL>
 
-detectnet --model=<YOUR-MODEL>/ssd-mobilenet.onnx --labels=<YOUR-MODEL>/labels.txt \
+detectnet --model=$NET/ssd-mobilenet.onnx --labels=$NET/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
             csi://0
 ```

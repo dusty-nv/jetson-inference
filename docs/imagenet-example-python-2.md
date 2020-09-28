@@ -40,11 +40,12 @@ print("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence".format
 
 ## Setting up the Project
 
-You can store the `my-recognition.py` example that we will be creating wherever you want on your Jetson.  For simplicity, this guide will create it along with some test images inside a directory under the user's home directory located at `~/my-recognition-python`.
+If you're using the Docker container, you'll want to store your code in a [Mounted Directory](aux-docker.md#mounted-data-volumes).  This way your code won't be lost when you shutdown the container.  For simplicity, this guide will create it in a directory on your host device under the user's home directory located at `~/my-recognition-python`, and then mount that path into the container.
 
-Run these commands from a terminal to create the directory and files required:  
+Run these commands from a terminal (outside of container) to create the directory, source file, and download some test images:  
 
 ``` bash
+# run these commands outside of container
 $ cd ~/
 $ mkdir my-recognition-python
 $ cd my-recognition-python
@@ -55,13 +56,18 @@ $ wget https://github.com/dusty-nv/jetson-inference/raw/master/data/images/brown
 $ wget https://github.com/dusty-nv/jetson-inference/raw/master/data/images/polar_bear.jpg 
 ```
 
-Some test images are also downloaded to the folder with the `wget` commands above.  
+Then when you start the container, [mount the directory](aux-docker.md#mounted-data-volumes) that you just created:
+
+```bash
+# this will mount your directory to /my-recognition-python inside the container
+$ docker/run.sh --volume ~/my-recognition-python:/my-recognition-python
+```
 
 Next, we'll add the Python code for the program to the empty source file we created here.
 
 ## Source Code
 
-Open up `my-recognition.py` in your editor of choice (or run `gedit my-recognition.py`).  
+Open up `my-recognition.py` in your editor of choice (or run `gedit my-recognition.py`).  You can edit from outside the container.
 
 First, let's add a shebang sequence to the very top of the file to automatically use the Python interpreter:
 

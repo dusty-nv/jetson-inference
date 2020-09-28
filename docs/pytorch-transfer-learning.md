@@ -15,7 +15,7 @@ Although training is typically performed on a PC, server, or cloud instance with
 
 ## Installing PyTorch
 
-If you optionally chose to install PyTorch back when you [built the repo](building-repo-2.md#installing-pytorch), it should already be installed on your Jetson to use.  Otherwise, if you want to proceed with transfer learning, you can install it now:
+If you are [`Running the Docker Container`](aux-docker.md) or optionally chose to install PyTorch back when you [Built the Project](building-repo-2.md#installing-pytorch), it should already be installed on your Jetson to use.  Otherwise, if you aren't using the container and want to proceed with transfer learning, you can install it now:
 
 ``` bash
 $ cd jetson-inference/build

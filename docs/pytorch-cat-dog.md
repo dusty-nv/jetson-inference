@@ -17,16 +17,10 @@ To get started, first make sure that you have [PyTorch installed](pytorch-transf
 
 ## Downloading the Data
 
-During this tutorial, we'll store the datasets under a common location, like `~/datasets`.  You can store them wherever you want, just substitute your desired path for `~/datasets` during the steps below:
+During this tutorial, we'll store the datasets on the host device under `jetson-inference/python/training/classification/data`, which is one of the directories that is automatically [mounted into the container](aux-docker.md#mounted-data-volumes).  This way the dataset won't be lost when you shutdown the container.
 
 ``` bash
-$ mkdir ~/datasets
-$ cd ~/datasets
-```
-
-Next, download and extract the data:
-
-``` bash
+$ cd jetson-inference/python/training/classification/data
 $ wget https://nvidia.box.com/shared/static/o577zd8yp3lmxf5zhm38svrbrv45am3y.gz -O cat_dog.tar.gz
 $ tar xvzf cat_dog.tar.gz
 ```
@@ -44,7 +38,7 @@ To launch the training, run the following commands:
 
 ``` bash
 $ cd jetson-inference/python/training/classification
-$ python train.py --model-dir=cat_dog ~/datasets/cat_dog
+$ python3 train.py --model-dir=models/cat_dog data/cat_dog
 ```
 
 > **note:** if you run out of memory or your process is "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui). <br/>
@@ -109,7 +103,7 @@ By default the training script is set to run for 35 epochs, but if you don't wis
 
 * <a href="https://nvidia.box.com/s/zlvb4y43djygotpjn6azjhwu0r3j0yxc">https://nvidia.box.com/s/zlvb4y43djygotpjn6azjhwu0r3j0yxc</a>
 
-Note that the models are saved under `jetson-inference/python/training/classification/cat_dog/`, including a checkpoint from the latest epoch and the best-performing model that has the highest classification accuracy.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
+Note that the models are saved under `jetson-inference/python/training/classification/models/cat_dog/`, including a checkpoint from the latest epoch and the best-performing model that has the highest classification accuracy.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
 
 ## Converting the Model to ONNX
 
@@ -118,33 +112,34 @@ To run our re-trained ResNet-18 model with TensorRT for testing and realtime inf
 PyTorch comes with built-in support for exporting PyTorch models to ONNX, so run the following command to convert our Cat/Dog model with the provided `onnx_export.py` script:
 
 ``` bash
-python onnx_export.py --model-dir=cat_dog
+python3 onnx_export.py --model-dir=models/cat_dog
 ```
 
-This will create a model called `resnet18.onnx` under `jetson-inference/python/training/classification/cat_dog/`
+This will create a model called `resnet18.onnx` under `jetson-inference/python/training/classification/models/cat_dog/`
 
 ## Processing Images with TensorRT
 
 To classify some static test images, we'll use the extended command-line parameters to `imagenet` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/classification/`
 
 ```bash
-DATASET=~/datasets/cat_dog
+NET=models/cat_dog
+DATASET=data/cat_dog
 
 # C++
-imagenet --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
+imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
 
 # Python
-imagenet.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
+imagenet.py --model=$NET/cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat.jpg">
 
 ```bash
 # C++
-imagenet --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
+imagenet --model=$NET/cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
 
 # Python
-imagenet.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
+imagenet.py --model=$NET/cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-dog.jpg">
@@ -174,13 +169,11 @@ Next, we'll try running our re-trained model on a live camera feed.
 If you have a furry friend at home, you can run the camera program and see how it works!  Like the previous step, `imagenet` supports extended command-line parameters for loading customized models:
 
 ```bash
-DATASET=~/datasets/cat_dog
-
 # C++ (MIPI CSI)
-imagenet --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
+imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 
 # Python (MIPI CSI)
-imagenet.py --model=cat_dog/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
+imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 ```
 > **note:** for information about supported video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 

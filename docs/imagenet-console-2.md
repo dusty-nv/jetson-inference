@@ -129,10 +129,10 @@ Here is an example of running it on a video from disk:
 $ wget https://nvidia.box.com/shared/static/tlswont1jnyu3ix2tbf7utaekpzcx4rc.mkv -O jellyfish.mkv
 
 # C++
-$ ./imagenet --network=resnet-18 jellyfish.mkv jellyfish_resnet18.mkv
+$ ./imagenet --network=resnet-18 jellyfish.mkv images/test/jellyfish_resnet18.mkv
 
 # Python
-$ ./imagenet.py --network=resnet-18 jellyfish.mkv jellyfish_resnet18.mkv
+$ ./imagenet.py --network=resnet-18 jellyfish.mkv images/test/jellyfish_resnet18.mkv
 ```
 
 <a href="https://www.youtube.com/watch?v=GhTleNPXqyU" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-jellyfish-video.jpg width="750"></a>

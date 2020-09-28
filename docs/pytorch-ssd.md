@@ -19,15 +19,16 @@ To get started, first make sure that you have [JetPack 4.4](https://developer.nv
 
 > **note:** first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer on your Jetson and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6**
 
-The PyTorch code for training SSD-Mobilenet is found in the repo under [`jetson-inference/python/training/detection/ssd`](https://github.com/dusty-nv/pytorch-ssd).  There are a couple steps required before using it:
+The PyTorch code for training SSD-Mobilenet is found in the repo under [`jetson-inference/python/training/detection/ssd`](https://github.com/dusty-nv/pytorch-ssd).  If you aren't [Running the Docker Container](aux-docker.md), there are a couple steps required before using it:
 
 ```bash
+# you only need to run these if you *aren't* using the container
 $ cd jetson-inference/python/training/detection/ssd
 $ wget https://nvidia.box.com/shared/static/djf5w54rjvpqocsiztzaandq1m3avr7c.pth -O models/mobilenet-v1-ssd-mp-0_675.pth
 $ pip3 install -v -r requirements.txt
 ```
 
-This will download the [base model](https://nvidia.box.com/shared/static/djf5w54rjvpqocsiztzaandq1m3avr7c.pth) to `ssd/models` and install some required Python packages.  The base model was already pre-trained on a different dataset (PASCAL VOC) so that we don't need to train SSD-Mobilenet from scratch, which would take much longer.  Instead we'll use transfer learning to fine-tune it to detect new object classes of our choosing.
+This will download the [base model](https://nvidia.box.com/shared/static/djf5w54rjvpqocsiztzaandq1m3avr7c.pth) to `ssd/models` and install some required Python packages (these were already installed into the container).  The base model was already pre-trained on a different dataset (PASCAL VOC) so that we don't need to train SSD-Mobilenet from scratch, which would take much longer.  Instead we'll use transfer learning to fine-tune it to detect new object classes of our choosing.
 
 ## Downloading the Data
 
@@ -51,7 +52,7 @@ $ python3 open_images_downloader.py --class-names "Apple,Orange,Banana,Strawberr
 2020-07-09 16:32:12 - Task Done.
 ```
 
-By default, the dataset will be downloaded to the `data/` directory under `jetson-inference/python/training/detection/ssd`, but you can change that by specifying the `--data=<PATH>` option.  Depending on the size of your dataset, it may be necessary to use external storage.  And if you download multiple datasets, you should store each dataset in their own subdirectory.
+By default, the dataset will be downloaded to the `data/` directory under `jetson-inference/python/training/detection/ssd` (which is automatically [mounted into the container](aux-docker.md#mounted-data-volumes)), but you can change that by specifying the `--data=<PATH>` option.  Depending on the size of your dataset, it may be necessary to use external storage.  And if you download multiple datasets, you should store each dataset in their own subdirectory.
 
 ### Limiting the Amount of Data
 

@@ -80,10 +80,10 @@ Let's look at some different scenarios.  Here's an example of segmenting an urba
 
 ``` bash
 # C++
-$ ./segnet --network=fcn-resnet18-cityscapes images/city_0.jpg output.jpg
+$ ./segnet --network=fcn-resnet18-cityscapes images/city_0.jpg images/test/output.jpg
 
 # Python
-$ ./segnet.py --network=fcn-resnet18-cityscapes images/city_0.jpg output.jpg
+$ ./segnet.py --network=fcn-resnet18-cityscapes images/city_0.jpg images/test/output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-city.jpg" width="900">
@@ -119,10 +119,10 @@ There are more sample images called `trail-*.jpg` located under the `images/` su
 
 ``` bash
 # C++
-$ ./segnet --network=fcn-resnet18-mhp images/humans_0.jpg output.jpg
+$ ./segnet --network=fcn-resnet18-mhp images/humans_0.jpg images/test/output.jpg
 
 # Python
-$ ./segnet.py --network=fcn-resnet18-mhp images/humans_0.jpg output.jpg
+$ ./segnet.py --network=fcn-resnet18-mhp images/humans_0.jpg images/test/output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-mhp-0.jpg" width="825">
@@ -138,10 +138,10 @@ $ ./segnet.py --network=fcn-resnet18-mhp images/humans_0.jpg output.jpg
 
 ``` bash
 # C++
-$ ./segnet --network=fcn-resnet18-voc images/object_0.jpg output.jpg
+$ ./segnet --network=fcn-resnet18-voc images/object_0.jpg images/test/output.jpg
 
 # Python
-$ ./segnet.py --network=fcn-resnet18-voc images/object_0.jpg output.jpg
+$ ./segnet.py --network=fcn-resnet18-voc images/object_0.jpg images/test/output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc.jpg" width="900">
@@ -156,10 +156,10 @@ The [SUN RGB-D](http://rgbd.cs.princeton.edu/) dataset provides segmentation gro
 
 ``` bash
 # C++
-$ ./segnet --network=fcn-resnet18-sun images/room_0.jpg output.jpg
+$ ./segnet --network=fcn-resnet18-sun images/room_0.jpg images/test/output.jpg
 
 # Python
-$ ./segnet.py --network=fcn-resnet18-sun images/room_0.jpg output.jpg
+$ ./segnet.py --network=fcn-resnet18-sun images/room_0.jpg images/test/output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun.jpg" width="900">
@@ -174,10 +174,10 @@ If you want to process a directory or sequence of images, you can launch the pro
 
 ``` bash
 # C++
-$ ./segnet --network=fcn-resnet18-sun "images/room_*.jpg" room_output_%i.jpg
+$ ./segnet --network=fcn-resnet18-sun "images/room_*.jpg" images/test/room_output_%i.jpg
 
 # Python
-$ ./segnet.py --network=fcn-resnet18-sun "images/room_*.jpg" room_output_%i.jpg
+$ ./segnet.py --network=fcn-resnet18-sun "images/room_*.jpg" images/test/room_output_%i.jpg
 ```
 
 > **note:** when using wildcards, always enclose it in quotes (`"*.jpg"`). Otherwise, the OS will auto-expand the sequence and modify the order of arguments on the command-line, which may result in one of the input images being overwritten by the output.

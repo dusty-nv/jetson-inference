@@ -32,7 +32,7 @@ There's also a video screencast of this coding tutorial available on YouTube:
 
 ## Source Code
 
-First, open up your text editor of choice and create a new file.  Below we'll assume that you'll save it to your user's home directory as `~/my-detection.py`, but you can name and store it where you wish.
+First, open up your text editor of choice and create a new file.  Below we'll assume that you'll save it on your host device under your user's home directory as `~/my-detection.py`, but you can name and store it where you wish.  If you're using the Docker container, you'll want to store your code in a [Mounted Directory](aux-docker.md#mounted-data-volumes), similar to what we did in the [Image Recognition Python Example](imagenet-example-python-2.md#setting-up-the-project).
 
 #### Importing Modules
 

@@ -27,26 +27,26 @@ First, let's try using the `detectnet` program to locates objects in static imag
 - optional `--alpha` value which sets the alpha blending value used during overlay (the default is `120`).
 - optional `--threshold` value which sets the minimum threshold for detection (the default is `0.5`).  
 
-Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them.
+Note that there are additional command line parameters available for loading custom models.  Launch the application with the `--help` flag to recieve more info about using them.  If you're using the [Docker container](aux-docker.md), it's recommended to save the classified output image to the `images/test` mounted directory.  These images will then be easily viewable from your host device in the `jetson-inference/data/images/test` directory (for more info, see [Mounted Data Volumes](aux-docker.md#mounted-data-volumes)). 
 
 Here are some examples of detecting pedestrians in images with the default SSD-Mobilenet-v2 model:
 
 ``` bash
 # C++
-$ ./detectnet --network=ssd-mobilenet-v2 images/peds_0.jpg output.jpg     # --network flag is optional
+$ ./detectnet --network=ssd-mobilenet-v2 images/peds_0.jpg images/test/output.jpg     # --network flag is optional
 
 # Python
-$ ./detectnet.py --network=ssd-mobilenet-v2 images/peds_0.jpg output.jpg  # --network flag is optional
+$ ./detectnet.py --network=ssd-mobilenet-v2 images/peds_0.jpg images/test/output.jpg  # --network flag is optional
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-0.jpg" width="900">
 
 ``` bash
 # C++
-$ ./detectnet images/peds_1.jpg output.jpg
+$ ./detectnet images/peds_1.jpg images/test/output.jpg
 
 # Python
-$ ./detectnet.py images/peds_1.jpg output.jpg
+$ ./detectnet.py images/peds_1.jpg images/test/output.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-1.jpg" width="900">
@@ -66,10 +66,10 @@ If you have multiple images that you'd like to process at one time, you can laun
 
 ```bash
 # C++
-./detectnet "images/peds_*.jpg" peds_output_%i.jpg
+./detectnet "images/peds_*.jpg" images/test/peds_output_%i.jpg
 
 # Python
-./detectnet.py "images/peds_*.jpg" peds_output_%i.jpg
+./detectnet.py "images/peds_*.jpg" images/test/peds_output_%i.jpg
 ```
 
 > **note:** when using wildcards, always enclose it in quotes (`"*.jpg"`). Otherwise, the OS will auto-expand the sequence and modify the order of arguments on the command-line, which may result in one of the input images being overwritten by the output.
@@ -82,20 +82,20 @@ You can also process videos from disk.  There are some test videos found on your
 
 ``` bash
 # C++
-./detectnet /usr/share/visionworks/sources/data/pedestrians.mp4 pedestrians_ssd.mp4
+./detectnet /usr/share/visionworks/sources/data/pedestrians.mp4 images/test/pedestrians_ssd.mp4
 
 # Python
-./detectnet.py /usr/share/visionworks/sources/data/pedestrians.mp4 pedestrians_ssd.mp4
+./detectnet.py /usr/share/visionworks/sources/data/pedestrians.mp4 images/test/pedestrians_ssd.mp4
 ```
 
 <a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
 
 ``` bash
 # C++
-./detectnet /usr/share/visionworks/sources/data/parking.avi parking_ssd.avi
+./detectnet /usr/share/visionworks/sources/data/parking.avi images/test/parking_ssd.avi
 
 # Python
-./detectnet.py /usr/share/visionworks/sources/data/parking.avi parking_ssd.avi
+./detectnet.py /usr/share/visionworks/sources/data/parking.avi images/test/parking_ssd.avi
 ```
 
 <a href="https://www.youtube.com/watch?v=iB86W-kloPE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-parking-video.jpg width="585"></a>

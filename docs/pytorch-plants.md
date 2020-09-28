@@ -41,7 +41,7 @@ To get started, first make sure that you have [PyTorch installed](pytorch-transf
 Run these commands to download and extract the prepared PlantCLEF dataset:
 
 ``` bash
-$ cd ~/datasets
+$ cd jetson-inference/python/training/classification/data
 $ wget https://nvidia.box.com/shared/static/vbsywpw5iqy7r38j78xs0ctalg7jrg79.gz -O PlantCLEF_Subset.tar.gz
 $ tar xvzf PlantCLEF_Subset.tar.gz
 ```
@@ -59,7 +59,7 @@ To launch the training, run the following commands:
 
 ``` bash
 $ cd jetson-inference/python/training/classification
-$ python train.py --model-dir=plants ~/datasets/PlantCLEF_Subset
+$ python3 train.py --model-dir=models/plants data/PlantCLEF_Subset
 ```
 
 > **note:** if you run out of memory or your process is "killed" during training, try [Mounting SWAP](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui). <br/>
@@ -99,14 +99,14 @@ By default the training script is set to run for 35 epochs, but if you don't wis
 
 * <a href="https://nvidia.box.com/s/dslt9b0hqq7u71o6mzvy07w0onn0tw66">https://nvidia.box.com/s/dslt9b0hqq7u71o6mzvy07w0onn0tw66</a>
 
-Note that the models are saved under `jetson-inference/python/training/classification/plants/`, including a checkpoint from the latest epoch and the best-performing model that has the highest classification accuracy.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
+Note that the models are saved under `jetson-inference/python/training/classification/data/plants/`, including a checkpoint from the latest epoch and the best-performing model that has the highest classification accuracy.  You can change the directory that the models are saved to by altering the `--model-dir` flag.
 
 ## Converting the Model to ONNX
 
 Just like with the Cat/Dog example, next we need to convert our trained model from PyTorch to ONNX, so that we can load it with TensorRT:
 
 ``` bash
-python onnx_export.py --model-dir=plants
+python3 onnx_export.py --model-dir=model/plants
 ```
 
 This will create a model called `resnet18.onnx` under `jetson-inference/python/training/classification/plants/`
@@ -116,33 +116,34 @@ This will create a model called `resnet18.onnx` under `jetson-inference/python/t
 To classify some static test images, like before we'll use the extended command-line parameters to `imagenet` to load our customized ResNet-18 model that we re-trained above.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/classification/`
 
 ```bash
-DATASET=~/datasets/PlantCLEF_Subset
+NET=models/plants
+DATASET=data/PlantCLEF_Subset
 
 # C++
-imagenet --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
+imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
 
 # Python
-imagenet.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
+imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-cattail.jpg" width="500">
 
 ```bash
 # C++
-imagenet --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
+imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
 
 # Python
-imagenet.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
+imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-elm.jpg" width="500">
 
 ```bash
 # C++
-imagenet --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
+imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
 
 # Python
-imagenet.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
+imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-juniper.jpg" width="500">
@@ -169,13 +170,11 @@ For more info about loading/saving sequences of images, see the [Camera Streamin
 You can also try running your re-trained plant model on a live camera stream like below:
 
 ```bash
-DATASET=~/datasets/PlantCLEF_Subset
-
 # C++ (MIPI CSI)
-imagenet --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
+imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 
 # Python (MIPI CSI)
-imagenet.py --model=plants/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
+imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-fern.jpg" width="500">
