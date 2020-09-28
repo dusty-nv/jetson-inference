@@ -5,7 +5,7 @@
 
 # Running the Docker Container
 
-Pre-built Docker container images for this project are hosted on DockerHub at [`dustynv/jetson-inference`](https://hub.docker.com/r/dustynv/jetson-inference/tags).  Alternatively, you can [Build the Project from Source](building-repo-2.md).   
+Pre-built Docker container images for this project are hosted on [DockerHub](https://hub.docker.com/r/dustynv/jetson-inference/tags).  Alternatively, you can [Build the Project from Source](building-repo-2.md).   
 
 Below are the currently available container tags:
 
@@ -67,7 +67,7 @@ Once the container is up and running, you can then run example programs from the
 
 ## Building the Container
 
-If you are following the tutorial, you can ignore this section and skip ahead to the next step.  But if you wish to re-build the container or build your own, you can use the [`docker/build.sh`](../docker/build.sh) script which builds the project's [`Dockerfile`](../Dockerfile):
+If you are following the Hello AI World tutorial, you can ignore this section and skip ahead to the next step.  But if you wish to re-build the container or build your own, you can use the [`docker/build.sh`](../docker/build.sh) script which builds the project's [`Dockerfile`](../Dockerfile):
 
 ```bash
 $ docker/build.sh
@@ -81,7 +81,7 @@ You can also base your own container on this one by using the line `FROM dustynv
 
 If you have chosen to run the project inside the Docker container, you can proceed to [Classifying Images with ImageNet](imagenet-console-2.md).
 
-However, if you would prefer to build the project directly on your Jetson (outside of container), go to [Building the Project from Source](building-repo-2.md).
+However, if you would prefer to install the project directly on your Jetson (outside of container), go to [Building the Project from Source](building-repo-2.md).
  
 ##
 <p align="right">Next | <b><a href="building-repo-2.md">Building the Project from Source</a></b>

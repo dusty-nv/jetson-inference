@@ -5,23 +5,9 @@
 
 # Building the Project from Source
 
-Provided with the repo is a library of TensorRT-accelerated deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  This inferencing library (`libjetson-inference`) is intended to be built & run on the Jetson, and includes support for both C++ and Python.  
+Provided with the repo is a library of TensorRT-accelerated deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  This inferencing library (`libjetson-inference`) is intended to be run on the Jetson, and includes support for both C++ and Python.  Various pre-trained DNN models are automatically downloaded to get you up and running quickly.
 
-Various pre-trained DNN models are automatically downloaded to get you up and running quickly.  It's also setup to accept customized models that you may have trained yourself, including support for Caffe, TensorFlow UFF, and ONNX.
-
-The latest source code or Docker container can be obtained from [GitHub](http://github.com/dusty-nv/jetson-inference) to use onboard your Jetson once it's been [flashed with JetPack](jetpack-setup-2.md) or setup with the pre-populated [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write).  You can run the pre-built [Docker container](aux-docker.md) without needing to compile the project yourself.
-
-### Docker Container
-
-For JetPack 4.4 (L4T R32.4.3) or newer, you can run the jetson-inference project from the [Docker container](aux-docker.md) without needing to build it yourself.  The container also includes PyTorch already installed.  For more info, see [Launching the Container](aux-docker.md#launching-the-container) or run these commands:
-
-```bash
-$ git clone --recursive https://github.com/dusty-nv/jetson-inference
-$ cd jetson-inference
-$ docker/run.sh
-```
-
-If you are using the container, you can skip ahead to [Classifying Images with ImageNet](imagenet-console-2.md).  However if you wish to build/install the project directly on your Jetson (outside of container) or if you are on a different version of JetPack, please proceed with the steps below.
+The latest source code or [Docker container](aux-docker.md) can be used onboard your Jetson once your device has been [flashed with JetPack](jetpack-setup-2.md) or setup with the pre-populated [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write).  You can run the pre-built [Docker container](aux-docker.md) without needing to compile the project yourself.
 
 ### Quick Reference
 

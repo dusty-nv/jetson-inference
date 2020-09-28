@@ -450,7 +450,7 @@ CUDA(cudaOverlay(imgInputB, dimsB, imgOutput, dimsOutput, dimsA.x, 0));
 ```
 
 ##
-<p align="right">Next | <b><a href="https://github.com/dusty-nv/ros_deep_learning">https://github.com/dusty-nv/ros_deep_learning</a></b>
+<p align="right">Next | <b><a href="https://github.com/dusty-nv/ros_deep_learning">Deep Learning Nodes for ROS/ROS2</a></b>
 <br/>
 Back | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></p>
 <p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
