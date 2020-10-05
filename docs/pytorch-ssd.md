@@ -165,16 +165,16 @@ This will save a model called `ssd-mobilenet.onnx` under `jetson-inference/pytho
 To classify some static test images, we'll use the extended command-line parameters to `detectnet` (or `detectnet.py`) to load our custom SSD-Mobilenet ONNX model.  To run these commands, the working directory of your terminal should still be located in:  `jetson-inference/python/training/detection/ssd/`
 
 ```bash
-mkdir images/test/test_fruit
+IMAGES=<path-to-your-jetson-inference>/data/images   # substitute your jetson-inference path here
 
 detectnet --model=models/fruit/ssd-mobilenet.onnx --labels=models/fruit/labels.txt \
           --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
-            "images/fruit_*.jpg" images/test/test_fruit
+            "$IMAGES/fruit_*.jpg" $IMAGES/test/fruit_%i.jpg
 ```
 
 > **note:**  `detectnet.py` can be substituted above to run the Python version of the program
 
-Below are some of the images output to the `test_fruit/` directory:
+Below are some of the images output to the `$IMAGES/test` directory:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-fruit-2.jpg">
 
