@@ -1,7 +1,7 @@
 [submodule "utils"]
 	path = utils
-	url = https://github.com/dusty-nv/jetson-utils
-	branch = master
+	url = https://github.com/kelo-robotics/jetson-utils
+	branch = upgrade-to-new-version
 [submodule "tools/camera-capture"]
 	path = tools/camera-capture
 	url = https://github.com/dusty-nv/camera-capture
