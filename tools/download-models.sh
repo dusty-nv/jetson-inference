@@ -598,20 +598,8 @@ if [[ "$BUILD_INTERACTIVE" != "YES" ]]; then
 
 	echo "$LOG Downloading default models..."
 
-	download_googlenet
-	download_resnet18
-
-	download_ssd_mobilenet_v2
+	download_ssd_inception_v2
 	download_pednet
-	download_facenet
-	download_detectnet_coco_dog
-
-	download_fcn_resnet18_cityscapes_512x256
-	download_fcn_resnet18_cityscapes_1024x512
-	download_fcn_resnet18_deepscene_576x320
-	download_fcn_resnet18_mhp_512x320
-	download_fcn_resnet18_pascal_voc_320x320
-	download_fcn_resnet18_sun_rgbd_512x400
 
 	exit_message 0
 fi
