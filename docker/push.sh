@@ -11,6 +11,7 @@ push()
 	
 	echo "pushing image $CONTAINER_REMOTE_IMAGE"
 	sudo docker push $CONTAINER_REMOTE_IMAGE
+	echo "done pushing image $CONTAINER_REMOTE_IMAGE"
 }
 
 push "jetson-inference:r$L4T_VERSION"
