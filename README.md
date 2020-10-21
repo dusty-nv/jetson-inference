@@ -20,7 +20,7 @@ Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and 
 * [System Requirements](#recommended-system-requirements)
 * [Change Log](CHANGELOG.md)
 
-> &gt; &nbsp; Jetson Xavier NX and JetPack 4.4 is now supported in the repo. <br/>
+> &gt; &nbsp; [Jetson Nano 2GB](https://developer.nvidia.com/embedded/jetson-nano-2gb-developer-kit) and JetPack 4.4.1 is now supported in the repo. <br/>
 > &gt; &nbsp; Try the new [Re-training SSD-Mobilenet](docs/pytorch-ssd.md) object detection tutorial! <br/>
 > &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 
@@ -176,6 +176,7 @@ The project comes with a number of pre-trained models that are available through
 ## Recommended System Requirements
 
 * Jetson Nano Developer Kit with JetPack 4.2 or newer (Ubuntu 18.04 aarch64).  
+* Jetson Nano 2GB Developer Kit with JetPack 4.4.1 or newer (Ubuntu 18.04 aarch64).
 * Jetson Xavier NX Developer Kit with JetPack 4.4 or newer (Ubuntu 18.04 aarch64).  
 * Jetson AGX Xavier Developer Kit with JetPack 4.0 or newer (Ubuntu 18.04 aarch64).  
 * Jetson TX2 Developer Kit with JetPack 3.0 or newer (Ubuntu 16.04 aarch64).  

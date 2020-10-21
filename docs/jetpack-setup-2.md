@@ -5,7 +5,7 @@
 
 # Setting up Jetson with JetPack
 
-> **note**:  if your Jetson Nano has already been setup with the [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) (which includes the JetPack components), or your Jetson has already been setup with JetPack, you can skip this step and continue to [`Running the Docker Container`](aux-docker.md) or [`Building the Project`](building-repo-2.md)
+> **note**:  if your Jetson Nano or Xavier NX has already been setup with the [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) (which includes the JetPack components), or your Jetson has already been setup with JetPack, you can skip this step and continue to [`Running the Docker Container`](aux-docker.md) or [`Building the Project`](building-repo-2.md)
 
 NVIDIA **[JetPack](https://developer.nvidia.com/embedded/jetpack)** is a comprehensive SDK for Jetson for both developing and deploying AI and computer vision applications.  JetPack simplifies installation of the OS and drivers and contains the following components:
 
@@ -23,7 +23,11 @@ Before attempting to use the Docker container or build the repo, make sure that 
 
 The recommended install method for the Jetson Nano Developer Kit and Jetson Xavier NX Developer Kit is to use the **[SD card images](https://developer.nvidia.com/embedded/downloads)**.  
 
-It comes pre-populated with the JetPack components already installed and can be flashed from a Windows, Mac, or Linux PC.  If you haven't already, follow the [Jetson Nano Getting Started Guide](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) or [Jetson Xavier NX User Guide](https://developer.nvidia.com/embedded/downloads#?search=Jetson%20Xavier%20NX%20Developer%20Kit%20User%20Guide) to flash the SD card image and setup your device.
+It comes pre-populated with the JetPack components already installed and can be flashed from a Windows, Mac, or Linux PC.  If you haven't already, follow the Getting Started guide for your respective Jetson to flash the SD card image and setup your device:
+
+* [Getting Started with Jetson Nano Developer Kit](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit)
+* [Getting Started with Jetson Nano 2GB Developer Kit](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-2gb-devkit)
+* [Jetson Xavier NX User Guide](https://developer.nvidia.com/embedded/downloads#?search=Jetson%20Xavier%20NX%20Developer%20Kit%20User%20Guide) 
 
 ### Jetson TX1/TX2 and AGX Xavier
 
