@@ -159,7 +159,7 @@ Although image subscripting is supported, individually accessing each pixel of a
 
 You can access a `cudaImage` memory capsule from Numpy by calling `jetson.utils.cudaToNumpy()` on it first.  The underlying memory isn't copied and Numpy will access it directly - so be aware if you change the data in-place through Numpy, it will be changed in the `cudaImage` capsule as well.
 
-For an example of using `cudaToNumpy()`, see the [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/dev/python/examples/cuda-to-numpy.py) sample from jetson-utils.
+For an example of using `cudaToNumpy()`, see the [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-numpy.py) sample from jetson-utils.
 
 Note that OpenCV expects images in BGR colorspace, so if you plan on using the image with OpenCV, you should call `cv2.cvtColor()` with `cv2.COLOR_RGB2BGR` before using it in OpenCV.
 
@@ -167,7 +167,7 @@ Note that OpenCV expects images in BGR colorspace, so if you plan on using the i
 
 Let's say you have an image in a Numpy ndarray, perhaps provided by OpenCV.  As a Numpy array, it will only be accessible from the CPU.  You can use `jetson.utils.cudaFromNumpy()` to copy it to the GPU (into shared CPU/GPU ZeroCopy memory).  
 
-For an example of using `cudaFromNumpy()`, see the [`cuda-from-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/dev/python/examples/cuda-from-numpy.py) sample from jetson-utils.
+For an example of using `cudaFromNumpy()`, see the [`cuda-from-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-numpy.py) sample from jetson-utils.
 
 Note that OpenCV images are in BGR colorspace, so if the image is coming from OpenCV, you should call `cv2.cvtColor()` with `cv2.COLOR_BGR2RGB` first.
 
