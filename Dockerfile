@@ -46,7 +46,8 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
     
 # pip dependencies for pytorch-ssd
-RUN pip3 install --verbose boto3 pandas
+RUN pip3 install --verbose --upgrade Cython && \
+    pip3 install --verbose boto3 pandas
 
 # alias python3 -> python
 RUN rm /usr/bin/python && \
