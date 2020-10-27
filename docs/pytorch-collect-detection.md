@@ -11,7 +11,7 @@ The previously used `camera-capture` tool can also label object detection datase
 
 When the `Dataset Type` drop-down is in Detection mode, the tool creates datasets in [Pascal VOC](http://host.robots.ox.ac.uk/pascal/VOC/) format (which is supported during training).
 
-> **note:** if you want to label a set of images that you already have (as opposed to capturing them from camera), try using a tool like [`CVAT`](https://github.com/openvinotoolkit/cvat) and save the dataset in Pascal VOC format.  Then create a labels.txt in the dataset with the names of each of your object classes.
+> **note:** if you want to label a set of images that you already have (as opposed to capturing them from camera), try using a tool like [`CVAT`](https://github.com/openvinotoolkit/cvat) and export the dataset in Pascal VOC format.  Then create a labels.txt in the dataset with the names of each of your object classes.
 
 ## Creating the Label File
 
