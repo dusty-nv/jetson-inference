@@ -16,7 +16,9 @@ BASE_IMAGE=$1
 source tools/l4t-version.sh
 
 if [ -z $BASE_IMAGE ]; then
-	if [ $L4T_VERSION = "32.4.3" ]; then
+	if [ $L4T_VERSION = "32.4.4" ]; then
+		BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.4.4-pth1.6-py3"
+	elif [ $L4T_VERSION = "32.4.3" ]; then
 		BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.4.3-pth1.6-py3"
 	elif [ $L4T_VERSION = "32.4.2" ]; then
 		BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.4.2-pth1.5-py3"
