@@ -48,7 +48,7 @@ You can test that PyTorch was installed correctly and detects your GPU by execut
 >>> print(torchvision.__version__)
 ```
 
-Note that the torch version should be reported as `1.1.0` and the torchvision version should be `0.3.0`.
+Note that the torch version should be reported as `1.6.0` and the torchvision version should be `0.7.0`.
 
 ## Mounting Swap
 
