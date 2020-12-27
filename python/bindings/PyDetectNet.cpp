@@ -640,6 +640,78 @@ static PyObject* PyDetectNet_Detect( PyDetectNet_Object* self, PyObject* args, P
 	return list;
 }
 
+#define DOC_OVERLAY "Overlay a list of detections in an RGBA image.\n\n" \
+				 "Parameters:\n" \
+				 "  image   (capsule) -- CUDA memory capsule\n" \
+				 "  [Detections]   -- list containing the detected objects (see detectNet.Detection)" \
+				 "  width   (int)  -- width of the image (in pixels)\n" \
+				 "  height  (int)  -- height of the image (in pixels)\n" \
+				 "  overlay (str)  -- combination of box,labels,none flags (default is 'box')\n\n" \
+				 "Returns:\n" \
+				 "  None"
+
+// Overlay
+static PyObject* PyDetectNet_Overlay( PyDetectNet_Object* self, PyObject* args, PyObject *kwds )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid object instance");
+		return NULL;
+	}
+	
+	// parse arguments
+	PyObject* image_capsule = NULL;
+	PyObject* detections = NULL;
+
+	int width = 0;
+	int height = 0;
+
+	const char* overlay    = "box,labels,conf";
+	const char* format_str = "rgba32f";
+	static char* kwlist[]  = {"image", "detections", "width", "height", "overlay", "format", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "OO|iiss", kwlist, &image_capsule, &detections, &width, &height, &overlay, &format_str))
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Detect() failed to parse args tuple");
+		return NULL;
+	}
+
+	// parse format string
+	imageFormat format = imageFormatFromStr(format_str);
+
+	// get pointer to image data
+	void* ptr = PyCUDA_GetImage(image_capsule, &width, &height, &format);
+
+	if( !ptr ) {
+		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "failed to get cuda image");
+		return NULL;
+	}
+	
+	if ( !PyList_Check(detections) ) {
+		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "detections should be of type list");
+		return NULL;
+	}
+
+	auto detections_ptr = std::vector<detectNet::Detection*>();
+
+	for (Py_ssize_t i = 0; i < PyList_Size(detections); i++) {
+		PyObject *value = PyList_GetItem(detections, i);
+
+		if( PyObject_IsInstance(value, (PyObject*)&pyDetection_Type) != 1 ) {
+			PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "detections value should be of type jetson.inference.detectNet.Detection");
+			return NULL;
+		}
+		detections_ptr.push_back(&((PyDetection_Object*)value)->det);
+	}
+
+	if ( !self->net->Overlay(ptr, ptr, width, height, format, *detections_ptr.data(), detections_ptr.size(), detectNet::OverlayFlagsFromStr(overlay)) ) {
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Overlay() encountered an error");
+		return NULL;
+	}
+
+	Py_RETURN_NONE;
+}
+
 
 #define DOC_GET_THRESHOLD  "Return the minimum detection threshold.\n\n" \
 				 	  "Parameters:  (none)\n\n" \
@@ -826,6 +898,7 @@ static PyTypeObject pyDetectNet_Type =
 static PyMethodDef pyDetectNet_Methods[] = 
 {
 	{ "Detect", (PyCFunction)PyDetectNet_Detect, METH_VARARGS|METH_KEYWORDS, DOC_DETECT},
+	{ "Overlay", (PyCFunction)PyDetectNet_Overlay, METH_VARARGS|METH_KEYWORDS, DOC_OVERLAY},
 	{ "GetThreshold", (PyCFunction)PyDetectNet_GetThreshold, METH_NOARGS, DOC_GET_THRESHOLD},
 	{ "SetThreshold", (PyCFunction)PyDetectNet_SetThreshold, METH_VARARGS, DOC_SET_THRESHOLD},     
 	{ "GetNumClasses", (PyCFunction)PyDetectNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
