@@ -692,7 +692,7 @@ static PyObject* PyDetectNet_Overlay( PyDetectNet_Object* self, PyObject* args, 
 		return NULL;
 	}
 
-	auto detections_ptr = std::vector<detectNet::Detection*>();
+	auto detections_ptr = std::vector<detectNet::Detection>();
 
 	for (Py_ssize_t i = 0; i < PyList_Size(detections); i++) {
 		PyObject *value = PyList_GetItem(detections, i);
@@ -701,12 +701,14 @@ static PyObject* PyDetectNet_Overlay( PyDetectNet_Object* self, PyObject* args, 
 			PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "detections value should be of type jetson.inference.detectNet.Detection");
 			return NULL;
 		}
-		detections_ptr.push_back(&((PyDetection_Object*)value)->det);
+		detections_ptr.push_back(((PyDetection_Object*)value)->det);
 	}
 
-	if ( !self->net->Overlay(ptr, ptr, width, height, format, *detections_ptr.data(), detections_ptr.size(), detectNet::OverlayFlagsFromStr(overlay)) ) {
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Overlay() encountered an error");
-		return NULL;
+	if (detections_ptr.size() > 0) {
+		if ( !self->net->Overlay(ptr, ptr, width, height, format, detections_ptr.data(), detections_ptr.size(), detectNet::OverlayFlagsFromStr(overlay)) ) {
+			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Overlay() encountered an error");
+			return NULL;
+		}
 	}
 
 	Py_RETURN_NONE;
