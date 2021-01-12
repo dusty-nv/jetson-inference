@@ -428,7 +428,7 @@ precisionType tensorNet::SelectPrecision( precisionType precision, deviceType de
 	else if( precision == TYPE_FASTEST )
 	{
 		if( !allowInt8 )
-			printf(LOG_TRT "requested fasted precision for device %s without providing valid calibrator, disabling INT8\n", deviceTypeToStr(device));
+			LogWarning(LOG_TRT "requested fasted precision for device %s without providing valid calibrator, disabling INT8\n", deviceTypeToStr(device));
 
 		precision = FindFastestPrecision(device, allowInt8);
 		LogVerbose(LOG_TRT "selecting fastest native precision for %s:  %s\n", deviceTypeToStr(device), precisionTypeToStr(precision));
