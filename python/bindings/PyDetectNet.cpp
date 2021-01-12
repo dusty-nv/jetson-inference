@@ -497,7 +497,7 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
-		LogVerbose(LOG_PY_INFERENCE "detectNet loading network using argv command line params\n");
+		LogDebug(LOG_PY_INFERENCE "detectNet loading network using argv command line params\n");
 
 		// parse the python list into char**
 		const size_t argc = PyList_Size(argList);
