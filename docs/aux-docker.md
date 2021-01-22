@@ -11,8 +11,10 @@ Below are the currently available container tags:
 
 | Container Tag                                                                           | L4T version |          JetPack version         |
 |-----------------------------------------------------------------------------------------|:-----------:|:--------------------------------:|
-| [`dustynv/jetson-inference:r32.4.3`](https://hub.docker.com/r/dustynv/jetson-inference/tags) | L4T R32.4.3 | JetPack 4.4 |
+| [`dustynv/jetson-inference:r32.5.0`](https://hub.docker.com/r/dustynv/jetson-inference/tags) | L4T R32.5.0 | JetPack 4.5 |
 | [`dustynv/jetson-inference:r32.4.4`](https://hub.docker.com/r/dustynv/jetson-inference/tags) | L4T R32.4.4 | JetPack 4.4.1 |
+| [`dustynv/jetson-inference:r32.4.3`](https://hub.docker.com/r/dustynv/jetson-inference/tags) | L4T R32.4.3 | JetPack 4.4 |
+
 
 > **note:** the version of JetPack-L4T that you have installed on your Jetson needs to match the tag above.  If you have a different version of JetPack-L4T installed, either upgrade to the latest JetPack or [Build the Project from Source](docs/building-repo-2.md) to compile the project directly. 
 
