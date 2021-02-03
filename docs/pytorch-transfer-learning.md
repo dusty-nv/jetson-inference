@@ -54,9 +54,10 @@ Note that the torch version should be reported as `1.6.0` and the torchvision ve
 
 Unless you are on Jetson AGX Xavier, you should mount 4GB of swap space, as training uses up a lot of extra memory.  
 
-Run these commands on your Jetson (outside of container) to create a swap file:
+Run these commands on your Jetson (outside of container) to disable ZRAM and create a swap file:
 
 ``` bash
+sudo systemctl disable nvzramconfig
 sudo fallocate -l 4G /mnt/4GB.swap
 sudo mkswap /mnt/4GB.swap
 sudo swapon /mnt/4GB.swap
@@ -68,7 +69,7 @@ Then add the following line to the end of `/etc/fstab` to make the change persis
 /mnt/4GB.swap  none  swap  sw 0  0
 ```
 
-Now your swap file will automatically be mounted after reboots.  To check the usage, run `swapon -s` or `tegrastats`.
+Now your swap file will automatically be mounted after reboots.  To check the usage, run `swapon -s` or `tegrastats`.  Disabling ZRAM (in-memory compressed swap) also free's up physical memory and requires a reboot to take effect.
 
 ## Disabling the Desktop GUI
 
