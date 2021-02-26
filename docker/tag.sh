@@ -27,6 +27,10 @@ if [ $L4T_RELEASE -eq 32 ]; then
 	elif [ $L4T_REVISION_MAJOR -eq 5 ]; then
 		if [ $L4T_REVISION_MINOR -eq 0 ]; then
 			CONTAINER_REMOTE_IMAGE="dustynv/$CONTAINER_IMAGE"
+	     elif [ $L4T_REVISION_MINOR -eq 1 ]; then
+			# L4T R32.5.1 runs the R32.5.0 container
+			CONTAINER_IMAGE="jetson-inference:r32.5.0"
+			CONTAINER_REMOTE_IMAGE="dustynv/$CONTAINER_IMAGE"
 		else
 			CONTAINER_REMOTE_IMAGE="nvcr.io/ea-linux4tegra/$CONTAINER_IMAGE"
 		fi

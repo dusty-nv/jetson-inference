@@ -21,7 +21,7 @@ Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and 
 * [System Requirements](#recommended-system-requirements)
 * [Change Log](CHANGELOG.md)
 
-> &gt; &nbsp; [Jetson Nano 2GB](https://developer.nvidia.com/embedded/jetson-nano-2gb-developer-kit) and JetPack 4.4.1 is now supported in the repo. <br/>
+> &gt; &nbsp; [Jetson Nano 2GB](https://developer.nvidia.com/embedded/jetson-nano-2gb-developer-kit) and JetPack 4.5 is now supported in the repo. <br/>
 > &gt; &nbsp; Try the new [Re-training SSD-Mobilenet](docs/pytorch-ssd.md) object detection tutorial! <br/>
 > &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 
