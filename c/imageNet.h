@@ -209,7 +209,7 @@ public:
 	/**
  	 * Retrieve a string describing the network name.
 	 */
-	inline const char* GetNetworkName() const					{ NetworkTypeToStr(mNetworkType); }
+	inline const char* GetNetworkName() const					{ return NetworkTypeToStr(mNetworkType); }
 
 	/**
 	 * Load class descriptions from a label file.

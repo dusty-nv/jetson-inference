@@ -64,6 +64,7 @@ const char* precisionTypeToStr( precisionType type )
 		case TYPE_FP16:	return "FP16";
 		case TYPE_INT8:	return "INT8";
 	}
+    return nullptr;
 }
 
 precisionType precisionTypeFromStr( const char* str )
@@ -182,6 +183,7 @@ const char* deviceTypeToStr( deviceType type )
 		case DEVICE_DLA_0:	return "DLA_0";
 		case DEVICE_DLA_1:	return "DLA_1";
 	}
+    return nullptr;
 }
 
 deviceType deviceTypeFromStr( const char* str )
@@ -215,6 +217,7 @@ static inline nvinfer1::DeviceType deviceTypeToTRT( deviceType type )
 		case DEVICE_DLA_0:	return nvinfer1::DeviceType::kDLA;
 		case DEVICE_DLA_1:	return nvinfer1::DeviceType::kDLA;
 #endif
+        default:            return nvinfer1::DeviceType::kGPU;
 	}
 }
 #endif
@@ -229,6 +232,7 @@ const char* modelTypeToStr( modelType format )
 		case MODEL_UFF:	return "UFF";
 		case MODEL_ENGINE:	return "engine";
 	}
+    return nullptr;
 }
 
 modelType modelTypeFromStr( const char* str )
@@ -266,6 +270,7 @@ const char* profilerQueryToStr( profilerQuery query )
 		case PROFILER_VISUALIZE:	  return "Visualize";
 		case PROFILER_TOTAL:	  return "Total";
 	}
+    return nullptr;
 }
 
 //---------------------------------------------------------------------
