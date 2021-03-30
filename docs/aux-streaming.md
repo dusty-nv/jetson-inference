@@ -85,6 +85,11 @@ As mentioned above, any of the examples from jetson-inference can be substituted
                              * -1 = loop forever
                              *  0 = don't loop (default)
                              * >0 = set number of loops
+  --input-rtsp-latency=2000
+                         Number of milliseconds to buffer of an incoming RTSP 
+                             stream. Setting it to zero can give very low 
+                             delay, but may result in jitter depending on 
+                             network performance.
 ```
 
 #### Output Options
