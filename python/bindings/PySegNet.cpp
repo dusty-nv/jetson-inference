@@ -434,6 +434,54 @@ PyObject* PySegNet_GetClassDesc( PySegNet_Object* self, PyObject* args )
 }
 
 
+#define DOC_GET_CLASS_COLOR "Return the class color for the given object class.\n\n" \
+				 	   "Parameters:\n" \
+					   "  (int) -- index of the class, between [0, GetNumClasses()]\n\n" \
+					   "Returns:\n" \
+					   "  (r,g,b,a) tuple -- tuple containing the RGBA color of the object class"
+
+// GetClassColor
+PyObject* PySegNet_GetClassColor( PySegNet_Object* self, PyObject* args )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid object instance");
+		return NULL;
+	}
+	
+	int classIdx = 0;
+
+	if( !PyArg_ParseTuple(args, "i", &classIdx) )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet failed to parse arguments");
+		return NULL;
+	}
+		
+	if( classIdx < 0 || classIdx >= self->net->GetNumClasses() )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet requested class index is out of bounds");
+		return NULL;
+	}
+
+	float* color = self->net->GetClassColor(classIdx);
+	
+	// create tuple objects
+	PyObject* r = PyFloat_FromDouble(color[0]);
+	PyObject* g = PyFloat_FromDouble(color[1]);
+	PyObject* b = PyFloat_FromDouble(color[2]);
+	PyObject* a = PyFloat_FromDouble(color[3]);
+	
+	PyObject* tuple = PyTuple_Pack(4, r, g, b, a);
+
+	Py_DECREF(r);
+	Py_DECREF(g);
+	Py_DECREF(b);
+	Py_DECREF(a);
+	
+	return tuple;
+}
+
+
 #define DOC_SET_OVERLAY_ALPHA "Set the alpha blending value used during overlay visualization for all classes\n\n" \
 				 	  "Parameters:\n" \
 					  "  alpha (float) -- desired alpha value, between 0.0 and 255.0\n" \
@@ -568,6 +616,7 @@ static PyMethodDef PySegNet_Methods[] =
 	{ "GetNetworkName", (PyCFunction)PySegNet_GetNetworkName, METH_NOARGS, DOC_GET_NETWORK_NAME},
      { "GetNumClasses", (PyCFunction)PySegNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
 	{ "GetClassDesc", (PyCFunction)PySegNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
+	{ "GetClassColor", (PyCFunction)PySegNet_GetClassColor, METH_VARARGS, DOC_GET_CLASS_COLOR},
 	{ "GetGridWidth", (PyCFunction)PySegNet_GetGridWidth, METH_NOARGS, DOC_GET_GRID_WIDTH},
 	{ "GetGridHeight", (PyCFunction)PySegNet_GetGridHeight, METH_NOARGS, DOC_GET_GRID_HEIGHT},
 	{ "GetGridSize", (PyCFunction)PySegNet_GetGridSize, METH_NOARGS, DOC_GET_GRID_SIZE},
