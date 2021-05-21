@@ -94,7 +94,7 @@ $ python3 open_images_downloader.py --stats-only --class-names "Apple,Orange,Ban
 
 In practice, to keep the training time down (and disk space), you probably want to keep the total number of images <10K.  Although the more images you use, the more accurate your model will be.  You can limit the amount of data downloaded with the `--max-images` option or the `--max-annotations-per-class` options:
 
-* `--max-images` will limit the total dataset to the specified number of images, which keeps the distribution of images per class roughly the same as the original dataset.  
+* `--max-images` limits the total dataset to the specified number of images, while keeping the distribution of images per class roughly the same as the original dataset.  If one class has more images than another, the ratio will remain roughly the same. 
 * `--max-annotations-per-class` limits each class to the specified number of bounding boxes, and if a class has less than that number available, all of it's data will be used - this is useful if the distribution of data is unbalanced across classes.
 
 For example, if you wanted to only use 2500 images for the fruit dataset, you would launch the downloader like this:
