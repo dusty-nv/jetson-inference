@@ -92,7 +92,7 @@ $ python3 open_images_downloader.py --stats-only --class-names "Apple,Orange,Ban
 
 > **note:** `--stats-only` does download the annotation data (approximately ~1GB), but not the images yet.  
 
-In practice, to keep the training time down (and disk space), you probably want to keep the total number of images <10K.  Although the more images you use, the more accurate your model will be.  You can limit the amount of data downloaded with the `--max-images` option.
+In practice, to keep the training time down (and disk space), you probably want to keep the total number of images <10K.  Although the more images you use, the more accurate your model will be.  You can limit the amount of data downloaded with the `--max-images` option or the `--max-annotations-per-class` options.  `--max-images` will limit the total dataset to the specified number of images, which keeps the distribution of images per class roughly the same as the original dataset.  The `--max-annotations-per-class` limits each class to the specified number of bounding boxes, and if a class has less than that number available, all of it's data will be used - this is useful if the distribution of data is unbalanced across classes.
 
 For example, if you wanted to only use 2500 images for the fruit dataset, you would launch the downloader like this:
 
@@ -100,7 +100,7 @@ For example, if you wanted to only use 2500 images for the fruit dataset, you wo
 $ python3 open_images_downloader.py --max-images=2500 --class-names "Apple,Orange,Banana,Strawberry,Grape,Pear,Pineapple,Watermelon" --data=data/fruit
 ```
 
-If the `--max-boxes` option isn't set, by default all the data available will be downloaded - so beforehand, be sure to check the amount of data first with `--stats-only`.  Unfortunately it isn't possible in advance to determine the actual disk size requirements of the images, but a general rule of thumb for this dataset is to budget ~350KB per image (~2GB for the fruits).
+If the `--max-boxes` option or `--max-annotations-per-class` isn't set, by default all the data available will be downloaded - so beforehand, be sure to check the amount of data first with `--stats-only`.  Unfortunately it isn't possible in advance to determine the actual disk size requirements of the images, but a general rule of thumb for this dataset is to budget ~350KB per image (~2GB for the fruits).
 
 ### Training Performance
 
