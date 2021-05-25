@@ -24,8 +24,8 @@
 #define __CUDA_TENSOR_PREPROCESSING_H__
 
 
-#include "cudaUtility.h"
-#include "imageFormat.h"
+#include <jetson-utils/cudaUtility.h>
+#include <jetson-utils/imageFormat.h>
 
 
 /*
