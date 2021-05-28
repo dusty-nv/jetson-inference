@@ -36,6 +36,7 @@ Streams are identified via a resource URI and accessed through the [`videoSource
 |                  | Protocol     | Resource URI              | Notes                                                    |
 |------------------|--------------|---------------------------|----------------------------------------------------------|
 | [RTP stream](#rtp)              | `rtp://`     | `rtp://<remote-ip>:1234`  | Replace `<remote-ip>` with remote host's IP or hostname  |
+| [RTMP stream](#rtmp)              | `rtmp://`     | `rtp://<remote-server>`  | Replace `<remote-server>` with remote rtmp server IP or hostname  |
 | [Video file](#video-files)       | `file://`    | `file://my_video.mp4`     | Supports saving MP4, MKV, AVI, FLV (see codecs below)    |
 | [Image file](#image-files)       | `file://`    | `file://my_image.jpg`     | Supports saving JPG, PNG, TGA, BMP                       |
 | [Image sequence](#image-files)   | `file://`    | `file://image_%i.jpg`     | `%i` is replaced by the image number in the sequence     |
