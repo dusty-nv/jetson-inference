@@ -16,8 +16,8 @@ $ ./segnet-console drone_0428.png output_0428.png \
 --prototxt=$NET/deploy.prototxt \
 --model=$NET/snapshot_iter_22610.caffemodel \
 --labels=$NET/fpv-labels.txt \
---colors=$NET/fpv-deploy-colors.txt \
---input_blob=data \ 
+--colors=$NET/fpv-training-colors.txt \
+--input_blob=data \
 --output_blob=score_fr
 ```
 
