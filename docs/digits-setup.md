@@ -140,7 +140,7 @@ $ mkdir /home/username/digits-jobs
 
 ``` bash
 $ nvidia-docker run --name digits -d -p 8888:5000 \
- -v /home/username/data:/data:ro
+ -v /home/username/data:/data:ro \
  -v /home/username/digits-jobs:/workspace/jobs nvcr.io/nvidia/digits:18.05
 ```
 
