@@ -23,7 +23,7 @@
 #ifndef __RAND_INT8_CALIBRATOR_H__
 #define __RAND_INT8_CALIBRATOR_H__
 
-#include "NvInfer.h"
+#include "tensorNet.h"
 
 #include <map>
 #include <string>
@@ -54,22 +54,22 @@ public:
 	/**
 	 * getBatchSize()
 	 */
-	inline int getBatchSize() const override	{ return 1; }
+	inline int getBatchSize() const NOEXCEPT override	{ return 1; }
 
 	/**
 	 * getBatch()
 	 */
-	bool getBatch(void* bindings[], const char* names[], int nbBindings) override;
+	bool getBatch(void* bindings[], const char* names[], int nbBindings) NOEXCEPT override;
 	
 	/**
 	 * readCalibrationCache()
 	 */
-	const void* readCalibrationCache(size_t& length) override;
+	const void* readCalibrationCache(size_t& length) NOEXCEPT override;
     
 	/**
 	 * writeCalibrationCache()
 	 */
-	virtual void writeCalibrationCache(const void*, size_t) override;
+	virtual void writeCalibrationCache(const void*, size_t) NOEXCEPT override;
 
 private:
 	int mTotalSamples;

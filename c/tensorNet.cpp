@@ -94,6 +94,17 @@ static inline nvinfer1::DataType precisionTypeToTRT( precisionType type )
 	return nvinfer1::DataType::kFLOAT;
 }
 
+#if NV_TENSORRT_MAJOR >= 8
+static inline bool isFp16Enabled( nvinfer1::IBuilderConfig* config )
+{
+	return config->getFlag(nvinfer1::BuilderFlag::kFP16);
+}
+
+static inline bool isInt8Enabled( nvinfer1::IBuilderConfig* config )
+{
+	return config->getFlag(nvinfer1::BuilderFlag::kFP16);
+}
+#else // NV_TENSORRT_MAJOR <= 7
 static inline bool isFp16Enabled( nvinfer1::IBuilder* builder )
 {
 #if NV_TENSORRT_MAJOR < 4
@@ -111,6 +122,7 @@ static inline bool isInt8Enabled( nvinfer1::IBuilder* builder )
 	return false;
 #endif
 }
+#endif
 
 #if NV_TENSORRT_MAJOR >= 4
 static inline const char* dataTypeToStr( nvinfer1::DataType type )
@@ -127,6 +139,7 @@ static inline const char* dataTypeToStr( nvinfer1::DataType type )
 	return "UNKNOWN";
 }
 
+#if NV_TENSORRT_MAJOR <= 7
 static inline const char* dimensionTypeToStr( nvinfer1::DimensionType type )
 {
 	switch(type)
@@ -140,6 +153,7 @@ static inline const char* dimensionTypeToStr( nvinfer1::DimensionType type )
 	LogWarning(LOG_TRT "warning -- unknown nvinfer1::DimensionType (%i)\n", (int)type);
 	return "UNKNOWN";
 }
+#endif
 #endif
 
 #if NV_TENSORRT_MAJOR > 1
@@ -358,7 +372,7 @@ std::vector<precisionType> tensorNet::DetectNativePrecisions( deviceType device 
 		return types;
 	}
 
-#if NV_TENSORRT_MAJOR >= 5
+#if NV_TENSORRT_MAJOR >= 5 && NV_TENSORRT_MAJOR <= 7
 	if( device == DEVICE_DLA_0 || device == DEVICE_DLA_1 )
 		builder->setFp16Mode(true);
 
@@ -486,11 +500,12 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 	// create builder and network definition interfaces
 	nvinfer1::IBuilder* builder = CREATE_INFER_BUILDER(gLogger);
+	
+#if NV_TENSORRT_MAJOR >= 8
+	nvinfer1::INetworkDefinition* network = builder->createNetworkV2(0);
+#else
 	nvinfer1::INetworkDefinition* network = builder->createNetwork();
-
-	builder->setDebugSync(mEnableDebug);
-	builder->setMinFindIterations(3);	// allow time for GPU to spin up
-	builder->setAverageFindIterations(2);
+#endif
 
 	LogInfo(LOG_TRT "device %s, loading %s %s\n", deviceTypeToStr(device), deployFile.c_str(), modelFile.c_str());
 	
@@ -645,12 +660,23 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 #endif
 
 	// configure the builder
+#if NV_TENSORRT_MAJOR >= 8
+	nvinfer1::IBuilderConfig* builderConfig = builder->createBuilderConfig();
+	
+	if( !ConfigureBuilder(builder, builderConfig, maxBatchSize, mWorkspaceSize, 
+					  precision, device, allowGPUFallback, calibrator) )
+	{
+		LogError(LOG_TRT "device %s, failed to configure builder\n", deviceTypeToStr(device));
+		return false;
+	}
+#else
 	if( !ConfigureBuilder(builder, maxBatchSize, mWorkspaceSize, precision,
 					  device, allowGPUFallback, calibrator) )
 	{
 		LogError(LOG_TRT "device %s, failed to configure builder\n", deviceTypeToStr(device));
 		return false;
 	}
+#endif
 
 	// build CUDA engine
 	LogInfo(LOG_TRT "device %s, building CUDA engine (this may take a few minutes the first time a network is loaded)\n", deviceTypeToStr(device));
@@ -658,8 +684,12 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	if( Log::GetLevel() < Log::VERBOSE )
 		LogInfo(LOG_TRT "info: to see status updates during engine building, enable verbose logging with --verbose\n");
 
+#if NV_TENSORRT_MAJOR >= 8
+	nvinfer1::ICudaEngine* engine = builder->buildEngineWithConfig(*network, *builderConfig);
+#else
 	nvinfer1::ICudaEngine* engine = builder->buildCudaEngine(*network);
-	
+#endif
+
 	if( !engine )
 	{
 		LogError(LOG_TRT "device %s, failed to build CUDA engine\n", deviceTypeToStr(device));
@@ -672,7 +702,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	network->destroy();
 	//parser->destroy();
 	
-#if NV_TENSORRT_MAJOR > 1
+#if NV_TENSORRT_MAJOR >= 2
 	// serialize the engine
 	nvinfer1::IHostMemory* serMem = engine->serialize();
 
@@ -710,6 +740,60 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 
 // ConfigureBuilder
+#if NV_TENSORRT_MAJOR >= 8
+bool tensorNet::ConfigureBuilder( nvinfer1::IBuilder* builder, nvinfer1::IBuilderConfig* config,  
+				    		    uint32_t maxBatchSize, uint32_t workspaceSize, precisionType precision, 
+				    		    deviceType device, bool allowGPUFallback, 
+				    		    nvinfer1::IInt8Calibrator* calibrator )
+{
+	if( !builder )
+		return false;
+
+	LogVerbose(LOG_TRT "device %s, configuring network builder\n", deviceTypeToStr(device));
+		
+	builder->setMaxBatchSize(maxBatchSize);
+	config->setMaxWorkspaceSize(workspaceSize);
+
+	config->setMinTimingIterations(3); // allow time for GPU to spin up
+	config->setAvgTimingIterations(2);
+
+	if( mEnableDebug )
+		config->setFlag(nvinfer1::BuilderFlag::kDEBUG);
+	
+	// set up the builder for the desired precision
+	if( precision == TYPE_INT8 )
+	{
+		config->setFlag(nvinfer1::BuilderFlag::kINT8);
+		//config->setFlag(nvinfer1::BuilderFlag::kFP16); // TODO:  experiment for benefits of both INT8/FP16
+		
+		if( !calibrator )
+		{
+			LogError(LOG_TRT "device %s, INT8 requested but calibrator is NULL\n", deviceTypeToStr(device));
+			return false;
+		}
+
+		config->setInt8Calibrator(calibrator);
+	}
+	else if( precision == TYPE_FP16 )
+	{
+		config->setFlag(nvinfer1::BuilderFlag::kFP16);
+	}
+	
+	// set the default device type
+	config->setDefaultDeviceType(deviceTypeToTRT(device));
+
+	if( allowGPUFallback )
+		config->setFlag(nvinfer1::BuilderFlag::kGPU_FALLBACK);
+
+	LogInfo(LOG_TRT "device %s, building FP16:  %s\n", deviceTypeToStr(device), isFp16Enabled(config) ? "ON" : "OFF"); 
+	LogInfo(LOG_TRT "device %s, building INT8:  %s\n", deviceTypeToStr(device), isInt8Enabled(config) ? "ON" : "OFF"); 
+	LogInfo(LOG_TRT "device %s, workspace size: %u\n", deviceTypeToStr(device), workspaceSize);
+
+	return true;
+}
+
+#else  // NV_TENSORRT_MAJOR <= 7
+	
 bool tensorNet::ConfigureBuilder( nvinfer1::IBuilder* builder, uint32_t maxBatchSize, 
 				    		    uint32_t workspaceSize, precisionType precision, 
 				    		    deviceType device, bool allowGPUFallback, 
@@ -722,6 +806,10 @@ bool tensorNet::ConfigureBuilder( nvinfer1::IBuilder* builder, uint32_t maxBatch
 		
 	builder->setMaxBatchSize(maxBatchSize);
 	builder->setMaxWorkspaceSize(workspaceSize);
+
+	builder->setDebugSync(mEnableDebug);
+	builder->setMinFindIterations(3);	// allow time for GPU to spin up
+	builder->setAverageFindIterations(2);
 
 	// set up the builder for the desired precision
 	if( precision == TYPE_INT8 )
@@ -746,10 +834,10 @@ bool tensorNet::ConfigureBuilder( nvinfer1::IBuilder* builder, uint32_t maxBatch
 	}
 	else if( precision == TYPE_FP16 )
 	{
-	#if NV_TENSORRT_MAJOR < 4
-		builder->setHalf2Mode(true);
-	#else
+	#if NV_TENSORRT_MAJOR >= 4
 		builder->setFp16Mode(true);
+	#else
+		builder->setHalf2Mode(true);
 	#endif
 	}
 	
@@ -780,6 +868,7 @@ bool tensorNet::ConfigureBuilder( nvinfer1::IBuilder* builder, uint32_t maxBatch
 
 	return true;
 }
+#endif
 
 
 // LoadNetwork
@@ -1150,8 +1239,11 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 	LogInfo(LOG_TRT "CUDA engine context initialized on device %s:\n", deviceTypeToStr(device));
 	LogInfo(LOG_TRT "   -- layers       %i\n", engine->getNbLayers());
 	LogInfo(LOG_TRT "   -- maxBatchSize %u\n", mMaxBatchSize);
-	LogInfo(LOG_TRT "   -- workspace    %zu\n", engine->getWorkspaceSize());
 	
+#if NV_TENSORRT_MAJOR <= 7
+	LogInfo(LOG_TRT "   -- workspace    %zu\n", engine->getWorkspaceSize());
+#endif
+
 #if NV_TENSORRT_MAJOR >= 4
 	LogInfo(LOG_TRT "   -- deviceMemory %zu\n", engine->getDeviceMemorySize());
 	LogInfo(LOG_TRT "   -- bindings     %i\n", engine->getNbBindings());
@@ -1177,7 +1269,11 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 		LogInfo("                -- # dims  %i\n", bind_dims.nbDims);
 		
 		for( int i=0; i < bind_dims.nbDims; i++ )
+		#if NV_TENSORRT_MAJOR >= 8
+			LogInfo("                -- dim #%i  %i\n", i, bind_dims.d[i]);	
+		#else
 			LogInfo("                -- dim #%i  %i (%s)\n", i, bind_dims.d[i], dimensionTypeToStr(bind_dims.type[i]));	
+		#endif
 	}
 
 	LogInfo(LOG_TRT "\n");

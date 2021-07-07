@@ -8,6 +8,12 @@
 
 #include "NvInferPlugin.h"
 
+#if NV_TENSORRT_MAJOR >= 8
+#define NOEXCEPT noexcept
+#else
+#define NOEXCEPT
+#endif
+
 #if NV_TENSORRT_MAJOR >= 5
 
 // Macro for calling GPU functions
@@ -62,13 +68,13 @@ public:
         assert(d == a + length);
     }
 
-    int getNbOutputs() const override
+    int getNbOutputs() const NOEXCEPT override
     {
         // We always return one output
         return 1;
     }
 
-    Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) override
+    Dims getOutputDimensions(int index, const Dims* inputs, int nbInputDims) NOEXCEPT override
     {
         // At least one input
         assert(nbInputDims >= 1);
@@ -88,10 +94,14 @@ public:
             flattenedOutputSize += inputVolume;
         }
 
-        return DimsCHW(flattenedOutputSize, 1, 1);
+    #if NV_TENSORRT_MAJOR >= 8
+        return Dims3(flattenedOutputSize, 1, 1);
+    #else
+	   return DimsCHW(flattenedOutputSize, 1, 1); 
+    #endif
     }
 
-    int initialize() override
+    int initialize() NOEXCEPT override
     {
         // Called on engine initialization, we initialize cuBLAS library here,
         // since we'll be using it for inference
@@ -99,20 +109,24 @@ public:
         return 0;
     }
 
-    void terminate() override
+    void terminate() NOEXCEPT override
     {
         // Called on engine destruction, we destroy cuBLAS data structures,
         // which were created in initialize()
         CHECK(cublasDestroy(mCublas));
     }
 
-    size_t getWorkspaceSize(int maxBatchSize) const override
+    size_t getWorkspaceSize(int maxBatchSize) const NOEXCEPT override
     {
         // The operation is done in place, it doesn't use GPU memory
         return 0;
     }
 
+#if NV_TENSORRT_MAJOR >= 8
+    int enqueue(int batchSize, void const* const* inputs, void* const* outputs, void*, cudaStream_t stream) NOEXCEPT override
+#else
     int enqueue(int batchSize, const void* const* inputs, void** outputs, void*, cudaStream_t stream) override
+#endif
     {
         // Does the actual concat of inputs, which is just
         // copying all inputs bytes to output byte array
@@ -134,7 +148,7 @@ public:
         return 0;
     }
 
-    size_t getSerializationSize() const override
+    size_t getSerializationSize() const NOEXCEPT override
     {
         // Returns FlattenConcat plugin serialization size
         size_t size = sizeof(mFlattenedInputSize[0]) * mFlattenedInputSize.size()
@@ -143,7 +157,7 @@ public:
         return size;
     }
 
-    void serialize(void* buffer) const override
+    void serialize(void* buffer) const NOEXCEPT override
     {
         // Serializes FlattenConcat plugin into byte array
 
@@ -167,7 +181,7 @@ public:
         assert(d == a + getSerializationSize());
     }
 
-    void configureWithFormat(const Dims* inputs, int nbInputs, const Dims* outputDims, int nbOutputs, nvinfer1::DataType type, nvinfer1::PluginFormat format, int maxBatchSize) override
+    void configureWithFormat(const Dims* inputs, int nbInputs, const Dims* outputDims, int nbOutputs, nvinfer1::DataType type, nvinfer1::PluginFormat format, int maxBatchSize) NOEXCEPT override
     {
         // We only support one output
         assert(nbOutputs == 1);
@@ -197,28 +211,32 @@ public:
         }
     }
 
-    bool supportsFormat(DataType type, PluginFormat format) const override
+    bool supportsFormat(DataType type, PluginFormat format) const NOEXCEPT override
     {
-        return (type == DataType::kFLOAT && format == PluginFormat::kNCHW);
+    #if NV_TENSORRT_MAJOR >= 8
+        return (type == DataType::kFLOAT && format == PluginFormat::kLINEAR);
+    #else
+	   return (type == DataType::kFLOAT && format == PluginFormat::kNCHW); 
+    #endif
     }
 
-    const char* getPluginType() const override { return FLATTENCONCAT_PLUGIN_NAME; }
+    const char* getPluginType() const NOEXCEPT override { return FLATTENCONCAT_PLUGIN_NAME; }
 
-    const char* getPluginVersion() const override { return FLATTENCONCAT_PLUGIN_VERSION; }
+    const char* getPluginVersion() const NOEXCEPT override { return FLATTENCONCAT_PLUGIN_VERSION; }
 
-    void destroy() override {}
+    void destroy() NOEXCEPT override {}
 
-    IPluginV2* clone() const override
+    IPluginV2* clone() const NOEXCEPT override
     {
         return new FlattenConcat(mFlattenedInputSize.data(), mFlattenedInputSize.size(), mFlattenedOutputSize);
     }
 
-    void setPluginNamespace(const char* pluginNamespace) override
+    void setPluginNamespace(const char* pluginNamespace) NOEXCEPT override
     {
         mPluginNamespace = pluginNamespace;
     }
 
-    const char* getPluginNamespace() const override
+    const char* getPluginNamespace() const NOEXCEPT override
     {
         return mPluginNamespace.c_str();
     }
@@ -264,29 +282,29 @@ public:
 
     ~FlattenConcatPluginCreator() {}
 
-    const char* getPluginName() const override { /*printf("FlattenConcatPluginCreator::GetPluginName('%s')\n", FLATTENCONCAT_PLUGIN_NAME);*/ return FLATTENCONCAT_PLUGIN_NAME; }
+    const char* getPluginName() const NOEXCEPT override { /*printf("FlattenConcatPluginCreator::GetPluginName('%s')\n", FLATTENCONCAT_PLUGIN_NAME);*/ return FLATTENCONCAT_PLUGIN_NAME; }
 
-    const char* getPluginVersion() const override { return FLATTENCONCAT_PLUGIN_VERSION; }
+    const char* getPluginVersion() const NOEXCEPT override { return FLATTENCONCAT_PLUGIN_VERSION; }
 
-    const PluginFieldCollection* getFieldNames() override { return &mFC; }
+    const PluginFieldCollection* getFieldNames() NOEXCEPT override { return &mFC; }
 
-    IPluginV2* createPlugin(const char* name, const PluginFieldCollection* fc) override
+    IPluginV2* createPlugin(const char* name, const PluginFieldCollection* fc) NOEXCEPT override
     {
         return new FlattenConcat();
     }
 
-    IPluginV2* deserializePlugin(const char* name, const void* serialData, size_t serialLength) override
+    IPluginV2* deserializePlugin(const char* name, const void* serialData, size_t serialLength) NOEXCEPT override
     {
 
         return new FlattenConcat(serialData, serialLength);
     }
 
-    void setPluginNamespace(const char* pluginNamespace) override
+    void setPluginNamespace(const char* pluginNamespace) NOEXCEPT override
     {
         mPluginNamespace = pluginNamespace;
     }
 
-    const char* getPluginNamespace() const override
+    const char* getPluginNamespace() const NOEXCEPT override
     {
         return mPluginNamespace.c_str();
     }

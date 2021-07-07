@@ -76,7 +76,7 @@ randInt8Calibrator::~randInt8Calibrator()
 
 
 // getBatch()
-bool randInt8Calibrator::getBatch( void* bindings[], const char* names[], int nbBindings )
+bool randInt8Calibrator::getBatch( void* bindings[], const char* names[], int nbBindings ) NOEXCEPT
 {
 	if( mCurrentSample >= mTotalSamples )
 		return false;
@@ -90,7 +90,7 @@ bool randInt8Calibrator::getBatch( void* bindings[], const char* names[], int nb
 
 
 // readCalibrationCache()
-const void* randInt8Calibrator::readCalibrationCache( size_t& length )
+const void* randInt8Calibrator::readCalibrationCache( size_t& length ) NOEXCEPT
 {
 	mCalibrationCache.clear();
 	std::ifstream input(mCacheFile, std::ios::binary);
@@ -105,7 +105,7 @@ const void* randInt8Calibrator::readCalibrationCache( size_t& length )
 
 
 // writeCalibrationCache()
-void randInt8Calibrator::writeCalibrationCache( const void*, size_t )
+void randInt8Calibrator::writeCalibrationCache( const void*, size_t ) NOEXCEPT
 {
 
 }
