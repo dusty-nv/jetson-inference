@@ -45,8 +45,22 @@ rm -rf python/training/detection/ssd/data/*
 rm -rf python/training/detection/ssd/models/*
 
 
+# opencv.csv mounts files that preclude us installing different version of opencv
+# temporarily disable the opencv.csv mounts while we build the container
+CV_CSV="/etc/nvidia-container-runtime/host-files-for-container.d/opencv.csv"
+
+if [ -f "$CV_CSV" ]; then
+	sudo mv $CV_CSV $CV_CSV.backup
+fi
+	
+	
 # build the container
 sudo docker build -t jetson-inference:r$L4T_VERSION -f Dockerfile \
           --build-arg BASE_IMAGE=$BASE_IMAGE \
 		.
 
+
+# restore opencv.csv mounts
+if [ -f "$CV_CSV.backup" ]; then
+	sudo mv $CV_CSV.backup $CV_CSV
+fi
