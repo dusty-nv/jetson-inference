@@ -708,7 +708,7 @@ int detectNet::Detect( void* input, uint32_t width, uint32_t height, imageFormat
 		LogError(LOG_TRT "                          * rgb32f\n");		
 		LogError(LOG_TRT "                          * rgba32f\n");
 
-		return false;
+		return -1;
 	}
 
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
@@ -734,7 +734,7 @@ int detectNet::Detect( void* input, uint32_t width, uint32_t height, imageFormat
 									   GetStream())) )
 		{
 			LogError(LOG_TRT "detectNet::Detect() -- cudaTensorNormMeanRGB() failed\n");
-			return false;
+			return -1;
 		}
 	}
 	else
