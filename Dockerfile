@@ -35,14 +35,14 @@ ENV SHELL /bin/bash
 
 WORKDIR jetson-inference
 
-
+        
 #
-# install pre-requisite packages
+# install development packages
 #
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
             cmake \
-            python3-opencv \
+		  nano \
     && rm -rf /var/lib/apt/lists/*
     
 # pip dependencies for pytorch-ssd
@@ -53,6 +53,26 @@ RUN pip3 install --verbose --upgrade Cython && \
 RUN rm /usr/bin/python && \
     ln -s /usr/bin/python3 /usr/bin/python && \
     ln -s /usr/bin/pip3 /usr/bin/pip
+    
+    
+# 
+# install OpenCV (with CUDA)
+#
+ARG OPENCV_URL=https://nvidia.box.com/shared/static/5v89u6g5rb62fpz4lh0rz531ajo2t5ef.gz
+ARG OPENCV_DEB=OpenCV-4.5.0-aarch64.tar.gz
+
+RUN mkdir opencv && \
+    cd opencv && \
+    wget --quiet --show-progress --progress=bar:force:noscroll --no-check-certificate ${OPENCV_URL} -O ${OPENCV_DEB} && \
+    tar -xzvf ${OPENCV_DEB} && \
+    dpkg -i --force-depends *.deb && \
+    apt-get update && \
+    apt-get install -y -f --no-install-recommends && \
+    dpkg -i *.deb && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get clean && \
+    cd ../ && \
+    rm -rf opencv
     
     
 #
