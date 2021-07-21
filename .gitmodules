@@ -18,3 +18,6 @@
 	path = python/training/segmentation
 	url = https://github.com/dusty-nv/pytorch-segmentation
 	branch = master
+[submodule "plugins/pose"]
+	path = plugins/pose
+	url = https://github.com/dusty-nv/trt_pose

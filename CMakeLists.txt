@@ -124,11 +124,11 @@ if(BUILD_EXPERIMENTAL)
 	list(APPEND inferenceIncludes ${experimentalIncludes})
 else()
 	message("-- BUILD_EXPERIMENTAL disabled")
-	file(GLOB pluginSources plugins/*.cpp plugins/*.cu)
+	file(GLOB pluginSources plugins/*.cpp plugins/*.cu plugins/pose/trt_pose/parse/*.cpp)
 endif()
 	
 cuda_add_library(jetson-inference SHARED ${inferenceSources} ${pluginSources})
-
+target_include_directories(jetson-inference PRIVATE ${PROJECT_SOURCE_DIR}/plugins/pose/trt_pose/parse)
 
 # transfer all headers to the include directory
 file(MAKE_DIRECTORY ${PROJECT_INCLUDE_DIR}/jetson-inference)
