@@ -34,8 +34,8 @@ __global__ void gpuDetectionOverlay( T* input, T* output, int width, int height,
 	if( x >= width || y >= height )
 		return;
 
-	const T px_in = input[ y * width + x ];
-	T px_out = px_in;
+	const int px_idx = y * width + x;
+	T px = input[px_idx];
 	
 	const float fx = x;
 	const float fy = y;
@@ -52,13 +52,13 @@ __global__ void gpuDetectionOverlay( T* input, T* output, int width, int height,
 			const float alpha = color.w / 255.0f;
 			const float ialph = 1.0f - alpha;
 
-			px_out.x = alpha * color.x + ialph * px_out.x;
-			px_out.y = alpha * color.y + ialph * px_out.y;
-			px_out.z = alpha * color.z + ialph * px_out.z;
+			px.x = alpha * color.x + ialph * px.x;
+			px.y = alpha * color.y + ialph * px.y;
+			px.z = alpha * color.z + ialph * px.z;
 		}
 	}
 	
-	output[y * width + x] = px_out;	 
+	output[px_idx] = px;	 
 }
 
 
