@@ -27,6 +27,8 @@
 
 #include <signal.h>
 
+#include "cudaDraw.h"
+
 
 bool signal_recieved = false;
 
@@ -133,6 +135,17 @@ int main( int argc, char** argv )
 			continue;
 		}
 
+		CUDA(cudaDrawCircle(image, image, input->GetWidth(), input->GetHeight(),
+						input->GetWidth()/2, input->GetHeight()/2,
+						55, make_float4(50, 255, 127, 180)));
+					
+		CUDA(cudaDrawLine(image, image, input->GetWidth(), input->GetHeight(),
+					   input->GetWidth() * 0.1, input->GetHeight() * 0.1,
+					   input->GetWidth() * 0.8, input->GetHeight() * 0.8,
+					   make_float4(200, 55, 200, 200), 1.0f));
+					   
+		CUDA(cudaDeviceSynchronize());
+		
 		// render outputs
 		if( output != NULL )
 		{
