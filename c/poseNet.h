@@ -49,7 +49,7 @@
  * Default value of the minimum confidence threshold
  * @ingroup poseNet
  */
-#define POSENET_DEFAULT_THRESHOLD 0.1f
+#define POSENET_DEFAULT_THRESHOLD 0.15f
 
 /**
  * Default alpha blending value used during overlay
@@ -217,12 +217,15 @@ public:
 	
 protected:
 
-	// pose topology structure
+	static const int CMAP_WINDOW_SIZE=5;
+	static const int PAF_INTEGRAL_SAMPLES=7;
+	static const int MAX_LINKS=100;
+	static const int MAX_OBJECTS=100;
+	
 	struct Topology
 	{
 		std::string category;
 		std::vector<std::string> keypoints;
-		static const int MAX_LINKS=128;
 		int links[MAX_LINKS * 4];
 		int numLinks;
 	};
@@ -234,10 +237,25 @@ protected:
 			 const char* input, const char* cmap, const char* paf, uint32_t maxBatchSize, 
 			 precisionType precision, deviceType device, bool allowGPUFallback );
 
+	bool postProcess();
+	
 	static bool loadTopology( const char* json_path, Topology* topology );
 	
-	float mThreshold;
 	Topology mTopology;
+	float mThreshold;
+	
+	// post-processing buffers
+	int* mPeaks;
+	int* mPeakCounts;
+	int* mConnections;
+	int* mObjects;
+	int  mNumObjects;
+	
+	float* mRefinedPeaks;
+	float* mScoreGraph;
+	
+	void* mAssignmentWorkspace;
+	void* mConnectionWorkspace;
 };
 
 
