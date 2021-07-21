@@ -35,6 +35,12 @@
  */
 
 /**
+ * @defgroup poseNet poseNet
+ * Pose estimation DNN
+ * @ingroup deepVision
+ */
+ 
+/**
  * @defgroup segNet segNet
  * Semantic segmentation DNN (FCN or Fully-Convolutional Networks)
  * @ingroup deepVision
@@ -115,6 +121,12 @@
  * @ingroup cuda
  */
 
+/**
+ * @defgroup drawing Drawing
+ * Drawing basic 2D shapes using CUDA.
+ * @ingroup cuda
+ */
+ 
 /**
  * @defgroup normalization Normalization
  * Normalize the pixel intensities of an image between two ranges.
