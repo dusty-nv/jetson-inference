@@ -1142,20 +1142,23 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 uint32_t detectNet::OverlayFlagsFromStr( const char* str_user )
 {
 	if( !str_user )
-		return OVERLAY_BOX;
+		return OVERLAY_DEFAULT;
 
 	// copy the input string into a temporary array,
 	// because strok modifies the string
 	const size_t str_length = strlen(str_user);
-
+	const size_t max_length = 256;
+	
 	if( str_length == 0 )
-		return OVERLAY_BOX;
+		return OVERLAY_DEFAULT;
 
-	char* str = (char*)malloc(str_length + 1);
-
-	if( !str )
-		return OVERLAY_BOX;
-
+	if( str_length >= max_length )
+	{
+		LogError(LOG_TRT "detectNet::OverlayFlagsFromStr() overlay string exceeded max length of %zu characters ('%s')", max_length, str_user);
+		return OVERLAY_DEFAULT;
+	}
+	
+	char str[max_length];
 	strcpy(str, str_user);
 
 	// tokenize string by delimiters ',' and '|'
@@ -1163,29 +1166,25 @@ uint32_t detectNet::OverlayFlagsFromStr( const char* str_user )
 	char* token = strtok(str, delimiters);
 
 	if( !token )
-	{
-		free(str);
-		return OVERLAY_BOX;
-	}
+		return OVERLAY_DEFAULT;
 
-	// look for the tokens:  "box", "label", and "none"
+	// look for the tokens:  "box", "label", "default", and "none"
 	uint32_t flags = OVERLAY_NONE;
 
 	while( token != NULL )
 	{
-		//printf("%s\n", token);
-
 		if( strcasecmp(token, "box") == 0 )
 			flags |= OVERLAY_BOX;
 		else if( strcasecmp(token, "label") == 0 || strcasecmp(token, "labels") == 0 )
 			flags |= OVERLAY_LABEL;
 		else if( strcasecmp(token, "conf") == 0 || strcasecmp(token, "confidence") == 0 )
 			flags |= OVERLAY_CONFIDENCE;
+		else if( strcasecmp(token, "default") == 0 )
+			flags |= OVERLAY_DEFAULT;
 
 		token = strtok(NULL, delimiters);
 	}	
 
-	free(str);
 	return flags;
 }
 
