@@ -182,7 +182,7 @@ public:
 	
 	/**
 	 * Perform pose estimation on the given image, and overlay the results.
-	 * @param[in]  input input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  image input image in CUDA device memory (uchar3/uchar4/float3/float4)
 	 * @param[in]  width width of the input image in pixels.
 	 * @param[in]  height height of the input image in pixels.
 	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
@@ -192,14 +192,24 @@ public:
 
 	/**
 	 * Perform pose estimation on the given image, and overlay the results.
-	 * @param[in]  input input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  image input image in CUDA device memory (uchar3/uchar4/float3/float4)
 	 * @param[in]  width width of the input image in pixels.
 	 * @param[in]  height height of the input image in pixels.
 	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
 	 * @returns    True on success, or false if an error occurred.
 	 */
-	bool Process( void* input, uint32_t width, uint32_t height, imageFormat format, uint32_t overlay=OVERLAY_DEFAULT );
+	bool Process( void* image, uint32_t width, uint32_t height, imageFormat format, uint32_t overlay=OVERLAY_DEFAULT );
 
+	/**
+	 * Overlay the results on the image.
+	 */
+	template<typename T> bool Overlay( T* input, T* output, uint32_t width, uint32_t height, uint32_t overlay=OVERLAY_DEFAULT )		{ return Overlay((void*)input, (void*)output, width, height, imageFormatFromType<T>(), overlay); }
+	
+	/**
+	 * Overlay the results on the image.
+	 */
+	bool Overlay( void* input, void* output, uint32_t width, uint32_t height, imageFormat format, uint32_t overlay=OVERLAY_DEFAULT );
+	
 	/**
 	 * Retrieve the minimum confidence threshold.
 	 */

@@ -22,6 +22,7 @@
  
 #include "poseNet.h"
 #include "tensorConvert.h"
+#include "cudaDraw.h"
 
 #include "commandLine.h"
 #include "filesystem.h"
@@ -404,13 +405,15 @@ bool poseNet::Process( void* input, uint32_t width, uint32_t height, imageFormat
 		return false;
 	
 	PROFILER_END(PROFILER_POSTPROCESS);
-
-	// TODO overlay
+	PROFILER_BEGIN(PROFILER_VISUALIZE);
+	
+	if( !Overlay(input, input, width, height, format, overlay) )
+		return false;
 	
 	// wait for GPU to complete work			
 	//CUDA(cudaDeviceSynchronize());
 
-	// return the number of detections
+	PROFILER_END(PROFILER_VISUALIZE);
 	return true;
 }
 
@@ -463,6 +466,19 @@ bool poseNet::postProcess()
 		N, K, C, M, MAX_OBJECTS, mConnectionWorkspace);
 	
 	LogVerbose("%i objects\n", mNumObjects);
+	
+	return true;
+}
+
+
+// Overlay
+bool poseNet::Overlay( void* input, void* output, uint32_t width, uint32_t height, imageFormat format, uint32_t overlay )
+{
+	if( !input || !output || width == 0 || height == 0 )
+		return false;
+	
+	if( overlay == OVERLAY_NONE )
+		return true;
 	
 	return true;
 }
