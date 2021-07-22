@@ -39,6 +39,9 @@
 
 #define CHECK_NULL_STR(x)	(x != NULL) ? x : "NULL"
 
+#define MIN(a,b)  (a < b ? a : b)
+#define MAX(a,b)  (a > b ? a : b)
+		
 #define CMAP 0	 // cmap is output layer 0
 #define PAF  1	 // paf is output layer 1
 
@@ -313,7 +316,7 @@ bool poseNet::loadTopology( const char* json_path, Topology* topology )
 	}
 	catch (...)
 	{
-		LogError(LOG_TRT "poseNet -- failed to load topology json from '%s'", json_path);
+		LogError(LOG_TRT "poseNet -- failed to load topology json from '%s'\n", json_path);
 		return false;
 	}
 		
@@ -336,7 +339,7 @@ bool poseNet::loadTopology( const char* json_path, Topology* topology )
 	{
 		if( skeleton[n].size() != 2 )
 		{
-			LogError(LOG_TRT "invalid skeleton link from topology '%s' (link %zu had %zu entries, expected 2)", json_path, n, skeleton[n].size());
+			LogError(LOG_TRT "invalid skeleton link from topology '%s' (link %zu had %zu entries, expected 2)\n", json_path, n, skeleton[n].size());
 			return false;
 		}
 		
@@ -355,7 +358,7 @@ bool poseNet::loadTopology( const char* json_path, Topology* topology )
 
 
 // Process
-bool poseNet::Process( void* input, uint32_t width, uint32_t height, imageFormat format, uint32_t overlay )
+bool poseNet::Process( void* input, uint32_t width, uint32_t height, imageFormat format, std::vector<ObjectPose>& poses, uint32_t overlay )
 {
 	if( !input || width == 0 || height == 0 )
 	{
@@ -401,13 +404,13 @@ bool poseNet::Process( void* input, uint32_t width, uint32_t height, imageFormat
 	PROFILER_END(PROFILER_NETWORK);
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
-	if( !postProcess() )
+	if( !postProcess(poses, width, height) )
 		return false;
 	
 	PROFILER_END(PROFILER_POSTPROCESS);
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 	
-	if( !Overlay(input, input, width, height, format, overlay) )
+	if( !Overlay(input, input, width, height, format, poses, overlay) )
 		return false;
 	
 	// wait for GPU to complete work			
@@ -418,8 +421,16 @@ bool poseNet::Process( void* input, uint32_t width, uint32_t height, imageFormat
 }
 
 
+// Process
+bool poseNet::Process( void* input, uint32_t width, uint32_t height, imageFormat format, uint32_t overlay )
+{
+	std::vector<ObjectPose> poses;
+	return Process(input, width, height, format, poses, overlay);
+}
+
+
 // postProcess
-bool poseNet::postProcess()
+bool poseNet::postProcess(std::vector<ObjectPose>& poses, uint32_t width, uint32_t height)
 {
 	float* cmap = mOutputs[0].CPU;
 	float* paf = mOutputs[1].CPU;
@@ -432,8 +443,8 @@ bool poseNet::postProcess()
 	const int M = MAX_LINKS;
 	const int N = 1;  // batch size = 1
 	
-	LogVerbose("cmap C=%i H=%i W=%i\n", C, H, W);
-	LogVerbose("paf  C=%i H=%i W=%i\n", DIMS_C(mOutputs[1].dims), DIMS_H(mOutputs[1].dims), DIMS_W(mOutputs[1].dims));
+	//LogVerbose("cmap C=%i H=%i W=%i\n", C, H, W);
+	//LogVerbose("paf  C=%i H=%i W=%i\n", DIMS_C(mOutputs[1].dims), DIMS_H(mOutputs[1].dims), DIMS_W(mOutputs[1].dims));
 	
 	// find peaks
 	trt_pose::parse::find_peaks_out_nchw(
@@ -464,21 +475,231 @@ bool poseNet::postProcess()
 	trt_pose::parse::connect_parts_out_batch(
 		&mNumObjects, mObjects, mConnections, mTopology.links, mPeakCounts,
 		N, K, C, M, MAX_OBJECTS, mConnectionWorkspace);
-	
-	LogVerbose("%i objects\n", mNumObjects);
+		
+	// collate results
+	for( int i=0; i < mNumObjects; i++ )
+	{
+		ObjectPose obj_pose;
+		
+		obj_pose.ID     = i;
+		obj_pose.Left   = 9999999;
+		obj_pose.Top    = 9999999;
+		obj_pose.Right  = 0;
+		obj_pose.Bottom = 0;
+		
+		// add valid keypoints
+		for( int j=0; j < C; j++ )
+		{
+			const int k = mObjects[i * C + j];
+
+			if( k >= 0 )
+			{
+				const int peak_idx = j * M * 2 + k * 2;
+				
+				ObjectPose::Keypoint keypoint;
+				
+				keypoint.ID = j;
+				keypoint.x  = mRefinedPeaks[peak_idx + 1] * width;
+				keypoint.y  = mRefinedPeaks[peak_idx + 0] * height;
+				
+				printf("adding keypoint %zu  ID=%u  x=%f  y=%f\n", obj_pose.Keypoints.size(), keypoint.ID, keypoint.x, keypoint.y);
+				
+				obj_pose.Keypoints.push_back(keypoint);
+			}
+		}
+			
+		// add valid links
+		for( int k=0; k < K; k++ )
+		{
+			const int c_a = mTopology.links[k * 4 + 2];
+			const int c_b = mTopology.links[k * 4 + 3];
+			
+			const int obj_a = mObjects[i * C + c_a];
+			const int obj_b = mObjects[i * C + c_b];
+			
+			if( obj_a >= 0 && obj_b >= 0 )
+			{
+				const int a = obj_pose.FindKeypoint(obj_a);
+				const int b = obj_pose.FindKeypoint(obj_b);
+				
+				printf("keypoint a (%i -> %i)  b (%i -> %i)\n", obj_a, a, obj_b, b);
+				
+				if( a < 0 || b < 0 )
+				{
+					LogError(LOG_TRT "poseNet::postProcess() -- missing keypoint in output object pose, skipping...\n");
+					continue;
+				}
+				
+				obj_pose.Links.push_back({(uint32_t)a, (uint32_t)b});
+			}
+		}
+		
+		// get bounding box
+		const uint32_t numKeypoints = obj_pose.Keypoints.size();
+		
+		if( numKeypoints == 0 )
+			continue;
+		
+		for( uint32_t n=0; n < numKeypoints; n++ )
+		{
+			obj_pose.Left   = MIN(obj_pose.Keypoints[n].x, obj_pose.Left);
+			obj_pose.Top    = MIN(obj_pose.Keypoints[n].y, obj_pose.Top);
+			obj_pose.Right  = MAX(obj_pose.Keypoints[n].x, obj_pose.Right);
+			obj_pose.Bottom = MAX(obj_pose.Keypoints[n].y, obj_pose.Bottom);
+		}
+		
+		poses.push_back(obj_pose);
+	}
 	
 	return true;
 }
 
 
 // Overlay
-bool poseNet::Overlay( void* input, void* output, uint32_t width, uint32_t height, imageFormat format, uint32_t overlay )
+bool poseNet::Overlay( void* input, void* output, uint32_t width, uint32_t height, imageFormat format, const std::vector<ObjectPose>& poses, uint32_t overlay )
 {
 	if( !input || !output || width == 0 || height == 0 )
 		return false;
 	
 	if( overlay == OVERLAY_NONE )
 		return true;
+
+#if 1
+	const uint32_t numObjects = poses.size();
+	
+	for( uint32_t o=0; o < numObjects; o++ )
+	{
+		if( overlay & OVERLAY_LINKS )
+		{
+			const uint32_t numLinks = poses[o].Links.size();
+			
+			for( uint32_t l=0; l < numLinks; l++ )
+			{
+				const uint32_t a = poses[o].Links[l][0];
+				const uint32_t b = poses[o].Links[l][1];
+				
+				printf("draw line %u -> %u\n", a, b);
+				
+				CUDA(cudaDrawLine(input, output, width, height, format, 
+							   poses[o].Keypoints[a].x, poses[o].Keypoints[a].y, 
+							   poses[o].Keypoints[b].x, poses[o].Keypoints[b].y,
+							   make_float4(0,255,0,200), 2.5));
+			}
+		}
+		
+		if( overlay & OVERLAY_KEYPOINTS )
+		{
+			const uint32_t numKeypoints = poses[o].Keypoints.size();
+			
+			for( uint32_t k=0; k < numKeypoints; k++ )
+			{
+				CUDA(cudaDrawCircle(input, output, width, height, format, 
+								poses[o].Keypoints[k].x, poses[o].Keypoints[k].y, 
+								10, make_float4(0,255,0,200)));
+			}
+		}
+	}
+	
+#else
+	const int C = DIMS_C(mOutputs[0].dims);
+	const int K = mTopology.numLinks;
+	const int M = MAX_LINKS;
+	
+	for( int i=0; i < mNumObjects; i++ )
+	{
+		if( overlay & OVERLAY_LINKS )
+		{
+			for( int k=0; k < K; k++ )
+			{
+				const int c_a = mTopology.links[k * 4 + 2];
+				const int c_b = mTopology.links[k * 4 + 3];
+				
+				const int obj_a = mObjects[i * C + c_a];
+				const int obj_b = mObjects[i * C + c_b];
+				
+				if( obj_a >= 0 && obj_b >= 0 )
+				{
+					const int peak_ab = c_a * M * 2 + obj_a * 2;
+					const int peak_ba = c_b * M * 2 + obj_b * 2;
+					
+					const float x0 = mRefinedPeaks[peak_ab + 1] * width;
+					const float y0 = mRefinedPeaks[peak_ab + 0] * height;
+					const float x1 = mRefinedPeaks[peak_ba + 1] * width;
+					const float y1 = mRefinedPeaks[peak_ba + 0] * height;
+					
+					CUDA(cudaDrawLine(input, output, width, height, format, x0, y0, x1, y1, make_float4(0,255,0,200), 2.5));
+				}
+			}
+		}
+		
+		if( overlay & OVERLAY_KEYPOINTS )
+		{
+			for( int j=0; j < C; j++ )
+			{
+				const int k = mObjects[i * C + j];
+
+				if( k >= 0 )
+				{
+					const int peak_idx = j * M * 2 + k * 2;
+					
+					const float x = mRefinedPeaks[peak_idx + 1] * width;
+					const float y = mRefinedPeaks[peak_idx + 0] * height;
+					
+					CUDA(cudaDrawCircle(input, output, width, height, format, x, y, 10, make_float4(0,255,0,200)));
+				}
+			}
+		}
+	}
+#endif	
 	
 	return true;
+}
+
+
+// OverlayFlagsFromStr
+uint32_t poseNet::OverlayFlagsFromStr( const char* str_user )
+{
+	if( !str_user )
+		return OVERLAY_DEFAULT;
+
+	// copy the input string into a temporary array,
+	// because strok modifies the string
+	const size_t str_length = strlen(str_user);
+	const size_t max_length = 256;
+	
+	if( str_length == 0 )
+		return OVERLAY_DEFAULT;
+
+	if( str_length >= max_length )
+	{
+		LogError(LOG_TRT "poseNet::OverlayFlagsFromStr() overlay string exceeded max length of %zu characters ('%s')", max_length, str_user);
+		return OVERLAY_DEFAULT;
+	}
+	
+	char str[max_length];
+	strcpy(str, str_user);
+
+	// tokenize string by delimiters ',' and '|'
+	const char* delimiters = ",|";
+	char* token = strtok(str, delimiters);
+
+	if( !token )
+		return OVERLAY_DEFAULT;
+
+	// look for the tokens:  "keypoints", "links", "default", and "none"
+	uint32_t flags = OVERLAY_NONE;
+
+	while( token != NULL )
+	{
+		if( strcasecmp(token, "keypoints") == 0 || strcasecmp(token, "keypoint") == 0 )
+			flags |= OVERLAY_KEYPOINTS;
+		else if( strcasecmp(token, "links") == 0 || strcasecmp(token, "link") == 0 )
+			flags |= OVERLAY_LINKS;
+		else if( strcasecmp(token, "default") == 0 )
+			flags |= OVERLAY_DEFAULT;
+		
+		token = strtok(NULL, delimiters);
+	}	
+
+	return flags;
 }

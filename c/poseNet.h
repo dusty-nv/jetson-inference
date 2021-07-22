@@ -25,6 +25,7 @@
 
 
 #include "tensorNet.h"
+#include <array>
 
 
 /**
@@ -95,6 +96,39 @@
 class poseNet : public tensorNet
 {
 public:	
+	/**
+	 * The pose of an object, composed of links between keypoints.
+	 * Each image can have multiple objects detected per frame.
+	 */
+	struct ObjectPose
+	{		
+		uint32_t ID;	/**< Object ID in the image frame, starting with 0 */
+		
+		float Left;	/**< Bounding box left, as determined by the left-most keypoint in the pose */
+		float Right;	/**< Bounding box right, as determined by the right-most keypoint in the pose */
+		float Top;	/**< Bounding box top, as determined by the top-most keypoint in the pose */
+		float Bottom;	/**< Bounding box bottom, as determined by the bottom-most keypoint in the pose */
+		
+		/**
+		 * A keypoint or joint in the topology. A link is formed between two keypoints.
+		 */
+		struct Keypoint
+		{
+			uint32_t ID;	/**< ID of the keypoint - the name can be retrieved with poseNet::GetKeypointName() */
+			float x;		/**< The x coordinate of the keypoint */
+			float y;		/**< The y coordinate of the keypoint */
+		};
+		
+		std::vector<Keypoint> Keypoints;			/**< List of keypoints in the object, which contain the keypoint ID and x/y coordinates */
+		std::vector<std::array<uint32_t, 2>> Links;	/**< List of links in the object.  Each link has two keypoint indexes into the Keypoints list */
+
+		/**< Find a keypoint index by it's ID, or return -1 if not found.  This returns an index into the Keypoints list */
+		inline int FindKeypoint(uint32_t id) const;         
+		
+		/**< Find a link index by two keypoint ID's, or return -1 if not found.  This returns an index into the Links list */
+		inline int FindLink(uint32_t a, uint32_t b) const;  
+	};
+	
 	/**
 	 * Overlay flags (can be OR'd together).
 	 */
@@ -181,6 +215,28 @@ public:
 	virtual ~poseNet();
 	
 	/**
+	 * Perform pose estimation on the given image, returning object poses, and overlay the results.
+	 * @param[in]  image input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] poses array of ObjectPose structs that will be filled for each detected object.
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
+	 * @returns    True on success, or false if an error occurred.
+	 */
+	template<typename T> bool Process( T* image, uint32_t width, uint32_t height, std::vector<ObjectPose>& poses, uint32_t overlay=OVERLAY_DEFAULT )					{ return Process((void*)image, width, height, imageFormatFromType<T>(), poses, overlay); }
+
+	/**
+	 * Perform pose estimation on the given image, and overlay the results.
+	 * @param[in]  image input image in CUDA device memory (uchar3/uchar4/float3/float4)
+	 * @param[in]  width width of the input image in pixels.
+	 * @param[in]  height height of the input image in pixels.
+	 * @param[out] poses array of ObjectPose structs that will be filled for each detected object.
+	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
+	 * @returns    True on success, or false if an error occurred.
+	 */
+	bool Process( void* image, uint32_t width, uint32_t height, imageFormat format, std::vector<ObjectPose>& poses, uint32_t overlay=OVERLAY_DEFAULT );
+	
+	/**
 	 * Perform pose estimation on the given image, and overlay the results.
 	 * @param[in]  image input image in CUDA device memory (uchar3/uchar4/float3/float4)
 	 * @param[in]  width width of the input image in pixels.
@@ -188,7 +244,7 @@ public:
 	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
 	 * @returns    True on success, or false if an error occurred.
 	 */
-	template<typename T> bool Process( T* image, uint32_t width, uint32_t height, uint32_t overlay=OVERLAY_DEFAULT )				{ return Process((void*)image, width, height, imageFormatFromType<T>(), overlay); }
+	template<typename T> bool Process( T* image, uint32_t width, uint32_t height, uint32_t overlay=OVERLAY_DEFAULT )											{ return Process((void*)image, width, height, imageFormatFromType<T>(), overlay); }
 
 	/**
 	 * Perform pose estimation on the given image, and overlay the results.
@@ -203,12 +259,12 @@ public:
 	/**
 	 * Overlay the results on the image.
 	 */
-	template<typename T> bool Overlay( T* input, T* output, uint32_t width, uint32_t height, uint32_t overlay=OVERLAY_DEFAULT )		{ return Overlay((void*)input, (void*)output, width, height, imageFormatFromType<T>(), overlay); }
+	template<typename T> bool Overlay( T* input, T* output, uint32_t width, uint32_t height, const std::vector<ObjectPose>& poses, uint32_t overlay=OVERLAY_DEFAULT )		{ return Overlay((void*)input, (void*)output, width, height, imageFormatFromType<T>(), overlay); }
 	
 	/**
 	 * Overlay the results on the image.
 	 */
-	bool Overlay( void* input, void* output, uint32_t width, uint32_t height, imageFormat format, uint32_t overlay=OVERLAY_DEFAULT );
+	bool Overlay( void* input, void* output, uint32_t width, uint32_t height, imageFormat format, const std::vector<ObjectPose>& poses, uint32_t overlay=OVERLAY_DEFAULT );
 	
 	/**
 	 * Retrieve the minimum confidence threshold.
@@ -219,6 +275,26 @@ public:
 	 * Set the minimum confidence threshold.
 	 */
 	inline void SetThreshold( float threshold ) 					{ mThreshold = threshold; }
+
+	/**
+	 * Get the category of objects that are detected (e.g. 'person', 'hand')
+	 */
+	inline const char* GetCategory() const						{ return mTopology.category.c_str(); }
+	
+	/**
+	 * Get the number of keypoints in the topology.
+	 */
+	inline uint32_t GetNumKeypoints() const						{ return mTopology.keypoints.size(); }
+	
+	/**
+	 * Get the name of a keypoint in the topology by it's ID.
+	 */
+	inline const char* GetKeypointName( uint32_t id ) const		{ return mTopology.keypoints[id].c_str(); }
+	
+	/**
+	 * Find the ID of a keypoint by name, or return -1 if not found.
+	 */
+	inline int FindKeypointID( const char* name ) const;
 
 	/**
  	 * Set overlay alpha blending value for all classes (between 0-255).
@@ -247,7 +323,7 @@ protected:
 			 const char* input, const char* cmap, const char* paf, uint32_t maxBatchSize, 
 			 precisionType precision, deviceType device, bool allowGPUFallback );
 
-	bool postProcess();
+	bool postProcess(std::vector<ObjectPose>& poses, uint32_t width, uint32_t height);
 	
 	static bool loadTopology( const char* json_path, Topology* topology );
 	
@@ -267,6 +343,52 @@ protected:
 	void* mAssignmentWorkspace;
 	void* mConnectionWorkspace;
 };
+
+
+// FindKeypointID
+inline int poseNet::FindKeypointID( const char* name ) const
+{
+	if( !name )
+		return -1;
+	
+	const uint32_t numKeypoints = GetNumKeypoints();
+	
+	for( uint32_t n=0; n < numKeypoints; n++ )
+	{
+		if( strcasecmp(GetKeypointName(n), name) == 0 )
+			return n;
+	}
+	
+	return -1;
+}
+
+// FindKeypoint
+inline int poseNet::ObjectPose::FindKeypoint( uint32_t id ) const
+{
+	const uint32_t numKeypoints = Keypoints.size();
+	
+	for( uint32_t n=0; n < numKeypoints; n++ )
+	{
+		if( id == Keypoints[n].ID )
+			return n;
+	}
+	
+	return -1;
+}
+
+// FindLink
+inline int poseNet::ObjectPose::FindLink( uint32_t a, uint32_t b ) const
+{
+	const uint32_t numLinks = Links.size();
+	
+	for( uint32_t n=0; n < numLinks; n++ )
+	{
+		if( a == Keypoints[Links[n][0]].ID || b == Keypoints[Links[n][1]].ID )
+			return n;
+	}
+	
+	return -1;
+}
 
 
 #endif
