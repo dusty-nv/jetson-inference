@@ -27,8 +27,6 @@
 
 #include <signal.h>
 
-#include "cudaDraw.h"
-
 
 bool signal_recieved = false;
 
@@ -84,7 +82,7 @@ int main( int argc, char** argv )
 
 	if( !input )
 	{
-		LogError("posenet:  failed to create input stream\n");
+		LogError("posenet: failed to create input stream\n");
 		return 0;
 	}
 
@@ -95,7 +93,7 @@ int main( int argc, char** argv )
 	videoOutput* output = videoOutput::Create(cmdLine, ARG_POSITION(1));
 	
 	if( !output )
-		LogError("posenet:  failed to create output stream\n");	
+		LogError("posenet: failed to create output stream\n");	
 	
 
 	/*
@@ -105,11 +103,14 @@ int main( int argc, char** argv )
 	
 	if( !net )
 	{
-		LogError("posenet:  failed to initialize poseNet\n");
+		LogError("posenet: failed to initialize poseNet\n");
 		return 0;
 	}
 
-
+	// parse overlay flags
+	const uint32_t overlayFlags = poseNet::OverlayFlagsFromStr(cmdLine.GetString("overlay", "links,keypoints"));
+	
+	
 	/*
 	 * processing loop
 	 */
@@ -124,27 +125,20 @@ int main( int argc, char** argv )
 			if( !input->IsStreaming() )
 				break;
 
-			LogError("posenet:  failed to capture next frame\n");
+			LogError("posenet: failed to capture next frame\n");
 			continue;
 		}
 
 		// run pose estimation
-		if( !net->Process(image, input->GetWidth(), input->GetHeight()) )
+		std::vector<poseNet::ObjectPose> poses;
+		
+		if( !net->Process(image, input->GetWidth(), input->GetHeight(), poses, overlayFlags) )
 		{
-			LogError("posenet:  failed to process frame\n");
+			LogError("posenet: failed to process frame\n");
 			continue;
 		}
-
-		CUDA(cudaDrawCircle(image, image, input->GetWidth(), input->GetHeight(),
-						input->GetWidth()/2, input->GetHeight()/2,
-						55, make_float4(50, 255, 127, 180)));
-					
-		CUDA(cudaDrawLine(image, image, input->GetWidth(), input->GetHeight(),
-					   input->GetWidth() * 0.1, input->GetHeight() * 0.1,
-					   input->GetWidth() * 0.8, input->GetHeight() * 0.8,
-					   make_float4(200, 55, 200, 200), 1.0f));
-					   
-		CUDA(cudaDeviceSynchronize());
+		
+		LogInfo("posenet: detected %zu %s(s)\n", poses.size(), net->GetCategory());
 		
 		// render outputs
 		if( output != NULL )
@@ -169,13 +163,13 @@ int main( int argc, char** argv )
 	/*
 	 * destroy resources
 	 */
-	LogVerbose("posenet:  shutting down...\n");
+	LogVerbose("posenet: shutting down...\n");
 	
 	SAFE_DELETE(input);
 	SAFE_DELETE(output);
 	SAFE_DELETE(net);
 	
-	LogVerbose("posenet:  shutdown complete.\n");
+	LogVerbose("posenet: shutdown complete.\n");
 	return 0;
 }
 

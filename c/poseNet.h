@@ -134,9 +134,10 @@ public:
 	 */
 	enum OverlayFlags
 	{
-		OVERLAY_NONE      = 0,			/**< No overlay. */
-		OVERLAY_LINKS     = (1 << 0),		/**< Overlay the skeleton links (bones) as lines  */
-		OVERLAY_KEYPOINTS = (1 << 1),		/**< Overlay the keypoints (joints) as circles */
+		OVERLAY_NONE      = 0,         /**< No overlay. */
+		OVERLAY_BOX       = (1 << 0),  /**< Overlay object bounding boxes */
+		OVERLAY_LINKS     = (1 << 1),  /**< Overlay the skeleton links (bones) as lines  */
+		OVERLAY_KEYPOINTS = (1 << 2),  /**< Overlay the keypoints (joints) as circles */
 		OVERLAY_DEFAULT   = OVERLAY_LINKS|OVERLAY_KEYPOINTS,
 	};
 	
@@ -179,13 +180,14 @@ public:
 	 * Load a custom network instance
 	 * @param model_path File path to the ONNX model
 	 * @param topology File path to the topology JSON
+	 * @param colors File path to the keypoint colors text file
 	 * @param threshold default minimum confidence thrshold
 	 * @param input Name of the input layer blob.
 	 * @param cmap Name of the output confidence map layer.
 	 * @param paf Name of the output Part Affinity Field (PAF) layer.
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
-	static poseNet* Create( const char* model_path, const char* topology, 
+	static poseNet* Create( const char* model_path, const char* topology, const char* colors,
 					    float threshold=POSENET_DEFAULT_THRESHOLD, 
 					    const char* input = POSENET_DEFAULT_INPUT, 
 					    const char* cmap = POSENET_DEFAULT_CMAP, 
@@ -269,27 +271,27 @@ public:
 	/**
 	 * Retrieve the minimum confidence threshold.
 	 */
-	inline float GetThreshold() const							{ return mThreshold; }
+	inline float GetThreshold() const								{ return mThreshold; }
 
 	/**
 	 * Set the minimum confidence threshold.
 	 */
-	inline void SetThreshold( float threshold ) 					{ mThreshold = threshold; }
+	inline void SetThreshold( float threshold ) 						{ mThreshold = threshold; }
 
 	/**
 	 * Get the category of objects that are detected (e.g. 'person', 'hand')
 	 */
-	inline const char* GetCategory() const						{ return mTopology.category.c_str(); }
+	inline const char* GetCategory() const							{ return mTopology.category.c_str(); }
 	
 	/**
 	 * Get the number of keypoints in the topology.
 	 */
-	inline uint32_t GetNumKeypoints() const						{ return mTopology.keypoints.size(); }
+	inline uint32_t GetNumKeypoints() const							{ return mTopology.keypoints.size(); }
 	
 	/**
 	 * Get the name of a keypoint in the topology by it's ID.
 	 */
-	inline const char* GetKeypointName( uint32_t id ) const		{ return mTopology.keypoints[id].c_str(); }
+	inline const char* GetKeypointName( uint32_t index ) const			{ return mTopology.keypoints[index].c_str(); }
 	
 	/**
 	 * Find the ID of a keypoint by name, or return -1 if not found.
@@ -297,9 +299,46 @@ public:
 	inline int FindKeypointID( const char* name ) const;
 
 	/**
- 	 * Set overlay alpha blending value for all classes (between 0-255).
+	 * Get the overlay color of a keypoint.
 	 */
-	//void SetOverlayAlpha( float alpha );
+	inline float4 GetKeypointColor( uint32_t index ) const				{ return mKeypointColors[index]; }
+	
+	/**
+	 * Set the overlay color for a keypoint.
+	 */
+	inline void SetKeypointColor( uint32_t index, const float4& color )	{ mKeypointColors[index] = color; }
+	
+	/**
+	 * Set the alpha channel for a keypoint color (between 0-255).
+	 */
+	inline void SetKeypointAlpha( uint32_t index, float alpha )			{ mKeypointColors[index].w = alpha; }
+	
+	/**
+	 * Set the alpha channel for all keypoints colors used during overlay.
+	 */
+	inline void SetKeypointAlpha( float alpha );
+	
+	/**
+	 * Get the scale used to calculate the width of link lines based on image dimensions.
+	 */
+	inline float GetKeypointScale( float scale ) const				{ return mKeypointScale; }
+	
+	/**
+	 * Set the scale used to calculate the radius of keypoint circles.
+	 * This scale will be multiplied by the largest image dimension.
+	 */
+	inline void SetKeypointScale( float scale )						{ mKeypointScale = scale; }
+	
+	/**
+	 * Get the scale used to calculate the width of link lines based on image dimensions.
+	 */
+	inline float GetLinkScale( float scale ) const					{ return mLinkScale; }
+	
+	/**
+	 * Set the scale used to calculate the width of link lines.
+	 * This scale will be multiplied by the largest image dimension.
+	 */
+	inline void SetLinkScale( float scale )							{ mLinkScale = scale; }
 	
 protected:
 
@@ -319,16 +358,22 @@ protected:
 	// constructor
 	poseNet();
 
-	bool init( const char* model_path, const char* topology, float threshold, 
+	bool init( const char* model_path, const char* topology, const char* colors, float threshold, 
 			 const char* input, const char* cmap, const char* paf, uint32_t maxBatchSize, 
 			 precisionType precision, deviceType device, bool allowGPUFallback );
 
 	bool postProcess(std::vector<ObjectPose>& poses, uint32_t width, uint32_t height);
 	
-	static bool loadTopology( const char* json_path, Topology* topology );
+	bool loadTopology( const char* json_path, Topology* topology );
+	bool loadKeypointColors( const char* filename );
 	
 	Topology mTopology;
+	
 	float mThreshold;
+	float mLinkScale;
+	float mKeypointScale;
+
+	float4* mKeypointColors;
 	
 	// post-processing buffers
 	int* mPeaks;
@@ -388,6 +433,15 @@ inline int poseNet::ObjectPose::FindLink( uint32_t a, uint32_t b ) const
 	}
 	
 	return -1;
+}
+
+// SetKeypointAlpha
+inline void poseNet::SetKeypointAlpha( float alpha )
+{
+	const uint32_t numKeypoints = GetNumKeypoints();
+	
+	for( uint32_t n=0; n < numKeypoints; n++ )
+		mKeypointColors[n].w = alpha;
 }
 
 

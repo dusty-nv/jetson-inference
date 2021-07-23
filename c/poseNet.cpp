@@ -58,6 +58,10 @@ poseNet::poseNet() : tensorNet()
 	mObjects      = NULL;
 	mNumObjects   = 0;
 	
+	mLinkScale 	 = 0.0013f;
+	mKeypointScale  = 0.0052f;
+	mKeypointColors = NULL;
+	
 	mAssignmentWorkspace = NULL;
 	mConnectionWorkspace = NULL;
 	
@@ -77,6 +81,7 @@ poseNet::~poseNet()
 	SAFE_FREE(mObjects);
 	SAFE_FREE(mAssignmentWorkspace);
 	SAFE_FREE(mConnectionWorkspace);
+	SAFE_FREE(mKeypointColors);
 }
 
 
@@ -102,7 +107,7 @@ poseNet::NetworkType poseNet::NetworkTypeFromStr( const char* modelName )
 
 
 // init
-bool poseNet::init( const char* model, const char* topology_path, float threshold, 
+bool poseNet::init( const char* model, const char* topology_path, const char* colors, float threshold, 
 				const char* input_blob, const char* cmap_blob, const char* paf_blob, uint32_t maxBatchSize, 
 				precisionType precision, deviceType device, bool allowGPUFallback )
 {
@@ -110,6 +115,7 @@ bool poseNet::init( const char* model, const char* topology_path, float threshol
 	LogInfo("poseNet -- loading pose estimation model from:\n");
 	LogInfo("        -- model        %s\n", CHECK_NULL_STR(model));
 	LogInfo("        -- topology     %s\n", CHECK_NULL_STR(topology_path));
+	LogInfo("        -- colors       %s\n", CHECK_NULL_STR(colors));
 	LogInfo("        -- input_blob   '%s'\n", CHECK_NULL_STR(input_blob));
 	LogInfo("        -- output_cmap  '%s'\n", CHECK_NULL_STR(cmap_blob));
 	LogInfo("        -- output_paf   '%s'\n", CHECK_NULL_STR(paf_blob));
@@ -131,6 +137,12 @@ bool poseNet::init( const char* model, const char* topology_path, float threshol
 	{
 		LogError(LOG_TRT "postNet -- failed to load topology json from '%s'", topology_path);
 		return false;
+	}
+	
+	// load the keypoint colors
+	if( !loadKeypointColors(colors) )
+	{
+		LogError(LOG_TRT "poseNet -- failed to load keypoint colors, using defaults...\n");
 	}
 	
 	// assert this is an ONNX model
@@ -198,7 +210,7 @@ bool poseNet::init( const char* model, const char* topology_path, float threshol
 
 
 // Create
-poseNet* poseNet::Create( const char* model, const char* topology, float threshold, 
+poseNet* poseNet::Create( const char* model, const char* topology, const char* colors, float threshold, 
 					 const char* input_blob, const char* cmap_blob, const char* paf_blob, 
 					 uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback )
 {
@@ -207,7 +219,7 @@ poseNet* poseNet::Create( const char* model, const char* topology, float thresho
 	if( !net )
 		return NULL;
 
-	if( !net->init(model, topology, threshold, input_blob, cmap_blob, paf_blob,
+	if( !net->init(model, topology, colors, threshold, input_blob, cmap_blob, paf_blob,
 				maxBatchSize, precision, device, allowGPUFallback) )
 	{
 		return NULL;
@@ -222,11 +234,11 @@ poseNet* poseNet::Create( NetworkType networkType, float threshold, uint32_t max
 					 precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	if( networkType == RESNET18_BODY )
-		return Create("networks/Pose-ResNet18-Body/pose-resnet18-body.onnx", "networks/Pose-ResNet18-Body/human_pose.json", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
+		return Create("networks/Pose-ResNet18-Body/pose-resnet18-body.onnx", "networks/Pose-ResNet18-Body/human_pose.json", "networks/Pose-ResNet18-Body/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == RESNET18_HAND )
-		return Create("networks/Pose-ResNet18-Hand/pose-resnet18-hand.onnx", "networks/Pose-ResNet18-Hand/hand_pose.json", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
+		return Create("networks/Pose-ResNet18-Hand/pose-resnet18-hand.onnx", "networks/Pose-ResNet18-Hand/hand_pose.json", NULL, threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == DENSENET121_BODY )
-		return Create("networks/Pose-DenseNet121-Body/pose-densenet121-body.onnx", "networks/Pose-DenseNet121-Body/human_pose.json", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
+		return Create("networks/Pose-DenseNet121-Body/pose-densenet121-body.onnx", "networks/Pose-DenseNet121-Body/human_pose.json", "networks/Pose-DenseNet121-Body/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
 	else
 		return NULL;
 }
@@ -265,6 +277,7 @@ poseNet* poseNet::Create( const commandLine& cmdLine )
 
 	if( type == poseNet::CUSTOM )
 	{
+		const char* colors   = cmdLine.GetString("colors");
 		const char* input    = cmdLine.GetString("input_blob");
 		const char* out_cmap = cmdLine.GetString("output_cmap");
 		const char* out_paf  = cmdLine.GetString("output_paf");
@@ -278,11 +291,11 @@ poseNet* poseNet::Create( const commandLine& cmdLine )
 
 		if( !topology )
 		{
-			LogError(LOG_TRT "poseNet -- must specifiy --topology json file");
+			LogError(LOG_TRT "poseNet -- must specifiy --topology json file\n");
 			return NULL;
 		}
 
-		net = poseNet::Create(modelName, topology, threshold, input, out_cmap, out_paf, maxBatchSize);
+		net = poseNet::Create(modelName, topology, colors, threshold, input, out_cmap, out_paf, maxBatchSize);
 	}
 	else
 	{
@@ -319,8 +332,9 @@ bool poseNet::loadTopology( const char* json_path, Topology* topology )
 		LogError(LOG_TRT "poseNet -- failed to load topology json from '%s'\n", json_path);
 		return false;
 	}
-		
+	
 	// https://nlohmann.github.io/json/features/arbitrary_types/
+	topology->category = topology_json["supercategory"].get<std::string>();
 	topology->keypoints = topology_json["keypoints"].get<std::vector<std::string>>();
 	
 	for( size_t n=0; n < topology->keypoints.size(); n++ )
@@ -352,6 +366,74 @@ bool poseNet::loadTopology( const char* json_path, Topology* topology )
 		
 		topology->numLinks++;
 	}
+	
+	return true;
+}
+
+
+// loadKeypointColors
+bool poseNet::loadKeypointColors( const char* filename )
+{
+	// initialize the colors array
+	const uint32_t numKeypoints = mTopology.keypoints.size();
+	mKeypointColors = (float4*)malloc(numKeypoints * sizeof(float4));
+	
+	for( uint32_t n=0; n < numKeypoints; n++ )
+		mKeypointColors[n] = make_float4(0,255,0,255);
+		
+	// check if a colors file is to be loaded
+	if( !filename )
+		return false;
+	
+	// locate the file
+	const std::string path = locateFile(filename);
+
+	if( path.length() == 0 )
+	{
+		LogError(LOG_TRT "poseNet -- failed to find %s\n", filename);
+		return false;
+	}
+
+	// open the file
+	FILE* f = fopen(path.c_str(), "r");
+	
+	if( !f )
+	{
+		LogError(LOG_TRT "poseNet -- failed to open %s\n", path.c_str());
+		return false;
+	}
+	
+	// read class colors
+	char str[512];
+	int  idx = 0;
+
+	while( fgets(str, 512, f) != NULL && idx < numKeypoints )
+	{
+		const int len = strlen(str);
+		
+		if( len > 0 )
+		{
+			if( str[len-1] == '\n' )
+				str[len-1] = 0;
+
+			int r = 255;
+			int g = 255;
+			int b = 255;
+			int a = 255;
+
+			sscanf(str, "%i %i %i %i", &r, &g, &b, &a);
+			LogVerbose(LOG_TRT "poseNet -- keypoint %02i '%s'  color %i %i %i %i\n", idx, GetKeypointName(idx), r, g, b, a);
+			mKeypointColors[idx] = make_float4(r,g,b,a);
+			idx++; 
+		}
+	}
+	
+	fclose(f);
+	
+	LogVerbose(LOG_TRT "poseNet -- loaded %i class colors\n", idx);
+	
+	if( idx == 0 )
+		return false;
 	
 	return true;
 }
@@ -548,7 +630,7 @@ bool poseNet::postProcess(std::vector<ObjectPose>& poses, uint32_t width, uint32
 		// get bounding box
 		const uint32_t numKeypoints = obj_pose.Keypoints.size();
 		
-		if( numKeypoints == 0 )
+		if( numKeypoints < 2 )
 			continue;
 		
 		for( uint32_t n=0; n < numKeypoints; n++ )
@@ -577,8 +659,18 @@ bool poseNet::Overlay( void* input, void* output, uint32_t width, uint32_t heigh
 	
 	const uint32_t numObjects = poses.size();
 	
+	const float line_width = MAX(MAX(width,height) * mLinkScale, 1.5f);
+	const float circle_radius = MAX(MAX(width,height) * mKeypointScale, 4.0f);
+	
 	for( uint32_t o=0; o < numObjects; o++ )
 	{
+		if( overlay & OVERLAY_BOX )
+		{
+			CUDA(cudaDrawRect(input, output, width, height, format,
+						   poses[o].Left, poses[o].Top, poses[o].Right, poses[o].Bottom,
+						   make_float4(255, 255, 255, 100)));
+		}
+		
 		if( overlay & OVERLAY_LINKS )
 		{
 			const uint32_t numLinks = poses[o].Links.size();
@@ -591,19 +683,19 @@ bool poseNet::Overlay( void* input, void* output, uint32_t width, uint32_t heigh
 				CUDA(cudaDrawLine(input, output, width, height, format, 
 							   poses[o].Keypoints[a].x, poses[o].Keypoints[a].y, 
 							   poses[o].Keypoints[b].x, poses[o].Keypoints[b].y,
-							   make_float4(0,255,0,200), 2.5));
+							   mKeypointColors[poses[o].Keypoints[a].ID], line_width));
 			}
 		}
 		
 		if( overlay & OVERLAY_KEYPOINTS )
 		{
 			const uint32_t numKeypoints = poses[o].Keypoints.size();
-			
+						
 			for( uint32_t k=0; k < numKeypoints; k++ )
 			{
 				CUDA(cudaDrawCircle(input, output, width, height, format, 
 								poses[o].Keypoints[k].x, poses[o].Keypoints[k].y, 
-								10, make_float4(0,255,0,200)));
+								circle_radius, mKeypointColors[poses[o].Keypoints[k].ID]));
 			}
 		}
 	}
@@ -651,6 +743,8 @@ uint32_t poseNet::OverlayFlagsFromStr( const char* str_user )
 			flags |= OVERLAY_KEYPOINTS;
 		else if( strcasecmp(token, "links") == 0 || strcasecmp(token, "link") == 0 )
 			flags |= OVERLAY_LINKS;
+		else if( strcasecmp(token, "box") == 0 || strcasecmp(token, "boxes") == 0 )
+			flags |= OVERLAY_BOX;
 		else if( strcasecmp(token, "default") == 0 )
 			flags |= OVERLAY_DEFAULT;
 		
