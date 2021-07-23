@@ -383,7 +383,7 @@ inline int poseNet::ObjectPose::FindLink( uint32_t a, uint32_t b ) const
 	
 	for( uint32_t n=0; n < numLinks; n++ )
 	{
-		if( a == Keypoints[Links[n][0]].ID || b == Keypoints[Links[n][1]].ID )
+		if( a == Keypoints[Links[n][0]].ID && b == Keypoints[Links[n][1]].ID )
 			return n;
 	}
 	

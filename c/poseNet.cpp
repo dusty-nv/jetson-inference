@@ -502,8 +502,6 @@ bool poseNet::postProcess(std::vector<ObjectPose>& poses, uint32_t width, uint32
 				keypoint.x  = mRefinedPeaks[peak_idx + 1] * width;
 				keypoint.y  = mRefinedPeaks[peak_idx + 0] * height;
 				
-				printf("adding keypoint %zu  ID=%u  x=%f  y=%f\n", obj_pose.Keypoints.size(), keypoint.ID, keypoint.x, keypoint.y);
-				
 				obj_pose.Keypoints.push_back(keypoint);
 			}
 		}
@@ -519,15 +517,28 @@ bool poseNet::postProcess(std::vector<ObjectPose>& poses, uint32_t width, uint32
 			
 			if( obj_a >= 0 && obj_b >= 0 )
 			{
-				const int a = obj_pose.FindKeypoint(obj_a);
-				const int b = obj_pose.FindKeypoint(obj_b);
-				
-				printf("keypoint a (%i -> %i)  b (%i -> %i)\n", obj_a, a, obj_b, b);
+				int a = obj_pose.FindKeypoint(c_a);
+				int b = obj_pose.FindKeypoint(c_b);
 				
 				if( a < 0 || b < 0 )
 				{
 					LogError(LOG_TRT "poseNet::postProcess() -- missing keypoint in output object pose, skipping...\n");
 					continue;
+				}
+				
+				const int link_idx = obj_pose.FindLink(a,b);
+				
+				if( link_idx >= 0 )
+				{
+					LogWarning(LOG_TRT "poseNet::postProcess() -- duplicate link detected, skipping...\n");
+					continue;
+				}
+				
+				if( a > b )
+				{
+					const int c = a;
+					a = b;
+					b = c;
 				}
 				
 				obj_pose.Links.push_back({(uint32_t)a, (uint32_t)b});
@@ -563,8 +574,7 @@ bool poseNet::Overlay( void* input, void* output, uint32_t width, uint32_t heigh
 	
 	if( overlay == OVERLAY_NONE )
 		return true;
-
-#if 1
+	
 	const uint32_t numObjects = poses.size();
 	
 	for( uint32_t o=0; o < numObjects; o++ )
@@ -577,8 +587,6 @@ bool poseNet::Overlay( void* input, void* output, uint32_t width, uint32_t heigh
 			{
 				const uint32_t a = poses[o].Links[l][0];
 				const uint32_t b = poses[o].Links[l][1];
-				
-				printf("draw line %u -> %u\n", a, b);
 				
 				CUDA(cudaDrawLine(input, output, width, height, format, 
 							   poses[o].Keypoints[a].x, poses[o].Keypoints[a].y, 
@@ -599,58 +607,6 @@ bool poseNet::Overlay( void* input, void* output, uint32_t width, uint32_t heigh
 			}
 		}
 	}
-	
-#else
-	const int C = DIMS_C(mOutputs[0].dims);
-	const int K = mTopology.numLinks;
-	const int M = MAX_LINKS;
-	
-	for( int i=0; i < mNumObjects; i++ )
-	{
-		if( overlay & OVERLAY_LINKS )
-		{
-			for( int k=0; k < K; k++ )
-			{
-				const int c_a = mTopology.links[k * 4 + 2];
-				const int c_b = mTopology.links[k * 4 + 3];
-				
-				const int obj_a = mObjects[i * C + c_a];
-				const int obj_b = mObjects[i * C + c_b];
-				
-				if( obj_a >= 0 && obj_b >= 0 )
-				{
-					const int peak_ab = c_a * M * 2 + obj_a * 2;
-					const int peak_ba = c_b * M * 2 + obj_b * 2;
-					
-					const float x0 = mRefinedPeaks[peak_ab + 1] * width;
-					const float y0 = mRefinedPeaks[peak_ab + 0] * height;
-					const float x1 = mRefinedPeaks[peak_ba + 1] * width;
-					const float y1 = mRefinedPeaks[peak_ba + 0] * height;
-					
-					CUDA(cudaDrawLine(input, output, width, height, format, x0, y0, x1, y1, make_float4(0,255,0,200), 2.5));
-				}
-			}
-		}
-		
-		if( overlay & OVERLAY_KEYPOINTS )
-		{
-			for( int j=0; j < C; j++ )
-			{
-				const int k = mObjects[i * C + j];
-
-				if( k >= 0 )
-				{
-					const int peak_idx = j * M * 2 + k * 2;
-					
-					const float x = mRefinedPeaks[peak_idx + 1] * width;
-					const float y = mRefinedPeaks[peak_idx + 0] * height;
-					
-					CUDA(cudaDrawCircle(input, output, width, height, format, x, y, 10, make_float4(0,255,0,200)));
-				}
-			}
-		}
-	}
-#endif	
 	
 	return true;
 }
