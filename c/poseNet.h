@@ -114,7 +114,7 @@ public:
 		 */
 		struct Keypoint
 		{
-			uint32_t ID;	/**< ID of the keypoint - the name can be retrieved with poseNet::GetKeypointName() */
+			uint32_t ID;	/**< Type ID of the keypoint - the name can be retrieved with poseNet::GetKeypointName() */
 			float x;		/**< The x coordinate of the keypoint */
 			float y;		/**< The y coordinate of the keypoint */
 		};
@@ -319,9 +319,9 @@ public:
 	inline void SetKeypointAlpha( float alpha );
 	
 	/**
-	 * Get the scale used to calculate the width of link lines based on image dimensions.
+	 * Get the scale used to calculate the radius of keypoints based on image dimensions.
 	 */
-	inline float GetKeypointScale( float scale ) const				{ return mKeypointScale; }
+	inline float GetKeypointScale() const							{ return mKeypointScale; }
 	
 	/**
 	 * Set the scale used to calculate the radius of keypoint circles.
@@ -332,7 +332,7 @@ public:
 	/**
 	 * Get the scale used to calculate the width of link lines based on image dimensions.
 	 */
-	inline float GetLinkScale( float scale ) const					{ return mLinkScale; }
+	inline float GetLinkScale() const								{ return mLinkScale; }
 	
 	/**
 	 * Set the scale used to calculate the width of link lines.
