@@ -139,6 +139,19 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 }
 
 
+// Deallocate
+static void PyImageNet_Dealloc( PyImageNet_Object* self )
+{
+	LogDebug(LOG_PY_INFERENCE "PyImageNet_Dealloc()\n");
+
+	// delete the network
+	SAFE_DELETE(self->net);
+	
+	// free the container
+	Py_TYPE(self)->tp_free((PyObject*)self);
+}
+
+
 #define DOC_CLASSIFY "Classify an RGBA image and return the object's class and confidence.\n\n" \
 				 "Parameters:\n" \
 				 "  image  (capsule) -- CUDA memory capsule\n" \
@@ -352,7 +365,7 @@ bool PyImageNet_Register( PyObject* module )
 	pyImageNet_Type.tp_methods	= pyImageNet_Methods;
 	pyImageNet_Type.tp_new		= NULL; /*PyImageNet_New;*/
 	pyImageNet_Type.tp_init		= (initproc)PyImageNet_Init;
-	pyImageNet_Type.tp_dealloc	= NULL; /*(destructor)PyImageNet_Dealloc;*/
+	pyImageNet_Type.tp_dealloc	= (destructor)PyImageNet_Dealloc;
 	pyImageNet_Type.tp_doc		= DOC_IMAGENET;
 	 
 	if( PyType_Ready(&pyImageNet_Type) < 0 )

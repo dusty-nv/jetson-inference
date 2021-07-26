@@ -144,11 +144,7 @@ static void PySegNet_Dealloc( PySegNet_Object* self )
 	LogDebug(LOG_PY_INFERENCE "PySegNet_Dealloc()\n");
 
 	// free the network
-	if( self->net != NULL )
-	{
-		delete self->net;
-		self->net = NULL;
-	}
+	SAFE_DELETE(self->net);
 
 	// free the container
 	Py_TYPE(self)->tp_free((PyObject*)self);
