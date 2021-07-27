@@ -47,6 +47,12 @@
  */
 
 /**
+ * @name depthNet
+ * Mono depth estimation from monocular images.
+ * @ingroup deepVision
+ */
+ 
+/**
  * @defgroup util Utilities Library (jetson-utils)
  * Tools and utilities for video streaming, codecs, display, and CUDA processing.
  */
