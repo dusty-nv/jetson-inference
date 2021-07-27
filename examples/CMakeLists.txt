@@ -1,14 +1,12 @@
 
 add_subdirectory(imagenet)
+add_subdirectory(depthnet)
 add_subdirectory(detectnet)
 add_subdirectory(posenet)
 add_subdirectory(segnet)
 
 # experimental examples
 if(BUILD_EXPERIMENTAL)
-	add_subdirectory(experimental/depthnet-console)
-	add_subdirectory(experimental/depthnet-camera)
-
 	add_subdirectory(experimental/flownet-console)
 	add_subdirectory(experimental/flownet-camera)
 

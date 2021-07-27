@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved.
+ * Copyright (c) 2021, NVIDIA CORPORATION. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -26,14 +26,6 @@
 #include "tensorNet.h"
 #include "cudaColormap.h"
 
-
-//////////////////////////////////////////////////////////////////////////////////
-/// @name depthNet
-/// Depth estimation from monocular images.
-/// @ingroup deepVision
-//////////////////////////////////////////////////////////////////////////////////
-
-///@{
 
 /**
  * Name of default input blob for depthNet model.
@@ -63,7 +55,7 @@
 
 
 /**
- * Depth estimation from monocular images, using TensorRT.
+ * Mono depth estimation from monocular images, using TensorRT.
  * @ingroup depthNet
  */
 class depthNet : public tensorNet
@@ -78,7 +70,6 @@ public:
 		MOBILENET,	/**< MobileNet backbone */
 		RESNET_18,	/**< ResNet-18 backbone */
 		RESNET_50,	/**< ResNet-50 backbone */
-		FCN_RESNET_50,	/**< Fully-convolutional ResNet-50 */
 	};
 
 	/**
@@ -136,6 +127,11 @@ public:
 	static depthNet* Create( int argc, char** argv );
 
 	/**
+	 * Load a new network instance by parsing the command line.
+	 */
+	static depthNet* Create( const commandLine& cmdLine );
+	
+	/**
 	 * Usage string for command line arguments to Create()
 	 */
 	static inline const char* Usage() 		{ return DEPTHNET_USAGE_STRING; }
@@ -146,35 +142,96 @@ public:
 	virtual ~depthNet();
 	
 	/**
-	 * Compute the depth field from a monocular RGBA image.
+	 * Compute the depth field from a monocular RGB/RGBA image.
 	 * @note the raw depth field can be retrieved with GetDepthField().
 	 */
-	bool Process( float* input, uint32_t width, uint32_t height );
+	template<typename T> bool Process( T* image, uint32_t width, uint32_t height )	{ return Process((void*)image, width, height, imageFormatFromType<T>()); }
+	
+	/**
+	 * Compute the depth field from a monocular RGB/RGBA image.
+	 * @note the raw depth field can be retrieved with GetDepthField().
+	 */
+	bool Process( void* input, uint32_t width, uint32_t height, imageFormat format );
 
 	/**
-	 * Process an RGBA image and map the depth image with the specified colormap.
+	 * Process an RGB/RGBA image and map the depth image with the specified colormap.
 	 * @note this function calls Process() followed by Visualize().
 	 */
-	bool Process( float* input, float* output, uint32_t width, uint32_t height, 
+	template<typename T1, typename T2> 
+	bool Process( T1* input, T2* output, uint32_t width, uint32_t height,
+			    cudaColormapType colormap=COLORMAP_DEFAULT,
+			    cudaFilterMode filter=FILTER_LINEAR )						{ return Process((void*)input, imageFormatFromType<T1>(), (void*)output, imageFormatFromType<T2>(), width, height, colormap, filter); }
+	
+	/**
+	 * Process an RGB/RGBA image and map the depth image with the specified colormap.
+	 * @note this function calls Process() followed by Visualize().
+	 */
+	bool Process( void* input, imageFormat input_format, 
+			    void* output, imageFormat output_format,
+			    uint32_t width, uint32_t height, 
 			    cudaColormapType colormap=COLORMAP_DEFAULT,
 			    cudaFilterMode filter=FILTER_LINEAR );
 
 	/**
-	 * Process an RGBA image and map the depth image with the specified colormap.
+	 * Process an RGB/RGBA image and map the depth image with the specified colormap.
 	 * @note this function calls Process() followed by Visualize().
 	 */
-	bool Process( float* input, uint32_t input_width, uint32_t input_height,
-			    float* output, uint32_t output_width, uint32_t output_height, 
+	template<typename T1, typename T2> 
+	bool Process( T1* input, uint32_t input_width, uint32_t input_height,
+			    T2* output, uint32_t output_width, uint32_t output_height,
+			    cudaColormapType colormap=COLORMAP_DEFAULT,
+			    cudaFilterMode filter=FILTER_LINEAR )						{ return Process((void*)input, input_width, input_height, imageFormatFromType<T1>(), (void*)output, output_width, output_height, imageFormatFromType<T2>(), colormap, filter); }		
+			    
+	/**
+	 * Process an RGB/RGBA image and map the depth image with the specified colormap.
+	 * @note this function calls Process() followed by Visualize().
+	 */
+	bool Process( void* input, uint32_t input_width, uint32_t input_height, imageFormat input_format,
+			    void* output, uint32_t output_width, uint32_t output_height, imageFormat output_format,
 			    cudaColormapType colormap=COLORMAP_DEFAULT,
 			    cudaFilterMode filter=FILTER_LINEAR );
 
 	/**
-	 * Visualize the raw depth field into a colorized RGBA depth map.
+	 * Visualize the raw depth field into a colorized RGB/RGBA depth map.
 	 * @note Visualize() should only be called after Process()
 	 */
-	bool Visualize( float* depth_map, uint32_t width, uint32_t height,
+	template<typename T> 
+	bool Visualize( T* output, uint32_t width, uint32_t height,
+				 cudaColormapType colormap=COLORMAP_DEFAULT, 
+				 cudaFilterMode filter=FILTER_LINEAR )						{ return Visualize((void*)output, width, height, imageFormatFromType<T>(), colormap, filter); }
+				 
+	/**
+	 * Visualize the raw depth field into a colorized RGB/RGBA depth map.
+	 * @note Visualize() should only be called after Process()
+	 */
+	bool Visualize( void* output, uint32_t width, uint32_t height, imageFormat format,
 				 cudaColormapType colormap=COLORMAP_DEFAULT, 
 				 cudaFilterMode filter=FILTER_LINEAR );
+
+	/**
+	 * Return the raw depth field.
+	 */
+	inline float* GetDepthField() const						{ return mOutputs[0].CUDA; }
+
+	/**
+	 * Return the width of the depth field.
+	 */
+	inline uint32_t GetDepthFieldWidth() const					{ return DIMS_W(mOutputs[0].dims); }
+
+	/**
+	 * Return the height of the depth field
+	 */
+	inline uint32_t GetDepthFieldHeight() const					{ return DIMS_H(mOutputs[0].dims); }
+
+	/**
+	 * Retrieve the network type (alexnet or googlenet)
+	 */
+	inline NetworkType GetNetworkType() const					{ return mNetworkType; }
+
+	/**
+ 	 * Retrieve a string describing the network name.
+	 */
+	inline const char* GetNetworkName() const					{ NetworkTypeToStr(mNetworkType); }
 
 	/**
 	 * Extract and save the point cloud to a PCD file (depth only).
@@ -208,32 +265,7 @@ public:
 	 */
 	bool SavePointCloud( const char* filename, float* rgba, uint32_t width, uint32_t height,
 					 const char* intrinsicCalibrationPath );
-
-	/**
-	 * Return the raw depth field.
-	 */
-	inline float* GetDepthField() const						{ return mOutputs[0].CUDA; }
-
-	/**
-	 * Return the width of the depth field.
-	 */
-	inline uint32_t GetDepthFieldWidth() const					{ return DIMS_W(mOutputs[0].dims); }
-
-	/**
-	 * Return the height of the depth field
-	 */
-	inline uint32_t GetDepthFieldHeight() const					{ return DIMS_H(mOutputs[0].dims); }
-
-	/**
-	 * Retrieve the network type (alexnet or googlenet)
-	 */
-	inline NetworkType GetNetworkType() const					{ return mNetworkType; }
-
-	/**
- 	 * Retrieve a string describing the network name.
-	 */
-	inline const char* GetNetworkName() const					{ NetworkTypeToStr(mNetworkType); }
-
+					 
 protected:
 	depthNet();
 	

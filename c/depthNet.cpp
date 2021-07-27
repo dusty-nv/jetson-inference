@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved.
+ * Copyright (c) 2021, NVIDIA CORPORATION. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -21,7 +21,7 @@
  */
  
 #include "depthNet.h"
-#include "imageNet.cuh"
+#include "tensorConvert.h"
 
 #include "commandLine.h"
 #include "cudaMappedMemory.h"
@@ -57,8 +57,10 @@ depthNet::NetworkType depthNet::NetworkTypeFromStr( const char* modelName )
 		type = depthNet::RESNET_18;
 	else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 || strcasecmp(modelName, "MonoDepth-ResNet50") == 0 )
 		type = depthNet::RESNET_50;
+#if 0  // MonoDepth FCN no longer working in TRT 7+
 	else if( strcasecmp(modelName, "fcn-resnet-50") == 0 || strcasecmp(modelName, "fcn_resnet_50") == 0 || strcasecmp(modelName, "fcn-resnet50") == 0 || strcasecmp(modelName, "fcn_resnet50") == 0 || strcasecmp(modelName, "MonoDepth-FCN-ResNet50") == 0)
-		type = depthNet::FCN_RESNET_50;	
+		type = depthNet::FCN_RESNET_50;
+#endif	
 	else
 		type = depthNet::CUSTOM;
 
@@ -74,7 +76,7 @@ const char* depthNet::NetworkTypeToStr( depthNet::NetworkType type )
 		case MOBILENET:	return "MonoDepth-Mobilenet";
 		case RESNET_18:	return "MonoDepth-ResNet18";
 		case RESNET_50:	return "MonoDepth-ResNet50";
-		case FCN_RESNET_50: return "MonoDepth-FCN-ResNet50";
+		//case FCN_RESNET_50: return "MonoDepth-FCN-ResNet50";
 		default:			return "Custom";
 	}
 }
@@ -92,8 +94,10 @@ depthNet* depthNet::Create( depthNet::NetworkType networkType, uint32_t maxBatch
 		net = Create("networks/MonoDepth-ResNet18/depth_resnet18.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
 	else if( networkType == RESNET_50 )
 		net = Create("networks/MonoDepth-ResNet50/depth_resnet50.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
+#if 0  // MonoDepth FCN no longer working in TRT 7+
 	else if( networkType == FCN_RESNET_50 )
-		net = Create("networks/MonoDepth-FCN-ResNet50/resnet_nonbt_shortcuts_320x240.uff", "tf/Placeholder", Dims3(3,240,320), "tf/Reshape", maxBatchSize, precision, device, allowGPUFallback);  
+		net = Create("networks/MonoDepth-FCN-ResNet50/resnet_interleaving_2shortcuts_320x240.uff", "tf/Placeholder", Dims3(3,240,320), "tf/Reshape", maxBatchSize, precision, device, allowGPUFallback);  
+#endif
 	if( net != NULL )
 		net->mNetworkType = networkType;
 
@@ -185,27 +189,28 @@ depthNet* depthNet::Create( const char* model_path, const char* input,
 // Create
 depthNet* depthNet::Create( int argc, char** argv )
 {
+	return Create(commandLine(argc, argv));
+}
+
+
+// Create
+depthNet* depthNet::Create( const commandLine& cmdLine )
+{
 	depthNet* net = NULL;
 
 	// obtain the network name
-	commandLine cmdLine(argc, argv);
-
 	const char* modelName = cmdLine.GetString("network");
 	
 	if( !modelName )
 		modelName = cmdLine.GetString("model", "mobilenet");
 	
-	// enable verbose mode if desired
-	if( cmdLine.GetFlag("verbose") )
-		tensorNet::EnableVerbose();
-
 	// parse the network type
 	const depthNet::NetworkType type = NetworkTypeFromStr(modelName);
 
 	if( type == depthNet::CUSTOM )
 	{
-		const char* input    = cmdLine.GetString("input_blob");
-		const char* output   = cmdLine.GetString("output_blob");
+		const char* input  = cmdLine.GetString("input_blob");
+		const char* output = cmdLine.GetString("output_blob");
 
 		if( !input ) 	input  = DEPTHNET_DEFAULT_INPUT;
 		if( !output )  output = DEPTHNET_DEFAULT_OUTPUT;
@@ -235,7 +240,7 @@ depthNet* depthNet::Create( int argc, char** argv )
 
 
 // Process
-bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_height )
+bool depthNet::Process( void* input, uint32_t input_width, uint32_t input_height, imageFormat input_format )
 {
 	if( !input || input_width == 0 || input_height == 0 )
 	{
@@ -243,17 +248,23 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 		return false;
 	}
 
+	if( !imageFormatIsRGB(input_format) )
+	{
+		imageFormatErrorMsg(LOG_TRT, "depthNet::Process()", input_format);
+		return false;
+	}
+	
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
 	if( IsModelType(MODEL_ONNX) )
 	{
 		// remap from [0,255] -> [0,1], no mean pixel subtraction or std dev applied
-		if( CUDA_FAILED(cudaPreImageNetNormMeanRGB((float4*)input, input_width, input_height, 
-										   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
-										   make_float2(0.0f, 1.0f), 
-										   make_float3(0.0f, 0.0f, 0.0f),
-										   make_float3(1.0f, 1.0f, 1.0f), 
-										   GetStream())) )
+		if( CUDA_FAILED(cudaTensorNormMeanRGB(input, input_format, input_width, input_height, 
+									   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
+									   make_float2(0.0f, 1.0f), 
+									   make_float3(0.0f, 0.0f, 0.0f),
+									   make_float3(1.0f, 1.0f, 1.0f), 
+									   GetStream())) )
 		{
 			printf(LOG_TRT "depthNet::Process() -- cudaPreImageNetNormMeanRGB() failed\n");
 			return false;
@@ -262,10 +273,10 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 	else if( IsModelType(MODEL_UFF) )
 	{
 		// remap to planar BGR, apply mean pixel subtraction
-		if( CUDA_FAILED(cudaPreImageNetMeanBGR((float4*)input, input_width, input_height,
-									    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
-									    make_float3(123.0, 115.0, 101.0),
-									    GetStream())) )
+		if( CUDA_FAILED(cudaTensorMeanBGR(input, input_format, input_width, input_height,
+								    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
+								    make_float3(123.0, 115.0, 101.0),
+								    GetStream())) )
 		{
 			printf(LOG_TRT "depthNet::Process() -- cudaPreImageNetMeanBGR() failed\n");
 			return false;
@@ -307,7 +318,7 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 		}
 	}
 
-	printf("depth range:  %f -> %f\n", mDepthRange.x, mDepthRange.y);
+	LogVerbose("depthNet -- depth range:  %f -> %f\n", mDepthRange.x, mDepthRange.y);
 	//depthRange = make_float2(0.95f, 5.0f);
 
 	PROFILER_END(PROFILER_POSTPROCESS);
@@ -316,21 +327,21 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 
 
 // Process
-bool depthNet::Process( float* input, float* output, uint32_t width, uint32_t height, cudaColormapType colormap, cudaFilterMode filter )
+bool depthNet::Process( void* input, imageFormat input_format, void* output, imageFormat output_format, uint32_t width, uint32_t height, cudaColormapType colormap, cudaFilterMode filter )
 {
-	return Process(input, width, height, output, width, height, colormap, filter);
+	return Process(input, width, height, input_format, output, width, height, output_format, colormap, filter);
 }
 
 
 // Process
-bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_height,
-				    float* output, uint32_t output_width, uint32_t output_height, 
+bool depthNet::Process( void* input, uint32_t input_width, uint32_t input_height, imageFormat input_format,
+				    void* output, uint32_t output_width, uint32_t output_height, imageFormat output_format,
                         cudaColormapType colormap, cudaFilterMode filter )
 {
-	if( !Process(input, input_width, input_height) )
+	if( !Process(input, input_width, input_height, input_format) )
 		return false;
 
-	if( !Visualize(output, output_width, output_height, colormap, filter) )
+	if( !Visualize(output, output_width, output_height, output_format, colormap, filter) )
 		return false;
 
 	return true;
@@ -338,7 +349,7 @@ bool depthNet::Process( float* input, uint32_t input_width, uint32_t input_heigh
 
 
 // Visualize
-bool depthNet::Visualize( float* output, uint32_t output_width, uint32_t output_height,
+bool depthNet::Visualize( void* output, uint32_t output_width, uint32_t output_height, imageFormat output_format,
 				 	 cudaColormapType colormap, cudaFilterMode filter )
 {
 	if( !output || output_width == 0 || output_height == 0 )
@@ -346,13 +357,20 @@ bool depthNet::Visualize( float* output, uint32_t output_width, uint32_t output_
 		printf(LOG_TRT "depthNet::Visualize( 0x%p, %u, %u ) -> invalid parameters\n", output, output_width, output_height);
 		return false;
 	}
+	
+	if( !imageFormatIsRGB(output_format) )
+	{
+		imageFormatErrorMsg(LOG_TRT, "depthNet::Visualize()", output_format);
+		return false;
+	}
 
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 
 	// apply color mapping to depth image
 	if( CUDA_FAILED(cudaColormap(GetDepthField(), GetDepthFieldWidth(), GetDepthFieldHeight(),
-						    output, output_width, output_height, mDepthRange, 
-						    colormap, filter, FORMAT_DEFAULT, GetStream())) )
+						    output, output_width, output_height, 
+						    mDepthRange, FORMAT_DEFAULT, output_format,
+						    colormap, filter, GetStream())) )
 	{
 		printf(LOG_TRT "depthNet::Visualize() -- failed to map depth image with cudaColormap()\n");
 		return false; 
@@ -420,7 +438,7 @@ bool depthNet::SavePointCloud( const char* filename, float* imgRGBA, uint32_t wi
 			return false;
 		}
 
-		if( !Visualize(depthField, width, height, COLORMAP_NONE, FILTER_LINEAR) )
+		if( !Visualize((void*)depthField, width, height, IMAGE_GRAY32F, COLORMAP_NONE, FILTER_LINEAR) )
 		{
 			printf(LOG_TRT "depthNet::SavePointCloud() -- failed to upsample depth field\n");
 			return false;
