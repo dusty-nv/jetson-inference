@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, NVIDIA CORPORATION. All rights reserved.
+ * Copyright (c) 2021, NVIDIA CORPORATION. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -234,11 +234,11 @@ poseNet* poseNet::Create( NetworkType networkType, float threshold, uint32_t max
 					 precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	if( networkType == RESNET18_BODY )
-		return Create("networks/Pose-ResNet18-Body/pose-resnet18-body.onnx", "networks/Pose-ResNet18-Body/human_pose.json", "networks/Pose-ResNet18-Body/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
+		return Create("networks/Pose-ResNet18-Body/pose_resnet18_body.onnx", "networks/Pose-ResNet18-Body/human_pose.json", "networks/Pose-ResNet18-Body/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == RESNET18_HAND )
-		return Create("networks/Pose-ResNet18-Hand/pose-resnet18-hand.onnx", "networks/Pose-ResNet18-Hand/hand_pose.json", NULL, threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
+		return Create("networks/Pose-ResNet18-Hand/pose_resnet18_hand.onnx", "networks/Pose-ResNet18-Hand/hand_pose.json", NULL, threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == DENSENET121_BODY )
-		return Create("networks/Pose-DenseNet121-Body/pose-densenet121-body.onnx", "networks/Pose-DenseNet121-Body/human_pose.json", "networks/Pose-DenseNet121-Body/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
+		return Create("networks/Pose-DenseNet121-Body/pose_densenet121_body.onnx", "networks/Pose-DenseNet121-Body/human_pose.json", "networks/Pose-DenseNet121-Body/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
 	else
 		return NULL;
 }
