@@ -646,19 +646,6 @@ bool detectNet::loadClassInfo( const char* filename )
 }
 
 
-#if 0
-inline static bool rectOverlap(const float6& r1, const float6& r2)
-{
-    return ! ( r2.x > r1.z  
-        || r2.z < r1.x
-        || r2.y > r1.w
-        || r2.w < r1.y
-        );
-}
-#endif
-
-
-
 // Detect
 int detectNet::Detect( float* input, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay )
 {
