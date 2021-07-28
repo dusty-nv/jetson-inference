@@ -29,17 +29,36 @@
 #include "mat33.h"
 
 
+#define DEPTH_HISTOGRAM_CUDA
+
+
 // constructor
 depthNet::depthNet() : tensorNet()
 {
-	mNetworkType = CUSTOM;
+	mNetworkType    = CUSTOM;
+	mDepthRange     = NULL;
+	mDepthEqualized = NULL;
+	
+	mHistogram      = NULL;
+	mHistogramPDF   = NULL;
+	mHistogramCDF   = NULL;
+	mHistogramEDU   = NULL;
 }
 
 
 // destructor
 depthNet::~depthNet()
 {
-
+	CUDA_FREE_HOST(mDepthEqualized);
+	
+#ifdef DEPTH_HISTOGRAM_CUDA
+	CUDA_FREE_HOST(mDepthRange);
+	
+	CUDA_FREE(mHistogram);
+	CUDA_FREE(mHistogramPDF);
+	CUDA_FREE(mHistogramCDF);
+	CUDA_FREE(mHistogramEDU);
+#endif
 }
 
 
@@ -49,18 +68,14 @@ depthNet::NetworkType depthNet::NetworkTypeFromStr( const char* modelName )
 	if( !modelName )
 		return depthNet::CUSTOM;
 
-	depthNet::NetworkType type = depthNet::MOBILENET;
+	depthNet::NetworkType type = depthNet::FCN_MOBILENET;
 
-	if( strcasecmp(modelName, "mobilenet") == 0 || strcasecmp(modelName, "MonoDepth-Mobilenet") == 0 )
-		type = depthNet::MOBILENET;
-	else if( strcasecmp(modelName, "resnet-18") == 0 || strcasecmp(modelName, "resnet_18") == 0 || strcasecmp(modelName, "resnet18") == 0 || strcasecmp(modelName, "MonoDepth-ResNet18") == 0 )
-		type = depthNet::RESNET_18;
-	else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 || strcasecmp(modelName, "MonoDepth-ResNet50") == 0 )
-		type = depthNet::RESNET_50;
-#if 0  // MonoDepth FCN no longer working in TRT 7+
-	else if( strcasecmp(modelName, "fcn-resnet-50") == 0 || strcasecmp(modelName, "fcn_resnet_50") == 0 || strcasecmp(modelName, "fcn-resnet50") == 0 || strcasecmp(modelName, "fcn_resnet50") == 0 || strcasecmp(modelName, "MonoDepth-FCN-ResNet50") == 0)
-		type = depthNet::FCN_RESNET_50;
-#endif	
+	if( strcasecmp(modelName, "mobilenet") == 0 || strcasecmp(modelName, "fcn-mobilenet") == 0 || strcasecmp(modelName, "fcn_mobilenet") == 0 || strcasecmp(modelName, "monodepth-fcn-mobilenet") == 0 || strcasecmp(modelName, "monodepth_fcn_mobilenet") == 0 )
+		type = depthNet::FCN_MOBILENET;
+	else if( strcasecmp(modelName, "resnet18") == 0 || strcasecmp(modelName, "fcn-resnet18") == 0 || strcasecmp(modelName, "fcn_resnet18") == 0 || strcasecmp(modelName, "monodepth-fcn-resnet18") == 0 || strcasecmp(modelName, "monodepth_fcn_resnet18") == 0 )
+		type = depthNet::FCN_RESNET18;
+	else if( strcasecmp(modelName, "resnet50") == 0 || strcasecmp(modelName, "fcn-resnet50") == 0 || strcasecmp(modelName, "fcn_resnet50") == 0 || strcasecmp(modelName, "monodepth-fcn-resnet50") == 0 || strcasecmp(modelName, "monodepth_fcn_resnet50") == 0 )
+		type = depthNet::FCN_RESNET50;
 	else
 		type = depthNet::CUSTOM;
 
@@ -73,10 +88,9 @@ const char* depthNet::NetworkTypeToStr( depthNet::NetworkType type )
 {
 	switch(type)
 	{
-		case MOBILENET:	return "MonoDepth-Mobilenet";
-		case RESNET_18:	return "MonoDepth-ResNet18";
-		case RESNET_50:	return "MonoDepth-ResNet50";
-		//case FCN_RESNET_50: return "MonoDepth-FCN-ResNet50";
+		case FCN_MOBILENET:	return "MonoDepth-FCN-Mobilenet";
+		case FCN_RESNET18:	return "MonoDepth-FCN-ResNet18";
+		case FCN_RESNET50:	return "MonoDepth-FCN-ResNet50";
 		default:			return "Custom";
 	}
 }
@@ -88,16 +102,13 @@ depthNet* depthNet::Create( depthNet::NetworkType networkType, uint32_t maxBatch
 {
 	depthNet* net = NULL;
 	
-	if( networkType == MOBILENET )
-		net = Create("networks/MonoDepth-Mobilenet/depth_mobilenet.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
-	else if( networkType == RESNET_18 )
-		net = Create("networks/MonoDepth-ResNet18/depth_resnet18.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
-	else if( networkType == RESNET_50 )
-		net = Create("networks/MonoDepth-ResNet50/depth_resnet50.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
-#if 0  // MonoDepth FCN no longer working in TRT 7+
-	else if( networkType == FCN_RESNET_50 )
-		net = Create("networks/MonoDepth-FCN-ResNet50/resnet_interleaving_2shortcuts_320x240.uff", "tf/Placeholder", Dims3(3,240,320), "tf/Reshape", maxBatchSize, precision, device, allowGPUFallback);  
-#endif
+	if( networkType == FCN_MOBILENET )
+		net = Create("networks/MonoDepth-FCN-Mobilenet/monodepth_fcn_mobilenet.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
+	else if( networkType == FCN_RESNET18 )
+		net = Create("networks/MonoDepth-FCN-ResNet18/monodepth_fcn_resnet18.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
+	else if( networkType == FCN_RESNET50 )
+		net = Create("networks/MonoDepth-FCN-ResNet50/monodepth_fcn_resnet50.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
+	
 	if( net != NULL )
 		net->mNetworkType = networkType;
 
@@ -132,7 +143,10 @@ depthNet* depthNet::Create( const char* model_path, const char* input_blob, cons
 	// load colormaps
 	CUDA(cudaColormapInit());
 
-	// return network
+	// allocate post-processing buffers
+	if( !net->allocHistogramBuffers() )
+		return NULL;
+
 	return net;
 }
 
@@ -181,7 +195,10 @@ depthNet* depthNet::Create( const char* model_path, const char* input,
 	// load colormaps
 	CUDA(cudaColormapInit());
 
-	// return network
+	// allocate post-processing buffers
+	if( !net->allocHistogramBuffers() )
+		return NULL;
+	
 	return net;
 }
 
@@ -202,7 +219,7 @@ depthNet* depthNet::Create( const commandLine& cmdLine )
 	const char* modelName = cmdLine.GetString("network");
 	
 	if( !modelName )
-		modelName = cmdLine.GetString("model", "mobilenet");
+		modelName = cmdLine.GetString("model", "fcn-mobilenet");
 	
 	// parse the network type
 	const depthNet::NetworkType type = NetworkTypeFromStr(modelName);
@@ -236,6 +253,33 @@ depthNet* depthNet::Create( const commandLine& cmdLine )
 		net->EnableLayerProfiler();
 
 	return net;
+}
+
+
+// allocHistogramBuffers
+bool depthNet::allocHistogramBuffers()
+{
+	if( !cudaAllocMapped((void**)&mDepthEqualized, GetDepthFieldWidth() * GetDepthFieldHeight() * sizeof(float)) )
+		return false;
+	
+#ifdef DEPTH_HISTOGRAM_CUDA
+	if( !cudaAllocMapped((void**)&mDepthRange, sizeof(int2)) )
+		return false;
+
+	if( CUDA_FAILED(cudaMalloc((void**)&mHistogram, DEPTH_HISTOGRAM_BINS * sizeof(uint32_t))) )
+		return false;
+	
+	if( CUDA_FAILED(cudaMalloc((void**)&mHistogramPDF, DEPTH_HISTOGRAM_BINS * sizeof(float))) )
+		return false;
+	
+	if( CUDA_FAILED(cudaMalloc((void**)&mHistogramCDF, DEPTH_HISTOGRAM_BINS * sizeof(float))) )
+		return false;
+	
+	if( CUDA_FAILED(cudaMalloc((void**)&mHistogramEDU, DEPTH_HISTOGRAM_BINS * sizeof(uint32_t))) )
+		return false;
+#endif
+	
+	return true;
 }
 
 
@@ -291,37 +335,16 @@ bool depthNet::Process( void* input, uint32_t input_width, uint32_t input_height
 	PROFILER_END(PROFILER_PREPROCESS);
 	PROFILER_BEGIN(PROFILER_NETWORK);
 	
-	// process with TensorRT
-	if( !ProcessNetwork() )
+#ifdef DEPTH_HISTOGRAM_CUDA
+	if( !ProcessNetwork(false) )
 		return false;
+#else
+	if( !ProcessNetwork(true) )
+		return false;
+#endif
 
 	PROFILER_END(PROFILER_NETWORK);
-	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
-	const int depth_width = GetDepthFieldWidth();
-	const int depth_height = GetDepthFieldHeight();
-
-	// find the min/max depth range
-	mDepthRange = make_float2(100000000.0f, -100000000.0f);
-
-	for( int y=0; y < depth_height; y++ )
-	{
-		for( int x=0; x < depth_width; x++ )
-		{
-			const float depth = mOutputs[0].CPU[y * depth_width + x];
-
-			if( depth < mDepthRange.x )
-				mDepthRange.x = depth;
-
-			if( depth > mDepthRange.y )
-				mDepthRange.y = depth;
-		}
-	}
-
-	LogVerbose("depthNet -- depth range:  %f -> %f\n", mDepthRange.x, mDepthRange.y);
-	//depthRange = make_float2(0.95f, 5.0f);
-
-	PROFILER_END(PROFILER_POSTPROCESS);
 	return true;
 }
 
@@ -364,12 +387,25 @@ bool depthNet::Visualize( void* output, uint32_t output_width, uint32_t output_h
 		return false;
 	}
 
+	PROFILER_BEGIN(PROFILER_POSTPROCESS);
+
+#ifdef DEPTH_HISTOGRAM_CUDA
+	if( !histogramEqualizationCUDA() )
+		return false;
+#else
+	CUDA(cudaStreamSynchronize(GetStream()));
+
+	if( !histogramEqualization() )
+		return false;
+#endif
+
+	PROFILER_END(PROFILER_POSTPROCESS);
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 
 	// apply color mapping to depth image
-	if( CUDA_FAILED(cudaColormap(GetDepthField(), GetDepthFieldWidth(), GetDepthFieldHeight(),
+	if( CUDA_FAILED(cudaColormap(mDepthEqualized, GetDepthFieldWidth(), GetDepthFieldHeight(),
 						    output, output_width, output_height, 
-						    mDepthRange, FORMAT_DEFAULT, output_format,
+						    make_float2(0,255), FORMAT_DEFAULT, output_format,
 						    colormap, filter, GetStream())) )
 	{
 		printf(LOG_TRT "depthNet::Visualize() -- failed to map depth image with cudaColormap()\n");

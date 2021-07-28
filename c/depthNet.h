@@ -46,7 +46,9 @@
  */
 #define DEPTHNET_USAGE_STRING  "depthNet arguments: \n" 							\
 		  "  --network NETWORK    pre-trained model to load, one of the following:\n" 	\
-		  "                           * TODO\n"                                         \
+		  "                           * monodepth-mobilenet\n"                          \
+		  "                           * monodepth-resnet18\n"                           \
+		  "                           * monodepth-resnet50\n"                           \
 		  "  --model MODEL        path to custom model to load (onnx)\n" 			\
 		  "  --input_blob INPUT   name of the input layer (default is '" DEPTHNET_DEFAULT_INPUT "')\n" 	\
 		  "  --output_blob OUTPUT name of the output layer (default is '" DEPTHNET_DEFAULT_OUTPUT "')\n" 	\
@@ -67,9 +69,9 @@ public:
 	enum NetworkType
 	{
 		CUSTOM,        /**< Custom model provided by the user */
-		MOBILENET,	/**< MobileNet backbone */
-		RESNET_18,	/**< ResNet-18 backbone */
-		RESNET_50,	/**< ResNet-50 backbone */
+		FCN_MOBILENET,	/**< MobileNet backbone */
+		FCN_RESNET18,	/**< ResNet-18 backbone */
+		FCN_RESNET50,	/**< ResNet-50 backbone */
 	};
 
 	/**
@@ -87,7 +89,8 @@ public:
 	/**
 	 * Load a new network instance
 	 */
-	static depthNet* Create( NetworkType networkType=MOBILENET, uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+	static depthNet* Create( NetworkType networkType=FCN_MOBILENET, 
+						uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
 						precisionType precision=TYPE_FASTEST,
 				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
@@ -231,7 +234,7 @@ public:
 	/**
  	 * Retrieve a string describing the network name.
 	 */
-	inline const char* GetNetworkName() const					{ NetworkTypeToStr(mNetworkType); }
+	inline const char* GetNetworkName() const					{ return NetworkTypeToStr(mNetworkType); }
 
 	/**
 	 * Extract and save the point cloud to a PCD file (depth only).
@@ -269,9 +272,26 @@ public:
 protected:
 	depthNet();
 	
+	bool allocHistogramBuffers();
+	bool histogramEqualization();
+	bool histogramEqualizationCUDA();
+	
 	NetworkType mNetworkType;
-	float2      mDepthRange;
+	
+	int2*     mDepthRange;
+	float*    mDepthEqualized;
+	uint32_t* mHistogram;
+	float*    mHistogramPDF;
+	float*    mHistogramCDF;
+	uint32_t* mHistogramEDU;
+	
+	/**< @internal */
+	#define DEPTH_FLOAT_TO_INT 1000000
+	
+	/**< @internal */
+	#define DEPTH_HISTOGRAM_BINS 256
 };
+
 
 ///@}
 
