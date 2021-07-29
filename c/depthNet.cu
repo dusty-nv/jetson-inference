@@ -252,16 +252,16 @@ bool depthNet::histogramEqualization()
 			if( px > depthRange.y ) px = depthRange.y;
 			if( px < depthRange.x ) px = depthRange.x;
 			
-			depth_field[y * depth_width + x] = ((px - depthRange.x) / depthSpan) * 255.0f;
+			mDepthEqualized[y * depth_width + x] = ((px - depthRange.x) / depthSpan) * 255.0f;
 		}
 	}
-	
+
 	// histogram
 	uint32_t hist[DEPTH_HISTOGRAM_BINS] = {0};
 	
 	for( uint32_t y=0; y < depth_height; y++ )
 		for( uint32_t x=0; x < depth_width; x++ )
-			hist[(int)depth_field[y * depth_width + x]]++;
+			hist[(int)mDepthEqualized[y * depth_width + x]]++;
 
 	// histogram probability
 	float histPDF[DEPTH_HISTOGRAM_BINS] = {0};
@@ -286,7 +286,7 @@ bool depthNet::histogramEqualization()
 	// histogram mapping
 	for( uint32_t y=0; y < depth_height; y++ )
 		for( uint32_t x=0; x < depth_width; x++ )
-			mDepthEqualized[y * depth_width + x] = histEDU[(int)depth_field[y * depth_width + x]];
+			mDepthEqualized[y * depth_width + x] = histEDU[(int)mDepthEqualized[y * depth_width + x]];
 		
 	return true;
 }
