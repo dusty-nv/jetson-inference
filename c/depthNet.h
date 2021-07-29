@@ -53,7 +53,7 @@
 		  "  --input_blob INPUT   name of the input layer (default is '" DEPTHNET_DEFAULT_INPUT "')\n" 	\
 		  "  --output_blob OUTPUT name of the output layer (default is '" DEPTHNET_DEFAULT_OUTPUT "')\n" 	\
 		  "  --batch_size BATCH   maximum batch size (default is 1)\n"								\
-		  "  --profile            enable layer profiling in TensorRT\n"
+		  "  --profile            enable layer profiling in TensorRT\n\n"
 
 
 /**
@@ -73,6 +73,21 @@ public:
 		FCN_RESNET18,	/**< ResNet-18 backbone */
 		FCN_RESNET50,	/**< ResNet-50 backbone */
 	};
+
+	/**
+	 * Visualization flags.
+	 */
+	enum VisualizationFlags
+	{
+		VISUALIZE_INPUT = (1 << 0),  /**< Display the original input image */
+		VISUALIZE_DEPTH = (1 << 1),  /**< Display the colorized depth field */
+	};
+	
+     /**
+	 * Parse a string of one of more VisualizationMode values.
+	 * Valid strings are "depth" "input" "input|depth" "input,depth" ect.
+	 */
+	static uint32_t VisualizationFlagsFromStr( const char* str, uint32_t default_value=VISUALIZE_INPUT|VISUALIZE_DEPTH );
 
 	/**
 	 * Parse a string to one of the built-in pretrained models.

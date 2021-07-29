@@ -62,6 +62,56 @@ depthNet::~depthNet()
 }
 
 
+// VisualizationFlagsFromStr
+uint32_t depthNet::VisualizationFlagsFromStr( const char* str_user, uint32_t default_value )
+{
+	if( !str_user )
+		return default_value;
+
+	// copy the input string into a temporary array,
+	// because strok modifies the string
+	const size_t str_length = strlen(str_user);
+
+	if( str_length == 0 )
+		return default_value;
+
+	char* str = (char*)malloc(str_length + 1);
+
+	if( !str )
+		return default_value;
+
+	strcpy(str, str_user);
+
+	// tokenize string by delimiters ',' and '|'
+	const char* delimiters = ",|";
+	char* token = strtok(str, delimiters);
+
+	if( !token )
+	{
+		free(str);
+		return default_value;
+	}
+
+	// look for the tokens:  "overlay", "mask"
+	uint32_t flags = 0;
+
+	while( token != NULL )
+	{
+		//printf("%s\n", token);
+
+		if( strcasecmp(token, "input") == 0 )
+			flags |= VISUALIZE_INPUT;
+		else if( strcasecmp(token, "depth") == 0 )
+			flags |= VISUALIZE_DEPTH;
+
+		token = strtok(NULL, delimiters);
+	}	
+
+	free(str);
+	return flags;
+}
+
+
 // NetworkTypeFromStr
 depthNet::NetworkType depthNet::NetworkTypeFromStr( const char* modelName )
 {

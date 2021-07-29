@@ -46,15 +46,22 @@ int usage()
 {
 	printf("usage: depthnet [--help] [--network NETWORK]\n");
 	printf("                [--colormap COLORMAP] [--filter-mode MODE]\n");
-	printf("                input_URI [output_URI]\n");
+	printf("                [--visualize VISUAL] [--depth-size SIZE]\n");
+	printf("                input_URI [output_URI]\n\n");
 	printf("Mono depth estimation on a video/image stream using depthNet DNN.\n\n");
 	printf("See below for additional arguments that may not be shown above.\n\n");
 	printf("optional arguments:\n");
 	printf("  --help            show this help message and exit\n");
-	printf("  --network NETWORK pre-trained model to load (see below for options)\n");
-	printf("  --colormap COLORMAP  colormap to use (default is 'viridis')\n");
-	printf("  --filter-mode MODE   filtering mode used during visualization,\n");
-	printf("                       options are 'point' or 'linear' (default: 'linear')\n");
+	printf("  --network=NETWORK pre-trained model to load (see below for options)\n");
+	printf("  --colormap=COLORMAP depth colormap to use (default is 'viridis')\n");
+	printf("                      options are:  'inferno', 'magma', 'parula',\n");
+	printf("                                    'plasma', 'turbo', 'viridis'\n");
+	printf("  --filter-mode=MODE filtering mode used during visualization,\n");
+	printf("                     options are:  'point' or 'linear' (default: 'linear')\n");
+	printf("  --visualize=VISUAL controls what is displayed (e.g. --visualize=input,depth)\n");
+	printf("                     valid combinations are:  'input', 'depth' (comma-separated)\n");
+	printf("  --depth-size=SIZE  scales the size of the depth map visualization, as a\n");
+	printf("                     percentage of the input size (default is 1.0)\n\n");
 	printf("positional arguments:\n");
 	printf("    input_URI       resource URI of input stream  (see videoSource below)\n");
 	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
@@ -81,7 +88,7 @@ int2 depthSize;
 int2 compositeSize;
 
 // allocate depth map & output buffers
-bool allocBuffers( int width, int height )
+bool allocBuffers( int width, int height, uint32_t flags, float depthScale )
 {
 	// check if the buffers were already allocated for this size
 	if( imgDepth != NULL && width == inputSize.x && height == inputSize.y )
@@ -93,7 +100,7 @@ bool allocBuffers( int width, int height )
 
 	// allocate depth map
 	inputSize = make_int2(width, height);
-	depthSize = make_int2(width, height);
+	depthSize = make_int2(width * depthScale, height * depthScale);
 	
 	if( !cudaAllocMapped(&imgDepth, depthSize) )
 	{
@@ -102,8 +109,20 @@ bool allocBuffers( int width, int height )
 	}
 
 	// allocate composite image
-	compositeSize = make_int2(width + depthSize.x, height);
-
+	compositeSize = make_int2(0,0);
+	
+	if( flags & depthNet::VISUALIZE_DEPTH )
+	{
+		compositeSize.x += depthSize.x;
+		compositeSize.y = depthSize.y;
+	}
+	
+	if( flags & depthNet::VISUALIZE_INPUT )
+	{
+		compositeSize.x += inputSize.x;
+		compositeSize.y = inputSize.y;
+	}
+	
 	if( !cudaAllocMapped(&imgComposite, compositeSize) )
 	{
 		LogError("depthnet:  failed to allocate CUDA memory for composite image (%ix%i)\n", compositeSize.x, compositeSize.y);
@@ -170,6 +189,12 @@ int main( int argc, char** argv )
 	// parse the desired filter mode
 	const cudaFilterMode filterMode = cudaFilterModeFromStr(cmdLine.GetString("filter-mode"));
 
+	// parse the visualization flags
+	const uint32_t visualizationFlags = depthNet::VisualizationFlagsFromStr(cmdLine.GetString("visualize"));
+	
+	// get the depth map size scaling factor
+	const float depthScale = cmdLine.GetFloat("depth-size", 1.0);
+
 
 	/*
 	 * processing loop
@@ -190,7 +215,7 @@ int main( int argc, char** argv )
 		}
 
 		// allocate buffers for this size frame
-		if( !allocBuffers(input->GetWidth(), input->GetHeight()) )
+		if( !allocBuffers(input->GetWidth(), input->GetHeight(), visualizationFlags, depthScale) )
 		{
 			LogError("depthnet:  failed to allocate output buffers\n");
 			continue;
@@ -206,8 +231,11 @@ int main( int argc, char** argv )
 		}
 		
 		// overlay the images into composite output image
-		CUDA(cudaOverlay(imgInput, inputSize, imgComposite, compositeSize, 0, 0));
-		CUDA(cudaOverlay(imgDepth, depthSize, imgComposite, compositeSize, inputSize.x, 0));
+		if( visualizationFlags & depthNet::VISUALIZE_INPUT )
+			CUDA(cudaOverlay(imgInput, inputSize, imgComposite, compositeSize, 0, 0));
+		
+		if( visualizationFlags & depthNet::VISUALIZE_DEPTH )
+			CUDA(cudaOverlay(imgDepth, depthSize, imgComposite, compositeSize, (visualizationFlags & depthNet::VISUALIZE_INPUT) ? inputSize.x : 0, 0));
 		
 		// render outputs
 		if( output != NULL )
