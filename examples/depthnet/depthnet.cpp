@@ -53,15 +53,19 @@ int usage()
 	printf("optional arguments:\n");
 	printf("  --help            show this help message and exit\n");
 	printf("  --network=NETWORK pre-trained model to load (see below for options)\n");
-	printf("  --colormap=COLORMAP depth colormap to use (default is 'viridis')\n");
-	printf("                      options are:  'inferno', 'magma', 'parula',\n");
-	printf("                                    'plasma', 'turbo', 'viridis'\n");
-	printf("  --filter-mode=MODE filtering mode used during visualization,\n");
-	printf("                     options are:  'point' or 'linear' (default: 'linear')\n");
 	printf("  --visualize=VISUAL controls what is displayed (e.g. --visualize=input,depth)\n");
 	printf("                     valid combinations are:  'input', 'depth' (comma-separated)\n");
 	printf("  --depth-size=SIZE  scales the size of the depth map visualization, as a\n");
-	printf("                     percentage of the input size (default is 1.0)\n\n");
+	printf("                     percentage of the input size (default is 1.0)\n");
+	printf("  --filter-mode=MODE filtering mode used during visualization,\n");
+	printf("                     options are:  'point' or 'linear' (default: 'linear')\n");
+	printf("  --colormap=COLORMAP depth colormap (default is 'viridis-inverted')\n");
+	printf("                      options are:  'inferno', 'inferno-inverted',\n");
+	printf("                                    'magma', 'magma-inverted',\n");
+	printf("                                    'parula', 'parula-inverted',\n");
+	printf("                                    'plasma', 'plasma-inverted',\n");
+	printf("                                    'turbo', 'turbo-inverted',\n");
+	printf("                                    'viridis', 'viridis-inverted'\n\n");
 	printf("positional arguments:\n");
 	printf("    input_URI       resource URI of input stream  (see videoSource below)\n");
 	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
@@ -184,7 +188,7 @@ int main( int argc, char** argv )
 	}
 
 	// parse the desired colormap
-	const cudaColormapType colormap = cudaColormapFromStr(cmdLine.GetString("colormap"));
+	const cudaColormapType colormap = cudaColormapFromStr(cmdLine.GetString("colormap", "viridis-inverted"));
 
 	// parse the desired filter mode
 	const cudaFilterMode filterMode = cudaFilterModeFromStr(cmdLine.GetString("filter-mode"));
@@ -229,7 +233,7 @@ int main( int argc, char** argv )
 			LogError("depthnet-camera:  failed to process depth map\n");
 			continue;
 		}
-		
+
 		// overlay the images into composite output image
 		if( visualizationFlags & depthNet::VISUALIZE_INPUT )
 			CUDA(cudaOverlay(imgInput, inputSize, imgComposite, compositeSize, 0, 0));

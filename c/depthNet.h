@@ -177,7 +177,7 @@ public:
 	 */
 	template<typename T1, typename T2> 
 	bool Process( T1* input, T2* output, uint32_t width, uint32_t height,
-			    cudaColormapType colormap=COLORMAP_DEFAULT,
+			    cudaColormapType colormap=COLORMAP_VIRIDIS_INVERTED,
 			    cudaFilterMode filter=FILTER_LINEAR )						{ return Process((void*)input, imageFormatFromType<T1>(), (void*)output, imageFormatFromType<T2>(), width, height, colormap, filter); }
 	
 	/**
@@ -187,7 +187,7 @@ public:
 	bool Process( void* input, imageFormat input_format, 
 			    void* output, imageFormat output_format,
 			    uint32_t width, uint32_t height, 
-			    cudaColormapType colormap=COLORMAP_DEFAULT,
+			    cudaColormapType colormap=COLORMAP_VIRIDIS_INVERTED,
 			    cudaFilterMode filter=FILTER_LINEAR );
 
 	/**
