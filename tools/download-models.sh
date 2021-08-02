@@ -362,6 +362,72 @@ function download_detection()
 
 
 #
+# MONO DEPTH
+#
+function download_monodepth_fcn_mobilenet()
+{
+	echo "$LOG Downloading MonoDepth-FCN-Mobilenet..."
+	download_archive "MonoDepth-FCN-Mobilenet.tar.gz" "https://nvidia.box.com/shared/static/frgbiqeieaja0o8b0eyb87fjbsqd4zup.gz" 
+}
+
+function download_monodepth_fcn_resnet18()
+{
+	echo "$LOG Downloading MonoDepth-FCN-ResNet18..."
+	download_archive "MonoDepth-FCN-ResNet18.tar.gz" "https://nvidia.box.com/shared/static/ai2sxrp1tg8mk4j0jbrw3vthqjp8x0af.gz" 
+}
+
+function download_monodepth_fcn_resnet50()
+{
+	echo "$LOG Downloading MonoDepth-FCN-ResNet50..."
+	download_archive "MonoDepth-FCN-ResNet50.tar.gz" "https://nvidia.box.com/shared/static/3umpq9yrv3nj3ltiwlooijx5of414gbh.gz" 
+}
+
+function download_monodepth()
+{
+	echo "$LOG Downloading all Mono Depth models..."
+
+	download_monodepth_fcn_mobilenet
+	download_monodepth_fcn_resnet18
+	download_monodepth_fcn_resnet50
+
+	ALL_MONO_DEPTH=1
+}
+
+
+#
+# POSE ESTIMATION
+#
+function download_pose_resnet18_body()
+{
+	echo "$LOG Downloading Pose-ResNet18-Body..."
+	download_archive "Pose-ResNet18-Body.tar.gz" "https://nvidia.box.com/shared/static/waf8bsu58v9qh9qj3sp3wsw1nyj61xm5.gz" 
+}
+
+function download_pose_resnet18_hand()
+{
+	echo "$LOG Downloading Pose-ResNet18-Hand..."
+	download_archive "Pose-ResNet18-Hand.tar.gz" "https://nvidia.box.com/shared/static/srfcadyqv4eaeq6lvu5qpsm6l5oatcnq.gz" 
+}
+
+function download_pose_densenet121_body()
+{
+	echo "$LOG Downloading Pose-DenseNet121-Body..."
+	download_archive "Pose-DenseNet121-Body.tar.gz" "https://nvidia.box.com/shared/static/sizfwdkjmvzlo96serrs7u175wxldrv5.gz" 
+}
+
+function download_pose()
+{
+	echo "$LOG Downloading all Pose Estimation models..."
+
+	download_pose_resnet18_body
+	download_pose_resnet18_hand
+	download_pose_densenet121_body
+
+	ALL_POSE=1
+}
+
+
+#
 # SEMANTIC SEGMENTATION
 #
 function download_fcn_resnet18_cityscapes_512x256()
@@ -651,36 +717,44 @@ while true; do
 							  13 "   > SSD-Mobilenet-v1           (27 MB)" off \
 							  14 "   > SSD-Mobilenet-v2           (68 MB)" on \
 							  15 "   > SSD-Inception-v2           (100 MB)" off \
-							  16 "   > PedNet                     (30 MB)" on \
+							  16 "   > PedNet                     (30 MB)" off \
 							  17 "   > MultiPed                   (30 MB)" off \
-							  18 "   > FaceNet                    (24 MB)" on \
-							  19 "   > DetectNet-COCO-Dog         (29 MB)" on \
+							  18 "   > FaceNet                    (24 MB)" off \
+							  19 "   > DetectNet-COCO-Dog         (29 MB)" off \
 							  20 "   > DetectNet-COCO-Bottle      (29 MB)" off \
 							  21 "   > DetectNet-COCO-Chair       (29 MB)" off \
 							  22 "   > DetectNet-COCO-Airplane    (29 MB)" off \
-							  23 "\ZbSemantic Segmentation - all            (518 MB)\Zn" off \
-							  24 "   > FCN-ResNet18-Cityscapes-512x256   (47 MB)" on \
-							  25 "   > FCN-ResNet18-Cityscapes-1024x512  (47 MB)" on \
-							  26 "   > FCN-ResNet18-Cityscapes-2048x1024 (47 MB)" off \
-							  27 "   > FCN-ResNet18-DeepScene-576x320    (47 MB)" on \
-							  28 "   > FCN-ResNet18-DeepScene-864x480    (47 MB)" off \
-							  29 "   > FCN-ResNet18-MHP-512x320          (47 MB)" on \
-							  30 "   > FCN-ResNet18-MHP-640x360          (47 MB)" off \
-							  31 "   > FCN-ResNet18-Pascal-VOC-320x320   (47 MB)" on \
-							  32 "   > FCN-ResNet18-Pascal-VOC-512x320   (47 MB)" off \
-							  33 "   > FCN-ResNet18-SUN-RGBD-512x400     (47 MB)" on \
-							  34 "   > FCN-ResNet18-SUN-RGBD-640x512     (47 MB)" off \
-							  35 "\ZbSemantic Segmentation - legacy     (1.4 GB)\Zn" off \
-							  36 "   > FCN-Alexnet-Cityscapes-SD     (235 MB)" off \
-							  37 "   > FCN-Alexnet-Cityscapes-HD     (235 MB)" off \
-							  38 "   > FCN-Alexnet-Aerial-FPV        (7 MB)" off \
-							  39 "   > FCN-Alexnet-Pascal-VOC        (235 MB)" off \
-							  40 "   > FCN-Alexnet-Synthia-CVPR      (235 MB)" off \
-							  41 "   > FCN-Alexnet-Synthia-Summer-SD (235 MB)" off \
-							  42 "   > FCN-Alexnet-Synthia-Summer-HD (235 MB)" off \
-							  43 "\ZbImage Processing - all models   (138 MB)\Zn" off \
-							  44 "   > Deep-Homography-COCO       (137 MB)" off \
-							  45 "   > Super-Resolution-BSD500    (1 MB)" off )
+							  23 "\ZbMono Depth - all models         (146 MB)\Zn" off \
+							  24 "   > MonoDepth-FCN-Mobilenet    (5 MB)" on \
+							  25 "   > MonoDepth-FCN-ResNet18     (40 MB)" off \
+							  26 "   > MonoDepth-FCN-ResNet50     (100 MB)" off \
+							  27 "\ZbPose Estimation - all models    (222 MB)\Zn" off \
+							  28 "   > Pose-ResNet18-Body         (74 MB)" on \
+							  29 "   > Pose-ResNet18-Hand         (74 MB)" off \
+							  30 "   > Pose-DenseNet121-Body      (74 MB)" off \
+							  31 "\ZbSemantic Segmentation - all            (518 MB)\Zn" off \
+							  32 "   > FCN-ResNet18-Cityscapes-512x256   (47 MB)" on \
+							  33 "   > FCN-ResNet18-Cityscapes-1024x512  (47 MB)" on \
+							  34 "   > FCN-ResNet18-Cityscapes-2048x1024 (47 MB)" off \
+							  35 "   > FCN-ResNet18-DeepScene-576x320    (47 MB)" on \
+							  36 "   > FCN-ResNet18-DeepScene-864x480    (47 MB)" off \
+							  37 "   > FCN-ResNet18-MHP-512x320          (47 MB)" on \
+							  38 "   > FCN-ResNet18-MHP-640x360          (47 MB)" off \
+							  39 "   > FCN-ResNet18-Pascal-VOC-320x320   (47 MB)" on \
+							  40 "   > FCN-ResNet18-Pascal-VOC-512x320   (47 MB)" off \
+							  41 "   > FCN-ResNet18-SUN-RGBD-512x400     (47 MB)" on \
+							  42 "   > FCN-ResNet18-SUN-RGBD-640x512     (47 MB)" off \
+							  43 "\ZbSemantic Segmentation - legacy     (1.4 GB)\Zn" off \
+							  44 "   > FCN-Alexnet-Cityscapes-SD     (235 MB)" off \
+							  45 "   > FCN-Alexnet-Cityscapes-HD     (235 MB)" off \
+							  46 "   > FCN-Alexnet-Aerial-FPV        (7 MB)" off \
+							  47 "   > FCN-Alexnet-Pascal-VOC        (235 MB)" off \
+							  48 "   > FCN-Alexnet-Synthia-CVPR      (235 MB)" off \
+							  49 "   > FCN-Alexnet-Synthia-Summer-SD (235 MB)" off \
+							  50 "   > FCN-Alexnet-Synthia-Summer-HD (235 MB)" off \
+							  51 "\ZbImage Processing - all models   (138 MB)\Zn" off \
+							  52 "   > Deep-Homography-COCO       (137 MB)" off \
+							  53 "   > Super-Resolution-BSD500    (1 MB)" off )
 
 	model_selection_status=$?
 	clear
@@ -741,50 +815,66 @@ while true; do
 				elif [ $model = 22 ] && [ -z $ALL_DETECTION ]; then
 					download_detectnet_coco_airplane
 				elif [ $model = 23 ]; then
+					download_monodepth
+				elif [ $model = 24 ] && [ -z $ALL_MONO_DEPTH ]; then
+					download_monodepth_fcn_mobilenet
+				elif [ $model = 25 ] && [ -z $ALL_MONO_DEPTH ]; then
+					download_monodepth_fcn_resnet18
+				elif [ $model = 26 ] && [ -z $ALL_MONO_DEPTH ]; then
+					download_monodepth_fcn_resnet50
+				elif [ $model = 27 ]; then
+					download_pose
+				elif [ $model = 28 ] && [ -z $ALL_POSE ]; then
+					download_pose_resnet18_body
+				elif [ $model = 29 ] && [ -z $ALL_POSE ]; then
+					download_pose_resnet18_hand
+				elif [ $model = 30 ] && [ -z $ALL_POSE ]; then
+					download_pose_densenet121_body
+				elif [ $model = 31 ]; then
 					download_segmentation
-				elif [ $model = 24 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_resnet18_cityscapes_512x256
-				elif [ $model = 25 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_resnet18_cityscapes_1024x512
-				elif [ $model = 26 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_resnet18_cityscapes_2048x1024
-				elif [ $model = 27 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_resnet18_deepscene_576x320
-				elif [ $model = 28 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_resnet18_deepscene_864x480
-				elif [ $model = 29 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_resnet18_mhp_512x320
-				elif [ $model = 30 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_resnet18_mhp_640x360
-				elif [ $model = 31 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_resnet18_pascal_voc_320x320
 				elif [ $model = 32 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_resnet18_pascal_voc_512x320
+					download_fcn_resnet18_cityscapes_512x256
 				elif [ $model = 33 ] && [ -z $ALL_SEGMENTATION ]; then
-					download_fcn_resnet18_sun_rgbd_512x400
+					download_fcn_resnet18_cityscapes_1024x512
 				elif [ $model = 34 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_resnet18_cityscapes_2048x1024
+				elif [ $model = 35 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_resnet18_deepscene_576x320
+				elif [ $model = 36 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_resnet18_deepscene_864x480
+				elif [ $model = 37 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_resnet18_mhp_512x320
+				elif [ $model = 38 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_resnet18_mhp_640x360
+				elif [ $model = 39 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_resnet18_pascal_voc_320x320
+				elif [ $model = 40 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_resnet18_pascal_voc_512x320
+				elif [ $model = 41 ] && [ -z $ALL_SEGMENTATION ]; then
+					download_fcn_resnet18_sun_rgbd_512x400
+				elif [ $model = 42 ] && [ -z $ALL_SEGMENTATION ]; then
 					download_fcn_resnet18_sun_rgbd_640x512
-				elif [ $model = 35 ]; then
-					download_segmentation_legacy
-				elif [ $model = 36 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_alexnet_cityscapes_sd
-				elif [ $model = 37 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_alexnet_cityscapes_hd
-				elif [ $model = 38 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_alexnet_aerial_fpv
-				elif [ $model = 39 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_alexnet_pascal_voc
-				elif [ $model = 40 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_alexnet_synthia_cvpr
-				elif [ $model = 41 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_alexnet_synthia_summer_sd
-				elif [ $model = 42 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
-					download_fcn_alexnet_synthia_summer_hd
 				elif [ $model = 43 ]; then
+					download_segmentation_legacy
+				elif [ $model = 44 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
+					download_fcn_alexnet_cityscapes_sd
+				elif [ $model = 45 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
+					download_fcn_alexnet_cityscapes_hd
+				elif [ $model = 46 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
+					download_fcn_alexnet_aerial_fpv
+				elif [ $model = 47 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
+					download_fcn_alexnet_pascal_voc
+				elif [ $model = 48 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
+					download_fcn_alexnet_synthia_cvpr
+				elif [ $model = 49 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
+					download_fcn_alexnet_synthia_summer_sd
+				elif [ $model = 50 ] && [ -z $ALL_SEGMENTATION_LEGACY ]; then
+					download_fcn_alexnet_synthia_summer_hd
+				elif [ $model = 51 ]; then
 					download_image_processing
-				elif [ $model = 44 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
+				elif [ $model = 52 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
 					download_deep_homography_coco
-				elif [ $model = 45 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
+				elif [ $model = 53 ] && [ -z $ALL_IMAGE_PROCESSING ]; then
 					download_super_resolution_bsd500
 				fi
 			done
