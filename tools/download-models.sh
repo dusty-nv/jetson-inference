@@ -730,7 +730,7 @@ while true; do
 							  26 "   > MonoDepth-FCN-ResNet50     (100 MB)" off \
 							  27 "\ZbPose Estimation - all models    (222 MB)\Zn" off \
 							  28 "   > Pose-ResNet18-Body         (74 MB)" on \
-							  29 "   > Pose-ResNet18-Hand         (74 MB)" off \
+							  29 "   > Pose-ResNet18-Hand         (74 MB)" on \
 							  30 "   > Pose-DenseNet121-Body      (74 MB)" off \
 							  31 "\ZbSemantic Segmentation - all            (518 MB)\Zn" off \
 							  32 "   > FCN-ResNet18-Cityscapes-512x256   (47 MB)" on \
