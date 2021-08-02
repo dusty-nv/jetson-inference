@@ -195,7 +195,12 @@ public:
 #if NV_TENSORRT_MAJOR > 4
 		SSD_MOBILENET_V1,	/**< SSD Mobilenet-v1 UFF model, trained on MS-COCO */
 		SSD_MOBILENET_V2,	/**< SSD Mobilenet-v2 UFF model, trained on MS-COCO */
-		SSD_INCEPTION_V2	/**< SSD Inception-v2 UFF model, trained on MS-COCO */
+		SSD_INCEPTION_V2,	/**< SSD Inception-v2 UFF model, trained on MS-COCO */
+		
+		/**< Default model is SSD-Mobilenet-v2 (or PedNet for legacy JetPack's) */
+		NETWORK_DEFAULT=SSD_MOBILENET_V2
+#else
+		NETWORK_DEFAULT=PEDNET_MULTI
 #endif
 	};
 
@@ -221,7 +226,7 @@ public:
 	 * @param threshold default minimum threshold for detection
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
-	static detectNet* Create( NetworkType networkType=PEDNET_MULTI, float threshold=DETECTNET_DEFAULT_THRESHOLD, 
+	static detectNet* Create( NetworkType networkType=NETWORK_DEFAULT, float threshold=DETECTNET_DEFAULT_THRESHOLD, 
 						 uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, precisionType precision=TYPE_FASTEST, 
 						 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
