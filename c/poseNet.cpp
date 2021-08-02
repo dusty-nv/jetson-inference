@@ -58,8 +58,8 @@ poseNet::poseNet() : tensorNet()
 	mObjects      = NULL;
 	mNumObjects   = 0;
 	
-	mLinkScale 	 = 0.0013f;
-	mKeypointScale  = 0.0052f;
+	mLinkScale 	 = POSENET_DEFAULT_LINK_SCALE;
+	mKeypointScale  = POSENET_DEFAULT_KEYPOINT_SCALE;
 	mKeypointColors = NULL;
 	
 	mAssignmentWorkspace = NULL;
@@ -236,7 +236,7 @@ poseNet* poseNet::Create( NetworkType networkType, float threshold, uint32_t max
 	if( networkType == RESNET18_BODY )
 		return Create("networks/Pose-ResNet18-Body/pose_resnet18_body.onnx", "networks/Pose-ResNet18-Body/human_pose.json", "networks/Pose-ResNet18-Body/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == RESNET18_HAND )
-		return Create("networks/Pose-ResNet18-Hand/pose_resnet18_hand.onnx", "networks/Pose-ResNet18-Hand/hand_pose.json", NULL, threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
+		return Create("networks/Pose-ResNet18-Hand/pose_resnet18_hand.onnx", "networks/Pose-ResNet18-Hand/hand_pose.json", "networks/Pose-ResNet18-Hand/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
 	else if( networkType == DENSENET121_BODY )
 		return Create("networks/Pose-DenseNet121-Body/pose_densenet121_body.onnx", "networks/Pose-DenseNet121-Body/human_pose.json", "networks/Pose-DenseNet121-Body/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
 	else
@@ -310,8 +310,9 @@ poseNet* poseNet::Create( const commandLine& cmdLine )
 	if( cmdLine.GetFlag("profile") )
 		net->EnableLayerProfiler();
 
-	// set overlay alpha value
-	//net->SetOverlayAlpha(cmdLine.GetFloat("alpha", POSENET_DEFAULT_ALPHA));
+	// set overlay scales
+	net->SetKeypointScale(cmdLine.GetFloat("keypoint-scale", POSENET_DEFAULT_KEYPOINT_SCALE));
+	net->SetLinkScale(cmdLine.GetFloat("link-scale", POSENET_DEFAULT_LINK_SCALE));
 
 	return net;
 }
@@ -683,7 +684,7 @@ bool poseNet::Overlay( void* input, void* output, uint32_t width, uint32_t heigh
 				CUDA(cudaDrawLine(input, output, width, height, format, 
 							   poses[o].Keypoints[a].x, poses[o].Keypoints[a].y, 
 							   poses[o].Keypoints[b].x, poses[o].Keypoints[b].y,
-							   mKeypointColors[poses[o].Keypoints[a].ID], line_width));
+							   mKeypointColors[poses[o].Keypoints[b].ID], line_width));
 			}
 		}
 		

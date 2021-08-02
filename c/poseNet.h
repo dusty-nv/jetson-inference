@@ -53,10 +53,18 @@
 #define POSENET_DEFAULT_THRESHOLD 0.15f
 
 /**
- * Default alpha blending value used during overlay
+ * Default scale used for drawing keypoint circles.
+ * This scale is multiplied by the largest image dimension to arrive at the radius.
  * @ingroup poseNet
  */
-//#define POSENET_DEFAULT_ALPHA 120
+#define POSENET_DEFAULT_KEYPOINT_SCALE 0.0052f
+
+/**
+ * Default scale used for drawing link lines.
+ * This scale is multiplied by the largest image dimension to arrive at the line width.
+ * @ingroup poseNet
+ */
+#define POSENET_DEFAULT_LINK_SCALE 0.0013f
 
 /**
  * Standard command-line options able to be passed to poseNet::Create()
@@ -76,9 +84,10 @@
 		  "  --mean-pixel=PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
 		  "  --batch-size=BATCH    maximum batch size (default is 1)\n"										\
 		  "  --threshold=THRESHOLD minimum threshold for detection (default is 0.5)\n"							\
-            "  --alpha=ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\
 		  "  --overlay=OVERLAY     detection overlay flags (e.g. --overlay=box,labels,conf)\n"					\
 		  "                        valid combinations are:  'box', 'labels', 'conf', 'none'\n"					\
+		  "  --keypoint-scale=X    radius scale for drawing keypoints (default: 0.0052)\n"					     \
+		  "  --link-scale=X        line width scale for drawing link lines (default: 0.0013)\n"					\
 		  "  --profile             enable layer profiling in TensorRT\n\n"
 
 
