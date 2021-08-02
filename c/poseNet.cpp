@@ -93,11 +93,11 @@ poseNet::NetworkType poseNet::NetworkTypeFromStr( const char* modelName )
 
 	poseNet::NetworkType type = poseNet::RESNET18_BODY;
 
-	if( strcasecmp(modelName, "resnet18-body") == 0 || strcasecmp(modelName, "resnet18_body") == 0 )
+	if( strcasecmp(modelName, "resnet18-body") == 0 || strcasecmp(modelName, "resnet18_body") == 0 || strcasecmp(modelName, "pose-resnet18-body") == 0 || strcasecmp(modelName, "pose_resnet18_body") == 0 )
 		type = poseNet::RESNET18_BODY;
-	else if( strcasecmp(modelName, "resnet18-hand") == 0 || strcasecmp(modelName, "resnet18_hand") == 0 )
+	else if( strcasecmp(modelName, "resnet18-hand") == 0 || strcasecmp(modelName, "resnet18_hand") == 0 || strcasecmp(modelName, "pose-resnet18-hand") == 0 || strcasecmp(modelName, "pose_resnet18_hand") == 0 )
 		type = poseNet::RESNET18_HAND;
-	else if( strcasecmp(modelName, "densenet121-body") == 0 || strcasecmp(modelName, "densenet121_body") == 0 )
+	else if( strcasecmp(modelName, "densenet121-body") == 0 || strcasecmp(modelName, "densenet121_body") == 0 || strcasecmp(modelName, "pose-densenet121-body") == 0 || strcasecmp(modelName, "pose_densenet121_body") == 0)
 		type = poseNet::DENSENET121_BODY;
 	else
 		type = poseNet::CUSTOM;

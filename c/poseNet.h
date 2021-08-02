@@ -84,8 +84,8 @@
 		  "  --mean-pixel=PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
 		  "  --batch-size=BATCH    maximum batch size (default is 1)\n"										\
 		  "  --threshold=THRESHOLD minimum threshold for detection (default is 0.5)\n"							\
-		  "  --overlay=OVERLAY     detection overlay flags (e.g. --overlay=box,labels,conf)\n"					\
-		  "                        valid combinations are:  'box', 'labels', 'conf', 'none'\n"					\
+		  "  --overlay=OVERLAY     detection overlay flags (e.g. --overlay=links,keypoints)\n"					\
+		  "                        valid combinations are:  'box', 'links', 'keypoints', 'none'\n"					\
 		  "  --keypoint-scale=X    radius scale for drawing keypoints (default: 0.0052)\n"					     \
 		  "  --link-scale=X        line width scale for drawing link lines (default: 0.0013)\n"					\
 		  "  --profile             enable layer profiling in TensorRT\n\n"
