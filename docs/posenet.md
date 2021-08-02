@@ -17,7 +17,7 @@ As examples of using the `poseNet` class, we provide sample programs for C++ and
 
 These samples are able to detect objects in images, videos, and camera feeds.  For more info about the various types of input/output streams supported, see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
-### Pose Estimation on Images
+## Pose Estimation on Images
 
 First, let's try running the `posenet` sample on some examples images.  In addition to the input/output paths, there are some additional command-line options that are optional:
 
@@ -47,7 +47,7 @@ $ ./posenet.py "images/humans_*.jpg" images/test/humans_%i.jpg
 
 There are also test images of people under `"images/peds_*.jpg"` that you can try as well.
 
-### Pose Estimation on Video 
+## Pose Estimation on Video 
 
 To run pose estimation on a live camera stream or video, pass in a device or file path from the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
@@ -71,7 +71,7 @@ $ ./posenet.py --network=resnet18-hand /dev/video0
 
 <a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
 
-### Pre-trained Pose Estimation Models
+## Pre-trained Pose Estimation Models
 
 Below are the pre-trained pose estimation networks available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `posenet` used for loading the pre-trained models:
 
@@ -89,33 +89,33 @@ Below are the pre-trained pose estimation networks available for [download](buil
 You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, Pose-ResNet18-Body is used if the optional `--network` flag isn't specified.
 
 
-### Working with Object Poses
+## Working with Object Poses
 
-If you want to access the pose keypoint locations, the `poseNet.Process()` function returns a list of `poseNet.ObjectPose` structures.  Each object pose represents one object (i.e. one person) and contains a list of detected keypoints and links.  For more details about these structures, please refer to the [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#poseNet) and [C++](../c/poseNet.h) documentation.  
+If you want to access the pose keypoint locations, the `poseNet.Process()` function returns a list of `poseNet.ObjectPose` structures.  Each object pose represents one object (i.e. one person) and contains a list of detected keypoints and links - see the [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#poseNet) and [C++](../c/poseNet.h) docs for more info.  
 
-Below is Python pseudocode for finding the 2D direction that a person is pointing, by forming a vector between the `left_shoulder` and `left_wrist` keypoints:
+Below is Python pseudocode for finding the 2D direction (in image space) that a person is pointing, by forming a vector between the `left_shoulder` and `left_wrist` keypoints:
 
 ``` python
 poses = net.Process(img)
 
 for pose in poses:
-     # find the keypoint index from the list of detected keypoints
-	# you can find these keypoint names in the model's JSON file, 
-	# or with net.GetNumKeypoints() / net.GetKeypointName()
-	left_wrist_idx = pose.FindKeypoint('left_wrist')
-	left_shoulder_idx = pose.FindKeypoint('left_shoulder')
+    # find the keypoint index from the list of detected keypoints
+    # you can find these keypoint names in the model's JSON file, 
+    # or with net.GetNumKeypoints() / net.GetKeypointName()
+    left_wrist_idx = pose.FindKeypoint('left_wrist')
+    left_shoulder_idx = pose.FindKeypoint('left_shoulder')
+
+    # if the keypoint index is < 0, it means it wasn't found in the image
+    if left_wrist_idx < 0 or left_shoulder_idx < 0:
+        continue
 	
-	# if the keypoint index is < 0, it means it wasn't found in the image
-	if left_wrist_idx < 0 or left_shoulder_idx < 0:
-		continue
-		
-	left_wrist = pose.Keypoints[left_wrist_idx]
-	left_shoulder = pose.Keypoints[left_shoulder_idx]
-	
-	point_x = left_shoulder.x - left_wrist.x
-	point_y = left_shoulder.y - left_wrist.y
-	
-	print(f"person {pose.ID} is pointing towards ({point_x}, {point_y})")
+    left_wrist = pose.Keypoints[left_wrist_idx]
+    left_shoulder = pose.Keypoints[left_shoulder_idx]
+
+    point_x = left_shoulder.x - left_wrist.x
+    point_y = left_shoulder.y - left_wrist.y
+
+    print(f"person {pose.ID} is pointing towards ({point_x}, {point_y})")
 ```
 	
 This was a simple example, but you can make it more useful with further manipulation of the vectors and by looking up more keypoints.  There are also more advanced techniques that use machine learning on the pose results for gesture classification, like in the [`trt_hand_pose`](https://github.com/NVIDIA-AI-IOT/trt_pose_hand) project.
