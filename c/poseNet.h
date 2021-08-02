@@ -85,9 +85,9 @@
 		  "  --batch-size=BATCH    maximum batch size (default is 1)\n"										\
 		  "  --threshold=THRESHOLD minimum threshold for detection (default is 0.5)\n"							\
 		  "  --overlay=OVERLAY     detection overlay flags (e.g. --overlay=links,keypoints)\n"					\
-		  "                        valid combinations are:  'box', 'links', 'keypoints', 'none'\n"					\
-		  "  --keypoint-scale=X    radius scale for drawing keypoints (default: 0.0052)\n"					     \
-		  "  --link-scale=X        line width scale for drawing link lines (default: 0.0013)\n"					\
+		  "                        valid combinations are:  'box', 'links', 'keypoints', 'none'\n"				\
+		  "  --keypoint-scale=X    radius scale for keypoints, relative to image (default: 0.0052)\n"				\
+		  "  --link-scale=X        line width scale for links, relative to image (default: 0.0013)\n"				\
 		  "  --profile             enable layer profiling in TensorRT\n\n"
 
 
@@ -321,7 +321,7 @@ public:
 	inline void SetKeypointAlpha( float alpha );
 	
 	/**
-	 * Get the scale used to calculate the radius of keypoints based on image dimensions.
+	 * Get the scale used to calculate the radius of keypoints relative to input image dimensions.
 	 */
 	inline float GetKeypointScale() const							{ return mKeypointScale; }
 	
@@ -332,7 +332,7 @@ public:
 	inline void SetKeypointScale( float scale )						{ mKeypointScale = scale; }
 	
 	/**
-	 * Get the scale used to calculate the width of link lines based on image dimensions.
+	 * Get the scale used to calculate the width of link lines relative to input image dimensions.
 	 */
 	inline float GetLinkScale() const								{ return mLinkScale; }
 	
