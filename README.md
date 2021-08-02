@@ -49,6 +49,8 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 * [Semantic Segmentation with SegNet](docs/segnet-console-2.md)
 	* [Segmenting Images from the Command Line](docs/segnet-console-2.md#segmenting-images-from-the-command-line)
 	* [Running the Live Camera Segmentation Demo](docs/segnet-camera-2.md)
+* [Pose Estimation](docs/posenet.md)
+* [Mono Depth Estimation](docs/depthnet.md)
 
 #### Training
 
