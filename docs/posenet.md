@@ -3,12 +3,12 @@
 <br/>
 <sup>Pose Estimation</sup></s></p>
 
-# Pose Estimation
-Pose estimation consists of locating various body parts (aka keypoints) forming a skeletal topology (aka links).  For this, we use models derived from the [OpenPose](https://arxiv.org/abs/1812.08008) DNN architecture that are capable of detecting the pose of multiple people per frame.  [Pre-trained models](#pre-trained-pose-estimation-models) are provided for human body and hand pose estimation.
+# Pose Estimation with PoseNet
+Pose estimation consists of locating various body parts (aka keypoints) that form a skeletal topology (aka links).  For this, we use models derived from the [OpenPose](https://arxiv.org/abs/1812.08008) DNN architecture.  [Pre-trained models](#pre-trained-pose-estimation-models) are provided for human body and hand pose estimation that are capable of detecting multiple people per frame.  Pose estimation has a variety of applications including gestures, AR/VR, HMI (human/machine interface), and posture/gait correction.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet.jpg" width="900">
 
-The `poseNet` object accepts an image as input, and outputs a list of object poses.  Each object pose contains a list of detected keypoints, along with their locations and links between keypoints.  `poseNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#poseNet) and [C++](../c/poseNet.h).
+The `poseNet` object accepts an image as input, and outputs a list of object poses.  Each object pose contains a list of detected keypoints, along with their locations and links between keypoints.  You can query these to find particular features.  `poseNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#poseNet) and [C++](../c/poseNet.h).
 
 As examples of using the `poseNet` class, we provide sample programs for C++ and Python:
 
@@ -19,16 +19,18 @@ These samples are able to detect objects in images, videos, and camera feeds.  F
 
 ### Pose Estimation on Images
 
-First, let's try running the `posenet` sample on some examples images.  In addition to the input/output paths, there are some additional command-line options:
+First, let's try running the `posenet` sample on some examples images.  In addition to the input/output paths, there are some additional command-line options that are optional:
 
 - optional `--network` flag which changes the [pose model](#pre-trained-pose-estimation-models) being used (the default is `resnet18-body`).
 - optional `--overlay` flag which can be comma-separated combinations of `box`, `links`, `keypoints`, and `none`
 	- The default is `--overlay=links,keypoints` which displays circles over they keypoints and lines over the links
+- optional `--keypoint-scale` value which controls the radius of the keypoint circles in the overlay (the default is `0.0052`)
+- optional `--link-scale` value which controls the line width of the link lines in the overlay (the default is `0.0013`)
 - optional `--threshold` value which sets the minimum threshold for detection (the default is `0.15`).  
 
 If you're using the [Docker container](aux-docker.md), it's recommended to save the output images to the `images/test` mounted directory.  These images will then be easily viewable from your host device under `jetson-inference/data/images/test` (for more info, see [Mounted Data Volumes](aux-docker.md#mounted-data-volumes)). 
 
-Here are some examples of human pose estimation with the default Pose-ResNet18-Body model:
+Here are some examples of human pose estimation using the default Pose-ResNet18-Body model:
 
 ``` bash
 # C++
@@ -47,7 +49,7 @@ There are also test images of people under `"images/peds_*.jpg"` that you can tr
 
 ### Pose Estimation on Video 
 
-To run pose estimation on a live camera stream or videos, pass in a device or file from the [Camera Streaming and Multimedia](aux-streaming.md) page.
+To run pose estimation on a live camera stream or video, pass in a device or file path from the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
 ``` bash
 # C++
@@ -87,74 +89,38 @@ Below are the pre-trained pose estimation networks available for [download](buil
 You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, Pose-ResNet18-Body is used if the optional `--network` flag isn't specified.
 
 
-### Source Code
+### Working with Object Poses
 
-For reference, below is the source code to [`posenet.py`](../python/examples/posenet.py):
+If you want to access the pose keypoint locations, the `poseNet.Process()` function returns a list of `poseNet.ObjectPose` structures.  Each object pose represents one object (i.e. one person) and contains a list of detected keypoints and links.  For more details about these structures, please refer to the [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#poseNet) and [C++](../c/poseNet.h) documentation.  
+
+Below is Python pseudocode for finding the 2D direction that a person is pointing, by forming a vector between the `left_shoulder` and `left_wrist` keypoints:
 
 ``` python
-import jetson.inference
-import jetson.utils
+poses = net.Process(img)
 
-import argparse
-import sys
-
-# parse the command line
-parser = argparse.ArgumentParser(description="Run pose estimation DNN on a video/image stream.", 
-                                 formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.poseNet.Usage() +
-                                 jetson.utils.videoSource.Usage() + jetson.utils.videoOutput.Usage() + jetson.utils.logUsage())
-
-parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
-parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
-parser.add_argument("--network", type=str, default="ssd-mobilenet-v2", help="pre-trained model to load (see below for options)")
-parser.add_argument("--overlay", type=str, default="links,keypoints", help="pose overlay flags (e.g. --overlay=links,keypoints)\nvalid combinations are:  'links', 'keypoints', 'boxes', 'none'")
-parser.add_argument("--threshold", type=float, default=0.15, help="minimum detection threshold to use") 
-
-try:
-	opt = parser.parse_known_args()[0]
-except:
-	print("")
-	parser.print_help()
-	sys.exit(0)
-
-# load the pose estimation model
-net = jetson.inference.poseNet(opt.network, sys.argv, opt.threshold)
-
-# create video sources & outputs
-input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
-output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv)
-
-# process frames until the user exits
-while True:
-    # capture the next image
-    img = input.Capture()
-
-    # perform pose estimation (with overlay)
-    poses = net.Process(img, overlay=opt.overlay)
-
-    # print the pose results
-    print("detected {:d} objects in image".format(len(poses)))
-
-    for pose in poses:
-        print(pose)
-        print(pose.Keypoints)
-        print('Links', pose.Links)
-
-    # render the image
-    output.Render(img)
-
-    # update the title bar
-    output.SetStatus("{:s} | Network {:.0f} FPS".format(opt.network, net.GetNetworkFPS()))
-
-    # print out performance info
-    net.PrintProfilerTimes()
-
-    # exit on input/output EOS
-    if not input.IsStreaming() or not output.IsStreaming():
-        break
+for pose in poses:
+     # find the keypoint index from the list of detected keypoints
+	# you can find these keypoint names in the model's JSON file, 
+	# or with net.GetNumKeypoints() / net.GetKeypointName()
+	left_wrist_idx = pose.FindKeypoint('left_wrist')
+	left_shoulder_idx = pose.FindKeypoint('left_shoulder')
+	
+	# if the keypoint index is < 0, it means it wasn't found in the image
+	if left_wrist_idx < 0 or left_shoulder_idx < 0:
+		continue
+		
+	left_wrist = pose.Keypoints[left_wrist_idx]
+	left_shoulder = pose.Keypoints[left_shoulder_idx]
+	
+	point_x = left_shoulder.x - left_wrist.x
+	point_y = left_shoulder.y - left_wrist.y
+	
+	print(f"person {pose.ID} is pointing towards ({point_x}, {point_y})")
 ```
-
-Next, we'll cover mono depth estimation.
-
+	
+This was a simple example, but you can make it more useful with further manipulation of the vectors and by looking up more keypoints.  There are also more advanced techniques that use machine learning on the pose results for gesture classification, like in the [`trt_hand_pose`](https://github.com/NVIDIA-AI-IOT/trt_pose_hand) project.
+	
+	
 ##
 <p align="right">Next | <b><a href="depthnet.md">Mono Depth Estimation</a></b>
 <br/>
