@@ -240,6 +240,8 @@ typedef struct {
 	PyObject* keypoints;
 	PyObject* links;
 	
+	poseNet* net;
+	
 } PyObjectPose_Object;
 
 
@@ -284,6 +286,7 @@ static PyObject* PyObjectPose_New( PyTypeObject* type, PyObject* args, PyObject*
 	
 	self->keypoints = NULL;
 	self->links = NULL;
+	self->net = NULL;
 	
 	return (PyObject*)self;
 }
@@ -329,7 +332,8 @@ static void PyObjectPose_Dealloc( PyObjectPose_Object* self )
 static void PyObjectPose_Setup( PyObjectPose_Object* self, const poseNet::ObjectPose& pose, poseNet* net=NULL )
 {
 	self->ID = pose.ID;
-
+	self->net = net;
+	
 	self->left = pose.Left;
 	self->right = pose.Right;
 	self->top = pose.Top;
@@ -658,7 +662,7 @@ static int PyObjectPose_SetLinks( PyObjectPose_Object* self, PyObject* value, vo
 }
 
 // FindKeypoint
-static PyObject* PyObjectPose_FindKeypoint( PyObjectPose_Object* self, PyObject *args, PyObject *kwds )
+static PyObject* PyObjectPose_FindKeypoint( PyObjectPose_Object* self, PyObject *args )
 {
 	if( !self )
 	{
@@ -668,12 +672,32 @@ static PyObject* PyObjectPose_FindKeypoint( PyObjectPose_Object* self, PyObject 
 
 	// parse arguments
 	int id = 0;
-	static char* kwlist[] = {"id", NULL};
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "i", kwlist, &id))
+	if( !PyArg_ParseTuple(args, "i", &id) )
 	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet.ObjectPose.FindKeypoint() failed to parse arguments");
-		return NULL;
+		if( self->net != NULL )
+		{
+			const char* name = NULL;
+
+			if( !PyArg_ParseTuple(args, "s", &name) )
+			{
+				PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet.ObjectPose.FindKeypoint() failed to parse arguments");
+				return NULL;
+			}
+			
+			id = self->net->FindKeypointID(name);
+			
+			if( id < 0 )
+			{
+				PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet.ObjectPose.FindKeypoint() could not find a keypoint by that name in the topology - check poseNet.GetNumKeypoints() / poseNet.GetKeypointName() for valid keypoint names");
+				return NULL;
+			}
+		}
+		else
+		{
+			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "this ObjectPose object wasn't created by a poseNet - please pass in a keypoint ID (int) instead of a name string");
+			return NULL;
+		}
 	}
 	
 	// sync with C++ object
@@ -686,7 +710,7 @@ static PyObject* PyObjectPose_FindKeypoint( PyObjectPose_Object* self, PyObject 
 }
 
 // FindLink
-static PyObject* PyObjectPose_FindLink( PyObjectPose_Object* self, PyObject *args, PyObject *kwds )
+static PyObject* PyObjectPose_FindLink( PyObjectPose_Object* self, PyObject *args )
 {
 	if( !self )
 	{
@@ -698,12 +722,33 @@ static PyObject* PyObjectPose_FindLink( PyObjectPose_Object* self, PyObject *arg
 	int a = 0;
 	int b = 0;
 
-	static char* kwlist[] = {"a", "b", NULL};
-
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "ii", kwlist, &a, &b))
+	if( !PyArg_ParseTuple(args, "ii", &a, &b))
 	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet.ObjectPose.FindLink() failed to parse arguments");
-		return NULL;
+		if( self->net != NULL )
+		{
+			const char* name_a = NULL;
+			const char* name_b = NULL;
+			
+			if( !PyArg_ParseTuple(args, "ss", &name_a, &name_b) )
+			{
+				PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet.ObjectPose.FindLink() failed to parse arguments");
+				return NULL;
+			}
+			
+			a = self->net->FindKeypointID(name_a);
+			b = self->net->FindKeypointID(name_b);
+			
+			if( a < 0 || b < 0 )
+			{
+				PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet.ObjectPose.FindLink() could not find a keypoint by that name in the topology - check poseNet.GetNumKeypoints() / poseNet.GetKeypointName() for valid keypoint names");
+				return NULL;
+			}
+		}
+		else
+		{
+			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "this ObjectPose object wasn't created by a poseNet - please pass in a keypoint ID (int) instead of a name string");
+			return NULL;
+		}
 	}
 
 	// sync with C++ object
@@ -731,8 +776,8 @@ static PyGetSetDef pyObjectPose_GetSet[] =
 
 static PyMethodDef pyObjectPose_Methods[] = 
 {
-	{ "FindKeypoint", (PyCFunction)PyObjectPose_FindKeypoint, METH_VARARGS|METH_KEYWORDS, "Find a keypoint index by it's ID, or return -1 if not found.  This returns an index into the Keypoints list."},
-	{ "FindLink", (PyCFunction)PyObjectPose_FindLink, METH_VARARGS|METH_KEYWORDS, "Find a link index by two keypoint ID's, or return -1 if not found.  This returns an index into the Links list."},
+	{ "FindKeypoint", (PyCFunction)PyObjectPose_FindKeypoint, METH_VARARGS, "Find a keypoint index by it's ID or name, or return -1 if not found.  This returns an index into the Keypoints list."},
+	{ "FindLink", (PyCFunction)PyObjectPose_FindLink, METH_VARARGS, "Find a link index by two keypoint ID's or names, or return -1 if not found.  This returns an index into the Links list."},
 	{ NULL }  /* Sentinel */
 };
 
@@ -1126,6 +1171,41 @@ PyObject* PyPoseNet_GetKeypointName( PyPoseNet_Object* self, PyObject* args )
 }
 
 
+#define DOC_FIND_KEYPOINT_ID "Return the keypoint ID for the given keypoint name.\n\n" \
+				 	     "Parameters:\n" \
+					     "  (str) -- name of the keypoint\n\n" \
+					     "Returns:\n" \
+					     "  (int) -- the ID of the keypoint"
+
+// FindKeypointID
+PyObject* PyPoseNet_FindKeypointID( PyPoseNet_Object* self, PyObject* args )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet invalid object instance");
+		return NULL;
+	}
+	
+	const char* keypointName = NULL;
+
+	if( !PyArg_ParseTuple(args, "s", &keypointName) )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet.FindKeypointID() failed to parse arguments");
+		return NULL;
+	}
+		
+	const int keypointID = self->net->FindKeypointID(keypointName);
+	
+	if( keypointID < 0 )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "couldn't find a keypoint by that name in the topology");
+		return NULL;
+	}
+
+	return PYLONG_FROM_UNSIGNED_LONG(keypointID);
+}
+
+
 #define DOC_SET_KEYPOINT_ALPHA "Set the alpha blending value used during overlay visualization for one or all keypoint types\n\n" \
 				 	      "Parameters:\n" \
 					      "  alpha (float) -- desired alpha value, between 0.0 and 255.0\n" \
@@ -1286,6 +1366,7 @@ static PyMethodDef pyDetectNet_Methods[] =
 	{ "SetThreshold", (PyCFunction)PyPoseNet_SetThreshold, METH_VARARGS, DOC_SET_THRESHOLD},     
 	{ "GetNumKeypoints", (PyCFunction)PyPoseNet_GetNumKeypoints, METH_NOARGS, DOC_GET_NUM_KEYPOINTS},
 	{ "GetKeypointName", (PyCFunction)PyPoseNet_GetKeypointName, METH_VARARGS, DOC_GET_KEYPOINT_NAME},
+	{ "FindKeypointID", (PyCFunction)PyPoseNet_FindKeypointID, METH_VARARGS, DOC_FIND_KEYPOINT_ID},
 	{ "SetKeypointAlpha", (PyCFunction)PyPoseNet_SetKeypointAlpha, METH_VARARGS|METH_KEYWORDS, DOC_SET_KEYPOINT_ALPHA},
 	{ "GetKeypointScale", (PyCFunction)PyPoseNet_GetKeypointScale, METH_NOARGS, DOC_GET_KEYPOINT_SCALE},
 	{ "SetKeypointScale", (PyCFunction)PyPoseNet_SetKeypointScale, METH_VARARGS|METH_KEYWORDS, DOC_SET_KEYPOINT_SCALE},
