@@ -35,7 +35,7 @@ if [ $L4T_RELEASE -eq 32 ]; then
 			CONTAINER_REMOTE_IMAGE="nvcr.io/ea-linux4tegra/$CONTAINER_IMAGE"
 		fi
 	elif [ $L4T_REVISION_MAJOR -gt 5 ]; then
-		CONTAINER_REMOTE_IMAGE="nvcr.io/ea-linux4tegra/$CONTAINER_IMAGE"
+		CONTAINER_REMOTE_IMAGE="dustynv/$CONTAINER_IMAGE"
 	else
 		version_error
 	fi
