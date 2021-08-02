@@ -4,7 +4,7 @@
 <sup>Pose Estimation</sup></s></p>
 
 # Pose Estimation with PoseNet
-Pose estimation consists of locating various body parts (aka keypoints) that form a skeletal topology (aka links).  For this, we use models derived from the [OpenPose](https://arxiv.org/abs/1812.08008) DNN architecture.  [Pre-trained models](#pre-trained-pose-estimation-models) are provided for human body and hand pose estimation that are capable of detecting multiple people per frame.  Pose estimation has a variety of applications including gestures, AR/VR, HMI (human/machine interface), and posture/gait correction.
+Pose estimation consists of locating various body parts (aka keypoints) that form a skeletal topology (aka links). Pose estimation has a variety of applications including gestures, AR/VR, HMI (human/machine interface), and posture/gait correction. [Pre-trained models](#pre-trained-pose-estimation-models) are provided for human body and hand pose estimation that are capable of detecting multiple people per frame.  
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet.jpg" width="900">
 
