@@ -34,10 +34,10 @@ Here are some examples of human pose estimation using the default Pose-ResNet18-
 
 ``` bash
 # C++
-$ ./posenet "images/humans_*.jpg" images/test/humans_%i.jpg
+$ ./posenet "images/humans_*.jpg" images/test/pose_humans_%i.jpg
 
 # Python
-$ ./posenet.py "images/humans_*.jpg" images/test/humans_%i.jpg
+$ ./posenet.py "images/humans_*.jpg" images/test/pose_humans_%i.jpg
 ```
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-0.jpg" width="900">
@@ -122,7 +122,7 @@ This was a simple example, but you can make it more useful with further manipula
 	
 	
 ##
-<p align="right">Next | <b><a href="depthnet.md">Mono Depth Estimation</a></b>
+<p align="right">Next | <b><a href="depthnet.md">Monocular Depth Estimation</a></b>
 <br/>
 Back | <b><a href="segnet-camera-2.md">Running the Live Camera Segmentation Demo</a></p>
 </b><p align="center"><sup>© 2016-2021 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

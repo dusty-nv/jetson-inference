@@ -50,7 +50,7 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 	* [Segmenting Images from the Command Line](docs/segnet-console-2.md#segmenting-images-from-the-command-line)
 	* [Running the Live Camera Segmentation Demo](docs/segnet-camera-2.md)
 * [Pose Estimation with PoseNet](docs/posenet.md)
-* [Mono Depth Estimation with DepthNet](docs/depthnet.md)
+* [Mononocular Depth with DepthNet](docs/depthnet.md)
 
 #### Training
 
@@ -93,6 +93,8 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 | Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#imageNet) |
 | Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#detectNet)
 | Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) |
+| Pose Estimation   | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classposeNet.html) | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#poseNet) |
+| Monocular Depth   | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classdepthNet.html) | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#depthNet) |
 
 #### jetson-utils
 
@@ -115,6 +117,8 @@ Additional C++ and Python samples for running the networks on static images and 
 | &nbsp;&nbsp;&nbsp;Image Recognition | [`imagenet.cpp`](examples/imagenet/imagenet.cpp) | [`imagenet.py`](python/examples/imagenet.py) |
 | &nbsp;&nbsp;&nbsp;Object Detection  | [`detectnet.cpp`](examples/detectnet/detectnet.cpp) | [`detectnet.py`](python/examples/detectnet.py) |
 | &nbsp;&nbsp;&nbsp;Segmentation      | [`segnet.cpp`](examples/segnet/segnet.cpp) | [`segnet.py`](python/examples/segnet.py) |
+| &nbsp;&nbsp;&nbsp;Pose Estimation   | [`posenet.cpp`](examples/posenet/posenet.cpp) | [`posenet.py`](python/examples/posenet.py) |
+| &nbsp;&nbsp;&nbsp;Monocular Depth   | [`depthnet.cpp`](examples/depthnet/segnet.cpp) | [`depthnet.py`](python/examples/depthnet.py) |
 
 > **note**:  for working with numpy arrays, see [Converting to Numpy Arrays](docs/aux-image.md#converting-to-numpy-arrays) and [Converting from Numpy Arrays](docs/aux-image.md#converting-from-numpy-arrays)
 
@@ -188,6 +192,14 @@ The project comes with a number of pre-trained models that are available through
 | Aerial-FPV (1280x720)   | `fcn-alexnet-aerial-fpv-720p`   | `FCN_ALEXNET_AERIAL_FPV_720p`   |     2   |
 
 </details>
+
+#### Pose Estimation
+
+| Model                   | CLI argument       | NetworkType enum   | Keypoints |
+| ------------------------|--------------------|--------------------|-----------|
+| Pose-ResNet18-Body      | `resnet18-body`    | `RESNET18_BODY`    | 18        |
+| Pose-ResNet18-Hand      | `resnet18-hand`    | `RESNET18_HAND`    | 21        |
+| Pose-DenseNet121-Body   | `densenet121-body` | `DENSENET121_BODY` | 18        |
 
 ## Recommended System Requirements
 
