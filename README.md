@@ -21,7 +21,7 @@ Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and 
 * [System Requirements](#recommended-system-requirements)
 * [Change Log](CHANGELOG.md)
 
-> &gt; &nbsp; JetPack 4.6 is now supported, along with the [`jetson-inference:r32.6.1`](docs/aux-docker) container. <br/>
+> &gt; &nbsp; JetPack 4.6 is now supported, along with [updated containers](docs/aux-docker). <br/>
 > &gt; &nbsp; Try the new [Pose Estimation](docs/posenet.md) and [Mono Depth](docs/monodepth.md) tutorials! <br/>
 > &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 

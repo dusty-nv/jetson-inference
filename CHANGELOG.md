@@ -4,6 +4,13 @@
 
 Major updates and new features to this project will be listed in this document.
 
+## August 3, 2021
+
+* Added [Pose Estimation with PoseNet](docs/posenet.md) with pre-trained models
+* Added [Mononocular Depth with DepthNet](docs/depthnet.md) with pre-trained models
+* Added support for [`cudaMemcpy()` from Python](docs/aux-image.md#copying-images)
+* Added support for [drawing 2D shapes with CUDA](docs/aux-image.md#drawing-shapes)
+
 ## August 31, 2020
 
 * Added initial support for [Running in Docker Containers](docs/aux-docker.md)
