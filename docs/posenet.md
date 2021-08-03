@@ -53,10 +53,10 @@ To run pose estimation on a live camera stream or video, pass in a device or fil
 
 ``` bash
 # C++
-$ ./posenet /dev/video0     # or csi://0 if using MIPI CSI camera
+$ ./posenet /dev/video0     # csi://0 if using MIPI CSI camera
 
 # Python
-$ ./posenet.py /dev/video0  # or csi://0 if using MIPI CSI camera
+$ ./posenet.py /dev/video0  # csi://0 if using MIPI CSI camera
 ```
 
 <a href="https://www.youtube.com/watch?v=hwFtWYR986Q" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/posenet-video-body.jpg width="750"></a>

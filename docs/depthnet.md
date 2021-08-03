@@ -64,10 +64,10 @@ To run mono depth estimation on a live camera stream or video, pass in a device 
 
 ``` bash
 # C++
-$ ./depthnet /dev/video0     # or csi://0 if using MIPI CSI camera
+$ ./depthnet /dev/video0     # csi://0 if using MIPI CSI camera
 
 # Python
-$ ./depthnet.py /dev/video0  # or csi://0 if using MIPI CSI camera
+$ ./depthnet.py /dev/video0  # csi://0 if using MIPI CSI camera
 ```
 
 <a href="https://www.youtube.com/watch?v=3_bU6Eqb4hE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-video-0.jpg width="750"></a>
@@ -121,7 +121,7 @@ while True:
 // load mono depth network
 depthNet* net = depthNet::Create();
 
-// depthNet always uses the same memory for the depth field,
+// depthNet re-uses the same memory for the depth field,
 // so you only need to do this once (not every frame)
 float* depth_field = net->GetDepthField();
 const int depth_width = net->GetDepthWidth();
@@ -132,8 +132,9 @@ while(true)
     uchar3* img = NUL;
     input->Capture(&img);  // assumes you have created an input videoSource stream
     net->Process(img, input->GetWidth(), input->GetHeight());
-	
-    CUDA(cudaDeviceSynchronize()); // wait for GPU to finish processing
+
+    // wait for the GPU to finish processing
+    CUDA(cudaDeviceSynchronize()); 
 	
     // you can now safely access depth_field from the CPU (or GPU)
     for( int y=0; y < depth_height; y++ )
@@ -142,7 +143,7 @@ while(true)
 }
 ```
 
-Trying to measure absolute distances using mono depth can lead to inaccuracies as it's typically more effective at relative depth estimation.  The range of values in the raw depth field can vary depending on the scene, so these are often re-calculated dynamically.  For example during visualization, histogram equalization is performed on the raw depth field to distribute the colormap more evenly across the range of depth values.
+Trying to measure absolute distances using mono depth can lead to inaccuracies as it's typically more effective at relative depth estimation.  The range of values in the raw depth field can vary depending on the scene, so these are often re-calculated dynamically.  For example, during visualization histogram equalization is performed on the depth field to distribute the colormap more evenly across the range of depth values.
 	
 Next, we're going to introduce the concepts of [Transfer Learning](pytorch-transfer-learning.md) and train our own DNN models on the Jetson using PyTorch.
 
