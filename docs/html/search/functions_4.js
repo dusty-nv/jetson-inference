@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['deactivate',['Deactivate',['../classglCamera.html#a57ff1e828c714a95750cd89c167e5d6b',1,'glCamera']]],
+  ['deepclone',['DeepClone',['../classtinyxml2_1_1XMLNode.html#a62c71b6bf8734b5424063b8d9a61c266',1,'tinyxml2::XMLNode']]],
+  ['deepcopy',['DeepCopy',['../classtinyxml2_1_1XMLDocument.html#af592ffc91514e25a39664521ac83db45',1,'tinyxml2::XMLDocument']]],
+  ['defaultcolors',['defaultColors',['../classdetectNet.html#a6213356e9907dc284e3212c42b346c62',1,'detectNet']]],
+  ['defaultentry',['DefaultEntry',['../classThread.html#a44f69c6f9bc3fe0899e48216d2dad3f6',1,'Thread']]],
+  ['deleteattribute',['DeleteAttribute',['../classtinyxml2_1_1XMLElement.html#aebd45aa7118964c30b32fe12e944628a',1,'tinyxml2::XMLElement']]],
+  ['deletechild',['DeleteChild',['../classtinyxml2_1_1XMLNode.html#a363b6edbd6ebd55f8387d2b89f2b0921',1,'tinyxml2::XMLNode']]],
+  ['deletechildren',['DeleteChildren',['../classtinyxml2_1_1XMLNode.html#a0360085cc54df5bff85d5c5da13afdce',1,'tinyxml2::XMLNode']]],
+  ['deletenode',['DeleteNode',['../classtinyxml2_1_1XMLDocument.html#ac1d6e2c7fcc1a660624ac4f68e96380d',1,'tinyxml2::XMLDocument']]],
+  ['depthnet',['depthNet',['../classdepthNet.html#a7b7805b7e1875bd7138e19a9949f1318',1,'depthNet']]],
+  ['detect',['Detect',['../classdetectNet.html#ac723eb903991627198ac3318b4f52e29',1,'detectNet::Detect(T *image, uint32_t width, uint32_t height, Detection **detections, uint32_t overlay=OVERLAY_BOX)'],['../classdetectNet.html#abbae1d14f3429628f582cff6adec1ae2',1,'detectNet::Detect(T *image, uint32_t width, uint32_t height, Detection *detections, uint32_t overlay=OVERLAY_BOX)'],['../classdetectNet.html#a5e0d73ae5f20e147837b6ded3c810973',1,'detectNet::Detect(void *input, uint32_t width, uint32_t height, imageFormat format, Detection **detections, uint32_t overlay=OVERLAY_BOX)'],['../classdetectNet.html#a7b3b349e721cc72065f4787744eb84c5',1,'detectNet::Detect(void *input, uint32_t width, uint32_t height, imageFormat format, Detection *detections, uint32_t overlay=OVERLAY_BOX)'],['../classdetectNet.html#ac2144a8af64dce65e391ccb6ab0fb5f9',1,'detectNet::Detect(float *input, uint32_t width, uint32_t height, Detection **detections, uint32_t overlay=OVERLAY_BOX)'],['../classdetectNet.html#af2f0dd5c2b47daa57953d3b5e1e83767',1,'detectNet::Detect(float *input, uint32_t width, uint32_t height, Detection *detections, uint32_t overlay=OVERLAY_BOX)']]],
+  ['detection',['Detection',['../structdetectNet_1_1Detection.html#a985bb069089a55dc4a43d360486c1d1f',1,'detectNet::Detection']]],
+  ['detectnativeprecision',['DetectNativePrecision',['../classtensorNet.html#aa3bf1a3bf1fca38b39a200b4d8f727b2',1,'tensorNet::DetectNativePrecision(const std::vector&lt; precisionType &gt; &amp;nativeTypes, precisionType type)'],['../classtensorNet.html#a7d72ec8bbaf61278ce533afd60d5391c',1,'tensorNet::DetectNativePrecision(precisionType precision, deviceType device=DEVICE_GPU)']]],
+  ['detectnativeprecisions',['DetectNativePrecisions',['../classtensorNet.html#ae88436e652afdd7bceef7cb7c5fde7a6',1,'tensorNet']]],
+  ['detectnet',['detectNet',['../classdetectNet.html#a07a419d97f14aa0962b737e671ff438a',1,'detectNet']]],
+  ['devicetypefromstr',['DeviceTypeFromStr',['../structvideoOptions.html#a339d348d2b5262987e462f1d42fa4466',1,'videoOptions::DeviceTypeFromStr()'],['../group__tensorNet.html#ga35c5a50fb1ab97a827b18012534fd7a7',1,'deviceTypeFromStr():&#160;tensorNet.h']]],
+  ['devicetypetostr',['DeviceTypeToStr',['../structvideoOptions.html#a90479c2aaa46b180855e99be2497dbfc',1,'videoOptions::DeviceTypeToStr()'],['../group__tensorNet.html#ga85c110403b6c661b4a7042fc319f39b0',1,'deviceTypeToStr():&#160;tensorNet.h']]],
+  ['discover',['discover',['../classgstDecoder.html#a5c5f6f83bfac05602b825e1a94da5dc6',1,'gstDecoder']]],
+  ['dispatchevent',['dispatchEvent',['../classglDisplay.html#a003b6aa5e7a7e32eee46b2720e6f1f1f',1,'glDisplay::dispatchEvent()'],['../classglWidget.html#a583557bb83aad6e5c42169c0b41a0dd4',1,'glWidget::dispatchEvent()']]],
+  ['dot',['dot',['../cudaMath_8h.html#aa81053cc504f50bd3cd8b5cc6f54b666',1,'dot(float2 a, float2 b):&#160;cudaMath.h'],['../cudaMath_8h.html#aa9cdc9f9c05b4fbdc7bb18b325de7e9a',1,'dot(float3 a, float3 b):&#160;cudaMath.h'],['../cudaMath_8h.html#a0e2579b86f636edba4ea1b36484ffb4d',1,'dot(float4 a, float4 b):&#160;cudaMath.h'],['../cudaMath_8h.html#a9a383c4a8a5548868b33c994702e5655',1,'dot(int2 a, int2 b):&#160;cudaMath.h'],['../cudaMath_8h.html#a55c003cc1dcaefb99143c01198ee38db',1,'dot(int3 a, int3 b):&#160;cudaMath.h'],['../cudaMath_8h.html#a81dd5802470fb915ca1d9bf7a107b1e4',1,'dot(int4 a, int4 b):&#160;cudaMath.h'],['../cudaMath_8h.html#a289fee22af9fcc39b6916225dbf215c5',1,'dot(uint2 a, uint2 b):&#160;cudaMath.h'],['../cudaMath_8h.html#a0f4a723da388b8fe38ecfdf042934c8d',1,'dot(uint3 a, uint3 b):&#160;cudaMath.h'],['../cudaMath_8h.html#af381ed485d00cebfc4c52608646a7474',1,'dot(uint4 a, uint4 b):&#160;cudaMath.h']]],
+  ['doubleattribute',['DoubleAttribute',['../classtinyxml2_1_1XMLElement.html#a10a90c505aea716bf073eea1c97f33b5',1,'tinyxml2::XMLElement']]],
+  ['doubletext',['DoubleText',['../classtinyxml2_1_1XMLElement.html#a81b1ff0cf2f2cd09be8badc08b39a2b7',1,'tinyxml2::XMLElement']]],
+  ['doublevalue',['DoubleValue',['../classtinyxml2_1_1XMLAttribute.html#a4aa73513f54ff0087d3e804f0f54e30f',1,'tinyxml2::XMLAttribute']]],
+  ['dynarray',['DynArray',['../classtinyxml2_1_1DynArray.html#aaad72f384e761c70a4519183eb8fea17',1,'tinyxml2::DynArray']]]
+];
