@@ -8,7 +8,7 @@ Pose estimation consists of locating various body parts (aka keypoints) that for
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/posenet-0.jpg">
 
-The `poseNet` object accepts an image as input, and outputs a list of object poses.  Each object pose contains a list of detected keypoints, along with their locations and links between keypoints.  You can query these to find particular features.  `poseNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#poseNet) and [C++](../c/poseNet.h).
+The [`poseNet`]((../c/poseNet.h) object accepts an image as input, and outputs a list of object poses.  Each object pose contains a list of detected keypoints, along with their locations and links between keypoints.  You can query these to find particular features.  [`poseNet`]((../c/poseNet.h) can be used from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#poseNet) and [C++](../c/poseNet.h).
 
 As examples of using the `poseNet` class, we provide sample programs for C++ and Python:
 
