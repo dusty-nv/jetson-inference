@@ -112,6 +112,12 @@
  */
 
 /**
+ * @defgroup drawing Drawing
+ * Drawing basic 2D shapes using CUDA.
+ * @ingroup cuda
+ */
+ 
+/**
  * @defgroup cudaError Error Checking
  * Error checking and logging macros.
  * @ingroup cuda
@@ -126,12 +132,6 @@
 /**
  * @defgroup cudaMemory Memory Management
  * Allocation of CUDA mapped zero-copy memory.
- * @ingroup cuda
- */
-
-/**
- * @defgroup drawing Drawing
- * Drawing basic 2D shapes using CUDA.
  * @ingroup cuda
  */
  
