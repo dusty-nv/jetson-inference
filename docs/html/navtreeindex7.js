@@ -104,11 +104,8 @@ var NAVTREEINDEX7 =
 "cudaYUV_8h_source.html":[4,0,2,26],
 "deprecated.html":[0],
 "depthNet_8h.html":[4,0,1,0],
-"depthNet_8h.html#a123f753a6274dc3fa4780b176e168a35":[4,0,1,0,1],
-"depthNet_8h.html#a1af887f6a955f2938f1770aa7124aa7b":[4,0,1,0,2],
-"depthNet_8h.html#ab90d8bf9344740081e4c51c014e73c52":[4,0,1,0,3],
-"depthNet_8h.html#adb112003697f3e8ecf1b40fb1a082ca8":[4,0,1,0,4],
-"depthNet_8h.html#af7fedcbd0339376e367939bbcecdd884":[4,0,1,0,5],
+"depthNet_8h.html#a123f753a6274dc3fa4780b176e168a35":[4,0,1,0,0],
+"depthNet_8h.html#a1af887f6a955f2938f1770aa7124aa7b":[4,0,1,0,1],
 "depthNet_8h_source.html":[4,0,1,0],
 "detectNet_8h.html":[4,0,1,1],
 "detectNet_8h_source.html":[4,0,1,1],
@@ -230,8 +227,8 @@ var NAVTREEINDEX7 =
 "glUtility_8h_source.html":[4,0,2,38],
 "glWidget_8h.html":[4,0,2,39],
 "glWidget_8h_source.html":[4,0,2,39],
-"globals.html":[4,1,0,0],
 "globals.html":[4,1,0],
+"globals.html":[4,1,0,0],
 "globals_a.html":[4,1,0,1],
 "globals_b.html":[4,1,0,2],
 "globals_c.html":[4,1,0,3],
@@ -249,5 +246,8 @@ var NAVTREEINDEX7 =
 "globals_func_f.html":[4,1,1,4],
 "globals_func_g.html":[4,1,1,5],
 "globals_func_i.html":[4,1,1,6],
-"globals_func_l.html":[4,1,1,7]
+"globals_func_l.html":[4,1,1,7],
+"globals_func_m.html":[4,1,1,8],
+"globals_func_n.html":[4,1,1,9],
+"globals_func_o.html":[4,1,1,10]
 };

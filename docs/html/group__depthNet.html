@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Jetson Inference: depthNet</title>
+<title>Jetson Inference: DepthNet</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -81,20 +81,94 @@ $(document).ready(function(){initNavTree('group__depthNet.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
-<div class="title">depthNet<div class="ingroups"><a class="el" href="group__deepVision.html">DNN Vision Library (jetson-inference)</a></div></div>  </div>
+<div class="title">DepthNet<div class="ingroups"><a class="el" href="group__deepVision.html">DNN Vision Library (jetson-inference)</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Depth estimation from monocular images.  
+<p>Mono depth estimation from monocular images.  
 <a href="#details">More...</a></p>
-<p>Depth estimation from monocular images. </p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdepthNet.html">depthNet</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mono depth estimation from monocular images, using TensorRT.  <a href="classdepthNet.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:gab90d8bf9344740081e4c51c014e73c52"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__depthNet.html#gab90d8bf9344740081e4c51c014e73c52">DEPTHNET_DEFAULT_INPUT</a>&#160;&#160;&#160;&quot;input_0&quot;</td></tr>
+<tr class="memdesc:gab90d8bf9344740081e4c51c014e73c52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default input blob for <a class="el" href="classdepthNet.html" title="Mono depth estimation from monocular images, using TensorRT. ">depthNet</a> model.  <a href="#gab90d8bf9344740081e4c51c014e73c52">More...</a><br /></td></tr>
+<tr class="separator:gab90d8bf9344740081e4c51c014e73c52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadb112003697f3e8ecf1b40fb1a082ca8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__depthNet.html#gadb112003697f3e8ecf1b40fb1a082ca8">DEPTHNET_DEFAULT_OUTPUT</a>&#160;&#160;&#160;&quot;output_0&quot;</td></tr>
+<tr class="memdesc:gadb112003697f3e8ecf1b40fb1a082ca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default output blob for <a class="el" href="classdepthNet.html" title="Mono depth estimation from monocular images, using TensorRT. ">depthNet</a> model.  <a href="#gadb112003697f3e8ecf1b40fb1a082ca8">More...</a><br /></td></tr>
+<tr class="separator:gadb112003697f3e8ecf1b40fb1a082ca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf7fedcbd0339376e367939bbcecdd884"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__depthNet.html#gaf7fedcbd0339376e367939bbcecdd884">DEPTHNET_USAGE_STRING</a></td></tr>
+<tr class="memdesc:gaf7fedcbd0339376e367939bbcecdd884"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command-line options able to be passed to <a class="el" href="classdepthNet.html#a227bdecfcffc185bbaf05a9dcacab1ca" title="Load a new network instance. ">depthNet::Create()</a>  <a href="#gaf7fedcbd0339376e367939bbcecdd884">More...</a><br /></td></tr>
+<tr class="separator:gaf7fedcbd0339376e367939bbcecdd884"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<p>Mono depth estimation from monocular images. </p>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="gab90d8bf9344740081e4c51c014e73c52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab90d8bf9344740081e4c51c014e73c52">&#9670;&nbsp;</a></span>DEPTHNET_DEFAULT_INPUT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEPTHNET_DEFAULT_INPUT&#160;&#160;&#160;&quot;input_0&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Name of default input blob for <a class="el" href="classdepthNet.html" title="Mono depth estimation from monocular images, using TensorRT. ">depthNet</a> model. </p>
+
+</div>
+</div>
+<a id="gadb112003697f3e8ecf1b40fb1a082ca8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadb112003697f3e8ecf1b40fb1a082ca8">&#9670;&nbsp;</a></span>DEPTHNET_DEFAULT_OUTPUT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEPTHNET_DEFAULT_OUTPUT&#160;&#160;&#160;&quot;output_0&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Name of default output blob for <a class="el" href="classdepthNet.html" title="Mono depth estimation from monocular images, using TensorRT. ">depthNet</a> model. </p>
+
+</div>
+</div>
+<a id="gaf7fedcbd0339376e367939bbcecdd884"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf7fedcbd0339376e367939bbcecdd884">&#9670;&nbsp;</a></span>DEPTHNET_USAGE_STRING</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEPTHNET_USAGE_STRING</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="stringliteral">&quot;depthNet arguments: \n&quot;</span>                                                        \</div><div class="line">                  <span class="stringliteral">&quot;  --network NETWORK    pre-trained model to load, one of the following:\n&quot;</span>   \</div><div class="line">                  <span class="stringliteral">&quot;                           * monodepth-mobilenet\n&quot;</span>                          \</div><div class="line">                  <span class="stringliteral">&quot;                           * monodepth-resnet18\n&quot;</span>                           \</div><div class="line">                  <span class="stringliteral">&quot;                           * monodepth-resnet50\n&quot;</span>                           \</div><div class="line">                  <span class="stringliteral">&quot;  --model MODEL        path to custom model to load (onnx)\n&quot;</span>                        \</div><div class="line">                  <span class="stringliteral">&quot;  --input_blob INPUT   name of the input layer (default is &#39;&quot;</span> <a class="code" href="group__depthNet.html#gab90d8bf9344740081e4c51c014e73c52">DEPTHNET_DEFAULT_INPUT</a> <span class="stringliteral">&quot;&#39;)\n&quot;</span>  \</div><div class="line">                  <span class="stringliteral">&quot;  --output_blob OUTPUT name of the output layer (default is &#39;&quot;</span> <a class="code" href="group__depthNet.html#gadb112003697f3e8ecf1b40fb1a082ca8">DEPTHNET_DEFAULT_OUTPUT</a> <span class="stringliteral">&quot;&#39;)\n&quot;</span>        \</div><div class="line">                  <span class="stringliteral">&quot;  --batch_size BATCH   maximum batch size (default is 1)\n&quot;</span>                                                          \</div><div class="line">                  <span class="stringliteral">&quot;  --profile            enable layer profiling in TensorRT\n\n&quot;</span></div><div class="ttc" id="group__depthNet_html_gadb112003697f3e8ecf1b40fb1a082ca8"><div class="ttname"><a href="group__depthNet.html#gadb112003697f3e8ecf1b40fb1a082ca8">DEPTHNET_DEFAULT_OUTPUT</a></div><div class="ttdeci">#define DEPTHNET_DEFAULT_OUTPUT</div><div class="ttdoc">Name of default output blob for depthNet model. </div><div class="ttdef"><b>Definition:</b> depthNet.h:40</div></div>
+<div class="ttc" id="group__depthNet_html_gab90d8bf9344740081e4c51c014e73c52"><div class="ttname"><a href="group__depthNet.html#gab90d8bf9344740081e4c51c014e73c52">DEPTHNET_DEFAULT_INPUT</a></div><div class="ttdeci">#define DEPTHNET_DEFAULT_INPUT</div><div class="ttdoc">Name of default input blob for depthNet model. </div><div class="ttdef"><b>Definition:</b> depthNet.h:34</div></div>
+</div><!-- fragment -->
+<p>Command-line options able to be passed to <a class="el" href="classdepthNet.html#a227bdecfcffc185bbaf05a9dcacab1ca" title="Load a new network instance. ">depthNet::Create()</a> </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Jun 23 2020 14:23:44 for Jetson Inference by
+    <li class="footer">Generated on Tue Aug 3 2021 14:52:13 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

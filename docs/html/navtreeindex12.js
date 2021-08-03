@@ -1,5 +1,9 @@
 var NAVTREEINDEX12 =
 {
+"structtensorNet_1_1layerInfo.html#af3b06eaa5c33ace64e1f5a49630cac2f":[1,0,0,0,0,0],
+"structvideoOptions.html":[1,1,15,1],
+"structvideoOptions.html#a1835d463a05df501c7b49e6c3498b3e9":[1,1,15,1,6],
+"structvideoOptions.html#a1e904a117abb3b703f01eaed7fa305f2":[1,1,15,1,19],
 "structvideoOptions.html#a4065c77be7f3be75eddfc16b6efb36ed":[1,1,15,1,1],
 "structvideoOptions.html#a4065c77be7f3be75eddfc16b6efb36eda13cb55a7a6d78170f4804dd342b3fc0a":[1,1,15,1,1,3],
 "structvideoOptions.html#a4065c77be7f3be75eddfc16b6efb36eda14ace01196686e68ba5f6def69f44886":[1,1,15,1,1,4],
