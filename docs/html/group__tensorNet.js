@@ -10,11 +10,11 @@ var group__tensorNet =
         [ "size", "structtensorNet_1_1layerInfo.html#a1b51ab468f77ef7fd5524063e972ea11", null ]
       ] ],
       [ "Logger", "classtensorNet_1_1Logger.html", [
-        [ "log", "classtensorNet_1_1Logger.html#a8bd9893db2a2344e5b601d6bd8f8619e", null ]
+        [ "log", "classtensorNet_1_1Logger.html#ac2a77ceaa57c5faaa0ea0d63f1a7a3cb", null ]
       ] ],
       [ "Profiler", "classtensorNet_1_1Profiler.html", [
         [ "Profiler", "classtensorNet_1_1Profiler.html#a55a6fd3103bcd4a57379a90eff183617", null ],
-        [ "reportLayerTime", "classtensorNet_1_1Profiler.html#a509ac9582f3e2f8f386363a0d43cc51c", null ],
+        [ "reportLayerTime", "classtensorNet_1_1Profiler.html#a10c85affab9f2e43463676e3221b93bf", null ],
         [ "timingAccumulator", "classtensorNet_1_1Profiler.html#a8784d561f96bfd5a02c2bf9554f0d773", null ]
       ] ],
       [ "~tensorNet", "classtensorNet.html#ad19aafbfa262f9b8ffb0bff561f4d7f7", null ],

@@ -377,7 +377,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0. </p>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000009">Deprecated:</a></b></dt><dd><a class="el" href="classgstCamera.html#a93371e3811a1956ff96c154fd1da23f2" title="Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0. ">CaptureRGBA()</a> has been deprecated and is only provided for legacy compatibility. Please use the updated <a class="el" href="classgstCamera.html#add77384dd73058543da2f1c722e00a30" title="Capture the next image frame from the camera. ">Capture()</a> function instead.</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000011">Deprecated:</a></b></dt><dd><a class="el" href="classgstCamera.html#a93371e3811a1956ff96c154fd1da23f2" title="Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0. ">CaptureRGBA()</a> has been deprecated and is only provided for legacy compatibility. Please use the updated <a class="el" href="classgstCamera.html#add77384dd73058543da2f1c722e00a30" title="Capture the next image frame from the camera. ">Capture()</a> function instead.</dd></dl>
 <p>Internally, <a class="el" href="classgstCamera.html#a93371e3811a1956ff96c154fd1da23f2" title="Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0. ">CaptureRGBA()</a> first calls <a class="el" href="classgstCamera.html#add77384dd73058543da2f1c722e00a30" title="Capture the next image frame from the camera. ">Capture()</a> and then ConvertRGBA(). The ConvertRGBA() function uses CUDA, so if you want to capture from a different thread than your CUDA device, use the <a class="el" href="classgstCamera.html#add77384dd73058543da2f1c722e00a30" title="Capture the next image frame from the camera. ">Capture()</a> and ConvertRGBA() functions.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -683,7 +683,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classgstCamera.html">gstCamera</a></li>
-    <li class="footer">Generated on Tue Jul 14 2020 21:59:35 for Jetson Inference by
+    <li class="footer">Generated on Tue Aug 3 2021 14:48:58 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

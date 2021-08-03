@@ -21,6 +21,7 @@ var group__util =
     [ "PI_OVER_TWO", "group__util.html#gadadbae7d9856635bbacdc4c9f546ef81", null ],
     [ "RAD_TO_DEG", "group__util.html#ga89e47af0449640d4f15191aba5ca24c6", null ],
     [ "SAFE_DELETE", "group__util.html#ga4b8b2bed986c06c207ebac140ba65a7a", null ],
+    [ "SAFE_FREE", "group__util.html#gaed3129b7674034c979192bcca6b0ad8c", null ],
     [ "TWO_PI", "group__util.html#ga3b947f4b635461030ff2d87833e5049e", null ],
     [ "rand", "group__util.html#ga38e36f1fb5c8d8bc2dd5b502f17d9be4", null ],
     [ "randf", "group__util.html#gafee76bb8d269f1ccb369264fd28540f6", null ],

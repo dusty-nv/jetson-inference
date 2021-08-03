@@ -219,6 +219,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa8e394eb896dd92fd39c0946c10dd1ea"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvideoOptions.html#aa8e394eb896dd92fd39c0946c10dd1ea">loop</a></td></tr>
 <tr class="memdesc:aa8e394eb896dd92fd39c0946c10dd1ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control the number of loops for <a class="el" href="classvideoSource.html" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras...">videoSource</a> disk-based inputs (for example, the number of times that a video should loop).  <a href="#aa8e394eb896dd92fd39c0946c10dd1ea">More...</a><br /></td></tr>
 <tr class="separator:aa8e394eb896dd92fd39c0946c10dd1ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae574da46cb462c9d50d73c9c2a6c6fd0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvideoOptions.html#ae574da46cb462c9d50d73c9c2a6c6fd0">rtspLatency</a></td></tr>
+<tr class="memdesc:ae574da46cb462c9d50d73c9c2a6c6fd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of milliseconds of video to buffer for incoming RTSP streams (the default is 2000 ms).  <a href="#ae574da46cb462c9d50d73c9c2a6c6fd0">More...</a><br /></td></tr>
+<tr class="separator:ae574da46cb462c9d50d73c9c2a6c6fd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63c0d583c059d4498ba885090dac062e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvideoOptions.html#a4065c77be7f3be75eddfc16b6efb36ed">DeviceType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvideoOptions.html#a63c0d583c059d4498ba885090dac062e">deviceType</a></td></tr>
 <tr class="memdesc:a63c0d583c059d4498ba885090dac062e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates the type of device interface used by this stream.  <a href="#a63c0d583c059d4498ba885090dac062e">More...</a><br /></td></tr>
 <tr class="separator:a63c0d583c059d4498ba885090dac062e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -962,6 +965,23 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ae574da46cb462c9d50d73c9c2a6c6fd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae574da46cb462c9d50d73c9c2a6c6fd0">&#9670;&nbsp;</a></span>rtspLatency</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int videoOptions::rtspLatency</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Number of milliseconds of video to buffer for incoming RTSP streams (the default is 2000 ms). </p>
+<p>This option can be set from the command line using <code>--input-rtsp-latency=N</code> </p>
+
+</div>
+</div>
 <a id="a5c30587a874bb769d7b346ac00cff580"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5c30587a874bb769d7b346ac00cff580">&#9670;&nbsp;</a></span>width</h2>
 
@@ -1005,7 +1025,7 @@ Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="structvideoOptions.html">videoOptions</a></li>
-    <li class="footer">Generated on Tue Jul 14 2020 21:59:35 for Jetson Inference by
+    <li class="footer">Generated on Tue Aug 3 2021 14:48:59 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -8,7 +8,7 @@ var searchData=
   ['boolattribute',['BoolAttribute',['../classtinyxml2_1_1XMLElement.html#a53eda26131e1ad1031ef8ec8adb51bd8',1,'tinyxml2::XMLElement']]],
   ['booltext',['BoolText',['../classtinyxml2_1_1XMLElement.html#a68569f59f6382bcea7f5013ec59736d2',1,'tinyxml2::XMLElement']]],
   ['boolvalue',['BoolValue',['../classtinyxml2_1_1XMLAttribute.html#a98ce5207344ad33a265b0422addae1ff',1,'tinyxml2::XMLAttribute']]],
-  ['bottom',['Bottom',['../structdetectNet_1_1Detection.html#a97869bd21815bfc1ca005fa057329ffe',1,'detectNet::Detection']]],
+  ['bottom',['Bottom',['../structdetectNet_1_1Detection.html#a97869bd21815bfc1ca005fa057329ffe',1,'detectNet::Detection::Bottom()'],['../structposeNet_1_1ObjectPose.html#a333bb92ee586133a7221ace0f5f4d557',1,'poseNet::ObjectPose::Bottom()']]],
   ['bswap16',['bswap16',['../Endian_8h.html#a77940e89e880931aa3119867e4dad8ea',1,'Endian.h']]],
   ['bswap32',['bswap32',['../Endian_8h.html#a15cbd510c4762c0a57df38be08b47f8e',1,'Endian.h']]],
   ['bswap64',['bswap64',['../Endian_8h.html#a6e5a270d6482e0712403fd981fb863d9',1,'Endian.h']]],

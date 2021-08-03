@@ -6,7 +6,7 @@ var classvideoOutput =
     [ "Close", "classvideoOutput.html#a552252a397249335e77755e0b911225e", null ],
     [ "GetFrameRate", "classvideoOutput.html#a26c37f79e965f1b9741b4d9b3923bd6b", null ],
     [ "GetHeight", "classvideoOutput.html#aa225fb199069cf2a4b30f467e237da73", null ],
-    [ "GetNumOutputs", "classvideoOutput.html#af4b749b5ed6728bfa818a1a1cafd2e19", null ],
+    [ "GetNumOutputs", "classvideoOutput.html#adc630f31a8d55dc852ac1e01c1f7dc58", null ],
     [ "GetOptions", "classvideoOutput.html#a59f21f27a0efe56541fbe15f1d5f46ce", null ],
     [ "GetOutput", "classvideoOutput.html#aa1a64933421c48f1af63ea12a8217421", null ],
     [ "GetResource", "classvideoOutput.html#a47edea2ad237e50cfbd6d0a192280ee5", null ],

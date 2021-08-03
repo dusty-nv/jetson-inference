@@ -93,6 +93,9 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 <li>GetCameraMode()
 : <a class="el" href="classglCamera.html#ac8ab4555df063460fba8876dadd4062e">glCamera</a>
 </li>
+<li>GetCategory()
+: <a class="el" href="classposeNet.html#a0346daba87ac68e645c4d5be3d56d354">poseNet</a>
+</li>
 <li>GetCharacterRef()
 : <a class="el" href="classtinyxml2_1_1XMLUtil.html#acddca74146deab644195d600bdd96a9b">tinyxml2::XMLUtil</a>
 </li>
@@ -128,6 +131,15 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 </li>
 <li>GetDelimiters()
 : <a class="el" href="classcsvReader.html#aebd2551a4d24767f51ac7b2601af86c2">csvReader</a>
+</li>
+<li>GetDepthField()
+: <a class="el" href="classdepthNet.html#a96554b8c9ba3e710de7fe45f9edc8fc7">depthNet</a>
+</li>
+<li>GetDepthFieldHeight()
+: <a class="el" href="classdepthNet.html#a5080fdfd97015e8e77aba3e33275ac37">depthNet</a>
+</li>
+<li>GetDepthFieldWidth()
+: <a class="el" href="classdepthNet.html#a67957d14b680b3d2ef001a55727e3f1d">depthNet</a>
 </li>
 <li>GetDevice()
 : <a class="el" href="classtensorNet.html#a92bb737172d26bda5f67d15346a02514">tensorNet</a>
@@ -230,12 +242,24 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 <li>GetKeyboard()
 : <a class="el" href="classInputDevices.html#ab4980776694d32de85b4ed9b956a9911">InputDevices</a>
 </li>
+<li>GetKeypointColor()
+: <a class="el" href="classposeNet.html#aec84aecce84762533afb017778117446">poseNet</a>
+</li>
+<li>GetKeypointName()
+: <a class="el" href="classposeNet.html#aba2c29631f3e194386a2c2c0aaa77fc9">poseNet</a>
+</li>
+<li>GetKeypointScale()
+: <a class="el" href="classposeNet.html#a6a2934b5843740670019eee8424de5f2">poseNet</a>
+</li>
 <li>GetLevel()
 : <a class="el" href="classLog.html#a1e0dae8692350761b8809693789f31ce">Log</a>
 </li>
 <li>GetLineNum()
 : <a class="el" href="classtinyxml2_1_1XMLAttribute.html#a02d5ea924586e35f9c13857d1671b765">tinyxml2::XMLAttribute</a>
 , <a class="el" href="classtinyxml2_1_1XMLNode.html#a9b5fc636646fda761d342c72e91cb286">tinyxml2::XMLNode</a>
+</li>
+<li>GetLinkScale()
+: <a class="el" href="classposeNet.html#a7f3dbc604b5f6343734b0d4e3d0082d3">poseNet</a>
 </li>
 <li>GetMaxDetections()
 : <a class="el" href="classdetectNet.html#a38689b7d4b83723038677d66c1961974">detectNet</a>
@@ -271,14 +295,16 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 : <a class="el" href="classtensorNet.html#a9dd2db089176ae6878e9ea7dd8fd80c3">tensorNet</a>
 </li>
 <li>GetNetworkName()
-: <a class="el" href="classimageNet.html#a359ecefb8ac20cd44fddc69d38bde3ef">imageNet</a>
+: <a class="el" href="classdepthNet.html#aaa8bfab681e8b13210258fb55ffdb53a">depthNet</a>
+, <a class="el" href="classimageNet.html#a359ecefb8ac20cd44fddc69d38bde3ef">imageNet</a>
 , <a class="el" href="classsegNet.html#a94b243146a1391e82612cb70641c4bac">segNet</a>
 </li>
 <li>GetNetworkTime()
 : <a class="el" href="classtensorNet.html#a49faef5920860345e503023b7c84423c">tensorNet</a>
 </li>
 <li>GetNetworkType()
-: <a class="el" href="classimageNet.html#ad0cde8f64f32a50984c947dc823de04e">imageNet</a>
+: <a class="el" href="classdepthNet.html#a9041710fdc57c824fab028b0859bcfe6">depthNet</a>
+, <a class="el" href="classimageNet.html#ad0cde8f64f32a50984c947dc823de04e">imageNet</a>
 , <a class="el" href="classsegNet.html#a7779565e2e627209d6fc6e7562047431">segNet</a>
 </li>
 <li>GetNumClasses()
@@ -289,8 +315,11 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 <li>GetNumElements()
 : <a class="el" href="classglBuffer.html#a3a85731d95935b4da3725caa5853974e">glBuffer</a>
 </li>
+<li>GetNumKeypoints()
+: <a class="el" href="classposeNet.html#a212119ed54dbae900c977576f5aea72a">poseNet</a>
+</li>
 <li>GetNumOutputs()
-: <a class="el" href="classvideoOutput.html#af4b749b5ed6728bfa818a1a1cafd2e19">videoOutput</a>
+: <a class="el" href="classvideoOutput.html#adc630f31a8d55dc852ac1e01c1f7dc58">videoOutput</a>
 </li>
 <li>GetNumPoints()
 : <a class="el" href="classcudaPointCloud.html#abeefc53319ad08f9da52a9c5a7cb324a">cudaPointCloud</a>
@@ -381,6 +410,7 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 </li>
 <li>GetThreshold()
 : <a class="el" href="classdetectNet.html#ad50b3774ee7350d0c256d94a785ba9df">detectNet</a>
+, <a class="el" href="classposeNet.html#a96e03b5516c924ed2f025300b4fbfbf6">poseNet</a>
 </li>
 <li>GetType()
 : <a class="el" href="classglBuffer.html#a86ea0513d06cab3172bc6c82c1a9c024">glBuffer</a>
@@ -450,7 +480,7 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Jul 14 2020 21:59:36 for Jetson Inference by
+    <li class="footer">Generated on Tue Aug 3 2021 14:48:59 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

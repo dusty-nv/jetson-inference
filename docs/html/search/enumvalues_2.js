@@ -2,6 +2,7 @@ var searchData=
 [
   ['debug',['DEBUG',['../classLog.html#afb5d4c945d835d194a295461d752531ea4e49113de847d4ce568b7f0d5647a715',1,'Log']]],
   ['default',['DEFAULT',['../classLog.html#afb5d4c945d835d194a295461d752531ea04f2e465914e7dd3f9c981ddd603e8e6',1,'Log']]],
+  ['densenet121_5fbody',['DENSENET121_BODY',['../classposeNet.html#a8f9cb10b4594259301b205f1cfcc730ba77c209d62da147f44148c7c99fe3f171',1,'poseNet']]],
   ['device_5fcsi',['DEVICE_CSI',['../structvideoOptions.html#a4065c77be7f3be75eddfc16b6efb36edad4837999d7b7dbe4b83fc405792fd597',1,'videoOptions']]],
   ['device_5fdefault',['DEVICE_DEFAULT',['../structvideoOptions.html#a4065c77be7f3be75eddfc16b6efb36edabf0f857ba260214fa9fbeda070cf739c',1,'videoOptions']]],
   ['device_5fdisplay',['DEVICE_DISPLAY',['../structvideoOptions.html#a4065c77be7f3be75eddfc16b6efb36eda54f0567fd7cf91c40b5e4f13e874da79',1,'videoOptions']]],

@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['y',['y',['../structcudaFont_1_1GlyphInfo.html#a14da53f3540760c42d5ab5c2c72ec37e',1,'cudaFont::GlyphInfo']]],
-  ['yoffset',['yOffset',['../structcudaFont_1_1GlyphInfo.html#a9a8c951f067b6e83a3213406702e57f7',1,'cudaFont::GlyphInfo']]]
+  ['x',['x',['../structposeNet_1_1ObjectPose_1_1Keypoint.html#aaab84896609ee951cd43b699881f3d8f',1,'poseNet::ObjectPose::Keypoint::x()'],['../structcudaFont_1_1GlyphInfo.html#a26af531287bec61297ee734469db5040',1,'cudaFont::GlyphInfo::x()']]],
+  ['xadvance',['xAdvance',['../structcudaFont_1_1GlyphInfo.html#ae0fbc83e18b01d9960b41ac396f27ce0',1,'cudaFont::GlyphInfo']]],
+  ['xoffset',['xOffset',['../structcudaFont_1_1GlyphInfo.html#aca0f9862688df8880dd472cb578854ca',1,'cudaFont::GlyphInfo']]]
 ];

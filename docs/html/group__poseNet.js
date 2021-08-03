@@ -1,0 +1,86 @@
+var group__poseNet =
+[
+    [ "poseNet", "classposeNet.html", [
+      [ "ObjectPose", "structposeNet_1_1ObjectPose.html", [
+        [ "Keypoint", "structposeNet_1_1ObjectPose_1_1Keypoint.html", [
+          [ "ID", "structposeNet_1_1ObjectPose_1_1Keypoint.html#a1f5c06d8ac261651f451c127279ec723", null ],
+          [ "x", "structposeNet_1_1ObjectPose_1_1Keypoint.html#aaab84896609ee951cd43b699881f3d8f", null ],
+          [ "y", "structposeNet_1_1ObjectPose_1_1Keypoint.html#a06cb6a3a66934abede6d3e84ebb7931f", null ]
+        ] ],
+        [ "FindKeypoint", "structposeNet_1_1ObjectPose.html#a7401105ef9346854261b8fb9b86bf827", null ],
+        [ "FindLink", "structposeNet_1_1ObjectPose.html#a872163e2d0c63d5c1b69b59c732ef515", null ],
+        [ "Bottom", "structposeNet_1_1ObjectPose.html#a333bb92ee586133a7221ace0f5f4d557", null ],
+        [ "ID", "structposeNet_1_1ObjectPose.html#a581b90cc2974bb8a90fbafc2f5448fce", null ],
+        [ "Keypoints", "structposeNet_1_1ObjectPose.html#a695103397589cdf95d56eec30b8869ef", null ],
+        [ "Left", "structposeNet_1_1ObjectPose.html#a4bb68db2ef92240a0e5dbc9c6f3dea9e", null ],
+        [ "Links", "structposeNet_1_1ObjectPose.html#aa0cad49daab2c621d2313d52a1746f85", null ],
+        [ "Right", "structposeNet_1_1ObjectPose.html#ad87a8bf3dfaa0ca9ec20831b44def4e1", null ],
+        [ "Top", "structposeNet_1_1ObjectPose.html#adece53f539c88290c4062193f0fd7ae7", null ]
+      ] ],
+      [ "Topology", "structposeNet_1_1Topology.html", [
+        [ "category", "structposeNet_1_1Topology.html#a3a71c85cdb089e688a160c4e6b4c989c", null ],
+        [ "keypoints", "structposeNet_1_1Topology.html#a3af370f4b43a269aafc9e8b277fa7340", null ],
+        [ "links", "structposeNet_1_1Topology.html#afcf230d0823bc14665f0f84bcc7d9579", null ],
+        [ "numLinks", "structposeNet_1_1Topology.html#a6f698d5f9cfeb8e50bada255c03a063b", null ]
+      ] ],
+      [ "NetworkType", "classposeNet.html#a8f9cb10b4594259301b205f1cfcc730b", [
+        [ "CUSTOM", "classposeNet.html#a8f9cb10b4594259301b205f1cfcc730babe1502e46700415f479ab1d50747e93b", null ],
+        [ "RESNET18_BODY", "classposeNet.html#a8f9cb10b4594259301b205f1cfcc730ba2a6cc889fd51ed74db5e34d39d56696d", null ],
+        [ "RESNET18_HAND", "classposeNet.html#a8f9cb10b4594259301b205f1cfcc730ba09c08a10758147e0f6bcf35b7107cee8", null ],
+        [ "DENSENET121_BODY", "classposeNet.html#a8f9cb10b4594259301b205f1cfcc730ba77c209d62da147f44148c7c99fe3f171", null ]
+      ] ],
+      [ "OverlayFlags", "classposeNet.html#afda0875e027f7039538b8d2f6b92118a", [
+        [ "OVERLAY_NONE", "classposeNet.html#afda0875e027f7039538b8d2f6b92118aac903ec60b2ac0e00b29a15f5b42380c3", null ],
+        [ "OVERLAY_BOX", "classposeNet.html#afda0875e027f7039538b8d2f6b92118aa22fcdd5a4a06b67fdcb1e063a8755f23", null ],
+        [ "OVERLAY_LINKS", "classposeNet.html#afda0875e027f7039538b8d2f6b92118aa5af88efc86c145ebe02280e6bcdfa98a", null ],
+        [ "OVERLAY_KEYPOINTS", "classposeNet.html#afda0875e027f7039538b8d2f6b92118aa23db8b890105e87de352e4199beb2758", null ],
+        [ "OVERLAY_DEFAULT", "classposeNet.html#afda0875e027f7039538b8d2f6b92118aa2cc6ca07f2d81b60b4bf60adfa8b32f5", null ]
+      ] ],
+      [ "~poseNet", "classposeNet.html#a6457d98a7e7f195d5115a2e26d9091d4", null ],
+      [ "poseNet", "classposeNet.html#a6abfe3c99a8c4def62773c6723fbc66a", null ],
+      [ "FindKeypointID", "classposeNet.html#af103237289d1e4abd55c4a4457b675e0", null ],
+      [ "GetCategory", "classposeNet.html#a0346daba87ac68e645c4d5be3d56d354", null ],
+      [ "GetKeypointColor", "classposeNet.html#aec84aecce84762533afb017778117446", null ],
+      [ "GetKeypointName", "classposeNet.html#aba2c29631f3e194386a2c2c0aaa77fc9", null ],
+      [ "GetKeypointScale", "classposeNet.html#a6a2934b5843740670019eee8424de5f2", null ],
+      [ "GetLinkScale", "classposeNet.html#a7f3dbc604b5f6343734b0d4e3d0082d3", null ],
+      [ "GetNumKeypoints", "classposeNet.html#a212119ed54dbae900c977576f5aea72a", null ],
+      [ "GetThreshold", "classposeNet.html#a96e03b5516c924ed2f025300b4fbfbf6", null ],
+      [ "init", "classposeNet.html#ae009a46f59ae89339b7a9439668d1e72", null ],
+      [ "loadKeypointColors", "classposeNet.html#a4c56eeb1542a665188f3bcba1f48dd45", null ],
+      [ "loadTopology", "classposeNet.html#ab5bf5dbd5c02eea49679b68b502d7db2", null ],
+      [ "Overlay", "classposeNet.html#a2c3161cef2215a8cae4e673042d644db", null ],
+      [ "Overlay", "classposeNet.html#a33653eab2f50e1ac5b0b6fc4ecd793ce", null ],
+      [ "postProcess", "classposeNet.html#a07a41e411e22e87fd52d2e1d52bba710", null ],
+      [ "Process", "classposeNet.html#ac429431dc3b83dcd5a5f3fcffe446047", null ],
+      [ "Process", "classposeNet.html#a660791bc726ceb4672d3a6b75b7e8486", null ],
+      [ "Process", "classposeNet.html#a8ecb6dbc5b0246c6145c1f6222772996", null ],
+      [ "Process", "classposeNet.html#a63311574884f4be3aa0b5747813f0bbe", null ],
+      [ "SetKeypointAlpha", "classposeNet.html#a635342be17027229bb25e68fe7bd96b9", null ],
+      [ "SetKeypointAlpha", "classposeNet.html#aae9991bb67affc332b2a3fd671713033", null ],
+      [ "SetKeypointColor", "classposeNet.html#acdbdb599f7f0ae08b2ab3c11d2db625e", null ],
+      [ "SetKeypointScale", "classposeNet.html#a90970ad4e9c23f1624bb7415ddc5db5c", null ],
+      [ "SetLinkScale", "classposeNet.html#a54a554418a2328e46504c9152e4a5330", null ],
+      [ "SetThreshold", "classposeNet.html#a8cfd6a21798664d025bd166d26ab7004", null ],
+      [ "mAssignmentWorkspace", "classposeNet.html#a66366a8b27c726812eba47a6af3cb2ca", null ],
+      [ "mConnections", "classposeNet.html#a578c10865e493491ae032f7f5489baee", null ],
+      [ "mConnectionWorkspace", "classposeNet.html#aa20634f5d0b02f5b057b7f3f5a4b1a92", null ],
+      [ "mKeypointColors", "classposeNet.html#aafee76d3817e65915be5be4f51fee3d0", null ],
+      [ "mKeypointScale", "classposeNet.html#a84aa84e7716c7c7d4a3dd60f2de27544", null ],
+      [ "mLinkScale", "classposeNet.html#a70ead07abc10466c23dac1e2c5f73e40", null ],
+      [ "mNumObjects", "classposeNet.html#a98b7689cd234fe6db287c87fccdef505", null ],
+      [ "mObjects", "classposeNet.html#a80fc821527933f3f712cc0b50b64206e", null ],
+      [ "mPeakCounts", "classposeNet.html#aeac8b68f59e44b9fd650a9e6801001f5", null ],
+      [ "mPeaks", "classposeNet.html#aa11d602a94a99d71a0e72b6bdfd4aedb", null ],
+      [ "mRefinedPeaks", "classposeNet.html#aef7c1590e89362f1f6800755e8fb1bf8", null ],
+      [ "mScoreGraph", "classposeNet.html#ab430ddfb43995064ab2e8d92ac8f0328", null ],
+      [ "mThreshold", "classposeNet.html#a84338d796f9c348c707bbd554cdb113b", null ],
+      [ "mTopology", "classposeNet.html#ab8e2cceb7809577c8f46b4e18138060d", null ]
+    ] ],
+    [ "POSENET_DEFAULT_CMAP", "group__poseNet.html#ga21376894ab9de2658349498fce9ba116", null ],
+    [ "POSENET_DEFAULT_INPUT", "group__poseNet.html#ga0d5023ddb3b0f2e2348f476f2950fed7", null ],
+    [ "POSENET_DEFAULT_KEYPOINT_SCALE", "group__poseNet.html#ga632a4c8ca48bada5603f0fa52f4b6519", null ],
+    [ "POSENET_DEFAULT_LINK_SCALE", "group__poseNet.html#gac3bab0abe576c7fa92c5094e0817c966", null ],
+    [ "POSENET_DEFAULT_PAF", "group__poseNet.html#ga6301da70768db25c4a7a0ee2e03cb79d", null ],
+    [ "POSENET_DEFAULT_THRESHOLD", "group__poseNet.html#ga9be57c475962d2397058c45c835cc2b5", null ]
+];

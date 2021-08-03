@@ -67,6 +67,7 @@ var group__video =
       [ "loop", "structvideoOptions.html#aa8e394eb896dd92fd39c0946c10dd1ea", null ],
       [ "numBuffers", "structvideoOptions.html#a65b80ddd3f3cf0940f18e365fb58270b", null ],
       [ "resource", "structvideoOptions.html#a1e904a117abb3b703f01eaed7fa305f2", null ],
+      [ "rtspLatency", "structvideoOptions.html#ae574da46cb462c9d50d73c9c2a6c6fd0", null ],
       [ "width", "structvideoOptions.html#a5c30587a874bb769d7b346ac00cff580", null ],
       [ "zeroCopy", "structvideoOptions.html#afff91aa102908923622328e9f3ca3b83", null ]
     ] ],
@@ -77,7 +78,7 @@ var group__video =
       [ "Close", "classvideoOutput.html#a552252a397249335e77755e0b911225e", null ],
       [ "GetFrameRate", "classvideoOutput.html#a26c37f79e965f1b9741b4d9b3923bd6b", null ],
       [ "GetHeight", "classvideoOutput.html#aa225fb199069cf2a4b30f467e237da73", null ],
-      [ "GetNumOutputs", "classvideoOutput.html#af4b749b5ed6728bfa818a1a1cafd2e19", null ],
+      [ "GetNumOutputs", "classvideoOutput.html#adc630f31a8d55dc852ac1e01c1f7dc58", null ],
       [ "GetOptions", "classvideoOutput.html#a59f21f27a0efe56541fbe15f1d5f46ce", null ],
       [ "GetOutput", "classvideoOutput.html#aa1a64933421c48f1af63ea12a8217421", null ],
       [ "GetResource", "classvideoOutput.html#a47edea2ad237e50cfbd6d0a192280ee5", null ],

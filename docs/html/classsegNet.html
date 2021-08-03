@@ -426,12 +426,15 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a5763fca156e99d9fe07dcbf626489b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9a9bd73dc17940aa87aacba2001b09b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#af9a9bd73dc17940aa87aacba2001b09b">mClassPath</a></td></tr>
 <tr class="separator:af9a9bd73dc17940aa87aacba2001b09b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbf7de9cddd287f99a1ef7edf531325c"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#adbf7de9cddd287f99a1ef7edf531325c">mClassColors</a> [2]</td></tr>
-<tr class="memdesc:adbf7de9cddd287f99a1ef7edf531325c"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of overlay colors in shared CPU/GPU memory  <a href="#adbf7de9cddd287f99a1ef7edf531325c">More...</a><br /></td></tr>
-<tr class="separator:adbf7de9cddd287f99a1ef7edf531325c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1f23154131a719769edf4811f8762ef"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#ac1f23154131a719769edf4811f8762ef">mClassMap</a> [2]</td></tr>
-<tr class="memdesc:ac1f23154131a719769edf4811f8762ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">runtime buffer for the argmax-classified class index of each tile  <a href="#ac1f23154131a719769edf4811f8762ef">More...</a><br /></td></tr>
-<tr class="separator:ac1f23154131a719769edf4811f8762ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8cbd9449fb81520a847aee04b6bbca5"><td class="memItemLeft" align="right" valign="top">bool *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#ac8cbd9449fb81520a847aee04b6bbca5">mColorsAlphaSet</a></td></tr>
+<tr class="memdesc:ac8cbd9449fb81520a847aee04b6bbca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">true if class color had been explicitly set from file or user  <a href="#ac8cbd9449fb81520a847aee04b6bbca5">More...</a><br /></td></tr>
+<tr class="separator:ac8cbd9449fb81520a847aee04b6bbca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fc8b434dad1db0647d6617ddccc081e"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a1fc8b434dad1db0647d6617ddccc081e">mClassColors</a></td></tr>
+<tr class="memdesc:a1fc8b434dad1db0647d6617ddccc081e"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of overlay colors in shared CPU/GPU memory  <a href="#a1fc8b434dad1db0647d6617ddccc081e">More...</a><br /></td></tr>
+<tr class="separator:a1fc8b434dad1db0647d6617ddccc081e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3db3738778929458b52a709b053d456a"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#a3db3738778929458b52a709b053d456a">mClassMap</a></td></tr>
+<tr class="memdesc:a3db3738778929458b52a709b053d456a"><td class="mdescLeft">&#160;</td><td class="mdescRight">runtime buffer for the argmax-classified class index of each tile  <a href="#a3db3738778929458b52a709b053d456a">More...</a><br /></td></tr>
+<tr class="separator:a3db3738778929458b52a709b053d456a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aadacbaf1eb15bfe512499276272bf67c"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsegNet.html#aadacbaf1eb15bfe512499276272bf67c">mLastInputImg</a></td></tr>
 <tr class="memdesc:aadacbaf1eb15bfe512499276272bf67c"><td class="mdescLeft">&#160;</td><td class="mdescRight">last input image to be processed, stored for overlay  <a href="#aadacbaf1eb15bfe512499276272bf67c">More...</a><br /></td></tr>
 <tr class="separator:aadacbaf1eb15bfe512499276272bf67c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2161,8 +2164,8 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="adbf7de9cddd287f99a1ef7edf531325c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adbf7de9cddd287f99a1ef7edf531325c">&#9670;&nbsp;</a></span>mClassColors</h2>
+<a id="a1fc8b434dad1db0647d6617ddccc081e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fc8b434dad1db0647d6617ddccc081e">&#9670;&nbsp;</a></span>mClassColors</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2171,7 +2174,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float* segNet::mClassColors[2]</td>
+          <td class="memname">float* segNet::mClassColors</td>
         </tr>
       </table>
   </td>
@@ -2207,8 +2210,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ac1f23154131a719769edf4811f8762ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1f23154131a719769edf4811f8762ef">&#9670;&nbsp;</a></span>mClassMap</h2>
+<a id="a3db3738778929458b52a709b053d456a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3db3738778929458b52a709b053d456a">&#9670;&nbsp;</a></span>mClassMap</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2217,7 +2220,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t* segNet::mClassMap[2]</td>
+          <td class="memname">uint8_t* segNet::mClassMap</td>
         </tr>
       </table>
   </td>
@@ -2250,6 +2253,30 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac8cbd9449fb81520a847aee04b6bbca5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8cbd9449fb81520a847aee04b6bbca5">&#9670;&nbsp;</a></span>mColorsAlphaSet</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool* segNet::mColorsAlphaSet</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>true if class color had been explicitly set from file or user </p>
 
 </div>
 </div>
@@ -2382,7 +2409,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classsegNet.html">segNet</a></li>
-    <li class="footer">Generated on Tue Jul 14 2020 21:59:35 for Jetson Inference by
+    <li class="footer">Generated on Tue Aug 3 2021 14:48:59 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

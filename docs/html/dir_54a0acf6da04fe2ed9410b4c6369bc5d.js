@@ -11,6 +11,7 @@ var dir_54a0acf6da04fe2ed9410b4c6369bc5d =
     [ "cudaColormap.h", "cudaColormap_8h.html", "cudaColormap_8h" ],
     [ "cudaColorspace.h", "cudaColorspace_8h.html", "cudaColorspace_8h" ],
     [ "cudaCrop.h", "cudaCrop_8h.html", "cudaCrop_8h" ],
+    [ "cudaDraw.h", "cudaDraw_8h.html", "cudaDraw_8h" ],
     [ "cudaFilterMode.cuh", "cudaFilterMode_8cuh.html", null ],
     [ "cudaFilterMode.h", "cudaFilterMode_8h.html", "cudaFilterMode_8h" ],
     [ "cudaFont.h", "cudaFont_8h.html", "cudaFont_8h" ],

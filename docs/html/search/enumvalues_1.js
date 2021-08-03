@@ -19,13 +19,19 @@ var searchData=
   ['colormap_5fdefault',['COLORMAP_DEFAULT',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550a02b62792467077e77c5d4cdc8e9e1968',1,'cudaColormap.h']]],
   ['colormap_5fflow',['COLORMAP_FLOW',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550a9bcf1c7c8aa1713bd6d77dc88eecda51',1,'cudaColormap.h']]],
   ['colormap_5finferno',['COLORMAP_INFERNO',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550a66ba231e27e5c047361cd648353536cf',1,'cudaColormap.h']]],
+  ['colormap_5finferno_5finverted',['COLORMAP_INFERNO_INVERTED',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550ab31f17980a2d6cdb8f54688260202cd2',1,'cudaColormap.h']]],
   ['colormap_5flinear',['COLORMAP_LINEAR',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550a02c92018e1199bf5574c97044214a808',1,'cudaColormap.h']]],
   ['colormap_5fmagma',['COLORMAP_MAGMA',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550adae05e96cd50fde7278b54a0bd0430af',1,'cudaColormap.h']]],
+  ['colormap_5fmagma_5finverted',['COLORMAP_MAGMA_INVERTED',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550a6c534f5e1f77a71605f40a7398586527',1,'cudaColormap.h']]],
   ['colormap_5fnone',['COLORMAP_NONE',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550ab4b116ab242a72b661acf670f907d55c',1,'cudaColormap.h']]],
   ['colormap_5fparula',['COLORMAP_PARULA',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550a9d7e019081acf9030ca57169572a2c49',1,'cudaColormap.h']]],
+  ['colormap_5fparula_5finverted',['COLORMAP_PARULA_INVERTED',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550a75b49821722c28ed6ca13a1bb131aa19',1,'cudaColormap.h']]],
   ['colormap_5fplasma',['COLORMAP_PLASMA',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550ac6232462decac13bf8f019216088af4e',1,'cudaColormap.h']]],
+  ['colormap_5fplasma_5finverted',['COLORMAP_PLASMA_INVERTED',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550ae3b37b285976878805d938b96928f88c',1,'cudaColormap.h']]],
   ['colormap_5fturbo',['COLORMAP_TURBO',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550adb42f46fa120d9ffaaa7326456b128ec',1,'cudaColormap.h']]],
+  ['colormap_5fturbo_5finverted',['COLORMAP_TURBO_INVERTED',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550a0363297af5ee5ea58ffd47e136dbb6cd',1,'cudaColormap.h']]],
   ['colormap_5fviridis',['COLORMAP_VIRIDIS',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550ab55ee67b1227b4ed30b505eb3a3cbe0c',1,'cudaColormap.h']]],
+  ['colormap_5fviridis_5finverted',['COLORMAP_VIRIDIS_INVERTED',['../group__colormap.html#ggab66101108d92e39f9ab9283c31da3550a0d0fcdcd836507523dea555ce4a89632',1,'cudaColormap.h']]],
   ['comment',['COMMENT',['../classtinyxml2_1_1StrPair.html#a0301ef962e15dd94574431f1c61266c5a067a6ec90c8beea1cf5992930d93bffa',1,'tinyxml2::StrPair']]],
-  ['custom',['CUSTOM',['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a46004cf6402155cfac9107356b5e7148',1,'detectNet::CUSTOM()'],['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a9237dcd407a6df5b51f027b47053b013',1,'imageNet::CUSTOM()']]]
+  ['custom',['CUSTOM',['../classdepthNet.html#a8c63cf19ed557e555600852d77fe56c8ac96d80721e7cc26a79d18d1362dc0507',1,'depthNet::CUSTOM()'],['../classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a46004cf6402155cfac9107356b5e7148',1,'detectNet::CUSTOM()'],['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a9237dcd407a6df5b51f027b47053b013',1,'imageNet::CUSTOM()'],['../classposeNet.html#a8f9cb10b4594259301b205f1cfcc730babe1502e46700415f479ab1d50747e93b',1,'poseNet::CUSTOM()']]]
 ];

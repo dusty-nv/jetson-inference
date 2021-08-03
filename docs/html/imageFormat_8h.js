@@ -38,6 +38,7 @@ var imageFormat_8h =
     [ "imageFormatBaseType", "group__imageFormat.html#gaa0224d2f00c1258d2ea1b95a21d5a49d", null ],
     [ "imageFormatChannels", "group__imageFormat.html#ga95cdbe993bce3c036d4941f2c3913f74", null ],
     [ "imageFormatDepth", "group__imageFormat.html#ga48d21d2cc2f8822e13ee6d40e3719ba4", null ],
+    [ "imageFormatErrorMsg", "imageFormat_8h.html#a09a2d0cc8a1dbc68882960eb37d54d41", null ],
     [ "imageFormatFromStr", "group__imageFormat.html#ga9292745783c6ce5d209c2bf5dd02f301", null ],
     [ "imageFormatFromType", "imageFormat_8h.html#a8ae6dc740bb9de0a574a94df4a24b9fe", null ],
     [ "imageFormatFromType< float3 >", "imageFormat_8h.html#ab229cbd28f6ad0f947c42db8f2ef9b23", null ],

@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['timingaccumulator',['timingAccumulator',['../classtensorNet_1_1Profiler.html#a8784d561f96bfd5a02c2bf9554f0d773',1,'tensorNet::Profiler']]],
-  ['top',['Top',['../structdetectNet_1_1Detection.html#a2776e71cde1e6c41676bb5e6d12b1d0d',1,'detectNet::Detection']]],
-  ['type',['Type',['../classglDisplay.html#a13bebe88c1df15a70255134da202a131',1,'glDisplay::Type()'],['../classgstCamera.html#a9e83835ff04fb08ecef14a67efb5c3d5',1,'gstCamera::Type()'],['../classgstDecoder.html#a4ae2851033f43b2e70cb8f13f4331ac3',1,'gstDecoder::Type()'],['../classgstEncoder.html#a0274b5b3365e440b93fd6b5c8bcf2b2e',1,'gstEncoder::Type()'],['../classimageLoader.html#a7ce41945601da456d9ea85324a4b90c0',1,'imageLoader::Type()'],['../classimageWriter.html#af767ee4c3dfbedd450b5e3c7f86b326a',1,'imageWriter::Type()']]]
+  ['screenidx',['screenIdx',['../classglDisplay.html#a987e05d68219418d2d232665d92cc1a2',1,'glDisplay']]],
+  ['size',['size',['../structtensorNet_1_1layerInfo.html#a1b51ab468f77ef7fd5524063e972ea11',1,'tensorNet::layerInfo']]],
+  ['string',['string',['../classcsvData.html#a0b8a168b80460cdf91c7e926a76b1346',1,'csvData::string()'],['../structURI.html#a6ddfb39ef99352b24fef204ecb39404f',1,'URI::string()']]],
+  ['supportedextensions',['SupportedExtensions',['../classgstDecoder.html#af3f60fa3ebece14ba29f4a869304e4b4',1,'gstDecoder::SupportedExtensions()'],['../classgstEncoder.html#a675b50aae5ee8e07c28599f4c07aa91b',1,'gstEncoder::SupportedExtensions()'],['../classimageLoader.html#a46d3705032f0d45efab1ae07788a6e1a',1,'imageLoader::SupportedExtensions()'],['../classimageWriter.html#a3d0b61d9546c58044cfa200b4126edda',1,'imageWriter::SupportedExtensions()']]]
 ];

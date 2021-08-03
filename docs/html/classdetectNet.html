@@ -117,10 +117,14 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a29e74cde23a8dd541dbd848e457663d6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6">OverlayFlags</a> { <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf">OVERLAY_NONE</a> = 0, 
+<tr class="memitem:a29e74cde23a8dd541dbd848e457663d6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6">OverlayFlags</a> { <br />
+&#160;&#160;<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf">OVERLAY_NONE</a> = 0, 
 <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6aff23b9098d5bf0f91c31954001c2ff68">OVERLAY_BOX</a> = (1 &lt;&lt; 0), 
 <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a7eb5454e7a6dd53d90c2ddd33b00d049">OVERLAY_LABEL</a> = (1 &lt;&lt; 1), 
-<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6af7ce69cd21d84fb3b963713da66756eb">OVERLAY_CONFIDENCE</a> = (1 &lt;&lt; 2)
+<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6af7ce69cd21d84fb3b963713da66756eb">OVERLAY_CONFIDENCE</a> = (1 &lt;&lt; 2), 
+<br />
+&#160;&#160;<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6ae65b9f9d5e1d39f02183f5f0f9816dfd">OVERLAY_DEFAULT</a> = OVERLAY_BOX
+<br />
  }<tr class="memdesc:a29e74cde23a8dd541dbd848e457663d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overlay flags (can be OR'd together).  <a href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a29e74cde23a8dd541dbd848e457663d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,7 +137,9 @@ Public Types</h2></td></tr>
 &#160;&#160;<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4afb5c869902acb688cf8b4d7e334bc0f4">COCO_DOG</a>, 
 <a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aba129790ea4695b8fc94f0eeecb344de">FACENET</a>, 
 <a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3">PEDNET</a>, 
-<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53">PEDNET_MULTI</a>
+<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53">PEDNET_MULTI</a>, 
+<br />
+&#160;&#160;<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4ac0e5457d751a282922b39ba7ec0c9e4b">NETWORK_DEFAULT</a> =PEDNET_MULTI
 <br />
  }<tr class="memdesc:a8912b56ba825368c4911e315f4f207e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Network choice enumeration.  <a href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4">More...</a><br /></td></tr>
 </td></tr>
@@ -164,13 +170,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af2f0dd5c2b47daa57953d3b5e1e83767"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#af2f0dd5c2b47daa57953d3b5e1e83767">Detect</a> (float *input, uint32_t width, uint32_t height, <a class="el" href="structdetectNet_1_1Detection.html">Detection</a> *detections, uint32_t overlay=<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6aff23b9098d5bf0f91c31954001c2ff68">OVERLAY_BOX</a>)</td></tr>
 <tr class="memdesc:af2f0dd5c2b47daa57953d3b5e1e83767"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect object locations in an RGBA image, into an array of the results allocated by the user.  <a href="#af2f0dd5c2b47daa57953d3b5e1e83767">More...</a><br /></td></tr>
 <tr class="separator:af2f0dd5c2b47daa57953d3b5e1e83767"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a851cefb0e8aded6b764b641fe5264274"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a851cefb0e8aded6b764b641fe5264274"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a851cefb0e8aded6b764b641fe5264274">Overlay</a> (T *input, T *output, uint32_t width, uint32_t height, <a class="el" href="structdetectNet_1_1Detection.html">Detection</a> *detections, uint32_t numDetections, uint32_t flags=<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6aff23b9098d5bf0f91c31954001c2ff68">OVERLAY_BOX</a>)</td></tr>
-<tr class="memdesc:a851cefb0e8aded6b764b641fe5264274"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw the detected bounding boxes overlayed on an RGBA image.  <a href="#a851cefb0e8aded6b764b641fe5264274">More...</a><br /></td></tr>
-<tr class="separator:a851cefb0e8aded6b764b641fe5264274"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a85dc41a7516006d6756a824577f17f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a4a85dc41a7516006d6756a824577f17f">Overlay</a> (void *input, void *output, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, <a class="el" href="structdetectNet_1_1Detection.html">Detection</a> *detections, uint32_t numDetections, uint32_t flags=<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6aff23b9098d5bf0f91c31954001c2ff68">OVERLAY_BOX</a>)</td></tr>
-<tr class="memdesc:a4a85dc41a7516006d6756a824577f17f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw the detected bounding boxes overlayed on an RGBA image.  <a href="#a4a85dc41a7516006d6756a824577f17f">More...</a><br /></td></tr>
-<tr class="separator:a4a85dc41a7516006d6756a824577f17f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94ff26d023e725a5c2da5be4f8d237d5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a94ff26d023e725a5c2da5be4f8d237d5"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a94ff26d023e725a5c2da5be4f8d237d5">Overlay</a> (T *input, T *output, uint32_t width, uint32_t height, <a class="el" href="structdetectNet_1_1Detection.html">Detection</a> *detections, uint32_t numDetections, uint32_t flags=<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6ae65b9f9d5e1d39f02183f5f0f9816dfd">OVERLAY_DEFAULT</a>)</td></tr>
+<tr class="memdesc:a94ff26d023e725a5c2da5be4f8d237d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw the detected bounding boxes overlayed on an RGBA image.  <a href="#a94ff26d023e725a5c2da5be4f8d237d5">More...</a><br /></td></tr>
+<tr class="separator:a94ff26d023e725a5c2da5be4f8d237d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6bfc51166410901174b48f99f59f85b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#af6bfc51166410901174b48f99f59f85b">Overlay</a> (void *input, void *output, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, <a class="el" href="structdetectNet_1_1Detection.html">Detection</a> *detections, uint32_t numDetections, uint32_t flags=<a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6ae65b9f9d5e1d39f02183f5f0f9816dfd">OVERLAY_DEFAULT</a>)</td></tr>
+<tr class="memdesc:af6bfc51166410901174b48f99f59f85b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw the detected bounding boxes overlayed on an RGBA image.  <a href="#af6bfc51166410901174b48f99f59f85b">More...</a><br /></td></tr>
+<tr class="separator:af6bfc51166410901174b48f99f59f85b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad50b3774ee7350d0c256d94a785ba9df"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#ad50b3774ee7350d0c256d94a785ba9df">GetThreshold</a> () const</td></tr>
 <tr class="memdesc:ad50b3774ee7350d0c256d94a785ba9df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the minimum threshold for detection.  <a href="#ad50b3774ee7350d0c256d94a785ba9df">More...</a><br /></td></tr>
 <tr class="separator:ad50b3774ee7350d0c256d94a785ba9df"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -325,9 +331,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a2bb2b446e26a466c9e355f1472f68e4c"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a2bb2b446e26a466c9e355f1472f68e4c">OverlayFlagsFromStr</a> (const char *flags)</td></tr>
 <tr class="memdesc:a2bb2b446e26a466c9e355f1472f68e4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a string sequence into OverlayFlags enum.  <a href="#a2bb2b446e26a466c9e355f1472f68e4c">More...</a><br /></td></tr>
 <tr class="separator:a2bb2b446e26a466c9e355f1472f68e4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7c84410a8b08fc072bffc55f375e8a4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classdetectNet.html">detectNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#ac7c84410a8b08fc072bffc55f375e8a4">Create</a> (<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4">NetworkType</a> networkType=<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53">PEDNET_MULTI</a>, float threshold=<a class="el" href="group__detectNet.html#ga5de620e838c2ac9aec16c6de2977513f">DETECTNET_DEFAULT_THRESHOLD</a>, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true)</td></tr>
-<tr class="memdesc:ac7c84410a8b08fc072bffc55f375e8a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#ac7c84410a8b08fc072bffc55f375e8a4">More...</a><br /></td></tr>
-<tr class="separator:ac7c84410a8b08fc072bffc55f375e8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a653a99113a3f5914cb1736e0b73939db"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classdetectNet.html">detectNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a653a99113a3f5914cb1736e0b73939db">Create</a> (<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4">NetworkType</a> networkType=<a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4ac0e5457d751a282922b39ba7ec0c9e4b">NETWORK_DEFAULT</a>, float threshold=<a class="el" href="group__detectNet.html#ga5de620e838c2ac9aec16c6de2977513f">DETECTNET_DEFAULT_THRESHOLD</a>, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true)</td></tr>
+<tr class="memdesc:a653a99113a3f5914cb1736e0b73939db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="#a653a99113a3f5914cb1736e0b73939db">More...</a><br /></td></tr>
+<tr class="separator:a653a99113a3f5914cb1736e0b73939db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3979f7a074109d6e2b5c026d14758b81"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classdetectNet.html">detectNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a3979f7a074109d6e2b5c026d14758b81">Create</a> (const char *prototxt_path, const char *model_path, const char *mean_binary, const char *class_labels, float threshold=<a class="el" href="group__detectNet.html#ga5de620e838c2ac9aec16c6de2977513f">DETECTNET_DEFAULT_THRESHOLD</a>, const char *input=<a class="el" href="group__detectNet.html#gac824e329015dc8aed6e1112bfe21cb97">DETECTNET_DEFAULT_INPUT</a>, const char *coverage=<a class="el" href="group__detectNet.html#ga1e79603783719e4a79f2c68f1ef47621">DETECTNET_DEFAULT_COVERAGE</a>, const char *bboxes=<a class="el" href="group__detectNet.html#gac8c52a38ffa041865ed71fd2ea806620">DETECTNET_DEFAULT_BBOX</a>, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true)</td></tr>
 <tr class="memdesc:a3979f7a074109d6e2b5c026d14758b81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom network instance.  <a href="#a3979f7a074109d6e2b5c026d14758b81">More...</a><br /></td></tr>
 <tr class="separator:a3979f7a074109d6e2b5c026d14758b81"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -344,7 +350,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a0543ed1697d294654ebfea175f1431e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance by parsing the command line.  <a href="#a0543ed1697d294654ebfea175f1431e3">More...</a><br /></td></tr>
 <tr class="separator:a0543ed1697d294654ebfea175f1431e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c336e6b018a780e7ca74897d1bce628"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a8c336e6b018a780e7ca74897d1bce628">Usage</a> ()</td></tr>
-<tr class="memdesc:a8c336e6b018a780e7ca74897d1bce628"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="classdetectNet.html#ac7c84410a8b08fc072bffc55f375e8a4" title="Load a new network instance. ">Create()</a>  <a href="#a8c336e6b018a780e7ca74897d1bce628">More...</a><br /></td></tr>
+<tr class="memdesc:a8c336e6b018a780e7ca74897d1bce628"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="classdetectNet.html#a653a99113a3f5914cb1736e0b73939db" title="Load a new network instance. ">Create()</a>  <a href="#a8c336e6b018a780e7ca74897d1bce628">More...</a><br /></td></tr>
 <tr class="separator:a8c336e6b018a780e7ca74897d1bce628"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61b9260ce4377b31d706d96c3e51741a"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdetectNet.html#a61b9260ce4377b31d706d96c3e51741a">LoadClassInfo</a> (const char *filename, std::vector&lt; std::string &gt; &amp;descriptions, int expectedClasses=-1)</td></tr>
 <tr class="memdesc:a61b9260ce4377b31d706d96c3e51741a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load class descriptions from a label file.  <a href="#a61b9260ce4377b31d706d96c3e51741a">More...</a><br /></td></tr>
@@ -529,6 +535,7 @@ Static Protected Attributes</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53"></a>PEDNET_MULTI&#160;</td><td class="fielddoc"><p>Multi-class pedestrian + baggage detector. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="a8912b56ba825368c4911e315f4f207e4ac0e5457d751a282922b39ba7ec0c9e4b"></a>NETWORK_DEFAULT&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -554,6 +561,8 @@ Static Protected Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="a29e74cde23a8dd541dbd848e457663d6a7eb5454e7a6dd53d90c2ddd33b00d049"></a>OVERLAY_LABEL&#160;</td><td class="fielddoc"><p>Overlay the class description labels. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a29e74cde23a8dd541dbd848e457663d6af7ce69cd21d84fb3b963713da66756eb"></a>OVERLAY_CONFIDENCE&#160;</td><td class="fielddoc"><p>Overlay the detection confidence values. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a29e74cde23a8dd541dbd848e457663d6ae65b9f9d5e1d39f02183f5f0f9816dfd"></a>OVERLAY_DEFAULT&#160;</td><td class="fielddoc"><p>The default choice of overlay. </p>
 </td></tr>
 </table>
 
@@ -723,8 +732,8 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ac7c84410a8b08fc072bffc55f375e8a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7c84410a8b08fc072bffc55f375e8a4">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/6]</span></h2>
+<a id="a653a99113a3f5914cb1736e0b73939db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a653a99113a3f5914cb1736e0b73939db">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -736,7 +745,7 @@ Static Protected Attributes</h2></td></tr>
           <td class="memname">static <a class="el" href="classdetectNet.html">detectNet</a>* detectNet::Create </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4">NetworkType</a>&#160;</td>
-          <td class="paramname"><em>networkType</em> = <code><a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53">PEDNET_MULTI</a></code>, </td>
+          <td class="paramname"><em>networkType</em> = <code><a class="el" href="classdetectNet.html#a8912b56ba825368c4911e315f4f207e4ac0e5457d751a282922b39ba7ec0c9e4b">NETWORK_DEFAULT</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1280,7 +1289,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6" title="Overlay flags (can be OR&#39;d together). ">OverlayFlags</a> and </dd>
 <dd>
-<a class="el" href="classdetectNet.html#a851cefb0e8aded6b764b641fe5264274" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
+<a class="el" href="classdetectNet.html#a94ff26d023e725a5c2da5be4f8d237d5" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered. </dd></dl>
 
 </div>
@@ -1358,7 +1367,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6" title="Overlay flags (can be OR&#39;d together). ">OverlayFlags</a> and </dd>
 <dd>
-<a class="el" href="classdetectNet.html#a851cefb0e8aded6b764b641fe5264274" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
+<a class="el" href="classdetectNet.html#a94ff26d023e725a5c2da5be4f8d237d5" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered. </dd></dl>
 
 </div>
@@ -1426,7 +1435,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6" title="Overlay flags (can be OR&#39;d together). ">OverlayFlags</a> and </dd>
 <dd>
-<a class="el" href="classdetectNet.html#a851cefb0e8aded6b764b641fe5264274" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
+<a class="el" href="classdetectNet.html#a94ff26d023e725a5c2da5be4f8d237d5" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered. </dd></dl>
 
 </div>
@@ -1500,7 +1509,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6" title="Overlay flags (can be OR&#39;d together). ">OverlayFlags</a> and </dd>
 <dd>
-<a class="el" href="classdetectNet.html#a851cefb0e8aded6b764b641fe5264274" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
+<a class="el" href="classdetectNet.html#a94ff26d023e725a5c2da5be4f8d237d5" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered. </dd></dl>
 
 </div>
@@ -1563,7 +1572,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6" title="Overlay flags (can be OR&#39;d together). ">OverlayFlags</a> and </dd>
 <dd>
-<a class="el" href="classdetectNet.html#a851cefb0e8aded6b764b641fe5264274" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
+<a class="el" href="classdetectNet.html#a94ff26d023e725a5c2da5be4f8d237d5" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered. </dd></dl>
 
 </div>
@@ -1632,7 +1641,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6" title="Overlay flags (can be OR&#39;d together). ">OverlayFlags</a> and </dd>
 <dd>
-<a class="el" href="classdetectNet.html#a851cefb0e8aded6b764b641fe5264274" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
+<a class="el" href="classdetectNet.html#a94ff26d023e725a5c2da5be4f8d237d5" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a>), or <a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf" title="No overlay. ">OVERLAY_NONE</a>. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered. </dd></dl>
 
 </div>
@@ -2114,8 +2123,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a851cefb0e8aded6b764b641fe5264274"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a851cefb0e8aded6b764b641fe5264274">&#9670;&nbsp;</a></span>Overlay() <span class="overload">[1/2]</span></h2>
+<a id="a94ff26d023e725a5c2da5be4f8d237d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94ff26d023e725a5c2da5be4f8d237d5">&#9670;&nbsp;</a></span>Overlay() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2165,7 +2174,7 @@ template&lt;typename T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>flags</em> = <code><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6aff23b9098d5bf0f91c31954001c2ff68">OVERLAY_BOX</a></code>&#160;</td>
+          <td class="paramname"><em>flags</em> = <code><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6ae65b9f9d5e1d39f02183f5f0f9816dfd">OVERLAY_DEFAULT</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2181,7 +2190,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Draw the detected bounding boxes overlayed on an RGBA image. </p>
-<dl class="section note"><dt>Note</dt><dd><a class="el" href="classdetectNet.html#a851cefb0e8aded6b764b641fe5264274" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a> will automatically be called by default by <a class="el" href="classdetectNet.html#ac723eb903991627198ac3318b4f52e29" title="Detect object locations from an image, returning an array containing the detection results...">Detect()</a>, if the overlay parameter is true </dd></dl>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="classdetectNet.html#a94ff26d023e725a5c2da5be4f8d237d5" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a> will automatically be called by default by <a class="el" href="classdetectNet.html#ac723eb903991627198ac3318b4f52e29" title="Detect object locations from an image, returning an array containing the detection results...">Detect()</a>, if the overlay parameter is true </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">input</td><td>input image in CUDA device memory. </td></tr>
@@ -2193,8 +2202,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a4a85dc41a7516006d6756a824577f17f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a85dc41a7516006d6756a824577f17f">&#9670;&nbsp;</a></span>Overlay() <span class="overload">[2/2]</span></h2>
+<a id="af6bfc51166410901174b48f99f59f85b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6bfc51166410901174b48f99f59f85b">&#9670;&nbsp;</a></span>Overlay() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2245,7 +2254,7 @@ template&lt;typename T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>flags</em> = <code><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6aff23b9098d5bf0f91c31954001c2ff68">OVERLAY_BOX</a></code>&#160;</td>
+          <td class="paramname"><em>flags</em> = <code><a class="el" href="classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6ae65b9f9d5e1d39f02183f5f0f9816dfd">OVERLAY_DEFAULT</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2256,7 +2265,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Draw the detected bounding boxes overlayed on an RGBA image. </p>
-<dl class="section note"><dt>Note</dt><dd><a class="el" href="classdetectNet.html#a851cefb0e8aded6b764b641fe5264274" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a> will automatically be called by default by <a class="el" href="classdetectNet.html#ac723eb903991627198ac3318b4f52e29" title="Detect object locations from an image, returning an array containing the detection results...">Detect()</a>, if the overlay parameter is true </dd></dl>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="classdetectNet.html#a94ff26d023e725a5c2da5be4f8d237d5" title="Draw the detected bounding boxes overlayed on an RGBA image. ">Overlay()</a> will automatically be called by default by <a class="el" href="classdetectNet.html#ac723eb903991627198ac3318b4f52e29" title="Detect object locations from an image, returning an array containing the detection results...">Detect()</a>, if the overlay parameter is true </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">input</td><td>input image in CUDA device memory. </td></tr>
@@ -2452,7 +2461,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Usage string for command line arguments to <a class="el" href="classdetectNet.html#ac7c84410a8b08fc072bffc55f375e8a4" title="Load a new network instance. ">Create()</a> </p>
+<p>Usage string for command line arguments to <a class="el" href="classdetectNet.html#a653a99113a3f5914cb1736e0b73939db" title="Load a new network instance. ">Create()</a> </p>
 
 </div>
 </div>
@@ -2708,7 +2717,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classdetectNet.html">detectNet</a></li>
-    <li class="footer">Generated on Tue Jul 14 2020 21:59:35 for Jetson Inference by
+    <li class="footer">Generated on Tue Aug 3 2021 14:48:58 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

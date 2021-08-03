@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['width',['width',['../structcudaFont_1_1GlyphInfo.html#a64aa81eadb2b744ecc6a573bc189347f',1,'cudaFont::GlyphInfo::width()'],['../structvideoOptions.html#a5c30587a874bb769d7b346ac00cff580',1,'videoOptions::width()']]]
+  ['user',['user',['../structglDisplay_1_1eventHandler.html#a5c06d37184362d34321caf43317f9ddf',1,'glDisplay::eventHandler::user()'],['../structglWidget_1_1eventHandler.html#ad2afcf0fb176377e284563dc9d630e75',1,'glWidget::eventHandler::user()']]]
 ];

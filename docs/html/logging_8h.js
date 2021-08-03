@@ -1,5 +1,6 @@
 var logging_8h =
 [
+    [ "GenericLogMessage", "group__log.html#gafb70c38315345d6bae6a42a80f611cd0", null ],
     [ "LOG_COLOR_BLUE", "logging_8h.html#a10b19bd4d5d95ce6133e146d4054f307", null ],
     [ "LOG_COLOR_CYAN", "logging_8h.html#ac55e82ec5cb5e2dd18681cba15335f7a", null ],
     [ "LOG_COLOR_DARK_GRAY", "logging_8h.html#ac8d55f70f2cbe3969a913534341e68c5", null ],
@@ -19,7 +20,6 @@ var logging_8h =
     [ "LogDebug", "group__log.html#ga210ef343f0bc7d17a786ea6ea882f2d9", null ],
     [ "LogError", "group__log.html#ga0f3919667d0ac0b001e44edb569d22fe", null ],
     [ "LogInfo", "group__log.html#ga228a21f91213b15d7fdce08182d825e8", null ],
-    [ "LogMessage", "group__log.html#gab5fd0ba8ceb015500d9d7e572c3c0279", null ],
     [ "LogSuccess", "group__log.html#ga8eabfc6e4b353de9c96b1e43f7d62fcd", null ],
     [ "LogVerbose", "group__log.html#ga98544477d87d57d0b8e2b3ac03481785", null ],
     [ "LogWarning", "group__log.html#ga923829d777617140de2576c40e3880ed", null ]

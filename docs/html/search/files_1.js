@@ -10,6 +10,7 @@ var searchData=
   ['cudacolormap_2eh',['cudaColormap.h',['../cudaColormap_8h.html',1,'']]],
   ['cudacolorspace_2eh',['cudaColorspace.h',['../cudaColorspace_8h.html',1,'']]],
   ['cudacrop_2eh',['cudaCrop.h',['../cudaCrop_8h.html',1,'']]],
+  ['cudadraw_2eh',['cudaDraw.h',['../cudaDraw_8h.html',1,'']]],
   ['cudafiltermode_2ecuh',['cudaFilterMode.cuh',['../cudaFilterMode_8cuh.html',1,'']]],
   ['cudafiltermode_2eh',['cudaFilterMode.h',['../cudaFilterMode_8h.html',1,'']]],
   ['cudafont_2eh',['cudaFont.h',['../cudaFont_8h.html',1,'']]],

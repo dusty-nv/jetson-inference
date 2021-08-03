@@ -184,6 +184,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gaf6ccf410de715a19c571887e58f4cee7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__imageFormat.html#gaf6ccf410de715a19c571887e58f4cee7">imageFormatIsBayer</a> (<a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
 <tr class="memdesc:gaf6ccf410de715a19c571887e58f4cee7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if an image format is one of the Bayer formats.  <a href="group__imageFormat.html#gaf6ccf410de715a19c571887e58f4cee7">More...</a><br /></td></tr>
 <tr class="separator:gaf6ccf410de715a19c571887e58f4cee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09a2d0cc8a1dbc68882960eb37d54d41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="imageFormat_8h.html#a09a2d0cc8a1dbc68882960eb37d54d41">imageFormatErrorMsg</a> (const char *module, const char *function, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
+<tr class="memdesc:a09a2d0cc8a1dbc68882960eb37d54d41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print out an error message that the image format isn't supported.  <a href="#a09a2d0cc8a1dbc68882960eb37d54d41">More...</a><br /></td></tr>
+<tr class="separator:a09a2d0cc8a1dbc68882960eb37d54d41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Internal Type Templates</div></td></tr>
 <tr class="memitem:a8ae6dc740bb9de0a574a94df4a24b9fe"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a8ae6dc740bb9de0a574a94df4a24b9fe"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="imageFormat_8h.html#a8ae6dc740bb9de0a574a94df4a24b9fe">imageFormatFromType</a> ()</td></tr>
@@ -202,6 +205,51 @@ Functions</h2></td></tr>
 <tr class="separator:ae33c32030d9db032a57e0bcd9a87eb2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a09a2d0cc8a1dbc68882960eb37d54d41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09a2d0cc8a1dbc68882960eb37d54d41">&#9670;&nbsp;</a></span>imageFormatErrorMsg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void imageFormatErrorMsg </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>module</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>function</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Print out an error message that the image format isn't supported. </p>
+<p>It assumes the supported formats are rgb8, rgba8, rgb32f, rgba32f. The module string is normally LOG_CUDA, LOG_TRT, LOG_GSTREAMER, ect. The function string is normally the function name this was called from. The provided imageFormat is the format of the unsupported image. </p>
+
+</div>
+</div>
 <a id="a8ae6dc740bb9de0a574a94df4a24b9fe"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8ae6dc740bb9de0a574a94df4a24b9fe">&#9670;&nbsp;</a></span>imageFormatFromType()</h2>
 
@@ -343,7 +391,7 @@ template&lt;&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_54a0acf6da04fe2ed9410b4c6369bc5d.html">jetson-utils</a></li><li class="navelem"><a class="el" href="imageFormat_8h.html">imageFormat.h</a></li>
-    <li class="footer">Generated on Tue Jul 14 2020 21:59:34 for Jetson Inference by
+    <li class="footer">Generated on Tue Aug 3 2021 14:48:58 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

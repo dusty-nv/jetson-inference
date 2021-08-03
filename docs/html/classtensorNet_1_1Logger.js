@@ -1,4 +1,4 @@
 var classtensorNet_1_1Logger =
 [
-    [ "log", "classtensorNet_1_1Logger.html#a8bd9893db2a2344e5b601d6bd8f8619e", null ]
+    [ "log", "classtensorNet_1_1Logger.html#ac2a77ceaa57c5faaa0ea0d63f1a7a3cb", null ]
 ];

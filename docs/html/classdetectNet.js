@@ -9,13 +9,15 @@ var classdetectNet =
       [ "COCO_DOG", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4afb5c869902acb688cf8b4d7e334bc0f4", null ],
       [ "FACENET", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4aba129790ea4695b8fc94f0eeecb344de", null ],
       [ "PEDNET", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4a6e6da8c4ab8ff441042f7922082be8c3", null ],
-      [ "PEDNET_MULTI", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53", null ]
+      [ "PEDNET_MULTI", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4abddff26f00980b719858a6cf6fb71f53", null ],
+      [ "NETWORK_DEFAULT", "classdetectNet.html#a8912b56ba825368c4911e315f4f207e4ac0e5457d751a282922b39ba7ec0c9e4b", null ]
     ] ],
     [ "OverlayFlags", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6", [
       [ "OVERLAY_NONE", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a966eaaaa69ed08d36dcb862e3fc644bf", null ],
       [ "OVERLAY_BOX", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6aff23b9098d5bf0f91c31954001c2ff68", null ],
       [ "OVERLAY_LABEL", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6a7eb5454e7a6dd53d90c2ddd33b00d049", null ],
-      [ "OVERLAY_CONFIDENCE", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6af7ce69cd21d84fb3b963713da66756eb", null ]
+      [ "OVERLAY_CONFIDENCE", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6af7ce69cd21d84fb3b963713da66756eb", null ],
+      [ "OVERLAY_DEFAULT", "classdetectNet.html#a29e74cde23a8dd541dbd848e457663d6ae65b9f9d5e1d39f02183f5f0f9816dfd", null ]
     ] ],
     [ "~detectNet", "classdetectNet.html#a82c0e177e0da142fa22aa7580077307d", null ],
     [ "detectNet", "classdetectNet.html#a07a419d97f14aa0962b737e671ff438a", null ],
@@ -38,8 +40,8 @@ var classdetectNet =
     [ "GetThreshold", "classdetectNet.html#ad50b3774ee7350d0c256d94a785ba9df", null ],
     [ "init", "classdetectNet.html#a4d9b1b0fadbefe2b8e06e555906ae6ec", null ],
     [ "loadClassInfo", "classdetectNet.html#a5ab26d1cfb1710a826cae4473c7173f5", null ],
-    [ "Overlay", "classdetectNet.html#a851cefb0e8aded6b764b641fe5264274", null ],
-    [ "Overlay", "classdetectNet.html#a4a85dc41a7516006d6756a824577f17f", null ],
+    [ "Overlay", "classdetectNet.html#a94ff26d023e725a5c2da5be4f8d237d5", null ],
+    [ "Overlay", "classdetectNet.html#af6bfc51166410901174b48f99f59f85b", null ],
     [ "SetClassColor", "classdetectNet.html#ab9ba7c63d2fc417d0908324fd0dc2223", null ],
     [ "SetOverlayAlpha", "classdetectNet.html#ac2ffd50b5fb52d6ceea09af29b144afc", null ],
     [ "SetThreshold", "classdetectNet.html#a1cb45695bf95d5fb5db48976d1de8ae2", null ],

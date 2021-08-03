@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['process',['Process',['../classProcess.html',1,'']]],
-  ['profiler',['Profiler',['../classtensorNet_1_1Profiler.html',1,'tensorNet']]]
+  ['objectpose',['ObjectPose',['../structposeNet_1_1ObjectPose.html',1,'poseNet']]]
 ];

@@ -6,6 +6,7 @@ var group__cuda =
     [ "Error Checking", "group__cudaError.html", "group__cudaError" ],
     [ "Fonts", "group__cudaFont.html", "group__cudaFont" ],
     [ "Memory Management", "group__cudaMemory.html", "group__cudaMemory" ],
+    [ "Drawing", "group__drawing.html", "group__drawing" ],
     [ "Normalization", "group__normalization.html", "group__normalization" ],
     [ "Overlay", "group__overlay.html", "group__overlay" ],
     [ "Pixel Filtering", "group__cudaFilter.html", "group__cudaFilter" ],

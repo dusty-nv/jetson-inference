@@ -17,6 +17,7 @@ var searchData=
   ['allocbuffergl',['allocBufferGL',['../classcudaPointCloud.html#a1b6ba64ed345226be35e9dbe589ab8cc',1,'cudaPointCloud']]],
   ['allocdepthresize',['allocDepthResize',['../classcudaPointCloud.html#a68e0e108c9e1f65bed3f098800c74f77',1,'cudaPointCloud']]],
   ['allocdetections',['allocDetections',['../classdetectNet.html#acb367fb540a1dfb719c44ae0e4cdb045',1,'detectNet']]],
+  ['allochistogrambuffers',['allocHistogramBuffers',['../classdepthNet.html#a145bebabbf410e9e74e0d8a040015b1d',1,'depthNet']]],
   ['alloctexture',['allocTexture',['../classglDisplay.html#a518774deb1f2fa3e57e046b1150c7c5d',1,'glDisplay']]],
   ['allowgpufallback',['AllowGPUFallback',['../classtensorNet.html#a7d0ec0d8504ac8b26c5ab4a6136599ca',1,'tensorNet']]],
   ['alpha',['alpha',['../cudaVector_8h.html#aa94774faf063d34dab6f3f374d73ea7a',1,'alpha(T vec, typename cudaVectorTypeInfo&lt; T &gt;::Base default_alpha=255):&#160;cudaVector.h'],['../cudaVector_8h.html#a86392f5942dbe9a0563c0cc32350e229',1,'alpha(uchar3 vec, uint8_t default_alpha):&#160;cudaVector.h'],['../cudaVector_8h.html#ab50272f9412fd83b4f4f67d222b1294f',1,'alpha(uchar4 vec, uint8_t default_alpha):&#160;cudaVector.h'],['../cudaVector_8h.html#ab0ad365ef3a67482822305bca1d9ada2',1,'alpha(float3 vec, float default_alpha):&#160;cudaVector.h'],['../cudaVector_8h.html#ac0d98a665e25ffa6d701a2ce2f6efd12',1,'alpha(float4 vec, float default_alpha):&#160;cudaVector.h']]],

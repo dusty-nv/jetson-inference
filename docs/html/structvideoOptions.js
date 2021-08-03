@@ -50,6 +50,7 @@ var structvideoOptions =
     [ "loop", "structvideoOptions.html#aa8e394eb896dd92fd39c0946c10dd1ea", null ],
     [ "numBuffers", "structvideoOptions.html#a65b80ddd3f3cf0940f18e365fb58270b", null ],
     [ "resource", "structvideoOptions.html#a1e904a117abb3b703f01eaed7fa305f2", null ],
+    [ "rtspLatency", "structvideoOptions.html#ae574da46cb462c9d50d73c9c2a6c6fd0", null ],
     [ "width", "structvideoOptions.html#a5c30587a874bb769d7b346ac00cff580", null ],
     [ "zeroCopy", "structvideoOptions.html#afff91aa102908923622328e9f3ca3b83", null ]
 ];

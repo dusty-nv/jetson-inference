@@ -8,6 +8,7 @@ var tensorNet_8h =
     [ "DIMS_H", "tensorNet_8h.html#a1fc0b1785ea99bd75ec83b1eeb4e6120", null ],
     [ "DIMS_W", "tensorNet_8h.html#a7d959cb65990da8bfea3d941d6daf416", null ],
     [ "LOG_TRT", "group__tensorNet.html#ga3c048e603c3c16fb810eb11c36242f82", null ],
+    [ "NOEXCEPT", "tensorNet_8h.html#a10a59554805ac7ce3905fd3540f98137", null ],
     [ "NV_TENSORRT_MAJOR", "tensorNet_8h.html#aca5940a61fa51e91f41d88d9198bf935", null ],
     [ "NV_TENSORRT_MINOR", "tensorNet_8h.html#a7df0f049b87bee17d6aed394544e8979", null ],
     [ "Dims3", "tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b", null ],

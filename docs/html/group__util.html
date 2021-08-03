@@ -149,6 +149,9 @@ Macros</h2></td></tr>
 <tr class="memitem:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga4b8b2bed986c06c207ebac140ba65a7a">SAFE_DELETE</a>(x)&#160;&#160;&#160;if(x != NULL) { delete x; x = NULL; }</td></tr>
 <tr class="memdesc:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check for non-NULL pointer before deleting it, and then set the pointer to NULL.  <a href="#ga4b8b2bed986c06c207ebac140ba65a7a">More...</a><br /></td></tr>
 <tr class="separator:ga4b8b2bed986c06c207ebac140ba65a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaed3129b7674034c979192bcca6b0ad8c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#gaed3129b7674034c979192bcca6b0ad8c">SAFE_FREE</a>(x)&#160;&#160;&#160;if(x != NULL) { free(x); x = NULL; }</td></tr>
+<tr class="memdesc:gaed3129b7674034c979192bcca6b0ad8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check for non-NULL pointer before freeing it, and then set the pointer to NULL.  <a href="#gaed3129b7674034c979192bcca6b0ad8c">More...</a><br /></td></tr>
+<tr class="separator:gaed3129b7674034c979192bcca6b0ad8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga598a3330b3c21701223ee0ca14316eca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util.html#ga598a3330b3c21701223ee0ca14316eca">PI</a>&#160;&#160;&#160;3.1415926535897932384626433832795f</td></tr>
 <tr class="memdesc:ga598a3330b3c21701223ee0ca14316eca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant representing PI.  <a href="#ga598a3330b3c21701223ee0ca14316eca">More...</a><br /></td></tr>
 <tr class="separator:ga598a3330b3c21701223ee0ca14316eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -261,6 +264,26 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check for non-NULL pointer before deleting it, and then set the pointer to NULL. </p>
+
+</div>
+</div>
+<a id="gaed3129b7674034c979192bcca6b0ad8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaed3129b7674034c979192bcca6b0ad8c">&#9670;&nbsp;</a></span>SAFE_FREE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SAFE_FREE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;if(x != NULL) { free(x); x = NULL; }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check for non-NULL pointer before freeing it, and then set the pointer to NULL. </p>
 
 </div>
 </div>
@@ -389,7 +412,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Jul 14 2020 21:59:34 for Jetson Inference by
+    <li class="footer">Generated on Tue Aug 3 2021 14:48:58 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

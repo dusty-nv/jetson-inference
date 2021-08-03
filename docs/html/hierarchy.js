@@ -47,6 +47,7 @@ var hierarchy =
     ] ],
     [ "JoystickDevice", "classJoystickDevice.html", null ],
     [ "KeyboardDevice", "classKeyboardDevice.html", null ],
+    [ "poseNet::ObjectPose::Keypoint", "structposeNet_1_1ObjectPose_1_1Keypoint.html", null ],
     [ "tensorNet::layerInfo", "structtensorNet_1_1layerInfo.html", null ],
     [ "Log", "classLog.html", null ],
     [ "tinyxml2::MemPool", "classtinyxml2_1_1MemPool.html", [
@@ -58,16 +59,20 @@ var hierarchy =
     ] ],
     [ "Mutex", "classMutex.html", null ],
     [ "networkAdapter_t", "structnetworkAdapter__t.html", null ],
+    [ "poseNet::ObjectPose", "structposeNet_1_1ObjectPose.html", null ],
     [ "Process", "classProcess.html", null ],
     [ "RingBuffer", "classRingBuffer.html", null ],
     [ "Socket", "classSocket.html", null ],
     [ "tinyxml2::StrPair", "classtinyxml2_1_1StrPair.html", null ],
     [ "tensorNet", "classtensorNet.html", [
+      [ "depthNet", "classdepthNet.html", null ],
       [ "detectNet", "classdetectNet.html", null ],
       [ "imageNet", "classimageNet.html", null ],
+      [ "poseNet", "classposeNet.html", null ],
       [ "segNet", "classsegNet.html", null ]
     ] ],
     [ "Thread", "classThread.html", null ],
+    [ "poseNet::Topology", "structposeNet_1_1Topology.html", null ],
     [ "URI", "structURI.html", null ],
     [ "v4l2Camera", "classv4l2Camera.html", null ],
     [ "cudaPointCloud::Vertex", "structcudaPointCloud_1_1Vertex.html", null ],
