@@ -39,7 +39,7 @@ $ ./detectnet --network=ssd-mobilenet-v2 images/peds_0.jpg images/test/output.jp
 $ ./detectnet.py --network=ssd-mobilenet-v2 images/peds_0.jpg images/test/output.jpg  # --network flag is optional
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-0.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-0.jpg" width="1000">
 
 ``` bash
 # C++
@@ -49,14 +49,14 @@ $ ./detectnet images/peds_1.jpg images/test/output.jpg
 $ ./detectnet.py images/peds_1.jpg images/test/output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-1.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-1.jpg" width="1000">
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
 
 Below are more detection examples output from the console programs.  The [91-class](../data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-animals.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-animals.jpg" width="1000">
 
 Various images are found under `images/` for testing, such as `cat_*.jpg`, `dog_*.jpg`, `horse_*.jpg`, `peds_*.jpg`, ect. 
 

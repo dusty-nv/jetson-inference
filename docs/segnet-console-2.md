@@ -6,7 +6,7 @@
 # Semantic Segmentation with SegNet
 The next deep learning capability we'll cover in this tutorial is **semantic segmentation**.  Semantic segmentation is based on image recognition, except the classifications occur at the pixel level as opposed to the entire image.  This is accomplished by *convolutionalizing* a pre-trained image recognition backbone, which transforms the model into a [Fully Convolutional Network (FCN)](https://arxiv.org/abs/1605.06211) capable of per-pixel labeling.  Especially useful for environmental perception, segmentation yields dense per-pixel classifications of many different potential objects per scene, including scene foregrounds and backgrounds.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation.jpg" width="1000">
 
 `segNet` accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.  `segNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) and [C++](../c/segNet.h).  
 
@@ -86,7 +86,7 @@ $ ./segnet --network=fcn-resnet18-cityscapes images/city_0.jpg images/test/outpu
 $ ./segnet.py --network=fcn-resnet18-cityscapes images/city_0.jpg images/test/output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-city.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-city.jpg" width="1000">
 
 There are more test images called `city-*.jpg` found under the `images/` subdirectory for trying out the Cityscapes model.
 
@@ -144,7 +144,7 @@ $ ./segnet --network=fcn-resnet18-voc images/object_0.jpg images/test/output.jpg
 $ ./segnet.py --network=fcn-resnet18-voc images/object_0.jpg images/test/output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-voc.jpg" width="1000">
 
 #### VOC Classes
 
@@ -162,7 +162,7 @@ $ ./segnet --network=fcn-resnet18-sun images/room_0.jpg images/test/output.jpg
 $ ./segnet.py --network=fcn-resnet18-sun images/room_0.jpg images/test/output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation-sun.jpg" width="1000">
 
 #### SUN Classes
 
