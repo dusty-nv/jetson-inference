@@ -8,7 +8,7 @@ Depth sensing is useful for tasks such as mapping, navigation and obstacle detec
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-0.jpg">
 
-The [`depthNet`]((../c/depthNet.h) object accepts a single color image as input, and outputs the depth map.  The depth map is colorized for visualization, but the raw [depth field](#getting-the-raw-depth-field) is also accessible for directly accessing the depths. [`depthNet`]((../c/depthNet.h) is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#depthNet) and [C++](../c/depthNet.h).
+The [`depthNet`](../c/depthNet.h) object accepts a single color image as input, and outputs the depth map.  The depth map is colorized for visualization, but the raw [depth field](#getting-the-raw-depth-field) is also accessible for directly accessing the depths. [`depthNet`](../c/depthNet.h) is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#depthNet) and [C++](../c/depthNet.h).
 
 As examples of using the `depthNet` class, we provide sample programs for C++ and Python:
 

@@ -8,7 +8,7 @@ The next deep learning capability we'll cover in this tutorial is **semantic seg
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/segmentation.jpg">
 
-[`segNet`]((../c/segNet.h) accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.  [`segNet`]((../c/segNet.h) is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) and [C++](../c/segNet.h).  
+[`segNet`](../c/segNet.h) accepts as input the 2D image, and outputs a second image with the per-pixel classification mask overlay.  Each pixel of the mask corresponds to the class of object that was classified.  [`segNet`](../c/segNet.h) is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) and [C++](../c/segNet.h).  
 
 As examples of using the `segNet` class, we provide sample programs C++ and Python:
 
