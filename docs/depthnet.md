@@ -4,11 +4,11 @@
 <sup>Mono Depth</sup></s></p>
 
 # Mononocular Depth with DepthNet
-Depth sensing is useful for tasks such as mapping and obstacle detection, however it historically required a stereo camera or RGB-D camera.  There are now DNNs that are able to infer relative depth from a single monocular image (aka mono depth).  See the [FastDepth](https://arxiv.org/abs/1903.03273) paper for one approach to accomplishing this using Fully-Convolutional Networks (FCNs).
+Depth sensing is useful for tasks such as mapping, navigation and obstacle detection, however it historically required a stereo camera or RGB-D camera.  There are now DNNs that are able to infer relative depth from a single monocular image (aka mono depth).  See the [MIT FastDepth](https://arxiv.org/abs/1903.03273) paper for one such approach to accomplishing this using Fully-Convolutional Networks (FCNs).
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-0.jpg">
 
-The `depthNet` object accepts a single monocular image as input, and outputs the depth image.  The depth image is colorized for visualization, but the raw depth field is also available to use.  `depthNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#depthNet) and [C++](../c/depthNet.h).
+The `depthNet` object accepts a single color image as input, and outputs the depth map.  The depth map is colorized for visualization, but the raw [depth field](#getting-the-raw-depth-field) is also accessible for directly accessing the depths.  `depthNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#depthNet) and [C++](../c/depthNet.h).
 
 As examples of using the `depthNet` class, we provide sample programs for C++ and Python:
 
@@ -64,10 +64,10 @@ To run mono depth estimation on a live camera stream or video, pass in a device 
 
 ``` bash
 # C++
-$ ./depthnet /dev/video0
+$ ./depthnet /dev/video0     # or csi://0 if using MIPI CSI camera
 
 # Python
-$ ./depthnet.py /dev/video0
+$ ./depthnet.py /dev/video0  # or csi://0 if using MIPI CSI camera
 ```
 
 <a href="https://www.youtube.com/watch?v=3_bU6Eqb4hE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-video-0.jpg width="750"></a>
@@ -78,7 +78,7 @@ $ ./depthnet.py /dev/video0
 
 ## Getting the Raw Depth Field
 
-If you want to access the raw depth map, you can do so with `depthNet.GetDepthField()`.  This will return a single-channel floating point image that is typically smaller (224x224) than the original input - this represents the actual output of the model.  On the other hand, the colorized depth image used for visualization is upsampled to match the resolution of the original input (or whatever the `--depth-size` scale is set to).
+If you want to access the raw depth map, you can do so with `depthNet.GetDepthField()`.  This will return a single-channel floating point image that is typically smaller (224x224) than the original input - this represents the raw output of the model.  On the other hand, the colorized depth image used for visualization is upsampled to match the resolution of the original input (or whatever the `--depth-size` scale is set to).
 
 Below is Python and C++ pseudocode for accessing the raw depth field:
 
@@ -104,13 +104,13 @@ depth_numpy = jetson.utils.cudaToNumpy(depth_field)
 print(f"depth field resolution is {depth_field.width}x{depth_field.height}, format={depth_field.format})
 
 while True:
-	img = input.Capture()	# assumes you have created an input videoSource stream
-	net.Process(img)
-	jetson.utils.cudaDeviceSynchronize() # wait for GPU to finish processing, so we can use the results on CPU
+    img = input.Capture()	# assumes you have created an input videoSource stream
+    net.Process(img)
+    jetson.utils.cudaDeviceSynchronize() # wait for GPU to finish processing, so we can use the results on CPU
 	
-	# find the min/max values with numpy
-	min_depth = np.amin(depth_numpy)
-	max_depth = np.amax(depth_numpy)
+    # find the min/max values with numpy
+    min_depth = np.amin(depth_numpy)
+    max_depth = np.amax(depth_numpy)
 ```
 
 #### C++
@@ -129,19 +129,22 @@ const int depth_height = net->GetDepthHeight();
 
 while(true)
 {
-	uchar3* img = NUL;
-	input->Capture(&img);  // assumes you have created an input videoSource stream
-	net->Process(img, input->GetWidth(), input->GetHeight());
+    uchar3* img = NUL;
+    input->Capture(&img);  // assumes you have created an input videoSource stream
+    net->Process(img, input->GetWidth(), input->GetHeight());
 	
-	CUDA(cudaDeviceSynchronize()); // wait for GPU to finish processing
+    CUDA(cudaDeviceSynchronize()); // wait for GPU to finish processing
 	
-	// you can now safely access depth_field from the CPU (or GPU)
+    // you can now safely access depth_field from the CPU (or GPU)
+    for( int y=0; y < depth_height; y++ )
+        for( int x=0; x < depth_width; x++ )
+	       printf("depth x=%i y=%i -> %f\n", x, y, depth_map[y * depth_width + x]);
 }
 ```
 
-Trying to measure absolute distances using mono depth can lead to inaccuracies as it is typically more effective at relative depth estimation.  The range of values in the raw depth field can vary depending on the scene, so these are often thresholded dynamically.  For example during visualization, histogram equalization is performed on the raw depth field to distribute the color map more evenly across the image.
+Trying to measure absolute distances using mono depth can lead to inaccuracies as it's typically more effective at relative depth estimation.  The range of values in the raw depth field can vary depending on the scene, so these are often re-calculated dynamically.  For example during visualization, histogram equalization is performed on the raw depth field to distribute the colormap more evenly across the range of depth values.
 	
-Next, we're going to introduce the concepts of [Transfer Learning](pytorch-transfer-learning.md) and train some example DNN models on our Jetson using PyTorch.
+Next, we're going to introduce the concepts of [Transfer Learning](pytorch-transfer-learning.md) and train our own DNN models on the Jetson using PyTorch.
 
 ##
 <p align="right">Next | <b><a href="pytorch-transfer-learning.md">Transfer Learning with PyTorch</a></b>

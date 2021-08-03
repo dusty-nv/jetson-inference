@@ -15,7 +15,7 @@ As examples of using the `poseNet` class, we provide sample programs for C++ and
 - [`posenet.cpp`](../examples/posenet/posenet.cpp) (C++) 
 - [`posenet.py`](../python/examples/posenet.py) (Python) 
 
-These samples are able to detect objects in images, videos, and camera feeds.  For more info about the various types of input/output streams supported, see the [Camera Streaming and Multimedia](aux-streaming.md) page.
+These samples are able to detect the poses of multiple humans in images, videos, and camera feeds.  For more info about the various types of input/output streams supported, see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
 ## Pose Estimation on Images
 
@@ -53,10 +53,10 @@ To run pose estimation on a live camera stream or video, pass in a device or fil
 
 ``` bash
 # C++
-$ ./posenet /dev/video0
+$ ./posenet /dev/video0     # or csi://0 if using MIPI CSI camera
 
 # Python
-$ ./posenet.py /dev/video0
+$ ./posenet.py /dev/video0  # or csi://0 if using MIPI CSI camera
 ```
 
 <a href="https://www.youtube.com/watch?v=hwFtWYR986Q" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/posenet-video-body.jpg width="750"></a>
