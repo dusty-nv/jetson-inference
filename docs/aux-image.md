@@ -120,7 +120,7 @@ if( !cudaAllocMapped(&img, 1920, 1080) )
 
 ## Copying Images
 
-`cudaMemcpy()` can be used to copy memory between images of the same format and dimensions.  [`cudaMemcpy()`](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1gc263dbe6574220cc776b45438fc351e8) is a standard CUDA function in C++, and there is a version in jetson.utils for Python:
+`cudaMemcpy()` can be used to copy memory between images of the same format and dimensions.  [`cudaMemcpy()`](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1gc263dbe6574220cc776b45438fc351e8) is a standard CUDA function in C++, and there is a similar version for Python in the jetson.utils library:
 
 #### Python
 ```python
@@ -133,7 +133,7 @@ img_b = jetson.utils.cudaAllocMapped(width=img_a.width, height=img_a.height, for
 # copy the image (dst, src)
 jetson.utils.cudaMemcpy(img_b, img_a)
 
-# or you can use this shortcut, which will allocate the destination first
+# or you can use this shortcut, which will make a duplicate
 img_c = jetson.utils.cudaMemcpy(img_a)
 ```
 
@@ -498,7 +498,7 @@ CUDA(cudaOverlay(imgInputB, dimsB, imgOutput, dimsOutput, dimsA.x, 0));
 
 [`cudaDraw.h`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaDraw.h) defines several functions for drawing basic shapes, including circles, lines, and rectangles.
 
-Below are simple Python and C++ psuedocode for using them - see see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py) for a functioning example.
+Below are simple Python and C++ psuedocode for using them - see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py) for a functioning example.
 
 #### Python
 
@@ -516,7 +516,7 @@ jetson.utils.cudaDrawRect(input, (200,25,350,250), (255,127,0,200))
 jetson.utils.cudaDrawLine(input, (25,150), (325,15), (255,0,200,200), 10)
 ```
 
-> **note:** if the optional `output` argument isn't specified, the operation will be performed in-place on the `input` image.
+> **note:** if the optional `output` image isn't specified, the operation will be performed in-place on the `input` image.
 
 #### C++
 
@@ -532,7 +532,7 @@ int height = 0;
 if( !loadImage("my_image.jpg", &img, &width, &height) )
 	return false;	// loading error
 	
-// see cudaDraw.h for functions
+// see cudaDraw.h for definitions
 CUDA(cudaDrawCircle(img, width, height, 50, 50, 25, make_float4(0,255,127,200)));
 CUDA(cudaDrawRect(img, width, height, 200, 25, 350, 250, make_float4(255,127,0,200)));
 CUDA(cudaDrawLine(img, width, height, 25, 150, 325, 15, make_float4(255,0,200,200), 10));
