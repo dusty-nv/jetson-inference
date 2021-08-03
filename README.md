@@ -93,8 +93,8 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 | Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#imageNet) |
 | Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#detectNet)
 | Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) |
-| Pose Estimation   | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classposeNet.html) | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#poseNet) |
-| Monocular Depth   | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classdepthNet.html) | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#depthNet) |
+| Pose Estimation   | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classposeNet.html) | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#poseNet) |
+| Monocular Depth   | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classdepthNet.html) | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#depthNet) |
 
 #### jetson-utils
 
