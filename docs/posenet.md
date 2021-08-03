@@ -40,7 +40,7 @@ $ ./posenet "images/humans_*.jpg" images/test/pose_humans_%i.jpg
 $ ./posenet.py "images/humans_*.jpg" images/test/pose_humans_%i.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-0.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/posenet-1.jpg">
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
@@ -59,7 +59,7 @@ $ ./posenet /dev/video0
 $ ./posenet.py /dev/video0
 ```
 
-<a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
+<a href="https://www.youtube.com/watch?v=hwFtWYR986Q" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/posenet-video-body.jpg width="750"></a>
 
 ``` bash
 # C++
@@ -69,7 +69,7 @@ $ ./posenet --network=resnet18-hand /dev/video0
 $ ./posenet.py --network=resnet18-hand /dev/video0
 ```
 
-<a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
+<a href="https://www.youtube.com/watch?v=6NL_IE44vRE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/posenet-video-hands.jpg width="750"></a>
 
 ## Pre-trained Pose Estimation Models
 
