@@ -9,7 +9,7 @@ Vision primitives, such as [`imageNet`](c/imageNet.h) for image recognition, [`d
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/deep-vision-primitives.jpg">
 
-Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and transfer learning onboard your Jetson, including collecting your own datasets and training your own models.  It covers image classification, object detection, and segmentation.
+Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and transfer learning onboard your Jetson, including collecting your own datasets and training your own models.  It covers image classification, object detection, semantic segmentation, pose estimation, and mono depth.
 
 ### Table of Contents
 
@@ -21,8 +21,8 @@ Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and 
 * [System Requirements](#recommended-system-requirements)
 * [Change Log](CHANGELOG.md)
 
-> &gt; &nbsp; [Jetson Nano 2GB](https://developer.nvidia.com/embedded/jetson-nano-2gb-developer-kit) and JetPack 4.5 is now supported in the repo. <br/>
-> &gt; &nbsp; Try the new [Re-training SSD-Mobilenet](docs/pytorch-ssd.md) object detection tutorial! <br/>
+> &gt; &nbsp; JetPack 4.6 (L4T R32.6.1) is now supported in the repo. <br/>
+> &gt; &nbsp; Try the new [Pose Estimation](docs/posenet.md) and [Mono Depth](docs/monodepth.md) tutorials! <br/>
 > &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 
 ## Hello AI World
