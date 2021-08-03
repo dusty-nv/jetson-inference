@@ -31,6 +31,12 @@
  */
 
 /**
+ * @defgroup depthNet depthNet
+ * Mono depth estimation from monocular images.
+ * @ingroup deepVision
+ */
+ 
+/**
  * @defgroup detectNet detectNet
  * Object detection DNN (SSD, DetectNet)
  * @ingroup deepVision
@@ -45,12 +51,6 @@
 /**
  * @defgroup segNet segNet
  * Semantic segmentation DNN (FCN or Fully-Convolutional Networks)
- * @ingroup deepVision
- */
-
-/**
- * @defgroup depthNet depthNet
- * Mono depth estimation from monocular images.
  * @ingroup deepVision
  */
  
