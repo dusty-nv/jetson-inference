@@ -15,7 +15,7 @@ As examples of using the `depthNet` class, we provide sample programs for C++ an
 - [`depthnet.cpp`](../examples/depthnet/depthnet.cpp) (C++) 
 - [`depthnet.py`](../python/examples/depthnet.py) (Python) 
 
-These samples are able to detect objects in images, videos, and camera feeds.  For more info about the various types of input/output streams supported, see the [Camera Streaming and Multimedia](aux-streaming.md) page.
+These samples are able to infer depth from images, videos, and camera feeds.  For more info about the various types of input/output streams supported, see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
 ## Mono Depth on Images
 

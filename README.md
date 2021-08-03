@@ -7,7 +7,7 @@ This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for 
 
 Vision primitives, such as [`imageNet`](c/imageNet.h) for image recognition, [`detectNet`](c/detectNet.h) for object detection, and [`segNet`](c/segNet.h) for semantic segmentation, inherit from the shared [`tensorNet`](c/tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images.  See the **[API Reference](#api-reference)** section for detailed reference documentation of the C++ and Python libraries. 
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.png" width="800">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/deep-vision-primitives.jpg">
 
 Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and transfer learning onboard your Jetson, including collecting your own datasets and training your own models.  It covers image classification, object detection, and segmentation.
 
