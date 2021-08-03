@@ -10,6 +10,7 @@ This page covers a number of image format, conversion, and pre/post-processing f
 **Image Management**
 * [Image Formats](#image-formats)
 * [Image Allocation](#image-allocation)
+* [Copying Images](#copying-images)
 * [Image Capsules in Python](#image-capsules-in-python)
 	* [Accessing Image Data in Python](#accessing-image-data-in-python)
 	* [Converting to Numpy Arrays](#converting-to-numpy-arrays)
@@ -21,6 +22,7 @@ This page covers a number of image format, conversion, and pre/post-processing f
 * [Cropping](#cropping)
 * [Normalization](#normalization)
 * [Overlay](#overlay)
+* [Drawing Shapes](#drawing-shapes)
 
 For examples of using these functions, see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py) in addition to the psuedocode below.  Before diving in here, it's recommended to read the previous page on [Camera Streaming and Multimedia](aux-streaming.md) for info about video capture and output, loading/saving images, ect.
 
@@ -115,6 +117,49 @@ if( !cudaAllocMapped(&img, 1920, 1080) )
 ```
 
 > **note:** when using these vector types, these images will be assumed to be in their respective RGB/RGBA colorspace.  So if you use `uchar3/uchar4/float3/float4` to represent an image that contains BGR/BGRA data, it could be intepreted by some processing functions as RGB/RGBA unless you explicitly specify the proper [image format](#image-formats).
+
+## Copying Images
+
+`cudaMemcpy()` can be used to copy memory between images of the same format and dimensions.  [`cudaMemcpy()`](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1gc263dbe6574220cc776b45438fc351e8) is a standard CUDA function in C++, and there is a version in jetson.utils for Python:
+
+#### Python
+```python
+import jetson.utils
+
+# load an image and allocate memory to copy it to
+img_a = jetson.utils.loadImage("my_image.jpg")
+img_b = jetson.utils.cudaAllocMapped(width=img_a.width, height=img_a.height, format=img_a.format)
+
+# copy the image (dst, src)
+jetson.utils.cudaMemcpy(img_b, img_a)
+
+# or you can use this shortcut, which will allocate the destination first
+img_c = jetson.utils.cudaMemcpy(img_a)
+```
+
+#### C++
+```cpp
+#include <jetson-utils/cudaMappedMemory.h>
+#include <jetson-utils/imageIO.h>
+
+uchar3* img_a = NULL;
+uchar3* img_b = NULL;
+
+int width = 0;
+int height = 0;
+
+// load example image
+if( !loadImage("my_image.jpg", &img_a, &width, &height) )
+	return false;	// loading error
+	
+// allocate memory to copy it to
+if( !cudaAllocMapped(&img_b, width, height) )
+	return false;  // memory error
+	
+// copy the image (dst, src)
+if( CUDA_FAILED(cudaMemcpy(img_b, img_a, width * height * sizeof(uchar3), cudaMemcpyDeviceToDevice)) )
+	return false;  // memcpy error
+```
 
 ## Image Capsules in Python
 
@@ -447,6 +492,50 @@ if( !cudaAllocMapped(&imgOutput, dimsOutput.x, dimsOutput.y) )
 // compost the two images (the last two arguments are x,y coordinates in the output image)
 CUDA(cudaOverlay(imgInputA, dimsA, imgOutput, dimsOutput, 0, 0));
 CUDA(cudaOverlay(imgInputB, dimsB, imgOutput, dimsOutput, dimsA.x, 0));
+```
+
+## Drawing Shapes
+
+[`cudaDraw.h`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaDraw.h) defines several functions for drawing basic shapes, including circles, lines, and rectangles.
+
+Below are simple Python and C++ psuedocode for using them - see see [`cuda-examples.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/cuda-examples.py) for a functioning example.
+
+#### Python
+
+``` python
+# load the input image
+input = jetson.utils.loadImage("my_image.jpg")
+
+# cudaDrawCircle(input, (cx,cy), radius, (r,g,b,a), output=None)
+jetson.utils.cudaDrawCircle(input, (50,50), 25, (0,255,127,200))
+
+# cudaDrawRect(input, (left,top,right,bottom), (r,g,b,a), output=None)
+jetson.utils.cudaDrawRect(input, (200,25,350,250), (255,127,0,200))
+
+# cudaDrawLine(input, (x1,y1), (x2,y2), (r,g,b,a), line_width, output=None)
+jetson.utils.cudaDrawLine(input, (25,150), (325,15), (255,0,200,200), 10)
+```
+
+> **note:** if the optional `output` argument isn't specified, the operation will be performed in-place on the `input` image.
+
+#### C++
+
+``` cpp
+#include <jetson-utils/cudaDraw.h>
+#include <jetson-utils/imageIO.h>
+
+uchar3* img = NULL;
+int width = 0;
+int height = 0;
+
+// load example image
+if( !loadImage("my_image.jpg", &img, &width, &height) )
+	return false;	// loading error
+	
+// see cudaDraw.h for functions
+CUDA(cudaDrawCircle(img, width, height, 50, 50, 25, make_float4(0,255,127,200)));
+CUDA(cudaDrawRect(img, width, height, 200, 25, 350, 250, make_float4(255,127,0,200)));
+CUDA(cudaDrawLine(img, width, height, 25, 150, 325, 15, make_float4(255,0,200,200), 10));
 ```
 
 ##
