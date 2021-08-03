@@ -47,7 +47,7 @@
  */
 
 /**
- * @name depthNet
+ * @defgroup depthNet
  * Mono depth estimation from monocular images.
  * @ingroup deepVision
  */
