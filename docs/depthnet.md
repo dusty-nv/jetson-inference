@@ -76,14 +76,65 @@ $ ./depthnet.py /dev/video0
 
 ## Getting the Raw Depth Field
 
-If you want to access the raw depth map, you can do so with `depthNet.GetDepthField()`.  This will return a single-channel floating point image that is smaller (224x224) than the original input.  This represents the actual output of the model.  The colorized depth map used for visualization is upsampled to match the resolution of the original input (or whatever the `--depth-size` scale is set to).
+If you want to access the raw depth map, you can do so with `depthNet.GetDepthField()`.  This will return a single-channel floating point image that is typically smaller (224x224) than the original input - this represents the actual output of the model.  On the other hand, the colorized depth image used for visualization is upsampled to match the resolution of the original input (or whatever the `--depth-size` scale is set to).
+
+Below is Python and C++ pseudocode for accessing the raw depth field:
+
+#### Python
 
 ``` python
-# TODO python code
+import jetson.inference
+import jetson.utils
+
+import numpy as np
+
+# load mono depth network
+net = jetson.inference.depthNet()
+
+# depthNet re-uses the same memory for the depth field,
+# so you only need to do this once (not every frame)
+depth_field = net.GetDepthField()
+
+# cudaToNumpy() will map the depth field cudaImage to numpy
+# this mapping is persistent, so you only need to do it once
+depth_numpy = jetson.utils.cudaToNumpy(depth_field)
+
+print(f"depth field resolution is {depth_field.width}x{depth_field.height}, format={depth_field.format})
+
+while True:
+	img = input.Capture()	# assumes you have created an input videoSource stream
+	net.Process(img)
+	jetson.utils.cudaDeviceSynchronize() # wait for GPU to finish processing, so we can use the results on CPU
+	
+	# find the min/max values with numpy
+	min_depth = np.amin(depth_numpy)
+	max_depth = np.amax(depth_numpy)
 ```
 
+#### C++
+
 ``` cpp
-// TODO cpp code
+#include <jetson-inference/depthNet.h>
+
+// load mono depth network
+depthNet* net = depthNet::Create();
+
+// depthNet always uses the same memory for the depth field,
+// so you only need to do this once (not every frame)
+float* depth_field = net->GetDepthField();
+const int depth_width = net->GetDepthWidth();
+const int depth_height = net->GetDepthHeight();
+
+while(true)
+{
+	uchar3* img = NUL;
+	input->Capture(&img);  // assumes you have created an input videoSource stream
+	net->Process(img, input->GetWidth(), input->GetHeight());
+	
+	CUDA(cudaDeviceSynchronize()); // wait for GPU to finish processing
+	
+	// you can now safely access depth_field from the CPU (or GPU)
+}
 ```
 
 Trying to measure absolute distances using mono depth can lead to inaccuracies as it is typically more effective at relative depth estimation.  The range of values in the raw depth field can vary depending on the scene, so these are often thresholded dynamically.  For example during visualization, histogram equalization is performed on the raw depth field to distribute the color map more evenly across the image.
