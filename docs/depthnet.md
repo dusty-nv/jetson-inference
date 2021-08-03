@@ -6,7 +6,7 @@
 # Mononocular Depth with DepthNet
 Depth sensing is useful for tasks such as mapping and obstacle detection, however it historically required a stereo camera or RGB-D camera.  There are now DNNs that are able to infer relative depth from a single monocular image (aka mono depth).  See the [FastDepth](https://arxiv.org/abs/1903.03273) paper for one approach to accomplishing this using Fully-Convolutional Networks (FCNs).
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-0.jpg">
 
 The `depthNet` object accepts a single monocular image as input, and outputs the depth image.  The depth image is colorized for visualization, but the raw depth field is also available to use.  `depthNet` is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#depthNet) and [C++](../c/depthNet.h).
 
@@ -41,7 +41,7 @@ $ ./depthnet "images/room_*.jpg" images/test/depth_room_%i.jpg
 $ ./depthnet.py "images/room_*.jpg" images/test/depth_room_%i.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-0.jpg" width="900">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-room-0.jpg">
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
@@ -56,7 +56,9 @@ $ ./depthnet "images/trail_*.jpg" images/test/depth_trail_%i.jpg
 $ ./depthnet.py "images/trail_*.jpg" images/test/depth_trail_%i.jpg
 ```
 
-## Mono Depth on Video 
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-trail-0.jpg">
+
+## Mono Depth from Video 
 
 To run mono depth estimation on a live camera stream or video, pass in a device or file path from the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
@@ -68,7 +70,7 @@ $ ./depthnet /dev/video0
 $ ./depthnet.py /dev/video0
 ```
 
-<a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
+<a href="https://www.youtube.com/watch?v=3_bU6Eqb4hE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-video-0.jpg width="750"></a>
 
 > **note**:  if the screen is too small to fit the output, you can use `--depth-scale=0.5` to reduce the size <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of the depth image, or reduce the size of the camera with `--input-width=X --input-height=Y`

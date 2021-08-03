@@ -47,7 +47,7 @@ $ ./posenet.py "images/humans_*.jpg" images/test/pose_humans_%i.jpg
 
 There are also test images of people under `"images/peds_*.jpg"` that you can try as well.
 
-## Pose Estimation on Video 
+## Pose Estimation from Video 
 
 To run pose estimation on a live camera stream or video, pass in a device or file path from the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
@@ -101,7 +101,7 @@ poses = net.Process(img)
 for pose in poses:
     # find the keypoint index from the list of detected keypoints
     # you can find these keypoint names in the model's JSON file, 
-    # or with net.GetNumKeypoints() / net.GetKeypointName()
+    # or with net.GetKeypointName() / net.GetNumKeypoints()
     left_wrist_idx = pose.FindKeypoint('left_wrist')
     left_shoulder_idx = pose.FindKeypoint('left_shoulder')
 
