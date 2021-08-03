@@ -6,7 +6,9 @@
  * Available network primitives currently include:  
  *   - \ref imageNet for image recognition
  *   - \ref detectNet for object detection + localization
- *   - \ref segNet for segmentation
+ *   - \ref segNet for semantic segmentation
+ *   - \ref poseNet for pose estimation
+ *   - \ref depthNet for mono depth
  *
  * The different primitives each inherit from the shared \ref tensorNet object.
  *
@@ -47,7 +49,7 @@
  */
 
 /**
- * @defgroup depthNet
+ * @defgroup depthNet depthNet
  * Mono depth estimation from monocular images.
  * @ingroup deepVision
  */

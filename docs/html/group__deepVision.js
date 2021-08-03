@@ -5,5 +5,5 @@ var group__deepVision =
     [ "detectNet", "group__detectNet.html", "group__detectNet" ],
     [ "poseNet", "group__poseNet.html", "group__poseNet" ],
     [ "segNet", "group__segNet.html", "group__segNet" ],
-    [ "DepthNet", "group__depthNet.html", "group__depthNet" ]
+    [ "depthNet", "group__depthNet.html", "group__depthNet" ]
 ];
