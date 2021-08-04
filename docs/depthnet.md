@@ -3,7 +3,7 @@
 <br/>
 <sup>Mono Depth</sup></s></p>
 
-# Mononocular Depth with DepthNet
+# Monocular Depth with DepthNet
 Depth sensing is useful for tasks such as mapping, navigation and obstacle detection, however it historically required a stereo camera or RGB-D camera.  There are now DNNs that are able to infer relative depth from a single monocular image (aka mono depth).  See the [MIT FastDepth](https://arxiv.org/abs/1903.03273) paper for one such approach to accomplishing this using Fully-Convolutional Networks (FCNs).
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-0.jpg">
