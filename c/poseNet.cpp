@@ -321,11 +321,20 @@ poseNet* poseNet::Create( const commandLine& cmdLine )
 // loadTopology
 bool poseNet::loadTopology( const char* json_path, Topology* topology )
 {
+	const std::string path = locateFile(json_path);
+
+	if( path.length() == 0 )
+	{
+		LogError(LOG_TRT "poseNet -- failed to find topology file %s\n", json_path);
+		return false;
+	}
+	
+	// load the json
 	nlohmann::json topology_json;
 	
 	try
 	{
-		std::ifstream topology_file(json_path);
+		std::ifstream topology_file(path.c_str());
 		topology_file >> topology_json;
 	}
 	catch (...)
