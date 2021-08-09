@@ -188,7 +188,7 @@ static int PyPoseKeypoint_SetX( PyPoseKeypoint_Object* self, PyObject* value, vo
 // GetY
 static PyObject* PyPoseKeypoint_GetY( PyPoseKeypoint_Object* self, void* closure )
 {
-	return PyFloat_FromDouble(self->keypoint.x);
+	return PyFloat_FromDouble(self->keypoint.y);
 }
 
 // SetY
@@ -706,7 +706,7 @@ static PyObject* PyObjectPose_FindKeypoint( PyObjectPose_Object* self, PyObject 
 	if( !PyObjectPose_Sync(self, pose) )
 		return NULL;
 
-	PYLONG_FROM_LONG(pose.FindKeypoint(id));
+	return PYLONG_FROM_LONG(pose.FindKeypoint(id));
 }
 
 // FindLink
@@ -757,7 +757,7 @@ static PyObject* PyObjectPose_FindLink( PyObjectPose_Object* self, PyObject *arg
 	if( !PyObjectPose_Sync(self, pose) )
 		return NULL;
 	
-	PYLONG_FROM_LONG(pose.FindLink(a,b));
+	return PYLONG_FROM_LONG(pose.FindLink(a,b));
 }
 
 
