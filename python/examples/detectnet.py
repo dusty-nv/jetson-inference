@@ -47,12 +47,15 @@ except:
 	parser.print_help()
 	sys.exit(0)
 
+# create video output object 
+output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv+is_headless)
+	
 # load the object detection network
 net = jetson.inference.detectNet(opt.network, sys.argv, opt.threshold)
 
-# create video sources & outputs
+# create video sources
 input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
-output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv+is_headless)
+
 
 # process frames until the user exits
 while True:
