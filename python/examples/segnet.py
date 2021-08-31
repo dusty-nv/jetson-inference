@@ -58,12 +58,14 @@ net = jetson.inference.segNet(opt.network, sys.argv)
 # set the alpha blending value
 net.SetOverlayAlpha(opt.alpha)
 
+# create video output
+output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv+is_headless)
+
 # create buffer manager
 buffers = segmentationBuffers(net, opt)
 
-# create video sources & outputs
+# create video source
 input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
-output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv+is_headless)
 
 # process frames until user exits
 while True:
