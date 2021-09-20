@@ -106,7 +106,7 @@ Note that the models are saved under `jetson-inference/python/training/classific
 Just like with the Cat/Dog example, next we need to convert our trained model from PyTorch to ONNX, so that we can load it with TensorRT:
 
 ``` bash
-python3 onnx_export.py --model-dir=model/plants
+python3 onnx_export.py --model-dir=models/plants
 ```
 
 This will create a model called `resnet18.onnx` under `jetson-inference/python/training/classification/models/plants/`
