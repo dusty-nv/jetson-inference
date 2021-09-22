@@ -126,7 +126,8 @@ else()
 	message("-- BUILD_EXPERIMENTAL disabled")
 	file(GLOB pluginSources plugins/*.cpp plugins/*.cu plugins/pose/trt_pose/parse/*.cpp)
 endif()
-	
+
+link_directories(/usr/lib/aarch64-linux-gnu/tegra)	
 cuda_add_library(jetson-inference SHARED ${inferenceSources} ${pluginSources})
 target_include_directories(jetson-inference PRIVATE ${PROJECT_SOURCE_DIR}/plugins/pose/trt_pose/parse)
 
