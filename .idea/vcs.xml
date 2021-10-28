@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/plugins/pose" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/python/training/classification" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/python/training/detection" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/python/training/detection/ssd" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/python/training/segmentation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/tools/camera-capture" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/utils" vcs="Git" />
+  </component>
+</project>
