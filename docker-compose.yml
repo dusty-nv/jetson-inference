@@ -1,0 +1,21 @@
+version: '2.3'
+services:
+    jetson-inference:
+        network_mode: host
+        runtime: nvidia
+        environment:
+            - DISPLAY=${DISPLAY}
+        volumes:
+            - '/tmp/.X11-unix/:/tmp/.X11-unix'
+            - '/tmp/argus_socket:/tmp/argus_socket'
+            - '/etc/enctune.conf:/etc/enctune.conf'
+            - '${PWD}/data:/jetson-inference/data'
+            - '${PWD}/python/training/classification/data:/jetson-inference/python/training/classification/data'
+            - '${PWD}/python/training/classification/models:/jetson-inference/python/training/classification/models'
+            - '${PWD}/python/training/detection/ssd/data:/jetson-inference/python/training/detection/ssd/data'
+            - '${PWD}/python/training/detection/ssd/models:/jetson-inference/python/training/detection/ssd/models'
+            - '${PWD}/python/training/detection/ssd/code:/jetson-inference/python/training/detection/ssd/code'
+        devices:
+            - /dev/video0
+            - /dev/ttyUSB0
+        image: 'dustynv/jetson-inference:r32.6.1'
