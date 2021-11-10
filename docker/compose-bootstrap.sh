@@ -36,6 +36,7 @@ else
     # Prevent conflict with local docker-compose installation by maintaing our own binary. It is simple since it is Go static-linked binary anyway.
     curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o $PWD/docker/docker-compose
     chmod +x $PWD/docker/docker-compose
+fi
 
 # find container tag from L4T version
 source docker/tag.sh
