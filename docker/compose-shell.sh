@@ -1,1 +1,1 @@
-./docker/docker-compose exec -e TERM=${TERM} jetson-inference /bin/bash
+sudo -E ./docker/docker-compose exec -e TERM=${TERM} jetson-inference /bin/bash
