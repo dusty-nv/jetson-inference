@@ -1,6 +1,8 @@
 version: '2.3'
 services:
     jetson-inference:
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t
         network_mode: host
         runtime: nvidia
         environment:
