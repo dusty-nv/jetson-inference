@@ -15,7 +15,7 @@ show_help() {
     echo " "
     echo "   ./docker/compose-bootstrap.sh"
     echo " "
-    echo "After this, edit docker-compose.yml for correct parameters, and then run docker-compose up -d to launch container"
+    echo "After this, edit docker-compose.yml for correct parameters, and then run ./docker/docker-compose up -d to launch container"
     echo " "
     echo "args:"
     echo " "
@@ -28,6 +28,14 @@ die() {
     show_help
     exit 1
 }
+
+if [[ -x "$PWD/docker/docker-compose" ]]; then
+    echo "Latest docker-compose configured already, skipping download."
+else
+    echo "Installing latest docker-compose to ./docker/docker-compose. Assuming that curl is installed."
+    # Prevent conflict with local docker-compose installation by maintaing our own binary. It is simple since it is Go static-linked binary anyway.
+    curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o $PWD/docker/docker-compose
+    chmod +x $PWD/docker/docker-compose
 
 # find container tag from L4T version
 source docker/tag.sh
