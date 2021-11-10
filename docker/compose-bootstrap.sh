@@ -34,7 +34,7 @@ if [[ -x "$PWD/docker/docker-compose" ]]; then
 else
     echo "Installing latest docker-compose to ./docker/docker-compose. Assuming that curl is installed."
     # Prevent conflict with local docker-compose installation by maintaing our own binary. It is simple since it is Go static-linked binary anyway.
-    curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o $PWD/docker/docker-compose
+    curl -L "https://github.com/docker/compose/releases/download/v2.1.1/docker-compose-$(uname -s)-$(uname -m)" -o $PWD/docker/docker-compose
     chmod +x $PWD/docker/docker-compose
 fi
 
