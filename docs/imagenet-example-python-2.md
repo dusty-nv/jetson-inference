@@ -100,7 +100,7 @@ Next, add some boilerplate code to parse the image filename and an optional `--n
 parser = argparse.ArgumentParser()
 parser.add_argument("filename", type=str, help="filename of the image to process")
 parser.add_argument("--network", type=str, default="googlenet", help="model to use, can be:  googlenet, resnet-18, ect. (see --help for others)")
-opt = parser.parse_args()
+args = parser.parse_args()
 ```
 
 This example loads and classifies an image that the user specifies.  It will be expected to be run like this:
@@ -125,7 +125,7 @@ You can load images from disk into shared CPU/GPU memory using the `loadImage()`
 Add this line to load the image with the filename that was specified from the command line:
 
 ``` python
-img = jetson.utils.loadImage(opt.filename)
+img = jetson.utils.loadImage(args.filename)
 ```
 
 The returned image will be a [`jetson.utils.cudaImage`](aux-image.md#image-capsules-in-python) object that contains attributes like width, height, and pixel format:
@@ -152,7 +152,7 @@ All of the available classification models are pre-trained on the ImageNet ILSVR
 
 ``` python
 # load the recognition network
-net = jetson.inference.imageNet(opt.network)
+net = jetson.inference.imageNet(args.network)
 ```
 
 #### Classifying the Image
