@@ -73,7 +73,9 @@ As mentioned above, any of the examples from jetson-inference can be substituted
                              * mpeg2, mpeg4
                              * mjpeg
   --input-flip=FLIP      flip method to apply to input (excludes V4L2):
-                             * none (default)
+                             * automatic (default) Chooses rotation based on 
+                                 video tags, if any. Otherwise, no flip.
+                             * none
                              * counterclockwise
                              * rotate-180
                              * clockwise
