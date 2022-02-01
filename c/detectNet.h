@@ -84,7 +84,7 @@
 		  "  --threshold=THRESHOLD minimum threshold for detection (default is 0.5)\n"							\
             "  --alpha=ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\
 		  "  --overlay=OVERLAY     detection overlay flags (e.g. --overlay=box,labels,conf)\n"					\
-		  "                        valid combinations are:  'box', 'labels', 'conf', 'none'\n"					\
+		  "                        valid combinations are:  'box', 'lines', 'labels', 'conf', 'none'\n"			\
 		  "  --profile             enable layer profiling in TensorRT\n\n"
 
 
@@ -172,10 +172,11 @@ public:
 	enum OverlayFlags
 	{
 		OVERLAY_NONE       = 0,			/**< No overlay. */
-		OVERLAY_BOX        = (1 << 0),	/**< Overlay the object bounding boxes */
+		OVERLAY_BOX        = (1 << 0),	/**< Overlay the object bounding boxes (filled) */
 		OVERLAY_LABEL 	    = (1 << 1),	/**< Overlay the class description labels */
 		OVERLAY_CONFIDENCE = (1 << 2),	/**< Overlay the detection confidence values */
-		OVERLAY_DEFAULT    = OVERLAY_BOX,	/**< The default choice of overlay */
+		OVERLAY_LINES      = (1 << 3),     /**< Overlay the bounding box lines (unfilled) */
+		OVERLAY_DEFAULT    = OVERLAY_BOX|OVERLAY_LABEL|OVERLAY_CONFIDENCE, /**< The default choice of overlay */
 	};
 	
 	/**
@@ -319,7 +320,7 @@ public:
 	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
 	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
 	 */
-	template<typename T> int Detect( T* image, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay=OVERLAY_BOX )		{ return Detect((void*)image, width, height, imageFormatFromType<T>(), detections, overlay); }
+	template<typename T> int Detect( T* image, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay=OVERLAY_DEFAULT )		{ return Detect((void*)image, width, height, imageFormatFromType<T>(), detections, overlay); }
 	
 	/**
 	 * Detect object locations in an image, into an array of the results allocated by the user.
@@ -331,7 +332,7 @@ public:
 	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
 	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
 	 */
-	template<typename T> int Detect( T* image, uint32_t width, uint32_t height, Detection* detections, uint32_t overlay=OVERLAY_BOX )			{ return Detect((void*)image, width, height, imageFormatFromType<T>(), detections, overlay); }
+	template<typename T> int Detect( T* image, uint32_t width, uint32_t height, Detection* detections, uint32_t overlay=OVERLAY_DEFAULT )		{ return Detect((void*)image, width, height, imageFormatFromType<T>(), detections, overlay); }
 	
 	/**
 	 * Detect object locations from an image, returning an array containing the detection results.
@@ -342,7 +343,7 @@ public:
 	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
 	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
 	 */
-	int Detect( void* input, uint32_t width, uint32_t height, imageFormat format, Detection** detections, uint32_t overlay=OVERLAY_BOX );
+	int Detect( void* input, uint32_t width, uint32_t height, imageFormat format, Detection** detections, uint32_t overlay=OVERLAY_DEFAULT );
 
 	/**
 	 * Detect object locations from an image, into an array of the results allocated by the user.
@@ -354,7 +355,7 @@ public:
 	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
 	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
 	 */
-	int Detect( void* input, uint32_t width, uint32_t height, imageFormat format, Detection* detections, uint32_t overlay=OVERLAY_BOX );
+	int Detect( void* input, uint32_t width, uint32_t height, imageFormat format, Detection* detections, uint32_t overlay=OVERLAY_DEFAULT );
 	
 	/**
 	 * Detect object locations from an RGBA image, returning an array containing the detection results.
@@ -366,7 +367,7 @@ public:
 	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
 	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
 	 */
-	int Detect( float* input, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay=OVERLAY_BOX );
+	int Detect( float* input, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay=OVERLAY_DEFAULT );
 
 	/**
 	 * Detect object locations in an RGBA image, into an array of the results allocated by the user.
@@ -379,7 +380,7 @@ public:
 	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
 	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
 	 */
-	int Detect( float* input, uint32_t width, uint32_t height, Detection* detections, uint32_t overlay=OVERLAY_BOX );
+	int Detect( float* input, uint32_t width, uint32_t height, Detection* detections, uint32_t overlay=OVERLAY_DEFAULT );
 	
 	/**
 	 * Draw the detected bounding boxes overlayed on an RGBA image.
@@ -450,6 +451,11 @@ public:
  	 * Set overlay alpha blending value for all classes (between 0-255).
 	 */
 	void SetOverlayAlpha( float alpha );
+	
+	/**
+	 * Set the line width used during overlay when OVERLAY_LINES is used.
+	 */
+	inline void SetLineWidth( float width )						{ mLineWidth = width; }
 
 	/**
 	 * Load class descriptions from a label file.
@@ -487,7 +493,8 @@ protected:
 	float  mCoverageThreshold;
 	float* mClassColors[2];
 	float  mMeanPixel;
-
+	float  mLineWidth;
+	
 	std::vector<std::string> mClassDesc;
 	std::vector<std::string> mClassSynset;
 

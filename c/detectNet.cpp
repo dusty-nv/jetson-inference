@@ -25,6 +25,7 @@
 
 #include "cudaMappedMemory.h"
 #include "cudaFont.h"
+#include "cudaDraw.h"
 
 #include "commandLine.h"
 #include "filesystem.h"
@@ -48,6 +49,7 @@ detectNet::detectNet( float meanPixel ) : tensorNet()
 {
 	mCoverageThreshold = DETECTNET_DEFAULT_THRESHOLD;
 	mMeanPixel         = meanPixel;
+	mLineWidth         = 2.0f;
 	mNumClasses        = 0;
 
 	mClassColors[0]   = NULL; // cpu ptr
@@ -1072,7 +1074,22 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 		if( CUDA_FAILED(cudaDetectionOverlay(input, output, width, height, format, detections, numDetections, (float4*)mClassColors[1])) )
 			return false;
 	}
+	
+	// bounding box lines
+	if( flags & OVERLAY_LINES )
+	{
+		for( uint32_t n=0; n < numDetections; n++ )
+		{
+			const Detection* d = detections + n;
+			const float4& color = ((float4*)mClassColors[0])[d->ClassID];
 
+			CUDA(cudaDrawLine(input, output, width, height, format, d->Left, d->Top, d->Right, d->Top, color, mLineWidth));
+			CUDA(cudaDrawLine(input, output, width, height, format, d->Right, d->Top, d->Right, d->Bottom, color, mLineWidth));
+			CUDA(cudaDrawLine(input, output, width, height, format, d->Left, d->Bottom, d->Right, d->Bottom, color, mLineWidth));
+			CUDA(cudaDrawLine(input, output, width, height, format, d->Left, d->Top, d->Left, d->Bottom, color, mLineWidth));
+		}
+	}
+			
 	// class label overlay
 	if( (flags & OVERLAY_LABEL) || (flags & OVERLAY_CONFIDENCE) )
 	{
@@ -1166,6 +1183,8 @@ uint32_t detectNet::OverlayFlagsFromStr( const char* str_user )
 			flags |= OVERLAY_LABEL;
 		else if( strcasecmp(token, "conf") == 0 || strcasecmp(token, "confidence") == 0 )
 			flags |= OVERLAY_CONFIDENCE;
+		else if( strcasecmp(token, "line") == 0 || strcasecmp(token, "lines") == 0 )
+			flags |= OVERLAY_LINES;
 		else if( strcasecmp(token, "default") == 0 )
 			flags |= OVERLAY_DEFAULT;
 

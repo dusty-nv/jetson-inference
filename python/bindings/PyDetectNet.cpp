@@ -584,7 +584,7 @@ static void PyDetectNet_Dealloc( PyDetectNet_Object* self )
 				 "  image   (capsule) -- CUDA memory capsule\n" \
 				 "  width   (int)  -- width of the image (in pixels)\n" \
 				 "  height  (int)  -- height of the image (in pixels)\n" \
-				 "  overlay (str)  -- combination of box,labels,none flags (default is 'box')\n\n" \
+				 "  overlay (str)  -- combination of box,lines,labels,conf,none flags (default is 'box,labels,conf')\n\n" \
 				 "Returns:\n" \
 				 "  [Detections] -- list containing the detected objects (see detectNet.Detection)"
 
@@ -659,7 +659,7 @@ static PyObject* PyDetectNet_Detect( PyDetectNet_Object* self, PyObject* args, P
 				 "  [Detections]   -- list containing the detected objects (see detectNet.Detection)" \
 				 "  width   (int)  -- width of the image (in pixels)\n" \
 				 "  height  (int)  -- height of the image (in pixels)\n" \
-				 "  overlay (str)  -- combination of box,labels,none flags (default is 'box')\n\n" \
+				 "  overlay (str)  -- combination of box,lines,labels,conf,none flags (default is 'box,labels,conf')\n\n" \
 				 "Returns:\n" \
 				 "  None"
 
@@ -907,6 +907,41 @@ PyObject* PyDetectNet_SetOverlayAlpha( PyDetectNet_Object* self, PyObject* args,
 }
 
 
+#define DOC_SET_LINE_WIDTH "Set the line width used during overlay when 'lines' mode is used\n\n" \
+				 	  "Parameters:\n" \
+					  "  width (float) -- desired line width, in pixels\n" \
+					  "Returns:  (none)"
+
+// SetOverlayAlpha
+PyObject* PyDetectNet_SetLineWidth( PyDetectNet_Object* self, PyObject* args, PyObject *kwds )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid object instance");
+		return NULL;
+	}
+	
+	float width = 0.0f;
+	static char* kwlist[] = {"width", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "f", kwlist, &width) )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.SetLineWidth() failed to parse arguments");
+		return NULL;
+	}
+		
+	if( width <= 0.0f )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.SetLineWidth() -- provided value is out-of-range");
+		return NULL;
+	}
+
+	self->net->SetLineWidth(width);
+
+	Py_RETURN_NONE;
+}
+
+
 #define DOC_USAGE_STRING     "Return the command line parameters accepted by __init__()\n\n" \
 					    "Parameters:  (none)\n\n" \
 					    "Returns:\n" \
@@ -934,6 +969,7 @@ static PyMethodDef pyDetectNet_Methods[] =
 	{ "GetClassDesc", (PyCFunction)PyDetectNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassSynset", (PyCFunction)PyDetectNet_GetClassSynset, METH_VARARGS, DOC_GET_CLASS_SYNSET},
 	{ "SetOverlayAlpha", (PyCFunction)PyDetectNet_SetOverlayAlpha, METH_VARARGS|METH_KEYWORDS, DOC_SET_OVERLAY_ALPHA},
+	{ "SetLineWidth", (PyCFunction)PyDetectNet_SetLineWidth, METH_VARARGS|METH_KEYWORDS, DOC_SET_LINE_WIDTH},
 	{ "Usage", (PyCFunction)PyDetectNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},	
 	{NULL}  /* Sentinel */
 };
