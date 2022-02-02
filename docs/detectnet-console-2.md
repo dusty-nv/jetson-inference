@@ -22,8 +22,9 @@ These samples are able to detect objects in images, videos, and camera feeds.  F
 First, let's try using the `detectnet` program to locates objects in static images.  In addition to the input/output paths, there are some additional command-line options:
 
 - optional `--network` flag which changes the [detection model](detectnet-console-2.md#pre-trained-detection-models-available) being used (the default is SSD-Mobilenet-v2).
-- optional `--overlay` flag which can be comma-separated combinations of `box`, `labels`, `conf`, and `none`
+- optional `--overlay` flag which can be comma-separated combinations of `box`, `lines`, `labels`, `conf`, and `none`
 	- The default is `--overlay=box,labels,conf` which displays boxes, labels, and confidence values
+	- The `box` option draws filled bounding boxes, while `lines` draws just the unfilled outlines
 - optional `--alpha` value which sets the alpha blending value used during overlay (the default is `120`).
 - optional `--threshold` value which sets the minimum threshold for detection (the default is `0.5`).  
 
