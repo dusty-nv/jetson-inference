@@ -72,7 +72,7 @@ As mentioned above, any of the examples from jetson-inference can be substituted
                              * vp8, vp9
                              * mpeg2, mpeg4
                              * mjpeg
-  --input-flip=FLIP      flip method to apply to input (excludes V4L2):
+  --input-flip=FLIP      flip method to apply to input:
                              * none (default)
                              * counterclockwise
                              * rotate-180
