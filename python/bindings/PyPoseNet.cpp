@@ -670,11 +670,14 @@ static PyObject* PyObjectPose_FindKeypoint( PyObjectPose_Object* self, PyObject 
 		return NULL;
 	}
 
-	// parse arguments
+	// this function accepts either the keypoint ID (int) or the name (string)
+	// in the string case, it will just look up the keypoint ID for you
 	int id = 0;
 
 	if( !PyArg_ParseTuple(args, "i", &id) )
 	{
+		PyErr_Clear();  // PyArg_ParseTuple will throw an exception
+		
 		if( self->net != NULL )
 		{
 			const char* name = NULL;
