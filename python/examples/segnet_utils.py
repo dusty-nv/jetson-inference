@@ -80,7 +80,7 @@ class segmentationBuffers:
         self.net.Mask(self.class_mask, self.grid_width, self.grid_height)
 
         # compute the number of times each class occurs in the mask
-        class_histogram, _ = np.histogram(self.class_mask_np, self.num_classes)
+        class_histogram, _ = np.histogram(self.class_mask_np, bins=self.num_classes, range=(0, self.num_classes-1))
 
         print('grid size:   {:d}x{:d}'.format(self.grid_width, self.grid_height))
         print('num classes: {:d}'.format(self.num_classes))
