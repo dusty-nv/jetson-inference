@@ -36,6 +36,18 @@ file(COPY "tools/install-pytorch.sh" DESTINATION ${PROJECT_BINARY_DIR})
 file(COPY "tools/install-pytorch.rc" DESTINATION ${PROJECT_BINARY_DIR})
 
 
+# detect distro version
+find_program(LSB_RELEASE_EXEC lsb_release)
+
+execute_process(COMMAND "${LSB_RELEASE_EXEC}" --short --id OUTPUT_VARIABLE LSB_RELEASE_ID OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND "${LSB_RELEASE_EXEC}" --short --release OUTPUT_VARIABLE LSB_RELEASE_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND "${LSB_RELEASE_EXEC}" --short --codename OUTPUT_VARIABLE LSB_RELEASE_CODENAME OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+message("-- distro ID:       ${LSB_RELEASE_ID}")
+message("-- distro version:  ${LSB_RELEASE_VERSION}")
+message("-- distro codename: ${LSB_RELEASE_CODENAME}")
+
+
 # if this is the first time running cmake, perform pre-build dependency install script (or if the user manually triggers re-building the dependencies)
 if( ${BUILD_DEPS} )
 	message("-- Launching pre-build dependency installer script...")
@@ -55,22 +67,16 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/utils/cu
 find_package(CUDA)
 message("-- CUDA version: ${CUDA_VERSION}")
 
-set(
-	CUDA_NVCC_FLAGS
-	${CUDA_NVCC_FLAGS}; 
-    -O3 
-	-gencode arch=compute_53,code=sm_53
-	-gencode arch=compute_62,code=sm_62
-)
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -O3 -gencode arch=compute_53,code=sm_53 -gencode arch=compute_62,code=sm_62)
 
 if(CUDA_VERSION_MAJOR GREATER 9)
 	message("-- CUDA ${CUDA_VERSION_MAJOR} detected, enabling SM_72")
+	set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_72,code=sm_72)
+endif()
 
-	set(
-		CUDA_NVCC_FLAGS
-		${CUDA_NVCC_FLAGS}; 
-		-gencode arch=compute_72,code=sm_72
-	)
+if(CUDA_VERSION_MAJOR GREATER 10)
+	message("-- CUDA ${CUDA_VERSION_MAJOR} detected, enabling SM_87")
+	set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_87,code=sm_87)
 endif()
 
 # setup project output paths

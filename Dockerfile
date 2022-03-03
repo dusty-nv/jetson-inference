@@ -32,6 +32,7 @@ FROM ${BASE_IMAGE}
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV SHELL /bin/bash
+ARG PYTHON3_VERSION=3.8
 
 WORKDIR jetson-inference
 
@@ -43,17 +44,13 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
             cmake \
 		  nano \
+		  lsb-release \
     && rm -rf /var/lib/apt/lists/*
     
 # pip dependencies for pytorch-ssd
 RUN pip3 install --verbose --upgrade Cython && \
     pip3 install --verbose boto3 pandas
 
-# alias python3 -> python
-RUN rm /usr/bin/python && \
-    ln -s /usr/bin/python3 /usr/bin/python && \
-    ln -s /usr/bin/pip3 /usr/bin/pip
-    
     
 # 
 # install OpenCV (with CUDA)
@@ -75,7 +72,7 @@ RUN apt-get purge -y '*opencv*' || echo "previous OpenCV installation not found"
     cd ../ && \
     rm -rf opencv && \
     cp -r /usr/include/opencv4 /usr/local/include/opencv4 && \
-    cp -r /usr/lib/python3.6/dist-packages/cv2 /usr/local/lib/python3.6/dist-packages/cv2
+    cp -r /usr/lib/python${PYTHON3_VERSION}/dist-packages/cv2 /usr/local/lib/python${PYTHON3_VERSION}/dist-packages/cv2
     
     
 #

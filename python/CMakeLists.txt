@@ -5,7 +5,11 @@
 #
 # If you want to support another version of Python, add it here.
 #
-set(PYTHON_BINDING_VERSIONS 2.7 3.6 3.7)
+if(LSB_RELEASE_CODENAME MATCHES "focal")
+	set(PYTHON_BINDING_VERSIONS 3.8)
+else()
+	set(PYTHON_BINDING_VERSIONS 2.7 3.6 3.7)
+endif()
 
 message("-- trying to build Python bindings for Python versions:  ${PYTHON_BINDING_VERSIONS}")
 

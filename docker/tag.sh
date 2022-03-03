@@ -39,6 +39,8 @@ if [ $L4T_RELEASE -eq 32 ]; then
 	else
 		version_error
 	fi
+elif [ $L4T_RELEASE -eq 34 ]; then
+	CONTAINER_REMOTE_IMAGE="dustynv/$CONTAINER_IMAGE"
 else
 	version_error
 fi

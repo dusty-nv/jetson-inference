@@ -56,9 +56,27 @@ if [ -f "$CV_CSV" ]; then
 fi
 	
 	
+# distro release-dependent build options 
+LSB_RELEASE=$(lsb_release --codename --short)
+
+OPENCV_URL="https://nvidia.box.com/shared/static/5v89u6g5rb62fpz4lh0rz531ajo2t5ef.gz"
+OPENCV_DEB="OpenCV-4.5.0-aarch64.tar.gz"
+
+PYTHON3_VERSION="3.6"
+
+if [ $LSB_RELEASE = "focal" ]; then
+	echo "configuring docker build for $LSB_RELEASE"
+	OPENCV_URL="https://nvidia.box.com/shared/static/2hssa5g3v28ozvo3tc3qwxmn78yerca9.gz"
+	PYTHON3_VERSION="3.8"
+fi
+	
+	
 # build the container
 sudo docker build -t jetson-inference:r$L4T_VERSION -f Dockerfile \
           --build-arg BASE_IMAGE=$BASE_IMAGE \
+		--build-arg PYTHON3_VERSION=$PYTHON3_VERSION \
+		--build-arg OPENCV_URL=$OPENCV_URL \
+		--build-arg OPENCV_DEB=$OPENCV_DEB \
 		.
 
 
