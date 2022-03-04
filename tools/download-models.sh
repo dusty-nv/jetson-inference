@@ -790,7 +790,7 @@ while true; do
 					download_vgg16
 				elif [ $model = 10 ] && [ -z $ALL_RECOGNITION ]; then
 					download_vgg19
-				elif [ $model = 8 ] && [ -z $ALL_RECOGNITION ]; then
+				elif [ $model = 11 ] && [ -z $ALL_RECOGNITION ]; then
 					download_inception_v4
 				elif [ $model = 12 ]; then
 					download_detection
