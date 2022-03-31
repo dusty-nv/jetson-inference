@@ -32,7 +32,6 @@ FROM ${BASE_IMAGE}
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV SHELL /bin/bash
-ARG PYTHON3_VERSION=3.8
 
 WORKDIR jetson-inference
 
@@ -71,6 +70,7 @@ RUN apt-get purge -y '*opencv*' || echo "previous OpenCV installation not found"
     apt-get clean && \
     cd ../ && \
     rm -rf opencv && \
+    PYTHON3_VERSION=`python3 -c 'import sys; version=sys.version_info[:3]; print("{0}.{1}".format(*version))'` && \
     cp -r /usr/include/opencv4 /usr/local/include/opencv4 && \
     cp -r /usr/lib/python${PYTHON3_VERSION}/dist-packages/cv2 /usr/local/lib/python${PYTHON3_VERSION}/dist-packages/cv2
     
