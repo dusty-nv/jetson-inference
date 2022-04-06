@@ -86,10 +86,10 @@ You can also process videos from disk.  For more info about loading/saving video
 wget https://nvidia.box.com/shared/static/veuuimq6pwvd62p9fresqhrrmfqz0e2f.mp4 -O pedestrians.mp4
 
 # C++
-./detectnet /usr/share/visionworks/sources/data/pedestrians.mp4 images/test/pedestrians_ssd.mp4
+./detectnet pedestrians.mp4 images/test/pedestrians_ssd.mp4
 
 # Python
-./detectnet.py /usr/share/visionworks/sources/data/pedestrians.mp4 images/test/pedestrians_ssd.mp4
+./detectnet.py pedestrians.mp4 images/test/pedestrians_ssd.mp4
 ```
 
 <a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
@@ -99,10 +99,10 @@ wget https://nvidia.box.com/shared/static/veuuimq6pwvd62p9fresqhrrmfqz0e2f.mp4 -
 wget https://nvidia.box.com/shared/static/i5i81mkd9wdh4j7wx04th961zks0lfh9.avi -O parking.avi
 
 # C++
-./detectnet /usr/share/visionworks/sources/data/parking.avi images/test/parking_ssd.avi
+./detectnet parking.avi images/test/parking_ssd.avi
 
 # Python
-./detectnet.py /usr/share/visionworks/sources/data/parking.avi images/test/parking_ssd.avi
+./detectnet.py parking.avi images/test/parking_ssd.avi
 ```
 
 <a href="https://www.youtube.com/watch?v=iB86W-kloPE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-parking-video.jpg width="585"></a>
