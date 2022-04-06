@@ -79,9 +79,12 @@ For more info about loading/saving sequences of images, see the [Camera Streamin
 
 ### Processing Video Files
 
-You can also process videos from disk.  There are some test videos found on your Jetson under `/usr/share/visionworks/sources/data`
+You can also process videos from disk.  For more info about loading/saving videos, see [here](aux-streaming.md#video-files).
 
 ``` bash
+# Download test video
+wget https://nvidia.box.com/shared/static/veuuimq6pwvd62p9fresqhrrmfqz0e2f.mp4 -O pedestrians.mp4
+
 # C++
 ./detectnet /usr/share/visionworks/sources/data/pedestrians.mp4 images/test/pedestrians_ssd.mp4
 
@@ -92,6 +95,9 @@ You can also process videos from disk.  There are some test videos found on your
 <a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
 
 ``` bash
+# Download test video
+wget https://nvidia.box.com/shared/static/i5i81mkd9wdh4j7wx04th961zks0lfh9.avi -O parking.avi
+
 # C++
 ./detectnet /usr/share/visionworks/sources/data/parking.avi images/test/parking_ssd.avi
 
