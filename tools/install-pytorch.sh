@@ -138,7 +138,8 @@ function download_wheel()
 {
 	local filename=$2
 	local URL=$3
-
+	local sudo=${4:-""}
+	
 	download_file $filename $URL
 
 	local download_status=$?
@@ -148,7 +149,7 @@ function download_wheel()
 		return 1
 	fi
 
-	$1 install $filename
+	$sudo $1 install $filename
 
 	local install_status=$?
 
@@ -282,7 +283,7 @@ function install_pytorch()
 	elif [ $pytorch_version = "1.6.0" ]; then
 		install_pytorch_v160_python36_jp44
 	elif [ $pytorch_version = "1.12.0" ]; then
-		install_pytorch_v1220_python38_jp50
+		install_pytorch_v1120_python38_jp50
 	else
 		echo "$LOG invalid PyTorch version selected:  PyTorch $pytorch_version"
 		exit_message 1
@@ -588,7 +589,7 @@ function install_pytorch_v1120_python38_jp50()
 	pip3 install numpy --verbose
 
 	# install pytorch wheel
-	download_wheel pip3 "torch-1.12.0a0+2c916ef.nv22.3-cp38-cp38-linux_aarch64.whl" "https://developer.download.nvidia.com/compute/redist/jp/v50/pytorch/torch-1.12.0a0+2c916ef.nv22.3-cp38-cp38-linux_aarch64.whl"
+	download_wheel pip3 "torch-1.12.0a0+2c916ef.nv22.3-cp38-cp38-linux_aarch64.whl" "https://developer.download.nvidia.com/compute/redist/jp/v50/pytorch/torch-1.12.0a0+2c916ef.nv22.3-cp38-cp38-linux_aarch64.whl" "sudo"
 
 	local wheel_status=$?
 
