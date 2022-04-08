@@ -1,7 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 
 # Deploying Deep Learning
-Welcome to our instructional guide for inference and realtime [DNN vision](#api-reference) library for NVIDIA **[Jetson Nano/TX1/TX2/Xavier NX/AGX Xavier](http://www.nvidia.com/object/embedded-systems.html)**.
+Welcome to our instructional guide for inference and realtime [DNN vision](#api-reference) library for NVIDIA **[Jetson Nano/TX1/TX2/Xavier NX/AGX Xavier/AGX Orin](http://www.nvidia.com/object/embedded-systems.html)**.
 
 This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for efficiently deploying neural networks onto the embedded Jetson platform, improving performance and power efficiency using graph optimizations, kernel fusion, and FP16/INT8 precision.
 
@@ -21,7 +21,7 @@ Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and 
 * [System Requirements](#recommended-system-requirements)
 * [Change Log](CHANGELOG.md)
 
-> &gt; &nbsp; JetPack 4.6 is now supported, along with [updated containers](docs/aux-docker.md). <br/>
+> &gt; &nbsp; JetPack 5.0 is now supported, along with [Jetson AGX Orin](https://developer.nvidia.com/embedded/jetson-agx-orin-developer-kit). <br/>
 > &gt; &nbsp; Try the new [Pose Estimation](docs/posenet.md) and [Mono Depth](docs/depthnet.md) tutorials! <br/>
 > &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 

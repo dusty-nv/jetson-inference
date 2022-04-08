@@ -4,6 +4,12 @@
 
 Major updates and new features to this project will be listed in this document.
 
+## April 8, 2022
+
+* Added support for JetPack 5.0 and [Jetson AGX Orin](https://developer.nvidia.com/embedded/jetson-agx-orin-developer-kit)
+* Conditionally use NVIDIA V4L2-based hardware codecs when on JetPack 5.0 and newer
+* Minor bug fixes and improvements
+
 ## August 3, 2021
 
 * Added [Pose Estimation with PoseNet](docs/posenet.md) with pre-trained models
