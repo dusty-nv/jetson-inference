@@ -486,7 +486,7 @@ protected:
 			 precisionType precision, deviceType device, bool allowGPUFallback );
 	
 	int clusterDetections( Detection* detections, uint32_t width, uint32_t height );
-	int clusterDetections( Detection* detections, int n, float threshold=0.75f );
+	int clusterDetections( Detection* detections, int n, float threshold=0.5f );
 
 	void sortDetections( Detection* detections, int numDetections );
 

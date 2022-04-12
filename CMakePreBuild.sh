@@ -2,7 +2,7 @@
 # this script is automatically run from CMakeLists.txt
 
 BUILD_ROOT=$PWD
-BUILD_INTERACTIVE=$1
+BUILD_INTERACTIVE=${1:-"NO"} 
 
 if [ -f /.dockerenv ]; then
 	BUILD_CONTAINER="YES"

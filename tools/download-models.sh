@@ -25,6 +25,7 @@ APP_TITLE="Hello AI World (jetson-inference)"
 OUTPUT_DIR="../data/networks"
 LOG="[jetson-inference] "
 WGET_QUIET="--quiet"
+# To skip the popup dialogs
 BUILD_INTERACTIVE=${1:-"YES"}
 
 
@@ -704,9 +705,9 @@ while true; do
 							  --output-fd 1 \
 							  1 "\ZbImage Recognition - all models  (2.2 GB)\Zn" off \
 							  2 "   > AlexNet                    (244 MB)" off \
-							  3 "   > GoogleNet                  (54 MB)" on \
+							  3 "   > GoogleNet                  (54 MB)" off \
 							  4 "   > GoogleNet-12               (42 MB)" off \
-							  5 "   > ResNet-18                  (47 MB)" on \
+							  5 "   > ResNet-18                  (47 MB)" off \
 							  6 "   > ResNet-50                  (102 MB)" off \
 							  7 "   > ResNet-101                 (179 MB)" off \
 							  8 "   > ResNet-152                 (242 MB)" off \
@@ -725,24 +726,24 @@ while true; do
 							  21 "   > DetectNet-COCO-Chair       (29 MB)" off \
 							  22 "   > DetectNet-COCO-Airplane    (29 MB)" off \
 							  23 "\ZbMono Depth - all models         (146 MB)\Zn" off \
-							  24 "   > MonoDepth-FCN-Mobilenet    (5 MB)" on \
+							  24 "   > MonoDepth-FCN-Mobilenet    (5 MB)" off \
 							  25 "   > MonoDepth-FCN-ResNet18     (40 MB)" off \
 							  26 "   > MonoDepth-FCN-ResNet50     (100 MB)" off \
 							  27 "\ZbPose Estimation - all models    (222 MB)\Zn" off \
-							  28 "   > Pose-ResNet18-Body         (74 MB)" on \
-							  29 "   > Pose-ResNet18-Hand         (74 MB)" on \
+							  28 "   > Pose-ResNet18-Body         (74 MB)" off \
+							  29 "   > Pose-ResNet18-Hand         (74 MB)" off \
 							  30 "   > Pose-DenseNet121-Body      (74 MB)" off \
 							  31 "\ZbSemantic Segmentation - all            (518 MB)\Zn" off \
-							  32 "   > FCN-ResNet18-Cityscapes-512x256   (47 MB)" on \
-							  33 "   > FCN-ResNet18-Cityscapes-1024x512  (47 MB)" on \
+							  32 "   > FCN-ResNet18-Cityscapes-512x256   (47 MB)" off \
+							  33 "   > FCN-ResNet18-Cityscapes-1024x512  (47 MB)" off \
 							  34 "   > FCN-ResNet18-Cityscapes-2048x1024 (47 MB)" off \
-							  35 "   > FCN-ResNet18-DeepScene-576x320    (47 MB)" on \
+							  35 "   > FCN-ResNet18-DeepScene-576x320    (47 MB)" off \
 							  36 "   > FCN-ResNet18-DeepScene-864x480    (47 MB)" off \
-							  37 "   > FCN-ResNet18-MHP-512x320          (47 MB)" on \
+							  37 "   > FCN-ResNet18-MHP-512x320          (47 MB)" off \
 							  38 "   > FCN-ResNet18-MHP-640x360          (47 MB)" off \
-							  39 "   > FCN-ResNet18-Pascal-VOC-320x320   (47 MB)" on \
+							  39 "   > FCN-ResNet18-Pascal-VOC-320x320   (47 MB)" off \
 							  40 "   > FCN-ResNet18-Pascal-VOC-512x320   (47 MB)" off \
-							  41 "   > FCN-ResNet18-SUN-RGBD-512x400     (47 MB)" on \
+							  41 "   > FCN-ResNet18-SUN-RGBD-512x400     (47 MB)" off \
 							  42 "   > FCN-ResNet18-SUN-RGBD-640x512     (47 MB)" off \
 							  43 "\ZbSemantic Segmentation - legacy     (1.4 GB)\Zn" off \
 							  44 "   > FCN-Alexnet-Cityscapes-SD     (235 MB)" off \
