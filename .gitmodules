@@ -21,3 +21,7 @@
 [submodule "plugins/pose"]
 	path = plugins/pose
 	url = https://github.com/dusty-nv/trt_pose
+[submodule "docker/containers"]
+	path = docker/containers
+	url = https://github.com/dusty-nv/jetson-containers
+	branch = master

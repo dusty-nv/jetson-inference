@@ -13,32 +13,36 @@
 BASE_IMAGE=$1
 
 # find L4T_VERSION
-source tools/l4t-version.sh
+source docker/tag.sh
 
 if [ -z $BASE_IMAGE ]; then
-	if [ $L4T_VERSION = "34.1.0" ]; then
-		BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r34.1.0-pth1.12-py3"
-	elif [ $L4T_VERSION = "32.6.1" ]; then
-		BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.6.1-pth1.9-py3"
-	elif [ $L4T_VERSION = "32.5.1" ]; then
-		BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.5.0-pth1.6-py3"
-	elif [ $L4T_VERSION = "32.5.0" ]; then
-		BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.5.0-pth1.6-py3"
-	elif [ $L4T_VERSION = "32.4.4" ]; then
-		BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.4.4-pth1.6-py3"
-	elif [ $L4T_VERSION = "32.4.3" ]; then
-		BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.4.3-pth1.6-py3"
-	elif [ $L4T_VERSION = "32.4.2" ]; then
-		BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.4.2-pth1.5-py3"
-	else
-		echo "cannot automatically select l4t-pytorch base container for L4T R$L4T_VERSION"
-		echo "please specify it manually as:  docker/build.sh nvcr.io/nvidia/l4t-pytorch:<TAG>"
-		exit 1
+	if [ $ARCH = "aarch64" ]; then
+		if [ $L4T_VERSION = "34.1.0" ]; then
+			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r34.1.0-pth1.12-py3"
+		elif [ $L4T_VERSION = "32.6.1" ]; then
+			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.6.1-pth1.9-py3"
+		elif [ $L4T_VERSION = "32.5.1" ]; then
+			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.5.0-pth1.6-py3"
+		elif [ $L4T_VERSION = "32.5.0" ]; then
+			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.5.0-pth1.6-py3"
+		elif [ $L4T_VERSION = "32.4.4" ]; then
+			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.4.4-pth1.6-py3"
+		elif [ $L4T_VERSION = "32.4.3" ]; then
+			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.4.3-pth1.6-py3"
+		elif [ $L4T_VERSION = "32.4.2" ]; then
+			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.4.2-pth1.5-py3"
+		else
+			echo "cannot automatically select l4t-pytorch base container for L4T R$L4T_VERSION"
+			echo "please specify it manually as:  docker/build.sh nvcr.io/nvidia/l4t-pytorch:<TAG>"
+			exit 1
+		fi
+	elif [ $ARCH = "x86_64" ]; then
+		BASE_IMAGE="nvcr.io/nvidia/pytorch:22.04-py3"
 	fi
 fi
 
 echo "BASE_IMAGE=$BASE_IMAGE"
-echo "TAG=jetson-inference:r$L4T_VERSION"
+echo "TAG=$TAG"
 
 
 # sanitize workspace (so extra files aren't added to the container)
@@ -48,37 +52,14 @@ rm -rf python/training/classification/models/*
 rm -rf python/training/detection/ssd/data/*
 rm -rf python/training/detection/ssd/models/*
 
-
-# opencv.csv mounts files that preclude us installing different version of opencv
-# temporarily disable the opencv.csv mounts while we build the container
-CV_CSV="/etc/nvidia-container-runtime/host-files-for-container.d/opencv.csv"
-
-if [ -f "$CV_CSV" ]; then
-	sudo mv $CV_CSV $CV_CSV.backup
-fi
-	
 	
 # distro release-dependent build options 
-LSB_RELEASE=$(lsb_release --codename --short)
-
-OPENCV_URL="https://nvidia.box.com/shared/static/5v89u6g5rb62fpz4lh0rz531ajo2t5ef.gz"
-OPENCV_DEB="OpenCV-4.5.0-aarch64.tar.gz"
-
-if [ $LSB_RELEASE = "focal" ]; then
-	echo "configuring docker build for $LSB_RELEASE"
-	OPENCV_URL="https://nvidia.box.com/shared/static/2hssa5g3v28ozvo3tc3qwxmn78yerca9.gz"
-fi
+source docker/containers/scripts/opencv_version.sh
 	
 	
 # build the container
-sudo docker build -t jetson-inference:r$L4T_VERSION -f Dockerfile \
+sudo docker build -t $TAG -f Dockerfile \
           --build-arg BASE_IMAGE=$BASE_IMAGE \
 		--build-arg OPENCV_URL=$OPENCV_URL \
 		--build-arg OPENCV_DEB=$OPENCV_DEB \
 		.
-
-
-# restore opencv.csv mounts
-if [ -f "$CV_CSV.backup" ]; then
-	sudo mv $CV_CSV.backup $CV_CSV
-fi

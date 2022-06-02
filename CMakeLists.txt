@@ -67,16 +67,21 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/utils/cu
 find_package(CUDA)
 message("-- CUDA version: ${CUDA_VERSION}")
 
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -O3 -gencode arch=compute_53,code=sm_53 -gencode arch=compute_62,code=sm_62)
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -O3)
 
-if(CUDA_VERSION_MAJOR GREATER 9)
-	message("-- CUDA ${CUDA_VERSION_MAJOR} detected, enabling SM_72")
-	set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_72,code=sm_72)
-endif()
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
+	message("-- CUDA ${CUDA_VERSION} detected (${CMAKE_SYSTEM_PROCESSOR}), enabling SM_53 SM_62")
+	set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_53,code=sm_53 -gencode arch=compute_62,code=sm_62)
 
-if(CUDA_VERSION_MAJOR GREATER 10)
-	message("-- CUDA ${CUDA_VERSION_MAJOR} detected, enabling SM_87")
-	set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_87,code=sm_87)
+	if(CUDA_VERSION_MAJOR GREATER 9)
+		message("-- CUDA ${CUDA_VERSION} detected (${CMAKE_SYSTEM_PROCESSOR}), enabling SM_72")
+		set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_72,code=sm_72)
+	endif()
+
+	if(CUDA_VERSION_MAJOR GREATER 10)
+		message("-- CUDA ${CUDA_VERSION} detected (${CMAKE_SYSTEM_PROCESSOR}), enabling SM_87")
+		set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_87,code=sm_87)
+	endif()
 endif()
 
 # setup project output paths
@@ -96,7 +101,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 
 # build C/C++ library
 include_directories(${PROJECT_INCLUDE_DIR} ${PROJECT_INCLUDE_DIR}/jetson-inference ${PROJECT_INCLUDE_DIR}/jetson-utils)
-include_directories(/usr/include/gstreamer-1.0 /usr/lib/aarch64-linux-gnu/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/aarch64-linux-gnu/glib-2.0/include/)
+include_directories(/usr/include/gstreamer-1.0 /usr/lib/${CMAKE_SYSTEM_PROCESSOR}/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/${CMAKE_SYSTEM_PROCESSOR}/glib-2.0/include/)
 
 file(GLOB inferenceSources c/*.cpp c/*.cu calibration/*.cpp)
 file(GLOB inferenceIncludes c/*.h c/*.cuh calibration/*.h)
@@ -133,7 +138,10 @@ else()
 	file(GLOB pluginSources plugins/*.cpp plugins/*.cu plugins/pose/trt_pose/parse/*.cpp)
 endif()
 
-link_directories(/usr/lib/aarch64-linux-gnu/tegra)	
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
+	link_directories(/usr/lib/aarch64-linux-gnu/tegra)
+endif()
+	
 cuda_add_library(jetson-inference SHARED ${inferenceSources} ${pluginSources})
 target_include_directories(jetson-inference PRIVATE ${PROJECT_SOURCE_DIR}/plugins/pose/trt_pose/parse)
 
