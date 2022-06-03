@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 #
 # Copyright (c) 2021, NVIDIA CORPORATION. All rights reserved.
 #
