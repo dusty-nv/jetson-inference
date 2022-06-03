@@ -33,7 +33,7 @@ FROM ${BASE_IMAGE}
 ENV DEBIAN_FRONTEND=noninteractive
 ENV SHELL /bin/bash
 
-WORKDIR jetson-inference
+WORKDIR /jetson-inference
 
         
 #

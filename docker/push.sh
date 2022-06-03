@@ -14,4 +14,4 @@ push()
 	echo "done pushing image $CONTAINER_REMOTE_IMAGE"
 }
 
-push "jetson-inference:r$L4T_VERSION"
+push $TAG

@@ -165,10 +165,28 @@ echo "V4L2_DEVICES:  $V4L2_DEVICES"
 # run the container
 sudo xhost +si:localuser:root
 
-sudo docker run --runtime nvidia -it --rm --security-opt  seccomp=unconfined --network host -e DISPLAY=$DISPLAY \
-    -v /tmp/.X11-unix/:/tmp/.X11-unix \
-    -v /tmp/argus_socket:/tmp/argus_socket \
-    -v /etc/enctune.conf:/etc/enctune.conf \
-    $V4L2_DEVICES $DATA_VOLUME $USER_VOLUME \
-    $CONTAINER_IMAGE $USER_COMMAND
+if [ $ARCH = "aarch64" ]; then
+
+	sudo docker run --runtime nvidia -it --rm \
+		--network host \
+		-e DISPLAY=$DISPLAY \
+		-v /tmp/.X11-unix/:/tmp/.X11-unix \
+		-v /tmp/argus_socket:/tmp/argus_socket \
+		-v /etc/enctune.conf:/etc/enctune.conf \
+		$V4L2_DEVICES $DATA_VOLUME $USER_VOLUME \
+		$CONTAINER_IMAGE $USER_COMMAND
+    
+elif [ $ARCH = "x86_64" ]; then
+
+	sudo docker run --gpus all -it --rm \
+		--network=host \
+		--shm-size=8g \
+		--ulimit memlock=-1 \
+		--ulimit stack=67108864 \
+		-e DISPLAY=$DISPLAY \
+		-v /tmp/.X11-unix/:/tmp/.X11-unix \
+		$V4L2_DEVICES $DATA_VOLUME $USER_VOLUME \
+		$CONTAINER_IMAGE $USER_COMMAND
+		
+fi
 

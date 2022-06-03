@@ -49,6 +49,7 @@ if [ $ARCH = "aarch64" ]; then
 elif [ $ARCH = "x86_64" ]; then
 	# TODO:  add logic here for getting the latest release
 	CONTAINER_IMAGE="jetson-inference:22.06"
+	CONTAINER_REMOTE_IMAGE="dustynv/$CONTAINER_IMAGE"
 fi
 	
 # TAG is always the local container name
