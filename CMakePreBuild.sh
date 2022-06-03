@@ -18,6 +18,9 @@ echo "[Pre-build]  build container:      $BUILD_CONTAINER"
 echo " "
 
 
+# detect build architecture
+ARCH=$(uname -i)
+
 # break on errors
 #set -e
 
@@ -33,10 +36,13 @@ fi
 # install packages
 $SUDO apt-get update
 $SUDO apt-get install -y dialog
-$SUDO apt-get install -y libpython3-dev python3-numpy
 $SUDO apt-get install -y libglew-dev glew-utils libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libglib2.0-dev
 $SUDO apt-get install -y qtbase5-dev
-#$SUDO apt-get install -y libopencv-calib3d-dev libopencv-dev 
+
+if [ $ARCH != "x86_64" ]; then
+	# on x86, these are already installed by conda and installing them again creates conflicts
+	$SUDO apt-get install -y libpython3-dev python3-numpy
+fi
 
 $SUDO apt-get update
 
