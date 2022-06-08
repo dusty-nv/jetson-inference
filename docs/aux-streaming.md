@@ -73,9 +73,9 @@ As mentioned above, any of the examples from jetson-inference can be substituted
                              * mpeg2, mpeg4
                              * mjpeg
   --input-flip=FLIP      flip method to apply to input:
-                             * none (default)
+                             * none (default on Jetpack < 4)
                              * counterclockwise
-                             * rotate-180
+                             * rotate-180 (default on Jetpack >= 4)
                              * clockwise
                              * horizontal
                              * vertical
