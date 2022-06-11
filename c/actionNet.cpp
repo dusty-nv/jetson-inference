@@ -57,7 +57,7 @@ actionNet* actionNet::Create( actionNet::NetworkType networkType, uint32_t maxBa
 	actionNet* net = NULL;
 	
 	if( networkType == RESNET_18 )
-		net = Create("Action-ResNet18/resnet-18-kinetics-moments.onnx", "Action-ResNet18/labels.txt", ACTIONNET_DEFAULT_INPUT, ACTIONNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
+		net = Create("networks/Action-ResNet18/resnet-18-kinetics-moments.onnx", "networks/Action-ResNet18/labels.txt", "0", "198", maxBatchSize, precision, device, allowGPUFallback);
 
 	if( !net )
 	{
@@ -177,7 +177,7 @@ bool actionNet::init(const char* model_path, const char* class_path,
 	
 	if( !imageNet::LoadClassInfo(class_path, mClassDesc, mNumClasses) || mClassDesc.size() != mNumClasses )
 	{
-		LogError(LOG_TRT "actionNet -- failed to load class descriptions  (%zu / %zu of %u)\n", mClassSynset.size(), mClassDesc.size(), mNumClasses);
+		LogError(LOG_TRT "actionNet -- failed to load class descriptions  (%zu of %u)\n", mClassDesc.size(), mNumClasses);
 		return false;
 	}
 	
@@ -196,10 +196,10 @@ actionNet::NetworkType actionNet::NetworkTypeFromStr( const char* modelName )
 
 	if( strcasecmp(modelName, "resnet-18") == 0 || strcasecmp(modelName, "resnet_18") == 0 || strcasecmp(modelName, "resnet18") == 0 )
 		type = actionNet::RESNET_18;
+	else if( strcasecmp(modelName, "resnet-34") == 0 || strcasecmp(modelName, "resnet_34") == 0 || strcasecmp(modelName, "resnet34") == 0 )
+		type = actionNet::RESNET_50;
 	else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 )
 		type = actionNet::RESNET_50;
-	else if( strcasecmp(modelName, "resnet-101") == 0 || strcasecmp(modelName, "resnet_101") == 0 || strcasecmp(modelName, "resnet101") == 0 )
-		type = actionNet::RESNET_101;
 	else
 		type = actionNet::CUSTOM;
 
@@ -213,8 +213,8 @@ const char* actionNet::NetworkTypeToStr( actionNet::NetworkType network )
 	switch(network)
 	{
 		case actionNet::RESNET_18:	return "ResNet-18";
+		case actionNet::RESNET_34:	return "ResNet-34";
 		case actionNet::RESNET_50:	return "ResNet-50";
-		case actionNet::RESNET_101:	return "ResNet-101";
 	}
 
 	return "Custom";

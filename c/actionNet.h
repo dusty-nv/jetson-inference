@@ -31,13 +31,13 @@
  * Name of default input blob for actionNet model.
  * @ingroup actionNet
  */
-#define ACTIONNET_DEFAULT_INPUT   "data"
+#define ACTIONNET_DEFAULT_INPUT   "input"
 
 /**
  * Name of default output confidence values for actionNet model.
  * @ingroup actionNet
  */
-#define ACTIONNET_DEFAULT_OUTPUT  "prob"
+#define ACTIONNET_DEFAULT_OUTPUT  "output"
 
 
 /**

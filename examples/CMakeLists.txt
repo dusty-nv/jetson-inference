@@ -4,6 +4,7 @@ add_subdirectory(depthnet)
 add_subdirectory(detectnet)
 add_subdirectory(posenet)
 add_subdirectory(segnet)
+add_subdirectory(actionnet)
 
 # experimental examples
 if(BUILD_EXPERIMENTAL)
