@@ -156,7 +156,7 @@ static inline const char* dimensionTypeToStr( nvinfer1::DimensionType type )
 #endif
 #endif
 
-#if NV_TENSORRT_MAJOR > 1
+#if NV_TENSORRT_MAJOR > 1 
 static inline nvinfer1::Dims validateDims( const nvinfer1::Dims& dims )
 {
 	if( dims.nbDims == nvinfer1::Dims::MAX_DIMS )
@@ -170,7 +170,51 @@ static inline nvinfer1::Dims validateDims( const nvinfer1::Dims& dims )
 
 	return dims_out;
 }
-#endif
+
+static inline void copyDims( Dims3* dest, const nvinfer1::Dims* src )
+{
+	for( int n=0; n < src->nbDims; n++ )
+		dest->d[n] = src->d[n];
+	
+	dest->nbDims = src->nbDims;
+}
+
+static inline size_t sizeDims( const nvinfer1::Dims& dims, const size_t elementSize=1 )
+{
+	size_t sz = dims.d[0];
+	
+	for ( int n=1; n < dims.nbDims; n++ )
+		sz *= dims.d[n];
+
+	return sz * elementSize;
+}
+#else
+static inline nvinfer1::Dims3 validateDims( const nvinfer1::Dims3& dims )
+{
+	nvinfer1::Dims3 out = dims;
+	
+	if( DIMS_C(out) == 0 )
+		DIMS_C(out) = 1;
+	
+	if( DIMS_H(out) == 0 )
+		DIMS_H(out) = 1;
+	
+	if( DIMS_W(out) == 0 )
+		DIMS_W(out) = 1;
+	
+	return out;
+}
+
+static inline void copyDims( Dims3* dest, const nvinfer1::Dims3* src )
+{
+	memcpy(dest, src, sizeof(nvinfer1::Dims));
+}
+
+static inline size_t sizeDims( const Dims3& dims, const size_t elementSize=1 )
+{
+	return DIMS_C(dims) * DIMS_H(dims) * DIMS_W(dims) * elementSize;
+}
+#endif	
 
 #if NV_TENSORRT_MAJOR >= 7
 static inline nvinfer1::Dims shiftDims( const nvinfer1::Dims& dims )
@@ -179,12 +223,22 @@ static inline nvinfer1::Dims shiftDims( const nvinfer1::Dims& dims )
 	// which adds a batch dimension (4D NCHW), whereas historically
 	// 3D CHW was expected.  Remove the batch dim (it is typically 1)
 	nvinfer1::Dims out = dims;
-
-	out.d[0] = dims.d[1];
+	
+	/*out.d[0] = dims.d[1];
 	out.d[1] = dims.d[2];
 	out.d[2] = dims.d[3];
-	out.d[3] = 1;
-
+	out.d[3] = 1;*/
+	
+	if( dims.nbDims == 1 )
+		return out;
+	
+	for( int n=0; n < dims.nbDims; n++ )
+		out.d[n] = dims.d[n+1];
+	
+	for( int n=dims.nbDims; n < nvinfer1::Dims::MAX_DIMS; n++ )
+		out.d[n] = 1;
+	
+	out.nbDims -= 1;
 	return out;
 }
 #endif
@@ -1061,8 +1115,8 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	char* engineStream = NULL;
 	size_t engineSize = 0;
 
-	char cache_prefix[512];
-	char cache_path[512];
+	char cache_prefix[PATH_MAX];
+	char cache_path[PATH_MAX];
 
 	sprintf(cache_prefix, "%s.%u.%u.%i.%s.%s", model_path.c_str(), maxBatchSize, (uint32_t)allowGPUFallback, NV_TENSORRT_VERSION, deviceTypeToStr(device), precisionTypeToStr(precision));
 	sprintf(cache_path, "%s.calibration", cache_prefix);
@@ -1307,7 +1361,7 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 		Dims3 inputDims = engine->getBindingDimensions(inputIndex);
 	#endif
 
-		size_t inputSize = mMaxBatchSize * DIMS_C(inputDims) * DIMS_H(inputDims) * DIMS_W(inputDims) * sizeof(float);
+		const size_t inputSize = mMaxBatchSize * sizeDims(inputDims) * sizeof(float);
 		LogVerbose(LOG_TRT "binding to input %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", n, input_blobs[n].c_str(), mMaxBatchSize, DIMS_C(inputDims), DIMS_H(inputDims), DIMS_W(inputDims), inputSize);
 
 		// allocate memory to hold the input buffer
@@ -1326,16 +1380,9 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 		l.CUDA = (float*)inputCUDA;
 		l.size = inputSize;
 		l.name = input_blobs[n];
-		
-	#if NV_TENSORRT_MAJOR > 1
-		DIMS_W(l.dims) = DIMS_W(inputDims);
-		DIMS_H(l.dims) = DIMS_H(inputDims);
-		DIMS_C(l.dims) = DIMS_C(inputDims);
-	#else
-		l.dims = inputDims;
-	#endif
-
 		l.binding = inputIndex;
+		
+		copyDims(&l.dims, &inputDims);
 		mInputs.push_back(l);
 	}
 
@@ -1368,7 +1415,7 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 		Dims3 outputDims = engine->getBindingDimensions(outputIndex);
 	#endif
 
-		size_t outputSize = mMaxBatchSize * DIMS_C(outputDims) * DIMS_H(outputDims) * DIMS_W(outputDims) * sizeof(float);
+		const size_t outputSize = mMaxBatchSize * sizeDims(outputDims) * sizeof(float);
 		LogVerbose(LOG_TRT "binding to output %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", n, output_blobs[n].c_str(), mMaxBatchSize, DIMS_C(outputDims), DIMS_H(outputDims), DIMS_W(outputDims), outputSize);
 	
 		// allocate output memory 
@@ -1388,16 +1435,9 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 		l.CUDA = (float*)outputCUDA;
 		l.size = outputSize;
 		l.name = output_blobs[n];
-
-	#if NV_TENSORRT_MAJOR > 1
-		DIMS_W(l.dims) = DIMS_W(outputDims);
-		DIMS_H(l.dims) = DIMS_H(outputDims);
-		DIMS_C(l.dims) = DIMS_C(outputDims);
-	#else
-		l.dims = outputDims;
-	#endif
-
 		l.binding = outputIndex;
+		
+		copyDims(&l.dims, &outputDims);
 		mOutputs.push_back(l);
 	}
 	
