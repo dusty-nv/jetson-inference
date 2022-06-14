@@ -143,7 +143,7 @@ int main( int argc, char** argv )
 
 		// classify image
 		float confidence = 0.0f;
-		const int img_class = net->Classify(image, input->GetWidth(), input->GetHeight(), frameSkip, &confidence);
+		const int img_class = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
 	
 		if( img_class >= 0 )
 		{

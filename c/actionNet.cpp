@@ -36,17 +36,25 @@
 // constructor
 actionNet::actionNet() : tensorNet()
 {
-	mNetworkType = CUSTOM;
-	mNumClasses = 0;
-	mNumFrames = 0;
-	mNumFramesStored = 0;
+	mNetworkType  = CUSTOM;
+	mNumClasses   = 0;
+	mNumFrames    = 0;
+	
+	mInputBuffers[0] = NULL;
+	mInputBuffers[1] = NULL;
+	
+	mCurrentInputBuffer = 0;
+	mCurrentFrameIndex  = 0;
 }
 
 
 // destructor
 actionNet::~actionNet()
 {
-
+	if( mInputBuffers[0] != NULL )
+		mInputs[0].CUDA = mInputBuffers[0];  // restore this pointer so it's properly deleted in tensorNet destructor
+	
+	CUDA_FREE(mInputBuffers[1]);
 }
 
 
@@ -170,11 +178,19 @@ bool actionNet::init(const char* model_path, const char* class_path,
 		LogError(LOG_TRT "failed to load %s\n", model_path);
 		return false;
 	}
+	
+	// setup input ring buffer
+	mInputBuffers[0] = mInputs[0].CUDA;
+	
+	if( CUDA_FAILED(cudaMalloc((void**)&mInputBuffers[1], mInputs[0].size)) )
+		return false;
+	
+	CUDA(cudaMemset(mInputBuffers[1], 0, mInputs[0].size));
 
 	// load classnames
-	mNumClasses = DIMS_C(mOutputs[0].dims);
-	mNumFrames = 16;
-	
+	mNumFrames = mInputs[0].dims.d[1];
+	mNumClasses = mOutputs[0].dims.d[0];
+
 	if( !imageNet::LoadClassInfo(class_path, mClassDesc, mNumClasses) || mClassDesc.size() != mNumClasses )
 	{
 		LogError(LOG_TRT "actionNet -- failed to load class descriptions  (%zu of %u)\n", mClassDesc.size(), mNumClasses);
@@ -224,7 +240,6 @@ const char* actionNet::NetworkTypeToStr( actionNet::NetworkType network )
 // PreProcess
 bool actionNet::PreProcess( void* image, uint32_t width, uint32_t height, imageFormat format )
 {
-#if 0
 	// verify parameters
 	if( !image || width == 0 || height == 0 )
 	{
@@ -246,49 +261,50 @@ bool actionNet::PreProcess( void* image, uint32_t width, uint32_t height, imageF
 
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
-	if( mNetworkType == actionNet::INCEPTION_V4 )
+	// input tensor dims are:  3x16x112x112 (CxNxHxW)
+	const size_t inputFrameSize = mInputs[0].dims.d[2] * mInputs[0].dims.d[3];
+	const size_t inputBatchSize = mInputs[0].dims.d[1] * inputFrameSize;
+	
+	const uint32_t previousInputBuffer = (mCurrentInputBuffer + 1) % 2;
+
+	// shift the inputs down by one frame
+	if( CUDA_FAILED(cudaMemcpy(mInputBuffers[mCurrentInputBuffer],
+						  mInputBuffers[previousInputBuffer] + inputFrameSize,
+						  mInputs[0].size - (inputFrameSize * sizeof(float)),
+						  cudaMemcpyDeviceToDevice)) )
 	{
-		// downsample, convert to band-sequential RGB, and apply pixel normalization
-		if( CUDA_FAILED(cudaTensorNormRGB(image, format, width, height,
-								    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
-								    make_float2(-1.0f, 1.0f), 
-								    GetStream())) )
-		{
-			LogError(LOG_TRT "actionNet::PreProcess() -- cudaTensorNormRGB() failed\n");
-			return false;
-		}
+		return false;
 	}
-	else if( IsModelType(MODEL_ONNX) )
+
+	// convert input image into tensor format
+	if( IsModelType(MODEL_ONNX) )
 	{
-		// downsample, convert to band-sequential RGB, and apply pixel normalization, mean pixel subtraction and standard deviation
+		// downsample, convert to band-sequential RGB, and apply pixel normalization, and mean pixel subtraction
+		// also apply striding so that the color channels are interleaved across the N frames (CxNxHxW)
 		if( CUDA_FAILED(cudaTensorNormMeanRGB(image, format, width, height, 
-									   mInputs[0].CUDA, GetInputWidth(), GetInputHeight(), 
+									   mInputBuffers[mCurrentInputBuffer] + inputFrameSize * mCurrentFrameIndex, 
+									   mInputs[0].dims.d[2], mInputs[0].dims.d[3], 
 									   make_float2(0.0f, 1.0f), 
-									   make_float3(0.485f, 0.456f, 0.406f),
-									   make_float3(0.229f, 0.224f, 0.225f), 
-									   GetStream())) )
+									   make_float3(0.4344705882352941f, 0.4050980392156863f, 0.3774901960784314f),
+									   make_float3(1.0f, 1.0f, 1.0f), 
+									   GetStream(), inputBatchSize)) )
 		{
 			LogError(LOG_TRT "actionNet::PreProcess() -- cudaTensorNormMeanRGB() failed\n");
 			return false;
 		}
 	}
-	else
-	{
-		// downsample, convert to band-sequential BGR, and apply mean pixel subtraction 
-		if( CUDA_FAILED(cudaTensorMeanBGR(image, format, width, height, 
-								    mInputs[0].CUDA, GetInputWidth(), GetInputHeight(),
-								    make_float3(104.0069879317889f, 116.66876761696767f, 122.6789143406786f),
-								    GetStream())) )
-		{
-			LogError(LOG_TRT "actionNet::PreProcess() -- cudaTensorMeanBGR() failed\n");
-			return false;
-		}
-	}
+	
+	// update frame counters and pointers
+	mInputs[0].CUDA = mInputBuffers[mCurrentInputBuffer];
+	
+	mCurrentInputBuffer = (mCurrentInputBuffer + 1) % 2;
+	mCurrentFrameIndex += 1;
+	
+	if( mCurrentFrameIndex >= mNumFrames )
+		mCurrentFrameIndex = mNumFrames - 1;
 
 	PROFILER_END(PROFILER_PREPROCESS);
 	return true;
-#endif
-	return false;
 }
 
 
@@ -306,9 +322,8 @@ bool actionNet::Process()
 
 
 // Classify
-int actionNet::Classify( void* image, uint32_t width, uint32_t height, imageFormat format, uint32_t frameSkip, float* confidence )
+int actionNet::Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence )
 {
-#if 0
 	// verify parameters
 	if( !image || width == 0 || height == 0 )
 	{
@@ -324,15 +339,12 @@ int actionNet::Classify( void* image, uint32_t width, uint32_t height, imageForm
 	}
 	
 	return Classify(confidence);
-#endif
-	return 0;
 }
 
 
 // Classify
 int actionNet::Classify( float* confidence )
 {	
-#if 0
 	// process with TRT
 	if( !Process() )
 	{
@@ -346,11 +358,9 @@ int actionNet::Classify( float* confidence )
 	int classIndex = -1;
 	float classMax = -1.0f;
 	
-	//const float valueScale = IsModelType(MODEL_ONNX) ? 0.01f : 1.0f;
-
 	for( size_t n=0; n < mNumClasses; n++ )
 	{
-		const float value = mOutputs[0].CPU[n] /** valueScale*/;
+		const float value = mOutputs[0].CPU[n];
 		
 		if( value >= 0.01f )
 			LogVerbose("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
@@ -368,7 +378,5 @@ int actionNet::Classify( float* confidence )
 	//printf("\nmaximum class:  #%i  (%f) (%s)\n", classIndex, classMax, mClassDesc[classIndex].c_str());
 	PROFILER_END(PROFILER_POSTPROCESS);	
 	return classIndex;
-#endif
-	return 0;
 }
 

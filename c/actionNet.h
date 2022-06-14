@@ -148,7 +148,7 @@ public:
 	 * @param confidence optional pointer to float filled with confidence value.
 	 * @returns Index of the maximum class, or -1 on error.
 	 */
-	template<typename T> int Classify( T* image, uint32_t width, uint32_t height, uint32_t frameSkip=2, float* confidence=NULL )		{ return Classify((void*)image, width, height, imageFormatFromType<T>(), frameSkip, confidence); }
+	template<typename T> int Classify( T* image, uint32_t width, uint32_t height, float* confidence=NULL )		{ return Classify((void*)image, width, height, imageFormatFromType<T>(), confidence); }
 	
 	/**
 	 * Determine the maximum likelihood image class.
@@ -159,7 +159,7 @@ public:
 	 * @param confidence optional pointer to float filled with confidence value.
 	 * @returns Index of the maximum class, or -1 on error.
 	 */
-	int Classify( void* image, uint32_t width, uint32_t height, imageFormat format, uint32_t frameSkip, float* confidence=NULL );
+	int Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence=NULL );
 
 	/**
 	 * Retrieve the number of image recognition classes (typically 1000)
@@ -196,10 +196,14 @@ protected:
 	bool init( const char* model_path, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool loadClassInfo( const char* filename, int expectedClasses=-1 );
 	
+	float* mInputBuffers[2];
+	
 	uint32_t mNumClasses;
 	uint32_t mNumFrames;
-	uint32_t mNumFramesStored;
 	
+	uint32_t mCurrentInputBuffer;
+	uint32_t mCurrentFrameIndex;
+		
 	std::vector<std::string> mClassDesc;
 
 	std::string mClassPath;
