@@ -52,6 +52,7 @@
 					   "           $ cd <jetson-inference>/tools\n" 	  	\
 					   "           $ ./download-models.sh\n"
 
+#define USE_INPUT_TENSOR_CUDA_DEVICE_MEMORY
 
 //---------------------------------------------------------------------
 const char* precisionTypeToStr( precisionType type )
@@ -391,6 +392,18 @@ tensorNet::~tensorNet()
 		mInfer->destroy();
 		mInfer = NULL;
 	}
+	
+	for( size_t n=0; n < mInputs.size(); n++ )
+	{
+	#ifdef USE_INPUT_TENSOR_CUDA_DEVICE_MEMORY
+		CUDA_FREE(mInputs[n].CUDA);
+	#else
+		CUDA_FREE_HOST(mInputs[n].CUDA);
+	#endif
+	}
+	
+	for( size_t n=0; n < mOutputs.size(); n++ )
+		CUDA_FREE_HOST(mOutputs[n].CPU);
 }
 
 
@@ -1368,11 +1381,21 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 		void* inputCPU  = NULL;
 		void* inputCUDA = NULL;
 
+	#ifdef USE_INPUT_TENSOR_CUDA_DEVICE_MEMORY
+		if( CUDA_FAILED(cudaMalloc((void**)&inputCUDA, inputSize)) )
+		{
+			LogError(LOG_TRT "failed to alloc CUDA device memory for tensor input, %zu bytes\n", inputSize);
+			return false;
+		}
+		
+		CUDA(cudaMemset(inputCUDA, 0, inputSize));
+	#else
 		if( !cudaAllocMapped((void**)&inputCPU, (void**)&inputCUDA, inputSize) )
 		{
 			LogError(LOG_TRT "failed to alloc CUDA mapped memory for tensor input, %zu bytes\n", inputSize);
 			return false;
 		}
+	#endif
 	
 		layerInfo l;
 		
