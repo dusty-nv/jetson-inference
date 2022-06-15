@@ -121,7 +121,9 @@ int main( int argc, char** argv )
 	}
 
 	const uint32_t frameSkip = cmdLine.GetInt("frameskip", 2);
-	
+	uint32_t skips = 0;
+	float confidence = 0.0f;
+	int img_class = 0;
 	
 	/*
 	 * processing loop
@@ -141,22 +143,25 @@ int main( int argc, char** argv )
 			continue;
 		}
 
-		// classify image
-		float confidence = 0.0f;
-		const int img_class = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
-	
+		skips += 1;
+		
+		if( skips % frameSkip == 0 )
+		{
+			img_class = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
+			skips = 0;
+			
+			if( img_class >= 0 )
+				LogVerbose("actionnet:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
+			else
+				LogError("actionnet:  failed to classify frame\n");
+		}
+		
 		if( img_class >= 0 )
 		{
-			LogVerbose("actionnet:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
-
-			if( font != NULL )
-			{
-				char str[256];
-				sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
-	
-				font->OverlayText(image, input->GetWidth(), input->GetHeight(),
-						        str, 5, 5, make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
-			}
+			char str[256];
+			sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
+			font->OverlayText(image, input->GetWidth(), input->GetHeight(),
+						   str, 5, 5, make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
 		}	
 
 		// render outputs

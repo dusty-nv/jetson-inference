@@ -360,7 +360,7 @@ int actionNet::Classify( float* confidence )
 	
 	for( size_t n=0; n < mNumClasses; n++ )
 	{
-		const float value = mOutputs[0].CPU[n];
+		const float value = mOutputs[0].CPU[n] * 0.01f;
 		
 		if( value >= 0.01f )
 			LogVerbose("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
