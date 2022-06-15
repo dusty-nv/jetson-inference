@@ -25,7 +25,7 @@ if [ $ARCH = "aarch64" ]; then
 			CONTAINER_IMAGE="jetson-inference:r32.5.0"
 		elif [ $L4T_REVISION_MAJOR -eq 7 ]; then
 			# L4T R32.7.x all run the R32.7.0 container
-			CONTAINER_IMAGE="jetson-inference:r32.7.0"
+			CONTAINER_IMAGE="jetson-inference:r32.7.1"
 		fi
 	fi
 	
