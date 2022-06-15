@@ -66,7 +66,13 @@ actionNet* actionNet::Create( actionNet::NetworkType networkType, uint32_t maxBa
 	
 	if( networkType == RESNET_18 )
 		net = Create("networks/Action-ResNet18/resnet-18-kinetics-moments.onnx", "networks/Action-ResNet18/labels.txt", "0", "198", maxBatchSize, precision, device, allowGPUFallback);
-
+	else if( networkType == RESNET_34 )
+		net = Create("networks/Action-ResNet34/resnet-34-kinetics-moments.onnx", "networks/Action-ResNet34/labels.txt", "0", "350", maxBatchSize, precision, device, allowGPUFallback);
+	else if( networkType == RESNET_50 )
+		net = Create("networks/Action-ResNet50/resnet-50-kinetics.onnx", "networks/Action-ResNet50/labels.txt", "0", "503", maxBatchSize, precision, device, allowGPUFallback);
+	else if( networkType == RESNET_101 )
+		net = Create("networks/Action-ResNet101/resnext-101-kinetics.onnx", "networks/Action-ResNet101/labels.txt", "0", "979", maxBatchSize, precision, device, allowGPUFallback);
+	
 	if( !net )
 	{
 		LogError(LOG_TRT "actionNet -- invalid built-in model '%s' requested\n", actionNet::NetworkTypeToStr(networkType));
@@ -213,9 +219,11 @@ actionNet::NetworkType actionNet::NetworkTypeFromStr( const char* modelName )
 	if( strcasecmp(modelName, "resnet-18") == 0 || strcasecmp(modelName, "resnet_18") == 0 || strcasecmp(modelName, "resnet18") == 0 )
 		type = actionNet::RESNET_18;
 	else if( strcasecmp(modelName, "resnet-34") == 0 || strcasecmp(modelName, "resnet_34") == 0 || strcasecmp(modelName, "resnet34") == 0 )
-		type = actionNet::RESNET_50;
+		type = actionNet::RESNET_34;
 	else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 )
 		type = actionNet::RESNET_50;
+	else if( strcasecmp(modelName, "resnet-101") == 0 || strcasecmp(modelName, "resnet_101") == 0 || strcasecmp(modelName, "resnet101") == 0 )
+		type = actionNet::RESNET_101;
 	else
 		type = actionNet::CUSTOM;
 
@@ -231,6 +239,7 @@ const char* actionNet::NetworkTypeToStr( actionNet::NetworkType network )
 		case actionNet::RESNET_18:	return "ResNet-18";
 		case actionNet::RESNET_34:	return "ResNet-34";
 		case actionNet::RESNET_50:	return "ResNet-50";
+		case actionNet::RESNET_101:	return "ResNet-101";
 	}
 
 	return "Custom";
@@ -342,6 +351,29 @@ int actionNet::Classify( void* image, uint32_t width, uint32_t height, imageForm
 }
 
 
+// each component will be in the interval (0, 1) and the sum of all the components is 1
+static void softmax( float* x, size_t N )
+{
+	// subtracting the maximum from each value of the input array ensures that the exponent doesn’t overflow
+	float max = -INFINITY;
+	
+	for( size_t n=0; n < N; n++ )
+		if( x[n] > max )
+			max = x[n];
+		
+	// exp(x) / sum(exp(x))
+	float sum = 0.0f;
+	
+	for( size_t n=0; n < N; n++ )
+		sum += expf(x[n] - max);
+	
+	const float constant = max + logf(sum);
+	
+	for( size_t n=0; n < N; n++ )
+		x[n] = expf(x[n] - constant);
+}
+	
+	
 // Classify
 int actionNet::Classify( float* confidence )
 {	
@@ -354,13 +386,16 @@ int actionNet::Classify( float* confidence )
 	
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
+	// apply softmax (the onnx models are missing this)
+	softmax(mOutputs[0].CPU, mNumClasses);
+	
 	// determine the maximum class
 	int classIndex = -1;
 	float classMax = -1.0f;
 	
 	for( size_t n=0; n < mNumClasses; n++ )
 	{
-		const float value = mOutputs[0].CPU[n] * 0.01f;
+		const float value = mOutputs[0].CPU[n];
 		
 		if( value >= 0.01f )
 			LogVerbose("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());

@@ -81,6 +81,7 @@ public:
 		RESNET_18,	/**< ResNet-18 trained on 1000-class ILSVRC15 */
 		RESNET_34,	/**< ResNet-50 trained on 1000-class ILSVRC15 */
 		RESNET_50,	/**< ResNet-50 trained on 1000-class ILSVRC15 */
+		RESNET_101
 	};
 
 	/**

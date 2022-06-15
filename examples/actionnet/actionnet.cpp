@@ -120,8 +120,8 @@ int main( int argc, char** argv )
 		return 0;
 	}
 
-	const uint32_t frameSkip = cmdLine.GetInt("frameskip", 2);
-	uint32_t skips = 0;
+	const uint32_t frameskip = cmdLine.GetInt("frameskip", 2);
+	uint32_t skipped = 0;
 	float confidence = 0.0f;
 	int img_class = 0;
 	
@@ -143,19 +143,19 @@ int main( int argc, char** argv )
 			continue;
 		}
 
-		skips += 1;
+		skipped += 1;
 		
-		if( skips % frameSkip == 0 )
+		if( skipped % frameskip == 0 )
 		{
 			img_class = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
-			skips = 0;
+			skipped = 0;
 			
 			if( img_class >= 0 )
 				LogVerbose("actionnet:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
 			else
 				LogError("actionnet:  failed to classify frame\n");
 		}
-		
+
 		if( img_class >= 0 )
 		{
 			char str[256];
