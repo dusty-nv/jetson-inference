@@ -24,7 +24,7 @@
 #define __DEPTH_NET_H__
 
 #include "tensorNet.h"
-#include "cudaColormap.h"
+#include "<jetson-utils/cudaColormap.h>"
 
 
 /**
