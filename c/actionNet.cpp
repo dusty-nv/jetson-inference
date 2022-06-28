@@ -25,20 +25,16 @@
 
 #include "tensorConvert.h"
 
-#include "cudaMappedMemory.h"
-#include "cudaResize.h"
-
 #include "commandLine.h"
-#include "filesystem.h"
 #include "logging.h"
 
 
 // constructor
 actionNet::actionNet() : tensorNet()
 {
-	mNetworkType  = CUSTOM;
-	mNumClasses   = 0;
-	mNumFrames    = 0;
+	mNetworkType = CUSTOM;
+	mNumClasses  = 0;
+	mNumFrames   = 0;
 	
 	mInputBuffers[0] = NULL;
 	mInputBuffers[1] = NULL;
@@ -246,8 +242,8 @@ const char* actionNet::NetworkTypeToStr( actionNet::NetworkType network )
 }
 
 
-// PreProcess
-bool actionNet::PreProcess( void* image, uint32_t width, uint32_t height, imageFormat format )
+// preProcess
+bool actionNet::preProcess( void* image, uint32_t width, uint32_t height, imageFormat format )
 {
 	// verify parameters
 	if( !image || width == 0 || height == 0 )
@@ -317,40 +313,6 @@ bool actionNet::PreProcess( void* image, uint32_t width, uint32_t height, imageF
 }
 
 
-// Process
-bool actionNet::Process()
-{
-	PROFILER_BEGIN(PROFILER_NETWORK);
-
-	if( !ProcessNetwork() )
-		return false;
-
-	PROFILER_END(PROFILER_NETWORK);
-	return true;
-}
-
-
-// Classify
-int actionNet::Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence )
-{
-	// verify parameters
-	if( !image || width == 0 || height == 0 )
-	{
-		LogError(LOG_TRT "actionNet::Classify( 0x%p, %u, %u ) -> invalid parameters\n", image, width, height);
-		return -1;
-	}
-	
-	// downsample and convert to band-sequential BGR
-	if( !PreProcess(image, width, height, format) )
-	{
-		LogError(LOG_TRT "actionNet::Classify() -- tensor pre-processing failed\n");
-		return -1;
-	}
-	
-	return Classify(confidence);
-}
-
-
 // each component will be in the interval (0, 1) and the sum of all the components is 1
 static void softmax( float* x, size_t N )
 {
@@ -375,15 +337,29 @@ static void softmax( float* x, size_t N )
 	
 	
 // Classify
-int actionNet::Classify( float* confidence )
-{	
-	// process with TRT
-	if( !Process() )
+int actionNet::Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence )
+{
+	// verify parameters
+	if( !image || width == 0 || height == 0 )
 	{
-		LogError(LOG_TRT "actionNet::Process() failed\n");
+		LogError(LOG_TRT "actionNet::Classify( 0x%p, %u, %u ) -> invalid parameters\n", image, width, height);
 		return -1;
 	}
 	
+	// downsample and convert to band-sequential BGR
+	if( !preProcess(image, width, height, format) )
+	{
+		LogError(LOG_TRT "actionNet::Classify() -- tensor pre-processing failed\n");
+		return -1;
+	}
+	
+	// process with TRT
+	PROFILER_BEGIN(PROFILER_NETWORK);
+
+	if( !ProcessNetwork() )
+		return -1;
+
+	PROFILER_END(PROFILER_NETWORK);
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
 	// apply softmax (the onnx models are missing this)
@@ -414,4 +390,3 @@ int actionNet::Classify( float* confidence )
 	PROFILER_END(PROFILER_POSTPROCESS);	
 	return classIndex;
 }
-

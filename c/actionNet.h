@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, NVIDIA CORPORATION. All rights reserved.
+ * Copyright (c) 2022, NVIDIA CORPORATION. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -100,8 +100,8 @@ public:
 	 * Load a new network instance
 	 */
 	static actionNet* Create( NetworkType networkType=RESNET_18, uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
-						precisionType precision=TYPE_FASTEST,
-				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
+						 precisionType precision=TYPE_FASTEST, deviceType device=DEVICE_GPU, 
+						 bool allowGPUFallback=true );
 	
 	/**
 	 * Load a new network instance
@@ -190,13 +190,9 @@ public:
 protected:
 	actionNet();
 	
-	int  Classify( float* confidence=NULL );
-	bool PreProcess( void* image, uint32_t width, uint32_t height, imageFormat format );
-	bool Process();
-
 	bool init( const char* model_path, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
-	bool loadClassInfo( const char* filename, int expectedClasses=-1 );
-	
+	bool preProcess( void* image, uint32_t width, uint32_t height, imageFormat format );
+
 	float* mInputBuffers[2];
 	
 	uint32_t mNumClasses;
