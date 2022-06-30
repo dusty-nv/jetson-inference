@@ -23,6 +23,8 @@
 #include "featureNet.h"
 #include "imageIO.h"
 
+#include <algorithm>
+
 
 int usage()
 {
@@ -90,78 +92,48 @@ int main( int argc, char** argv )
 	}
 
 	const float threshold = cmdLine.GetFloat("threshold", FEATURENET_DEFAULT_THRESHOLD);
-	const uint32_t maxFeatures = cmdLine.GetUnsignedInt("max-features", net->GetMaxFeatures());
+	const float drawScale = cmdLine.GetFloat("draw-scale", FEATURENET_DEFAULT_DRAWING_SCALE);
+	const int maxFeatures = cmdLine.GetUnsignedInt("max-features", net->GetMaxFeatures());
 	
+	
+	/*
+      * match features
+	 */
+	float2 features[2][1200];
+	float  confidence[1200];
 	
 	const int numFeatures = net->Match(images[0], width[0], height[0], imageFormatFromType<pixelType>(),
 								images[1], width[1], height[1], imageFormatFromType<pixelType>(),
-								NULL, NULL, NULL, threshold, true);
+								features[0], features[1], confidence, threshold, true);
 	
+	if( numFeatures < 0 )
+	{
+		LogError("featurenet-images:  failed to process feature extraction/matching\n");
+		return 0;
+	}
+	
+	for( int n=0; n < numFeatures; n++ )
+	{
+		printf("match %i   %f  (%f, %f) -> (%f, %f)\n", n, confidence[n], features[0][n].x, features[0][n].y, features[1][n].x, features[1][n].y);
+	}
+	
+	// draw features
+	for( int n=0; n < 2; n++ )
+	{
+		//printf("drawing image %i\n", n);
 		
+		net->DrawFeatures(images[n], width[n], height[n], imageFormatFromType<pixelType>(),
+					   features[n], std::min(numFeatures, maxFeatures), true,
+					   drawScale, make_float4(0,255,0,255));
+					   
+		if( numPositionArgs > n+2 )
+			saveImage(cmdLine.GetPosition(n+2), images[n], width[n], height[n]);
+	}
+
 	CUDA(cudaDeviceSynchronize());
-	
 	net->PrintProfilerTimes();
 	
-#if 0
-	/*
-	 * processing loop
-	 */
-	while( !signal_recieved )
-	{
-		// capture next image image
-		uchar3* image = NULL;
 
-		if( !input->Capture(&image, 1000) )
-		{
-			// check for EOS
-			if( !input->IsStreaming() )
-				break;
-
-			LogError("featurenet-images:  failed to capture next frame\n");
-			continue;
-		}
-
-		skipped += 1;
-		
-		if( skipped % frameskip == 0 )
-		{
-			img_class = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
-			skipped = 0;
-			
-			if( img_class >= 0 )
-				LogVerbose("featurenet-images:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
-			else
-				LogError("featurenet-images:  failed to classify frame\n");
-		}
-
-		if( img_class >= 0 )
-		{
-			char str[256];
-			sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
-			font->OverlayText(image, input->GetWidth(), input->GetHeight(),
-						   str, 5, 5, make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
-		}	
-
-		// render outputs
-		if( output != NULL )
-		{
-			output->Render(image, input->GetWidth(), input->GetHeight());
-
-			// update status bar
-			char str[256];
-			sprintf(str, "TensorRT %i.%i.%i | %s | Network %.0f FPS", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR, NV_TENSORRT_PATCH, net->GetNetworkName(), net->GetNetworkFPS());
-			output->SetStatus(str);	
-
-			// check if the user quit
-			if( !output->IsStreaming() )
-				signal_recieved = true;
-		}
-
-		// print out timing info
-		net->PrintProfilerTimes();
-	}
-#endif	
-	
 	/*
 	 * destroy resources
 	 */

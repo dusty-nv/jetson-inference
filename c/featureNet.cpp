@@ -23,6 +23,8 @@
 #include "featureNet.h"
 #include "tensorConvert.h"
 
+#include "cudaDraw.h"
+#include "cudaFont.h"
 #include "cudaResize.h"
 #include "cudaNormalize.h"
 #include "cudaColorspace.h"
@@ -35,6 +37,7 @@
 // constructor
 featureNet::featureNet() : tensorNet()
 {
+	mFont        = NULL;
 	mInputWidth  = 0;
 	mInputHeight = 0;
 	mMaxFeatures = 0;
@@ -47,6 +50,7 @@ featureNet::featureNet() : tensorNet()
 featureNet::~featureNet()
 {
 	CUDA_FREE(mResizedImg);
+	SAFE_DELETE(mFont);
 }
 
 
@@ -283,11 +287,11 @@ bool featureNet::preProcess( void* image, uint32_t width, uint32_t height, image
 // Match
 int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, imageFormat format_A, 
 				   void* image_B, uint32_t width_B, uint32_t height_B, imageFormat format_B, 
-				   float2* keypoints_A, float2* keypoints_B, float* confidences, 
+				   float2* features_A, float2* features_B, float* confidence, 
 				   float threshold, bool sorted )
 {
 	// verify parameters
-	if( !image_A || !image_B || width_A == 0 || height_A == 0 || width_B == 0 || height_B == 0 || !keypoints_A || !keypoints_B || !confidences )
+	if( !image_A || !image_B || width_A == 0 || height_A == 0 || width_B == 0 || height_B == 0 || !features_A || !features_B || !confidence )
 	{
 		LogError(LOG_TRT "featureNet::Match() called with NULL / invalid parameters\n");
 		return -1;
@@ -343,32 +347,32 @@ int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, image
 			
 			if( numMatches == 0 || !sorted )
 			{
-				keypoints_A[numMatches] = keyA;
-				keypoints_B[numMatches] = keyB;
-				confidences[numMatches] = conf;
+				features_A[numMatches] = keyA;
+				features_B[numMatches] = keyB;
+				confidence[numMatches] = conf;
 			}
 			else
 			{
 				for( uint32_t n=0; n < numMatches; n++ )
 				{
-					if( conf > confidences[n] )
+					if( conf > confidence[n] )
 					{
 						// TODO:  replace these memmoves with a linked/indexed list
-						memmove(keypoints_A + n + 1, keypoints_A + n, sizeof(float2) * (numMatches - n));
-						memmove(keypoints_B + n + 1, keypoints_B + n, sizeof(float2) * (numMatches - n));
-						memmove(confidences + n + 1, confidences + n, sizeof(float) * (numMatches - n));
+						memmove(features_A + n + 1, features_A + n, sizeof(float2) * (numMatches - n));
+						memmove(features_B + n + 1, features_B + n, sizeof(float2) * (numMatches - n));
+						memmove(confidence + n + 1, confidence + n, sizeof(float) * (numMatches - n));
 						
-						keypoints_A[n] = keyA;
-						keypoints_B[n] = keyB;
-						confidences[n] = conf;
+						features_A[n] = keyA;
+						features_B[n] = keyB;
+						confidence[n] = conf;
 						
 						break;
 					}
 					else if( n == (numMatches - 1) )
 					{
-						keypoints_A[n+1] = keyA;
-						keypoints_B[n+1] = keyB;
-						confidences[n+1] = conf;
+						features_A[n+1] = keyA;
+						features_B[n+1] = keyB;
+						confidence[n+1] = conf;
 					}
 				}
 			}
@@ -396,10 +400,84 @@ int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, image
 	
 	PROFILER_END(PROFILER_POSTPROCESS);
 	
-	return 0;
+	return numMatches;
 }
 
+					
+// DrawFeatures
+bool featureNet::DrawFeatures( void* input, void* output, uint32_t width, uint32_t height, imageFormat format,
+						 float2* features, uint32_t numFeatures, bool drawText, float scale, const float4& color )
+{
+	// verify parameters
+	if( !input || !output || width == 0 || height == 0 || !features || scale <= 0.0f )
+	{
+		LogError(LOG_TRT "featureNet::DrawFeatures() called with NULL / invalid parameters\n");
+		return false;
+	}
+	
+	if( numFeatures == 0 )
+	{
+		LogWarning(LOG_TRT "featureNet::DrawFeatures() was called with 0 features, skipping.\n");
+		return true;
+	}
+	
+	// draw features
+	PROFILER_BEGIN(PROFILER_VISUALIZE);
+	
+	const float circleSize = width * scale;
+	
+	for( uint32_t n=0; n < numFeatures; n++ )
+	{
+		CUDA(cudaDrawCircle(input, output, width, height, format,
+						features[n].x, features[n].y, circleSize, color));
+	}
+	
+	if( drawText )
+	{
+		const float textSize = circleSize * 6;
+		const float textOffset = circleSize;
+		
+		// load font if needed
+		if( !mFont )
+		{	
+			mFont = cudaFont::Create(textSize);
+			
+			if( !mFont )
+			{
+				LogError(LOG_TRT "featureNet::DrawFeatures() failed to create font object\n");
+				return false;
+			}
+		}
+		
+		// TODO use string batching interface to cudaFont
+		for( uint32_t n=0; n < numFeatures; n++ )
+		{
+			char str[256];
+			sprintf(str, "%i abc", n);
+			
+			//printf("drawing text '%s' at %i %i\n", str, int(features[n].x + textOffset), int(features[n].y - textOffset));
+			
+			mFont->OverlayText(output, format, width, height, str,
+						    features[n].x + textOffset,
+						    features[n].y - textOffset,
+						    color/*, make_float4(0, 0, 0, 100)*/);
+		}
+	}
+		
+	PROFILER_END(PROFILER_VISUALIZE);
+	
+	return true;
+}					
+	
 
+// DrawFeatures
+bool featureNet::DrawFeatures( void* image, uint32_t width, uint32_t height, imageFormat format,
+				           float2* features, uint32_t numFeatures, bool drawText, float scale, const float4& color )
+{
+	return DrawFeatures(image, image, width, height, format, features, numFeatures, drawText, scale, color);
+}	
+
+	
 /*
 // preProcess
 bool featureNet::preProcess( void* image, uint32_t width, uint32_t height, imageFormat format )

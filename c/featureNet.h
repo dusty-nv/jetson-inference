@@ -52,6 +52,11 @@
 #define FEATURENET_DEFAULT_THRESHOLD 0.01f
 
 /**
+ * Default value of the scale used for drawing features
+ */
+#define FEATURENET_DEFAULT_DRAWING_SCALE 0.005f
+
+/**
  * Standard command-line options able to be passed to featureNet::Create()
  * @ingroup featureNet
  */
@@ -63,6 +68,10 @@
 		  "  --output-blob=OUTPUT name of the output layer (default is '" FEATURENET_DEFAULT_OUTPUT "')\n" 	\
 		  "  --batch-size=BATCH   maximum batch size (default is 1)\n"								\
 		  "  --profile            enable layer profiling in TensorRT\n\n"
+
+
+// forward declarations
+class cudaFont;
 
 
 /**
@@ -158,21 +167,10 @@ public:
 	 * @param confidence optional pointer to float filled with confidence value.
 	 * @returns Index of the maximum class, or -1 on error.
 	 */
-	//inline int Match( void* image_a, void* image_b, uint32_t width, uint32_t height, imageFormat format, 
-	//		        float2* points_a, float2* points_b, float* confidence=NULL, float threshold=0.01 );
-
-	/**
-	 * Determine the maximum likelihood image class.
-	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
-	 * @param rgba input image in CUDA device memory.
-	 * @param width width of the input image in pixels.
-	 * @param height height of the input image in pixels.
-	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns Index of the maximum class, or -1 on error.
-	 */
-	//int Match( void* image_a, uint32_t width_a, uint32_t height_a, imageFormat format_a, 
-	//		 void* image_b, uint32_t width_b, uint32_t height_b, imageFormat format_b, 
-	//		 float2** points_a, float2** points_b, float** confidence=NULL, float threshold=0.01 );
+	/*int Match( void* image_A, uint32_t width_A, uint32_t height_A, imageFormat format_A, 
+			 void* image_B, uint32_t width_B, uint32_t height_B, imageFormat format_B, 
+			 float2** features_A, float2** features_B, float** confidence, 
+			 float threshold=FEATURENET_DEFAULT_THRESHOLD, bool sorted=true );*/
 			 
 	/**
 	 * Determine the maximum likelihood image class.
@@ -185,13 +183,29 @@ public:
 	 */
 	int Match( void* image_A, uint32_t width_A, uint32_t height_A, imageFormat format_A, 
 			 void* image_B, uint32_t width_B, uint32_t height_B, imageFormat format_B, 
-			 float2* keypoints_A, float2* keypoints_B, float* confidences=NULL, 
+			 float2* features_A, float2* features_B, float* confidence, 
 			 float threshold=FEATURENET_DEFAULT_THRESHOLD, bool sorted=true );
 			 
 	/*int Match( void* images[2], uint32_t width[2], uint32_t height[2], imageFormat format[2], 
 			 float2* features[2], float* confidence=NULL, 
 			 float threshold=FEATURENET_DEFAULT_THRESHOLD, bool sorted=true );*/
 		
+	/**
+	 * DrawFeatures (overlay)
+	 */
+	bool DrawFeatures( void* image, uint32_t width, uint32_t height, imageFormat format,
+				    float2* features, uint32_t numFeatures, bool drawText=true, 
+				    float scale=FEATURENET_DEFAULT_DRAWING_SCALE,
+				    const float4& color=make_float4(0,255,0,255));
+					
+	/**
+	 * DrawFeatures
+	 */
+	bool DrawFeatures( void* input, void* output, uint32_t width, uint32_t height, imageFormat format,
+				    float2* features, uint32_t numFeatures, bool drawText=true, 
+				    float scale=FEATURENET_DEFAULT_DRAWING_SCALE,
+				    const float4& color=make_float4(0,255,0,255));
+							
 	/**
 	 * Retrieve the maximum number of features (default is 1200)
 	 */
@@ -219,9 +233,10 @@ protected:
 	uint32_t mInputWidth;
 	uint32_t mInputHeight;
 	uint32_t mMaxFeatures;
-	
+
 	static const int mCellResolution = 16;  // for LoFTR
 	
+	cudaFont* mFont;
 	NetworkType mNetworkType;
 };
 
