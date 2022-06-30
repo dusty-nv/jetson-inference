@@ -37,6 +37,7 @@ featureNet::featureNet() : tensorNet()
 {
 	mInputWidth  = 0;
 	mInputHeight = 0;
+	mMaxFeatures = 0;
 	mResizedImg  = NULL;
 	mNetworkType = CUSTOM;
 }
@@ -163,6 +164,7 @@ bool featureNet::init( const char* model_path, const char* input_0,
 	input_blobs.push_back(input_0);
 	input_blobs.push_back(input_1);
 	
+	output_blobs.push_back("1019");   // hack so that all output tensors are allotted
 	output_blobs.push_back(output);
 	
 	// load model
@@ -173,8 +175,9 @@ bool featureNet::init( const char* model_path, const char* input_0,
 		return false;
 	}
 	
-	mInputWidth = DIMS_W(mInputs[0].dims);
-	mInputHeight = DIMS_H(mInputs[1].dims);
+	mInputWidth  = DIMS_W(mInputs[0].dims);
+	mInputHeight = DIMS_H(mInputs[0].dims);
+	mMaxFeatures = mOutputs[0].dims.d[1];
 	
 	// allocate preprocessing memory
 	if( CUDA_FAILED(cudaMalloc(&mResizedImg, mInputWidth * mInputHeight * sizeof(float) * 4)) )
@@ -280,11 +283,11 @@ bool featureNet::preProcess( void* image, uint32_t width, uint32_t height, image
 // Match
 int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, imageFormat format_A, 
 				   void* image_B, uint32_t width_B, uint32_t height_B, imageFormat format_B, 
-				   float2* keypoints_A, float2* keypoints_B, float* confidence, 
+				   float2* keypoints_A, float2* keypoints_B, float* confidences, 
 				   float threshold, bool sorted )
 {
 	// verify parameters
-	if( !image_A || !image_B || width_A == 0 || height_A == 0 || width_B == 0 || height_B == 0 )
+	if( !image_A || !image_B || width_A == 0 || height_A == 0 || width_B == 0 || height_B == 0 || !keypoints_A || !keypoints_B || !confidences )
 	{
 		LogError(LOG_TRT "featureNet::Match() called with NULL / invalid parameters\n");
 		return -1;
@@ -300,7 +303,99 @@ int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, image
 		return -1;
 	
 	PROFILER_END(PROFILER_PREPROCESS);
+	
+	// process with TRT
+	PROFILER_BEGIN(PROFILER_NETWORK);
 
+	if( !ProcessNetwork() )
+		return -1;
+
+	PROFILER_END(PROFILER_NETWORK);
+	PROFILER_BEGIN(PROFILER_POSTPROCESS);
+	
+	const uint32_t cellWidth = mInputWidth / mCellResolution;
+	const uint32_t cellHeight = mInputWidth / mCellResolution;
+	
+	const float scale = float(mInputHeight) / float(cellHeight);
+	
+	const float2 scale_A = make_float2(scale * (float(width_A) / float(mInputWidth)),
+								scale * (float(height_A) / float(mInputHeight)));
+								
+	const float2 scale_B = make_float2(scale * (float(width_B) / float(mInputWidth)),
+								scale * (float(height_B) / float(mInputHeight)));
+								
+	// threshold the confidence matrix
+	uint32_t numMatches = 0;
+	
+	for( uint32_t cx=0; cx < mMaxFeatures; cx++ )
+	{
+		for( uint32_t cy=0; cy < mMaxFeatures; cy++ )
+		{
+			const float conf = mOutputs[1].CPU[cx * mMaxFeatures + cy];
+			
+			if( conf < threshold )
+				continue;
+			
+			const float2 keyA = make_float2((cx % cellWidth) * scale_A.x, int(cx / cellWidth) * scale_A.y);
+			const float2 keyB = make_float2((cy % cellWidth) * scale_B.x, int(cy / cellWidth) * scale_B.y);
+			
+			printf("match %u   %i %i  (%f, %f) -> (%f, %f)\n", numMatches, cx, cy, keyA.x, keyA.y, keyB.x, keyB.y);
+			
+			if( numMatches == 0 || !sorted )
+			{
+				keypoints_A[numMatches] = keyA;
+				keypoints_B[numMatches] = keyB;
+				confidences[numMatches] = conf;
+			}
+			else
+			{
+				for( uint32_t n=0; n < numMatches; n++ )
+				{
+					if( conf > confidences[n] )
+					{
+						// TODO:  replace these memmoves with a linked/indexed list
+						memmove(keypoints_A + n + 1, keypoints_A + n, sizeof(float2) * (numMatches - n));
+						memmove(keypoints_B + n + 1, keypoints_B + n, sizeof(float2) * (numMatches - n));
+						memmove(confidences + n + 1, confidences + n, sizeof(float) * (numMatches - n));
+						
+						keypoints_A[n] = keyA;
+						keypoints_B[n] = keyB;
+						confidences[n] = conf;
+						
+						break;
+					}
+					else if( n == (numMatches - 1) )
+					{
+						keypoints_A[n+1] = keyA;
+						keypoints_B[n+1] = keyB;
+						confidences[n+1] = conf;
+					}
+				}
+			}
+			
+			numMatches += 1;
+		}
+	}
+
+	/*for( uint32_t n=0; n < numMatches; n++ )
+	{
+		const float x1 = (matches[n].x % cellWidth) * scale_A.x;
+		const float y1 = int(matches[n].x / cellWidth) * scale_A.y;
+		
+		const float x2 = (matches[n].y % cellWidth) * scale_B.x;
+		const float y2 = int(matches[n].y / cellWidth) * scale_B.y;
+		
+		printf("match %u   %i %i  (%f, %f) -> (%f, %f)\n", n, matches[n].x, matches[n].y, x1, y1, x2, y2);
+	}*/
+	
+	printf("cell width = %u\n", cellWidth);
+	printf("cell height = %u\n", cellHeight);
+	printf("scale = %f\n", scale);
+	printf("scale_A = (%f, %f)\n", scale_A.x, scale_A.y);
+	printf("scale_B = (%f, %f)\n", scale_B.x, scale_B.y);
+	
+	PROFILER_END(PROFILER_POSTPROCESS);
+	
 	return 0;
 }
 

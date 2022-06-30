@@ -185,7 +185,7 @@ public:
 	 */
 	int Match( void* image_A, uint32_t width_A, uint32_t height_A, imageFormat format_A, 
 			 void* image_B, uint32_t width_B, uint32_t height_B, imageFormat format_B, 
-			 float2* keypoints_A, float2* keypoints_B, float* confidence=NULL, 
+			 float2* keypoints_A, float2* keypoints_B, float* confidences=NULL, 
 			 float threshold=FEATURENET_DEFAULT_THRESHOLD, bool sorted=true );
 			 
 	/*int Match( void* images[2], uint32_t width[2], uint32_t height[2], imageFormat format[2], 
@@ -195,7 +195,7 @@ public:
 	/**
 	 * Retrieve the maximum number of features (default is 1200)
 	 */
-	inline uint32_t GetMaxFeatures() const						{ return mOutputs[0].dims.d[1]; } 
+	inline uint32_t GetMaxFeatures() const						{ return mMaxFeatures; } 
 	
 	/**
 	 * Retrieve the network type (alexnet or googlenet)
@@ -212,11 +212,15 @@ protected:
 	
 	bool init( const char* model_path, const char* input_0, const char* input_1, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool preProcess( void* image, uint32_t width, uint32_t height, imageFormat format, uint32_t binding );
-
+	int  postProcess();
+	
 	void* mResizedImg;
 	
 	uint32_t mInputWidth;
 	uint32_t mInputHeight;
+	uint32_t mMaxFeatures;
+	
+	static const int mCellResolution = 16;  // for LoFTR
 	
 	NetworkType mNetworkType;
 };
