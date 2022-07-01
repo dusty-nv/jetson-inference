@@ -21,7 +21,9 @@
  */
 
 #include "featureNet.h"
+#include "cudaWarp.h"
 #include "imageIO.h"
+#include "mat33.h"
 
 #include <algorithm>
 
@@ -43,7 +45,7 @@ int usage()
 }
 
 
-typedef uchar3 pixelType;        // this can be uchar3, uchar4, float3, float4
+typedef uchar4 pixelType;        // this can be uchar3, uchar4, float3, float4
 
 
 int main( int argc, char** argv )
@@ -123,13 +125,40 @@ int main( int argc, char** argv )
 		//printf("drawing image %i\n", n);
 		
 		net->DrawFeatures(images[n], width[n], height[n], imageFormatFromType<pixelType>(),
-					   features[n], std::min(numFeatures, maxFeatures), true,
+					   features[n], std::min(numFeatures, maxFeatures), false,
 					   drawScale, make_float4(0,255,0,255));
 					   
 		if( numPositionArgs > n+2 )
 			saveImage(cmdLine.GetPosition(n+2), images[n], width[n], height[n]);
 	}
 
+
+	/*
+	 * find homography
+	 */
+	float H[3][3];
+	float H_inv[3][3];
+	
+	if( !net->FindHomography(features[0], features[1], numFeatures, H, H_inv) )
+	{
+		LogError("featurenet-images:  failed to find homography\n");
+		return 0;
+	}
+	
+	mat33_print(H, "H");	
+	mat33_print(H_inv, "H_inv");
+	
+	
+	/*
+	 * warp images
+	 */
+	CUDA(cudaWarpPerspective(images[1], width[1], height[1],
+						images[0], width[0], height[0],
+						H, true));
+	
+	if( numPositionArgs > 4 )
+		saveImage(cmdLine.GetPosition(4), images[0], width[0], height[0]);
+	
 	CUDA(cudaDeviceSynchronize());
 	net->PrintProfilerTimes();
 	

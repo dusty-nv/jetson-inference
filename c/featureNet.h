@@ -205,7 +205,12 @@ public:
 				    float2* features, uint32_t numFeatures, bool drawText=true, 
 				    float scale=FEATURENET_DEFAULT_DRAWING_SCALE,
 				    const float4& color=make_float4(0,255,0,255));
-							
+		
+	/**
+	 * FindHomography
+	 */
+	bool FindHomography( float2* features_A, float2* features_B, uint32_t numFeatures, float H[3][3], float H_inv[3][3] ) const;
+	
 	/**
 	 * Retrieve the maximum number of features (default is 1200)
 	 */

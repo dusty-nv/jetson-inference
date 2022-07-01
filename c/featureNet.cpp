@@ -32,6 +32,11 @@
 
 #include "commandLine.h"
 #include "logging.h"
+#include "mat33.h"
+
+#ifdef HAS_OPENCV
+#include <opencv2/calib3d.hpp>
+#endif
 
 
 // constructor
@@ -478,153 +483,71 @@ bool featureNet::DrawFeatures( void* image, uint32_t width, uint32_t height, ima
 }	
 
 	
-/*
-// preProcess
-bool featureNet::preProcess( void* image, uint32_t width, uint32_t height, imageFormat format )
+// FindHomography
+bool featureNet::FindHomography( float2* features_A, float2* features_B, uint32_t numFeatures, float H_out[3][3], float H_inv_out[3][3] ) const
 {
+#ifdef HAS_OPENCV
 	// verify parameters
-	if( !image || width == 0 || height == 0 )
+	if( !features_A || !features_B )
 	{
-		LogError(LOG_TRT "featureNet::PreProcess( 0x%p, %u, %u ) -> invalid parameters\n", image, width, height);
+		LogError(LOG_TRT "featureNet::FindHomography() called with NULL / invalid parameters\n");
 		return false;
 	}
-
-	if( !imageFormatIsRGB(format) )
+	
+	if( numFeatures < 4 )
 	{
-		LogError(LOG_TRT "featureNet::Classify() -- unsupported image format (%s)\n", imageFormatToStr(format));
-		LogError(LOG_TRT "                        supported formats are:\n");
-		LogError(LOG_TRT "                           * rgb8\n");		
-		LogError(LOG_TRT "                           * rgba8\n");		
-		LogError(LOG_TRT "                           * rgb32f\n");		
-		LogError(LOG_TRT "                           * rgba32f\n");
-
+		LogError(LOG_TRT "featureNet::FindHomography() was called with less than 4 features\n");
 		return false;
 	}
-
-	PROFILER_BEGIN(PROFILER_PREPROCESS);
-
-	// input tensor dims are:  3x16x112x112 (CxNxHxW)
-	const size_t inputFrameSize = mInputs[0].dims.d[2] * mInputs[0].dims.d[3];
-	const size_t inputBatchSize = mInputs[0].dims.d[1] * inputFrameSize;
 	
-	const uint32_t previousInputBuffer = (mCurrentInputBuffer + 1) % 2;
-
-	// shift the inputs down by one frame
-	if( CUDA_FAILED(cudaMemcpy(mInputBuffers[mCurrentInputBuffer],
-						  mInputBuffers[previousInputBuffer] + inputFrameSize,
-						  mInputs[0].size - (inputFrameSize * sizeof(float)),
-						  cudaMemcpyDeviceToDevice)) )
+	// build point arrays
+	std::vector<cv::Point2f> pts1;
+	std::vector<cv::Point2f> pts2;
+	
+	pts1.resize(numFeatures);
+	pts2.resize(numFeatures);
+	
+	for( uint32_t n=0; n < numFeatures; n++ )
 	{
+		pts1[n].x = features_A[n].x;
+		pts1[n].y = features_A[n].y;
+		
+		pts2[n].x = features_B[n].x;
+		pts2[n].y = features_B[n].y;
+	}
+	
+	// estimate the homography
+	cv::Mat H_cv = cv::findHomography(pts1, pts2);
+	
+	if( H_cv.cols * H_cv.rows != 9 )
+	{
+		LogError(LOG_TRT "featureNet::FindHomography() -- OpenCV matrix is unexpected size (%ix%i)\n", H_cv.cols, H_cv.rows);
 		return false;
 	}
-
-	// convert input image into tensor format
-	if( IsModelType(MODEL_ONNX) )
-	{
-		// downsample, convert to band-sequential RGB, and apply pixel normalization, and mean pixel subtraction
-		// also apply striding so that the color channels are interleaved across the N frames (CxNxHxW)
-		if( CUDA_FAILED(cudaTensorNormMeanRGB(image, format, width, height, 
-									   mInputBuffers[mCurrentInputBuffer] + inputFrameSize * mCurrentFrameIndex, 
-									   mInputs[0].dims.d[2], mInputs[0].dims.d[3], 
-									   make_float2(0.0f, 1.0f), 
-									   make_float3(0.4344705882352941f, 0.4050980392156863f, 0.3774901960784314f),
-									   make_float3(1.0f, 1.0f, 1.0f), 
-									   GetStream(), inputBatchSize)) )
-		{
-			LogError(LOG_TRT "featureNet::PreProcess() -- cudaTensorNormMeanRGB() failed\n");
-			return false;
-		}
-	}
 	
-	// update frame counters and pointers
-	mInputs[0].CUDA = mInputBuffers[mCurrentInputBuffer];
+	// transfer cv::Mat back to float[3][3]
+	double* H_ptr = H_cv.ptr<double>();
+	float H[3][3];
 	
-	mCurrentInputBuffer = (mCurrentInputBuffer + 1) % 2;
-	mCurrentFrameIndex += 1;
+	for( uint32_t i=0; i < 3; i++ )
+		for( uint32_t k=0; k < 3; k++ )
+			H[i][k] = H_ptr[i*3+k];
+		
+	// transfer to output array
+	if( H_out != NULL )
+		mat33_copy(H_out, H);
 	
-	if( mCurrentFrameIndex >= mNumFrames )
-		mCurrentFrameIndex = mNumFrames - 1;
-
-	PROFILER_END(PROFILER_PREPROCESS);
+	// compute inverse
+	if( H_inv_out != NULL )
+		mat33_inverse(H_inv_out, H);
+		
 	return true;
-}
-
-
-// each component will be in the interval (0, 1) and the sum of all the components is 1
-static void softmax( float* x, size_t N )
-{
-	// subtracting the maximum from each value of the input array ensures that the exponent doesn’t overflow
-	float max = -INFINITY;
 	
-	for( size_t n=0; n < N; n++ )
-		if( x[n] > max )
-			max = x[n];
-		
-	// exp(x) / sum(exp(x))
-	float sum = 0.0f;
-	
-	for( size_t n=0; n < N; n++ )
-		sum += expf(x[n] - max);
-	
-	const float constant = max + logf(sum);
-	
-	for( size_t n=0; n < N; n++ )
-		x[n] = expf(x[n] - constant);
+#else
+	LogError(LOG_TRT "featureNet::FindHomography -- jetson-inference was not compiled with OpenCV support\n");
+	return false;
+#endif
 }
 
 	
-// Classify
-int featureNet::Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence )
-{
-	// verify parameters
-	if( !image || width == 0 || height == 0 )
-	{
-		LogError(LOG_TRT "featureNet::Classify( 0x%p, %u, %u ) -> invalid parameters\n", image, width, height);
-		return -1;
-	}
 	
-	// downsample and convert to band-sequential BGR
-	if( !preProcess(image, width, height, format) )
-	{
-		LogError(LOG_TRT "featureNet::Classify() -- tensor pre-processing failed\n");
-		return -1;
-	}
-	
-	// process with TRT
-	PROFILER_BEGIN(PROFILER_NETWORK);
-
-	if( !ProcessNetwork() )
-		return -1;
-
-	PROFILER_END(PROFILER_NETWORK);
-	PROFILER_BEGIN(PROFILER_POSTPROCESS);
-
-	// apply softmax (the onnx models are missing this)
-	softmax(mOutputs[0].CPU, mNumClasses);
-	
-	// determine the maximum class
-	int classIndex = -1;
-	float classMax = -1.0f;
-	
-	for( size_t n=0; n < mNumClasses; n++ )
-	{
-		const float value = mOutputs[0].CPU[n];
-		
-		if( value >= 0.01f )
-			LogVerbose("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
-	
-		if( value > classMax )
-		{
-			classIndex = n;
-			classMax   = value;
-		}
-	}
-	
-	if( confidence != NULL )
-		*confidence = classMax;
-	
-	//printf("\nmaximum class:  #%i  (%f) (%s)\n", classIndex, classMax, mClassDesc[classIndex].c_str());
-	PROFILER_END(PROFILER_POSTPROCESS);	
-	return classIndex;
-}
-*/
