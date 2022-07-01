@@ -84,6 +84,24 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
 	endif()
 endif()
 
+# OpenCV used for findHomography() and decomposeHomography()
+# OpenCV version >= 3.0.0 required for decomposeHomography()
+find_package(OpenCV COMPONENTS core calib3d)
+
+if( NOT OpenCV_FOUND )
+	message("-- didn't find OpenCV on system, disabling OpenCV")
+else()
+	message("-- OpenCV version:  " ${OpenCV_VERSION})
+
+	if( ${OpenCV_VERSION_MAJOR} LESS 3 )
+		message("-- OpenCV version less than 3.0, disabling OpenCV")
+	else()
+		message("-- OpenCV version >= 3.0.0, enabling OpenCV")
+		set(HAS_OPENCV 1)
+		add_definitions(-DHAS_OPENCV)
+	endif()	
+endif()
+	
 # setup project output paths
 set(PROJECT_OUTPUT_DIR  ${PROJECT_BINARY_DIR}/${CMAKE_SYSTEM_PROCESSOR})
 set(PROJECT_INCLUDE_DIR ${PROJECT_OUTPUT_DIR}/include)
@@ -98,7 +116,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 
-
 # build C/C++ library
 include_directories(${PROJECT_INCLUDE_DIR} ${PROJECT_INCLUDE_DIR}/jetson-inference ${PROJECT_INCLUDE_DIR}/jetson-utils)
 include_directories(/usr/include/gstreamer-1.0 /usr/lib/${CMAKE_SYSTEM_PROCESSOR}/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/${CMAKE_SYSTEM_PROCESSOR}/glib-2.0/include/)
@@ -108,24 +125,6 @@ file(GLOB inferenceIncludes c/*.h c/*.cuh calibration/*.h)
 
 if(BUILD_EXPERIMENTAL)
 	message("-- BUILD_EXPERIMENTAL enabled")
-
-	# OpenCV used for findHomography() and decomposeHomography()
-	# OpenCV version >= 3.0.0 required for decomposeHomography()
-	find_package(OpenCV COMPONENTS core calib3d)
-
-	if( NOT OpenCV_FOUND )
-		message("-- didn't find OpenCV on system, disabling OpenCV")
-	else()
-		message("-- OpenCV version:  " ${OpenCV_VERSION})
-
-		if( ${OpenCV_VERSION_MAJOR} LESS 3 )
-			message("-- OpenCV version less than 3.0, disabling OpenCV")
-		else()
-			message("-- OpenCV version >= 3.0.0, enabling OpenCV")
-			set(HAS_OPENCV 1)
-			add_definitions(-DHAS_OPENCV)
-		endif()	
-	endif()
 
 	file(GLOB experimentalSources c/experimental/*.cpp c/experimental/*.cu)
 	file(GLOB experimentalIncludes c/experimental/*.h c/experimental/*.cuh)
