@@ -139,15 +139,39 @@ int main( int argc, char** argv )
 	float H[3][3];
 	float H_inv[3][3];
 	
-	if( !net->FindHomography(features[0], features[1], numFeatures, H, H_inv) )
+	if( !net->FindHomography(features[0], features[1], std::min(numFeatures, maxFeatures), H, H_inv) )
 	{
 		LogError("featurenet-images:  failed to find homography\n");
 		return 0;
 	}
 	
+
+	/*mat33_identity(H);
+	mat33_shear(H, H, 0.5f, 0.0f);
+	mat33_scale(H, H, 0.5f, 0.5f);
+	//mat33_rotation(H, 90.0f, width[1] * 0.5f, height[1] * 0.5f);
+	//mat33_identity(H);
+	//mat33_translate(H, H, -200.0f, 000.0f);*/
+	
 	mat33_print(H, "H");	
 	mat33_print(H_inv, "H_inv");
 	
+	float2 transformed_coords[] = {
+		make_float2(0.0f, 0.0f),
+		make_float2(width[1], 0.0f),
+		make_float2(width[1], height[1]),
+		make_float2(0.0f, height[1])
+	};
+	
+	printf("transformed image corners:\n");
+	
+	for( int n=0; n < 4; n++ )
+	{
+		mat33_transform(transformed_coords[n].x, transformed_coords[n].y, 
+					 transformed_coords[n].x, transformed_coords[n].y, H_inv);
+					 
+		printf("  (%f, %f)\n", transformed_coords[n].x, transformed_coords[n].y);
+	}
 	
 	/*
 	 * warp images
