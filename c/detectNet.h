@@ -49,7 +49,13 @@
  * Default value of the minimum detection threshold
  * @ingroup detectNet
  */
-#define DETECTNET_DEFAULT_THRESHOLD 0.5f
+#define DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD 0.5f
+
+/**
+ * Default value of the clustering area-of-overlap threshold
+ * @ingroup detectNet
+ */
+#define DETECTNET_DEFAULT_CLUSTERING_THRESHOLD 0.75f
 
 /**
  * Default alpha blending value used during overlay
@@ -81,7 +87,8 @@
 		  "  --output-bbox=BOXES   name of the bounding output layer (default is '" DETECTNET_DEFAULT_BBOX "')\n" 	\
 		  "  --mean-pixel=PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
 		  "  --batch-size=BATCH    maximum batch size (default is 1)\n"										\
-		  "  --threshold=THRESHOLD minimum threshold for detection (default is 0.5)\n"							\
+		  "  --confidence=CONF     minimum confidence threshold for detection (default is 0.5)\n"		           	\
+		  "  --clustering=CLUSTER  minimum overlapping area threshold for clustering (default is 0.75)\n"             \
             "  --alpha=ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\
 		  "  --overlay=OVERLAY     detection overlay flags (e.g. --overlay=box,labels,conf)\n"					\
 		  "                        valid combinations are:  'box', 'lines', 'labels', 'conf', 'none'\n"			\
@@ -227,7 +234,7 @@ public:
 	 * @param threshold default minimum threshold for detection
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
-	static detectNet* Create( NetworkType networkType=NETWORK_DEFAULT, float threshold=DETECTNET_DEFAULT_THRESHOLD, 
+	static detectNet* Create( NetworkType networkType=NETWORK_DEFAULT, float threshold=DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD, 
 						 uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, precisionType precision=TYPE_FASTEST, 
 						 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
@@ -244,7 +251,7 @@ public:
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
 	static detectNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary, 
-						 const char* class_labels, float threshold=DETECTNET_DEFAULT_THRESHOLD, 
+						 const char* class_labels, float threshold=DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD, 
 						 const char* input = DETECTNET_DEFAULT_INPUT, 
 						 const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
 						 const char* bboxes = DETECTNET_DEFAULT_BBOX,
@@ -265,7 +272,7 @@ public:
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
 	static detectNet* Create( const char* prototxt_path, const char* model_path, float mean_pixel=0.0f, 
-						 const char* class_labels=NULL, float threshold=DETECTNET_DEFAULT_THRESHOLD, 
+						 const char* class_labels=NULL, float threshold=DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD, 
 						 const char* input = DETECTNET_DEFAULT_INPUT, 
 						 const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
 						 const char* bboxes = DETECTNET_DEFAULT_BBOX,
@@ -402,14 +409,35 @@ public:
 	
 	/**
 	 * Retrieve the minimum threshold for detection.
-	 * TODO:  change this to per-class in the future
+	 * @deprecated please use GetConfidenceThreshold() instead
 	 */
-	inline float GetThreshold() const							{ return mCoverageThreshold; }
+	inline float GetThreshold() const							{ return mConfidenceThreshold; }
+
+	/**
+	 * Set the minimum threshold for detection.
+	 * @deprecated please use SetConfidenceThreshold() instead
+	 */
+	inline void SetThreshold( float threshold ) 					{ mConfidenceThreshold = threshold; }
+
+	/**
+	 * Retrieve the minimum threshold for detection.
+	 */
+	inline float GetConfidenceThreshold() const					{ return mConfidenceThreshold; }
 
 	/**
 	 * Set the minimum threshold for detection.
 	 */
-	inline void SetThreshold( float threshold ) 					{ mCoverageThreshold = threshold; }
+	inline void SetConfidenceThreshold( float threshold ) 			{ mConfidenceThreshold = threshold; }
+
+	/**
+	 * Retrieve the overlapping area % threshold for clustering.
+	 */
+	inline float GetClusteringThreshold() const					{ return mClusteringThreshold; }
+
+	/**
+	 * Set the overlapping area % threshold for clustering.
+	 */
+	inline void SetClusteringThreshold( float threshold ) 			{ mClusteringThreshold = threshold; }
 
 	/**
 	 * Retrieve the maximum number of simultaneous detections the network supports.
@@ -425,7 +453,7 @@ public:
 	/**
 	 * Retrieve the description of a particular class.
 	 */
-	inline const char* GetClassDesc( uint32_t index )	const		{ return mClassDesc[index].c_str(); }
+	inline const char* GetClassDesc( uint32_t index )	const		{ if(index >= mClassDesc.size()) { printf("invalid class %u\n", index); return "Invalid"; } return mClassDesc[index].c_str(); }
 	
 	/**
 	 * Retrieve the class synset category of a particular class.
@@ -485,12 +513,20 @@ protected:
 			 float threshold, const char* input, const char* coverage, const char* bboxes, uint32_t maxBatchSize, 
 			 precisionType precision, deviceType device, bool allowGPUFallback );
 	
-	int clusterDetections( Detection* detections, uint32_t width, uint32_t height );
-	int clusterDetections( Detection* detections, int n, float threshold=0.75f );
-
+	bool preProcess( void* input, uint32_t width, uint32_t height, imageFormat format );
+	
+	int postProcess( Detection* detections, uint32_t width, uint32_t height );
+	int postProcessSSD_UFF( Detection* detections, uint32_t width, uint32_t height );
+	int postProcessSSD_ONNX( Detection* detections, uint32_t width, uint32_t height );
+	int postProcessDetectNet( Detection* detections, uint32_t width, uint32_t height );
+	int postProcessDetectNet_v2( Detection* detections, uint32_t width, uint32_t height );
+	
+	int clusterDetections( Detection* detections, int n );
 	void sortDetections( Detection* detections, int numDetections );
 
-	float  mCoverageThreshold;
+	float  mConfidenceThreshold;	// TODO change this to per-class
+	float  mClusteringThreshold;
+	
 	float* mClassColors[2];
 	float  mMeanPixel;
 	float  mLineWidth;
