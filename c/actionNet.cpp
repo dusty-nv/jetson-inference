@@ -47,8 +47,8 @@ actionNet::actionNet() : tensorNet()
 // destructor
 actionNet::~actionNet()
 {
-	if( mInputBuffers[0] != NULL )
-		mInputs[0].CUDA = mInputBuffers[0];  // restore this pointer so it's properly deleted in tensorNet destructor
+	//if( mInputBuffers[0] != NULL )
+	//	mInputs[0].CUDA = mInputBuffers[0];  // restore this pointer so it's properly deleted in tensorNet destructor
 	
 	CUDA_FREE(mInputBuffers[1]);
 }
@@ -245,25 +245,6 @@ const char* actionNet::NetworkTypeToStr( actionNet::NetworkType network )
 // preProcess
 bool actionNet::preProcess( void* image, uint32_t width, uint32_t height, imageFormat format )
 {
-	// verify parameters
-	if( !image || width == 0 || height == 0 )
-	{
-		LogError(LOG_TRT "actionNet::PreProcess( 0x%p, %u, %u ) -> invalid parameters\n", image, width, height);
-		return false;
-	}
-
-	if( !imageFormatIsRGB(format) )
-	{
-		LogError(LOG_TRT "actionNet::Classify() -- unsupported image format (%s)\n", imageFormatToStr(format));
-		LogError(LOG_TRT "                        supported formats are:\n");
-		LogError(LOG_TRT "                           * rgb8\n");		
-		LogError(LOG_TRT "                           * rgba8\n");		
-		LogError(LOG_TRT "                           * rgb32f\n");		
-		LogError(LOG_TRT "                           * rgba32f\n");
-
-		return false;
-	}
-
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
 	// input tensor dims are:  3x16x112x112 (CxNxHxW)
@@ -280,7 +261,7 @@ bool actionNet::preProcess( void* image, uint32_t width, uint32_t height, imageF
 	{
 		return false;
 	}
-
+	
 	// convert input image into tensor format
 	if( IsModelType(MODEL_ONNX) )
 	{
@@ -300,8 +281,8 @@ bool actionNet::preProcess( void* image, uint32_t width, uint32_t height, imageF
 	}
 	
 	// update frame counters and pointers
-	mInputs[0].CUDA = mInputBuffers[mCurrentInputBuffer];
-	
+	mBindings[mInputs[0].binding] = mInputBuffers[mCurrentInputBuffer];
+
 	mCurrentInputBuffer = (mCurrentInputBuffer + 1) % 2;
 	mCurrentFrameIndex += 1;
 	
@@ -346,7 +327,19 @@ int actionNet::Classify( void* image, uint32_t width, uint32_t height, imageForm
 		return -1;
 	}
 	
-	// downsample and convert to band-sequential BGR
+	if( !imageFormatIsRGB(format) )
+	{
+		LogError(LOG_TRT "actionNet::Classify() -- unsupported image format (%s)\n", imageFormatToStr(format));
+		LogError(LOG_TRT "                        supported formats are:\n");
+		LogError(LOG_TRT "                           * rgb8\n");		
+		LogError(LOG_TRT "                           * rgba8\n");		
+		LogError(LOG_TRT "                           * rgb32f\n");		
+		LogError(LOG_TRT "                           * rgba32f\n");
+
+		return false;
+	}
+	
+	// apply input pre-processing
 	if( !preProcess(image, width, height, format) )
 	{
 		LogError(LOG_TRT "actionNet::Classify() -- tensor pre-processing failed\n");
