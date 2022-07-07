@@ -173,7 +173,6 @@ bool featureNet::init( const char* model_path, const char* input_0,
 	input_blobs.push_back(input_0);
 	input_blobs.push_back(input_1);
 	
-	output_blobs.push_back("1019");   // hack so that all output tensors are allotted
 	output_blobs.push_back(output);
 	
 	// load model
@@ -340,7 +339,7 @@ int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, image
 	{
 		for( uint32_t cy=0; cy < mMaxFeatures; cy++ )
 		{
-			const float conf = mOutputs[1].CPU[cx * mMaxFeatures + cy];
+			const float conf = mOutputs[0].CPU[cx * mMaxFeatures + cy];
 			
 			if( conf < threshold )
 				continue;
