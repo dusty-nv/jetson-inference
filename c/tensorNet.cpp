@@ -1487,6 +1487,23 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 	for( uint32_t n=0; n < GetOutputLayers(); n++ )
 		mBindings[mOutputs[n].binding] = mOutputs[n].CUDA;
 	
+	// find unassigned bindings and allocate them
+	for( uint32_t n=0; n < numBindings; n++ )
+	{
+		if( mBindings[n] != NULL )
+			continue;
+		
+		const size_t bindingSize = sizeDims(validateDims(engine->getBindingDimensions(n))) * mMaxBatchSize * sizeof(float);
+		
+		if( CUDA_FAILED(cudaMalloc(&mBindings[n], bindingSize)) )
+		{
+			LogError(LOG_TRT "failed to allocate %zu bytes for unused binding %u\n", bindingSize, n);
+			return false;
+		}
+		
+		LogVerbose(LOG_TRT "allocated %zu bytes for unused binding %u\n", bindingSize, n);
+	}
+	
 
 	/*
 	 * create events for timing
