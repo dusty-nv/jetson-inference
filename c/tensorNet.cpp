@@ -315,7 +315,7 @@ modelType modelTypeFromStr( const char* str )
 		return MODEL_ONNX;
 	else if( strcasecmp(str, "uff") == 0 )
 		return MODEL_UFF;
-	else if( strcasecmp(str, "engine") == 0 || strcasecmp(str, "plan") == 0 )
+	else if( strcasecmp(str, "engine") == 0 || strcasecmp(str, "plan") == 0 || strcasecmp(str, "trt") == 0 )
 		return MODEL_ENGINE;
 
 	return MODEL_CUSTOM;
