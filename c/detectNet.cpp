@@ -747,7 +747,7 @@ int detectNet::Detect( void* input, uint32_t width, uint32_t height, imageFormat
 	}
 	
 	// wait for GPU to complete work			
-	CUDA(cudaDeviceSynchronize());	// BUG is this needed here?
+	//CUDA(cudaDeviceSynchronize());	// BUG is this needed here?
 
 	// return the number of detections
 	return numDetections;
