@@ -404,6 +404,8 @@ tensorNet::~tensorNet()
 	
 	for( size_t n=0; n < mOutputs.size(); n++ )
 		CUDA_FREE_HOST(mOutputs[n].CPU);
+	
+	free(mBindings);
 }
 
 
