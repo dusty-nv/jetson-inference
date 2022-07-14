@@ -90,7 +90,7 @@ int main( int argc, char** argv )
 	if( !input )
 	{
 		LogError("detectnet:  failed to create input stream\n");
-		return 0;
+		return 1;
 	}
 
 
@@ -111,7 +111,7 @@ int main( int argc, char** argv )
 	if( !net )
 	{
 		LogError("detectnet:  failed to load detectNet model\n");
-		return 0;
+		return 1;
 	}
 
 	// parse overlay flags

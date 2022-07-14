@@ -163,7 +163,7 @@ int main( int argc, char** argv )
 	if( !input )
 	{
 		LogError("depthnet:  failed to create input stream\n");
-		return 0;
+		return 1;
 	}
 
 
@@ -184,7 +184,7 @@ int main( int argc, char** argv )
 	if( !net )
 	{
 		LogError("depthnet:   failed to initialize depthNet\n");
-		return 0;
+		return 1;
 	}
 
 	// parse the desired colormap

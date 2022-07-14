@@ -172,7 +172,7 @@ int main( int argc, char** argv )
 	if( !input )
 	{
 		LogError("segnet:  failed to create input stream\n");
-		return 0;
+		return 1;
 	}
 
 
@@ -193,7 +193,7 @@ int main( int argc, char** argv )
 	if( !net )
 	{
 		LogError("segnet:  failed to initialize segNet\n");
-		return 0;
+		return 1;
 	}
 
 	// set alpha blending value for classes that don't explicitly already have an alpha	

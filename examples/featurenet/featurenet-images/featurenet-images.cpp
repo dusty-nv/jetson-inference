@@ -78,7 +78,7 @@ int main( int argc, char** argv )
 	for( uint32_t n=0; n < 2; n++ )
 	{
 		if( !loadImage(cmdLine.GetPosition(n), &images[n], &width[n], &height[n]) )
-			return 0;
+			return 1;
 	}
 
 
@@ -90,7 +90,7 @@ int main( int argc, char** argv )
 	if( !net )
 	{
 		LogError("featurenet-images:  failed to initialize featureNet\n");
-		return 0;
+		return 1;
 	}
 
 	const float threshold = cmdLine.GetFloat("threshold", FEATURENET_DEFAULT_THRESHOLD);
@@ -111,7 +111,7 @@ int main( int argc, char** argv )
 	if( numFeatures < 0 )
 	{
 		LogError("featurenet-images:  failed to process feature extraction/matching\n");
-		return 0;
+		return 1;
 	}
 	
 	for( int n=0; n < numFeatures; n++ )
@@ -142,7 +142,7 @@ int main( int argc, char** argv )
 	if( !net->FindHomography(features[0], features[1], std::min(numFeatures, maxFeatures), H, H_inv) )
 	{
 		LogError("featurenet-images:  failed to find homography\n");
-		return 0;
+		return 1;
 	}
 	
 

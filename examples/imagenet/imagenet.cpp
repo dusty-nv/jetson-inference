@@ -91,7 +91,7 @@ int main( int argc, char** argv )
 	if( !input )
 	{
 		LogError("imagenet:  failed to create input stream\n");
-		return 0;
+		return 1;
 	}
 
 
@@ -112,7 +112,7 @@ int main( int argc, char** argv )
 	if( !font )
 	{
 		LogError("imagenet:  failed to load font for overlay\n");
-		return 0;
+		return 1;
 	}
 
 
@@ -124,7 +124,7 @@ int main( int argc, char** argv )
 	if( !net )
 	{
 		LogError("imagenet:  failed to initialize imageNet\n");
-		return 0;
+		return 1;
 	}
 
 

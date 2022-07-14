@@ -84,7 +84,7 @@ int main( int argc, char** argv )
 	if( !input )
 	{
 		LogError("actionnet:  failed to create input stream\n");
-		return 0;
+		return 1;
 	}
 
 
@@ -105,7 +105,7 @@ int main( int argc, char** argv )
 	if( !font )
 	{
 		LogError("actionnet:  failed to load font for overlay\n");
-		return 0;
+		return 1;
 	}
 
 
@@ -117,7 +117,7 @@ int main( int argc, char** argv )
 	if( !net )
 	{
 		LogError("actionnet:  failed to initialize actionNet\n");
-		return 0;
+		return 1;
 	}
 
 	const uint32_t frameskip = cmdLine.GetInt("frameskip", 2);

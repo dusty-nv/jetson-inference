@@ -83,7 +83,7 @@ int main( int argc, char** argv )
 	if( !input )
 	{
 		LogError("posenet: failed to create input stream\n");
-		return 0;
+		return 1;
 	}
 
 
@@ -104,7 +104,7 @@ int main( int argc, char** argv )
 	if( !net )
 	{
 		LogError("posenet: failed to initialize poseNet\n");
-		return 0;
+		return 1;
 	}
 
 	// parse overlay flags
