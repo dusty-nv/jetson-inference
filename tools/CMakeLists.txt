@@ -7,7 +7,8 @@ add_subdirectory(depth-viewer)
 #add_subdirectory(trt-console)
 
 # copy tools
-file(COPY "segnet-batch.sh" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+#file(COPY "segnet-batch.sh" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+file(COPY "test-models.py" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 #file(GLOB scripts *.sh)
 #foreach(script ${scripts})
