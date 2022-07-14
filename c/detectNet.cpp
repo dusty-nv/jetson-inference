@@ -47,17 +47,15 @@
 // constructor
 detectNet::detectNet( float meanPixel ) : tensorNet()
 {
-	mMeanPixel  = meanPixel;
-	mLineWidth  = 2.0f;
-	mNumClasses = 0;
-
-	mClassColors[0] = NULL; // cpu ptr
-	mClassColors[1] = NULL; // gpu ptr
+	mMeanPixel = meanPixel;
+	mLineWidth = 2.0f;
 	
-	mDetectionSets[0] = NULL; // cpu ptr
-	mDetectionSets[1] = NULL; // gpu ptr
-	mDetectionSet     = 0;
-	mMaxDetections    = 0;
+	mNumClasses  = 0;
+	mClassColors = NULL;
+	
+	mDetectionSets = NULL;
+	mDetectionSet  = 0;
+	mMaxDetections = 0;
 	
 	mConfidenceThreshold = DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD;
 	mClusteringThreshold = DETECTNET_DEFAULT_CLUSTERING_THRESHOLD;
@@ -68,26 +66,13 @@ detectNet::detectNet( float meanPixel ) : tensorNet()
 // destructor
 detectNet::~detectNet()
 {
-	if( mDetectionSets != NULL )
-	{
-		CUDA(cudaFreeHost(mDetectionSets[0]));
-		
-		mDetectionSets[0] = NULL;
-		mDetectionSets[1] = NULL;
-	}
-	
-	if( mClassColors != NULL )
-	{
-		CUDA(cudaFreeHost(mClassColors[0]));
-		
-		mClassColors[0] = NULL;
-		mClassColors[1] = NULL;
-	}
+	CUDA_FREE_HOST(mDetectionSets);
+	CUDA_FREE_HOST(mClassColors);
 }
 
 
 // init
-bool detectNet::init( const char* prototxt, const char* model, const char* mean_binary, const char* class_labels, 
+bool detectNet::init( const char* prototxt, const char* model, const char* class_labels, const char* class_colors,
 			 	  float threshold, const char* input_blob, const char* coverage_blob, const char* bbox_blob, 
 				  uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback )
 {
@@ -99,8 +84,8 @@ bool detectNet::init( const char* prototxt, const char* model, const char* mean_
 	LogInfo("          -- output_cvg   '%s'\n", CHECK_NULL_STR(coverage_blob));
 	LogInfo("          -- output_bbox  '%s'\n", CHECK_NULL_STR(bbox_blob));
 	LogInfo("          -- mean_pixel   %f\n", mMeanPixel);
-	LogInfo("          -- mean_binary  %s\n", CHECK_NULL_STR(mean_binary));
 	LogInfo("          -- class_labels %s\n", CHECK_NULL_STR(class_labels));
+	LogInfo("          -- class_colors %s\n", CHECK_NULL_STR(class_colors));
 	LogInfo("          -- threshold    %f\n", threshold);
 	LogInfo("          -- batch_size   %u\n\n", maxBatchSize);
 
@@ -128,7 +113,7 @@ bool detectNet::init( const char* prototxt, const char* model, const char* mean_
 	}
 
 	// load the model
-	if( !LoadNetwork(prototxt, model, mean_binary, input_blob, output_blobs, 
+	if( !LoadNetwork(prototxt, model, NULL, input_blob, output_blobs, 
 				  maxBatchSize, precision, device, allowGPUFallback) )
 	{
 		LogError(LOG_TRT "detectNet -- failed to initialize.\n");
@@ -141,10 +126,7 @@ bool detectNet::init( const char* prototxt, const char* model, const char* mean_
 
 	// load class descriptions
 	loadClassInfo(class_labels);
-	
-	// set default class colors
-	if( !defaultColors() )
-		return false;
+	loadClassColors(class_colors);
 
 	// set the specified threshold
 	SetConfidenceThreshold(threshold);
@@ -154,8 +136,20 @@ bool detectNet::init( const char* prototxt, const char* model, const char* mean_
 
 
 // Create
-detectNet* detectNet::Create( const char* prototxt, const char* model, float mean_pixel, const char* class_labels,
-						float threshold, const char* input_blob, const char* coverage_blob, const char* bbox_blob, 
+detectNet* detectNet::Create( const char* prototxt, const char* model, float mean_pixel, 
+						const char* class_labels, float threshold,
+						const char* input_blob, const char* coverage_blob, const char* bbox_blob, 
+						uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback )
+{
+	return Create(prototxt, model, mean_pixel, class_labels, NULL, threshold, input_blob,
+			    coverage_blob, bbox_blob, maxBatchSize, precision, device, allowGPUFallback);
+}
+
+
+// Create
+detectNet* detectNet::Create( const char* prototxt, const char* model, float mean_pixel, 
+						const char* class_labels, const char* class_colors, float threshold,
+						const char* input_blob, const char* coverage_blob, const char* bbox_blob, 
 						uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback )
 {
 	detectNet* net = new detectNet(mean_pixel);
@@ -163,28 +157,10 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, float mea
 	if( !net )
 		return NULL;
 
-	if( !net->init(prototxt, model, NULL, class_labels, threshold, input_blob, coverage_blob, bbox_blob,
+	if( !net->init(prototxt, model, class_labels, class_colors, threshold, input_blob, coverage_blob, bbox_blob,
 				maxBatchSize, precision, device, allowGPUFallback) )
 		return NULL;
 
-	return net;
-}
-
-
-// Create
-detectNet* detectNet::Create( const char* prototxt, const char* model, const char* mean_binary, const char* class_labels, 
-						float threshold, const char* input_blob, const char* coverage_blob, const char* bbox_blob, 
-						uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback )
-{
-	detectNet* net = new detectNet();
-	
-	if( !net )
-		return NULL;
-
-	if( !net->init(prototxt, model, mean_binary, class_labels, threshold, input_blob, coverage_blob, bbox_blob,
-				maxBatchSize, precision, device, allowGPUFallback) )
-		return NULL;
-	
 	return net;
 }
 
@@ -234,10 +210,7 @@ detectNet* detectNet::Create( const char* model, const char* class_labels, float
 
 	// load class descriptions
 	net->loadClassInfo(class_labels);
-	
-	// set default class colors
-	if( !net->defaultColors() )
-		return NULL;
+	net->loadClassColors(NULL);
 
 	// set the specified threshold
 	net->SetConfidenceThreshold(threshold);
@@ -444,219 +417,18 @@ bool detectNet::allocDetections()
 	// allocate array to store detection results
 	const size_t det_size = sizeof(Detection) * mNumDetectionSets * mMaxDetections;
 	
-	if( !cudaAllocMapped((void**)&mDetectionSets[0], (void**)&mDetectionSets[1], det_size) )
+	if( !cudaAllocMapped((void**)&mDetectionSets, det_size) )
 		return false;
 	
-	memset(mDetectionSets[0], 0, det_size);
+	memset(mDetectionSets, 0, det_size);
 	return true;
-}
-
-
-// GenerateColor
-void detectNet::GenerateColor( uint32_t classID, uint8_t* rgb )
-{
-	if( !rgb )
-		return;
-
-	// the first color is black, skip that one
-	classID += 1;
-
-	// https://github.com/dusty-nv/pytorch-segmentation/blob/16882772bc767511d892d134918722011d1ea771/datasets/sun_remap.py#L90
-	#define bitget(byteval, idx)	((byteval & (1 << idx)) != 0)
-	
-	int r = 0;
-	int g = 0;
-	int b = 0;
-	int c = classID;
-
-	for( int j=0; j < 8; j++ )
-	{
-		r = r | (bitget(c, 0) << 7 - j);
-		g = g | (bitget(c, 1) << 7 - j);
-		b = b | (bitget(c, 2) << 7 - j);
-		c = c >> 3;
-	}
-
-	rgb[0] = r;
-	rgb[1] = g;
-	rgb[2] = b;
-}
-
-
-// defaultColors
-bool detectNet::defaultColors()
-{
-	const uint32_t numClasses = GetNumClasses();
-	
-	if( !cudaAllocMapped((void**)&mClassColors[0], (void**)&mClassColors[1], numClasses * sizeof(float4)) )
-		return false;
-
-	// if there are a large number of classes (MS COCO)
-	// programatically generate the class color map
-	if( mModelType != MODEL_CAFFE /*numClasses > 10*/ )
-	{
-		for( int i=0; i < numClasses; i++ )
-		{
-			uint8_t rgb[] = {0,0,0};
-			GenerateColor(i, rgb);
-
-			mClassColors[0][i*4+0] = rgb[0];
-			mClassColors[0][i*4+1] = rgb[1];
-			mClassColors[0][i*4+2] = rgb[2];
-			mClassColors[0][i*4+3] = DETECTNET_DEFAULT_ALPHA; 
-
-			//printf(LOG_TRT "color %02i  %3i %3i %3i %3i\n", i, (int)r, (int)g, (int)b, (int)alpha);
-		}
-	}
-	else
-	{
-		// blue colors, except class 1 is green
-		for( uint32_t n=0; n < numClasses; n++ )
-		{
-			if( n != 1 )
-			{
-				mClassColors[0][n*4+0] = 0.0f;	// r
-				mClassColors[0][n*4+1] = 200.0f;	// g
-				mClassColors[0][n*4+2] = 255.0f;	// b
-				mClassColors[0][n*4+3] = DETECTNET_DEFAULT_ALPHA;	// a
-			}
-			else
-			{
-				mClassColors[0][n*4+0] = 0.0f;	// r
-				mClassColors[0][n*4+1] = 255.0f;	// g
-				mClassColors[0][n*4+2] = 175.0f;	// b
-				mClassColors[0][n*4+3] = 75.0f;	// a
-			}
-		}
-	}
-
-	return true;
-}
-
-
-// validateClassInfo
-static bool validateClassInfo( std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses )
-{
-	const int numLoaded = descriptions.size();
-	LogVerbose(LOG_TRT "detectNet -- loaded %i class labels\n", numLoaded);
-	
-	if( expectedClasses > 0 )
-	{
-		if( numLoaded != expectedClasses )
-			LogError(LOG_TRT "detectNet -- didn't load expected number of class descriptions  (%i of %i)\n", numLoaded, expectedClasses);
-
-		if( numLoaded < expectedClasses )
-		{
-			LogWarning(LOG_TRT "detectNet -- filling in remaining %i class descriptions with default labels\n", (expectedClasses - numLoaded));
-	
-			for( int n=numLoaded; n < expectedClasses; n++ )
-			{
-				char synset[10];
-				sprintf(synset, "n%08i", n);
-
-				char desc[64];
-				sprintf(desc, "Class #%i", n);
-
-				synsets.push_back(synset);
-				descriptions.push_back(desc);
-			}
-		}
-	}
-	else if( numLoaded == 0 )
-	{
-		return false;
-	}
-	
-	/*for( uint32_t n=0; n < descriptions.size(); n++ )
-		LogVerbose(LOG_TRT "detectNet -- class label #%u:  '%s'\n", n, descriptions[n].c_str());*/
-	
-	return true;
-}
-
-	
-// LoadClassInfo
-bool detectNet::LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses )
-{
-	if( !filename )
-		return validateClassInfo(descriptions, synsets, expectedClasses);
-	
-	// locate the file
-	const std::string path = locateFile(filename);
-
-	if( path.length() == 0 )
-	{
-		LogError(LOG_TRT "detectNet -- failed to find %s\n", filename);
-		return validateClassInfo(descriptions, synsets, expectedClasses);
-	}
-
-	// open the file
-	FILE* f = fopen(path.c_str(), "r");
-	
-	if( !f )
-	{
-		LogError(LOG_TRT "detectNet -- failed to open %s\n", path.c_str());
-		return validateClassInfo(descriptions, synsets, expectedClasses);
-	}
-	
-	descriptions.clear();
-	synsets.clear();
-
-	// read class descriptions
-	char str[512];
-	uint32_t customClasses = 0;
-
-	while( fgets(str, 512, f) != NULL )
-	{
-		const int syn = 9;  // length of synset prefix (in characters)
-		const int len = strlen(str);
-		
-		if( len > syn && str[0] == 'n' && str[syn] == ' ' )
-		{
-			str[syn]   = 0;
-			str[len-1] = 0;
-	
-			const std::string a = str;
-			const std::string b = (str + syn + 1);
-	
-			//printf("a=%s b=%s\n", a.c_str(), b.c_str());
-
-			synsets.push_back(a);
-			descriptions.push_back(b);
-		}
-		else if( len > 0 )	// no 9-character synset prefix (i.e. from DIGITS snapshot)
-		{
-			char a[10];
-			sprintf(a, "n%08u", customClasses);
-
-			//printf("a=%s b=%s (custom non-synset)\n", a, str);
-			customClasses++;
-
-			if( str[len-1] == '\n' )
-				str[len-1] = 0;
-
-			synsets.push_back(a);
-			descriptions.push_back(str);
-		}
-	}
-	
-	fclose(f);
-
-	return validateClassInfo(descriptions, synsets, expectedClasses);
-}
-
-	
-// LoadClassInfo
-bool detectNet::LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, int expectedClasses )
-{
-	std::vector<std::string> synsets;
-	return LoadClassInfo(filename, descriptions, synsets, expectedClasses);
 }
 
 
 // loadClassInfo
 bool detectNet::loadClassInfo( const char* filename )
 {
-	if( !LoadClassInfo(filename, mClassDesc, mClassSynset, mNumClasses) )
+	if( !LoadClassLabels(filename, mClassDesc, mClassSynset, mNumClasses) )
 		return false;
 
 	if( IsModelType(MODEL_UFF) )
@@ -671,6 +443,13 @@ bool detectNet::loadClassInfo( const char* filename )
 }
 
 
+// loadClassColors
+bool detectNet::loadClassColors( const char* filename )
+{
+	return LoadClassColors(filename, &mClassColors, mNumClasses, DETECTNET_DEFAULT_ALPHA);
+}
+
+
 // Detect
 int detectNet::Detect( float* input, uint32_t width, uint32_t height, Detection** detections, uint32_t overlay )
 {
@@ -681,7 +460,7 @@ int detectNet::Detect( float* input, uint32_t width, uint32_t height, Detection*
 // Detect
 int detectNet::Detect( void* input, uint32_t width, uint32_t height, imageFormat format, Detection** detections, uint32_t overlay )
 {
-	Detection* det = mDetectionSets[0] + mDetectionSet * GetMaxDetections();
+	Detection* det = mDetectionSets + mDetectionSet * GetMaxDetections();
 
 	if( detections != NULL )
 		*detections = det;
@@ -1200,7 +979,7 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 	// bounding box overlay
 	if( flags & OVERLAY_BOX )
 	{
-		if( CUDA_FAILED(cudaDetectionOverlay(input, output, width, height, format, detections, numDetections, (float4*)mClassColors[1])) )
+		if( CUDA_FAILED(cudaDetectionOverlay(input, output, width, height, format, detections, numDetections, mClassColors)) )
 			return false;
 	}
 	
@@ -1210,7 +989,7 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 		for( uint32_t n=0; n < numDetections; n++ )
 		{
 			const Detection* d = detections + n;
-			const float4& color = ((float4*)mClassColors[0])[d->ClassID];
+			const float4& color = mClassColors[d->ClassID];
 
 			CUDA(cudaDrawLine(input, output, width, height, format, d->Left, d->Top, d->Right, d->Top, color, mLineWidth));
 			CUDA(cudaDrawLine(input, output, width, height, format, d->Right, d->Top, d->Right, d->Bottom, color, mLineWidth));
@@ -1324,26 +1103,11 @@ uint32_t detectNet::OverlayFlagsFromStr( const char* str_user )
 }
 
 
-// SetClassColor
-void detectNet::SetClassColor( uint32_t classIndex, float r, float g, float b, float a )
-{
-	if( classIndex >= GetNumClasses() || !mClassColors[0] )
-		return;
-	
-	const uint32_t i = classIndex * 4;
-	
-	mClassColors[0][i+0] = r;
-	mClassColors[0][i+1] = g;
-	mClassColors[0][i+2] = b;
-	mClassColors[0][i+3] = a;
-}
-
-
 // SetOverlayAlpha
 void detectNet::SetOverlayAlpha( float alpha )
 {
 	const uint32_t numClasses = GetNumClasses();
 
 	for( uint32_t n=0; n < numClasses; n++ )
-		mClassColors[0][n*4+3] = alpha;
+		mClassColors[n].w = alpha;
 }

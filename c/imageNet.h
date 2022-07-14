@@ -211,16 +211,6 @@ public:
 	 */
 	inline const char* GetNetworkName() const					{ return NetworkTypeToStr(mNetworkType); }
 
-	/**
-	 * Load class descriptions from a label file.
-	 */
-	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, int expectedClasses=-1 );
-
-	/**
-	 * Load class descriptions and synset strings from a label file.
-	 */
-	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses=-1 );
-
 protected:
 	imageNet();
 	

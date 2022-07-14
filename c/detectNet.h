@@ -237,28 +237,7 @@ public:
 	static detectNet* Create( NetworkType networkType=NETWORK_DEFAULT, float threshold=DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD, 
 						 uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, precisionType precision=TYPE_FASTEST, 
 						 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
-	
-	/**
-	 * Load a custom network instance
-	 * @param prototxt_path File path to the deployable network prototxt
-	 * @param model_path File path to the caffemodel
-	 * @param mean_binary File path to the mean value binary proto
-	 * @param class_labels File path to list of class name labels
-	 * @param threshold default minimum threshold for detection
-	 * @param input Name of the input layer blob.
-	 * @param coverage Name of the output coverage classifier layer blob, which contains the confidence values for each bbox.
-	 * @param bboxes Name of the output bounding box layer blob, which contains a grid of rectangles in the image.
-	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
-	 */
-	static detectNet* Create( const char* prototxt_path, const char* model_path, const char* mean_binary, 
-						 const char* class_labels, float threshold=DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD, 
-						 const char* input = DETECTNET_DEFAULT_INPUT, 
-						 const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
-						 const char* bboxes = DETECTNET_DEFAULT_BBOX,
-						 uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
-						 precisionType precision=TYPE_FASTEST,
-				   		 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
-							  
+								  
 	/**
 	 * Load a custom network instance
 	 * @param prototxt_path File path to the deployable network prototxt
@@ -280,6 +259,29 @@ public:
 						 precisionType precision=TYPE_FASTEST,
 				   		 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
+	/**
+	 * Load a custom network instance
+	 * @param prototxt_path File path to the deployable network prototxt
+	 * @param model_path File path to the caffemodel
+	 * @param mean_pixel Input transform subtraction value (use 0.0 if the network already does this)
+	 * @param class_labels File path to list of class name labels
+	 * @param class_colors File path to list of class colors
+	 * @param threshold default minimum threshold for detection
+	 * @param input Name of the input layer blob.
+	 * @param coverage Name of the output coverage classifier layer blob, which contains the confidence values for each bbox.
+	 * @param bboxes Name of the output bounding box layer blob, which contains a grid of rectangles in the image.
+	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
+	 */
+	static detectNet* Create( const char* prototxt_path, const char* model_path, float mean_pixel, 
+						 const char* class_labels, const char* class_colors,
+						 float threshold=DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD, 
+						 const char* input = DETECTNET_DEFAULT_INPUT, 
+						 const char* coverage = DETECTNET_DEFAULT_COVERAGE, 
+						 const char* bboxes = DETECTNET_DEFAULT_BBOX,
+						 uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+						 precisionType precision=TYPE_FASTEST,
+				   		 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
+						 
 	/**
 	 * Load a custom network instance of a UFF model
 	 * @param model_path File path to the UFF model
@@ -468,37 +470,27 @@ public:
 	/**
 	 * Retrieve the RGBA visualization color a particular class.
 	 */
-	inline float* GetClassColor( uint32_t classIndex ) const		{ return mClassColors[0] + (classIndex*4); }
+	inline float4 GetClassColor( uint32_t classIndex ) const		{ return mClassColors[classIndex]; }
 
 	/**
 	 * Set the visualization color of a particular class of object.
 	 */
-	void SetClassColor( uint32_t classIndex, float r, float g, float b, float a=255.0f );
+	inline void SetClassColor( uint32_t classIndex, const float4& color )						{ mClassColors[classIndex] = color; }
 	
 	/**
- 	 * Set overlay alpha blending value for all classes (between 0-255).
+	 * Set the visualization color of a particular class of object.
 	 */
-	void SetOverlayAlpha( float alpha );
+	inline void SetClassColor( uint32_t classIndex, float r, float g, float b, float a=255.0f )	{ mClassColors[classIndex] = make_float4(r,g,b,a); }
 	
 	/**
 	 * Set the line width used during overlay when OVERLAY_LINES is used.
 	 */
 	inline void SetLineWidth( float width )						{ mLineWidth = width; }
-
+	
 	/**
-	 * Load class descriptions from a label file.
+ 	 * Set overlay alpha blending value for all classes (between 0-255).
 	 */
-	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, int expectedClasses=-1 );
-
-	/**
-	 * Load class descriptions and synset strings from a label file.
-	 */
-	static bool LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses=-1 );
-
-	/**
-	 * Procedurally generate a bounding box color for a class index.
-	 */
-	static void GenerateColor( uint32_t classID, uint8_t* rgb ); 
+	void SetOverlayAlpha( float alpha );
 	
 protected:
 
@@ -506,10 +498,11 @@ protected:
 	detectNet( float meanPixel=0.0f );
 
 	bool allocDetections();
-	bool defaultColors();
-	bool loadClassInfo( const char* filename );
 
-	bool init( const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_labels, 
+	bool loadClassInfo( const char* filename );
+	bool loadClassColors( const char* filename );
+	
+	bool init( const char* prototxt_path, const char* model_path, const char* class_labels, const char* class_colors,
 			 float threshold, const char* input, const char* coverage, const char* bboxes, uint32_t maxBatchSize, 
 			 precisionType precision, deviceType device, bool allowGPUFallback );
 	
@@ -524,12 +517,13 @@ protected:
 	int clusterDetections( Detection* detections, int n );
 	void sortDetections( Detection* detections, int numDetections );
 
-	float  mConfidenceThreshold;	// TODO change this to per-class
-	float  mClusteringThreshold;
+	float mConfidenceThreshold;	 // TODO change this to per-class
+	float mClusteringThreshold;	 // TODO change this to per-class
 	
-	float* mClassColors[2];
-	float  mMeanPixel;
-	float  mLineWidth;
+	float mMeanPixel;
+	float mLineWidth;
+	
+	float4* mClassColors;
 	
 	std::vector<std::string> mClassDesc;
 	std::vector<std::string> mClassSynset;
@@ -537,7 +531,7 @@ protected:
 	std::string mClassPath;
 	uint32_t	  mNumClasses;
 
-	Detection* mDetectionSets[2];	// list of detections, mNumDetectionSets * mMaxDetections
+	Detection* mDetectionSets;	// list of detections, mNumDetectionSets * mMaxDetections
 	uint32_t   mDetectionSet;	// index of next detection set to use
 	uint32_t	 mMaxDetections;	// number of raw detections in the grid
 

@@ -21,8 +21,6 @@
  */
 
 #include "actionNet.h"
-#include "imageNet.h"
-
 #include "tensorConvert.h"
 
 #include "commandLine.h"
@@ -193,7 +191,7 @@ bool actionNet::init(const char* model_path, const char* class_path,
 	mNumFrames = mInputs[0].dims.d[1];
 	mNumClasses = mOutputs[0].dims.d[0];
 
-	if( !imageNet::LoadClassInfo(class_path, mClassDesc, mNumClasses) || mClassDesc.size() != mNumClasses )
+	if( !LoadClassLabels(class_path, mClassDesc, mNumClasses) || mClassDesc.size() != mNumClasses )
 	{
 		LogError(LOG_TRT "actionNet -- failed to load class descriptions  (%zu of %u)\n", mClassDesc.size(), mNumClasses);
 		return false;

@@ -1660,3 +1660,253 @@ bool tensorNet::ProcessNetwork( bool sync )
 	return true;
 }
 
+
+// validateClassLabels
+static bool validateClassLabels( std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses )
+{
+	const int numLoaded = descriptions.size();
+	LogVerbose(LOG_TRT "loaded %i class labels\n", numLoaded);
+	
+	if( expectedClasses > 0 )
+	{
+		if( numLoaded != expectedClasses )
+			LogError(LOG_TRT "didn't load expected number of class descriptions  (%i of %i)\n", numLoaded, expectedClasses);
+
+		if( numLoaded < expectedClasses )
+		{
+			LogWarning(LOG_TRT "filling in remaining %i class descriptions with default labels\n", (expectedClasses - numLoaded));
+	
+			for( int n=numLoaded; n < expectedClasses; n++ )
+			{
+				char synset[10];
+				sprintf(synset, "n%08i", n);
+
+				char desc[64];
+				sprintf(desc, "Class #%i", n);
+
+				synsets.push_back(synset);
+				descriptions.push_back(desc);
+			}
+		}
+	}
+	else if( numLoaded == 0 )
+	{
+		return false;
+	}
+	
+	/*for( uint32_t n=0; n < descriptions.size(); n++ )
+		LogVerbose(LOG_TRT "detectNet -- class label #%u:  '%s'\n", n, descriptions[n].c_str());*/
+	
+	return true;
+}
+
+	
+// LoadClassLabels
+bool tensorNet::LoadClassLabels( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses )
+{
+	if( !filename )
+		return validateClassLabels(descriptions, synsets, expectedClasses);
+	
+	// locate the file
+	const std::string path = locateFile(filename);
+
+	if( path.length() == 0 )
+	{
+		LogError(LOG_TRT "tensorNet::LoadClassLabels() failed to find %s\n", filename);
+		return validateClassLabels(descriptions, synsets, expectedClasses);
+	}
+
+	// open the file
+	FILE* f = fopen(path.c_str(), "r");
+	
+	if( !f )
+	{
+		LogError(LOG_TRT "tensorNet::LoadClassLabels() failed to open %s\n", path.c_str());
+		return validateClassLabels(descriptions, synsets, expectedClasses);
+	}
+	
+	descriptions.clear();
+	synsets.clear();
+
+	// read class descriptions
+	char str[512];
+	uint32_t customClasses = 0;
+
+	while( fgets(str, 512, f) != NULL )
+	{
+		const int syn = 9;  // length of synset prefix (in characters)
+		const int len = strlen(str);
+		
+		if( len > syn && str[0] == 'n' && str[syn] == ' ' )
+		{
+			str[syn]   = 0;
+			str[len-1] = 0;
+	
+			const std::string a = str;
+			const std::string b = (str + syn + 1);
+	
+			//printf("a=%s b=%s\n", a.c_str(), b.c_str());
+
+			synsets.push_back(a);
+			descriptions.push_back(b);
+		}
+		else if( len > 0 )	// no 9-character synset prefix (i.e. from DIGITS snapshot)
+		{
+			char a[10];
+			sprintf(a, "n%08u", customClasses);
+
+			//printf("a=%s b=%s (custom non-synset)\n", a, str);
+			customClasses++;
+
+			if( str[len-1] == '\n' )
+				str[len-1] = 0;
+
+			synsets.push_back(a);
+			descriptions.push_back(str);
+		}
+	}
+	
+	fclose(f);
+	return validateClassLabels(descriptions, synsets, expectedClasses);
+}
+
+
+// LoadClassLabels
+bool tensorNet::LoadClassLabels( const char* filename, std::vector<std::string>& descriptions, int expectedClasses )
+{
+	std::vector<std::string> synsets;
+	return LoadClassLabels(filename, descriptions, synsets, expectedClasses);
+}
+
+
+// validateClassColors
+static bool validateClassColors( float4* colors, int numLoaded, int expectedClasses, float defaultAlpha )
+{
+	LogVerbose(LOG_TRT "loaded %i class colors\n", numLoaded);
+	
+	if( expectedClasses > 0 )
+	{
+		if( numLoaded != expectedClasses )
+			LogWarning(LOG_TRT "didn't load expected number of class colors  (%i of %i)\n", numLoaded, expectedClasses);
+
+		if( numLoaded < expectedClasses )
+		{
+			LogWarning(LOG_TRT "filling in remaining %i class colors with default colors\n", (expectedClasses - numLoaded));
+	
+			for( int n=numLoaded; n < expectedClasses; n++ )
+				colors[n] = tensorNet::GenerateColor(n, defaultAlpha);
+		}
+	}
+	else if( numLoaded == 0 )
+	{
+		return false;
+	}
+
+	return true;
+}
+
+
+// LoadClassColors
+bool tensorNet::LoadClassColors( const char* filename, float4* colors, int expectedClasses, float defaultAlpha )
+{
+	// validate parameters
+	if( !colors || expectedClasses <= 0 )
+	{
+		LogError(LOG_TRT "tensorNet::LoadClassColors() had invalid/NULL parameters\n");
+		return false;
+	}
+	
+	if( !filename )
+		return validateClassColors(colors, 0, expectedClasses, defaultAlpha);
+	
+	// locate the file
+	const std::string path = locateFile(filename);
+
+	if( path.length() == 0 )
+	{
+		LogError(LOG_TRT "tensorNet::LoadClassColors() failed to find %s\n", filename);
+		return validateClassColors(colors, 0, expectedClasses, defaultAlpha);
+	}
+	
+	// open the file
+	FILE* f = fopen(path.c_str(), "r");
+	
+	if( !f )
+	{
+		LogError(LOG_TRT "tensorNet::LoadClassColors() failed to open %s\n", path.c_str());
+		return validateClassColors(colors, 0, expectedClasses, defaultAlpha);
+	}
+	
+	// read class colors
+	char str[512];
+	int numLoaded = 0;
+
+	while( fgets(str, 512, f) != NULL && numLoaded < expectedClasses )
+	{
+		const int len = strlen(str);
+		
+		if( len <= 0 )
+			continue;
+		
+		if( str[len-1] == '\n' )
+			str[len-1] = 0;
+
+		float r = 255;
+		float g = 255;
+		float b = 255;
+		float a = defaultAlpha;
+
+		sscanf(str, "%f %f %f %f", &r, &g, &b, &a);
+		LogVerbose(LOG_TRT "class %02i  color %f %f %f %f\n", numLoaded, r, g, b, a);
+		colors[numLoaded] = make_float4(r, g, b, a);
+		numLoaded++; 
+	}
+	
+	fclose(f);
+	return validateClassColors(colors, numLoaded, expectedClasses, defaultAlpha);
+}
+
+
+// LoadClassColors
+bool tensorNet::LoadClassColors( const char* filename, float4** colors, int expectedClasses, float defaultAlpha )
+{
+	// validate parameters
+	if( !colors || expectedClasses <= 0 )
+	{
+		LogError(LOG_TRT "tensorNet::LoadClassColors() had invalid/NULL parameters\n");
+		return false;
+	}
+	
+	// allocate memory
+	if( !cudaAllocMapped((void**)colors, expectedClasses * sizeof(float4)) )
+		return false;
+	
+	// load colors
+	return LoadClassColors(filename, colors[0], expectedClasses, defaultAlpha);
+}
+
+
+// GenerateColor
+float4 tensorNet::GenerateColor( uint32_t classID, float alpha )
+{
+	// the first color is black, skip that one
+	classID += 1;
+
+	// https://github.com/dusty-nv/pytorch-segmentation/blob/16882772bc767511d892d134918722011d1ea771/datasets/sun_remap.py#L90
+	#define bitget(byteval, idx)	((byteval & (1 << idx)) != 0)
+	
+	int r = 0;
+	int g = 0;
+	int b = 0;
+	int c = classID;
+
+	for( int j=0; j < 8; j++ )
+	{
+		r = r | (bitget(c, 0) << 7 - j);
+		g = g | (bitget(c, 1) << 7 - j);
+		b = b | (bitget(c, 2) << 7 - j);
+		c = c >> 3;
+	}
+
+	return make_float4(r, g, b, alpha);
+}

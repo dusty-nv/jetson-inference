@@ -346,6 +346,40 @@ public:
 	bool LoadEngine( const char* filename, char** stream, size_t* size );
 
 	/**
+	 * Load class descriptions from a label file.  
+	 * Each line of the text file should include one class label (and optionally a synset).
+	 * If the number of expected labels aren't parsed, they will be automatically generated.
+	 */
+	static bool LoadClassLabels( const char* filename, std::vector<std::string>& descriptions, int expectedClasses=-1 );
+
+	/**
+	 * Load class descriptions and synset strings from a label file.
+	 * Each line of the text file should include one class label (and optionally a synset).
+	 * If the number of expected labels aren't parsed, they will be automatically generated.
+	 */
+	static bool LoadClassLabels( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses=-1 );
+
+	/**
+	 * Load class colors from a text file.  If the number of expected colors aren't parsed, they will be generated.
+	 * The float4 color array should be `expectedClasses` long, and would typically be in shared CPU/GPU memory.
+	 * If a line in the text file only has RGB, then the defaultAlpha value will be used for the alpha channel.
+	 */
+	static bool LoadClassColors( const char* filename, float4* colors, int expectedClasses, float defaultAlpha=255.0f );
+
+	/**
+	 * Load class colors from a text file.  If the number of expected colors aren't parsed, they will be generated.
+	 * The float4 color array will automatically be allocated in shared CPU/GPU memory by `cudaAllocMapped()`.
+	 * If a line in the text file only has RGB, then the defaultAlpha value will be used for the alpha channel.
+	 */
+	static bool LoadClassColors( const char* filename, float4** colors, int expectedClasses, float defaultAlpha=255.0f );
+
+	/**
+	 * Procedurally generate a color for a given class index with the specified alpha value.
+	 * This function can be used to generate a range of colors when a colors.txt file isn't available.
+	 */
+	static float4 GenerateColor( uint32_t classID, float alpha=255.0f ); 
+	
+	/**
 	 * Manually enable layer profiling times.	
 	 */
 	void EnableLayerProfiler();
@@ -535,7 +569,7 @@ public:
 			first_run = false;
 		}
 	}
-
+	
 protected:
 
 	/**

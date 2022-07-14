@@ -372,31 +372,7 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 		LogError(LOG_TRT "segNet -- failed to load.\n");
 		return NULL;
 	}
-	
-	// initialize array of class colors
-	const uint32_t numClasses = net->GetNumClasses();
-	
-	if( !cudaAllocMapped((void**)&net->mClassColors, numClasses * sizeof(float4)) )
-		return NULL;
-	
-	for( uint32_t n=0; n < numClasses; n++ )
-	{
-		net->mClassColors[n*4+0] = 255.0f;	// r
-		net->mClassColors[n*4+1] = 0.0f;	// g
-		net->mClassColors[n*4+2] = 0.0f;	// b
-		net->mClassColors[n*4+3] = 255.0f;	// a
-	}
-	
-	net->mColorsAlphaSet = (bool*)malloc(numClasses * sizeof(bool));
-
-	if( !net->mColorsAlphaSet )
-	{
-		printf(LOG_TRT "segNet -- failed to allocate class colors alpha flag array\n");
-		return NULL;
-	}
-
-	memset(net->mColorsAlphaSet, 0, numClasses * sizeof(bool));
-	
+		
 	// initialize array of classified argmax
 	const int s_w = DIMS_W(net->mOutputs[0].dims);
 	const int s_h = DIMS_H(net->mOutputs[0].dims);
@@ -418,58 +394,25 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 // loadClassColors
 bool segNet::loadClassColors( const char* filename )
 {
-	if( !filename )
+	const uint32_t numClasses = GetNumClasses();
+	
+	if( !LoadClassColors(filename, &mClassColors, numClasses) )
 		return false;
 	
-	// locate the file
-	const std::string path = locateFile(filename);
+	// allocate alpha flag mask
+	mColorsAlphaSet = (bool*)malloc(numClasses * sizeof(bool));
 
-	if( path.length() == 0 )
+	if( !mColorsAlphaSet )
 	{
-		LogError(LOG_TRT "segNet -- failed to find %s\n", filename);
-		return false;
+		printf(LOG_TRT "segNet -- failed to allocate class colors alpha flag array\n");
+		return NULL;
 	}
 
-	// open the file
-	FILE* f = fopen(path.c_str(), "r");
+	//memset(mColorsAlphaSet, 0, numClasses * sizeof(bool));
 	
-	if( !f )
-	{
-		LogError(LOG_TRT "segNet -- failed to open %s\n", path.c_str());
-		return false;
-	}
-	
-	// read class colors
-	char str[512];
-	int  idx = 0;
-
-	while( fgets(str, 512, f) != NULL )
-	{
-		const int len = strlen(str);
-		
-		if( len > 0 )
-		{
-			if( str[len-1] == '\n' )
-				str[len-1] = 0;
-
-			int r = 255;
-			int g = 255;
-			int b = 255;
-			int a = 255;
-
-			sscanf(str, "%i %i %i %i", &r, &g, &b, &a);
-			LogVerbose(LOG_TRT "segNet -- class %02i  color %i %i %i %i\n", idx, r, g, b, a);
-			SetClassColor(idx, r, g, b, a);
-			idx++; 
-		}
-	}
-	
-	fclose(f);
-	
-	LogVerbose(LOG_TRT "segNet -- loaded %i class colors\n", idx);
-	
-	if( idx == 0 )
-		return false;
+	// set alpha flag mask
+	for( uint32_t n=0; n < numClasses; n++ )
+		mColorsAlphaSet[n] = (mClassColors[n].w != 255) ? true : false;
 	
 	return true;
 }
@@ -478,52 +421,12 @@ bool segNet::loadClassColors( const char* filename )
 // loadClassLabels
 bool segNet::loadClassLabels( const char* filename )
 {
-	if( !filename )
+	if( !LoadClassLabels(filename, mClassLabels, GetNumClasses()) )
 		return false;
-	
-	// locate the file
-	const std::string path = locateFile(filename);
 
-	if( path.length() == 0 )
-	{
-		LogError(LOG_TRT "segNet -- failed to find %s\n", filename);
-		return false;
-	}
-
-	// open the file
-	FILE* f = fopen(path.c_str(), "r");
+	if( filename != NULL )
+		mClassPath = locateFile(filename);	
 	
-	if( !f )
-	{
-		LogError(LOG_TRT "segNet -- failed to open %s\n", path.c_str());
-		return false;
-	}
-	
-	// read class labels
-	char str[512];
-
-	while( fgets(str, 512, f) != NULL )
-	{
-		const int len = strlen(str);
-		
-		if( len > 0 )
-		{
-			if( str[len-1] == '\n' )
-				str[len-1] = 0;
-
-			LogVerbose(LOG_TRT "segNet -- class %02zu  label '%s'\n", mClassLabels.size(), str);
-			mClassLabels.push_back(str);
-		}
-	}
-	
-	fclose(f);
-	
-	LogVerbose(LOG_TRT "segNet -- loaded %zu class labels\n", mClassLabels.size());
-	
-	if( mClassLabels.size() == 0 )
-		return false;
-	
-	mClassPath = path;
 	return true;
 }
 
@@ -602,9 +505,9 @@ bool segNet::saveClassLegend( const char* filename )
 		CUDA(cudaDeviceSynchronize());
 
 		// fill the class color
-		float* classColor  = GetClassColor(n);
-		const float4 color = make_float4(classColor[0], classColor[1], classColor[2], 255);
-		
+		float4 color = GetClassColor(n);
+		color.w = 255;
+
 		const int colorX = maxTextExtents.x + xyPadding.x * 2;
 		const int colorY = yPosition - ((colorSize.y - maxTextExtents.y) / 2);
 
@@ -624,19 +527,20 @@ bool segNet::saveClassLegend( const char* filename )
 
 
 // SetClassColor
-void segNet::SetClassColor( uint32_t classIndex, float r, float g, float b, float a )
+void segNet::SetClassColor( uint32_t classIndex, const float4& color )
 {
 	if( classIndex >= GetNumClasses() || !mClassColors )
 		return;
 	
-	const uint32_t i = classIndex * 4;
-	
-	mClassColors[i+0] = r;
-	mClassColors[i+1] = g;
-	mClassColors[i+2] = b;
-	mClassColors[i+3] = a;
+	mClassColors[classIndex] = color;
+	mColorsAlphaSet[classIndex] = (color.w == 255) ? false : true;
+}
 
-	mColorsAlphaSet[classIndex] = (a == 255) ? false : true;
+
+// SetClassColor
+void segNet::SetClassColor( uint32_t classIndex, float r, float g, float b, float a )
+{
+	SetClassColor(classIndex, make_float4(r,g,b,a));
 }
 
 
@@ -648,7 +552,7 @@ void segNet::SetOverlayAlpha( float alpha, bool explicit_exempt )
 	for( uint32_t n=0; n < numClasses; n++ )
 	{
 		if( !explicit_exempt || !mColorsAlphaSet[n] /*mClassColors[n*4+3] == 255*/ )
-			mClassColors[n*4+3] = alpha;
+			mClassColors[n].w = alpha;
 	}
 }
 
@@ -940,7 +844,7 @@ bool segNet::overlayPoint( void* input, uint32_t in_width, uint32_t in_height, i
 #ifdef OVERLAY_CUDA
 	// generate overlay on the GPU
 	if( CUDA_FAILED(cudaSegOverlay(input, in_width, in_height, output, out_width, out_height, out_format,
-							 (float4*)mClassColors, mClassMap, make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
+							 mClassColors, mClassMap, make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
 							 false, mask_only, GetStream())) )
 	{
 		LogError(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);
@@ -1020,7 +924,7 @@ bool segNet::overlayLinear( void* input, uint32_t in_width, uint32_t in_height, 
 #ifdef OVERLAY_CUDA
 	// generate overlay on the GPU
 	if( CUDA_FAILED(cudaSegOverlay(input, in_width, in_height, output, out_width, out_height, out_format,
-							 (float4*)mClassColors, mClassMap, make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
+							 mClassColors, mClassMap, make_int2(DIMS_W(mOutputs[0].dims), DIMS_H(mOutputs[0].dims)),
 							 true, mask_only, GetStream())) )
 	{
 		LogError(LOG_TRT "segNet -- failed to process %ux%u overlay/mask with CUDA\n", out_width, out_height);

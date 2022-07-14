@@ -27,7 +27,6 @@
 #include "cudaResize.h"
 
 #include "commandLine.h"
-#include "filesystem.h"
 #include "logging.h"
 
 
@@ -270,120 +269,11 @@ imageNet* imageNet::Create( const commandLine& cmdLine )
 	return net;
 }
 
-
-// LoadClassInfo
-bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, std::vector<std::string>& synsets, int expectedClasses )
-{
-	if( !filename )
-		return false;
-	
-	// locate the file
-	const std::string path = locateFile(filename);
-
-	if( path.length() == 0 )
-	{
-		LogError(LOG_TRT "imageNet -- failed to find %s\n", filename);
-		return false;
-	}
-
-	// open the file
-	FILE* f = fopen(path.c_str(), "r");
-	
-	if( !f )
-	{
-		LogError(LOG_TRT "imageNet -- failed to open %s\n", path.c_str());
-		return false;
-	}
-	
-	descriptions.clear();
-	synsets.clear();
-
-	// read class descriptions
-	char str[512];
-	uint32_t customClasses = 0;
-
-	while( fgets(str, 512, f) != NULL )
-	{
-		const int syn = 9;  // length of synset prefix (in characters)
-		const int len = strlen(str);
-		
-		if( len > syn && str[0] == 'n' && str[syn] == ' ' )
-		{
-			str[syn]   = 0;
-			str[len-1] = 0;
-	
-			const std::string a = str;
-			const std::string b = (str + syn + 1);
-	
-			//printf("a=%s b=%s\n", a.c_str(), b.c_str());
-
-			synsets.push_back(a);
-			descriptions.push_back(b);
-		}
-		else if( len > 0 )	// no 9-character synset prefix (i.e. from DIGITS snapshot)
-		{
-			char a[10];
-			sprintf(a, "n%08u", customClasses);
-
-			//printf("a=%s b=%s (custom non-synset)\n", a, str);
-			customClasses++;
-
-			if( str[len-1] == '\n' )
-				str[len-1] = 0;
-
-			synsets.push_back(a);
-			descriptions.push_back(str);
-		}
-	}
-	
-	fclose(f);
-	
-	LogVerbose(LOG_TRT "imageNet -- loaded %zu class info entries\n", synsets.size());
-	
-	const int numLoaded = descriptions.size();
-
-	if( numLoaded == 0 )
-		return false;
-
-	if( expectedClasses > 0 )
-	{
-		if( numLoaded != expectedClasses )
-			LogWarning(LOG_TRT "imageNet -- didn't load expected number of class descriptions  (%i of %i)\n", numLoaded, expectedClasses);
-
-		if( numLoaded < expectedClasses )
-		{
-			LogWarning(LOG_TRT "imageNet -- filling in remaining %i class descriptions with default labels\n", (expectedClasses - numLoaded));
- 
-			for( int n=numLoaded; n < expectedClasses; n++ )
-			{
-				char synset[10];
-				sprintf(synset, "n%08i", n);
-
-				char desc[64];
-				sprintf(desc, "Class #%i", n);
-
-				synsets.push_back(synset);
-				descriptions.push_back(desc);
-			}
-		}
-	}
-
-	return true;
-}
-
-
-// LoadClassInfo
-bool imageNet::LoadClassInfo( const char* filename, std::vector<std::string>& descriptions, int expectedClasses )
-{
-	std::vector<std::string> synsets;
-	return LoadClassInfo(filename, descriptions, synsets, expectedClasses);
-}
-
 	 
 // loadClassInfo
 bool imageNet::loadClassInfo( const char* filename, int expectedClasses )
 {
-	if( !LoadClassInfo(filename, mClassDesc, mClassSynset, expectedClasses) )
+	if( !LoadClassLabels(filename, mClassDesc, mClassSynset, expectedClasses) )
 		return false;
 
 	mClassPath = filename;	

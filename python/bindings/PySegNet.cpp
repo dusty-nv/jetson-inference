@@ -459,13 +459,13 @@ PyObject* PySegNet_GetClassColor( PySegNet_Object* self, PyObject* args )
 		return NULL;
 	}
 
-	float* color = self->net->GetClassColor(classIdx);
+	const float4 color = self->net->GetClassColor(classIdx);
 	
 	// create tuple objects
-	PyObject* r = PyFloat_FromDouble(color[0]);
-	PyObject* g = PyFloat_FromDouble(color[1]);
-	PyObject* b = PyFloat_FromDouble(color[2]);
-	PyObject* a = PyFloat_FromDouble(color[3]);
+	PyObject* r = PyFloat_FromDouble(color.x);
+	PyObject* g = PyFloat_FromDouble(color.y);
+	PyObject* b = PyFloat_FromDouble(color.z);
+	PyObject* a = PyFloat_FromDouble(color.w);
 	
 	PyObject* tuple = PyTuple_Pack(4, r, g, b, a);
 
