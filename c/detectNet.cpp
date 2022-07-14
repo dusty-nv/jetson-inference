@@ -351,7 +351,8 @@ detectNet* detectNet::Create( const commandLine& cmdLine )
 		const char* out_cvg      = cmdLine.GetString("output_cvg");
 		const char* out_bbox     = cmdLine.GetString("output_bbox");
 		const char* class_labels = cmdLine.GetString("class_labels");
-
+		const char* class_colors = cmdLine.GetString("class_colors");
+		
 		if( !input ) 	
 			input = DETECTNET_DEFAULT_INPUT;
 
@@ -364,9 +365,12 @@ detectNet* detectNet::Create( const commandLine& cmdLine )
 		if( !class_labels )
 			class_labels = cmdLine.GetString("labels");
 
+		if( !class_colors )
+			class_colors = cmdLine.GetString("colors");
+		
 		float meanPixel = cmdLine.GetFloat("mean_pixel");
 
-		net = detectNet::Create(prototxt, modelName, meanPixel, class_labels, threshold, input, 
+		net = detectNet::Create(prototxt, modelName, meanPixel, class_labels, class_colors, threshold, input, 
 							out_blob ? NULL : out_cvg, out_blob ? out_blob : out_bbox, maxBatchSize);
 	}
 	else
