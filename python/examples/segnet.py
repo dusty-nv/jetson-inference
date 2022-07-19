@@ -21,18 +21,18 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-import jetson.inference
-import jetson.utils
-
-import argparse
 import sys
+import argparse
+
+from jetson_inference import segNet
+from jetson_utils import videoSource, videoOutput, logUsage, cudaOverlay, cudaDeviceSynchronize
 
 from segnet_utils import *
 
 # parse the command line
 parser = argparse.ArgumentParser(description="Segment a live camera stream using an semantic segmentation DNN.", 
-                                 formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.segNet.Usage() +
-                                 jetson.utils.videoSource.Usage() + jetson.utils.videoOutput.Usage() + jetson.utils.logUsage())
+                                 formatter_class=argparse.RawTextHelpFormatter, 
+                                 epilog=segNet.Usage() + videoSource.Usage() + videoOutput.Usage() + logUsage())
 
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
@@ -46,26 +46,26 @@ parser.add_argument("--stats", action="store_true", help="compute statistics abo
 is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
 
 try:
-	opt = parser.parse_known_args()[0]
+	args = parser.parse_known_args()[0]
 except:
 	print("")
 	parser.print_help()
 	sys.exit(0)
 
 # load the segmentation network
-net = jetson.inference.segNet(opt.network, sys.argv)
+net = segNet(args.network, sys.argv)
 
 # set the alpha blending value
-net.SetOverlayAlpha(opt.alpha)
+net.SetOverlayAlpha(args.alpha)
 
 # create video output
-output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv+is_headless)
+output = videoOutput(args.output_URI, argv=sys.argv+is_headless)
 
 # create buffer manager
-buffers = segmentationBuffers(net, opt)
+buffers = segmentationBuffers(net, args)
 
 # create video source
-input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
+input = videoSource(args.input_URI, argv=sys.argv)
 
 # process frames until user exits
 while True:
@@ -76,33 +76,33 @@ while True:
 	buffers.Alloc(img_input.shape, img_input.format)
 
 	# process the segmentation network
-	net.Process(img_input, ignore_class=opt.ignore_class)
+	net.Process(img_input, ignore_class=args.ignore_class)
 
 	# generate the overlay
 	if buffers.overlay:
-		net.Overlay(buffers.overlay, filter_mode=opt.filter_mode)
+		net.Overlay(buffers.overlay, filter_mode=args.filter_mode)
 
 	# generate the mask
 	if buffers.mask:
-		net.Mask(buffers.mask, filter_mode=opt.filter_mode)
+		net.Mask(buffers.mask, filter_mode=args.filter_mode)
 
 	# composite the images
 	if buffers.composite:
-		jetson.utils.cudaOverlay(buffers.overlay, buffers.composite, 0, 0)
-		jetson.utils.cudaOverlay(buffers.mask, buffers.composite, buffers.overlay.width, 0)
+		cudaOverlay(buffers.overlay, buffers.composite, 0, 0)
+		cudaOverlay(buffers.mask, buffers.composite, buffers.overlay.width, 0)
 
 	# render the output image
 	output.Render(buffers.output)
 
 	# update the title bar
-	output.SetStatus("{:s} | Network {:.0f} FPS".format(opt.network, net.GetNetworkFPS()))
+	output.SetStatus("{:s} | Network {:.0f} FPS".format(args.network, net.GetNetworkFPS()))
 
 	# print out performance info
-	jetson.utils.cudaDeviceSynchronize()
+	cudaDeviceSynchronize()
 	net.PrintProfilerTimes()
 
     # compute segmentation class stats
-	if opt.stats:
+	if args.stats:
 		buffers.ComputeStats()
     
 	# exit on input/output EOS

@@ -29,19 +29,20 @@
 # https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-streaming.md
 #
 
-import jetson.inference
-import jetson.utils
-
 import argparse
 import datetime
 import math
 import sys
 import os
 
+from jetson_inference import detectNet
+from jetson_utils import (videoSource, videoOutput, logUsage, saveImage,
+                          cudaAllocMapped, cudaCrop, cudaDeviceSynchronize)
+
 # parse the command line
 parser = argparse.ArgumentParser(description="Locate objects in a live camera stream using an object detection DNN.", 
-                                 formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.detectNet.Usage() +
-                                 jetson.utils.videoSource.Usage() + jetson.utils.videoOutput.Usage() + jetson.utils.logUsage())
+                                 formatter_class=argparse.RawTextHelpFormatter, 
+                                 epilog=detectNet.Usage() + videoSource.Usage() + videoOutput.Usage() + logUsage())
 
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
@@ -52,23 +53,23 @@ parser.add_argument("--snapshots", type=str, default="images/test/detections", h
 parser.add_argument("--timestamp", type=str, default="%Y%m%d-%H%M%S-%f", help="timestamp format used in snapshot filenames")
 
 try:
-	opt = parser.parse_known_args()[0]
+	args = parser.parse_known_args()[0]
 except:
 	print("")
 	parser.print_help()
 	sys.exit(0)
 
 # make sure the snapshots dir exists
-os.makedirs(opt.snapshots, exist_ok=True)
+os.makedirs(args.snapshots, exist_ok=True)
 
 # create video output object 
-output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv)
+output = videoOutput(args.output_URI, argv=sys.argv)
 	
 # load the object detection network
-net = jetson.inference.detectNet(opt.network, sys.argv, opt.threshold)
+net = detectNet(args.network, sys.argv, args.threshold)
 
 # create video sources
-input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
+input = videoSource(args.input_URI, argv=sys.argv)
 
 
 # process frames until the user exits
@@ -77,27 +78,27 @@ while True:
 	img = input.Capture()
 
 	# detect objects in the image (with overlay)
-	detections = net.Detect(img, overlay=opt.overlay)
+	detections = net.Detect(img, overlay=args.overlay)
 
 	# print the detections
 	print("detected {:d} objects in image".format(len(detections)))
     
-	timestamp = datetime.datetime.now().strftime(opt.timestamp)
+	timestamp = datetime.datetime.now().strftime(args.timestamp)
     
 	for idx, detection in enumerate(detections):
 		print(detection)
 		roi = (int(detection.Left), int(detection.Top), int(detection.Right), int(detection.Bottom))
-		snapshot = jetson.utils.cudaAllocMapped(width=roi[2]-roi[0], height=roi[3]-roi[1], format=img.format)
-		jetson.utils.cudaCrop(img, snapshot, roi)
-		jetson.utils.cudaDeviceSynchronize()
-		jetson.utils.saveImage(os.path.join(opt.snapshots, f"{timestamp}-{idx}.jpg"), snapshot)
+		snapshot = cudaAllocMapped(width=roi[2]-roi[0], height=roi[3]-roi[1], format=img.format)
+		cudaCrop(img, snapshot, roi)
+		cudaDeviceSynchronize()
+		saveImage(os.path.join(args.snapshots, f"{timestamp}-{idx}.jpg"), snapshot)
 		del snapshot
         
 	# render the image
 	output.Render(img)
 
 	# update the title bar
-	output.SetStatus("{:s} | Network {:.0f} FPS".format(opt.network, net.GetNetworkFPS()))
+	output.SetStatus("{:s} | Network {:.0f} FPS".format(args.network, net.GetNetworkFPS()))
 
 	# print out performance info
 	net.PrintProfilerTimes()

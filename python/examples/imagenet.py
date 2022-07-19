@@ -21,17 +21,16 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-import jetson.inference
-import jetson.utils
-
-import argparse
 import sys
+import argparse
 
+from jetson_inference import imageNet
+from jetson_utils import videoSource, videoOutput, logUsage, cudaFont
 
 # parse the command line
 parser = argparse.ArgumentParser(description="Classify a live camera stream using an image recognition DNN.", 
-                                 formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.imageNet.Usage() +
-                                 jetson.utils.videoSource.Usage() + jetson.utils.videoOutput.Usage() + jetson.utils.logUsage())
+                                 formatter_class=argparse.RawTextHelpFormatter, 
+                                 epilog=imageNet.Usage() + videoSource.Usage() + videoOutput.Usage() + logUsage())
 
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
@@ -44,7 +43,7 @@ parser.add_argument('--headless', action='store_true', default=(), help="run wit
 is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
 
 try:
-	opt = parser.parse_known_args()[0]
+	args = parser.parse_known_args()[0]
 except:
 	print("")
 	parser.print_help()
@@ -52,12 +51,12 @@ except:
 
 
 # load the recognition network
-net = jetson.inference.imageNet(opt.network, sys.argv)
+net = imageNet(args.network, sys.argv)
 
 # create video sources & outputs
-input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
-output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv+is_headless)
-font = jetson.utils.cudaFont()
+input = videoSource(args.input_URI, argv=sys.argv)
+output = videoOutput(args.output_URI, argv=sys.argv+is_headless)
+font = cudaFont()
 
 # process frames until the user exits
 while True:

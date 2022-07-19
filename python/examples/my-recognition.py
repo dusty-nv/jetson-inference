@@ -21,23 +21,25 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-import jetson.inference
-import jetson.utils
+from jetson_inference import imageNet
+from jetson_utils import loadImage
 
 import argparse
 
 
 # parse the command line
 parser = argparse.ArgumentParser()
+
 parser.add_argument("filename", type=str, help="filename of the image to process")
 parser.add_argument("--network", type=str, default="googlenet", help="model to use, can be:  googlenet, resnet-18, ect.")
-opt = parser.parse_args()
+
+args = parser.parse_args()
 
 # load an image (into shared CPU/GPU memory)
-img = jetson.utils.loadImage(opt.filename)
+img = loadImage(args.filename)
 
 # load the recognition network
-net = jetson.inference.imageNet(opt.network)
+net = imageNet(args.network)
 
 # classify the image
 class_idx, confidence = net.Classify(img)

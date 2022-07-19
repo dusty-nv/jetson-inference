@@ -21,16 +21,16 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-import jetson.inference
-import jetson.utils
-
-import argparse
 import sys
+import argparse
+
+from jetson_inference import poseNet
+from jetson_utils import videoSource, videoOutput, logUsage
 
 # parse the command line
 parser = argparse.ArgumentParser(description="Run pose estimation DNN on a video/image stream.", 
-                                 formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.poseNet.Usage() +
-                                 jetson.utils.videoSource.Usage() + jetson.utils.videoOutput.Usage() + jetson.utils.logUsage())
+                                 formatter_class=argparse.RawTextHelpFormatter, 
+                                 epilog=poseNet.Usage() + videoSource.Usage() + videoOutput.Usage() + logUsage())
 
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
@@ -46,11 +46,11 @@ except:
 	sys.exit(0)
 
 # load the pose estimation model
-net = jetson.inference.poseNet(opt.network, sys.argv, opt.threshold)
+net = poseNet(opt.network, sys.argv, opt.threshold)
 
 # create video sources & outputs
-input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
-output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv)
+input = videoSource(opt.input_URI, argv=sys.argv)
+output = videoOutput(opt.output_URI, argv=sys.argv)
 
 # process frames until the user exits
 while True:

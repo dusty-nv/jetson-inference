@@ -1,12 +1,10 @@
 
-#print("jetson.Inference.__init__.py")
+#print("jetson.inference.__init__.py")
 
 # jetson.inference links against jetson.utils, and it needs loaded
-import jetson.utils
+import jetson_utils
 
 # load jetson.inference extension module
 from jetson_inference_python import *
 
 VERSION = '1.0.0'
-
-print("warning:  importing Jetson.Inference is deprecated.  please 'import jetson_inference' instead.")

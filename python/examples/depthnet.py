@@ -21,18 +21,18 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-import jetson.inference
-import jetson.utils
-
-import argparse
 import sys
+import argparse
+
+from jetson_inference import depthNet
+from jetson_utils import videoSource, videoOutput, logUsage, cudaOverlay, cudaDeviceSynchronize
 
 from depthnet_utils import depthBuffers
 
 # parse the command line
 parser = argparse.ArgumentParser(description="Mono depth estimation on a video/image stream using depthNet DNN.", 
-                                 formatter_class=argparse.RawTextHelpFormatter, epilog=jetson.inference.depthNet.Usage() +
-                                 jetson.utils.videoSource.Usage() + jetson.utils.videoOutput.Usage() + jetson.utils.logUsage())
+                                 formatter_class=argparse.RawTextHelpFormatter, 
+                                 epilog=depthNet.Usage() + videoSource.Usage() + videoOutput.Usage() + logUsage())
 
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
@@ -52,14 +52,14 @@ except:
 	sys.exit(0)
 
 # load the segmentation network
-net = jetson.inference.depthNet(opt.network, sys.argv)
+net = depthNet(opt.network, sys.argv)
 
 # create buffer manager
 buffers = depthBuffers(opt)
 
 # create video sources & outputs
-input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
-output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv)
+input = videoSource(opt.input_URI, argv=sys.argv)
+output = videoOutput(opt.output_URI, argv=sys.argv)
 
 # process frames until user exits
 while True:
@@ -74,10 +74,10 @@ while True:
 
     # composite the images
     if buffers.use_input:
-        jetson.utils.cudaOverlay(img_input, buffers.composite, 0, 0)
+        cudaOverlay(img_input, buffers.composite, 0, 0)
         
     if buffers.use_depth:
-        jetson.utils.cudaOverlay(buffers.depth, buffers.composite, img_input.width if buffers.use_input else 0, 0)
+        cudaOverlay(buffers.depth, buffers.composite, img_input.width if buffers.use_input else 0, 0)
 
     # render the output image
     output.Render(buffers.composite)
@@ -86,7 +86,7 @@ while True:
     output.SetStatus("{:s} | {:s} | Network {:.0f} FPS".format(opt.network, net.GetNetworkName(), net.GetNetworkFPS()))
 
     # print out performance info
-    jetson.utils.cudaDeviceSynchronize()
+    cudaDeviceSynchronize()
     net.PrintProfilerTimes()
 
     # exit on input/output EOS

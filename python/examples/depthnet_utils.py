@@ -20,8 +20,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-import jetson.inference
-import jetson.utils
+from jetson_utils import cudaAllocMapped
 
 
 class depthBuffers:
@@ -48,6 +47,6 @@ class depthBuffers:
             composite_size[0] = shape[0]
             composite_size[1] += shape[1]
 
-        self.depth = jetson.utils.cudaAllocMapped(width=depth_size[1], height=depth_size[0], format=format)
-        self.composite = jetson.utils.cudaAllocMapped(width=composite_size[1], height=composite_size[0], format=format)
+        self.depth = cudaAllocMapped(width=depth_size[1], height=depth_size[0], format=format)
+        self.composite = cudaAllocMapped(width=composite_size[1], height=composite_size[0], format=format)
         

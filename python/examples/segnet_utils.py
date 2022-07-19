@@ -20,8 +20,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-import jetson.inference
-import jetson.utils
+from jetson_utils import cudaAllocMapped, cudaToNumpy
 
 import numpy as np
 
@@ -59,18 +58,18 @@ class segmentationBuffers:
             return
 
         if self.use_overlay:
-            self.overlay = jetson.utils.cudaAllocMapped(width=shape[1], height=shape[0], format=format)
+            self.overlay = cudaAllocMapped(width=shape[1], height=shape[0], format=format)
 
         if self.use_mask:
             mask_downsample = 2 if self.use_overlay else 1
-            self.mask = jetson.utils.cudaAllocMapped(width=shape[1]/mask_downsample, height=shape[0]/mask_downsample, format=format) 
+            self.mask = cudaAllocMapped(width=shape[1]/mask_downsample, height=shape[0]/mask_downsample, format=format) 
 
         if self.use_composite:
-            self.composite = jetson.utils.cudaAllocMapped(width=self.overlay.width+self.mask.width, height=self.overlay.height, format=format) 
+            self.composite = cudaAllocMapped(width=self.overlay.width+self.mask.width, height=self.overlay.height, format=format) 
 
         if self.use_stats:
-            self.class_mask = jetson.utils.cudaAllocMapped(width=self.grid_width, height=self.grid_height, format="gray8")
-            self.class_mask_np = jetson.utils.cudaToNumpy(self.class_mask)
+            self.class_mask = cudaAllocMapped(width=self.grid_width, height=self.grid_height, format="gray8")
+            self.class_mask_np = cudaToNumpy(self.class_mask)
             
     def ComputeStats(self):
         if not self.use_stats:

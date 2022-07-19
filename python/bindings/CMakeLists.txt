@@ -80,4 +80,4 @@ install(TARGETS jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_
 
 install(DIRECTORY ../python/Jetson DESTINATION ${PYTHON_BINDING_INSTALL_DIR})
 install(DIRECTORY ../python/jetson DESTINATION ${PYTHON_BINDING_INSTALL_DIR})
-
+install(DIRECTORY ../python/jetson_inference DESTINATION ${PYTHON_BINDING_INSTALL_DIR})
