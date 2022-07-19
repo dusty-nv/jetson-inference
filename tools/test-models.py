@@ -26,13 +26,15 @@ import argparse
 import subprocess
 import pprint
 
-from jetson.utils import videoSource
+from jetson_utils import videoSource
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--module', type=str, default=None, help='limit testing to a specific module (i.e. "detectnet"')
 parser.add_argument('--threshold', type=float, default=0.001, help='threshold for percentage difference between pixels')
 parser.add_argument('--generate', action='store_true', help='generate the expected outputs')
+parser.add_argument('--no-python', action='store_true', help='skip testing of the python modules')
+parser.add_argument('--python-only', action='store_true', help='only test the python modules')
 parser.add_argument('--verbose', action='store_true', help='view the subprocess output')
 
 args = parser.parse_args()
@@ -72,7 +74,11 @@ tests = {
     
     'posenet' : {
         'resnet18-body' : ['humans_*.jpg']
-    }
+    },
+    
+    'depthnet' : {
+        'monodepth-fcn-mobilenet' : ['room_*.jpg']
+    },
 }
 
 pprint.pprint(tests)
@@ -190,8 +196,11 @@ def run_tests():
             
         models = tests[module]
         
-        test_module(module, models)
-        test_module(module + '.py', models)
+        if not args.python_only:
+            test_module(module, models)
+            
+        if not args.no_python:
+            test_module(module + '.py', models)
         
     print('\n')
     print('EVENT LOG:\n')
