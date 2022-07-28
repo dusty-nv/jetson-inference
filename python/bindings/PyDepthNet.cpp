@@ -215,29 +215,33 @@ static PyObject* PyDepthNet_Process( PyDepthNet_Object* self, PyObject* args, Py
 			return NULL;
 		}
 		
+		bool result = false;
 		Py_BEGIN_ALLOW_THREADS
-							    
-		if( !self->net->Process(input_img->base.ptr, input_img->width, input_img->height, input_img->format,
-									    output_img->base.ptr, output_img->width, output_img->height, output_img->format,
-									    colormap, filterMode) )
+		
+		result = self->net->Process(input_img->base.ptr, input_img->width, input_img->height, input_img->format,
+							   output_img->base.ptr, output_img->width, output_img->height, output_img->format,
+							   colormap, filterMode);
+							   
+		Py_END_ALLOW_THREADS
+		
+		if( !result )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "depthNet.Process() encountered an error processing the image");
 			return NULL;
 		}
-		
-		Py_END_ALLOW_THREADS
 	}
 	else
 	{
+		bool result = false;
 		Py_BEGIN_ALLOW_THREADS
-		
-		if( !self->net->Process(input_img->base.ptr, input_img->width, input_img->height, input_img->format) )
+		result = self->net->Process(input_img->base.ptr, input_img->width, input_img->height, input_img->format);
+		Py_END_ALLOW_THREADS
+				
+		if( !result )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "depthNet.Process() encountered an error processing the image");
 			return NULL;
 		}
-		
-		Py_END_ALLOW_THREADS
 	}
 
 	Py_RETURN_NONE;
@@ -287,15 +291,17 @@ static PyObject* PyDepthNet_Visualize( PyDepthNet_Object* self, PyObject* args, 
 		return NULL;
 	}
 		
+	bool result = false;
 	Py_BEGIN_ALLOW_THREADS
-				    
-	if( !self->net->Visualize(output_img->base.ptr, output_img->width, output_img->height, output_img->format, colormap, filterMode) )
+	result = self->net->Visualize(output_img->base.ptr, output_img->width, output_img->height, output_img->format, colormap, filterMode);
+	Py_END_ALLOW_THREADS
+	
+	if( !result )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "depthNet.Visualize() encountered an error processing the image");
 		return NULL;
 	}
-
-	Py_END_ALLOW_THREADS
+	
 	Py_RETURN_NONE;
 }
 

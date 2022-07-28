@@ -736,17 +736,20 @@ static PyObject* PyDetectNet_Overlay( PyDetectNet_Object* self, PyObject* args, 
 
 	if( detections_ptr.size() > 0 ) 
 	{
+		bool result = false;
 		Py_BEGIN_ALLOW_THREADS
 		
-		if( !self->net->Overlay(input_ptr, output_ptr, width, height, format, 
+		result = self->net->Overlay(input_ptr, output_ptr, width, height, format, 
 						    detections_ptr.data(), detections_ptr.size(), 
-						    detectNet::OverlayFlagsFromStr(overlay)) ) 
+						    detectNet::OverlayFlagsFromStr(overlay));
+				
+		Py_END_ALLOW_THREADS
+		
+		if( !result ) 
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Overlay() encountered an error");
 			return NULL;
 		}
-		
-		Py_END_ALLOW_THREADS
 	}
 
 	Py_RETURN_NONE;

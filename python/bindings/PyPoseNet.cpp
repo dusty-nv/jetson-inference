@@ -961,15 +961,16 @@ static PyObject* PyPoseNet_Process( PyPoseNet_Object* self, PyObject* args, PyOb
 	// run the pose estimation
 	std::vector<poseNet::ObjectPose> poses;
 
+	bool result = false;
 	Py_BEGIN_ALLOW_THREADS
+	result = self->net->Process(img->base.ptr, img->width, img->height, img->format, poses, poseNet::OverlayFlagsFromStr(overlay));
+	Py_END_ALLOW_THREADS
 	
-	if( !self->net->Process(img->base.ptr, img->width, img->height, img->format, poses, poseNet::OverlayFlagsFromStr(overlay)) )
+	if( !result )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet.Process() encountered an error processing the image");
 		return NULL;
 	}
-	
-	Py_END_ALLOW_THREADS
 	
 	// create output objects
 	const uint32_t numObjects = poses.size();
@@ -1074,17 +1075,21 @@ static PyObject* PyPoseNet_Overlay( PyPoseNet_Object* self, PyObject* args, PyOb
 	}
 
 	// perform the overlay operation
+	bool result = false;
 	Py_BEGIN_ALLOW_THREADS
 	
-	if( !self->net->Overlay(input_img->base.ptr, output_img->base.ptr, 
+	result = self->net->Overlay(input_img->base.ptr, output_img->base.ptr, 
 					    input_img->width, input_img->height, input_img->format, 
-					    objectPoses, poseNet::OverlayFlagsFromStr(overlay)) ) 
+					    objectPoses, poseNet::OverlayFlagsFromStr(overlay));
+
+	Py_END_ALLOW_THREADS
+	
+	if( !result ) 
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet.Overlay() encountered an error");
 		return NULL;
 	}
-
-	Py_END_ALLOW_THREADS
+	
 	Py_RETURN_NONE;
 }
 
