@@ -102,8 +102,10 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 		}
 
 		// load the network using (argc, argv)
+		Py_BEGIN_ALLOW_THREADS
 		self->net = segNet::Create(argc, argv);
-
+		Py_END_ALLOW_THREADS
+		
 		// free the arguments array
 		free(argv);
 	}
@@ -122,7 +124,9 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 		}
 		
 		// load the built-in network
+		Py_BEGIN_ALLOW_THREADS
 		self->net = segNet::Create(networkType);
+		Py_END_ALLOW_THREADS
 	}
 
 	// confirm the network loaded
@@ -196,14 +200,15 @@ static PyObject* PySegNet_Process( PySegNet_Object* self, PyObject* args, PyObje
 		return NULL;
 
 	// classify the image
-	const bool result = self->net->Process(ptr, width, height, format, ignore_class);
+	Py_BEGIN_ALLOW_THREADS
 
-	if( !result )
+	if( !self->net->Process(ptr, width, height, format, ignore_class) )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Process() encountered an error segmenting the image");
 		return NULL;
 	}
 
+	Py_END_ALLOW_THREADS
 	Py_RETURN_NONE;
 }
 
@@ -265,14 +270,15 @@ static PyObject* PySegNet_Overlay( PySegNet_Object* self, PyObject* args, PyObje
 		return NULL;
 
 	// visualize the image
-	const bool result = self->net->Overlay(ptr, width, height, format, filterMode);
+	Py_BEGIN_ALLOW_THREADS
 
-	if( !result )
+	if( !self->net->Overlay(ptr, width, height, format, filterMode) )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Overlay() encountered an error segmenting the image");
 		return NULL;
 	}
 
+	Py_END_ALLOW_THREADS
 	Py_RETURN_NONE;
 }
 
@@ -336,24 +342,28 @@ static PyObject* PySegNet_Mask( PySegNet_Object* self, PyObject* args, PyObject 
 	if( format == IMAGE_GRAY8 )
 	{
 		// class binary mask
-		const bool result = self->net->Mask((uint8_t*)ptr, width, height);
+		Py_BEGIN_ALLOW_THREADS
 
-		if( !result )
+		if( !self->net->Mask((uint8_t*)ptr, width, height) )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() encountered an error generating the class mask");
 			return NULL;
 		}
+		
+		Py_END_ALLOW_THREADS
 	}
 	else
 	{
 		// colorized mask
-		const bool result = self->net->Mask(ptr, width, height, format, filterMode);
+		Py_BEGIN_ALLOW_THREADS
 
-		if( !result )
+		if( !self->net->Mask(ptr, width, height, format, filterMode) )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() encountered an error generating the colorized mask");
 			return NULL;
 		}
+		
+		Py_END_ALLOW_THREADS
 	}
 
 	Py_RETURN_NONE;

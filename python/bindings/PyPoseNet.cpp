@@ -866,8 +866,10 @@ static int PyPoseNet_Init( PyPoseNet_Object* self, PyObject *args, PyObject *kwd
 		}
 
 		// load the network using (argc, argv)
+		Py_BEGIN_ALLOW_THREADS
 		self->net = poseNet::Create(argc, argv);
-
+		Py_END_ALLOW_THREADS
+		
 		// set the threshold
 		self->net->SetThreshold(threshold);
 		
@@ -889,7 +891,9 @@ static int PyPoseNet_Init( PyPoseNet_Object* self, PyObject *args, PyObject *kwd
 		}
 		
 		// load the built-in network
+		Py_BEGIN_ALLOW_THREADS
 		self->net = poseNet::Create(networkType, threshold);
+		Py_END_ALLOW_THREADS
 	}
 
 	// confirm the network loaded
@@ -957,11 +961,15 @@ static PyObject* PyPoseNet_Process( PyPoseNet_Object* self, PyObject* args, PyOb
 	// run the pose estimation
 	std::vector<poseNet::ObjectPose> poses;
 
+	Py_BEGIN_ALLOW_THREADS
+	
 	if( !self->net->Process(img->base.ptr, img->width, img->height, img->format, poses, poseNet::OverlayFlagsFromStr(overlay)) )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet.Process() encountered an error processing the image");
 		return NULL;
 	}
+	
+	Py_END_ALLOW_THREADS
 	
 	// create output objects
 	const uint32_t numObjects = poses.size();
@@ -1066,6 +1074,8 @@ static PyObject* PyPoseNet_Overlay( PyPoseNet_Object* self, PyObject* args, PyOb
 	}
 
 	// perform the overlay operation
+	Py_BEGIN_ALLOW_THREADS
+	
 	if( !self->net->Overlay(input_img->base.ptr, output_img->base.ptr, 
 					    input_img->width, input_img->height, input_img->format, 
 					    objectPoses, poseNet::OverlayFlagsFromStr(overlay)) ) 
@@ -1074,6 +1084,7 @@ static PyObject* PyPoseNet_Overlay( PyPoseNet_Object* self, PyObject* args, PyOb
 		return NULL;
 	}
 
+	Py_END_ALLOW_THREADS
 	Py_RETURN_NONE;
 }
 

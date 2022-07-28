@@ -530,7 +530,9 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 		}
 
 		// load the network using (argc, argv)
+		Py_BEGIN_ALLOW_THREADS
 		self->net = detectNet::Create(argc, argv);
+		Py_END_ALLOW_THREADS
 
 		// free the arguments array
 		free(argv);
@@ -550,7 +552,9 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 		}
 		
 		// load the built-in network
+		Py_BEGIN_ALLOW_THREADS
 		self->net = detectNet::Create(networkType, threshold);
+		Py_END_ALLOW_THREADS
 	}
 
 	// confirm the network loaded
@@ -624,9 +628,12 @@ static PyObject* PyDetectNet_Detect( PyDetectNet_Object* self, PyObject* args, P
 
 	// run the object detection
 	detectNet::Detection* detections = NULL;
-
-	const int numDetections = self->net->Detect(ptr, width, height, format, &detections, detectNet::OverlayFlagsFromStr(overlay));
-
+	int numDetections = 0;
+	
+	Py_BEGIN_ALLOW_THREADS
+	numDetections = self->net->Detect(ptr, width, height, format, &detections, detectNet::OverlayFlagsFromStr(overlay));
+	Py_END_ALLOW_THREADS
+	
 	if( numDetections < 0 )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Detect() encountered an error classifying the image");
@@ -729,6 +736,8 @@ static PyObject* PyDetectNet_Overlay( PyDetectNet_Object* self, PyObject* args, 
 
 	if( detections_ptr.size() > 0 ) 
 	{
+		Py_BEGIN_ALLOW_THREADS
+		
 		if( !self->net->Overlay(input_ptr, output_ptr, width, height, format, 
 						    detections_ptr.data(), detections_ptr.size(), 
 						    detectNet::OverlayFlagsFromStr(overlay)) ) 
@@ -736,6 +745,8 @@ static PyObject* PyDetectNet_Overlay( PyDetectNet_Object* self, PyObject* args, 
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Overlay() encountered an error");
 			return NULL;
 		}
+		
+		Py_END_ALLOW_THREADS
 	}
 
 	Py_RETURN_NONE;

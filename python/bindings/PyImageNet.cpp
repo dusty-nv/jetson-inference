@@ -103,8 +103,10 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 		}
 
 		// load the network using (argc, argv)
+		Py_BEGIN_ALLOW_THREADS
 		self->net = imageNet::Create(argc, argv);
-
+		Py_END_ALLOW_THREADS
+		
 		// free the arguments array
 		free(argv);
 	}
@@ -123,7 +125,9 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 		}
 		
 		// load the built-in network
+		Py_BEGIN_ALLOW_THREADS
 		self->net = imageNet::Create(networkType);
+		Py_END_ALLOW_THREADS
 	}
 
 	// confirm the network loaded
@@ -196,9 +200,12 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
 
 	// classify the image
 	float confidence = 0.0f;
-
-	const int img_class = self->net->Classify(ptr, width, height, format, &confidence);
-
+	int img_class = -1;
+	
+	Py_BEGIN_ALLOW_THREADS
+	img_class = self->net->Classify(ptr, width, height, format, &confidence);
+	Py_END_ALLOW_THREADS
+	
 	if( img_class < 0 )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() encountered an error classifying the image");
