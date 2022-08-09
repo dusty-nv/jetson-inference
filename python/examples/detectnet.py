@@ -47,15 +47,18 @@ except:
 	parser.print_help()
 	sys.exit(0)
 
-# create video output object 
+# create video sources and outputs
+input = videoSource(args.input_URI, argv=sys.argv)
 output = videoOutput(args.output_URI, argv=sys.argv+is_headless)
 	
 # load the object detection network
 net = detectNet(args.network, sys.argv, args.threshold)
 
-# create video sources
-input = videoSource(args.input_URI, argv=sys.argv)
-
+# note: to hard-code the paths to load a model, the following API can be used:
+#
+# net = detectNet(model="model/ssd-mobilenet.onnx", labels="model/labels.txt", 
+#                 input_blob="input_0", output_cvg="scores", output_bbox="boxes", 
+#                 threshold=args.threshold)
 
 # process frames until the user exits
 while True:

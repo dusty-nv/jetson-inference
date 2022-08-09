@@ -462,8 +462,7 @@ typedef struct {
 
 #define DOC_DETECTNET "Object Detection DNN - locates objects in an image\n\n" \
 				  "Examples (jetson-inference/python/examples)\n" \
-                      "     detectnet-console.py\n" \
-				  "     detectnet-camera.py\n\n" \
+                      "     detectnet.py\n\n" \
 				  "__init__(...)\n" \
 				  "     Loads an object detection model.\n\n" \
 				  "     Parameters:\n" \
@@ -473,8 +472,14 @@ typedef struct {
 				  "                         see below for available options.\n\n" \
 				  "       threshold (float) -- minimum detection threshold.\n" \
 				  "                            default value is 0.5\n\n" \
+				  "    Extended Parameters for Loading Custom Models:\n" \
+				  "       model (string) -- path to self-trained ONNX model to load.\n\n" \
+				  "       labels (string) -- path to labels.txt file (optional)\n\n" \
+				  "       colors (string) -- path to colors.txt file (optional)\n\n" \
+				  "       input_blob (string) -- name of the input layer to the model.\n\n" \
+				  "       output_cvg (string) -- name of the output coverage/confidence layer.\n\n" \
+				  "       output_bbox (string) -- name of the output bounding boxes layer.\n\n" \
  				  DETECTNET_USAGE_STRING
-
 
 // Init
 static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject *kwds )
@@ -482,13 +487,21 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 	LogDebug(LOG_PY_INFERENCE "PyDetectNet_Init()\n");
 	
 	// parse arguments
-	PyObject* argList     = NULL;
-	const char* network   = "ssd-mobilenet-v2";
-	float threshold       = DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD;
-	
-	static char* kwlist[] = {"network", "argv", "threshold", NULL};
+	PyObject* argList = NULL;
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sOf", kwlist, &network, &argList, &threshold))
+	const char* network     = "ssd-mobilenet-v2";
+	const char* model       = NULL;
+	const char* labels      = NULL;
+	const char* colors      = NULL;
+	const char* input_blob  = DETECTNET_DEFAULT_INPUT;
+	const char* output_cvg  = DETECTNET_DEFAULT_COVERAGE;
+	const char* output_bbox = DETECTNET_DEFAULT_BBOX;
+	
+	float threshold = DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD;
+	
+	static char* kwlist[] = {"network", "argv", "threshold", "model", "labels", "colors", "input_blob", "output_cvg", "output_bbox", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sOfssssss", kwlist, &network, &argList, &threshold, &model, &labels, &colors, &input_blob, &output_cvg, &output_bbox))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.__init()__ failed to parse args tuple");
 		return -1;
@@ -537,6 +550,15 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 		// free the arguments array
 		free(argv);
 	}
+	else if( model != NULL )
+	{
+		LogVerbose(LOG_PY_INFERENCE "detectNet loading custom model '%s'\n", model);
+		
+		// load the network using custom model parameters
+		Py_BEGIN_ALLOW_THREADS
+		self->net = detectNet::Create(NULL, model, 0.0f, labels, colors, threshold, input_blob, output_cvg, output_bbox);
+		Py_END_ALLOW_THREADS
+	}	
 	else
 	{
 		LogVerbose(LOG_PY_INFERENCE "detectNet loading build-in network '%s'\n", network);

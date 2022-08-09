@@ -67,7 +67,7 @@
  * Standard command-line options able to be passed to detectNet::Create()
  * @ingroup imageNet
  */
-#define DETECTNET_USAGE_STRING  "detectNet arguments: \n" 								\
+#define DETECTNET_USAGE_STRING  "detectNet arguments: \n" 					\
 		  "  --network=NETWORK     pre-trained model to load, one of the following:\n" 		\
 		  "                            * ssd-mobilenet-v1\n" 							\
 		  "                            * ssd-mobilenet-v2 (default)\n" 					\
@@ -83,7 +83,7 @@
 		  "  --prototxt=PROTOTXT   path to custom prototxt to load (for .caffemodel only)\n" 					\
 		  "  --labels=LABELS       path to text file containing the labels for each class\n" 					\
 		  "  --input-blob=INPUT    name of the input layer (default is '" DETECTNET_DEFAULT_INPUT "')\n" 			\
-		  "  --output-cvg=COVERAGE name of the coverge output layer (default is '" DETECTNET_DEFAULT_COVERAGE "')\n" 	\
+		  "  --output-cvg=COVERAGE name of the coverage/confidence output layer (default is '" DETECTNET_DEFAULT_COVERAGE "')\n" 	\
 		  "  --output-bbox=BOXES   name of the bounding output layer (default is '" DETECTNET_DEFAULT_BBOX "')\n" 	\
 		  "  --mean-pixel=PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
 		  "  --batch-size=BATCH    maximum batch size (default is 1)\n"										\
