@@ -53,6 +53,7 @@
 					   "           $ ./download-models.sh\n"
 
 #define USE_INPUT_TENSOR_CUDA_DEVICE_MEMORY
+#define CHECKSUM_TYPE "sha256sum"
 
 //---------------------------------------------------------------------
 const char* precisionTypeToStr( precisionType type )
@@ -1007,7 +1008,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path, const char* model_path, 
 				    allowGPUFallback, calibrator, stream);
 }
 
-				   
+		   
 // LoadNetwork
 bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_, const char* mean_path, 
 					    const std::vector<std::string>& input_blobs, 
@@ -1137,14 +1138,16 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 	sprintf(cache_path, "%s.calibration", cache_prefix);
 	mCacheCalibrationPath = cache_path;
 	
+	sprintf(cache_path, "%s.%s", model_path.c_str(), CHECKSUM_TYPE);
+	mChecksumPath = cache_path;
+	
 	sprintf(cache_path, "%s.engine", cache_prefix);
 	mCacheEnginePath = cache_path;	
-	LogVerbose(LOG_TRT "attempting to open engine cache file %s\n", mCacheEnginePath.c_str());
 
 	// check for existence of cache
-	if( !fileExists(cache_path) )
+	if( !ValidateEngine(model_path.c_str(), cache_path, mChecksumPath.c_str()) )
 	{
-		LogVerbose(LOG_TRT "cache file not found, profiling network model on device %s\n", deviceTypeToStr(device));
+		LogVerbose(LOG_TRT "cache file invalid, profiling network model on device %s\n", deviceTypeToStr(device));
 	
 		// check for existence of model
 		if( model_path.size() == 0 )
@@ -1163,7 +1166,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 			return 0;
 		}
 	
-		LogVerbose(LOG_TRT "network profiling complete, writing engine cache to %s\n", cache_path);
+		LogVerbose(LOG_TRT "network profiling complete, saving engine cache to %s\n", cache_path);
 		
 		// write the cache file
 		FILE* cacheFile = NULL;
@@ -1181,7 +1184,20 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 			LogError(LOG_TRT "failed to open engine cache file for writing %s\n", cache_path);
 		}
 
-		LogSuccess(LOG_TRT "device %s, completed writing engine cache to %s\n", deviceTypeToStr(device), cache_path);
+		LogSuccess(LOG_TRT "device %s, completed saving engine cache to %s\n", deviceTypeToStr(device), cache_path);
+		
+		// write the checksum file
+		LogVerbose(LOG_TRT "saving model checksum to %s\n", mChecksumPath.c_str());
+		
+		char cmd[PATH_MAX * 2 + 256];
+		snprintf(cmd, sizeof(cmd), "%s %s | awk '{print $1}' > %s", CHECKSUM_TYPE, model_path.c_str(), mChecksumPath.c_str());
+	
+		LogVerbose(LOG_TRT "%s\n", cmd);
+	
+		const int result = system(cmd);
+		
+		if( result != 0 )
+			LogError(LOG_TRT "failed to save model checksum to %s\n", mChecksumPath.c_str());
 	}
 	else
 	{
@@ -1602,6 +1618,46 @@ bool tensorNet::LoadEngine( const char* filename, char** stream, size_t* size )
 	*stream = engineStream;
 	*size = engineSize;
 
+	return true;
+}
+
+
+// ValidateEngine
+bool tensorNet::ValidateEngine( const char* model_path, const char* cache_path, const char* checksum_path )
+{
+	// check for existence of cache
+	if( !fileExists(cache_path) )
+	{
+		LogVerbose(LOG_TRT "could not find engine cache %s\n", cache_path);
+		return false;
+	}
+	
+	LogVerbose(LOG_TRT "found engine cache file %s\n", cache_path);
+	
+	// check for existence of checksum
+	if( !fileExists(checksum_path) )
+	{
+		LogVerbose(LOG_TRT "could not find model checksum %s\n", checksum_path);
+		return false;
+	}
+	
+	LogVerbose(LOG_TRT "found model checksum %s\n", checksum_path);
+	
+	// validate that the checksum matches the original model
+	char cmd[PATH_MAX * 2 + 256];
+	snprintf(cmd, sizeof(cmd), "echo \"$(cat %s) %s\" | %s --check --status", checksum_path, model_path, CHECKSUM_TYPE);  // https://superuser.com/a/1468626
+	
+	LogVerbose(LOG_TRT "%s\n", cmd);
+	
+	const int result = system(cmd);
+	
+	if( result != 0 )
+	{
+		LogVerbose(LOG_TRT "model did not match checksum %s (return code %i)\n", checksum_path, result);
+		return false;
+	}
+	
+	LogVerbose(LOG_TRT "model matched checksum %s\n", checksum_path);
 	return true;
 }
 

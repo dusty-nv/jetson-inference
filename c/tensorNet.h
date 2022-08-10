@@ -618,6 +618,11 @@ protected:
 #endif
 
 	/**
+	 * Validate that the model already has a built TensorRT engine that exists and doesn't need updating.
+	 */
+	bool ValidateEngine( const char* model_path, const char* cache_path, const char* checksum_path );
+
+	/**
 	 * Logger class for GIE info/warning/errors
 	 */
 	class Logger : public nvinfer1::ILogger			
@@ -749,7 +754,8 @@ protected:
 	std::string mMeanPath;
 	std::string mCacheEnginePath;
 	std::string mCacheCalibrationPath;
-
+	std::string mChecksumPath;
+	
 	deviceType    mDevice;
 	precisionType mPrecision;
 	modelType     mModelType;
