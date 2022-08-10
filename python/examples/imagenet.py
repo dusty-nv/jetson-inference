@@ -35,10 +35,6 @@ parser = argparse.ArgumentParser(description="Classify a live camera stream usin
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
 parser.add_argument("--network", type=str, default="googlenet", help="pre-trained model to load (see below for options)")
-parser.add_argument("--camera", type=str, default="0", help="index of the MIPI CSI camera to use (e.g. CSI camera 0)\nor for VL42 cameras, the /dev/video device to use.\nby default, MIPI CSI camera 0 will be used.")
-parser.add_argument("--width", type=int, default=1280, help="desired width of camera stream (default is 1280 pixels)")
-parser.add_argument("--height", type=int, default=720, help="desired height of camera stream (default is 720 pixels)")
-parser.add_argument('--headless', action='store_true', default=(), help="run without display")
 
 is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
 
@@ -52,6 +48,11 @@ except:
 
 # load the recognition network
 net = imageNet(args.network, sys.argv)
+
+# note: to hard-code the paths to load a model, the following API can be used:
+#
+# net = imageNet(model="model/resnet18.onnx", labels="model/labels.txt", 
+#                 input_blob="input_0", output_blob="output_0")
 
 # create video sources & outputs
 input = videoSource(args.input_URI, argv=sys.argv)
@@ -84,7 +85,3 @@ while True:
 	# exit on input/output EOS
 	if not input.IsStreaming() or not output.IsStreaming():
 		break
-
-	
-
-

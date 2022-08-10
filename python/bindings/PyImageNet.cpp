@@ -47,8 +47,12 @@ typedef struct {
 				 "                           see below for available options.\n\n" \
 				 "       argv (strings) -- command line arguments passed to imageNet,\n" \
 				 "                         see below for available options.\n\n" \
+				 "     Extended parameters for loading custom models:\n" \
+				 "       model (string) -- path to self-trained ONNX model to load.\n\n" \
+				 "       labels (string) -- path to labels.txt file (optional)\n\n" \
+				 "       input_blob (string) -- name of the input layer to the model.\n\n" \
+				 "       output_blob (string) -- name of the output layer to the model.\n\n" \
  				 IMAGENET_USAGE_STRING
-
 
 // Init
 static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *kwds )
@@ -56,21 +60,27 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 	LogDebug(LOG_PY_INFERENCE "PyImageNet_Init()\n");
 	
 	// parse arguments
-	PyObject* argList     = NULL;
-	const char* network   = "googlenet";
-	static char* kwlist[] = {"network", "argv", NULL};
+	PyObject* argList = NULL;
+	
+	const char* network     = "googlenet";
+	const char* model       = NULL;
+	const char* labels      = NULL;
+	const char* input_blob  = IMAGENET_DEFAULT_INPUT;
+	const char* output_blob = IMAGENET_DEFAULT_OUTPUT;
+	
+	static char* kwlist[] = {"network", "argv", "model", "labels", "input_blob", "output_blob", NULL};
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sO", kwlist, &network, &argList))
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sOssss", kwlist, &network, &argList, &model, &labels, &input_blob, &output_blob))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.__init()__ failed to parse args tuple");
-		printf(LOG_PY_INFERENCE "imageNet.__init()__ failed to parse args tuple\n");
+		LogError(LOG_PY_INFERENCE "imageNet.__init()__ failed to parse args tuple\n");
 		return -1;
 	}
     
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
-		printf(LOG_PY_INFERENCE "imageNet loading network using argv command line params\n");
+		LogDebug(LOG_PY_INFERENCE "imageNet loading network using argv command line params\n");
 
 		// parse the python list into char**
 		const size_t argc = PyList_Size(argList);
@@ -110,9 +120,18 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 		// free the arguments array
 		free(argv);
 	}
+	else if( model != NULL )
+	{
+		LogVerbose(LOG_PY_INFERENCE "imageNet loading custom model '%s'\n", model);
+		
+		// load the network using custom model parameters
+		Py_BEGIN_ALLOW_THREADS
+		self->net = imageNet::Create(NULL, model, NULL, labels, input_blob, output_blob);
+		Py_END_ALLOW_THREADS
+	}
 	else
 	{
-		printf(LOG_PY_INFERENCE "imageNet loading build-in network '%s'\n", network);
+		LogVerbose(LOG_PY_INFERENCE "imageNet loading build-in network '%s'\n", network);
 		
 		// parse the selected built-in network
 		imageNet::NetworkType networkType = imageNet::NetworkTypeFromStr(network);
@@ -120,7 +139,7 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 		if( networkType == imageNet::CUSTOM )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid built-in network was requested");
-			printf(LOG_PY_INFERENCE "imageNet invalid built-in network was requested ('%s')\n", network);
+			LogError(LOG_PY_INFERENCE "imageNet invalid built-in network was requested ('%s')\n", network);
 			return -1;
 		}
 		
@@ -134,7 +153,7 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 	if( !self->net )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet failed to load network");
-		printf(LOG_PY_INFERENCE "imageNet failed to load built-in network '%s'\n", network);
+		LogError(LOG_PY_INFERENCE "imageNet failed to load built-in network '%s'\n", network);
 		return -1;
 	}
 
@@ -185,7 +204,7 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iis", kwlist, &capsule, &width, &height, &format_str))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple");
-		printf(LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple\n");
+		LogError(LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple\n");
 		return NULL;
 	}
 
