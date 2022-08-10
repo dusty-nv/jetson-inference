@@ -476,7 +476,7 @@ typedef struct {
 				  "       model (string) -- path to self-trained ONNX model to load.\n\n" \
 				  "       labels (string) -- path to labels.txt file (optional)\n\n" \
 				  "       colors (string) -- path to colors.txt file (optional)\n\n" \
-				  "       input_blob (string) -- name of the input layer to the model.\n\n" \
+				  "       input_blob (string) -- name of the input layer of the model.\n\n" \
 				  "       output_cvg (string) -- name of the output coverage/confidence layer.\n\n" \
 				  "       output_bbox (string) -- name of the output bounding boxes layer.\n\n" \
  				  DETECTNET_USAGE_STRING
