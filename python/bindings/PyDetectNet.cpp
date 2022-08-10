@@ -472,7 +472,7 @@ typedef struct {
 				  "                         see below for available options.\n\n" \
 				  "       threshold (float) -- minimum detection threshold.\n" \
 				  "                            default value is 0.5\n\n" \
-				  "    Extended Parameters for Loading Custom Models:\n" \
+				  "     Extended parameters for loading custom models:\n" \
 				  "       model (string) -- path to self-trained ONNX model to load.\n\n" \
 				  "       labels (string) -- path to labels.txt file (optional)\n\n" \
 				  "       colors (string) -- path to colors.txt file (optional)\n\n" \
