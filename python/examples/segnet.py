@@ -55,6 +55,11 @@ except:
 # load the segmentation network
 net = segNet(args.network, sys.argv)
 
+# note: to hard-code the paths to load a model, the following API can be used:
+#
+# net = segNet(model="model/fcn_resnet18.onnx", labels="model/labels.txt", colors="model/colors.txt",
+#              input_blob="input_0", output_blob="output_0")
+
 # set the alpha blending value
 net.SetOverlayAlpha(args.alpha)
 

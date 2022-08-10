@@ -46,8 +46,13 @@ typedef struct {
 				 "                           see below for available options.\n\n" \
 				 "       argv (strings) -- command line arguments passed to segNet,\n" \
 				 "                         see below for available options.\n\n" \
+				 "     Extended parameters for loading custom models:\n" \
+				 "       model (string) -- path to self-trained ONNX model to load.\n\n" \
+				 "       labels (string) -- path to labels.txt file (optional)\n\n" \
+				 "       colors (string) -- path to colors.txt file (optional)\n\n" \
+				 "       input_blob (string) -- name of the input layer of the model.\n\n" \
+				 "       output_blob (string) -- name of the output layer of the model.\n\n" \
  				 SEGNET_USAGE_STRING
-
 
 // Init
 static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds )
@@ -55,11 +60,18 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 	LogDebug(LOG_PY_INFERENCE "PySegNet_Init()\n");
 
 	// parse arguments
-	PyObject* argList     = NULL;
-	const char* network   = "fcn-resnet18-pascal-voc";
-	static char* kwlist[] = {"network", "argv", NULL};
+	PyObject* argList = NULL;
+	
+	const char* network     = "fcn-resnet18-pascal-voc";
+	const char* model       = NULL;
+	const char* labels      = NULL;
+	const char* colors      = NULL;
+	const char* input_blob  = SEGNET_DEFAULT_INPUT;
+	const char* output_blob = SEGNET_DEFAULT_OUTPUT;
+	
+	static char* kwlist[] = {"network", "argv", "model", "labels", "colors", "input_blob", "output_blob", NULL};
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sO", kwlist, &network, &argList))
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sOsssss", kwlist, &network, &argList, &model, &labels, &colors, &input_blob, &output_blob))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.__init()__ failed to parse args tuple");
 		LogError(LOG_PY_INFERENCE "segNet.__init()__ failed to parse args tuple\n");
@@ -108,6 +120,15 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 		
 		// free the arguments array
 		free(argv);
+	}
+	else if( model != NULL )
+	{
+		LogVerbose(LOG_PY_INFERENCE "segNet loading custom model '%s'\n", model);
+		
+		// load the network using custom model parameters
+		Py_BEGIN_ALLOW_THREADS
+		self->net = segNet::Create(NULL, model, labels, colors, input_blob, output_blob);
+		Py_END_ALLOW_THREADS
 	}
 	else
 	{
