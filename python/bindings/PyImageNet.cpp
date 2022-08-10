@@ -50,8 +50,8 @@ typedef struct {
 				 "     Extended parameters for loading custom models:\n" \
 				 "       model (string) -- path to self-trained ONNX model to load.\n\n" \
 				 "       labels (string) -- path to labels.txt file (optional)\n\n" \
-				 "       input_blob (string) -- name of the input layer to the model.\n\n" \
-				 "       output_blob (string) -- name of the output layer to the model.\n\n" \
+				 "       input_blob (string) -- name of the input layer of the model.\n\n" \
+				 "       output_blob (string) -- name of the output layer of the model.\n\n" \
  				 IMAGENET_USAGE_STRING
 
 // Init
