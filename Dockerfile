@@ -55,7 +55,7 @@ RUN apt-get update && \
     
 # pip dependencies for pytorch-ssd
 RUN pip3 install --verbose --upgrade Cython && \
-    pip3 install --verbose boto3 pandas
+    pip3 install --verbose boto3 pandas tensorboard
 
     
 # 

@@ -505,7 +505,8 @@ function install_pytorch_v140_python36_jp44()
 	# install pip packages
 	pip3 install Cython
 	pip3 install numpy --verbose
-
+	pip3 install tensorboard --verbose
+	
 	# install pytorch wheel
 	download_wheel pip3 "torch-1.4.0-cp36-cp36m-linux_aarch64.whl" "https://nvidia.box.com/shared/static/c3d7vm4gcs9m728j6o5vjay2jdedqb55.whl"
 
@@ -545,7 +546,8 @@ function install_pytorch_v160_python36_jp44()
 	# install pip packages
 	pip3 install Cython
 	pip3 install numpy --verbose
-
+	pip3 install tensorboard --verbose
+	
 	# install pytorch wheel
 	download_wheel pip3 "torch-1.6.0-cp36-cp36m-linux_aarch64.whl" "https://nvidia.box.com/shared/static/9eptse6jyly1ggt9axbja2yrmj6pbarc.whl"
 
@@ -587,7 +589,8 @@ function install_pytorch_v1120_python38_jp50()
 	# install pip packages
 	pip3 install Cython
 	pip3 install numpy --verbose
-
+	pip3 install tensorboard --verbose
+	
 	# install pytorch wheel
 	download_wheel pip3 "torch-1.12.0a0+2c916ef.nv22.3-cp38-cp38-linux_aarch64.whl" "https://developer.download.nvidia.com/compute/redist/jp/v50/pytorch/torch-1.12.0a0+2c916ef.nv22.3-cp38-cp38-linux_aarch64.whl" "sudo"
 
