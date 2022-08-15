@@ -500,6 +500,11 @@ public:
 	inline uint32_t GetInputSize( uint32_t layer=0 ) const		{ return mInputs[layer].size; }
 
 	/**
+	 * Get the CUDA pointer to the input layer's memory.
+	 */
+	inline float* GetInputPtr( uint32_t layer=0 ) const		{ return mInputs[layer].CUDA; }
+	
+	/**
 	 * Retrieve the dimensions of network output layer.
 	 */
 	inline Dims3 GetOutputDims( uint32_t layer=0 ) const		{ return mOutputs[layer].dims; }
@@ -519,6 +524,11 @@ public:
 	 */
 	inline uint32_t GetOutputSize( uint32_t layer=0 ) const	{ return mOutputs[layer].size; }
 
+	/**
+	 * Get the CUDA pointer to the output memory.
+	 */
+	inline float* GetOutputPtr( uint32_t layer=0 ) const		{ return mOutputs[layer].CUDA; }
+	
 	/**
 	 * Retrieve the network frames per second (FPS).
 	 */
