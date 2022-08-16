@@ -25,7 +25,7 @@
 
 
 #include "tensorNet.h"
-#include "cudaFilterMode.h"
+#include <jetson-utils/cudaFilterMode.h>
 
 
 /**
