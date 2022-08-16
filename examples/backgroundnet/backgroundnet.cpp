@@ -22,6 +22,11 @@
 
 #include "videoSource.h"
 #include "videoOutput.h"
+#include "imageIO.h"
+
+#include "cudaMappedMemory.h"
+#include "cudaResize.h"
+#include "cudaOverlay.h"
 
 #include "backgroundNet.h"
 
@@ -41,12 +46,14 @@ void sig_handler(int signo)
 
 int usage()
 {
-	printf("usage: backgroundnet [--help] [--network=NETWORK] ...\n");
+	printf("usage: backgroundnet [--help] [--replace=IMAGE] ...\n");
 	printf("                input_URI [output_URI]\n\n");
 	printf("Perform background subtraction/removal on a video or image stream.\n");
 	printf("See below for additional arguments that may not be shown above.\n\n");
 	printf("optional arguments:\n");
 	printf("  --help            show this help message and exit\n");
+	printf("  --replace=IMAGE   perform background replacement, using this image as\n");
+	printf("                    the new background. It will be resized to fit the input.\n");
 	printf("  --filter-mode=MODE filtering mode used to upsample the DNN mask,\n");
 	printf("                     options are:  'point' or 'linear' (default: 'linear')\n");
 	printf("positional arguments:\n");
@@ -60,6 +67,42 @@ int usage()
 
 	return 0;
 }
+
+typedef uchar4 pixelType;   			// can be uchar4 or float4 (need alpha channel for background replacement)
+
+pixelType* imgReplacement = NULL;		// replacement background image (only if --replace is used)
+pixelType* imgReplacementScaled = NULL;	// replacement background image resized to the input size
+pixelType* imgOutput = NULL;			// output image (background + input with alpha blending)
+
+int2 replacementSize;
+int2 replacementSizeScaled;
+
+// replace the background of an image after it's been removed
+bool replaceBackground( pixelType* imgInput, int width, int height, cudaFilterMode filter )
+{
+	const size_t size = width * height * sizeof(pixelType);
+	
+	if( !imgReplacementScaled || replacementSizeScaled.x != width || replacementSizeScaled.y != height )
+	{
+		CUDA_FREE(imgReplacementScaled);
+		CUDA_FREE_HOST(imgOutput);
+
+		if( !cudaAllocMapped(&imgOutput, size) )
+			return false;
+		
+		CUDA_VERIFY(cudaMalloc(&imgReplacementScaled, size));
+		CUDA_VERIFY(cudaResize(imgReplacement, replacementSize.x, replacementSize.y,
+						   imgReplacementScaled, width, height, filter));
+						   
+		replacementSizeScaled = make_int2(width, height);
+	}
+	
+	CUDA_VERIFY(cudaMemcpy(imgOutput, imgReplacementScaled, size, cudaMemcpyDeviceToDevice));
+	CUDA_VERIFY(cudaOverlay(imgInput, width, height, imgOutput, width, height, 0, 0));
+	
+	return true;
+}
+							  
 
 int main( int argc, char** argv )
 {
@@ -112,7 +155,19 @@ int main( int argc, char** argv )
 	}
 
 	// parse the desired filter mode
-	const cudaFilterMode filterMode = cudaFilterModeFromStr(cmdLine.GetString("filter-mode"));
+	const cudaFilterMode filter = cudaFilterModeFromStr(cmdLine.GetString("filter-mode"));
+	
+	
+	/*
+	 * load replacement background image if needed
+	 */
+	const char* replacementPath = cmdLine.GetString("replace");
+	
+	if( replacementPath != NULL && !loadImage(replacementPath, &imgReplacement, &replacementSize.x, &replacementSize.y) )
+	{
+		LogError("backgroundnet:  failed to load background replacement image %s\n", replacementPath);
+		return 1;
+	}
 	
 	
 	/*
@@ -121,9 +176,9 @@ int main( int argc, char** argv )
 	while( !signal_recieved )
 	{
 		// capture next image image
-		uchar3* image = NULL;
+		pixelType* imgInput = NULL;
 
-		if( !input->Capture(&image, 1000) )
+		if( !input->Capture(&imgInput, 1000) )
 		{
 			// check for EOS
 			if( !input->IsStreaming() )
@@ -134,17 +189,22 @@ int main( int argc, char** argv )
 		}
 
 		// process image
-		if( !net->Process(image, input->GetWidth(), input->GetHeight(), filterMode) )
+		if( !net->Process(imgInput, input->GetWidth(), input->GetHeight(), filter) )
 		{
 			LogError("backgroundnet:  failed to process frame\n");
 			continue;
 		}
 	
+		// background replacement
+		if( imgReplacement != NULL )
+			replaceBackground(imgInput, input->GetWidth(), input->GetHeight(), filter);
+		else
+			imgOutput = imgInput;  // no bg replacement, pass through the input
 		
 		// render outputs
 		if( output != NULL )
 		{
-			output->Render(image, input->GetWidth(), input->GetHeight());
+			output->Render(imgOutput, input->GetWidth(), input->GetHeight());
 
 			// update status bar
 			char str[256];
@@ -166,8 +226,11 @@ int main( int argc, char** argv )
 	 */
 	LogVerbose("backgroundnet:  shutting down...\n");
 	
+	CUDA_FREE_HOST(imgReplacement);
+	CUDA_FREE(imgReplacementScaled);
+
 	SAFE_DELETE(input);
-	//SAFE_DELETE(output);
+	SAFE_DELETE(output);
 	SAFE_DELETE(net);
 	
 	LogVerbose("backgroundnet:  shutdown complete.\n");
