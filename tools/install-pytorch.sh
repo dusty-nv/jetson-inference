@@ -717,7 +717,7 @@ while true; do
 		else
 			PYTORCH_VERSION="1.4.0"	# JetPack 4.2, 4.3
 		fi
-	elif [ $JETSON_L4T_RELEASE -eq 34 ]; then
+	elif [[ $JETSON_L4T_RELEASE -eq 34 || $JETSON_L4T_RELEASE -eq 35 ]]; then
 		# JetPack 5.x
 		PYTORCH_VERSION="1.12.0"
 		PYTHON3_VERSION="3.8"
