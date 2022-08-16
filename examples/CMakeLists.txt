@@ -4,7 +4,10 @@ add_subdirectory(depthnet)
 add_subdirectory(detectnet)
 add_subdirectory(posenet)
 add_subdirectory(segnet)
-
+add_subdirectory(actionnet)
+add_subdirectory(featurenet)
+add_subdirectory(backgroundnet)
+	
 # experimental examples
 if(BUILD_EXPERIMENTAL)
 	add_subdirectory(experimental/flownet-console)
@@ -17,10 +20,6 @@ if(BUILD_EXPERIMENTAL)
 	add_subdirectory(experimental/stereonet-camera)
 
 	add_subdirectory(experimental/superres-console)
-
-	add_subdirectory(actionnet)
-	add_subdirectory(featurenet)
-	add_subdirectory(backgroundnet)
 
 	if(HAS_OPENCV)
 		add_subdirectory(experimental/homography-console)
