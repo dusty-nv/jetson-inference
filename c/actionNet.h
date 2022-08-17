@@ -57,7 +57,7 @@
 
 
 /**
- * Action/activity recognition on a sequence of images, using TensorRT.
+ * Action/activity classification on a sequence of images, using TensorRT.
  * @ingroup actionNet
  */
 class actionNet : public tensorNet

@@ -44,8 +44,12 @@ int usage()
 {
 	printf("usage: actionnet [--help] [--network=NETWORK] ...\n");
 	printf("                input_URI [output_URI]\n\n");
-	printf("Classify a video/image stream using an image recognition DNN.\n");
+	printf("Classify the action/activity of an image sequence.\n");
 	printf("See below for additional arguments that may not be shown above.\n\n");	
+	printf("optional arguments:\n");
+	printf("  --help            show this help message and exit\n");
+	printf("  --network=NETWORK pre-trained model to load (see below for options)\n");
+	printf("  --frameskip=N     how many frames to skip between classifications (default: 2)\n");
 	printf("positional arguments:\n");
 	printf("    input_URI       resource URI of input stream  (see videoSource below)\n");
 	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
@@ -121,9 +125,10 @@ int main( int argc, char** argv )
 	}
 
 	const uint32_t frameskip = cmdLine.GetInt("frameskip", 2);
+	
 	uint32_t skipped = 0;
 	float confidence = 0.0f;
-	int img_class = 0;
+	int class_id = 0;
 	
 	/*
 	 * processing loop
@@ -143,23 +148,25 @@ int main( int argc, char** argv )
 			continue;
 		}
 
+		// run inference every N frames
 		skipped += 1;
 		
 		if( skipped % frameskip == 0 )
 		{
-			img_class = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
+			class_id = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
 			skipped = 0;
 			
-			if( img_class >= 0 )
-				LogVerbose("actionnet:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
+			if( class_id >= 0 )
+				LogVerbose("actionnet:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, class_id, net->GetClassDesc(class_id));	
 			else
 				LogError("actionnet:  failed to classify frame\n");
 		}
 
-		if( img_class >= 0 )
+		// overlay the results
+		if( class_id >= 0 )
 		{
 			char str[256];
-			sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
+			sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(class_id));
 			font->OverlayText(image, input->GetWidth(), input->GetHeight(),
 						   str, 5, 5, make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
 		}	
