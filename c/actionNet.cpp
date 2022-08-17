@@ -62,10 +62,10 @@ actionNet* actionNet::Create( actionNet::NetworkType networkType, uint32_t maxBa
 		net = Create("networks/Action-ResNet18/resnet-18-kinetics-moments.onnx", "networks/Action-ResNet18/labels.txt", "0", "198", maxBatchSize, precision, device, allowGPUFallback);
 	else if( networkType == RESNET_34 )
 		net = Create("networks/Action-ResNet34/resnet-34-kinetics-moments.onnx", "networks/Action-ResNet34/labels.txt", "0", "350", maxBatchSize, precision, device, allowGPUFallback);
-	else if( networkType == RESNET_50 )
+	/*else if( networkType == RESNET_50 )
 		net = Create("networks/Action-ResNet50/resnet-50-kinetics.onnx", "networks/Action-ResNet50/labels.txt", "0", "503", maxBatchSize, precision, device, allowGPUFallback);
 	else if( networkType == RESNET_101 )
-		net = Create("networks/Action-ResNet101/resnext-101-kinetics.onnx", "networks/Action-ResNet101/labels.txt", "0", "979", maxBatchSize, precision, device, allowGPUFallback);
+		net = Create("networks/Action-ResNet101/resnext-101-kinetics.onnx", "networks/Action-ResNet101/labels.txt", "0", "979", maxBatchSize, precision, device, allowGPUFallback);*/
 	
 	if( !net )
 	{
@@ -214,10 +214,10 @@ actionNet::NetworkType actionNet::NetworkTypeFromStr( const char* modelName )
 		type = actionNet::RESNET_18;
 	else if( strcasecmp(modelName, "resnet-34") == 0 || strcasecmp(modelName, "resnet_34") == 0 || strcasecmp(modelName, "resnet34") == 0 )
 		type = actionNet::RESNET_34;
-	else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 )
+	/*else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 )
 		type = actionNet::RESNET_50;
 	else if( strcasecmp(modelName, "resnet-101") == 0 || strcasecmp(modelName, "resnet_101") == 0 || strcasecmp(modelName, "resnet101") == 0 )
-		type = actionNet::RESNET_101;
+		type = actionNet::RESNET_101;*/
 	else
 		type = actionNet::CUSTOM;
 
@@ -232,8 +232,8 @@ const char* actionNet::NetworkTypeToStr( actionNet::NetworkType network )
 	{
 		case actionNet::RESNET_18:	return "ResNet-18";
 		case actionNet::RESNET_34:	return "ResNet-34";
-		case actionNet::RESNET_50:	return "ResNet-50";
-		case actionNet::RESNET_101:	return "ResNet-101";
+		/*case actionNet::RESNET_50:	return "ResNet-50";
+		case actionNet::RESNET_101:	return "ResNet-101";*/
 	}
 
 	return "Custom";

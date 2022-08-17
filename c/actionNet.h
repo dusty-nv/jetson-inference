@@ -46,18 +46,9 @@
  */
 #define ACTIONNET_USAGE_STRING  "actionNet arguments: \n" 							\
 		  "  --network=NETWORK    pre-trained model to load, one of the following:\n" 	\
-		  "                           * alexnet\n" 								\
-		  "                           * googlenet (default)\n" 					\
-		  "                           * googlenet-12\n" 							\
-		  "                           * resnet-18\n" 							\
-		  "                           * resnet-50\n" 							\
-		  "                           * resnet-101\n" 							\
-		  "                           * resnet-152\n" 							\
-		  "                           * vgg-16\n" 								\
-		  "                           * vgg-19\n" 								\
-		  "                           * inception-v4\n" 							\
-		  "  --model=MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
-		  "  --prototxt=PROTOTXT  path to custom prototxt to load (for .caffemodel only)\n" 				\
+		  "                           * resnet-18 (default)\n"						\
+		  "                           * resnet-34\n" 							\
+		  "  --model=MODEL        path to custom model to load (.onnx)\n" 			\
 		  "  --labels=LABELS      path to text file containing the labels for each class\n" 				\
 		  "  --input-blob=INPUT   name of the input layer (default is '" ACTIONNET_DEFAULT_INPUT "')\n" 	\
 		  "  --output-blob=OUTPUT name of the output layer (default is '" ACTIONNET_DEFAULT_OUTPUT "')\n" 	\
@@ -66,7 +57,7 @@
 
 
 /**
- * Image recognition with classification networks, using TensorRT.
+ * Action/activity recognition on a sequence of images, using TensorRT.
  * @ingroup actionNet
  */
 class actionNet : public tensorNet
@@ -78,15 +69,13 @@ public:
 	enum NetworkType
 	{
 		CUSTOM,        /**< Custom model provided by the user */
-		RESNET_18,	/**< ResNet-18 trained on 1000-class ILSVRC15 */
-		RESNET_34,	/**< ResNet-50 trained on 1000-class ILSVRC15 */
-		RESNET_50,	/**< ResNet-50 trained on 1000-class ILSVRC15 */
-		RESNET_101
+		RESNET_18,	/**< ResNet-18 trained on 1040-class Kinetics-700 and Moments In Time dataset */
+		RESNET_34,	/**< ResNet-50 trained on 1040-class Kinetics-700 and Moments In Time dataset */
 	};
 
 	/**
 	 * Parse a string to one of the built-in pretrained models.
-	 * Valid names are "alexnet", "googlenet", "googlenet-12", or "googlenet_12", ect.
+	 * Valid names are "resnet-18", or "resnet-34", ect.
 	 * @returns one of the actionNet::NetworkType enums, or actionNet::CUSTOM on invalid string.
 	 */
 	static NetworkType NetworkTypeFromStr( const char* model_name );
@@ -141,29 +130,27 @@ public:
 	virtual ~actionNet();
 	
 	/**
-	 * Determine the maximum likelihood image class.
-	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
-	 * @param rgba input image in CUDA device memory.
+	 * Append an image to the sequence and classify the action.  
+	 * @param image input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns Index of the maximum class, or -1 on error.
+	 * @returns Index of the maximum likelihood class, or -1 on error.
 	 */
 	template<typename T> int Classify( T* image, uint32_t width, uint32_t height, float* confidence=NULL )		{ return Classify((void*)image, width, height, imageFormatFromType<T>(), confidence); }
 	
 	/**
-	 * Determine the maximum likelihood image class.
-	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
-	 * @param rgba input image in CUDA device memory.
+	 * Append an image to the sequence and classify the action. 
+	 * @param image input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns Index of the maximum class, or -1 on error.
+	 * @returns Index of the maximum likelihood class, or -1 on error.
 	 */
 	int Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence=NULL );
 
 	/**
-	 * Retrieve the number of image recognition classes (typically 1000)
+	 * Retrieve the number of image recognition classes
 	 */
 	inline uint32_t GetNumClasses() const						{ return mNumClasses; }
 	
