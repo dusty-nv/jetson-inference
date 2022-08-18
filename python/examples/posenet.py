@@ -25,12 +25,12 @@ import sys
 import argparse
 
 from jetson_inference import poseNet
-from jetson_utils import videoSource, videoOutput, logUsage
+from jetson_utils import videoSource, videoOutput, Log
 
 # parse the command line
 parser = argparse.ArgumentParser(description="Run pose estimation DNN on a video/image stream.", 
                                  formatter_class=argparse.RawTextHelpFormatter, 
-                                 epilog=poseNet.Usage() + videoSource.Usage() + videoOutput.Usage() + logUsage())
+                                 epilog=poseNet.Usage() + videoSource.Usage() + videoOutput.Usage() + Log.Usage())
 
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")

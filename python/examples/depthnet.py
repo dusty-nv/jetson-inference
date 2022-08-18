@@ -25,14 +25,14 @@ import sys
 import argparse
 
 from jetson_inference import depthNet
-from jetson_utils import videoSource, videoOutput, logUsage, cudaOverlay, cudaDeviceSynchronize
+from jetson_utils import videoSource, videoOutput, cudaOverlay, cudaDeviceSynchronize, Log
 
 from depthnet_utils import depthBuffers
 
 # parse the command line
 parser = argparse.ArgumentParser(description="Mono depth estimation on a video/image stream using depthNet DNN.", 
                                  formatter_class=argparse.RawTextHelpFormatter, 
-                                 epilog=depthNet.Usage() + videoSource.Usage() + videoOutput.Usage() + logUsage())
+                                 epilog=depthNet.Usage() + videoSource.Usage() + videoOutput.Usage() + Log.Usage())
 
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")

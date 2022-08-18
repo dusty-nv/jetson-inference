@@ -25,12 +25,12 @@ import sys
 import argparse
 
 from jetson_inference import imageNet
-from jetson_utils import videoSource, videoOutput, logUsage, cudaFont
+from jetson_utils import videoSource, videoOutput, cudaFont, Log
 
 # parse the command line
 parser = argparse.ArgumentParser(description="Classify a live camera stream using an image recognition DNN.", 
                                  formatter_class=argparse.RawTextHelpFormatter, 
-                                 epilog=imageNet.Usage() + videoSource.Usage() + videoOutput.Usage() + logUsage())
+                                 epilog=imageNet.Usage() + videoSource.Usage() + videoOutput.Usage() + Log.Usage())
 
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")

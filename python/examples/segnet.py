@@ -25,14 +25,14 @@ import sys
 import argparse
 
 from jetson_inference import segNet
-from jetson_utils import videoSource, videoOutput, logUsage, cudaOverlay, cudaDeviceSynchronize
+from jetson_utils import videoSource, videoOutput, cudaOverlay, cudaDeviceSynchronize, Log
 
 from segnet_utils import *
 
 # parse the command line
 parser = argparse.ArgumentParser(description="Segment a live camera stream using an semantic segmentation DNN.", 
                                  formatter_class=argparse.RawTextHelpFormatter, 
-                                 epilog=segNet.Usage() + videoSource.Usage() + videoOutput.Usage() + logUsage())
+                                 epilog=segNet.Usage() + videoSource.Usage() + videoOutput.Usage() + Log.Usage())
 
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")

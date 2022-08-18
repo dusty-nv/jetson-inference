@@ -36,13 +36,13 @@ import sys
 import os
 
 from jetson_inference import detectNet
-from jetson_utils import (videoSource, videoOutput, logUsage, saveImage,
+from jetson_utils import (videoSource, videoOutput, saveImage, Log,
                           cudaAllocMapped, cudaCrop, cudaDeviceSynchronize)
 
 # parse the command line
 parser = argparse.ArgumentParser(description="Locate objects in a live camera stream using an object detection DNN.", 
                                  formatter_class=argparse.RawTextHelpFormatter, 
-                                 epilog=detectNet.Usage() + videoSource.Usage() + videoOutput.Usage() + logUsage())
+                                 epilog=detectNet.Usage() + videoSource.Usage() + videoOutput.Usage() + Log.Usage())
 
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
