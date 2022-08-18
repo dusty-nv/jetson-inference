@@ -178,7 +178,7 @@ int main( int argc, char** argv )
 		// capture next image image
 		pixelType* imgInput = NULL;
 
-		if( !input->Capture(&imgInput, 1000) )
+		if( !input->Capture(&imgInput) )
 		{
 			// check for EOS
 			if( !input->IsStreaming() )

@@ -136,7 +136,7 @@ int main( int argc, char** argv )
 		// capture next image image
 		uchar3* image = NULL;
 
-		if( !input->Capture(&image, 1000) )
+		if( !input->Capture(&image) )
 		{
 			// check for EOS
 			if( !input->IsStreaming() )
