@@ -45,18 +45,18 @@
  * Standard command-line options able to be passed to backgroundNet::Create()
  * @ingroup backgroundNet
  */
-#define BACKGROUNDNET_USAGE_STRING  "backgroundNet arguments: \n" 							\
+#define BACKGROUNDNET_USAGE_STRING  "backgroundNet arguments: \n" 					\
 		  "  --network=NETWORK    pre-trained model to load, one of the following:\n" 	\
 		  "                           * u2net (default)\n" 						\
-		  "  --model=MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 			\
+		  "  --model=MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 				\
 		  "  --input-blob=INPUT   name of the input layer (default is '" BACKGROUNDNET_DEFAULT_INPUT "')\n" 	\
 		  "  --output-blob=OUTPUT name of the output layer (default is '" BACKGROUNDNET_DEFAULT_OUTPUT "')\n" 	\
-		  "  --batch-size=BATCH   maximum batch size (default is 1)\n"								\
+		  "  --batch-size=BATCH   maximum batch size (default is 1)\n"									\
 		  "  --profile            enable layer profiling in TensorRT\n\n"
 
 
 /**
- * Background subtraction/removal, TensorRT.
+ * Background subtraction/removal with DNNs, using TensorRT.
  * @ingroup backgroundNet
  */
 class backgroundNet : public tensorNet
@@ -91,10 +91,7 @@ public:
 	
 	/**
 	 * Load a new network instance
-	 * @param prototxt_path File path to the deployable network prototxt
 	 * @param model_path File path to the caffemodel
-	 * @param mean_binary File path to the mean value binary proto (can be NULL)
-	 * @param class_labels File path to list of class name labels
 	 * @param input Name of the input layer blob.
 	 * @param output Name of the output layer blob.
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
