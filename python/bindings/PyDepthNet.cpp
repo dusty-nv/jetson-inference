@@ -40,7 +40,7 @@ typedef struct {
 				 "Examples (jetson-inference/python/examples)\n" \
                      "     depthnet.py\n\n" \
 				 "__init__(...)\n" \
-				 "     Loads an semantic segmentation model.\n\n" \
+				 "     Loads a mono depth estimation model.\n\n" \
 				 "     Parameters:\n" \
 				 "       network (string) -- name of a built-in network to use,\n" \
 				 "                           see below for available options.\n\n" \
@@ -162,10 +162,10 @@ static void PyDepthNet_Dealloc( PyDepthNet_Object* self )
 #define DOC_PROCESS  "Compute the depth field from a monocular RGB/RGBA image.\n" \
                      "The results can also be visualized if output image is provided.\n\n" \
 				 "Parameters:\n" \
-				 "  input  (capsule) -- CUDA memory capsule (input image)\n" \
-				 "  output (capsule) -- CUDA memory capsule (optional output image)\n" \
+				 "  input  (capsule)  -- CUDA memory capsule (input image)\n" \
+				 "  output (capsule)  -- CUDA memory capsule (optional output image)\n" \
 				 "  colormap (string) -- colormap name (optional)\n" \
-				 "  filter_mode (string) -- filtering used in upscaling, 'point' or 'linear' (default is 'linear')\n" \
+				 "  filter   (string) -- filtering used in upscaling, 'point' or 'linear' (default is 'linear')\n" \
 				 "Returns:  (none)"
 
 // Process
@@ -250,9 +250,9 @@ static PyObject* PyDepthNet_Process( PyDepthNet_Object* self, PyObject* args, Py
 
 #define DOC_VISUALIZE "Visualize the raw depth field into a colorized RGB/RGBA depth map.\n\n" \
 				  "Parameters:\n" \
-				  "  output (capsule) -- output CUDA memory capsule\n" \
+				  "  output (capsule)  -- output CUDA memory capsule\n" \
 				  "  colormap (string) -- colormap name (optional)\n" \
-				  "  filter_mode (string) -- filtering used in upscaling, 'point' or 'linear' (default is 'linear')\n" \
+				  "  filter   (string) -- filtering used in upscaling, 'point' or 'linear' (default is 'linear')\n" \
 				  "Returns:  (none)"
 
 // Visualize
