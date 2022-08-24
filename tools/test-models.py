@@ -35,6 +35,7 @@ parser.add_argument('--threshold', type=float, default=0.001, help='threshold fo
 parser.add_argument('--generate', action='store_true', help='generate the expected outputs')
 parser.add_argument('--no-python', action='store_true', help='skip testing of the python modules')
 parser.add_argument('--python-only', action='store_true', help='only test the python modules')
+parser.add_argument('--stop-on-failure', action='store_true', help='stop testing as soon as any testing failure is encountered')
 parser.add_argument('--verbose', action='store_true', help='view the subprocess output')
 
 args = parser.parse_args()
@@ -182,6 +183,10 @@ def test_model(module, model, images):
             results[module][model] = {}
             
         results[module][model][image] = 'PASSED' if result else 'FAILED'
+        
+        if not result and args.stop_on_failure:
+            raise Exception('encountered an error and --stop-on-failure was specified')
+        
         
 def test_module(module, models):
     print(f'testing {module}')

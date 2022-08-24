@@ -75,6 +75,13 @@ typedef nvinfer1::Dims3 Dims3;
 
 
 /**
+ * Macro for checking the minimum version of TensorRT that is installed.
+ * This evaluates to true if TensorRT is newer or equal to the provided version.
+ * @ingroup tensorNet
+ */
+#define TENSORRT_VERSION_CHECK(major, minor, patch)  (NV_TENSORRT_MAJOR > major || (NV_TENSORRT_MAJOR == major && NV_TENSORRT_MINOR > minor) || (NV_TENSORRT_MAJOR == major && NV_TENSORRT_MINOR == minor && NV_TENSORRT_PATCH >= patch))
+
+/**
  * Default maximum batch size
  * @ingroup tensorNet
  */

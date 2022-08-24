@@ -1693,26 +1693,48 @@ void tensorNet::SetStream( cudaStream_t stream )
 // ProcessNetwork
 bool tensorNet::ProcessNetwork( bool sync )
 {
-	if( sync )
+	if( TENSORRT_VERSION_CHECK(8,4,1) && mModelType == MODEL_ONNX )
 	{
-		if( !mContext->execute(1, mBindings) )
+		// on TensorRT 8.4.1 (JetPack 5.0.2 / L4T R35.1.0) and newer, this warning appears:
+		// the execute() method has been deprecated when used with engines built from a network created with NetworkDefinitionCreationFlag::kEXPLICIT_BATCH flag. Please use executeV2() instead.
+		// also, the batchSize argument passed into this function has no effect on changing the input shapes. Please use setBindingDimensions() function to change input shapes instead.
+		if( sync )
 		{
-			LogError(LOG_TRT "failed to execute TensorRT context on device %s\n", deviceTypeToStr(mDevice));
-			return false;
+			if( !mContext->executeV2(mBindings) )
+			{
+				LogError(LOG_TRT "failed to execute TensorRT context on device %s\n", deviceTypeToStr(mDevice));
+				return false;
+			}
+		}
+		else
+		{
+			if( !mContext->enqueueV2(mBindings, mStream, NULL) )
+			{
+				LogError(LOG_TRT "failed to enqueue TensorRT context on device %s\n", deviceTypeToStr(mDevice));
+				return false;
+			}
 		}
 	}
 	else
 	{
-		if( !mContext->enqueue(1, mBindings, mStream, NULL) )
+		if( sync )
 		{
-			LogError(LOG_TRT "failed to enqueue TensorRT context on device %s\n", deviceTypeToStr(mDevice));
-			return false;
+			if( !mContext->execute(1, mBindings) )
+			{
+				LogError(LOG_TRT "failed to execute TensorRT context on device %s\n", deviceTypeToStr(mDevice));
+				return false;
+			}
 		}
-
-		//if( sync )
-		//	CUDA(cudaStreamSynchronize(stream));
+		else
+		{
+			if( !mContext->enqueue(1, mBindings, mStream, NULL) )
+			{
+				LogError(LOG_TRT "failed to enqueue TensorRT context on device %s\n", deviceTypeToStr(mDevice));
+				return false;
+			}
+		}
 	}
-
+	
 	return true;
 }
 
