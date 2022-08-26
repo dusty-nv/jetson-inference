@@ -31,7 +31,7 @@ from jetson_utils import videoSource
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--module', type=str, default=None, help='limit testing to a specific module (i.e. "detectnet"')
-parser.add_argument('--threshold', type=float, default=0.001, help='threshold for percentage difference between pixels')
+parser.add_argument('--threshold', type=float, default=0.002, help='threshold for percentage difference between pixels')
 parser.add_argument('--generate', action='store_true', help='generate the expected outputs')
 parser.add_argument('--no-python', action='store_true', help='skip testing of the python modules')
 parser.add_argument('--python-only', action='store_true', help='only test the python modules')
