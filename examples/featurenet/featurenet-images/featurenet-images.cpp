@@ -114,7 +114,7 @@ int main( int argc, char** argv )
 		return 1;
 	}
 	
-	for( int n=0; n < numFeatures; n++ )
+	for( int n=0; n < numFeatures && n < maxFeatures; n++ )
 	{
 		printf("match %i   %f  (%f, %f) -> (%f, %f)\n", n, confidence[n], features[0][n].x, features[0][n].y, features[1][n].x, features[1][n].y);
 	}
@@ -132,6 +132,49 @@ int main( int argc, char** argv )
 			saveImage(cmdLine.GetPosition(n+2), images[n], width[n], height[n]);
 	}
 
+#if 0
+	// DEBUG
+	features[0][0].x = 208.0; features[0][0].y = 144.0;
+	features[1][0].x = 320.0; features[1][0].y = 144.0;
+	features[0][1].x = 256.0; features[0][1].y = 160.0;
+	features[1][1].x = 368.0; features[1][1].y = 160.0;
+	features[0][2].x = 256.0; features[0][2].y = 192.0;
+	features[1][2].x = 384.0; features[1][2].y = 192.0;
+	features[0][3].x = 256.0; features[0][3].y = 304.0;
+	features[1][3].x = 400.0; features[1][3].y = 320.0;
+	features[0][4].x = 176.0; features[0][4].y = 160.0;
+	features[1][4].x = 288.0; features[1][4].y = 160.0;
+	features[0][5].x = 272.0; features[0][5].y = 304.0;
+	features[1][5].x = 416.0; features[1][5].y = 320.0;
+	features[0][6].x = 208.0; features[0][6].y = 160.0;
+	features[1][6].x = 320.0; features[1][6].y = 160.0;
+	features[0][7].x = 224.0; features[0][7].y = 144.0;
+	features[1][7].x = 336.0; features[1][7].y = 144.0;
+	features[0][8].x = 240.0; features[0][8].y = 208.0;
+	features[1][8].x = 368.0; features[1][8].y = 208.0;
+	features[0][9].x = 352.0; features[0][9].y = 416.0;
+	features[1][9].x = 368.0; features[1][9].y = 432.0;
+	features[0][10].x = 224.0; features[0][10].y = 208.0;
+	features[1][10].x = 352.0; features[1][10].y = 208.0;
+	features[0][11].x = 256.0; features[0][11].y = 208.0;
+	features[1][11].x = 384.0; features[1][11].y = 208.0;
+	features[0][12].x = 240.0; features[0][12].y = 176.0;
+	features[1][12].x = 352.0; features[1][12].y = 176.0;
+	features[0][13].x = 240.0; features[0][13].y = 192.0;
+	features[1][13].x = 368.0; features[1][13].y = 192.0;
+	features[0][14].x = 240.0; features[0][14].y = 304.0;
+	features[1][14].x = 384.0; features[1][14].y = 320.0;
+	features[0][15].x = 160.0; features[0][15].y = 192.0;
+	features[1][15].x = 272.0; features[1][15].y = 192.0;
+	features[0][16].x = 272.0; features[0][16].y = 192.0;
+	features[1][16].x = 400.0; features[1][16].y = 192.0;
+	features[0][17].x = 112.0; features[0][17].y = 304.0;
+	features[1][17].x = 256.0; features[1][17].y = 320.0;
+	features[0][18].x = 192.0; features[0][18].y = 144.0;
+	features[1][18].x = 304.0; features[1][18].y = 144.0;
+	features[0][19].x = 160.0; features[0][19].y = 160.0;
+	features[1][19].x = 272.0; features[1][19].y = 160.0;
+#endif
 
 	/*
 	 * find homography
@@ -158,23 +201,29 @@ int main( int argc, char** argv )
 	
 	float2 transformed_coords[] = {
 		make_float2(0.0f, 0.0f),
-		make_float2(width[1], 0.0f),
-		make_float2(width[1], height[1]),
-		make_float2(0.0f, height[1])
+		make_float2(width[0], 0.0f),
+		make_float2(width[0], height[0]),
+		make_float2(0.0f, height[0])
 	};
+	
+	printf("original image corners:\n");
+	
+	for( int n=0; n < 4; n++ )
+		printf("  (%f, %f)\n", transformed_coords[n].x, transformed_coords[n].y);
 	
 	printf("transformed image corners:\n");
 	
 	for( int n=0; n < 4; n++ )
 	{
 		mat33_transform(transformed_coords[n].x, transformed_coords[n].y, 
-					 transformed_coords[n].x, transformed_coords[n].y, H_inv);
+					 transformed_coords[n].x, transformed_coords[n].y, H);
 					 
 		printf("  (%f, %f)\n", transformed_coords[n].x, transformed_coords[n].y);
 	}
 	
 	/*
 	 * warp images
+	 * TODO image[1] should be same size as image[0] ???
 	 */
 	CUDA(cudaWarpPerspective(images[1], width[1], height[1],
 						images[0], width[0], height[0],

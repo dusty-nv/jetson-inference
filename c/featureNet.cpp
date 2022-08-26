@@ -322,16 +322,24 @@ int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, image
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 	
 	const uint32_t cellWidth = mInputWidth / mCellResolution;
-	const uint32_t cellHeight = mInputWidth / mCellResolution;
+	const uint32_t cellHeight = mInputHeight / mCellResolution;
 	
 	const float scale = float(mInputHeight) / float(cellHeight);
 	
+#ifdef RESCALE_FEATURES
+	// this rescales the keypoints to their original image size
+	// which throws off the homography due to that additional scaling,
+	// because the images were rescaled to the same size before processed with DNN
 	const float2 scale_A = make_float2(scale * (float(width_A) / float(mInputWidth)),
 								scale * (float(height_A) / float(mInputHeight)));
 								
 	const float2 scale_B = make_float2(scale * (float(width_B) / float(mInputWidth)),
 								scale * (float(height_B) / float(mInputHeight)));
-								
+#else
+	const float2 scale_A = make_float2(scale, scale);
+	const float2 scale_B = make_float2(scale, scale);
+#endif
+	
 	// threshold the confidence matrix
 	uint32_t numMatches = 0;
 	
@@ -340,16 +348,18 @@ int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, image
 		for( uint32_t cy=0; cy < mMaxFeatures; cy++ )
 		{
 			const float conf = mOutputs[0].CPU[cx * mMaxFeatures + cy];
-			
+
 			if( conf < threshold )
 				continue;
 			
-			const float2 keyA = make_float2((cx % cellWidth) * scale_A.x, int(cx / cellWidth) * scale_A.y);
+			printf("conf x=%u y=%u   %f\n", cx, cy, conf);
+			
+			const float2 keyA = make_float2((cx % cellWidth) * scale_A.x, int(cx / cellWidth) * scale_A.y); // OG code uses scale.y for both?
 			const float2 keyB = make_float2((cy % cellWidth) * scale_B.x, int(cy / cellWidth) * scale_B.y);
 			
 			printf("match %u   %i %i  (%f, %f) -> (%f, %f)\n", numMatches, cx, cy, keyA.x, keyA.y, keyB.x, keyB.y);
 			
-			if( numMatches == 0 || !sorted )
+			if( !sorted || numMatches == 0 )
 			{
 				features_A[numMatches] = keyA;
 				features_B[numMatches] = keyB;
@@ -425,6 +435,14 @@ bool featureNet::DrawFeatures( void* input, void* output, uint32_t width, uint32
 		return true;
 	}
 	
+#ifdef RESCALE_FEATURES
+	const float2 feature_scale = make_float2(1.0f, 1.0f);
+#else
+	// feature re-scaling wasn't done in Process(), so do it here
+	const float2 feature_scale = make_float2(float(width) / float(mInputWidth),
+									 float(height) / float(mInputHeight));
+#endif
+
 	// draw features
 	PROFILER_BEGIN(PROFILER_VISUALIZE);
 	
@@ -433,7 +451,9 @@ bool featureNet::DrawFeatures( void* input, void* output, uint32_t width, uint32
 	for( uint32_t n=0; n < numFeatures; n++ )
 	{
 		CUDA(cudaDrawCircle(input, output, width, height, format,
-						features[n].x, features[n].y, circleSize, color));
+						features[n].x * feature_scale.x, 
+						features[n].y * feature_scale.y, 
+						circleSize, color));
 	}
 	
 	if( drawText )
@@ -462,8 +482,8 @@ bool featureNet::DrawFeatures( void* input, void* output, uint32_t width, uint32
 			//printf("drawing text '%s' at %i %i\n", str, int(features[n].x + textOffset), int(features[n].y - textOffset));
 			
 			mFont->OverlayText(output, format, width, height, str,
-						    features[n].x + textOffset,
-						    features[n].y - textOffset,
+						    features[n].x * feature_scale.x + textOffset,
+						    features[n].y * feature_scale.y - textOffset,
 						    color/*, make_float4(0, 0, 0, 100)*/);
 		}
 	}
@@ -514,7 +534,7 @@ bool featureNet::FindHomography( float2* features_A, float2* features_B, uint32_
 		pts2[n].x = features_B[n].x;
 		pts2[n].y = features_B[n].y;
 	}
-	
+
 	// estimate the homography
 	cv::Mat H_cv = cv::findHomography(pts1, pts2);
 	
@@ -523,7 +543,7 @@ bool featureNet::FindHomography( float2* features_A, float2* features_B, uint32_
 		LogError(LOG_TRT "featureNet::FindHomography() -- OpenCV matrix is unexpected size (%ix%i)\n", H_cv.cols, H_cv.rows);
 		return false;
 	}
-	
+		
 	// transfer cv::Mat back to float[3][3]
 	double* H_ptr = H_cv.ptr<double>();
 	float H[3][3];
@@ -548,5 +568,25 @@ bool featureNet::FindHomography( float2* features_A, float2* features_B, uint32_
 #endif
 }
 
+	/*std::vector<cv::Point2f> corners_before;
+	std::vector<cv::Point2f> corners_after;
 	
+	corners_before.resize(4);
+	corners_after.resize(4);
 	
+	corners_before[0].x = 0;   corners_before[0].y = 0;
+	corners_before[1].x = 768; corners_before[1].y = 0;
+	corners_before[2].x = 768; corners_before[2].y = 1025;
+	corners_before[3].x = 0;   corners_before[3].y = 1025;
+	
+	printf("corners before:\n");
+	
+	for( int n=0; n < 4; n++ )
+		printf("  (%f, %f)\n", corners_before[n].x, corners_before[n].y);
+	
+	cv::perspectiveTransform(corners_before, corners_after, H_cv);
+	
+	printf("corners after:\n");
+	
+	for( int n=0; n < 4; n++ )
+		printf("  (%f, %f)\n", corners_after[n].x, corners_after[n].y);*/
