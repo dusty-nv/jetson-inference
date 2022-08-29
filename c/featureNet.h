@@ -146,52 +146,155 @@ public:
 	 * Destroy
 	 */
 	virtual ~featureNet();
-	
+
 	/**
-	 * Determine the maximum likelihood image class.
-	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
-	 * @param rgba input image in CUDA device memory.
-	 * @param width width of the input image in pixels.
-	 * @param height height of the input image in pixels.
-	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns Index of the maximum class, or -1 on error.
+	 * Perform feature matching on a pair of images, returning a set of corresponding keypoints.
+	 *
+	 * This function takes as input two images, and outputs two arrays of matching feature coordinates,
+	 * along with their confidence values.  Only matches that exceed the confidence threshold will be considered.
+	 * If sorted is set to true, the corresponding keypoint lists will be sorted by confidence in descending order.
+	 *
+	 * @param image_A first input image in CUDA device memory.
+	 * @param width_A width of the first input image (in pixels).
+	 * @param height_A height of the first input image (in pixels).
+	 * @param image_B second input image in CUDA device memory.
+	 * @param width_B width of the second input image (in pixels).
+	 * @param height_B height of the second input image (in pixels).
+	 * @param features_A pointer to output array of matching keypoint coordinates from the first image.
+	 *                   this array should be allocated by the user to be GetMaxFeatures() long.
+	 * @param features_B pointer to output array of matching keypoint coordinates from the second image.
+	 *                   this array should be allocated by the user to be GetMaxFeatures() long. 
+	 * @param confidence pointer to output array of confidence values of the feature matches.
+	 *                   this array should be allocated by the user to be GetMaxFeatures() long. 
+	 * @param threshold confidence threshold, below which matches are ignored (default is 0.01).
+	 * @param sorted if true (default), the matches are sorted by confidence value in descending order.
+	 *
+	 * @returns The number of feature matches, or -1 if there was an error.
 	 */
-	//template<typename T> int Classify( T* imageA, T* imageB, uint32_t width, uint32_t height, float* confidence=NULL )		{ return Classify((void*)image, width, height, imageFormatFromType<T>(), confidence); }
-	
+	template<typename T> int Match( T* image_A, uint32_t width_A, uint32_t height_A, 
+							  T* image_B, uint32_t width_B, uint32_t height_B, 
+							  float2* features_A, float2* features_B, float* confidence, 
+							  float threshold=FEATURENET_DEFAULT_THRESHOLD, bool sorted=true )	{ return Match(image_A, width_A, height_A, imageFormatFromType<T>(), image_B, width_B, height_B, imageFormatFromType<T>(), features_A, features_B, confidence, threshold, sorted); }
+		
 	/**
-	 * Determine the maximum likelihood image class.
-	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
-	 * @param rgba input image in CUDA device memory.
-	 * @param width width of the input image in pixels.
-	 * @param height height of the input image in pixels.
-	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns Index of the maximum class, or -1 on error.
+	 * Perform feature matching on a pair of images, returning a set of corresponding keypoints.
+	 *
+	 * This function takes as input two images, and outputs two arrays of matching feature coordinates,
+	 * along with their confidence values.  Only matches that exceed the confidence threshold will be considered.
+	 * If sorted is set to true, the corresponding keypoint lists will be sorted by confidence in descending order.
+	 *
+	 * This overload of Match() allocates the output memory arrays for the user.  This memory is owned by the 
+	 * featureNet object and shouldn't be released by the user.  This memory can be re-used by featureNet on 
+	 * future invocations of Match(), so if the user wishes to retain these features they should allocate their 
+	 * own arrays and use the other version of Match() above.  It will be allocated as shared CPU/GPU memory.
+	 *
+	 * @param image_A first input image in CUDA device memory.
+	 * @param width_A width of the first input image (in pixels).
+	 * @param height_A height of the first input image (in pixels).
+	 * @param image_B second input image in CUDA device memory.
+	 * @param width_B width of the second input image (in pixels).
+	 * @param height_B height of the second input image (in pixels).
+	 * @param features_A output pointer that gets set to the array of matching keypoint coordinates from the first image.  
+	 *                   see notes above about conditions to using this memory, as it isn't persistent and gets re-used by Match().
+	 * @param features_B pointer to output array of matching keypoint coordinates from the second image.
+	 *                   see notes above about conditions to using this memory, as it isn't persistent and gets re-used by Match().
+	 * @param confidence pointer to output array of confidence values of the feature matches.
+	 *                   see notes above about conditions to using this memory, as it isn't persistent and gets re-used by Match().
+	 * @param threshold confidence threshold, below which matches are ignored (default is 0.01).
+	 * @param sorted if true (default), the matches are sorted by confidence value in descending order.
+	 *
+	 * @returns The number of feature matches, or -1 if there was an error.
 	 */
-	/*int Match( void* image_A, uint32_t width_A, uint32_t height_A, imageFormat format_A, 
-			 void* image_B, uint32_t width_B, uint32_t height_B, imageFormat format_B, 
-			 float2** features_A, float2** features_B, float** confidence, 
-			 float threshold=FEATURENET_DEFAULT_THRESHOLD, bool sorted=true );*/
-			 
+	template<typename T> int Match( T* image_A, uint32_t width_A, uint32_t height_A, 
+							  T* image_B, uint32_t width_B, uint32_t height_B, 
+							  float2** features_A, float2** features_B, float** confidence, 
+							  float threshold=FEATURENET_DEFAULT_THRESHOLD, bool sorted=true )	{ return Match(image_A, width_A, height_A, imageFormatFromType<T>(), image_B, width_B, height_B, imageFormatFromType<T>(), features_A, features_B, confidence, threshold, sorted); }
+			 			 
 	/**
-	 * Determine the maximum likelihood image class.
-	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
-	 * @param rgba input image in CUDA device memory.
-	 * @param width width of the input image in pixels.
-	 * @param height height of the input image in pixels.
-	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns Index of the maximum class, or -1 on error.
+	 * Perform feature matching on a pair of images, returning a set of corresponding keypoints.
+	 *
+	 * This function takes as input two images, and outputs two arrays of matching feature coordinates,
+	 * along with their confidence values.  Only matches that exceed the confidence threshold will be considered.
+	 * If sorted is set to true, the corresponding keypoint lists will be sorted by confidence in descending order.
+	 *
+	 * @param image_A first input image in CUDA device memory.
+	 * @param width_A width of the first input image (in pixels).
+	 * @param height_A height of the first input image (in pixels).
+	 * @param format_A format of the first input image.
+	 * @param image_B second input image in CUDA device memory.
+	 * @param width_B width of the second input image (in pixels).
+	 * @param height_B height of the second input image (in pixels).
+	 * @param format_B format of the second input image.
+	 * @param features_A pointer to output array of matching keypoint coordinates from the first image.
+	 *                   this array should be allocated by the user to be GetMaxFeatures() long.
+	 * @param features_B pointer to output array of matching keypoint coordinates from the second image.
+	 *                   this array should be allocated by the user to be GetMaxFeatures() long. 
+	 * @param confidence pointer to output array of confidence values of the feature matches.
+	 *                   this array should be allocated by the user to be GetMaxFeatures() long. 
+	 * @param threshold confidence threshold, below which matches are ignored (default is 0.01).
+	 * @param sorted if true (default), the matches are sorted by confidence value in descending order.
+	 *
+	 * @returns The number of feature matches, or -1 if there was an error.
 	 */
 	int Match( void* image_A, uint32_t width_A, uint32_t height_A, imageFormat format_A, 
 			 void* image_B, uint32_t width_B, uint32_t height_B, imageFormat format_B, 
 			 float2* features_A, float2* features_B, float* confidence, 
 			 float threshold=FEATURENET_DEFAULT_THRESHOLD, bool sorted=true );
-			 
-	/*int Match( void* images[2], uint32_t width[2], uint32_t height[2], imageFormat format[2], 
-			 float2* features[2], float* confidence=NULL, 
-			 float threshold=FEATURENET_DEFAULT_THRESHOLD, bool sorted=true );*/
 		
 	/**
-	 * DrawFeatures (overlay)
+	 * Perform feature matching on a pair of images, returning a set of corresponding keypoints.
+	 *
+	 * This function takes as input two images, and outputs two arrays of matching feature coordinates,
+	 * along with their confidence values.  Only matches that exceed the confidence threshold will be considered.
+	 * If sorted is set to true, the corresponding keypoint lists will be sorted by confidence in descending order.
+	 *
+	 * This overload of Match() allocates the output memory arrays for the user.  This memory is owned by the 
+	 * featureNet object and shouldn't be released by the user.  This memory can be re-used by featureNet on 
+	 * future invocations of Match(), so if the user wishes to retain these features they should allocate their 
+	 * own arrays and use the other version of Match() above.  It will be allocated as shared CPU/GPU memory.
+	 *
+	 * @param image_A first input image in CUDA device memory.
+	 * @param width_A width of the first input image (in pixels).
+	 * @param height_A height of the first input image (in pixels).
+	 * @param format_A format of the first input image.
+	 * @param image_B second input image in CUDA device memory.
+	 * @param width_B width of the second input image (in pixels).
+	 * @param height_B height of the second input image (in pixels).
+	 * @param format_B format of the second input image.
+	 * @param features_A output pointer that gets set to the array of matching keypoint coordinates from the first image.  
+	 *                   see notes above about conditions to using this memory, as it isn't persistent and gets re-used by Match().
+	 * @param features_B pointer to output array of matching keypoint coordinates from the second image.
+	 *                   see notes above about conditions to using this memory, as it isn't persistent and gets re-used by Match().
+	 * @param confidence pointer to output array of confidence values of the feature matches.
+	 *                   see notes above about conditions to using this memory, as it isn't persistent and gets re-used by Match().
+	 * @param threshold confidence threshold, below which matches are ignored (default is 0.01).
+	 * @param sorted if true (default), the matches are sorted by confidence value in descending order.
+	 *
+	 * @returns The number of feature matches, or -1 if there was an error.
+	 */
+	int Match( void* image_A, uint32_t width_A, uint32_t height_A, imageFormat format_A, 
+			 void* image_B, uint32_t width_B, uint32_t height_B, imageFormat format_B, 
+			 float2** features_A, float2** features_B, float** confidence, 
+			 float threshold=FEATURENET_DEFAULT_THRESHOLD, bool sorted=true );	 
+			 
+	/**
+	 * DrawFeatures (in-place overlay)
+	 */
+	template<typename T> bool DrawFeatures( T* image, uint32_t width, uint32_t height,
+									float2* features, uint32_t numFeatures, bool drawText=true, 
+									float scale=FEATURENET_DEFAULT_DRAWING_SCALE,
+									const float4& color=make_float4(0,255,0,255))			{ return DrawFeatures(image, width, height, imageFormatFromType<T>(), features, numFeatures, drawText, scale, color); }
+		
+	/**
+	 * DrawFeatures (on a different output image)
+	 */
+	template<typename T> bool DrawFeatures( T* input, T* output, uint32_t width, uint32_t height,
+									float2* features, uint32_t numFeatures, bool drawText=true, 
+									float scale=FEATURENET_DEFAULT_DRAWING_SCALE,
+									const float4& color=make_float4(0,255,0,255))			{ return DrawFeatures(input, output, width, height, imageFormatFromType<T>(), features, numFeatures, drawText, scale, color); }
+				    		    
+	/**
+	 * DrawFeatures (in-place overlay)
 	 */
 	bool DrawFeatures( void* image, uint32_t width, uint32_t height, imageFormat format,
 				    float2* features, uint32_t numFeatures, bool drawText=true, 
@@ -199,7 +302,7 @@ public:
 				    const float4& color=make_float4(0,255,0,255));
 					
 	/**
-	 * DrawFeatures
+	 * DrawFeatures (on a different output image)
 	 */
 	bool DrawFeatures( void* input, void* output, uint32_t width, uint32_t height, imageFormat format,
 				    float2* features, uint32_t numFeatures, bool drawText=true, 
@@ -239,6 +342,9 @@ protected:
 	uint32_t mInputHeight;
 	uint32_t mMaxFeatures;
 
+	float2* mOutputFeatures[2];
+	float*  mOutputConfidence;
+	
 	static const int mCellResolution = 16;  // for LoFTR
 	
 	cudaFont* mFont;

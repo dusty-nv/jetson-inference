@@ -101,12 +101,13 @@ int main( int argc, char** argv )
 	/*
       * match features
 	 */
-	float2 features[2][1200];
-	float  confidence[1200];
+	float2* features[] = {NULL, NULL};
+	float* confidence = NULL;
 	
-	const int numFeatures = net->Match(images[0], width[0], height[0], imageFormatFromType<pixelType>(),
-								images[1], width[1], height[1], imageFormatFromType<pixelType>(),
-								features[0], features[1], confidence, threshold, true);
+	const int numFeatures = net->Match(images[0], width[0], height[0],
+								images[1], width[1], height[1],
+								&features[0], &features[1], 
+								&confidence, threshold, true);
 	
 	if( numFeatures < 0 )
 	{
@@ -122,10 +123,8 @@ int main( int argc, char** argv )
 	// draw features
 	for( int n=0; n < 2; n++ )
 	{
-		//printf("drawing image %i\n", n);
-		
-		net->DrawFeatures(images[n], width[n], height[n], imageFormatFromType<pixelType>(),
-					   features[n], std::min(numFeatures, maxFeatures), false,
+		net->DrawFeatures(images[n], width[n], height[n], features[n], 
+					   std::min(numFeatures, maxFeatures), false,
 					   drawScale, make_float4(0,255,0,255));
 					   
 		if( numPositionArgs > n+2 )
@@ -201,9 +200,9 @@ int main( int argc, char** argv )
 	
 	float2 transformed_coords[] = {
 		make_float2(0.0f, 0.0f),
-		make_float2(width[0], 0.0f),
-		make_float2(width[0], height[0]),
-		make_float2(0.0f, height[0])
+		make_float2(width[1], 0.0f),
+		make_float2(width[1], height[1]),
+		make_float2(0.0f, height[1])
 	};
 	
 	printf("original image corners:\n");
@@ -216,7 +215,7 @@ int main( int argc, char** argv )
 	for( int n=0; n < 4; n++ )
 	{
 		mat33_transform(transformed_coords[n].x, transformed_coords[n].y, 
-					 transformed_coords[n].x, transformed_coords[n].y, H);
+					 transformed_coords[n].x, transformed_coords[n].y, H_inv);
 					 
 		printf("  (%f, %f)\n", transformed_coords[n].x, transformed_coords[n].y);
 	}

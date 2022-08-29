@@ -38,6 +38,8 @@
 #include <opencv2/calib3d.hpp>
 #endif
 
+#define RESCALE_FEATURES
+
 
 // constructor
 featureNet::featureNet() : tensorNet()
@@ -48,6 +50,10 @@ featureNet::featureNet() : tensorNet()
 	mMaxFeatures = 0;
 	mResizedImg  = NULL;
 	mNetworkType = CUSTOM;
+	
+	mOutputFeatures[0] = NULL;
+	mOutputFeatures[1] = NULL;
+	mOutputConfidence  = NULL;
 }
 
 
@@ -55,6 +61,11 @@ featureNet::featureNet() : tensorNet()
 featureNet::~featureNet()
 {
 	CUDA_FREE(mResizedImg);
+	
+	CUDA_FREE_HOST(mOutputFeatures[0]);
+	CUDA_FREE_HOST(mOutputFeatures[1]);
+	CUDA_FREE_HOST(mOutputConfidence);
+	
 	SAFE_DELETE(mFont);
 }
 
@@ -417,7 +428,49 @@ int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, image
 	return numMatches;
 }
 
-					
+
+// Match
+int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, imageFormat format_A, 
+				   void* image_B, uint32_t width_B, uint32_t height_B, imageFormat format_B, 
+				   float2** features_A, float2** features_B, float** confidence, 
+				   float threshold, bool sorted )
+{
+	// allocate output memory (if needed)
+	if( !mOutputFeatures[0] || !mOutputFeatures[1] )
+	{
+		for( uint32_t n=0; n < 2; n++ )
+		{
+			if( !cudaAllocMapped(&mOutputFeatures[n], sizeof(float2) * GetMaxFeatures()) )
+				return -1;
+		}
+	}
+	
+	if( !mOutputConfidence )
+	{
+		if( !cudaAllocMapped(&mOutputConfidence, sizeof(float) * GetMaxFeatures()) )
+			return -1;
+	}
+	
+	// run feature matching
+	const int result = Match(image_A, width_A, height_A, format_A,
+						image_B, width_B, height_B, format_B,
+						mOutputFeatures[0], mOutputFeatures[1],
+						mOutputConfidence, threshold, sorted);
+						
+	// set outputs
+	if( features_A != NULL )
+		*features_A = mOutputFeatures[0];
+	
+	if( features_B != NULL )
+		*features_B = mOutputFeatures[1];
+	
+	if( confidence != NULL )
+		*confidence = mOutputConfidence;
+	
+	return result;
+}
+
+	
 // DrawFeatures
 bool featureNet::DrawFeatures( void* input, void* output, uint32_t width, uint32_t height, imageFormat format,
 						 float2* features, uint32_t numFeatures, bool drawText, float scale, const float4& color )
