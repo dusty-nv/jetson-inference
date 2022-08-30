@@ -124,7 +124,7 @@ int main( int argc, char** argv )
 	for( int n=0; n < 2; n++ )
 	{
 		net->DrawFeatures(images[n], width[n], height[n], features[n], 
-					   std::min(numFeatures, maxFeatures), false,
+					   std::min(numFeatures, maxFeatures), true,
 					   drawScale, make_float4(0,255,0,255));
 					   
 		if( numPositionArgs > n+2 )
@@ -190,10 +190,11 @@ int main( int argc, char** argv )
 
 	/*mat33_identity(H);
 	mat33_shear(H, H, 0.5f, 0.0f);
-	mat33_scale(H, H, 0.5f, 0.5f);
-	//mat33_rotation(H, 90.0f, width[1] * 0.5f, height[1] * 0.5f);
-	//mat33_identity(H);
-	//mat33_translate(H, H, -200.0f, 000.0f);*/
+	mat33_scale(H, H, 0.5f, 0.5f);*/
+	/*mat33_identity(H);
+	mat33_rotation(H, 90.0f, width[1] * 0.5f, height[1] * 0.5f);
+	mat33_translate(H, H, -200.0f, 000.0f);
+	mat33_inverse(H_inv, H);*/
 	
 	mat33_print(H, "H");	
 	mat33_print(H_inv, "H_inv");
@@ -219,6 +220,9 @@ int main( int argc, char** argv )
 					 
 		printf("  (%f, %f)\n", transformed_coords[n].x, transformed_coords[n].y);
 	}
+	
+	//mat33_transpose(H, H);
+	//mat33_transpose(H_inv, H_inv);
 	
 	/*
 	 * warp images

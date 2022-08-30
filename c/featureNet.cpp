@@ -39,6 +39,7 @@
 #endif
 
 #define RESCALE_FEATURES
+//#define DEBUG_FEATURES
 
 
 // constructor
@@ -363,13 +364,13 @@ int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, image
 			if( conf < threshold )
 				continue;
 			
-			printf("conf x=%u y=%u   %f\n", cx, cy, conf);
-			
 			const float2 keyA = make_float2((cx % cellWidth) * scale_A.x, int(cx / cellWidth) * scale_A.y); // OG code uses scale.y for both?
 			const float2 keyB = make_float2((cy % cellWidth) * scale_B.x, int(cy / cellWidth) * scale_B.y);
 			
-			printf("match %u   %i %i  (%f, %f) -> (%f, %f)\n", numMatches, cx, cy, keyA.x, keyA.y, keyB.x, keyB.y);
-			
+		#ifdef DEBUG_FEATURES
+			printf("match %u   %i %i  conf=%f  (%f, %f) -> (%f, %f)  (conf=%f)\n", numMatches, cx, cy, conf, keyA.x, keyA.y, keyB.x, keyB.y);
+		#endif
+		
 			if( !sorted || numMatches == 0 )
 			{
 				features_A[numMatches] = keyA;
@@ -406,25 +407,15 @@ int featureNet::Match( void* image_A, uint32_t width_A, uint32_t height_A, image
 		}
 	}
 
-	/*for( uint32_t n=0; n < numMatches; n++ )
-	{
-		const float x1 = (matches[n].x % cellWidth) * scale_A.x;
-		const float y1 = int(matches[n].x / cellWidth) * scale_A.y;
-		
-		const float x2 = (matches[n].y % cellWidth) * scale_B.x;
-		const float y2 = int(matches[n].y / cellWidth) * scale_B.y;
-		
-		printf("match %u   %i %i  (%f, %f) -> (%f, %f)\n", n, matches[n].x, matches[n].y, x1, y1, x2, y2);
-	}*/
-	
+#ifdef DEBUG_FEATURES
 	printf("cell width = %u\n", cellWidth);
 	printf("cell height = %u\n", cellHeight);
 	printf("scale = %f\n", scale);
 	printf("scale_A = (%f, %f)\n", scale_A.x, scale_A.y);
 	printf("scale_B = (%f, %f)\n", scale_B.x, scale_B.y);
+#endif
 	
 	PROFILER_END(PROFILER_POSTPROCESS);
-	
 	return numMatches;
 }
 
@@ -511,8 +502,8 @@ bool featureNet::DrawFeatures( void* input, void* output, uint32_t width, uint32
 	
 	if( drawText )
 	{
-		const float textSize = circleSize * 6;
-		const float textOffset = circleSize;
+		const float textSize = circleSize * 4;
+		const float textOffset = circleSize * 1.5f;
 		
 		// load font if needed
 		if( !mFont )
@@ -530,7 +521,7 @@ bool featureNet::DrawFeatures( void* input, void* output, uint32_t width, uint32
 		for( uint32_t n=0; n < numFeatures; n++ )
 		{
 			char str[256];
-			sprintf(str, "%i abc", n);
+			sprintf(str, "%i", n);
 			
 			//printf("drawing text '%s' at %i %i\n", str, int(features[n].x + textOffset), int(features[n].y - textOffset));
 			
@@ -589,7 +580,7 @@ bool featureNet::FindHomography( float2* features_A, float2* features_B, uint32_
 	}
 
 	// estimate the homography
-	cv::Mat H_cv = cv::findHomography(pts1, pts2);
+	cv::Mat H_cv = cv::findHomography(pts1, pts2); //, cv::USAC_MAGSAC, 3, cv::noArray(), 10000);
 	
 	if( H_cv.cols * H_cv.rows != 9 )
 	{
