@@ -58,6 +58,13 @@
 #define DETECTNET_DEFAULT_CLUSTERING_THRESHOLD 0.75f
 
 /**
+ * Default value of the minimum detection threshold
+ * @deprecated please use DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD instead
+ * @ingroup detectNet
+ */
+#define DETECTNET_DEFAULT_THRESHOLD  DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD
+
+/**
  * Default alpha blending value used during overlay
  * @ingroup detectNet
  */
