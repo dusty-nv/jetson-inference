@@ -183,6 +183,7 @@ elif [ $ARCH = "x86_64" ]; then
 		--shm-size=8g \
 		--ulimit memlock=-1 \
 		--ulimit stack=67108864 \
+		-e NVIDIA_DRIVER_CAPABILITIES=all \
 		-e DISPLAY=$DISPLAY \
 		-v /tmp/.X11-unix/:/tmp/.X11-unix \
 		$V4L2_DEVICES $DATA_VOLUME $USER_VOLUME \

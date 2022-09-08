@@ -43,6 +43,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
             cmake \
 		  nano \
+		  mesa-utils \
 		  lsb-release \
 		  gstreamer1.0-tools \
 		  gstreamer1.0-libav \
