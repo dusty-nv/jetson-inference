@@ -96,7 +96,7 @@ static int PyDetection_Init( PyDetection_Object* self, PyObject* args, PyObject*
 
 	static char* kwlist[] = {"classID", "confidence", "left", "top", "right", "bottom", NULL};
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|iffff", kwlist, &classID, &conf, &left, &top, &right, &bottom))
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|ifffff", kwlist, &classID, &conf, &left, &top, &right, &bottom))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Detection.__init()__ failed to parse args tuple");
 		return -1;
