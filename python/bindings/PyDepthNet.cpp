@@ -139,7 +139,7 @@ static int PyDepthNet_Init( PyDepthNet_Object* self, PyObject *args, PyObject *k
 
 	// create an image capsule for the depth field
 	self->depthField = PyCUDA_RegisterImage(self->net->GetDepthField(), self->net->GetDepthFieldWidth(), self->net->GetDepthFieldHeight(),
-									IMAGE_GRAY32F, true, false);
+									IMAGE_GRAY32F, 0, true, false);
 	
 	self->base.net = self->net;
 	return 0;
