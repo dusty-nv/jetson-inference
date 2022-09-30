@@ -103,7 +103,7 @@ Below are step-by-step instructions to re-training models on some example datase
 	* [Collecting your own Classification Datasets](pytorch-collect.md)
 * Object Detection (SSD-Mobilenet)
 	* [Re-training SSD-Mobilenet](pytorch-ssd.md)
-	* [Collecting your own Detection Datasets](pytorch-collect.md)
+	* [Collecting your own Detection Datasets](pytorch-collect-detection.md)
 
 This table contains a summary of the datasets and their associated training times:
 
