@@ -40,6 +40,7 @@ WORKDIR /jetson-inference
 # install development packages
 #
 RUN apt-get update && \
+    apt-get purge -y '*opencv*' || echo "existing OpenCV installation not found" && \
     apt-get install -y --no-install-recommends \
             cmake \
 		  nano \
@@ -52,13 +53,22 @@ RUN apt-get update && \
 		  gstreamer1.0-plugins-good \
 		  gstreamer1.0-plugins-bad \
 		  gstreamer1.0-plugins-ugly \
+		  libgstreamer-plugins-base1.0-dev \
+		  libgstreamer-plugins-good1.0-dev \
+		  libgstreamer-plugins-bad1.0-dev \
     && rm -rf /var/lib/apt/lists/*
     
 # pip dependencies for pytorch-ssd
 RUN pip3 install --verbose --upgrade Cython && \
     pip3 install --verbose boto3 pandas tensorboard
 
-    
+# make a copy of this cause it gets purged...
+RUN mkdir -p /usr/local/include/gstreamer-1.0/gst && \
+    cp -r /usr/include/gstreamer-1.0/gst/webrtc /usr/local/include/gstreamer-1.0/gst && \
+    ls -ll /usr/local/include/ && \
+    ls -ll /usr/local/include/gstreamer-1.0/gst/webrtc
+
+
 # 
 # install OpenCV (with CUDA)
 #
@@ -68,7 +78,7 @@ ARG OPENCV_DEB=OpenCV-4.5.0-aarch64.tar.gz
 COPY docker/containers/scripts/opencv_install.sh /tmp/opencv_install.sh
 RUN cd /tmp && ./opencv_install.sh ${OPENCV_URL} ${OPENCV_DEB}
 
-    
+  
 #
 # copy source
 #
@@ -90,6 +100,8 @@ COPY CMakePreBuild.sh CMakePreBuild.sh
 RUN mkdir docs && \
     touch docs/CMakeLists.txt && \
     sed -i 's/nvcaffe_parser/nvparsers/g' CMakeLists.txt && \
+    cp -r /usr/local/include/gstreamer-1.0/gst/webrtc /usr/include/gstreamer-1.0/gst && \
+    ln -s /usr/lib/aarch64-linux-gnu/libgstwebrtc-1.0.so.0 /usr/lib/aarch64-linux-gnu/libgstwebrtc-1.0.so && \
     mkdir build && \
     cd build && \
     cmake ../ && \
