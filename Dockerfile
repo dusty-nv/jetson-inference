@@ -56,7 +56,8 @@ RUN apt-get update && \
 		  libgstreamer-plugins-base1.0-dev \
 		  libgstreamer-plugins-good1.0-dev \
 		  libgstreamer-plugins-bad1.0-dev \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
     
 # pip dependencies for pytorch-ssd
 RUN pip3 install --verbose --upgrade Cython && \
@@ -108,5 +109,6 @@ RUN mkdir docs && \
     make -j$(nproc) && \
     make install && \
     /bin/bash -O extglob -c "cd /jetson-inference/build; rm -rf -v !(aarch64|download-models.*)" && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
     

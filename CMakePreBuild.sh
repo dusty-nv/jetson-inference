@@ -35,13 +35,20 @@ $SUDO apt-get install -y --no-install-recommends \
 		dialog \
 		libglew-dev \
 		glew-utils \
-		libgstreamer1.0-dev \
-		libgstreamer-plugins-base1.0-dev \
 		gstreamer1.0-nice \
+		libgstreamer1.0-dev \
 		libglib2.0-dev \
 		libsoup2.4-dev \
 		libjson-glib-dev \
 		qtbase5-dev
+
+if [ $BUILD_CONTAINER = "NO" ]; then
+	# these are installed in a different step in the Dockerfile
+	$SUDO apt-get install -y --no-install-recommends \
+		libgstreamer-plugins-base1.0-dev \
+		libgstreamer-plugins-good1.0-dev \
+		libgstreamer-plugins-bad1.0-dev
+fi
 
 if [ $ARCH != "x86_64" ]; then
 	# on x86, these are already installed by conda and installing them again creates conflicts
