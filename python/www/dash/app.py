@@ -29,7 +29,7 @@ import json
 import dash_bootstrap_components as dbc
 
 external_scripts = ["https://webrtc.github.io/adapter/adapter-latest.js"]
-external_stylesheets = [dbc.themes.DARKLY] #[dbc.themes.SLATE] #[dbc.themes.FLATLY] #[dbc.themes.SUPERHERO] #["https://codepen.io/chriddyp/pen/bWLwgP.css"]
+external_stylesheets = [] #[dbc.themes.DARKLY] #[dbc.themes.SLATE] #[dbc.themes.FLATLY] #[dbc.themes.SUPERHERO] #["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
 app_title = "WebRTC Dashboard"  # make this configurable
 app = Dash(__name__, external_scripts=external_scripts, external_stylesheets=external_stylesheets, title=app_title)
@@ -102,13 +102,13 @@ app.layout = html.Div([
               State("add_stream_source", "value"),
               prevent_initial_call=True)
 def add_stream(n_clicks, name, source):
-    stream = server.streams.add(name, source)
+    stream_config = server.streams.add(name, source)
     return [
         html.Div([
             f"Adding stream:  {name}", html.Br(), 
             f"Stream source:  {source}", html.Br(), 
-            f"{stream}", html.Br()]),
-        json.dumps(stream)]
+            f"{stream_config}", html.Br()]),
+        json.dumps(stream_config)]
     
 
 app.clientside_callback(

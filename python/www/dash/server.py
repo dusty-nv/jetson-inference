@@ -36,12 +36,18 @@ class Stream:
         if not name.startswith('/'):   # make sure all routes start with '/'
             name = '/' + name
             
+        # enable HTTPS/SSL
+        video_args = None
+        
+        if server.ssl_context is not None:
+            video_args = [f'--ssl-cert={server.ssl_context[0]}', f'--ssl-key={server.ssl_context[1]}']
+            
         self.server = server
         self.name = name
         self.source_path = source
         self.source = videoSource(self.source_path)
         self.output_path = f'webrtc://@:{self.server.webrtc_port}{self.name}'
-        self.output = videoOutput(self.output_path)
+        self.output = videoOutput(self.output_path, argv=video_args)
         self.frame_count = 0
         
     def process(self):
@@ -54,11 +60,11 @@ class Stream:
         self.frame_count += 1
        
     @property
-    def state(self):
+    def config(self):
         return {
             'name' : self.name,
-            'source' : self.source_path,
-            'output' : self.output_path,
+            'source' : self.source.GetOptions(),
+            'output' : self.output.GetOptions(),
             'frame_count' : self.frame_count 
         }
         
@@ -71,13 +77,28 @@ class Streams:
         print(f'[{self.server.name}] adding stream {name}  source {source}')
         stream = Stream(self.server, name, source)
         self.streams.append(stream)
-        return stream.state
+        return stream.config  # return the config dict, as this is called over RPC 
+        
+    def keys(self):
+        return [stream.name for stream in self.streams]
         
     def __len__(self):
         return len(self.streams)
         
     def __getitem__(self, key):
-        return self.streams[key]
+        if isinstance(key, int):
+            if key < 0 or key >= len(self.streams):
+                raise IndexError('index was out of range')
+            return self.streams[key]
+        elif isinstance(key, str):
+            for stream in self.streams:
+                if stream.name == key:
+                    return stream
+            raise KeyError(f"couldn't find stream '{key}'")
+        else:
+            raise TypeError('index/key must be of type int or string')
+
+
         
 class Server:
     """
@@ -147,5 +168,5 @@ class Server:
         """
         Perform one interation of the processing loop.
         """
-        for i in range(len(self.streams.streams)):
+        for i in range(len(self.streams.streams)):     # TODO don't use 100% if no streams
             self.streams.streams[i].process()

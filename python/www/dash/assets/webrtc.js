@@ -28,6 +28,7 @@ function onIncomingICE(ice) {
 
 
 function onAddRemoteStream(event) {
+	console.log("Adding remote stream to HTML video player");
 	html5VideoElement.srcObject = event.streams[0];
 }
 
@@ -63,38 +64,47 @@ function onServerMessage(event) {
 	}
 }
 
-
-function playStream(videoElement, hostname, port, path, configuration, reportErrorCB) {
-	var l = window.location;
-	var wsHost = (hostname != undefined) ? hostname : l.hostname;
-	var wsPort = (port != undefined) ? port : 49567; //l.port;
-	var wsPath = (path != undefined) ? path : "my_stream";
-	if (wsPort)
-	wsPort = ":" + wsPort;
-	var wsUrl = "wss://" + wsHost + wsPort + "/" + wsPath;
-	console.log("video stream URL: " + wsUrl);
-
-	html5VideoElement = videoElement;
-	webrtcConfiguration = configuration;
-	reportError = function (errmsg) { console.error(errmsg); };
-
-	websocketConnection = new WebSocket(wsUrl);
-	websocketConnection.addEventListener("message", onServerMessage);
-}
-
 if (!window.dash_clientside) {
     window.dash_clientside = {};
+}
+
+var wait = (ms) => {
+	const start = Date.now();
+	let now = start;
+	while (now - start < ms) {
+		now = Date.now();
+	}
 }
 
 window.dash_clientside.webrtc = {
     // this function gets called from the dash app
     playStream: function(stream_config) {
-		console.log('window.dash_clientside.webrtc.playStream() => ' + stream_config)
-	    
-		var video_player = document.getElementById("video_player");
-		console.log('video player: ' + video_player)
+		console.log("window.dash_clientside.webrtc.playStream() => " + stream_config)
+	     stream_config = JSON.parse(stream_config)
 		
-		console.log('window location:  ' + window.location)
+		html5VideoElement = document.getElementById("video_player");					 // TODO dynamically get name of video player
+		webrtcConfiguration = { 'iceServers': [{ 'urls': 'stun:stun.l.google.com:19302' }] }; // TODO pull stun_server from config
+		reportError = function (errmsg) { console.error(errmsg); };
+		
+		console.log("video player: " + html5VideoElement);
+		console.log("window location:  " + window.location);
+
+		// check for HTTPS/SSL
+		var ws_protocol = "ws://";
+
+		if( "sslCert" in stream_config["output"] )
+			ws_protocol = "wss:///";
+		
+		// get the WebRTC websocket URL
+		var ws_url = ws_protocol + window.location.hostname + ":" + stream_config["output"]["resource"]["port"] + stream_config["output"]["resource"]["path"];
+		console.log("websocket URL:  " + ws_url);
+		
+		// open websocket to the server
+		websocketConnection = new WebSocket(ws_url)
+		websocketConnection.addEventListener("message", onServerMessage);
+		
+		//wait(2500);
+		//console.log("returning from playStream()");
     }
 }
 
