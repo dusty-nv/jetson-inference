@@ -3,7 +3,7 @@
 # when someone navigates to the site, it will look like:  https://dash.plotly.com/authentication#basic-auth-example
 # to logout a user will need to clear their browser's cache for this site
 #
-_users = {
+users = {
     # "user" : "password"
 }
 
@@ -13,6 +13,6 @@ warnings.filterwarnings("ignore", category=UserWarning)
 import dash_auth
 
 def Authenticate(app):
-    if len(_users) > 0:
-        auth = dash_auth.BasicAuth(app, _users)
+    if len(users) > 0:
+        auth = dash_auth.BasicAuth(app, users)
         return auth
