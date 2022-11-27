@@ -116,9 +116,25 @@ List of card generator functions
 """
 card_generators = []
 
+#@card_trigger
+#@card_callback
+#@card_open
+#@card_close
+
 def card_generator(*args, **kwargs):
     """
-    Decorator used to register card generators
+    Decorator used to register card generators with the grid.
+    These are used to create new cards based on one or more Input triggers.
+    These functions should return a card made with the create_card() function.
+    
+    For example, when 'my_button' gets pressed below, it will create a new card to be added to the grid:
+    
+        @card_generator(Input('my_button', 'n_clicks'))
+        create_my_card(n_clicks):
+            return create_card([f"My card body {n_clicks}"], title=f"My card {n_clicks}", id=f"my_card_{n_clicks}")
+     
+    The reason these are used is because the grid needs to manage it's own children, but dash Outputs can 
+    only have one callback. So this card_generator decorator registers your sub-callback with the grid's callback.
     """
     def inner(func):
         global card_generators

@@ -191,27 +191,32 @@ def create_grid(children=[], id='grid'):
         
         raise PreventUpdate
         
-    # assemble the callback args from all the card generators
-    manage_cards_callback_args = [
+    #
+    # assemble the callback args dynamically from all the card generators,
+    # so that the manage_cards() callback will be invoked by the components
+    # that are used to trigger the creation of the cards
+    #
+    manage_card_args = [
         Output(id, 'children'),
         Input({'type': 'card-close-button', 'index' : ALL}, 'n_clicks'),
         State(id, "children")
     ]
         
-    manage_cards_callback_generator_args = []
+    manage_generator_args = []
     
     for generator in card_generators:
-        manage_cards_callback_generator_args.extend(generator['args'])
+        manage_generator_args.extend(generator['args'])
 
-    manage_cards_callback_args.extend(manage_cards_callback_generator_args)
+    manage_card_args.extend(manage_generator_args)
 
     @dash.callback(
-        *manage_cards_callback_args,
+        *manage_card_args,
         prevent_initial_call=True
     )
-    def manage_cards(close_clicks, children, *args): #, *args): #, layouts):   add_clicks, 
+    def manage_cards(close_clicks, children, *args):
         """
-        Create or remove a card depending on if the Add or Close buttons were pressed
+        Create or remove a card from the grid depending on if Add or Close buttons were pressed
+        It will search for a matching card generator depending on which Input triggered it.
         """
         if isinstance(dash.ctx.triggered_id, str):
             for generator in card_generators:
@@ -223,31 +228,47 @@ def create_grid(children=[], id='grid'):
                 generator_arg_values = []
                 
                 for generator_arg in generator['args']:
-                    for i, callback_arg in enumerate(manage_cards_callback_generator_args):
+                    for i, callback_arg in enumerate(manage_generator_args):
                         if generator_arg == callback_arg:
                             generator_arg_values.append(args[i])
 
                 # create a new card
                 return children + [generator['func'](*generator_arg_values)]
 
-            raise PreventUpdate
-            
         elif isinstance(dash.ctx.triggered_id, dict):
+            index = dash.ctx.triggered_id['index']
+                
             if dash.ctx.triggered_id['type'] == 'card-close-button':
                 return [
-                    child 
-                    for child in children 
-                    if child["props"]["id"] != f"{CARD_CONTAINER_PREFIX}{dash.ctx.triggered_id['index']}"
+                    child for child in children 
+                    if child["props"]["id"] != f"{CARD_CONTAINER_PREFIX}{index}"
                 ]
-            #else:
-            #    print(f"dash triggered type {dash.ctx.triggered_id['type']}")
-            #    for generator in card_generators:
-            #        print(f"generator for:  {generators['args']}")
-            #        if dash.ctx.triggered_id['type']
-            #        generator_args = []
-            #        for arg in args:
-                        
+            else:
+                for generator in card_generators:
+                    # match these types of strings by replacing ["ALL"] with the current index
+                    #   generator input:     {"index":["ALL"],"type":"my_button"}.n_clicks
+                    #   dash.ctx.triggered:  {"index":0,"type":"my_button"}.n_clicks
+                    generator_arg_list = [
+                        str(generator_arg).replace('["ALL"]', f"\"{index}\"" if isinstance(index, str) else str(index))  # handle string index names by enclosing them in quotes
+                        for generator_arg in generator['args']
+                    ]
+            
+                    print(generator_arg_list)
                     
+                    if dash.ctx.triggered[0]['prop_id'] not in generator_arg_list:
+                        continue
+    
+                    # gather the args to the generator function
+                    generator_arg_values = []
+                    
+                    for generator_arg in generator['args']:
+                        for i, callback_arg in enumerate(manage_generator_args):
+                            if generator_arg == callback_arg:
+                                generator_arg_values.append(args[i])
+                                
+                    # create a new card
+                    return children + [generator['func'](*generator_arg_values)]
+
         raise PreventUpdate
         
     return grid_div

@@ -26,6 +26,9 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html, callback, Input, Output
 from config import config as app_config
 
+from .card import card_generator
+from .test_card import create_test_card
+
     
 def create_navbar(config=[], id='navbar'):
     """
@@ -50,6 +53,18 @@ def create_navbar_menus(config=[], id='navbar'):
     navbar_items += [dbc.NavLink('Test Card', id=f'{id}_test_card', n_clicks=0)]
     navbar_items += [dbc.NavLink('Test Card 2', id=f'{id}_test_card_2', n_clicks=0)]
     
+    navbar_items += [
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem('Test Card', id={'type': f'{id}_menu_test_card', 'index': "10_abc"}, n_clicks=0),
+                dbc.DropdownMenuItem('Test Card 2', id={'type': f'{id}_menu_test_card', 'index': "11_def"}, n_clicks=0)
+            ],
+            nav=True,
+            in_navbar=True,
+            label='Test Menu',
+            id=f'{id}_test_dropdown',
+    )]
+        
     # populate streams menu
     if len(config) == 0 or len(config['streams']) == 0:   # empty config / default navbar
         navbar_items += [dbc.NavLink('Add Stream', id=f'{id}_add_stream')]
@@ -60,15 +75,17 @@ def create_navbar_menus(config=[], id='navbar'):
         ] 
         
         stream_menu_items += [
-            dbc.DropdownMenuItem(name, id={'type': f'{id}_stream', 'index': name}) for name in config['streams']
+            dbc.DropdownMenuItem(name, id={'type': f'{id}_stream', 'index': name}, n_clicks=0) for name in config['streams']
         ]
         
-        navbar_items += dbc.DropdownMenu(
-            children=stream_menu_items,
-            nav=True,
-            in_navbar=True,
-            label='Streams',
-            id=f'{id}_streams_dropdown',
-        )
+        navbar_items += [
+            dbc.DropdownMenu(
+                children=stream_menu_items,
+                nav=True,
+                in_navbar=True,
+                label='Streams',
+                id=f'{id}_streams_dropdown',
+        )]
         
     return navbar_items
+    
