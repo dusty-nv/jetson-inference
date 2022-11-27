@@ -1,0 +1,85 @@
+/*
+ * dark css for dash_draggable components
+ *   https://github.com/MehdiChelh/dash-draggable/blob/master/src/lib/components/style.css
+ *   https://github.com/react-grid-layout/react-grid-layout/blob/master/css/styles.css
+ *   https://github.com/react-grid-layout/react-resizable/blob/master/css/styles.css
+ */
+.react-grid-item.react-grid-placeholder {
+    background: #DDD;
+    box-shadow: inset 0px 1px 10px 2px rgba(30, 44, 57, 0.25);
+}
+
+.react-grid-item > .react-resizable-handle::after {
+   /* https://github.com/react-grid-layout/react-grid-layout/issues/839 */
+   border-right: 2px solid rgba(255, 255, 255, 0.5);
+   border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Item */
+.item{
+    background: #303030;
+    /* these get out-of-sync with what RGS thinks the sizes are  */
+    /*min-width: 200px;
+    min-height: 200px;*/
+    /* border-radius: 5px; */
+    border-radius: 0.25rem;
+    box-shadow: 0px 1px 10px -1px rgba(30, 44, 57, 0.15);
+    /* box-shadow: 0px 10px 25px -2px rgba(30, 44, 57, 0.15); */
+}
+.item:active{
+    box-shadow: 0px 25px 25px -2px rgba(30, 44, 57, 0.15);
+    transition: box-shadow 200ms;
+}
+.item-top {
+    height: 10px;
+    line-height: 5px;
+    padding-top:-5px;
+    display: flex;
+    cursor: grab;
+    transition: background 200ms;
+    background: #444;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+.item-top:hover{
+    background-color: #dee2e6; /*rgb(241, 241, 247);*/
+}
+.item-top:active{
+    background-color: #888; /*rgb(220, 220, 228);*/
+    cursor: grabbing;
+}
+
+/* Item > Top */
+.item-top-content{
+    display: none;
+}
+.item-top:hover .item-top-content{
+    display: block;
+    margin: auto;
+    margin-top: -2px;
+}
+.item-top:active .item-top-content{
+    display: block;
+    margin: auto;
+    margin-top: -2px;
+}
+/* Item > Top */
+.item-top-right{
+    display: none;
+    cursor: pointer;
+}
+.item-top:hover .item-top-right{
+    display: block;
+    margin-top: -2px;
+}
+.item-top:active .item-top-right{
+    display: block;
+    margin-top: -2px;
+}
+
+/* Item > Content */
+.item-content{
+    width: 100%;
+    height: Calc(100% - 10px);
+    overflow: auto;
+}

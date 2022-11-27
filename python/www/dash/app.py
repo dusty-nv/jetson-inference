@@ -20,20 +20,92 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
+
+import dash
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning)
+import dash_auth
+
+from config import config, print_config
+from server import server, Server
+
+from layout.navbar import create_navbar
+from layout.grid import create_grid
+from layout.add_stream import add_stream_dialog
+
+import layout.test_card
+
+#import os
+#print(f'loaded {__file__} module from {__name__} (pid {os.getpid()})')
+
+
+# create the dash app
+external_scripts = ['https://webrtc.github.io/adapter/adapter-latest.js']
+external_stylesheets = [] #[dbc.themes.DARKLY] #[dbc.themes.SLATE] #[dbc.themes.FLATLY] #[dbc.themes.SUPERHERO] #['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
+app = dash.Dash(__name__, external_scripts=external_scripts, external_stylesheets=external_stylesheets, title=config['dash']['title'])
+server = app.server
+
+if len(config['dash']['users']) > 0:
+    auth = dash_auth.BasicAuth(app, config['dash']['users'])
+
+app.layout = dash.html.Div([
+    create_navbar(),
+    add_stream_dialog(),
+    create_grid(),
+])
+
+
+if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser(epilog="see config.py & data/config.json for more settings")
+    
+    parser.add_argument("--host", default=None, type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
+    parser.add_argument("--port", default=None, type=int, help="port used for webserver (default is 8050)")
+    
+    args = parser.parse_args()
+
+    if args.host:
+        config['dash']['host'] = args.host
+        
+    if args.port:
+        config['dash']['port'] = args.port
+
+    print_config(config)
+    
+    # check if HTTPS/SSL requested
+    ssl_context = None
+    
+    if config['server']['ssl_cert'] and config['server']['ssl_key']:
+        ssl_context = (config['server']['ssl_cert'], config['server']['ssl_key'])
+        
+    # start the backend server
+    backend = Server(**config['server'])
+    backend = backend.start()
+    
+    # disable code reloading because it starts the app multiple times (https://dash.plotly.com/devtools)
+    # https://community.plotly.com/t/dash-multi-page-app-functions-are-called-twice-unintentionally/46450
+    app.run_server(host=config['dash']['host'], port=config['dash']['port'], ssl_context=ssl_context, debug=True, use_reloader=False)
+
+else:
+    # gunicorn instance
+    # start the backend server
+    backend = Server(**config['server'])
+    backend = backend.connect()
+    
+"""   
 import argparse
 import json
 
 import dash
 import dash_bootstrap_components as dbc
 
-from dash import Dash, html, dcc, Input, Output, State, ALL, MATCH
+from dash import Dash, dcc, html, Input, Output, State, ALL, MATCH
 from dash.exceptions import PreventUpdate
 
 from server import Server
 from users import Authenticate
-
-
-
 
 external_scripts = ['https://webrtc.github.io/adapter/adapter-latest.js']
 external_stylesheets = [] #[dbc.themes.DARKLY] #[dbc.themes.SLATE] #[dbc.themes.FLATLY] #[dbc.themes.SUPERHERO] #['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -158,7 +230,7 @@ def play_stream(n_clicks, added_stream, server_config):
     if n_clicks[0] is None:
         raise PreventUpdate
         
-    stream_name = dash.ctx.triggered_id.index
+    stream_name = dash.ctx.triggered_id['index']
     server_config = json.loads(server_config)
     
     return json.dumps(server_config['streams'][stream_name])
@@ -216,9 +288,8 @@ if __name__ == '__main__':
     
     # disable code reloading because it starts the app multiple times (https://dash.plotly.com/devtools)
     # https://community.plotly.com/t/dash-multi-page-app-functions-are-called-twice-unintentionally/46450
-    # TODO set number of threads??
     app.run_server(host=args.host, port=args.port, ssl_context=ssl_context, debug=True, use_reloader=False)
     
     server.stop()
     print('exiting app')
-    
+"""  
