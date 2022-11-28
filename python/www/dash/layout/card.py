@@ -112,24 +112,22 @@ def collapse_card(n_clicks, style):
     return style    
 
 """
-List of card generator functions
+List of card callback functions
 """
-card_generators = []
+card_callbacks = []
 
-#@card_trigger
 #@card_callback
 #@card_open
 #@card_close
-
-def card_generator(*args, **kwargs):
+def card_callback(*args, **kwargs):
     """
-    Decorator used to register card generators with the grid.
+    Decorator used to register card callbacks with the grid.
     These are used to create new cards based on one or more Input triggers.
     These functions should return a card made with the create_card() function.
     
     For example, when 'my_button' gets pressed below, it will create a new card to be added to the grid:
     
-        @card_generator(Input('my_button', 'n_clicks'))
+        @card_callback(Input('my_button', 'n_clicks'))
         create_my_card(n_clicks):
             return create_card([f"My card body {n_clicks}"], title=f"My card {n_clicks}", id=f"my_card_{n_clicks}")
      
@@ -137,11 +135,9 @@ def card_generator(*args, **kwargs):
     only have one callback. So this card_generator decorator registers your sub-callback with the grid's callback.
     """
     def inner(func):
-        global card_generators
-        for arg in args:
-            print(arg)
-            
-        card_generators.append({
+        global card_callbacks
+
+        card_callbacks.append({
             'func' : func,
             'args' : args,
             'kwargs' : kwargs

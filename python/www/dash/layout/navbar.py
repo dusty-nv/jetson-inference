@@ -26,9 +26,6 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html, callback, Input, Output
 from config import config as app_config
 
-from .card import card_generator
-from .test_card import create_test_card
-
     
 def create_navbar(config=[], id='navbar'):
     """
@@ -56,8 +53,8 @@ def create_navbar_menus(config=[], id='navbar'):
     navbar_items += [
         dbc.DropdownMenu(
             children=[
-                dbc.DropdownMenuItem('Test Card', id={'type': f'{id}_menu_test_card', 'index': "10_abc"}, n_clicks=0),
-                dbc.DropdownMenuItem('Test Card 2', id={'type': f'{id}_menu_test_card', 'index': "11_def"}, n_clicks=0)
+                dbc.DropdownMenuItem('Test Card', id={'type': f'{id}_menu_test_card', 'index': "/10_abc"}, n_clicks=0),
+                dbc.DropdownMenuItem('Test Card 2', id={'type': f'{id}_menu_test_card', 'index': "/11_def"}, n_clicks=0)
             ],
             nav=True,
             in_navbar=True,
