@@ -26,12 +26,13 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html, callback, Input, Output
 from config import config as app_config
 
-    
+#from layout.test_card import create_test_card
+
 def create_navbar(config=[], id='navbar'):
     """
     Create a navbar components
     """
-    return dbc.NavbarSimple(
+    navbar = dbc.NavbarSimple(
         children=create_navbar_menus(config, id),
         brand=app_config['dash']['title'],
         #brand_href='#',
@@ -39,6 +40,16 @@ def create_navbar(config=[], id='navbar'):
         dark=True,
         id=id,
     )
+        
+    @dash.callback(
+        Output(id, 'children'),
+        Input('resources_config', 'data')
+    )
+    def refresh_nav(resources_config):
+        print(f"refreshing page navigation")
+        return create_navbar_menus(resources_config)
+        
+    return navbar
     
     
 def create_navbar_menus(config=[], id='navbar'):
@@ -47,6 +58,7 @@ def create_navbar_menus(config=[], id='navbar'):
     """
     navbar_items = []
     
+    """
     navbar_items += [dbc.NavLink('Test Card', id=f'{id}_test_card', n_clicks=0)]
     navbar_items += [dbc.NavLink('Test Card 2', id=f'{id}_test_card_2', n_clicks=0)]
     
@@ -61,7 +73,8 @@ def create_navbar_menus(config=[], id='navbar'):
             label='Test Menu',
             id=f'{id}_test_dropdown',
     )]
-        
+    """
+    
     # populate streams menu
     if len(config) == 0 or len(config['streams']) == 0:   # empty config / default navbar
         navbar_items += [dbc.NavLink('Add Stream', id=f'{id}_add_stream')]

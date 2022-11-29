@@ -82,7 +82,7 @@ window.dash_clientside.webrtc = {
 		console.log("window.dash_clientside.webrtc.playStream() => " + stream_config)
 	     stream_config = JSON.parse(stream_config)
 		
-		html5VideoElement = document.getElementById("video_player");					 // TODO dynamically get name of video player
+		html5VideoElement = document.getElementById(stream_config['video_player']);
 		webrtcConfiguration = { 'iceServers': [{ 'urls': 'stun:stun.l.google.com:19302' }] }; // TODO pull stun_server from config
 		reportError = function (errmsg) { console.error(errmsg); };
 		

@@ -1,2 +1,2 @@
 
-from .server import server, Server
+from .server import get_server, server, Server

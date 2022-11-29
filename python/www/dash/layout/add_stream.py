@@ -26,6 +26,8 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html, callback, Input, Output, State
 from dash.exceptions import PreventUpdate
 
+from server import get_server
+
 
 def add_stream_dialog(title='Add Stream'):
     """
@@ -54,6 +56,7 @@ def add_stream_dialog(title='Add Stream'):
             ])
         ),
         dbc.ModalFooter(dbc.Button('Create', id='add_stream_submit', className='ms-auto', n_clicks=0)),
+        html.Div(id='hidden_div_stream', style={'display':'none'})
     ],
     id='add_stream_dialog',
     is_open=False)
@@ -74,20 +77,21 @@ def show_add_stream_dialog(n1, n2, is_open):
         
     return is_open
    
-"""
+   
 @dash.callback(
-    Output('play_stream_config_add', 'data'),
+    Output('hidden_div_stream', 'children'),
     Input('add_stream_submit', 'n_clicks'),
     State('add_stream_name', 'value'),
     State('add_stream_source', 'value'),
     State('add_stream_checklist', 'value'),
     prevent_initial_call=True)
 def on_add_stream(n_clicks, name, source, options):
-    stream_config = server.streams.add(name, source)
-    return [
-        html.Div([
-            f'Adding stream:  {name}', html.Br(), 
-            f'Stream source:  {source}', html.Br(), 
-            f'{stream_config}', html.Br()]),
-        json.dumps(stream_config) if 'auto_play' in options else dash.no_update]
-"""
+    print(f"adding stream {name} from source {source}")
+    stream_config = get_server().streams.add(name, source)
+    raise PreventUpdate
+    #return [
+    #    html.Div([
+    #        f'Adding stream:  {name}', html.Br(), 
+    #        f'Stream source:  {source}', html.Br(), 
+    #        f'{stream_config}', html.Br()]),
+    #    json.dumps(stream_config) if 'auto_play' in options else dash.no_update]

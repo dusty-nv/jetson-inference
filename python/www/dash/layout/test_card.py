@@ -8,14 +8,17 @@ from .card import create_card, card_callback
 def create_test_card(n):
     print(f"create_test_card n={n}")
     return create_card([f"Test card {n} body"], title=f"Test card {n}", id=f"test_{n}")
-    
-    
+
 @card_callback(
     Input('navbar_test_card', 'n_clicks'), 
     Input('navbar_test_card_2', 'n_clicks')
 )
 def on_test_card(n1, n2):
-    return create_test_card(n1+n2)
+    print(f"on_test_card({n1}, {n2})")
+    print(dash.ctx.triggered[0])
+    if n1 or n2:
+        return create_test_card(n1+n2)
+    return None
     
 
 @card_callback(

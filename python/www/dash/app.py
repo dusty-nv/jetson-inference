@@ -26,25 +26,32 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 import dash_auth
 
+from dash import dcc, Input, Output
+from dash.exceptions import PreventUpdate
+
 from config import config, print_config
 from server import server, Server
 
-from layout.navbar import create_navbar
 from layout.grid import create_grid
+from layout.navbar import create_navbar
 from layout.add_stream import add_stream_dialog
 
-import layout.test_card
+from layout.video_player import create_video_player
+#from layout.test_card import create_test_card
 
 #import os
 #print(f'loaded {__file__} module from {__name__} (pid {os.getpid()})')
-
 
 # create the dash app
 external_scripts = ['https://webrtc.github.io/adapter/adapter-latest.js']
 external_stylesheets = [] #[dbc.themes.DARKLY] #[dbc.themes.SLATE] #[dbc.themes.FLATLY] #[dbc.themes.SUPERHERO] #['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(__name__, external_scripts=external_scripts, external_stylesheets=external_stylesheets, title=config['dash']['title'])
-server = app.server
+app = dash.Dash(__name__, title=config['dash']['title'],
+                external_scripts=external_scripts, 
+                external_stylesheets=external_stylesheets, 
+                suppress_callback_exceptions=True)
+                
+webserver = app.server
 
 if len(config['dash']['users']) > 0:
     auth = dash_auth.BasicAuth(app, config['dash']['users'])
@@ -53,8 +60,32 @@ app.layout = dash.html.Div([
     create_navbar(),
     add_stream_dialog(),
     create_grid(),
+    dcc.Store(id='resources_config'),
+    dcc.Interval(id='refresh_timer', interval=config['dash']['refresh'])
 ])
 
+@app.callback(Output('resources_config', 'data'),
+              Input('refresh_timer', 'n_intervals'),
+              Input('resources_config', 'data'))
+def on_refresh(n_intervals, previous_config):
+    """
+    Get the latest resources config from the server.
+    This can trigger updates to the clientside nav structure.
+    """
+    #print(f'refresh config {n_intervals}')
+    resources_config = server.list_resources()
+    #print(f'server config:  ({len(server_config["streams"])} streams)\n{server_config}')
+    
+    if previous_config is not None:
+        if resources_config == previous_config:
+            raise PreventUpdate   # if the config hasn't changed, skip the update
+
+    print(f'received updated config from backend server')
+    return resources_config
+    
+    #print(f'received updated config from backend server')
+    #return [create_navbar(server_config), json.dumps(server_config)]
+    
 
 if __name__ == '__main__':
     import argparse
@@ -81,8 +112,8 @@ if __name__ == '__main__':
         ssl_context = (config['server']['ssl_cert'], config['server']['ssl_key'])
         
     # start the backend server
-    backend = Server(**config['server'])
-    backend = backend.start()
+    server = Server(**config['server'])
+    server = server.start()
     
     # disable code reloading because it starts the app multiple times (https://dash.plotly.com/devtools)
     # https://community.plotly.com/t/dash-multi-page-app-functions-are-called-twice-unintentionally/46450
@@ -91,8 +122,8 @@ if __name__ == '__main__':
 else:
     # gunicorn instance
     # start the backend server
-    backend = Server(**config['server'])
-    backend = backend.connect()
+    server = Server(**config['server'])
+    server = server.connect()
     
 """   
 import argparse

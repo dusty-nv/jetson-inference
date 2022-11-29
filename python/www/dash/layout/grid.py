@@ -225,14 +225,27 @@ def create_grid(children=[], id='grid'):
                     if callback_arg == callback_arg_signature:
                         callback_arg_values.append(args[i])
             return callback_arg_values
-                            
+          
+        def create_child(callback):
+            new_child = callback['func'](*get_callback_arg_values(callback))
+                
+            if new_child is None:
+                raise PreventUpdate
+
+            for child in children:
+                if child['props']['id'] == new_child.id:
+                    print(f"ignoring new card created with duplicate ID {new_child.id}")
+                    raise PreventUpdate
+
+            return children + [new_child]
+                    
         if isinstance(dash.ctx.triggered_id, str):
             for callback in card_callbacks:
                 # check if what trigged the callback was from one of the card callback inputs
                 if dash.ctx.triggered[0]['prop_id'] not in [str(callback_arg) for callback_arg in callback['args']]:
                     continue
 
-                return children + [callback['func'](*get_callback_arg_values(callback))]
+                return create_child(callback)
 
         elif isinstance(dash.ctx.triggered_id, dict):
             index = dash.ctx.triggered_id['index']
@@ -255,8 +268,7 @@ def create_grid(children=[], id='grid'):
                     if dash.ctx.triggered[0]['prop_id'] not in callback_arg_list:
                         continue
                         
-                    # create a new card
-                    return children + [callback['func'](*get_callback_arg_values(callback))]
+                    return create_child(callback)
 
         raise PreventUpdate
         

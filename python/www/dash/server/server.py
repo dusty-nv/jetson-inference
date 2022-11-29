@@ -46,8 +46,8 @@ class Stream:
         # enable HTTPS/SSL
         video_args = None
         
-        if server.ssl_context is not None:
-            video_args = [f"--ssl-cert={server.ssl_context[0]}", f"--ssl-key={server.ssl_context[1]}"]
+        if server.ssl_cert and server.ssl_key:
+            video_args = [f"--ssl-cert={server.ssl_cert}", f"--ssl-key={server.ssl_key}"]
             
         self.server = server
         self.name = name
@@ -84,7 +84,7 @@ class Streams:
         self.server = server
         self.streams = []
         
-    def create(self, name, source):
+    def add(self, name, source):
         print(f"[{self.server.name}] adding stream {name}  source {source}")
         stream = Stream(self.server, name, source)
         self.streams.append(stream)
@@ -109,13 +109,18 @@ class Streams:
         else:
             raise TypeError("index/key must be of type int or string")
 
-    def get_config(self):
+    def get_config(self, key):
+        return self[key].get_config()
+        
+    def list_streams(self):
         return {stream.name : stream.get_config() for stream in self.streams}
 
 
 # global server instance
 server = None
 
+def get_server():
+    return server
 
 # what to call this...
 #  class WebRTCServer
@@ -154,7 +159,10 @@ class Server:
             ssl_cert (string) -- path to PEM-encoded SSL/TLS certificate file for enabling HTTPS
             ssl_key (string) -- path to PEM-encoded SSL/TLS key file for enabling HTTPS
             stun_server (string) -- override the default WebRTC STUN server (stun.l.google.com:19302)
-        """ 
+        """
+        global server 
+        server = self
+        
         self.name = name
         self.host = host
         self.rpc_port = rpc_port
@@ -163,8 +171,7 @@ class Server:
         self.ssl_key = ssl_key
         self.streams = Streams(self)
         self.run_flag = False  # this gets set to true when initialized successfully
-        self.os_process = None
-        server = self
+        self.os_process = None  
         
     def init(self):
         """
@@ -230,6 +237,7 @@ class Server:
           
         Log.Verbose(f"[{self.name}] {psutil.Process(os.getpid()).name()} (pid={os.getpid()}) connected to {self.name} process (pid={find_process_pid(self.name)})")
         
+        global server
         server = self.rpc_proxy
         return self.rpc_proxy
             
@@ -282,7 +290,7 @@ class Server:
         """
         Perform one interation of the processing loop.
         """
-        for i in range(len(self.streams.streams)):     # TODO don't spin if no streams
+        for i in range(len(self.streams)):     # TODO don't spin if no streams
             self.streams.streams[i].process()
 
     def list_resources(self):   # list_assets
@@ -290,7 +298,7 @@ class Server:
         Return a dict of the server's assets including streams, models, and datasets
         """
         return {
-            "streams" : self.streams.get_config(),
+            "streams" : self.streams.list_streams(),
             "models" : [],  # TODO implement models/streams
             "datasets" : []
         }
