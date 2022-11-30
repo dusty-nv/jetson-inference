@@ -31,7 +31,7 @@ CARD_CONTAINER_PREFIX="card_container_"   # this gets prepended to the card name
 
 num_cards = 0
 
-def create_card(children, title=None, id=None):
+def create_card(children, title=None, id=None, width=None, height=None):
     """
     Creates a card container around a set of child components.
     The card can be dragged, resized, collapse, and closed.
@@ -40,6 +40,8 @@ def create_card(children, title=None, id=None):
         children -- component or list of components to be used as the body of the card
         title (str) -- the name used for the card's title bar
         id (str or int) -- the index or name to be used for the card
+        width (int) -- the default width (in grid cells) of the card (the default is 6 cells)
+        height (int) -- the default height (in grid cells) of the card (the default is 8 cells)
         
     If ID is unspecified, it will be the Nth card created.
     If title is unspecified, it will be set to the ID.
@@ -65,6 +67,12 @@ def create_card(children, title=None, id=None):
         "card-index": id,         # this is used to track which card this style belongs to in sync_layout()
     }
 
+    if width is not None:
+        card_style['default-grid-width'] = width
+       
+    if height is not None:
+        card_style['default-grid-height'] = height
+        
     # return a card con
     return html.Div(dbc.Card([
         dbc.CardHeader([

@@ -164,14 +164,15 @@ def create_grid(children=[], id='grid'):
             for breakpoint in layouts:
                 for child in children:
                     layout = find_layout_dict(layouts, breakpoint, child['props']['id'])
+                    style = child['props']['style']
                     
                     if not layout:
                         # this container didn't have a layout for this breakpoint, so create a default one
                         # otherwise if/when the screen resizes to this breakpoint, the container will snap to 1x1
                         layout = {
                             'i': child['props']['id'],
-                            'w': DEFAULT_LAYOUT_SIZES[breakpoint]['w'],
-                            'h': DEFAULT_LAYOUT_SIZES[breakpoint]['h'],
+                            'w': style.get('default-grid-width', DEFAULT_LAYOUT_SIZES[breakpoint]['w']),
+                            'h': style.get('default-grid-height', DEFAULT_LAYOUT_SIZES[breakpoint]['h']),
                             'x': 0,
                             'y': 0,
                         }
@@ -184,8 +185,8 @@ def create_grid(children=[], id='grid'):
                         # there was an existing layout for this breakpoint, but it was assigned by the grid as 1x1
                         # this happens when a new child gets added to the grid, but only for the active breakpoint
                         if layout['w'] == 1 and layout['h'] == 1:
-                            layout['w'] = DEFAULT_LAYOUT_SIZES[breakpoint]['w']
-                            layout['h'] = DEFAULT_LAYOUT_SIZES[breakpoint]['h']
+                            layout['w'] = style.get('default-grid-width', DEFAULT_LAYOUT_SIZES[breakpoint]['w'])
+                            layout['h'] = style.get('default-grid-height', DEFAULT_LAYOUT_SIZES[breakpoint]['h'])
 
             return layouts, dash.no_update
         
