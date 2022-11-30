@@ -1,71 +1,76 @@
-var html5VideoElement;
-var websocketConnection;
-var webrtcPeerConnection;
-var webrtcConfiguration;
-var reportError;
+/*
+ * clientside multi-stream WebRTC connection handler
+ */
+var connections = {};
 
-
-function onLocalDescription(desc) {
-	console.log("Local description: " + JSON.stringify(desc));
-	webrtcPeerConnection.setLocalDescription(desc).then(function() {
-	websocketConnection.send(JSON.stringify({ type: "sdp", "data": webrtcPeerConnection.localDescription }));
-	}).catch(reportError);
+function reportError(errmsg) {
+	console.error(errmsg);
 }
 
+function onIncomingSDP(url, sdp) {
+	console.log("Incoming SDP (%s)\n" + JSON.stringify(sdp), url);
+	
+	function onLocalDescription(desc) {
+		console.log("Local description (%s)\n" + JSON.stringify(desc), url);
+		connections[url].webrtcPeer.setLocalDescription(desc).then(function() {
+			connections[url].websocket.send(JSON.stringify({ type: "sdp", "data": connections[url].webrtcPeer.localDescription }));
+		}).catch(reportError);
+	}
 
-function onIncomingSDP(sdp) {
-	console.log("Incoming SDP: " + JSON.stringify(sdp));
-	webrtcPeerConnection.setRemoteDescription(sdp).catch(reportError);
-	webrtcPeerConnection.createAnswer().then(onLocalDescription).catch(reportError);
+	connections[url].webrtcPeer.setRemoteDescription(sdp).catch(reportError);
+	connections[url].webrtcPeer.createAnswer().then(onLocalDescription).catch(reportError);
 }
 
-
-function onIncomingICE(ice) {
+function onIncomingICE(url, ice) {
 	var candidate = new RTCIceCandidate(ice);
-	console.log("Incoming ICE: " + JSON.stringify(ice));
-	webrtcPeerConnection.addIceCandidate(candidate).catch(reportError);
+	console.log("Incoming ICE (%s)\n" + JSON.stringify(ice), url);
+	connections[url].webrtcPeer.addIceCandidate(candidate).catch(reportError);
 }
-
 
 function onAddRemoteStream(event) {
-	console.log("Adding remote stream to HTML video player");
-	html5VideoElement.srcObject = event.streams[0];
+	var url = event.srcElement.url;
+	console.log("Adding remote stream to HTML video player (%s)", url);
+	connections[url].stream = event.streams[0];
+	connections[url].videoElement.srcObject = event.streams[0];
 }
 
-
 function onIceCandidate(event) {
-	if (event.candidate == null)
+	var url = event.srcElement.url;
+	
+	if( event.candidate == null )
 		return;
 
-	console.log("Sending ICE candidate out: " + JSON.stringify(event.candidate));
-	websocketConnection.send(JSON.stringify({ "type": "ice", "data": event.candidate }));
+	console.log("Sending ICE candidate out (%s)\n" + JSON.stringify(event.candidate), url);
+	connections[url].websocket.send(JSON.stringify({ "type": "ice", "data": event.candidate }));
 }
 
 
 function onServerMessage(event) {
+	//console.log(event);
+	//console.log(connections);
+	
 	var msg;
-
+	var url = event.srcElement.url;
+	
 	try {
 		msg = JSON.parse(event.data);
 	} catch (e) {
 		return;
 	}
 
-	if (!webrtcPeerConnection) {
-		webrtcPeerConnection = new RTCPeerConnection(webrtcConfiguration);
-		webrtcPeerConnection.ontrack = onAddRemoteStream;
-		webrtcPeerConnection.onicecandidate = onIceCandidate;
+	if( !connections[url].webrtcPeer ) {
+		connections[url].webrtcPeer = new RTCPeerConnection(connections[url].webrtcConfig);
+		connections[url].webrtcPeer.url = url;
+		
+		connections[url].webrtcPeer.ontrack = onAddRemoteStream;
+		connections[url].webrtcPeer.onicecandidate = onIceCandidate;
 	}
 
 	switch (msg.type) {
-		case "sdp": onIncomingSDP(msg.data); break;
-		case "ice": onIncomingICE(msg.data); break;
+		case "sdp": onIncomingSDP(url, msg.data); break;
+		case "ice": onIncomingICE(url, msg.data); break;
 		default: break;
 	}
-}
-
-if (!window.dash_clientside) {
-    window.dash_clientside = {};
 }
 
 var wait = (ms) => {
@@ -76,35 +81,53 @@ var wait = (ms) => {
 	}
 }
 
-window.dash_clientside.webrtc = {
+if (!window.dash_clientside) {
+    window.dash_clientside = {};
+}
+
+window.dash_clientside.webrtc = 
+{
     // this function gets called from the dash app
-    playStream: function(stream_config) {
-		console.log("window.dash_clientside.webrtc.playStream() => " + stream_config)
-	     stream_config = JSON.parse(stream_config)
-		
-		html5VideoElement = document.getElementById(stream_config['video_player']);
-		webrtcConfiguration = { 'iceServers': [{ 'urls': 'stun:stun.l.google.com:19302' }] }; // TODO pull stun_server from config
-		reportError = function (errmsg) { console.error(errmsg); };
-		
-		console.log("video player: " + html5VideoElement);
+    playStream: function(streamConfig) 
+    {
+		console.log("window.dash_clientside.webrtc.playStream() => \n" + streamConfig)
 		console.log("window location:  " + window.location);
+		
+	     streamConfig = JSON.parse(streamConfig)
 
 		// check for HTTPS/SSL
-		var ws_protocol = "ws://";
+		var ws_protocol = 'ws://';
 
-		if( "sslCert" in stream_config["output"] )
-			ws_protocol = "wss:///";
+		if( 'sslCert' in streamConfig['output'] )
+			ws_protocol = 'wss:///';
 		
 		// get the WebRTC websocket URL
-		var ws_url = ws_protocol + window.location.hostname + ":" + stream_config["output"]["resource"]["port"] + stream_config["output"]["resource"]["path"];
-		console.log("websocket URL:  " + ws_url);
+		var url = ws_protocol + window.location.hostname + ':' + streamConfig['output']['resource']['port'] + streamConfig['output']['resource']['path'];
+		console.log("websocket URL:  " + url);
 		
-		// open websocket to the server
-		websocketConnection = new WebSocket(ws_url)
-		websocketConnection.addEventListener("message", onServerMessage);
-		
-		//wait(2500);
-		//console.log("returning from playStream()");
+		if( !connections[url] ) 
+		{
+			// create a new connection entry
+			connections[url] = {};
+
+			connections[url].videoElement = document.getElementById(streamConfig['video_player']);
+			connections[url].webrtcConfig = { 'iceServers': [{ 'urls': 'stun:stun.l.google.com:19302' }] }; // TODO pull stun_server from config
+			connections[url].streamConfig = streamConfig;
+			
+			console.log(connections);
+			
+			// open websocket to the server
+			connections[url].websocket = new WebSocket(url)
+			connections[url].websocket.addEventListener('message', onServerMessage);
+		}
+		else 
+		{
+			// reconnect the video player to the stream
+			console.warn("connection already opened to %s", url);
+			
+			connections[url].videoElement = document.getElementById(streamConfig['video_player']);
+			connections[url].videoElement.srcObject = connections[url].stream;
+		}
     }
 }
 
