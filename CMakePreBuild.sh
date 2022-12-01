@@ -37,6 +37,7 @@ $SUDO apt-get install -y --no-install-recommends \
 		glew-utils \
 		gstreamer1.0-nice \
 		libgstreamer1.0-dev \
+		libgstrtspserver-1.0-dev \
 		libglib2.0-dev \
 		libsoup2.4-dev \
 		libjson-glib-dev \
