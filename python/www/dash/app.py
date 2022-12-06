@@ -30,14 +30,9 @@ from dash import dcc, Input, Output
 from dash.exceptions import PreventUpdate
 
 from config import config, print_config
-from server import server, Server
+from server import Server
 
-from layout.grid import create_grid
-from layout.navbar import create_navbar
-from layout.add_stream import add_stream_dialog
-
-from layout.video_player import create_video_player
-#from layout.test_card import create_test_card
+from layout import create_grid, create_navbar, create_new_stream
 
 #import os
 #print(f'loaded {__file__} module from {__name__} (pid {os.getpid()})')
@@ -58,8 +53,8 @@ if len(config['dash']['users']) > 0:
 
 app.layout = dash.html.Div([
     create_navbar(),
-    add_stream_dialog(),
     create_grid(),
+    create_new_stream(),
     dcc.Store(id='resources_config'),
     dcc.Interval(id='refresh_timer', interval=config['dash']['refresh'])
 ])
@@ -72,7 +67,7 @@ def on_refresh(n_intervals, previous_config):
     Get the latest resources config from the server.
     This can trigger updates to the clientside nav structure.
     """
-    resources_config = server.list_resources()
+    resources_config = Server.instance.list_resources()
 
     if previous_config is not None:
         if resources_config == previous_config:
@@ -85,10 +80,13 @@ def on_refresh(n_intervals, previous_config):
 if __name__ == '__main__':
     import argparse
 
-    parser = argparse.ArgumentParser(epilog="see config.py & data/config.json for more settings")
+    parser = argparse.ArgumentParser(epilog="see config.py or data/config.json for more settings")
     
     parser.add_argument("--host", default=None, type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
     parser.add_argument("--port", default=None, type=int, help="port used for webserver (default is 8050)")
+    parser.add_argument("--ssl-cert", default=None, type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
+    parser.add_argument("--ssl-key", default=None, type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
+    parser.add_argument("--resources", default=None, type=str, help="path to JSON config file to load initial server resources from")
     
     args = parser.parse_args()
 
@@ -98,6 +96,15 @@ if __name__ == '__main__':
     if args.port:
         config['dash']['port'] = args.port
 
+    if args.ssl_cert:
+        config['server']['ssl_cert'] = args.ssl_cert
+        
+    if args.ssl_key:
+        config['server']['ssl_key'] = args.ssl_key
+        
+    if args.resources:
+        config['server']['resources'] = args.resources
+        
     print_config(config)
     
     # check if HTTPS/SSL requested
@@ -107,15 +114,13 @@ if __name__ == '__main__':
         ssl_context = (config['server']['ssl_cert'], config['server']['ssl_key'])
         
     # start the backend server
-    server = Server(**config['server'])
-    server = server.start()
-    
+    Server(**config['server']).start()
+
     # disable code reloading because it starts the app multiple times (https://dash.plotly.com/devtools)
     # https://community.plotly.com/t/dash-multi-page-app-functions-are-called-twice-unintentionally/46450
     app.run_server(host=config['dash']['host'], port=config['dash']['port'], ssl_context=ssl_context, debug=True, use_reloader=False)
 
 else:
     # gunicorn instance
-    # start the backend server
-    server = Server(**config['server'])
-    server = server.connect()
+    # start/connect to the backend server
+    Server(**config['server']).connect()

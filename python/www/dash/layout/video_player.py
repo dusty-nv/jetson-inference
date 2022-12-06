@@ -6,11 +6,12 @@ from dash import dcc, html, Input, Output, ALL, MATCH
 from dash.exceptions import PreventUpdate
 
 from .card import create_card, card_callback
-from server import get_server
+
+from server import Server
 
 
 def create_video_player(stream):
-    stream_config = get_server().streams.get_config(stream)
+    stream_config = Server.instance.get_resource('streams', stream)
     stream_config['video_player'] = f"video_player_element_{stream}"
     
     print('create_video_player')
@@ -18,6 +19,7 @@ def create_video_player(stream):
     
     """
     # https://stackoverflow.com/questions/23248441/resizing-video-element-to-parent-div
+    # https://stackoverflow.com/questions/4000818/scale-html5-video-and-break-aspect-ratio-to-fill-whole-site
     video_player_style={
         'position': 'absolute', 
         'right': 0, 
@@ -36,17 +38,15 @@ def create_video_player(stream):
         #'object-fit': 'cover',
     }
     
-    return create_card([
+    children = [
         html.Video(id=stream_config['video_player'], controls=True, autoPlay=True, style=video_player_style),
         html.Div(id={'type': 'hidden_div_video_player', 'index': stream}, style={'display':'none'}),
         dcc.Store(id={'type': 'video_player_config', 'index': stream}, data=json.dumps(stream_config)),
-        ],
-        title=stream, 
-        id=f"video_player_{stream}",
-        width=6,
-        height=14)
+    ]
     
+    return create_card(children, title=stream, id=f"video_player_{stream}", width=6, height=14)
 
+    
 @card_callback(Input({'type': f'navbar_stream', 'index': ALL}, 'n_clicks'))
 def play_stream(n_clicks):
     print(f"play stream {dash.ctx.triggered_id['index']}   n_clicks={n_clicks}")

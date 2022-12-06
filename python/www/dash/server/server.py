@@ -22,6 +22,7 @@
 #
 import os
 import ssl
+import json
 import time
 import psutil
 import random
@@ -32,102 +33,18 @@ import setproctitle
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.client import ServerProxy
 
-from jetson_utils import videoSource, videoOutput, Log
+from jetson_utils import Log
 
-from config import config, load_config, print_config
+from .stream import Stream
+
+
     
-
-# TODO pass videoSource/videoOutput flags  (ssl_certs, ect)
-class Stream:
-    def __init__(self, server, name, source):
-        if not name.startswith('/'):   # make sure all routes start with '/'
-            name = '/' + name
-            
-        # enable HTTPS/SSL
-        video_args = None
-        
-        if server.ssl_cert and server.ssl_key:
-            video_args = [f"--ssl-cert={server.ssl_cert}", f"--ssl-key={server.ssl_key}"]
-            
-        self.server = server
-        self.name = name
-        self.source = videoSource(source, argv=video_args)
-        self.output = videoOutput(f"webrtc://@:{self.server.webrtc_port}{self.name}", argv=video_args)
-        self.frame_count = 0
-        
-    def process(self):
-        try:
-            img = self.source.Capture()
-        except Exception as error:
-            # TODO check if stream is still open, if not reconnect?
-            Log.Error(f"{error}")
-            return
-            
-        if self.frame_count % 25 == 0 or self.frame_count < 15:
-            Log.Verbose(f"[{self.server.name}] {self.name} -- captured frame {self.frame_count}  ({img.width}x{img.height})")
-
-        self.output.Render(img)
-        self.frame_count += 1
-       
-    def get_config(self):
-        # TODO add stats or runtime_stats option for easy frontend state-change comparison?
-        # the videoOptions could be dynamic as well... (i.e. framerate - actually that is not?)
-        return {
-            "name" : self.name,
-            "source" : self.source.GetOptions(),
-            "output" : self.output.GetOptions(),
-            #'frame_count' : self.frame_count 
-        }
-        
-class Streams:
-    def __init__(self, server):
-        self.server = server
-        self.streams = []
-        
-    def add(self, name, source):
-        print(f"[{self.server.name}] adding stream {name}  source {source}")
-        stream = Stream(self.server, name, source)
-        self.streams.append(stream)
-        return stream.get_config()  # return the config dict, as this is called over RPC 
-        
-    def keys(self):
-        return [stream.name for stream in self.streams]
-        
-    def __len__(self):
-        return len(self.streams)
-        
-    def __getitem__(self, key):
-        if isinstance(key, int):
-            if key < 0 or key >= len(self.streams):
-                raise IndexError("stream index was out of range")
-            return self.streams[key]
-        elif isinstance(key, str):
-            for stream in self.streams:
-                if stream.name == key:
-                    return stream
-            raise KeyError(f"couldn't find stream '{key}'")
-        else:
-            raise TypeError("index/key must be of type int or string")
-
-    def get_config(self, key):
-        return self[key].get_config()
-        
-    def list_streams(self):
-        return {stream.name : stream.get_config() for stream in self.streams}
-
-
-# global server instance
-server = None
-
-def get_server():
-    return server
-
 # what to call this...
 #  class WebRTCServer
 #  class BackendServer
 #  class InferenceServer
 #  class MediaServer
-class Server:
+class Server(object):
     """
     Backend media streaming server for handling assets/resources like cameras, DNN models, datasets, ect.
     It captures video from a variety of input sources (e.g. V4L2 cameras, MIPI CSI, RTP/RTSP),
@@ -144,10 +61,15 @@ class Server:
         * running 'python3 server.py' to launch it manually (see __main__ below)
         
     It typically runs in it's own process where it uses RPC for command & control.
-    The Dash app will automatically start it, so you don't normally need to worry about it.
+    Once start() or connect() are run, the server instance will be replaced with
+    the RPC proxy that forwards function calls to the process running the server.
+    
+    This class is typically a singleton and can be accessed with Server.instance 
     """
+    instance = None
+
     def __init__(self, name='server-backend', host='0.0.0.0', rpc_port=49565, webrtc_port=49567, 
-                 ssl_cert=None, ssl_key=None, stun_server=None):
+                 ssl_cert=None, ssl_key=None, stun_server=None, resources=None):
         """
         Create a new instance of the backend server.
         
@@ -159,19 +81,23 @@ class Server:
             ssl_cert (string) -- path to PEM-encoded SSL/TLS certificate file for enabling HTTPS
             ssl_key (string) -- path to PEM-encoded SSL/TLS key file for enabling HTTPS
             stun_server (string) -- override the default WebRTC STUN server (stun.l.google.com:19302)
+            resources (string or dict) -- either a path a json config file or dict containing resources to load
         """
-        global server 
-        server = self
-        
+        self.instance = self
         self.name = name
         self.host = host
         self.rpc_port = rpc_port
         self.webrtc_port = webrtc_port
         self.ssl_cert = ssl_cert
         self.ssl_key = ssl_key
-        self.streams = Streams(self)
-        self.run_flag = False  # this gets set to true when initialized successfully
         self.os_process = None  
+        self.run_flag = False            # this gets set to true when initialized successfully
+        self.init_resources = resources  # these resources get loaded during init()
+        self.resources = {
+            'streams' : {},
+            #'models': {},
+            #'datasets': {},
+        }
         
     def init(self):
         """
@@ -181,6 +107,9 @@ class Server:
             setproctitle.setproctitle(multiprocessing.current_process().name)
             Log.Verbose(f"[{self.name}] started {self.name} process (pid={self.os_process.pid})")
             
+        # load resources
+        self.load_resources(self.init_resources)
+        
         # create the RPC server
         self.rpc_server = SimpleXMLRPCServer((self.host, self.rpc_port), allow_none=True)  # logRequests = False 
         
@@ -237,8 +166,7 @@ class Server:
           
         Log.Verbose(f"[{self.name}] {psutil.Process(os.getpid()).name()} (pid={os.getpid()}) connected to {self.name} process (pid={find_process_pid(self.name)})")
         
-        global server
-        server = self.rpc_proxy
+        Server.instance = self.rpc_proxy
         return self.rpc_proxy
             
     def start(self):
@@ -262,7 +190,8 @@ class Server:
         """
         Signal the process to stop running.
         """
-        print(f"[{self.name}] stopping...")
+        Log.Info(f"[{self.name}] stopping...")
+        
         self.run_flag = False
         self.rpc_server._BaseServer__shutdown_request = True 
         self.rpc_server.server_close()
@@ -278,7 +207,7 @@ class Server:
         while self.run_flag:
             self.process()
           
-        print(f"[{self.name}] stopped")
+        Log.Info(f"[{self.name}] stopped")
         
     def is_running(self):
         """
@@ -290,20 +219,78 @@ class Server:
         """
         Perform one interation of the processing loop.
         """
-        for i in range(len(self.streams)):     # TODO don't spin if no streams
-            self.streams.streams[i].process()
+        for stream in self.resources['streams'].values():     # TODO don't spin if no streams
+            stream.process()
 
-    def list_resources(self):   # list_assets
+    def add_resource(self, type, name, *args, **kwargs):
         """
-        Return a dict of the server's assets including streams, models, and datasets
+        Add a resource to the server.
+        
+        Parameters:
+            type (string) -- should be one of:  'streams', 'models', 'datasets'
+            name (string) -- the name of the resource
+            kwargs (dict) -- arguments to create the resource with
         """
-        return {
-            "streams" : self.streams.list_streams(),
-            "models" : [],  # TODO implement models/streams
-            "datasets" : []
-        }
+        if type not in self.resources:
+            Log.Error(f"[{self.name}] invalid resource type '{type}'")
+            return
+            
+        try:
+            if type == 'streams':
+                resource = Stream(self, name, *args, **kwargs)
+        except Exception as error:
+            Log.Error(f"[{self.name}] failed to create resource '{name}' with type '{type}'")
+            Log.Error(f"{error}")
+            return
+        
+        self.resources[type][name] = resource
+        return resource.get_config()
+    
+    def get_resource(self, type, name):
+        """
+        Return a config dict of a particular resource
+        """
+        return self.resources[type][name].get_config()
+        
+    def list_resources(self):
+        """
+        Return a config dict of the server's assets including streams, models, and datasets
+        """
+        resources = {}
+        
+        for type, items in self.resources.items():
+            resources[type] = { name : resource.get_config() for (name, resource) in items.items() }
+            
+        return resources
  
-
+    def load_resources(self, resources):
+        """
+        Load resources (streams/models/datasets) from a json config file or dict
+        """
+        if resources is None:
+            return
+            
+        if isinstance(resources, str):
+            if not os.path.exists(resources):
+                Log.Error(f"[{self.name}] path does not exist: {resources}")
+                return
+              
+            Log.Info(f"[{self.name}] loading resources from {resources}")
+            
+            with open(resources) as file:
+                resources = json.load(file)
+            
+        if not isinstance(resources, dict):
+            Log.Error(f"[{self.name}] load_resources() must be called with a string or dict")
+            return
+        
+        for type in self.resources.keys():
+            if type not in resources:
+                continue
+                
+            for name, item in resources[type].items():
+                self.add_resource(type, name, **item)
+            
 def is_process_running(name):
     """
     Check if there is any running process that contains the given name processName.
@@ -316,6 +303,7 @@ def is_process_running(name):
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
     return False;
+   
    
 def find_process_pid(name):
     """
@@ -333,6 +321,7 @@ def find_process_pid(name):
                 
 if __name__ == '__main__':
     import argparse
+    from config import config, load_config, print_config
     
     parser = argparse.ArgumentParser()
     
@@ -345,6 +334,7 @@ if __name__ == '__main__':
     parser.add_argument("--ssl-cert", default=None, type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
     parser.add_argument("--ssl-key", default=None, type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
     parser.add_argument("--stun-server", default=None, type=str, help="STUN server to use for WebRTC")
+    parser.add_argument("--resources", default=None, type=str, help="path to JSON config file to load initial server resources from")
     
     args = parser.parse_args()
     
@@ -371,6 +361,9 @@ if __name__ == '__main__':
         
     if args.stun_server:
         config['server']['stun_server'] = args.stun_server
+ 
+    if args.resources:
+        config['server']['resources'] = args.resources
         
     print_config(config)
 

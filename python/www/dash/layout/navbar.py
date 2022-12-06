@@ -47,7 +47,7 @@ def create_navbar(config=[], id='navbar'):
     )
     def refresh_nav(resources_config):
         print(f"refreshing page navigation")
-        return create_navbar_menus(resources_config)
+        return create_navbar_menus(resources_config, id)
         
     return navbar
     
@@ -77,7 +77,7 @@ def create_navbar_menus(config=[], id='navbar'):
     
     # populate streams menu
     if len(config) == 0 or len(config['streams']) == 0:   # empty config / default navbar
-        navbar_items += [dbc.NavLink('Add Stream', id=f'{id}_add_stream')]
+        navbar_items += [dbc.NavLink('Add Stream', id=f'{id}_add_stream', n_clicks=0)]
     else:   
         stream_menu_items = [
             dbc.DropdownMenuItem('Add Stream', id=f'{id}_add_stream', n_clicks=0),
@@ -96,6 +96,8 @@ def create_navbar_menus(config=[], id='navbar'):
                 label='Streams',
                 id=f'{id}_streams_dropdown',
         )]
-        
+     
+    navbar_items += [dbc.NavLink('Help', id=f'{id}_help', n_clicks=0)]
+    
     return navbar_items
     

@@ -26,12 +26,12 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html, callback, Input, Output, State
 from dash.exceptions import PreventUpdate
 
-from server import get_server
+from server import Server
 
 
-def add_stream_dialog(title='Add Stream'):
+def create_new_stream(title='Add Stream'):
     """
-    Create a dialog used for add streams.
+    Create a dialog used for adding streams.
     """
     return dbc.Modal([
         dbc.ModalHeader(dbc.ModalTitle(title)),
@@ -61,14 +61,14 @@ def add_stream_dialog(title='Add Stream'):
     id='add_stream_dialog',
     is_open=False)
 
-   
+
 @dash.callback(
     Output('add_stream_dialog', 'is_open'),
     Input('navbar_add_stream', 'n_clicks'), 
     Input('add_stream_submit', 'n_clicks'),
     State('add_stream_dialog', 'is_open'),
 )
-def show_add_stream_dialog(n1, n2, is_open):
+def show_new_stream_dialog(n1, n2, is_open):
     if n1 == 0: 
         raise PreventUpdate
 
@@ -85,13 +85,7 @@ def show_add_stream_dialog(n1, n2, is_open):
     State('add_stream_source', 'value'),
     State('add_stream_checklist', 'value'),
     prevent_initial_call=True)
-def on_add_stream(n_clicks, name, source, options):
+def on_new_stream(n_clicks, name, source, options):
     print(f"adding stream {name} from source {source}")
-    stream_config = get_server().streams.add(name, source)
+    stream_config = Server.instance.add_resource('streams', name, source)
     raise PreventUpdate
-    #return [
-    #    html.Div([
-    #        f'Adding stream:  {name}', html.Br(), 
-    #        f'Stream source:  {source}', html.Br(), 
-    #        f'{stream_config}', html.Br()]),
-    #    json.dumps(stream_config) if 'auto_play' in options else dash.no_update]
