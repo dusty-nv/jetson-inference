@@ -1,0 +1,7 @@
+dash_bootstrap_components
+dash
+dash_auth
+git+https://github.com/dusty-nv/dash-draggable
+psutil
+setproctitle
+mergedeep
