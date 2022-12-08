@@ -14,8 +14,8 @@ def create_video_player(stream):
     stream_config = Server.instance.get_resource('streams', stream)
     stream_config['video_player'] = f"video_player_element_{stream}"
     
-    print('create_video_player')
-    print(stream_config)
+    #print('create_video_player')
+    #print(stream_config)
     
     """
     # https://stackoverflow.com/questions/23248441/resizing-video-element-to-parent-div
@@ -44,30 +44,20 @@ def create_video_player(stream):
         dcc.Store(id={'type': 'video_player_config', 'index': stream}, data=json.dumps(stream_config)),
     ]
     
-    return create_card(children, title=stream, id=f"video_player_{stream}", width=6, height=14)
+    return create_card(children, title=stream, id=stream, width=6, height=14, settings_button='card-settings-stream')
 
     
-@card_callback(Input({'type': f'navbar_stream', 'index': ALL}, 'n_clicks'))
+@card_callback(Input({'type': 'navbar_stream', 'index': ALL}, 'n_clicks'))
 def play_stream(n_clicks):
-    print(f"play stream {dash.ctx.triggered_id['index']}   n_clicks={n_clicks}")
-    print(f"n_clicks:  {n_clicks}")
-    print(dash.ctx.triggered)
+    #print(f"play stream {dash.ctx.triggered_id['index']}   n_clicks={n_clicks}")
+    #print(f"n_clicks:  {n_clicks}")
+    #print(dash.ctx.triggered)
     
     if dash.ctx.triggered[0]['value'] > 0:
         return create_video_player(dash.ctx.triggered_id['index'])
+        
     return None
     
-"""
-@dash.callback(
-    Output('hidden_div_video_player', 'children'),
-    Input('video_player_config', 'data')
-)
-def on_card_create(stream_config):
-    print('on card create callback')
-    print(dash.ctx.triggered[0])
-    print(stream_config)
-    raise PreventUpdate
-"""
 
 dash.clientside_callback(
     dash.ClientsideFunction('webrtc', 'playStream'),

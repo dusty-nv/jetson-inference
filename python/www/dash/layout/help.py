@@ -15,10 +15,11 @@ def create_help(id='help'):
         id=id
     )
 
-
+"""
 @card_callback(Input('navbar_help', 'n_clicks'))
 def open_help(n_clicks):
     if n_clicks > 0:
         return create_help()  
     else:
         return None
+"""

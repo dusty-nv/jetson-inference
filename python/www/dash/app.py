@@ -22,6 +22,7 @@
 #
 
 import dash
+import pprint
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 import dash_auth
@@ -32,7 +33,7 @@ from dash.exceptions import PreventUpdate
 from config import config, print_config
 from server import Server
 
-from layout import create_grid, create_navbar, create_new_stream
+from layout import create_grid, create_navbar, create_new_stream, create_model_dialog
 
 #import os
 #print(f'loaded {__file__} module from {__name__} (pid {os.getpid()})')
@@ -55,26 +56,28 @@ app.layout = dash.html.Div([
     create_navbar(),
     create_grid(),
     create_new_stream(),
-    dcc.Store(id='resources_config'),
+    create_model_dialog(),
+    dcc.Store(id='server_resources'),
     dcc.Interval(id='refresh_timer', interval=config['dash']['refresh'])
 ])
 
-@app.callback(Output('resources_config', 'data'),
+@app.callback(Output('server_resources', 'data'),
               Input('refresh_timer', 'n_intervals'),
-              Input('resources_config', 'data'))
-def on_refresh(n_intervals, previous_config):
+              Input('server_resources', 'data'))
+def on_refresh(n_intervals, previous_resources):
     """
     Get the latest resources config from the server.
     This can trigger updates to the clientside nav structure.
     """
-    resources_config = Server.instance.list_resources()
+    server_resources = Server.instance.list_resources()
 
-    if previous_config is not None:
-        if resources_config == previous_config:
+    if previous_resources is not None:
+        if server_resources == previous_resources:
             raise PreventUpdate   # if the config hasn't changed, skip the update
 
-    print(f'received updated config from backend server')
-    return resources_config
+    print(f'received updated resources config from backend server')
+    pprint.pprint(server_resources, indent=4)
+    return server_resources
 
 
 if __name__ == '__main__':

@@ -27,11 +27,12 @@ from dash import dcc, html, callback, Input, Output, State, MATCH
 from config import config as app_config
 
 
-CARD_CONTAINER_PREFIX="card_container_"   # this gets prepended to the card names to form the ID of the div container in the grid
+CARD_CONTAINER_PREFIX = "card_container_"  # this gets prepended to the card names to form the ID of the div container in the grid
+CARD_CONTAINER_COUNT = 0                   # keeps track of the number of cards for cards that don't have a unique ID
 
-num_cards = 0
 
-def create_card(children, title=None, id=None, width=None, height=None):
+def create_card(children, title=None, id=None, width=None, height=None, 
+                close_button=True, minimize_button=True, settings_button=False):
     """
     Creates a card container around a set of child components.
     The card can be dragged, resized, collapse, and closed.
@@ -42,19 +43,23 @@ def create_card(children, title=None, id=None, width=None, height=None):
         id (str or int) -- the index or name to be used for the card
         width (int) -- the default width (in grid cells) of the card (the default is 6 cells)
         height (int) -- the default height (in grid cells) of the card (the default is 8 cells)
+        close_button (bool) -- if true, there will be a close button in the header (default is true)
+        minimize_button (bool) -- if true, there will be a collapse/expand button in the header
+        settings_button (bool) -- if true, there will be a settings button added to the header
+                                  this can also be a string which sets a unique ID type for the button
         
     If ID is unspecified, it will be the Nth card created.
     If title is unspecified, it will be set to the ID.
     """
-    global num_cards
+    global CARD_CONTAINER_COUNT
     
     if id is None:
-        id = num_cards
+        id = CARD_CONTAINER_COUNT
         
     if title is None:
         title = id
         
-    num_cards += 1
+    CARD_CONTAINER_COUNT += 1
     
     # resize card contents to grid container size
     card_style={    
@@ -72,27 +77,25 @@ def create_card(children, title=None, id=None, width=None, height=None):
        
     if height is not None:
         card_style['default-grid-height'] = height
+    
+    # build the header children
+    header = [html.H5(title, className="d-inline")]
+    
+    if close_button:
+        header += [dbc.Button(className="btn-close float-end", id={"type": "card-close-button", "index": id})]
         
-    # return a card con
-    return html.Div(dbc.Card([
-        dbc.CardHeader([
-            html.H5(title, className="d-inline"),
-            dbc.Button(
-                className="btn-close float-end",
-                id={"type": "card-close-button", "index": id},
-            ),
-            dbc.Button("__",  # these appear in reverse order when float-end is used
-                className="btn-close float-end",
-                style={"background": "transparent"},
-                id={"type": "card-collapse-button", "index": id},
-            ),
-        ], className="pe-2"),  # make buttons closer to right (padding)
-        
-        dbc.CardBody(children, 
-            style=card_style,
-            id={"type": "card-body", "index": id},
-        )],
+    if minimize_button:
+        header += [dbc.Button("__", className="btn-close float-end", style={"background": "transparent"}, id={"type": "card-collapse-button", "index": id})]
+    
+    if settings_button:
+        header += [dbc.Button("*", className="btn-close float-end", style={"background": "transparent"}, id={"type": settings_button if isinstance(settings_button, str) else "card-settings-button", "index": id})]
 
+    # return a card container
+    return html.Div(
+        dbc.Card([
+            dbc.CardHeader(header, className="pe-2"),  # make buttons closer to right (padding)
+            dbc.CardBody(children, style=card_style, id={"type": "card-body", "index": id}),
+        ],
         style=card_style,
         className="mx-auto",  # adding mb-3 adds a black line above the resizing handle
         id={"type": "card", "index": id}

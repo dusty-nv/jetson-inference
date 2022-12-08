@@ -35,6 +35,7 @@ from xmlrpc.client import ServerProxy
 
 from jetson_utils import Log
 
+from .model import Model
 from .stream import Stream
 
 
@@ -46,7 +47,7 @@ from .stream import Stream
 #  class MediaServer
 class Server(object):
     """
-    Backend media streaming server for handling assets/resources like cameras, DNN models, datasets, ect.
+    Backend media streaming server for handling resources like cameras, DNN models, datasets, ect.
     It captures video from a variety of input sources (e.g. V4L2 cameras, MIPI CSI, RTP/RTSP),
     performs inferencing, and then encodes the stream and transmits it with WebRTC to the clients.
 
@@ -94,8 +95,8 @@ class Server(object):
         self.run_flag = False            # this gets set to true when initialized successfully
         self.init_resources = resources  # these resources get loaded during init()
         self.resources = {
+            'models': {},
             'streams' : {},
-            #'models': {},
             #'datasets': {},
         }
         
@@ -222,35 +223,40 @@ class Server(object):
         for stream in self.resources['streams'].values():     # TODO don't spin if no streams
             stream.process()
 
-    def add_resource(self, type, name, *args, **kwargs):
+    def add_resource(self, group, name, *args, **kwargs):
         """
         Add a resource to the server.
         
         Parameters:
-            type (string) -- should be one of:  'streams', 'models', 'datasets'
-            name (string) -- the name of the resource
-            kwargs (dict) -- arguments to create the resource with
+            group (string) -- should be one of:  'streams', 'models', 'datasets'
+            name (string)  -- the name of the resource
+            args (list)    -- arguments to create the resource with
         """
-        if type not in self.resources:
-            Log.Error(f"[{self.name}] invalid resource type '{type}'")
+        if group not in self.resources:
+            Log.Error(f"[{self.name}] invalid resource group '{group}'")
             return
             
         try:
-            if type == 'streams':
+            if group == 'models':
+                resource = Model(self, name, *args, **kwargs)
+            elif group == 'streams':
                 resource = Stream(self, name, *args, **kwargs)
+            else:
+                Log.Error(f"[{self.name}] invalid resource group '{group}' for resource '{name}'")
+                return
         except Exception as error:
-            Log.Error(f"[{self.name}] failed to create resource '{name}' with type '{type}'")
+            Log.Error(f"[{self.name}] failed to create resource '{name}' in group '{group}'")
             Log.Error(f"{error}")
             return
         
-        self.resources[type][name] = resource
+        self.resources[group][name] = resource
         return resource.get_config()
     
-    def get_resource(self, type, name):
+    def get_resource(self, group, name):
         """
         Return a config dict of a particular resource
         """
-        return self.resources[type][name].get_config()
+        return self.resources[group][name].get_config()
         
     def list_resources(self):
         """
@@ -258,8 +264,8 @@ class Server(object):
         """
         resources = {}
         
-        for type, items in self.resources.items():
-            resources[type] = { name : resource.get_config() for (name, resource) in items.items() }
+        for group, items in self.resources.items():
+            resources[group] = { name : resource.get_config() for (name, resource) in items.items() }
             
         return resources
  
@@ -284,12 +290,12 @@ class Server(object):
             Log.Error(f"[{self.name}] load_resources() must be called with a string or dict")
             return
         
-        for type in self.resources.keys():
-            if type not in resources:
+        for group in self.resources.keys():
+            if group not in resources:
                 continue
                 
-            for name, item in resources[type].items():
-                self.add_resource(type, name, **item)
+            for name, resource in resources[group].items():
+                self.add_resource(group, name, **resource)
             
 def is_process_running(name):
     """
