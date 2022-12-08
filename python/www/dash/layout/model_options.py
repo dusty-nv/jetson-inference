@@ -42,31 +42,8 @@ def create_model_options(model={}):
     """
     Create the dialog body used for creating/configuring models.
     """
-    children = []
-    
-    # title bar
-    children += [dbc.ModalHeader(dbc.ModalTitle(model.get('name', 'Add Model')))]
-    
-    # body
-    """
-    form = [
-        html.Div([
-            dbc.Label('Model Type', html_for='model_options_type'),
-            dbc.Select(id='model_options_type', 
-                       options=[
-                            {'label': 'Classification', 'value': 'classification'},
-                            {'label': 'Detection', 'value': 'detection'},
-                       ],
-                       value=model.get('type')
-            ),
-            dbc.FormText('The type of model (e.g. image classification, object detection, ect.)'),
-        ], className='mb-3'),
-        html.Div(id='model_sub_options', className='mb-3')
-    ]
-    
-    children += [dbc.ModalBody(dbc.Form(form))]
-    """
-    
+    children = [dbc.ModalHeader(dbc.ModalTitle(model.get('name', 'Add Model')))]
+ 
     tabs = dbc.Tabs([
             dbc.Tab(label='Pre-trained', tab_id='model_tab_pretrained'),
             #dbc.Tab(label='Train', tab_id='model_tab_train'),
@@ -77,8 +54,6 @@ def create_model_options(model={}):
     )
 
     children += [dbc.ModalBody([tabs, html.Div(id='model_content', className='pt-2')])]
-
-    # footer
     children += [dbc.ModalFooter(dbc.Button('Apply', id={'type': 'model_options_submit', 'index': 0}, className='ms-auto', n_clicks=0))]
     
     return children
@@ -120,9 +95,9 @@ def create_pretrained_options():
     Output('model_pretrained_network', 'value'),
     Input('model_pretrained_type', 'value')
 )
-def populate_pretrained_models(type):
+def list_pretrained_models(type):
     """
-    Return the list of pre-trained model options that can be selected
+    Return a drop-down list of pre-trained model options that can be selected
     """
     if type == 'classification':
         return [
@@ -272,7 +247,6 @@ def model_submit_pretrained(n_clicks, type, network):
     Callback for when the pretrained model form is submitted
     """
     if len(n_clicks) == 0 or n_clicks[0] == 0:
-        print("model_submit_pretrained() => PreventUpdate")
         raise PreventUpdate
         
     print(f"model_submit_pretrained({n_clicks}, {type}, {network})")
@@ -294,7 +268,6 @@ def model_submit_import_classification(n_clicks, type, path, labels, layer_input
     Callback for when the import classification model form is submitted
     """
     if len(n_clicks) == 0 or n_clicks[0] == 0:
-        print("model_submit_import_classification() => PreventUpdate")
         raise PreventUpdate
         
     print(f"model_submit_import_classification({n_clicks}, {type}, {path}, {labels}, {layer_input}, {layer_output})")
@@ -317,7 +290,6 @@ def model_submit_import_detection(n_clicks, type, path, labels, layer_input, lay
     Callback for when the import detection model form is submitted
     """
     if len(n_clicks) == 0 or n_clicks[0] == 0:
-        print("model_submit_import_detection() => PreventUpdate")
         raise PreventUpdate
         
     print(f"model_submit_import_detection({n_clicks}, {type}, {path}, {labels}, {layer_input}, {layer_scores}, {layer_bbox})")
@@ -360,13 +332,10 @@ def show_model_dialog(n1, n2, n3, is_open):
     print(f'show_model_dialog({n1}, {n2}, {n3}, {is_open})')
     print(dash.ctx.triggered_id)
 
-    if not (n1 or any(n2) or any(n3)):
-        print("raise prevent update")
+    if not dash.ctx.triggered[0]['value']:
         raise PreventUpdate
 
-    if isinstance(dash.ctx.triggered_id, str) and dash.ctx.triggered_id == 'navbar_add_model' and n1 == 0:
-        raise PreventUpdate
-    elif isinstance(dash.ctx.triggered_id, dict) and dash.ctx.triggered_id['type'] == 'navbar_model':
+    if isinstance(dash.ctx.triggered_id, dict) and dash.ctx.triggered_id['type'] == 'navbar_model':
         model = Server.instance.get_resource('models', dash.ctx.triggered_id['index'])
         
     if is_open:

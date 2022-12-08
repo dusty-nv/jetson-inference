@@ -29,7 +29,7 @@ config={
         'title' : 'WebRTC Dashboard',   # title of the dash app (used in browser title bar and navbar)
         'host' : '0.0.0.0',             # hostname/IP of the frontend webserver (ignored by gunicorn)
         'port' : 8050,                  # port used for the frontend webserver (ignored by gunicorn)
-        'refresh' : 2500,               # the interval at which the server state is refreshed
+        'refresh' : 1000,               # the interval at which the server state is refreshed
         'users' : {                     # to enable basic authentication logins, add username/password pairs here
             # 'username' : 'password',
         },

@@ -22,8 +22,10 @@
 #
 
 import dash
+import http
 import pprint
-import warnings
+
+import warnings  # supress dash_auth import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 import dash_auth
 
@@ -33,7 +35,7 @@ from dash.exceptions import PreventUpdate
 from config import config, print_config
 from server import Server
 
-from layout import create_grid, create_navbar, create_new_stream, create_model_dialog
+from layout import create_grid, create_navbar, create_stream_dialog, create_model_dialog
 
 #import os
 #print(f'loaded {__file__} module from {__name__} (pid {os.getpid()})')
@@ -55,7 +57,7 @@ if len(config['dash']['users']) > 0:
 app.layout = dash.html.Div([
     create_navbar(),
     create_grid(),
-    create_new_stream(),
+    create_stream_dialog(),
     create_model_dialog(),
     dcc.Store(id='server_resources'),
     dcc.Interval(id='refresh_timer', interval=config['dash']['refresh'])
@@ -69,13 +71,18 @@ def on_refresh(n_intervals, previous_resources):
     Get the latest resources config from the server.
     This can trigger updates to the clientside nav structure.
     """
-    server_resources = Server.instance.list_resources()
+    try:
+        # retry later when other longer-running RPC requests are in-flight
+        server_resources = Server.instance.list_resources()
+    except http.client.CannotSendRequest as error:
+        print(f'[dash]   error refreshing server resources:  http.client.CannotSendRequest {error}')
+        raise PreventUpdate
 
     if previous_resources is not None:
         if server_resources == previous_resources:
             raise PreventUpdate   # if the config hasn't changed, skip the update
 
-    print(f'received updated resources config from backend server')
+    print(f'[dash]   received updated resources config from backend server:')
     pprint.pprint(server_resources, indent=4)
     return server_resources
 

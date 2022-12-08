@@ -88,7 +88,7 @@ def create_card(children, title=None, id=None, width=None, height=None,
         header += [dbc.Button("__", className="btn-close float-end", style={"background": "transparent"}, id={"type": "card-collapse-button", "index": id})]
     
     if settings_button:
-        header += [dbc.Button("*", className="btn-close float-end", style={"background": "transparent"}, id={"type": settings_button if isinstance(settings_button, str) else "card-settings-button", "index": id})]
+        header += [dbc.Button("*", className="btn-close float-end", style={"background": "transparent"}, id={"type": settings_button if isinstance(settings_button, str) else "card-settings-button", "index": id}, n_clicks=0)]
 
     # return a card container
     return html.Div(

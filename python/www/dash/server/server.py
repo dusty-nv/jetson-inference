@@ -254,24 +254,40 @@ class Server(object):
     
     def get_resource(self, group, name):
         """
-        Return a config dict of a particular resource
+        Return a config dict of a resource from a particular group.
+        
+        Parameters:
+            group (string) -- should be one of:  'streams', 'models', 'datasets'
+            name (string)  -- the name of the resource
         """
         return self.resources[group][name].get_config()
         
-    def list_resources(self):
+    def list_resources(self, groups=None):
         """
-        Return a config dict of the server's assets including streams, models, and datasets
-        """
+        Return a config dict from a group or groups of the server's resources.
+        By default, resources from all of the groups will be returned (models, streams, and datasets).
+        If the requested group is a string, only resources from that group will be returned.
+        If the requested group is a list, resources from each of those groups will be returned.
+        """ 
+        if groups is None:
+            groups = self.resources.keys()
+        elif isinstance(groups, str):
+            return { name : resource.get_config() for (name, resource) in self.resources[groups].items() }
+            
         resources = {}
         
-        for group, items in self.resources.items():
-            resources[group] = { name : resource.get_config() for (name, resource) in items.items() }
-            
+        for group in groups:
+            resources[group] = { name : resource.get_config() for (name, resource) in self.resources[group].items() }
+ 
         return resources
  
     def load_resources(self, resources):
         """
         Load resources (streams/models/datasets) from a json config file or dict
+        
+        Parameters:
+            resources (string or dict) -- a path to a json config file, or a dict
+                                          containing a representation of the resource
         """
         if resources is None:
             return

@@ -27,7 +27,7 @@ class Stream:
     """
     Represents a pipeline from a video source -> processing -> video output
     """
-    def __init__(self, server, name, source):
+    def __init__(self, server, name, source, models=[]):
         # make sure all routes start with '/'
         if not name.startswith('/'):   
             name = '/' + name
@@ -40,10 +40,22 @@ class Stream:
             
         self.server = server
         self.name = name
-        self.source = videoSource(source, argv=video_args)
-        self.output = videoOutput(f"webrtc://@:{self.server.webrtc_port}{self.name}", argv=video_args)
         self.frame_count = 0
         
+        # create video interfaces
+        self.source = videoSource(source, argv=video_args)
+        self.output = videoOutput(f"webrtc://@:{self.server.webrtc_port}{self.name}", argv=video_args)
+        
+        # lookup models
+        self.models = []
+        
+        for model in models:
+            if model in server.resources['models']:
+                self.models.append(server.resources['models'][model])
+            else:
+                Log.Verbose(f"[{self.server.name}] model '{model}' was not loaded on server")
+
+            
     def process(self):
         try:
             img = self.source.Capture()
@@ -65,6 +77,7 @@ class Stream:
             "name" : self.name,
             "source" : self.source.GetOptions(),
             "output" : self.output.GetOptions(),
+            "models" : [model.name for model in self.models]
             #'frame_count' : self.frame_count 
         }
 
