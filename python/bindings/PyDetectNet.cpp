@@ -550,7 +550,7 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 		// free the arguments array
 		free(argv);
 	}
-	else if( model != NULL )
+	else if( model != NULL && strlen(model) > 0 )
 	{
 		LogVerbose(LOG_PY_INFERENCE "detectNet loading custom model '%s'\n", model);
 		

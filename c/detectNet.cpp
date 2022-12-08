@@ -152,6 +152,13 @@ detectNet* detectNet::Create( const char* prototxt, const char* model, float mea
 						const char* input_blob, const char* coverage_blob, const char* bbox_blob, 
 						uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback )
 {
+	// check for built-in model string
+	NetworkType type = NetworkTypeFromStr(model);
+	
+	if( type != CUSTOM )
+		return Create(type, threshold, maxBatchSize, precision, device, allowGPUFallback);
+		
+	// load custom model
 	detectNet* net = new detectNet(mean_pixel);
 	
 	if( !net )

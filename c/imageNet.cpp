@@ -70,6 +70,13 @@ imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, c
 					   const char* class_path, const char* input, const char* output, uint32_t maxBatchSize,
 					   precisionType precision, deviceType device, bool allowGPUFallback )
 {
+	// check for built-in model string
+	NetworkType type = NetworkTypeFromStr(model_path);
+	
+	if( type != CUSTOM )
+		return Create(type, maxBatchSize, precision, device, allowGPUFallback);
+		
+	// load custom model
 	imageNet* net = new imageNet();
 	
 	if( !net )

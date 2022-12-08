@@ -120,7 +120,7 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 		// free the arguments array
 		free(argv);
 	}
-	else if( model != NULL )
+	else if( model != NULL && strlen(model) > 0 )
 	{
 		LogVerbose(LOG_PY_INFERENCE "imageNet loading custom model '%s'\n", model);
 		
