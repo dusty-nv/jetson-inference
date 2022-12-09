@@ -1078,6 +1078,7 @@ bool PyDetectNet_Register( PyObject* module )
 	pyDetection_Type.tp_init		= (initproc)PyDetection_Init;
 	pyDetection_Type.tp_dealloc	= (destructor)PyDetection_Dealloc;
 	pyDetection_Type.tp_str		= (reprfunc)PyDetection_ToString;
+	pyDetection_Type.tp_repr		= (reprfunc)PyDetection_ToString;
 	pyDetection_Type.tp_doc		= DOC_DETECTION;
 
 	if( PyType_Ready(&pyDetection_Type) < 0 )
