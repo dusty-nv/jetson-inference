@@ -420,7 +420,7 @@ int imageNet::Classify( float* confidence )
 		const float value = mOutputs[0].CPU[n] /** valueScale*/;
 		
 		if( value >= 0.01f )
-			LogVerbose("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
+			LogDebug("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
 	
 		if( value > classMax )
 		{
