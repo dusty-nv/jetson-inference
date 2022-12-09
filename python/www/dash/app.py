@@ -37,8 +37,6 @@ from server import Server
 
 from layout import create_grid, create_navbar, create_stream_dialog, create_model_dialog
 
-#import os
-#print(f'loaded {__file__} module from {__name__} (pid {os.getpid()})')
 
 # create the dash app
 external_scripts = ['https://webrtc.github.io/adapter/adapter-latest.js']
@@ -54,6 +52,8 @@ webserver = app.server
 if len(config['dash']['users']) > 0:
     auth = dash_auth.BasicAuth(app, config['dash']['users'])
 
+
+# define the default layout
 app.layout = dash.html.Div([
     create_navbar(),
     create_grid(),
@@ -62,6 +62,7 @@ app.layout = dash.html.Div([
     dcc.Store(id='server_resources'),
     dcc.Interval(id='refresh_timer', interval=config['dash']['refresh'])
 ])
+
 
 @app.callback(Output('server_resources', 'data'),
               Input('refresh_timer', 'n_intervals'),

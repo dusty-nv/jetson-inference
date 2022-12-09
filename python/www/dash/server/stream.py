@@ -22,6 +22,8 @@
 
 from jetson_utils import videoSource, videoOutput, Log
 
+import pprint
+import traceback
 
 class Stream:
     """
@@ -49,6 +51,9 @@ class Stream:
         # lookup models
         self.models = []
         
+        if isinstance(models, str):
+            models = [models]
+
         for model in models:
             if model in server.resources['models']:
                 self.models.append(server.resources['models'][model])
@@ -57,11 +62,21 @@ class Stream:
 
             
     def process(self):
+        """
+        Perform one capture/process/output iteration
+        """
         try:
             img = self.source.Capture()
-        except Exception as error:
+            results = [model.process(img) for model in self.models]
+            
+            print('model results:')
+            pprint.pprint(results)
+            
+            for model, result in zip(self.models, results):
+                model.visualize(img, result) 
+        except:
             # TODO check if stream is still open, if not reconnect?
-            Log.Error(f"{error}")
+            traceback.print_exc()
             return
             
         if self.frame_count % 25 == 0 or self.frame_count < 15:
@@ -71,8 +86,10 @@ class Stream:
         self.frame_count += 1
        
     def get_config(self):
-        # TODO add stats or runtime_stats option for easy frontend state-change comparison?
-        # the videoOptions could be dynamic as well... (i.e. framerate - actually that is not?)
+        """
+        TODO add stats or runtime_stats option for easy frontend state-change comparison?
+        the videoOptions could be dynamic as well... (i.e. framerate - actually that is not?)
+        """
         return {
             "name" : self.name,
             "source" : self.source.GetOptions(),

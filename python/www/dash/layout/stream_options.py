@@ -37,7 +37,8 @@ def create_stream_options(stream={}):
         
         html.Div([
             dbc.Label('Model', html_for='stream_options_model'),
-            dbc.Select(options=list_models(), id='stream_options_model'),
+            #dbc.Select(options=list_models(), multi=True, id='stream_options_model'),
+            dcc.Dropdown(options=list_models(), multi=True, id='stream_options_model'),
             dbc.FormText("The DNN model to use for processing the stream"),
         ], className='mb-3'),
         
@@ -109,7 +110,7 @@ def stream_submit(n_clicks, name, source, model):
         raise PreventUpdate
         
     print(f"adding stream {name} from source {source} with model {model}")
-    Server.instance.add_resource('streams', name, source, [model])
+    Server.instance.add_resource('streams', name, source, model)
     raise PreventUpdate
     
 '''    

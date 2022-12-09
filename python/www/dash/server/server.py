@@ -26,12 +26,13 @@ import json
 import time
 import psutil
 import random
+import traceback
 import threading
 import multiprocessing
 import setproctitle
 
-from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.client import ServerProxy
+from xmlrpc.server import SimpleXMLRPCServer
 
 from jetson_utils import Log
 
@@ -220,8 +221,11 @@ class Server(object):
         """
         Perform one interation of the processing loop.
         """
-        for stream in self.resources['streams'].values():     # TODO don't spin if no streams
-            stream.process()
+        if len(self.resources['streams']) > 0:
+            for stream in self.resources['streams'].values():
+                stream.process()
+        else:
+            time.sleep(1.0)
 
     def add_resource(self, group, name, *args, **kwargs):
         """
@@ -246,7 +250,7 @@ class Server(object):
                 return
         except Exception as error:
             Log.Error(f"[{self.name}] failed to create resource '{name}' in group '{group}'")
-            Log.Error(f"{error}")
+            traceback.print_exc()
             return
         
         self.resources[group][name] = resource
