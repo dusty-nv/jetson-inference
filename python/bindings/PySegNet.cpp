@@ -641,6 +641,7 @@ static PyMethodDef PySegNet_Methods[] =
 	{ "Mask", (PyCFunction)PySegNet_Mask, METH_VARARGS|METH_KEYWORDS, DOC_MASK},	
 	{ "GetNetworkName", (PyCFunction)PySegNet_GetNetworkName, METH_NOARGS, DOC_GET_NETWORK_NAME},
      { "GetNumClasses", (PyCFunction)PySegNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
+	{ "GetClassLabel", (PyCFunction)PySegNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassDesc", (PyCFunction)PySegNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassColor", (PyCFunction)PySegNet_GetClassColor, METH_VARARGS, DOC_GET_CLASS_COLOR},
 	{ "GetGridWidth", (PyCFunction)PySegNet_GetGridWidth, METH_NOARGS, DOC_GET_GRID_WIDTH},

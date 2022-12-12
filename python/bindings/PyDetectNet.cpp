@@ -1045,6 +1045,7 @@ static PyMethodDef pyDetectNet_Methods[] =
 	{ "Detect", (PyCFunction)PyDetectNet_Detect, METH_VARARGS|METH_KEYWORDS, DOC_DETECT},
 	{ "Overlay", (PyCFunction)PyDetectNet_Overlay, METH_VARARGS|METH_KEYWORDS, DOC_OVERLAY},
 	{ "GetNumClasses", (PyCFunction)PyDetectNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
+	{ "GetClassLabel", (PyCFunction)PyDetectNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassDesc", (PyCFunction)PyDetectNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassSynset", (PyCFunction)PyDetectNet_GetClassSynset, METH_VARARGS, DOC_GET_CLASS_SYNSET},
 	{ "GetThreshold", (PyCFunction)PyDetectNet_GetConfidenceThreshold, METH_NOARGS, DOC_GET_CONFIDENCE_THRESHOLD},

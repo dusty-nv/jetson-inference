@@ -335,6 +335,7 @@ static PyMethodDef pyActionNet_Methods[] =
 	{ "Classify", (PyCFunction)PyActionNet_Classify, METH_VARARGS|METH_KEYWORDS, DOC_CLASSIFY},
 	{ "GetNetworkName", (PyCFunction)PyActionNet_GetNetworkName, METH_NOARGS, DOC_GET_NETWORK_NAME},
      { "GetNumClasses", (PyCFunction)PyActionNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
+	{ "GetClassLabel", (PyCFunction)PyActionNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassDesc", (PyCFunction)PyActionNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "Usage", (PyCFunction)PyActionNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},
 	{NULL}  /* Sentinel */

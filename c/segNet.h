@@ -303,6 +303,11 @@ public:
 	/**
 	 * Retrieve the description of a particular class.
 	 */
+	inline const char* GetClassLabel( uint32_t id ) const			{ return GetClassDesc(id); }
+	
+	/**
+	 * Retrieve the description of a particular class.
+	 */
 	inline const char* GetClassDesc( uint32_t id ) const			{ return id < mClassLabels.size() ? mClassLabels[id].c_str() : NULL; }
 	
 	/**

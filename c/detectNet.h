@@ -462,6 +462,11 @@ public:
 	/**
 	 * Retrieve the description of a particular class.
 	 */
+	inline const char* GetClassLabel( uint32_t index ) const		{ return GetClassDesc(index); }
+	
+	/**
+	 * Retrieve the description of a particular class.
+	 */
 	inline const char* GetClassDesc( uint32_t index )	const		{ if(index >= mClassDesc.size()) { printf("invalid class %u\n", index); return "Invalid"; } return mClassDesc[index].c_str(); }
 	
 	/**
