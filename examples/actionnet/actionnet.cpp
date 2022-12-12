@@ -49,7 +49,7 @@ int usage()
 	printf("optional arguments:\n");
 	printf("  --help            show this help message and exit\n");
 	printf("  --network=NETWORK pre-trained model to load (see below for options)\n");
-	printf("  --frameskip=N     how many frames to skip between classifications (default: 2)\n");
+	printf("  --skip-frames=N   how many frames to skip between classifications (default: 2)\n");
 	printf("positional arguments:\n");
 	printf("    input_URI       resource URI of input stream  (see videoSource below)\n");
 	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
@@ -124,12 +124,12 @@ int main( int argc, char** argv )
 		return 1;
 	}
 
-	const uint32_t frameskip = cmdLine.GetInt("frameskip", 2);
+	const uint32_t skip_frames = cmdLine.GetInt("skip-frames", 2);
 	
 	uint32_t skipped = 0;
 	float confidence = 0.0f;
 	int class_id = 0;
-	
+
 	/*
 	 * processing loop
 	 */
@@ -151,7 +151,7 @@ int main( int argc, char** argv )
 		// run inference every N frames
 		skipped += 1;
 		
-		if( skipped % frameskip == 0 )
+		if( skipped % skip_frames == 0 )
 		{
 			class_id = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
 			skipped = 0;

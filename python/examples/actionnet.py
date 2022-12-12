@@ -35,7 +35,7 @@ parser = argparse.ArgumentParser(description="Classify the action/activity of an
 parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
 parser.add_argument("--network", type=str, default="resnet-18", help="pre-trained model to load (see below for options)")
-parser.add_argument("--frameskip", type=int, default=2, help="how many frames to skip between classifications (default: 2)")
+parser.add_argument("--skip-frames", type=int, default=2, help="how many frames to skip between classifications (default: 2)")
 
 try:
 	args = parser.parse_known_args()[0]
@@ -66,7 +66,7 @@ while True:
     # run inference every N frames
     skipped += 1
     
-    if skipped % args.frameskip == 0:
+    if skipped % args.skip_frames == 0:
         class_id, confidence = net.Classify(img)
         class_desc = net.GetClassDesc(class_id)
         print(f"actionnet:  {confidence * 100:2.5f}% class #{class_id} ({class_desc})")
