@@ -160,7 +160,7 @@ int main( int argc, char** argv )
 		if( net->Classify(image, input->GetWidth(), input->GetHeight(), predictions, topK) < 0 )
 			continue;
 		
-		// draw class labels
+		// draw predicted class labels
 		for( uint32_t n=0; n < predictions.size(); n++ )
 		{
 			const uint32_t classID = predictions[n].first;

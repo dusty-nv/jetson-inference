@@ -32,8 +32,8 @@ parser = argparse.ArgumentParser(description="Classify a live camera stream usin
                                  formatter_class=argparse.RawTextHelpFormatter, 
                                  epilog=imageNet.Usage() + videoSource.Usage() + videoOutput.Usage() + Log.Usage())
 
-parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
-parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
+parser.add_argument("input", type=str, default="", nargs='?', help="URI of the input stream")
+parser.add_argument("output", type=str, default="", nargs='?', help="URI of the output stream")
 parser.add_argument("--network", type=str, default="googlenet", help="pre-trained model to load (see below for options)")
 parser.add_argument("--topK", type=int, default=1, help="show the topK number of class predictions (default: 1)")
 
@@ -56,8 +56,8 @@ net = imageNet(args.network, sys.argv)
 #                 input_blob="input_0", output_blob="output_0")
 
 # create video sources & outputs
-input = videoSource(args.input_URI, argv=sys.argv)
-output = videoOutput(args.output_URI, argv=sys.argv+is_headless)
+input = videoSource(args.input, argv=sys.argv)
+output = videoOutput(args.output, argv=sys.argv+is_headless)
 font = cudaFont()
 
 # process frames until the user exits
@@ -70,17 +70,16 @@ while True:
     #   class_id, confidence = net.Classify(img)
     predictions = net.Classify(img, topK=args.topK)
 
-    # draw class labels
-    for n, (class_id, confidence) in enumerate(predictions):
-        class_label = net.GetClassLabel(class_id)
+    # draw predicted class labels
+    for n, (classID, confidence) in enumerate(predictions):
+        classLabel = net.GetClassLabel(classID)
         confidence *= 100.0
 
-        Log.Verbose(f"imagenet:  {confidence:05.2f}% class #{class_id} ({class_label})")
+        Log.Verbose(f"imagenet:  {confidence:05.2f}% class #{classID} ({classLabel})")
 
-        font.OverlayText(img, text=f"{confidence:05.2f}% {class_label}", 
+        font.OverlayText(img, text=f"{confidence:05.2f}% {classLabel}", 
                          x=5, y=5 + n * (font.GetSize() + 5),
                          color=font.White, background=font.Gray40)
-
     # render the image
     output.Render(img)
 
