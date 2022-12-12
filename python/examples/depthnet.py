@@ -34,8 +34,8 @@ parser = argparse.ArgumentParser(description="Mono depth estimation on a video/i
                                  formatter_class=argparse.RawTextHelpFormatter, 
                                  epilog=depthNet.Usage() + videoSource.Usage() + videoOutput.Usage() + Log.Usage())
 
-parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
-parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
+parser.add_argument("input", type=str, default="", nargs='?', help="URI of the input stream")
+parser.add_argument("output", type=str, default="", nargs='?', help="URI of the output stream")
 parser.add_argument("--network", type=str, default="fcn-mobilenet", help="pre-trained model to load, see below for options")
 parser.add_argument("--visualize", type=str, default="input,depth", help="visualization options (can be 'input' 'depth' 'input,depth'")
 parser.add_argument("--depth-size", type=float, default=1.0, help="scales the size of the depth map visualization, as a percentage of the input size (default is 1.0)")
@@ -58,8 +58,8 @@ net = depthNet(opt.network, sys.argv)
 buffers = depthBuffers(opt)
 
 # create video sources & outputs
-input = videoSource(opt.input_URI, argv=sys.argv)
-output = videoOutput(opt.output_URI, argv=sys.argv)
+input = videoSource(opt.input, argv=sys.argv)
+output = videoOutput(opt.output, argv=sys.argv)
 
 # process frames until user exits
 while True:

@@ -75,7 +75,7 @@ while True:
         classLabel = net.GetClassLabel(classID)
         confidence *= 100.0
 
-        Log.Verbose(f"imagenet:  {confidence:05.2f}% class #{classID} ({classLabel})")
+        print(f"imagenet:  {confidence:05.2f}% class #{classID} ({classLabel})")
 
         font.OverlayText(img, text=f"{confidence:05.2f}% {classLabel}", 
                          x=5, y=5 + n * (font.GetSize() + 5),

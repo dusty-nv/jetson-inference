@@ -32,8 +32,8 @@ parser = argparse.ArgumentParser(description="Classify the action/activity of an
                                  formatter_class=argparse.RawTextHelpFormatter, 
                                  epilog=actionNet.Usage() + videoSource.Usage() + videoOutput.Usage() + Log.Usage())
 
-parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
-parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
+parser.add_argument("input", type=str, default="", nargs='?', help="URI of the input stream")
+parser.add_argument("output", type=str, default="", nargs='?', help="URI of the output stream")
 parser.add_argument("--network", type=str, default="resnet-18", help="pre-trained model to load (see below for options)")
 parser.add_argument("--skip-frames", type=int, default=2, help="how many frames to skip between classifications (default: 2)")
 
@@ -49,8 +49,8 @@ except:
 net = actionNet(args.network, sys.argv)
 
 # create video sources & outputs
-input = videoSource(args.input_URI, argv=sys.argv)
-output = videoOutput(args.output_URI, argv=sys.argv)
+input = videoSource(args.input, argv=sys.argv)
+output = videoOutput(args.output, argv=sys.argv)
 font = cudaFont()
 
 skipped = 0

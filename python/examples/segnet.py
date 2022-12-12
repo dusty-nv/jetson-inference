@@ -34,8 +34,8 @@ parser = argparse.ArgumentParser(description="Segment a live camera stream using
                                  formatter_class=argparse.RawTextHelpFormatter, 
                                  epilog=segNet.Usage() + videoSource.Usage() + videoOutput.Usage() + Log.Usage())
 
-parser.add_argument("input_URI", type=str, default="", nargs='?', help="URI of the input stream")
-parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
+parser.add_argument("input", type=str, default="", nargs='?', help="URI of the input stream")
+parser.add_argument("output", type=str, default="", nargs='?', help="URI of the output stream")
 parser.add_argument("--network", type=str, default="fcn-resnet18-voc", help="pre-trained model to load, see below for options")
 parser.add_argument("--filter-mode", type=str, default="linear", choices=["point", "linear"], help="filtering mode used during visualization, options are:\n  'point' or 'linear' (default: 'linear')")
 parser.add_argument("--visualize", type=str, default="overlay,mask", help="Visualization options (can be 'overlay' 'mask' 'overlay,mask'")
@@ -64,13 +64,13 @@ net = segNet(args.network, sys.argv)
 net.SetOverlayAlpha(args.alpha)
 
 # create video output
-output = videoOutput(args.output_URI, argv=sys.argv+is_headless)
+output = videoOutput(args.output, argv=sys.argv+is_headless)
 
 # create buffer manager
 buffers = segmentationBuffers(net, args)
 
 # create video source
-input = videoSource(args.input_URI, argv=sys.argv)
+input = videoSource(args.input, argv=sys.argv)
 
 # process frames until user exits
 while True:
