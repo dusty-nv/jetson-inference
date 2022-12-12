@@ -71,12 +71,8 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 	static char* kwlist[] = {"network", "argv", "model", "labels", "input_blob", "output_blob", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sOssss", kwlist, &network, &argList, &model, &labels, &input_blob, &output_blob))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.__init()__ failed to parse args tuple");
-		LogError(LOG_PY_INFERENCE "imageNet.__init()__ failed to parse args tuple\n");
 		return -1;
-	}
-    
+
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
@@ -139,7 +135,6 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 		if( networkType == imageNet::CUSTOM )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid built-in network was requested");
-			LogError(LOG_PY_INFERENCE "imageNet invalid built-in network was requested ('%s')\n", network);
 			return -1;
 		}
 		
@@ -153,7 +148,6 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 	if( !self->net )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet failed to load network");
-		LogError(LOG_PY_INFERENCE "imageNet failed to load built-in network '%s'\n", network);
 		return -1;
 	}
 
@@ -206,11 +200,7 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
 	static char* kwlist[] = {"image", "width", "height", "format", "topK", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iisi", kwlist, &capsule, &width, &height, &format_str, &topK))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple");
-		LogError(LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple\n");
 		return NULL;
-	}
 
 	// parse format string
 	imageFormat format = imageFormatFromStr(format_str);

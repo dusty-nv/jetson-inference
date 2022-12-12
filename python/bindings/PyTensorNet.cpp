@@ -37,7 +37,6 @@ static PyObject* PyTensorNet_New( PyTypeObject *type, PyObject *args, PyObject *
 	if( !self )
 	{
 		PyErr_SetString(PyExc_MemoryError, LOG_PY_INFERENCE "tensorNet tp_alloc() failed to allocate a new object");
-		LogError(LOG_PY_INFERENCE "tensorNet tp_alloc() failed to allocate a new object\n");
 		return NULL;
 	}
 	

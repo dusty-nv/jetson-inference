@@ -60,12 +60,8 @@ static int PyDepthNet_Init( PyDepthNet_Object* self, PyObject *args, PyObject *k
 	static char* kwlist[] = {"network", "argv", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sO", kwlist, &network, &argList))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "depthNet.__init()__ failed to parse arguments");
-		LogError(LOG_PY_INFERENCE "depthNet.__init()__ failed to parse arguments\n");
 		return -1;
-	}
-    
+
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
@@ -119,7 +115,6 @@ static int PyDepthNet_Init( PyDepthNet_Object* self, PyObject *args, PyObject *k
 		if( networkType == depthNet::CUSTOM )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "depthNet invalid built-in network was requested");
-			LogError(LOG_PY_INFERENCE "depthNet invalid built-in network was requested ('%s')\n", network);
 			return -1;
 		}
 		
@@ -133,7 +128,6 @@ static int PyDepthNet_Init( PyDepthNet_Object* self, PyObject *args, PyObject *k
 	if( !self->net )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "depthNet failed to load network");
-		LogError(LOG_PY_INFERENCE "depthNet failed to load network\n");
 		return -1;
 	}
 
@@ -187,10 +181,7 @@ static PyObject* PyDepthNet_Process( PyDepthNet_Object* self, PyObject* args, Py
 	static char* kwlist[] = {"input", "output", "colormap", "filter", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|Oss", kwlist, &input_capsule, &output_capsule, &colormap_str, &filter_str))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "depthNet.Process() failed to parse args tuple");
 		return NULL;
-	}
 
 	// get pointers to image data
 	PyCudaImage* input_img = PyCUDA_GetImage(input_capsule);
@@ -273,10 +264,7 @@ static PyObject* PyDepthNet_Visualize( PyDepthNet_Object* self, PyObject* args, 
 	static char* kwlist[] = {"output", "colormap", "filter", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|ss", kwlist, &output_capsule, &colormap_str, &filter_str))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "depthNet.Process() failed to parse args tuple");
 		return NULL;
-	}
 
 	// parse flags
 	const cudaColormapType colormap = cudaColormapFromStr(colormap_str);

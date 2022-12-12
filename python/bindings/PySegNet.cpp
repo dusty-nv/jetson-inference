@@ -72,12 +72,8 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 	static char* kwlist[] = {"network", "argv", "model", "labels", "colors", "input_blob", "output_blob", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sOsssss", kwlist, &network, &argList, &model, &labels, &colors, &input_blob, &output_blob))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.__init()__ failed to parse args tuple");
-		LogError(LOG_PY_INFERENCE "segNet.__init()__ failed to parse args tuple\n");
 		return -1;
-	}
-    
+
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
@@ -140,7 +136,6 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 		if( networkType == segNet::SEGNET_CUSTOM )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid built-in network was requested");
-			LogError(LOG_PY_INFERENCE "segNet invalid built-in network was requested ('%s')\n", network);
 			return -1;
 		}
 		
@@ -154,7 +149,6 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 	if( !self->net )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet failed to load network");
-		LogError(LOG_PY_INFERENCE "segNet failed to load network\n");
 		return -1;
 	}
 
@@ -265,10 +259,7 @@ static PyObject* PySegNet_Overlay( PySegNet_Object* self, PyObject* args, PyObje
 	static char* kwlist[] = {"image", "width", "height", "filter_mode", "format", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iiss", kwlist, &capsule, &width, &height, &filter_str, &format_str))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Overlay() failed to parse args tuple");
 		return NULL;
-	}
 
 	// verify filter mode
 	segNet::FilterMode filterMode;
@@ -337,10 +328,7 @@ static PyObject* PySegNet_Mask( PySegNet_Object* self, PyObject* args, PyObject 
 	static char* kwlist[] = {"image", "width", "height", "filter_mode", "format", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iiss", kwlist, &capsule, &width, &height, &filter_str, &format_str))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.Mask() failed to parse args tuple");
 		return NULL;
-	}
 
 	// verify filter mode
 	segNet::FilterMode filterMode;
@@ -445,11 +433,8 @@ PyObject* PySegNet_GetClassDesc( PySegNet_Object* self, PyObject* args )
 	int classIdx = 0;
 
 	if( !PyArg_ParseTuple(args, "i", &classIdx) )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet failed to parse arguments");
 		return NULL;
-	}
-		
+
 	if( classIdx < 0 || classIdx >= self->net->GetNumClasses() )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet requested class index is out of bounds");
@@ -478,11 +463,8 @@ PyObject* PySegNet_GetClassColor( PySegNet_Object* self, PyObject* args )
 	int classIdx = 0;
 
 	if( !PyArg_ParseTuple(args, "i", &classIdx) )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet failed to parse arguments");
 		return NULL;
-	}
-		
+
 	if( classIdx < 0 || classIdx >= self->net->GetNumClasses() )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet requested class index is out of bounds");
@@ -529,10 +511,7 @@ PyObject* PySegNet_SetOverlayAlpha( PySegNet_Object* self, PyObject* args, PyObj
 	static char* kwlist[] = {"alpha", "explicit_exempt", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "f|i", kwlist, &alpha, &exempt) )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet.SetOverlayAlpha() failed to parse arguments");
 		return NULL;
-	}
 		
 	if( alpha < 0.0f || alpha > 255.0f )
 	{

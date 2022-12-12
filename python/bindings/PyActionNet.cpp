@@ -69,11 +69,8 @@ static int PyActionNet_Init( PyActionNet_Object* self, PyObject *args, PyObject 
 	static char* kwlist[] = {"network", "argv", "model", "labels", "input_blob", "output_blob", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sOssss", kwlist, &network, &argList, &model, &labels, &input_blob, &output_blob))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet.__init()__ failed to parse args tuple");
 		return -1;
-	}
-    
+
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
@@ -136,7 +133,6 @@ static int PyActionNet_Init( PyActionNet_Object* self, PyObject *args, PyObject 
 		if( networkType == actionNet::CUSTOM )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet invalid built-in network was requested");
-			LogError(LOG_PY_INFERENCE "actionNet invalid built-in network was requested ('%s')\n", network);
 			return -1;
 		}
 		
@@ -150,7 +146,6 @@ static int PyActionNet_Init( PyActionNet_Object* self, PyObject *args, PyObject 
 	if( !self->net )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet failed to load network");
-		LogError(LOG_PY_INFERENCE "actionNet failed to load built-in network '%s'\n", network);
 		return -1;
 	}
 
@@ -199,11 +194,7 @@ static PyObject* PyActionNet_Classify( PyActionNet_Object* self, PyObject* args,
 	static char* kwlist[] = {"image", "width", "height", "format", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iis", kwlist, &capsule, &width, &height, &format_str))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet.Classify() failed to parse args tuple");
-		LogError(LOG_PY_INFERENCE "actionNet.Classify() failed to parse args tuple\n");
 		return NULL;
-	}
 
 	// parse format string
 	imageFormat format = imageFormatFromStr(format_str);
@@ -298,11 +289,8 @@ PyObject* PyActionNet_GetClassDesc( PyActionNet_Object* self, PyObject* args )
 	int classIdx = 0;
 
 	if( !PyArg_ParseTuple(args, "i", &classIdx) )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet failed to parse arguments");
 		return NULL;
-	}
-		
+
 	if( classIdx < 0 || classIdx >= self->net->GetNumClasses() )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet requested class index is out of bounds");

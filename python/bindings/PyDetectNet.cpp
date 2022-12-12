@@ -97,10 +97,7 @@ static int PyDetection_Init( PyDetection_Object* self, PyObject* args, PyObject*
 	static char* kwlist[] = {"classID", "confidence", "left", "top", "right", "bottom", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|ifffff", kwlist, &classID, &conf, &left, &top, &right, &bottom))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Detection.__init()__ failed to parse args tuple");
 		return -1;
-	}
   
 	if( classID < 0 )	
 		classID = 0;
@@ -175,10 +172,7 @@ static PyObject* PyDetection_Contains( PyDetection_Object* self, PyObject *args,
 	static char* kwlist[] = {"x", "y", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "ff", kwlist, &x, &y))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Detection.Contains() failed to parse args tuple");
 		return NULL;
-	}
 
 	PY_RETURN_BOOL(self->det.Contains(x,y));
 }
@@ -502,10 +496,7 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 	static char* kwlist[] = {"network", "argv", "threshold", "model", "labels", "colors", "input_blob", "output_cvg", "output_bbox", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sOfssssss", kwlist, &network, &argList, &threshold, &model, &labels, &colors, &input_blob, &output_cvg, &output_bbox))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.__init()__ failed to parse args tuple");
 		return -1;
-	}
     
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
@@ -569,7 +560,6 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 		if( networkType == detectNet::CUSTOM )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid built-in network was requested");
-			LogError(LOG_PY_INFERENCE "detectNet invalid built-in network was requested ('%s')\n", network);
 			return -1;
 		}
 		
@@ -583,7 +573,6 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 	if( !self->net )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet failed to load network");
-		LogError(LOG_PY_INFERENCE "detectNet failed to load network\n");
 		return -1;
 	}
 
@@ -634,10 +623,7 @@ static PyObject* PyDetectNet_Detect( PyDetectNet_Object* self, PyObject* args, P
 	static char* kwlist[]  = {"image", "width", "height", "overlay", "format", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iiss", kwlist, &capsule, &width, &height, &overlay, &format_str))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Detect() failed to parse args tuple");
 		return NULL;
-	}
 
 	// parse format string
 	imageFormat format = imageFormatFromStr(format_str);
@@ -714,10 +700,7 @@ static PyObject* PyDetectNet_Overlay( PyDetectNet_Object* self, PyObject* args, 
 	static char* kwlist[]  = {"image", "detections", "width", "height", "overlay", "format", "output", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "OO|iissO", kwlist, &input_capsule, &detections, &width, &height, &overlay, &format_str, &output_capsule))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.Detect() failed to parse arguments");
 		return NULL;
-	}
 
 	if( !output_capsule )
 		output_capsule = input_capsule;
@@ -858,11 +841,8 @@ PyObject* PyDetectNet_SetClusteringThreshold( PyDetectNet_Object* self, PyObject
 	float threshold = 0.0f;
 
 	if( !PyArg_ParseTuple(args, "f", &threshold) )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.SetClusteringThreshold() failed to parse arguments");
 		return NULL;
-	}
-		
+
 	self->net->SetClusteringThreshold(threshold);
 	Py_RETURN_NONE;
 }
@@ -971,11 +951,8 @@ PyObject* PyDetectNet_SetOverlayAlpha( PyDetectNet_Object* self, PyObject* args,
 	static char* kwlist[] = {"alpha", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "f", kwlist, &alpha) )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.SetOverlayAlpha() failed to parse arguments");
 		return NULL;
-	}
-		
+
 	if( alpha < 0.0f || alpha > 255.0f )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.SetOverlayAlpha() -- provided alpha value is out-of-range");
@@ -1006,11 +983,8 @@ PyObject* PyDetectNet_SetLineWidth( PyDetectNet_Object* self, PyObject* args, Py
 	static char* kwlist[] = {"width", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "f", kwlist, &width) )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.SetLineWidth() failed to parse arguments");
 		return NULL;
-	}
-		
+	
 	if( width <= 0.0f )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.SetLineWidth() -- provided value is out-of-range");

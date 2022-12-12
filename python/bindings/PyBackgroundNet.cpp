@@ -68,11 +68,8 @@ static int PyBackgroundNet_Init( PyBackgroundNet_Object* self, PyObject *args, P
 	static char* kwlist[] = {"network", "argv", "model", "input_blob", "output_blob", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|sOsss", kwlist, &network, &argList, &model, &input_blob, &output_blob))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "backgroundNet.__init()__ failed to parse arguments");
 		return -1;
-	}
-    
+
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
@@ -135,7 +132,6 @@ static int PyBackgroundNet_Init( PyBackgroundNet_Object* self, PyObject *args, P
 		if( networkType == backgroundNet::CUSTOM )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "backgroundNet invalid built-in network was requested");
-			LogError(LOG_PY_INFERENCE "backgroundNet invalid built-in network was requested ('%s')\n", network);
 			return -1;
 		}
 		
@@ -149,7 +145,6 @@ static int PyBackgroundNet_Init( PyBackgroundNet_Object* self, PyObject *args, P
 	if( !self->net )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "backgroundNet failed to load network");
-		LogError(LOG_PY_INFERENCE "backgroundNet failed to load network\n");
 		return -1;
 	}
 	
@@ -202,10 +197,7 @@ static PyObject* PyBackgroundNet_Process( PyBackgroundNet_Object* self, PyObject
 	static char* kwlist[] = {"input", "output", "filter", "mask_alpha", NULL};
 
 	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|Ossi", kwlist, &input_capsule, &output_capsule, &filter_str, &mask_alpha_int))
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "backgroundNet.Process() failed to parse args tuple");
 		return NULL;
-	}
 
 	const bool mask_alpha = (mask_alpha_int <= 0) ? false : true;
 	const cudaFilterMode filter_mode = cudaFilterModeFromStr(filter_str);
