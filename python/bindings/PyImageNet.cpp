@@ -175,13 +175,16 @@ static void PyImageNet_Dealloc( PyImageNet_Object* self )
 }
 
 
-#define DOC_CLASSIFY "Classify an RGBA image and return the object's class and confidence.\n\n" \
+#define DOC_CLASSIFY "Classify an image and return the object's class and confidence.\n\n" \
 				 "Parameters:\n" \
 				 "  image  (capsule) -- CUDA memory capsule\n" \
 				 "  width  (int) -- width of the image (in pixels)\n" \
 				 "  height (int) -- height of the image (in pixels)\n\n" \
+				 "  topK   (int) -- the number of predictions to return (sorted by confidence)\n" \
+				 "                  if topK is 0, then all valid predictions will be returned\n\n" \
 				 "Returns:\n" \
-				 "  (int, float) -- tuple containing the object's class index and confidence"
+				 "  (int, float) -- tuple containing the object's class index and confidence\n" \
+				 "                  if topK is set, then a list of these tuples will be returned\n"
 
 // Classify
 static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, PyObject *kwds )
@@ -197,11 +200,12 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
 
 	int width = 0;
 	int height = 0;
-
+	int topK = -1;
+	
 	const char* format_str = "rgba32f";
-	static char* kwlist[] = {"image", "width", "height", "format", NULL};
+	static char* kwlist[] = {"image", "width", "height", "format", "topK", NULL};
 
-	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iis", kwlist, &capsule, &width, &height, &format_str))
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "O|iisi", kwlist, &capsule, &width, &height, &format_str, &topK))
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple");
 		LogError(LOG_PY_INFERENCE "imageNet.Classify() failed to parse args tuple\n");
@@ -217,32 +221,65 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
 	if( !ptr )
 		return NULL;
 
-	// classify the image
-	float confidence = 0.0f;
-	int img_class = -1;
-	
-	Py_BEGIN_ALLOW_THREADS
-	img_class = self->net->Classify(ptr, width, height, format, &confidence);
-	Py_END_ALLOW_THREADS
-	
-	if( img_class < 0 )
+	if( topK < 0 )
 	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() encountered an error classifying the image");
-		return NULL;
+		float confidence = 0.0f;
+		int img_class = -1;
+		
+		Py_BEGIN_ALLOW_THREADS
+		img_class = self->net->Classify(ptr, width, height, format, &confidence);
+		Py_END_ALLOW_THREADS
+		
+		if( img_class < 0 )
+		{
+			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() encountered an error classifying the image");
+			return NULL;
+		}
+
+		// create output objects
+		PyObject* pyClass = PYLONG_FROM_LONG(img_class);
+		PyObject* pyConf  = PyFloat_FromDouble(confidence);
+
+		// return tuple
+		PyObject* tuple = PyTuple_Pack(2, pyClass, pyConf);
+
+		Py_DECREF(pyClass);
+		Py_DECREF(pyConf);
+
+		return tuple;
 	}
+	else
+	{
+		std::vector<std::pair<uint32_t, float>> preds;
+		int result = 0;
+		
+		Py_BEGIN_ALLOW_THREADS
+		result = self->net->Classify(ptr, width, height, format, preds, topK);
+		Py_END_ALLOW_THREADS
+	
+		if( result < 0 )
+		{
+			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() encountered an error classifying the image");
+			return NULL;
+		}
+		
+		// create list of (classID, confidence) tuples
+		PyObject* list = PyList_New(preds.size());
+		
+		for( uint32_t n=0; n < preds.size(); n++ )
+		{
+			PyObject* pyClass = PYLONG_FROM_LONG(preds[n].first);
+			PyObject* pyConf  = PyFloat_FromDouble(preds[n].second);
+			PyObject* pyTuple = PyTuple_Pack(2, pyClass, pyConf);
 
-	// create output objects
-	PyObject* pyClass = PYLONG_FROM_LONG(img_class);
-	PyObject* pyConf  = PyFloat_FromDouble(confidence);
-
-	// return tuple
-	PyObject* tuple = PyTuple_Pack(2, pyClass, pyConf);
-
-	Py_DECREF(pyClass);
-	Py_DECREF(pyConf);
-
-	return tuple;
-    
+			Py_DECREF(pyClass);
+			Py_DECREF(pyConf);
+			
+			PyList_SET_ITEM(list, n, pyTuple);
+		}
+		
+		return list;
+	}
 }
 
 
@@ -372,6 +409,7 @@ static PyMethodDef pyImageNet_Methods[] =
 	{ "Classify", (PyCFunction)PyImageNet_Classify, METH_VARARGS|METH_KEYWORDS, DOC_CLASSIFY},
 	{ "GetNetworkName", (PyCFunction)PyImageNet_GetNetworkName, METH_NOARGS, DOC_GET_NETWORK_NAME},
      { "GetNumClasses", (PyCFunction)PyImageNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
+	{ "GetClassLabel", (PyCFunction)PyImageNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassDesc", (PyCFunction)PyImageNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassSynset", (PyCFunction)PyImageNet_GetClassSynset, METH_VARARGS, DOC_GET_CLASS_SYNSET},
 	{ "Usage", (PyCFunction)PyImageNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},

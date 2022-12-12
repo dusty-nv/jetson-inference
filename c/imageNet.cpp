@@ -29,12 +29,14 @@
 #include "commandLine.h"
 #include "logging.h"
 
+#include <algorithm>
+
 
 // constructor
 imageNet::imageNet() : tensorNet()
 {
-	mOutputClasses = 0;
-	mNetworkType   = CUSTOM;
+	mNumClasses  = 0;
+	mNetworkType = CUSTOM;
 }
 
 
@@ -153,11 +155,11 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 	/*
 	 * load synset classnames
 	 */
-	mOutputClasses = DIMS_C(mOutputs[0].dims);
+	mNumClasses = DIMS_C(mOutputs[0].dims);
 	
-	if( !loadClassInfo(class_path, mOutputClasses) || mClassSynset.size() != mOutputClasses || mClassDesc.size() != mOutputClasses )
+	if( !loadClassInfo(class_path, mNumClasses) || mClassSynset.size() != mNumClasses || mClassDesc.size() != mNumClasses )
 	{
-		LogError(LOG_TRT "imageNet -- failed to load synset class descriptions  (%zu / %zu of %u)\n", mClassSynset.size(), mClassDesc.size(), mOutputClasses);
+		LogError(LOG_TRT "imageNet -- failed to load synset class descriptions  (%zu / %zu of %u)\n", mClassSynset.size(), mClassDesc.size(), mNumClasses);
 		return false;
 	}
 	
@@ -288,13 +290,13 @@ bool imageNet::loadClassInfo( const char* filename, int expectedClasses )
 }
 
 
-// PreProcess
-bool imageNet::PreProcess( void* image, uint32_t width, uint32_t height, imageFormat format )
+// preProcess
+bool imageNet::preProcess( void* image, uint32_t width, uint32_t height, imageFormat format )
 {
 	// verify parameters
 	if( !image || width == 0 || height == 0 )
 	{
-		LogError(LOG_TRT "imageNet::PreProcess( 0x%p, %u, %u ) -> invalid parameters\n", image, width, height);
+		LogError(LOG_TRT "imageNet::preProcess(0x%p, %u, %u) -> invalid parameters\n", image, width, height);
 		return false;
 	}
 
@@ -356,57 +358,22 @@ bool imageNet::PreProcess( void* image, uint32_t width, uint32_t height, imageFo
 }
 
 
-// Process
-bool imageNet::Process()
+// Classify
+int imageNet::Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence )
 {
+	// downsample and convert to band-sequential BGR
+	if( !preProcess(image, width, height, format) )
+	{
+		LogError(LOG_TRT "imageNet::Classify() -- image pre-processing failed\n");
+		return -1;
+	}
+	
 	PROFILER_BEGIN(PROFILER_NETWORK);
 
 	if( !ProcessNetwork() )
 		return false;
 
 	PROFILER_END(PROFILER_NETWORK);
-	return true;
-}
-
-
-// Classify
-int imageNet::Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence )
-{
-	// verify parameters
-	if( !image || width == 0 || height == 0 )
-	{
-		LogError(LOG_TRT "imageNet::Classify( 0x%p, %u, %u ) -> invalid parameters\n", image, width, height);
-		return -1;
-	}
-	
-	// downsample and convert to band-sequential BGR
-	if( !PreProcess(image, width, height, format) )
-	{
-		LogError(LOG_TRT "imageNet::Classify() -- tensor pre-processing failed\n");
-		return -1;
-	}
-	
-	return Classify(confidence);
-}
-
-			
-// Classify
-int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* confidence, imageFormat format )
-{
-	return Classify(rgba, width, height, format, confidence);
-}
-
-
-// Classify
-int imageNet::Classify( float* confidence )
-{	
-	// process with TRT
-	if( !Process() )
-	{
-		LogError(LOG_TRT "imageNet::Process() failed\n");
-		return -1;
-	}
-	
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
 	// determine the maximum class
@@ -415,7 +382,7 @@ int imageNet::Classify( float* confidence )
 	
 	//const float valueScale = IsModelType(MODEL_ONNX) ? 0.01f : 1.0f;
 
-	for( size_t n=0; n < mOutputClasses; n++ )
+	for( size_t n=0; n < mNumClasses; n++ )
 	{
 		const float value = mOutputs[0].CPU[n] /** valueScale*/;
 		
@@ -437,3 +404,52 @@ int imageNet::Classify( float* confidence )
 	return classIndex;
 }
 
+			
+// Classify
+int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* confidence, imageFormat format )
+{
+	return Classify(rgba, width, height, format, confidence);
+}
+
+
+// Classify
+int imageNet::Classify( void* image, uint32_t width, uint32_t height, imageFormat format, std::vector<std::pair<uint32_t, float>>& pred, int topK, float threshold )
+{	
+	// downsample and convert to band-sequential BGR
+	if( !preProcess(image, width, height, format) )
+	{
+		LogError(LOG_TRT "imageNet::Classify() -- image pre-processing failed\n");
+		return -1;
+	}
+	
+	PROFILER_BEGIN(PROFILER_NETWORK);
+
+	if( !ProcessNetwork() )
+		return false;
+
+	PROFILER_END(PROFILER_NETWORK);
+	PROFILER_BEGIN(PROFILER_POSTPROCESS);
+
+	for( uint32_t n=0; n < mNumClasses; n++ )
+	{
+		const float value = mOutputs[0].CPU[n];
+		
+		if( value >= threshold )
+			pred.push_back(std::pair<uint32_t, float>(n, value));
+	}
+	
+	std::sort(pred.begin(), pred.end(), [](std::pair<uint32_t, float> &left, std::pair<uint32_t, float> &right) { return left.second > right.second; });
+
+	if( topK > 0 && pred.size() > topK )
+		pred.erase(pred.begin() + topK, pred.end());
+	
+	PROFILER_END(PROFILER_POSTPROCESS);	
+	
+	if( pred.size() == 0 )
+	{
+		LogWarning(LOG_TRT "imageNet::Classify() -- didn't make any valid predictions\n");
+		return -1;
+	}
+	
+	return pred[0].first;
+}

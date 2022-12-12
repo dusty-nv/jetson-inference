@@ -148,43 +148,83 @@ public:
 	virtual ~imageNet();
 	
 	/**
-	 * Determine the maximum likelihood image class.
+	 * Determine the maximum-likelihood image class.
 	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
-	 * @param rgba input image in CUDA device memory.
+	 * @param image input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns Index of the maximum class, or -1 on error.
+	 * @returns ID of the class with the highest confidence, or -1 on error.
 	 */
 	template<typename T> int Classify( T* image, uint32_t width, uint32_t height, float* confidence=NULL )		{ return Classify((void*)image, width, height, imageFormatFromType<T>(), confidence); }
 	
 	/**
-	 * Determine the maximum likelihood image class.
+	 * Determine the maximum-likelihood image class.
 	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
-	 * @param rgba input image in CUDA device memory.
+	 * @param image input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
+	 * @param format format of the image (rgb8, rgba8, rgb32f, rgba32f are supported)
 	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns Index of the maximum class, or -1 on error.
+	 * @returns ID of the class with the highest confidence, or -1 on error.
 	 */
 	int Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence=NULL );
 
 	/**
-	 * Determine the maximum likelihood image class.
+	 * Determine the maximum-likelihood image class.
 	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
 	 * @deprecated this overload of Classify() provides legacy compatibility with `float*` type (RGBA32F).
       * @param rgba float4 input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns Index of the maximum class, or -1 on error.
+	 * @param format format of the image (rgb8, rgba8, rgb32f, rgba32f are supported)
+	 * @returns ID of the class with the highest confidence, or -1 on error.
 	 */
 	int Classify( float* rgba, uint32_t width, uint32_t height, float* confidence=NULL, imageFormat format=IMAGE_RGBA32F );
 
 	/**
+	 * Classify the image and return the top image classification results.
+	 * @param image input image in CUDA device memory.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
+	 * @param predictions returns a list of the topK (class ID, confidence) classification resuts, sorted from highest to lowest confidence.
+	 * @param topK the number of predictions to return (it can be less than this number if there weren't that many valid predictions)
+	 *             The default value of topK is 1, in which case only the highest-confidence result wil be returned.
+	 *             If the value of topK is <= 0, then all the valid predictions with confidence >= threshold will be returned.
+	 * @param threshold the confidence value at which a prediction is deemed to be valid, or ignored if lower than this threshold.
+	 * @returns ID of the class with the highest confidence, or -1 on error.
+	 */
+	template<typename T> int Classify( T* image, uint32_t width, uint32_t height, 
+								std::vector<std::pair<uint32_t, float>>& predictions, 
+								int topK=1, float threshold=0.01f )							{ return Classify((void*)image, width, height, imageFormatFromType<T>(), predictions, topK, threshold); }
+			    
+	/**
+	 * Classify the image and return the top image classification results.
+	 * @param image input image in CUDA device memory.
+	 * @param width width of the input image in pixels.
+	 * @param height height of the input image in pixels.
+	 * @param format format of the image (rgb8, rgba8, rgb32f, rgba32f are supported)
+	 * @param predictions returns a list of the topK (class ID, confidence) classification resuts, sorted from highest to lowest confidence.
+	 * @param topK the number of predictions to return (it can be less than this number if there weren't that many valid predictions)
+	 *             The default value of topK is 1, in which case only the highest-confidence result wil be returned.
+	 *             If the value of topK is <= 0, then all the valid predictions with confidence >= threshold will be returned.
+	 * @param threshold the confidence value at which a prediction is deemed to be valid, or ignored if lower than this threshold.
+	 * @returns ID of the class with the highest confidence, or -1 on error.
+	 */
+	int Classify( void* image, uint32_t width, uint32_t height, imageFormat format, 
+			    std::vector<std::pair<uint32_t, float>>& predictions, 
+			    int topK=1, float threshold=0.01f );
+
+	/**
 	 * Retrieve the number of image recognition classes (typically 1000)
 	 */
-	inline uint32_t GetNumClasses() const						{ return mOutputClasses; }
+	inline uint32_t GetNumClasses() const						{ return mNumClasses; }
+	
+	/**
+	 * Retrieve the description of a particular class.
+	 */
+	inline const char* GetClassLabel( uint32_t index ) const		{ return mClassDesc[index].c_str(); }
 	
 	/**
 	 * Retrieve the description of a particular class.
@@ -214,15 +254,13 @@ public:
 protected:
 	imageNet();
 	
-	int  Classify( float* confidence=NULL );
-	bool PreProcess( void* image, uint32_t width, uint32_t height, imageFormat format );
-	bool Process();
-
 	bool init( NetworkType networkType, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool loadClassInfo( const char* filename, int expectedClasses=-1 );
 	
-	uint32_t mOutputClasses;
+	bool preProcess( void* image, uint32_t width, uint32_t height, imageFormat format );
+
+	uint32_t mNumClasses;
 	
 	std::vector<std::string> mClassSynset;	// 1000 class ID's (ie n01580077, n04325704)
 	std::vector<std::string> mClassDesc;
