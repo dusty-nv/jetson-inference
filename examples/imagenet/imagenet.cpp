@@ -53,6 +53,10 @@ int usage()
 	printf("                input_URI [output_URI]\n\n");
 	printf("Classify a video/image stream using an image recognition DNN.\n");
 	printf("See below for additional arguments that may not be shown above.\n\n");	
+	printf("optional arguments:\n");
+	printf("  --help            show this help message and exit\n");
+	printf("  --network=NETWORK pre-trained model to load (see below for options)\n");
+	printf("  --topK=N   	   show the topK number of class predictions (default: 1)\n");
 	printf("positional arguments:\n");
 	printf("    input_URI       resource URI of input stream  (see videoSource below)\n");
 	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
@@ -127,7 +131,9 @@ int main( int argc, char** argv )
 		return 1;
 	}
 
-
+	const int topK = cmdLine.GetInt("topK", 1);  // by default, get only the top result
+	
+	
 	/*
 	 * processing loop
 	 */
@@ -146,21 +152,30 @@ int main( int argc, char** argv )
 			continue;
 		}
 
-		// classify image
-		float confidence = 0.0f;
-		const int img_class = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
-	
-		if( img_class >= 0 )
+		// classify image - note that if you only want the top class, you can simply run this instead:
+		// 	float confidence = 0.0f;
+		//	const int img_class = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
+		std::vector<std::pair<uint32_t, float>> predictions;
+		
+		if( net->Classify(image, input->GetWidth(), input->GetHeight(), predictions, topK) < 0 )
+			continue;
+		
+		// draw class labels
+		for( uint32_t n=0; n < predictions.size(); n++ )
 		{
-			LogVerbose("imagenet:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, img_class, net->GetClassDesc(img_class));	
+			const uint32_t classID = predictions[n].first;
+			const char* classLabel = net->GetClassLabel(classID);
+			const float confidence = predictions[n].second * 100.0f;
+			
+			LogVerbose("imagenet:  %2.5f%% class #%i (%s)\n", confidence, classID, classLabel);	
 
-			// overlay class label onto original image
 			char str[256];
-			sprintf(str, "%05.2f%% %s", confidence * 100.0f, net->GetClassDesc(img_class));
+			sprintf(str, "%05.2f%% %s", confidence, classLabel);
 			font->OverlayText(image, input->GetWidth(), input->GetHeight(),
-						   str, 5, 5, make_float4(255, 255, 255, 255), make_float4(0, 0, 0, 100));
-		}	
-
+						   str, 5, 5 + n * (font->GetSize() + 5), 
+						   make_float4(255,255,255,255), make_float4(0,0,0,100));
+		}
+		
 		// render outputs
 		if( output != NULL )
 		{
