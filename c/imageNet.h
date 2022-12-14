@@ -61,7 +61,8 @@
 		  "  --labels=LABELS      path to text file containing the labels for each class\n" 				\
 		  "  --input-blob=INPUT   name of the input layer (default is '" IMAGENET_DEFAULT_INPUT "')\n" 	\
 		  "  --output-blob=OUTPUT name of the output layer (default is '" IMAGENET_DEFAULT_OUTPUT "')\n" 	\
-		  "  --batch-size=BATCH   maximum batch size (default is 1)\n"								\
+		  "  --threshold=CONF     minimum confidence threshold for classification (default is 0.01)\n"	    	\
+		  "  --smoothing=WEIGHT   weight between [0,1] or number of frames (disabled by default)\n"		\
 		  "  --profile            enable layer profiling in TensorRT\n\n"
 
 
@@ -146,75 +147,94 @@ public:
 	 * Destroy
 	 */
 	virtual ~imageNet();
+		
+	/**
+	 * List of classification results where each entry represents a (classID, confidence) pair.
+	 */
+	typedef std::vector<std::pair<uint32_t, float>> Classifications;
 	
 	/**
-	 * Determine the maximum-likelihood image class.
-	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
+	 * Predict the maximum-likelihood image class whose confidence meets the minimum threshold.
+	 * Either the class with the maximum probability will be returned, or -1 if no class meets 
+	 * the threshold set by SetThreshold() or the `--threshold` command-line argument.
+	 *
 	 * @param image input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns ID of the class with the highest confidence, or -1 on error.
+	 *
+	 * @returns ID of the class with the highest confidence, or -1 if no classes met the threshold.
+      *          If a runtime error occurred during processing, then a value of -2 will be returned. 
 	 */
 	template<typename T> int Classify( T* image, uint32_t width, uint32_t height, float* confidence=NULL )		{ return Classify((void*)image, width, height, imageFormatFromType<T>(), confidence); }
 	
 	/**
-	 * Determine the maximum-likelihood image class.
-	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
+	 * Predict the maximum-likelihood image class whose confidence meets the minimum threshold.
+	 * Either the class with the maximum probability will be returned, or -1 if no class meets 
+	 * the threshold set by SetThreshold() or the `--threshold` command-line argument.
+	 *
 	 * @param image input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param format format of the image (rgb8, rgba8, rgb32f, rgba32f are supported)
 	 * @param confidence optional pointer to float filled with confidence value.
-	 * @returns ID of the class with the highest confidence, or -1 on error.
+	 *
+	 * @returns ID of the class with the highest confidence, or -1 if no classes met the threshold.
+      *          If a runtime error occurred during processing, then a value of -2 will be returned. 
 	 */
 	int Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence=NULL );
 
 	/**
-	 * Determine the maximum-likelihood image class.
-	 * This function performs pre-processing to the image (apply mean-value subtraction and NCHW format), @see PreProcess() 
-	 * @deprecated this overload of Classify() provides legacy compatibility with `float*` type (RGBA32F).
+	 * Predict the maximum-likelihood image class whose confidence meets the minimum threshold.
+	 * Either the class with the maximum probability will be returned, or -1 if no class meets 
+	 * the threshold set by SetThreshold() or the `--threshold` command-line argument.
+	 *
       * @param rgba float4 input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param confidence optional pointer to float filled with confidence value.
 	 * @param format format of the image (rgb8, rgba8, rgb32f, rgba32f are supported)
-	 * @returns ID of the class with the highest confidence, or -1 on error.
+	 *
+	 * @returns ID of the class with the highest confidence, or -1 if no classes met the threshold.
+      *          If a runtime error occurred during processing, then a value of -2 will be returned. 
+	 * @deprecated this overload of Classify() provides legacy compatibility with `float*` type (RGBA32F).
 	 */
 	int Classify( float* rgba, uint32_t width, uint32_t height, float* confidence=NULL, imageFormat format=IMAGE_RGBA32F );
 
 	/**
-	 * Classify the image and return the top image classification results.
+	 * Classify the image and return the topK image classification results that meet the minimum
+	 * confidence threshold set by SetThreshold() or the `--threshold` command-line argument.
+	 *
 	 * @param image input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
-	 * @param predictions returns a list of the topK (class ID, confidence) classification resuts, sorted from highest to lowest confidence.
+	 * @param classifications returns a list of the topK (classID, confidence) classification resuts, sorted from highest to lowest confidence.
 	 * @param topK the number of predictions to return (it can be less than this number if there weren't that many valid predictions)
 	 *             The default value of topK is 1, in which case only the highest-confidence result wil be returned.
 	 *             If the value of topK is <= 0, then all the valid predictions with confidence >= threshold will be returned.
-	 * @param threshold the confidence value at which a prediction is deemed to be valid, or ignored if lower than this threshold.
-	 * @returns ID of the class with the highest confidence, or -1 on error.
+	 *
+	 * @returns ID of the class with the highest confidence, or -1 if no classes met the threshold.
+      *          If a runtime error occurred during processing, then a value of -2 will be returned. 
 	 */
-	template<typename T> int Classify( T* image, uint32_t width, uint32_t height, 
-								std::vector<std::pair<uint32_t, float>>& predictions, 
-								int topK=1, float threshold=0.01f )							{ return Classify((void*)image, width, height, imageFormatFromType<T>(), predictions, topK, threshold); }
-			    
+	template<typename T> int Classify( T* image, uint32_t width, uint32_t height, Classifications& classifications, int topK=1 )		{ return Classify((void*)image, width, height, imageFormatFromType<T>(), classifications, topK); }
+
 	/**
-	 * Classify the image and return the top image classification results.
+	 * Classify the image and return the topK image classification results that meet the minimum
+	 * confidence threshold set by SetThreshold() or the `--threshold` command-line argument.
+	 *
 	 * @param image input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
 	 * @param format format of the image (rgb8, rgba8, rgb32f, rgba32f are supported)
-	 * @param predictions returns a list of the topK (class ID, confidence) classification resuts, sorted from highest to lowest confidence.
+	 * @param classifications returns a list of the topK (classID, confidence) classification resuts, sorted from highest to lowest confidence.
 	 * @param topK the number of predictions to return (it can be less than this number if there weren't that many valid predictions)
 	 *             The default value of topK is 1, in which case only the highest-confidence result wil be returned.
 	 *             If the value of topK is <= 0, then all the valid predictions with confidence >= threshold will be returned.
-	 * @param threshold the confidence value at which a prediction is deemed to be valid, or ignored if lower than this threshold.
-	 * @returns ID of the class with the highest confidence, or -1 on error.
+	 *
+	 * @returns ID of the class with the highest confidence, or -1 if no classes met the threshold.
+      *          If a runtime error occurred during processing, then a value of -2 will be returned. 
 	 */
-	int Classify( void* image, uint32_t width, uint32_t height, imageFormat format, 
-			    std::vector<std::pair<uint32_t, float>>& predictions, 
-			    int topK=1, float threshold=0.01f );
+	int Classify( void* image, uint32_t width, uint32_t height, imageFormat format, Classifications& classifications, int topK=1 );
 
 	/**
 	 * Retrieve the number of image recognition classes (typically 1000)
@@ -224,17 +244,17 @@ public:
 	/**
 	 * Retrieve the description of a particular class.
 	 */
-	inline const char* GetClassLabel( uint32_t index ) const		{ return mClassDesc[index].c_str(); }
+	inline const char* GetClassLabel( int index ) const			{ return GetClassDesc(index); }
 	
 	/**
 	 * Retrieve the description of a particular class.
 	 */
-	inline const char* GetClassDesc( uint32_t index )	const		{ return mClassDesc[index].c_str(); }
+	inline const char* GetClassDesc( int index )	const			{ return index >= 0 ? mClassDesc[index].c_str() : "none"; }
 	
 	/**
 	 * Retrieve the class synset category of a particular class.
 	 */
-	inline const char* GetClassSynset( uint32_t index ) const		{ return mClassSynset[index].c_str(); }
+	inline const char* GetClassSynset( int index ) const			{ return index >= 0 ? mClassSynset[index].c_str() : "none"; }
 	
 	/**
  	 * Retrieve the path to the file containing the class descriptions.
@@ -250,6 +270,44 @@ public:
  	 * Retrieve a string describing the network name.
 	 */
 	inline const char* GetNetworkName() const					{ return NetworkTypeToStr(mNetworkType); }
+	
+	/**
+	 * Return the confidence threshold used for classification.
+	 */
+	inline float GetThreshold() const							{ return mThreshold; }
+	
+	/**
+	 * Set the confidence threshold used for classification.
+	 * Classes with a confidence below this threshold will be ignored.
+	 * @note this can also be set using the `--threshold=N` command-line argument.
+	 */
+	inline void SetThreshold( float threshold ) 					{ mThreshold = threshold; }
+	
+	/**
+	 * Return the temporal smoothing weight or number of frames in the smoothing window.
+	 * @see SetSmoothing
+	 */
+	inline float GetSmoothing() const							{ return mSmoothingFactor; }
+	
+	/**
+	 * Enable temporal smoothing of the results using EWMA (exponentially-weighted moving average).
+	 * This filters the confidence values of each class over ~N frames to reduce noise and jitter.
+	 * In lieu of storing a history of past data, this uses an accumulated approximation of EMA:
+	 *
+	 *    EMA(x,t) = EMA(x, t-1) + w * (x - EMA(x, t-1))
+	 *
+	 * where x is a class softmax output logit, t is the timestep, and w is the smoothing weight.
+	 *
+	 * @param factor either a weight between [0,1] that's placed on the latest confidence values,
+	 *               or the smoothing window as a number of frames (where the weight will be 1/N).  
+	 *               For example, a factor of N=5 would average over approximately the last 5 frames,
+	 *               and would be equivalent to specifying a weight of 0.2 (either can be used).
+      *               A weight closer to 1 will be more responsive to changes, but also more noisy.	 
+	 *               Setting this to 0 or 1 will disable smoothing and use the unfiltered outputs.
+	 *
+	 * @note this can also be set using the `--smoothing=N` command-line argument.
+	 */
+	inline void SetSmoothing( float factor ) 					{ mSmoothingFactor = factor; }
 
 protected:
 	imageNet();
@@ -259,7 +317,9 @@ protected:
 	bool loadClassInfo( const char* filename, int expectedClasses=-1 );
 	
 	bool preProcess( void* image, uint32_t width, uint32_t height, imageFormat format );
-
+	
+	float* applySmoothing();
+	
 	uint32_t mNumClasses;
 	
 	std::vector<std::string> mClassSynset;	// 1000 class ID's (ie n01580077, n04325704)
@@ -267,6 +327,11 @@ protected:
 
 	std::string mClassPath;
 	NetworkType mNetworkType;
+	
+	float* mSmoothingBuffer;
+	float  mSmoothingFactor;
+	
+	float mThreshold;
 };
 
 

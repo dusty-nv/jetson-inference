@@ -35,15 +35,19 @@
 // constructor
 imageNet::imageNet() : tensorNet()
 {
-	mNumClasses  = 0;
 	mNetworkType = CUSTOM;
+	mNumClasses  = 0;
+	mThreshold   = 0.01f;
+
+	mSmoothingBuffer = NULL;
+	mSmoothingFactor = 0;
 }
 
 
 // destructor
 imageNet::~imageNet()
 {
-
+	CUDA_FREE_HOST(mSmoothingBuffer);
 }
 
 
@@ -275,6 +279,10 @@ imageNet* imageNet::Create( const commandLine& cmdLine )
 	if( cmdLine.GetFlag("profile") )
 		net->EnableLayerProfiler();
 
+	// parse additional arguments
+	net->SetThreshold(cmdLine.GetFloat("threshold", net->GetThreshold()));
+	net->SetSmoothing(cmdLine.GetFloat("smoothing", net->GetSmoothing()));
+	
 	return net;
 }
 
@@ -357,7 +365,7 @@ bool imageNet::preProcess( void* image, uint32_t width, uint32_t height, imageFo
 	return true;
 }
 
-
+	
 // Classify
 int imageNet::Classify( void* image, uint32_t width, uint32_t height, imageFormat format, float* confidence )
 {
@@ -365,41 +373,42 @@ int imageNet::Classify( void* image, uint32_t width, uint32_t height, imageForma
 	if( !preProcess(image, width, height, format) )
 	{
 		LogError(LOG_TRT "imageNet::Classify() -- image pre-processing failed\n");
-		return -1;
+		return -2;
 	}
 	
 	PROFILER_BEGIN(PROFILER_NETWORK);
 
 	if( !ProcessNetwork() )
-		return false;
+		return -2;
 
 	PROFILER_END(PROFILER_NETWORK);
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
 	// determine the maximum class
 	int classIndex = -1;
-	float classMax = -1.0f;
+	float classMax = 0.0f;
 	
-	//const float valueScale = IsModelType(MODEL_ONNX) ? 0.01f : 1.0f;
+	float* outputs = applySmoothing();
 
 	for( size_t n=0; n < mNumClasses; n++ )
 	{
-		const float value = mOutputs[0].CPU[n] /** valueScale*/;
+		const float conf = outputs[n];
 		
-		if( value >= 0.01f )
-			LogDebug("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
+		if( conf < mThreshold )
+			continue;
+		
+		//LogDebug("class %04zu - %f  (%s)\n", n, conf, mClassDesc[n].c_str());
 	
-		if( value > classMax )
+		if( conf > classMax )
 		{
 			classIndex = n;
-			classMax   = value;
+			classMax   = conf;
 		}
 	}
 	
 	if( confidence != NULL )
 		*confidence = classMax;
 	
-	//printf("\nmaximum class:  #%i  (%f) (%s)\n", classIndex, classMax, mClassDesc[classIndex].c_str());
 	PROFILER_END(PROFILER_POSTPROCESS);	
 	return classIndex;
 }
@@ -413,31 +422,33 @@ int imageNet::Classify( float* rgba, uint32_t width, uint32_t height, float* con
 
 
 // Classify
-int imageNet::Classify( void* image, uint32_t width, uint32_t height, imageFormat format, std::vector<std::pair<uint32_t, float>>& pred, int topK, float threshold )
+int imageNet::Classify( void* image, uint32_t width, uint32_t height, imageFormat format, imageNet::Classifications& pred, int topK )
 {	
 	// downsample and convert to band-sequential BGR
 	if( !preProcess(image, width, height, format) )
 	{
 		LogError(LOG_TRT "imageNet::Classify() -- image pre-processing failed\n");
-		return -1;
+		return -2;
 	}
 	
 	PROFILER_BEGIN(PROFILER_NETWORK);
 
 	if( !ProcessNetwork() )
-		return false;
+		return -2;
 
 	PROFILER_END(PROFILER_NETWORK);
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 
+	float* outputs = applySmoothing();
+	
 	for( uint32_t n=0; n < mNumClasses; n++ )
 	{
-		const float value = mOutputs[0].CPU[n];
+		const float conf = outputs[n];
 		
-		if( value >= threshold )
-			pred.push_back(std::pair<uint32_t, float>(n, value));
+		if( conf >= mThreshold )
+			pred.push_back(std::pair<uint32_t, float>(n, conf));
 	}
-	
+
 	std::sort(pred.begin(), pred.end(), [](std::pair<uint32_t, float> &left, std::pair<uint32_t, float> &right) { return left.second > right.second; });
 
 	if( topK > 0 && pred.size() > topK )
@@ -446,10 +457,43 @@ int imageNet::Classify( void* image, uint32_t width, uint32_t height, imageForma
 	PROFILER_END(PROFILER_POSTPROCESS);	
 	
 	if( pred.size() == 0 )
-	{
-		LogWarning(LOG_TRT "imageNet::Classify() -- didn't make any valid predictions\n");
 		return -1;
+
+	return pred[0].first;
+}
+
+
+// applySmoothing
+float* imageNet::applySmoothing()
+{
+	float factor = (mSmoothingFactor > 1) ? (1.0f / mSmoothingFactor) : mSmoothingFactor;
+	
+	if( factor <= 0 || factor >= 1 )
+		return mOutputs[0].CPU;
+	
+	if( !mSmoothingBuffer )
+	{
+		// allocate the buffer used to accumulate the average outputs
+		if( !cudaAllocMapped(&mSmoothingBuffer, mOutputs[0].size) )
+		{
+			LogWarning(LOG_TRT "imageNet -- failed to allocate smoothing buffer, reverting to raw network outputs");
+			return mOutputs[0].CPU;
+		}
+		
+		// initialize from the existing outputs on the first iteration
+		memcpy(mSmoothingBuffer, mOutputs[0].CPU, mOutputs[0].size);
+		return mSmoothingBuffer;
 	}
 	
-	return pred[0].first;
+	// https://ucexperiment.wordpress.com/2013/06/10/moving-rolling-and-running-average/
+	for( uint32_t n=0; n < mNumClasses; n++ )
+		mSmoothingBuffer[n] += factor * (mOutputs[0].CPU[n] - mSmoothingBuffer[n]);  
+
+	//for( uint32_t n=0; n < mNumClasses; n++ )
+	//	mSmoothingBuffer[n] = mOutputs[0].CPU[n] * factor + mSmoothingBuffer[n] * (1.0f - factor);
+	
+	//for( size_t n=0; n < mNumClasses; n++ )
+	//	mSmoothingBuffer[n] = ((mSmoothingBuffer[n] * ((1.0f / factor) - 1)) + mOutputs[0].CPU[n]) * factor;
+
+	return mSmoothingBuffer;
 }

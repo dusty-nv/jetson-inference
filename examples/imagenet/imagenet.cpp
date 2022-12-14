@@ -155,17 +155,17 @@ int main( int argc, char** argv )
 		// classify image - note that if you only want the top class, you can simply run this instead:
 		// 	float confidence = 0.0f;
 		//	const int img_class = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
-		std::vector<std::pair<uint32_t, float>> predictions;
-		
-		if( net->Classify(image, input->GetWidth(), input->GetHeight(), predictions, topK) < 0 )
+		imageNet::Classifications classifications;	// std::vector<std::pair<uint32_t, float>>  (classID, confidence)
+
+		if( net->Classify(image, input->GetWidth(), input->GetHeight(), classifications, topK) < 0 )
 			continue;
 		
 		// draw predicted class labels
-		for( uint32_t n=0; n < predictions.size(); n++ )
+		for( uint32_t n=0; n < classifications.size(); n++ )
 		{
-			const uint32_t classID = predictions[n].first;
+			const uint32_t classID = classifications[n].first;
 			const char* classLabel = net->GetClassLabel(classID);
-			const float confidence = predictions[n].second * 100.0f;
+			const float confidence = classifications[n].second * 100.0f;
 			
 			LogVerbose("imagenet:  %2.5f%% class #%i (%s)\n", confidence, classID, classLabel);	
 
