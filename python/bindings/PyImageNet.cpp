@@ -37,9 +37,8 @@ typedef struct {
 
 #define DOC_IMAGENET "Image Recognition DNN - classifies an image\n\n" \
 				 "Examples (jetson-inference/python/examples)\n" \
+				 "     imagenet.py\n" \
 				 "     my-recognition.py\n" \
-                     "     imagenet-console.py\n" \
-				 "     imagenet-camera.py\n\n" \
 				 "__init__(...)\n" \
 				 "     Loads an image recognition model.\n\n" \
 				 "     Parameters:\n" \
@@ -178,7 +177,7 @@ static void PyImageNet_Dealloc( PyImageNet_Object* self )
 				 "                  if topK is 0, then all valid predictions will be returned\n\n" \
 				 "Returns:\n" \
 				 "  (int, float) -- tuple containing the object's class index and confidence\n" \
-				 "                  if topK is set, then a list of these tuples will be returned\n"
+				 "                  if topK is set, then a list of these tuples will be returned"
 
 // Classify
 static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, PyObject *kwds )
@@ -220,7 +219,7 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
 		img_class = self->net->Classify(ptr, width, height, format, &confidence);
 		Py_END_ALLOW_THREADS
 		
-		if( img_class < 0 )
+		if( img_class < -1 )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() encountered an error classifying the image");
 			return NULL;
@@ -247,7 +246,7 @@ static PyObject* PyImageNet_Classify( PyImageNet_Object* self, PyObject* args, P
 		result = self->net->Classify(ptr, width, height, format, preds, topK);
 		Py_END_ALLOW_THREADS
 	
-		if( result < 0 )
+		if( result < -1 )
 		{
 			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet.Classify() encountered an error classifying the image");
 			return NULL;
@@ -377,6 +376,92 @@ PyObject* PyImageNet_GetClassSynset( PyImageNet_Object* self, PyObject* args )
 }
 
 
+#define DOC_GET_THRESHOLD  "Return the minimum confidence threshold for classification.\n\n" \
+					  "Parameters:  (none)\n\n" \
+					  "Returns:\n" \
+					  "  (float) -- the confidence threshold for classification"
+
+// GetThreshold
+static PyObject* PyImageNet_GetThreshold( PyImageNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid object instance");
+		return NULL;
+	}
+
+	return PyFloat_FromDouble(self->net->GetThreshold());
+}
+
+
+#define DOC_SET_THRESHOLD  "Set the minimum confidence threshold for classification.\n\n" \
+					  "Parameters:\n" \
+					  "  (float) -- confidence threshold\n\n" \
+					  "Returns:  (none)"
+
+// SetThreshold
+PyObject* PyImageNet_SetThreshold( PyImageNet_Object* self, PyObject* args )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid object instance");
+		return NULL;
+	}
+	
+	float threshold = 0.0f;
+
+	if( !PyArg_ParseTuple(args, "f", &threshold) )
+		return NULL;
+
+	self->net->SetThreshold(threshold);
+	Py_RETURN_NONE;
+}
+
+
+#define DOC_GET_SMOOTHING  "Return the temporal smoothing factor applied to the results.\n\n" \
+					  "Parameters:  (none)\n\n" \
+					  "Returns:\n" \
+					  "  (float) -- the weight between [0,1] or the number of frames in the smoothing window"
+
+// GetSmoothing
+static PyObject* PyImageNet_GetSmoothing( PyImageNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid object instance");
+		return NULL;
+	}
+
+	return PyFloat_FromDouble(self->net->GetSmoothing());
+}
+
+
+#define DOC_SET_SMOOTHING  "Set the temporal smoothing factor applied to the results.\n\n" \
+					  "Parameters:\n" \
+					  "  (float) -- A weight between [0,1] that's placed on the latest confidence values,\n" \
+					  "             or the smoothing window as a number of frames (where the weight will be 1/N)\n" \
+					  "             Setting this to 0 or 1 will disable smoothing and use the unfiltered outputs\n\n" \
+					  "Returns:  (none)"
+
+// SetSmoothing
+PyObject* PyImageNet_SetSmoothing( PyImageNet_Object* self, PyObject* args )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid object instance");
+		return NULL;
+	}
+	
+	float threshold = 0.0f;
+
+	if( !PyArg_ParseTuple(args, "f", &threshold) )
+		return NULL;
+
+	self->net->SetSmoothing(threshold);
+	Py_RETURN_NONE;
+}
+
+
 #define DOC_USAGE_STRING     "Return the command line parameters accepted by __init__()\n\n" \
 					    "Parameters:  (none)\n\n" \
 					    "Returns:\n" \
@@ -402,6 +487,10 @@ static PyMethodDef pyImageNet_Methods[] =
 	{ "GetClassLabel", (PyCFunction)PyImageNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassDesc", (PyCFunction)PyImageNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassSynset", (PyCFunction)PyImageNet_GetClassSynset, METH_VARARGS, DOC_GET_CLASS_SYNSET},
+	{ "GetThreshold", (PyCFunction)PyImageNet_GetThreshold, METH_NOARGS, DOC_GET_THRESHOLD},
+	{ "SetThreshold", (PyCFunction)PyImageNet_GetThreshold, METH_VARARGS, DOC_SET_THRESHOLD},
+	{ "GetSmoothing", (PyCFunction)PyImageNet_GetSmoothing, METH_NOARGS, DOC_GET_SMOOTHING},
+	{ "SetSmoothing", (PyCFunction)PyImageNet_GetSmoothing, METH_VARARGS, DOC_SET_SMOOTHING},
 	{ "Usage", (PyCFunction)PyImageNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},
 	{NULL}  /* Sentinel */
 };

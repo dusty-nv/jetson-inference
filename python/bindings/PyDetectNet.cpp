@@ -796,11 +796,8 @@ PyObject* PyDetectNet_SetConfidenceThreshold( PyDetectNet_Object* self, PyObject
 	float threshold = 0.0f;
 
 	if( !PyArg_ParseTuple(args, "f", &threshold) )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.SetConfidenceThreshold() failed to parse arguments");
 		return NULL;
-	}
-		
+
 	self->net->SetConfidenceThreshold(threshold);
 	Py_RETURN_NONE;
 }
