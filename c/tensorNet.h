@@ -462,10 +462,15 @@ public:
 	inline const char* GetPrototxtPath() const				{ return mPrototxtPath.c_str(); }
 
 	/**
-	 * Retrieve the path to the network model file.
+	 * Retrieve the full path to model file, including the filename.
 	 */
 	inline const char* GetModelPath() const					{ return mModelPath.c_str(); }
 
+	/**
+	 * Retrieve the filename of the file, excluding the directory.
+	 */
+	inline const char* GetModelFilename() const				{ return mModelFile.c_str(); }
+	
 	/**
 	 * Retrieve the format of the network model.
 	 */
@@ -545,6 +550,11 @@ public:
 	 * Retrieve the network runtime (in milliseconds).
 	 */
 	inline float GetNetworkTime()							{ return GetProfilerTime(PROFILER_NETWORK, PROFILER_CUDA); }
+	
+	/**
+	 * Retrieve the network name (it's filename).
+	 */
+	inline const char* GetNetworkName() const				{ return mModelFile.c_str(); }
 	
 	/**
 	 * Retrieve the profiler runtime (in milliseconds).
@@ -768,6 +778,7 @@ protected:
 	/* Member Variables */
 	std::string mPrototxtPath;
 	std::string mModelPath;
+	std::string mModelFile;
 	std::string mMeanPath;
 	std::string mCacheEnginePath;
 	std::string mCacheCalibrationPath;

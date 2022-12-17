@@ -1108,7 +1108,8 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 
 		mModelType = model_fmt;
 		mModelPath = model_path;
-
+		mModelFile = pathFilename(mModelPath);
+		
 		LogSuccess(LOG_TRT "device %s, initialized %s\n", deviceTypeToStr(device), mModelPath.c_str());	
 		return true;
 	}
@@ -1221,6 +1222,7 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 
 	mPrototxtPath     = prototxt_path;
 	mModelPath        = model_path;
+	mModelFile        = pathFilename(mModelPath);
 	mPrecision        = precision;
 	mAllowGPUFallback = allowGPUFallback;
 	mMaxBatchSize 	   = maxBatchSize;
