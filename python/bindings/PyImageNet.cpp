@@ -115,31 +115,10 @@ static int PyImageNet_Init( PyImageNet_Object* self, PyObject *args, PyObject *k
 		// free the arguments array
 		free(argv);
 	}
-	else if( model != NULL && strlen(model) > 0 )
-	{
-		LogVerbose(LOG_PY_INFERENCE "imageNet loading custom model '%s'\n", model);
-		
-		// load the network using custom model parameters
-		Py_BEGIN_ALLOW_THREADS
-		self->net = imageNet::Create(NULL, model, NULL, labels, input_blob, output_blob);
-		Py_END_ALLOW_THREADS
-	}
 	else
 	{
-		LogVerbose(LOG_PY_INFERENCE "imageNet loading build-in network '%s'\n", network);
-		
-		// parse the selected built-in network
-		imageNet::NetworkType networkType = imageNet::NetworkTypeFromStr(network);
-		
-		if( networkType == imageNet::CUSTOM )
-		{
-			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet invalid built-in network was requested");
-			return -1;
-		}
-		
-		// load the built-in network
 		Py_BEGIN_ALLOW_THREADS
-		self->net = imageNet::Create(networkType);
+		self->net = imageNet::Create(NULL, model != NULL ? model : network, NULL, labels, input_blob, output_blob);
 		Py_END_ALLOW_THREADS
 	}
 

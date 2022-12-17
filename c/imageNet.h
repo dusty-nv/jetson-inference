@@ -39,6 +39,17 @@
  */
 #define IMAGENET_DEFAULT_OUTPUT  "prob"
 
+/**
+ * Default value of the minimum confidence threshold for classification.
+ * @ingroup imageNet
+ */
+#define IMAGENET_DEFAULT_THRESHOLD 0.01f
+
+/**
+ * The model type for imageNet in data/networks/models.json
+ * @ingroup imageNet
+ */
+#define IMAGENET_MODEL_TYPE "classification"
 
 /**
  * Standard command-line options able to be passed to imageNet::Create()
@@ -61,7 +72,7 @@
 		  "  --labels=LABELS      path to text file containing the labels for each class\n" 				\
 		  "  --input-blob=INPUT   name of the input layer (default is '" IMAGENET_DEFAULT_INPUT "')\n" 	\
 		  "  --output-blob=OUTPUT name of the output layer (default is '" IMAGENET_DEFAULT_OUTPUT "')\n" 	\
-		  "  --threshold=CONF     minimum confidence threshold for classification (default is 0.01)\n"	    	\
+		  "  --threshold=CONF     minimum confidence threshold for classification (default is 0.01)\n" 	\
 		  "  --smoothing=WEIGHT   weight between [0,1] or number of frames (disabled by default)\n"		\
 		  "  --profile            enable layer profiling in TensorRT\n\n"
 
@@ -72,44 +83,22 @@
  */
 class imageNet : public tensorNet
 {
-public:
+public:	
 	/**
-	 * Network choice enumeration.
+	 * Load one of the following pre-trained models:
+	 *
+	 *    - alexnet, googlenet, googlenet-12, 
+	 *    - resnet-18, resnet-50, resnet-101, resnet-152, 
+	 *    - vgg-16, vgg-19, inception-v4
+	 *
+	 * These are all 1000-class models trained on ImageNet ILSVRC,
+	 * except for googlenet-12 which is a 12-class subset of ILSVRC.
 	 */
-	enum NetworkType
-	{
-		CUSTOM,        /**< Custom model provided by the user */
-		ALEXNET,		/**< AlexNet trained on 1000-class ILSVRC12 */
-		GOOGLENET,	/**< GoogleNet trained 1000-class ILSVRC12 */
-		GOOGLENET_12,	/**< GoogleNet trained on 12-class subset of ImageNet ILSVRC12 from the tutorial */
-		RESNET_18,	/**< ResNet-18 trained on 1000-class ILSVRC15 */
-		RESNET_50,	/**< ResNet-50 trained on 1000-class ILSVRC15 */
-		RESNET_101,	/**< ResNet-101 trained on 1000-class ILSVRC15 */
-		RESNET_152,	/**< ResNet-50 trained on 1000-class ILSVRC15 */
-		VGG_16,		/**< VGG-16 trained on 1000-class ILSVRC14 */
-		VGG_19,		/**< VGG-19 trained on 1000-class ILSVRC14 */
-		INCEPTION_V4,	/**< Inception-v4 trained on 1000-class ILSVRC12 */
-	};
-
-	/**
-	 * Parse a string to one of the built-in pretrained models.
-	 * Valid names are "alexnet", "googlenet", "googlenet-12", or "googlenet_12", ect.
-	 * @returns one of the imageNet::NetworkType enums, or imageNet::CUSTOM on invalid string.
-	 */
-	static NetworkType NetworkTypeFromStr( const char* model_name );
-
-	/**
-	 * Convert a NetworkType enum to a string.
-	 */
-	static const char* NetworkTypeToStr( NetworkType network );
-
-	/**
-	 * Load a new network instance
-	 */
-	static imageNet* Create( NetworkType networkType=GOOGLENET, uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+	static imageNet* Create( const char* network="googlenet", 
+						uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
 						precisionType precision=TYPE_FASTEST,
 				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
-	
+						
 	/**
 	 * Load a new network instance
 	 * @param prototxt_path File path to the deployable network prototxt
@@ -260,7 +249,7 @@ public:
  	 * Retrieve the path to the file containing the class descriptions.
 	 */
 	inline const char* GetClassPath() const						{ return mClassPath.c_str(); }
-
+#if 0
 	/**
 	 * Retrieve the network type (alexnet or googlenet)
 	 */
@@ -270,7 +259,7 @@ public:
  	 * Retrieve a string describing the network name.
 	 */
 	inline const char* GetNetworkName() const					{ return NetworkTypeToStr(mNetworkType); }
-	
+#endif	
 	/**
 	 * Return the confidence threshold used for classification.
 	 */
@@ -312,7 +301,7 @@ public:
 protected:
 	imageNet();
 	
-	bool init( NetworkType networkType, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
+	//bool init( NetworkType networkType, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 	bool loadClassInfo( const char* filename, int expectedClasses=-1 );
 	
@@ -326,7 +315,7 @@ protected:
 	std::vector<std::string> mClassDesc;
 
 	std::string mClassPath;
-	NetworkType mNetworkType;
+	//NetworkType mNetworkType;
 	
 	float* mSmoothingBuffer;
 	float  mSmoothingFactor;

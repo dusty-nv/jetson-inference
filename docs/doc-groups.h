@@ -53,6 +53,24 @@
  * Semantic segmentation DNN (FCN or Fully-Convolutional Networks)
  * @ingroup deepVision
  */
+
+/**
+ * @defgroup actionNet actionNet
+ * Action/activity recognition DNN
+ * @ingroup deepVision
+ */
+ 
+/**
+ * @defgroup backgroundNet backgroundNet
+ * Foreground/background segmentation and removal DNN
+ * @ingroup deepVision
+ */
+ 
+/**
+ * @defgroup modelDownloader Model Downloader
+ * Utilities for automatically downloading pre-trained models.
+ * @ingroup deepVision
+ */
  
 /**
  * @defgroup util Utilities Library (jetson-utils)

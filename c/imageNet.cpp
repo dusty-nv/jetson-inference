@@ -22,23 +22,26 @@
  
 #include "imageNet.h"
 #include "tensorConvert.h"
+#include "modelDownloader.h"
 
 #include "cudaMappedMemory.h"
 #include "cudaResize.h"
 
 #include "commandLine.h"
+#include "filesystem.h"
 #include "logging.h"
 
 #include <algorithm>
 
 
+
 // constructor
 imageNet::imageNet() : tensorNet()
 {
-	mNetworkType = CUSTOM;
+	//mNetworkType = CUSTOM;
+	mThreshold   = IMAGENET_DEFAULT_THRESHOLD;
 	mNumClasses  = 0;
-	mThreshold   = 0.01f;
-
+	
 	mSmoothingBuffer = NULL;
 	mSmoothingFactor = 0;
 }
@@ -50,37 +53,49 @@ imageNet::~imageNet()
 	CUDA_FREE_HOST(mSmoothingBuffer);
 }
 
-
+	
 // Create
-imageNet* imageNet::Create( imageNet::NetworkType networkType, uint32_t maxBatchSize, 
+imageNet* imageNet::Create( const char* network, uint32_t maxBatchSize, 
 					   precisionType precision, deviceType device, bool allowGPUFallback )
 {
-	imageNet* net = new imageNet();
+	nlohmann::json model;
 	
-	if( !net )
+	if( !DownloadModel(IMAGENET_MODEL_TYPE, network, model) )
 		return NULL;
 	
-	if( !net->init(networkType, maxBatchSize, precision, device, allowGPUFallback) )
-	{
-		LogError(LOG_TRT "imageNet -- failed to initialize.\n");
-		return NULL;
-	}
+	std::string model_dir = "networks/" + model["dir"].get<std::string>() + "/";
+	std::string model_path = model_dir + model["model"].get<std::string>();
+	std::string prototxt = JSON_STR(model["prototxt"]);
+	std::string labels = JSON_STR(model["labels"]);
+	std::string input = JSON_STR_DEFAULT(model["input"], IMAGENET_DEFAULT_INPUT);
+	std::string output = JSON_STR_DEFAULT(model["output"], IMAGENET_DEFAULT_OUTPUT);
+		
+	if( prototxt.length() > 0 )
+		prototxt = model_dir + prototxt;
 	
-	net->mNetworkType = networkType;
-	return net;
+	if( locateFile(labels).length() == 0 )
+		labels = model_dir + labels;
+	
+	return Create(prototxt.c_str(), model_path.c_str(), NULL, 
+			    labels.c_str(), input.c_str(), output.c_str(), 
+			    maxBatchSize, precision, device, allowGPUFallback);
 }
 
-
+	
 // Create
 imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, const char* mean_binary,
 					   const char* class_path, const char* input, const char* output, uint32_t maxBatchSize,
 					   precisionType precision, deviceType device, bool allowGPUFallback )
 {
-	// check for built-in model string
-	NetworkType type = NetworkTypeFromStr(model_path);
-	
-	if( type != CUSTOM )
-		return Create(type, maxBatchSize, precision, device, allowGPUFallback);
+	if( FindModel(IMAGENET_MODEL_TYPE, model_path) )
+	{
+		return Create(model_path, maxBatchSize, precision, device, allowGPUFallback);
+	}
+	else if( fileExtension(model_path).length() == 0 )
+	{
+		LogError(LOG_TRT "couldn't find built-in classification model '%s'\n", model_path);
+		return NULL;
+	}
 		
 	// load custom model
 	imageNet* net = new imageNet();
@@ -97,7 +112,7 @@ imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, c
 	return net;
 }
 
-
+#if 0
 // init
 bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize, 
 				 precisionType precision, deviceType device, bool allowGPUFallback )
@@ -125,7 +140,7 @@ bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize,
 	else
 		return NULL;
 }
-
+#endif
 
 // init
 bool imageNet::init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, 
@@ -172,6 +187,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 }
 			
 
+#if 0
 // NetworkTypeFromStr
 imageNet::NetworkType imageNet::NetworkTypeFromStr( const char* modelName )
 {
@@ -226,7 +242,7 @@ const char* imageNet::NetworkTypeToStr( imageNet::NetworkType network )
 
 	return "Custom";
 }
-
+#endif
 
 // Create
 imageNet* imageNet::Create( int argc, char** argv )
@@ -247,9 +263,9 @@ imageNet* imageNet::Create( const commandLine& cmdLine )
 		modelName = cmdLine.GetString("model", "googlenet");
 	
 	// parse the network type
-	const imageNet::NetworkType type = NetworkTypeFromStr(modelName);
+	//const imageNet::NetworkType type = NetworkTypeFromStr(modelName);
 
-	if( type == imageNet::CUSTOM )
+	if( !FindModel("classification", modelName) )//type == imageNet::CUSTOM )
 	{
 		const char* prototxt = cmdLine.GetString("prototxt");
 		const char* labels   = cmdLine.GetString("labels");
@@ -269,7 +285,7 @@ imageNet* imageNet::Create( const commandLine& cmdLine )
 	else
 	{
 		// create from pretrained model
-		net = imageNet::Create(type);
+		net = imageNet::Create(modelName);
 	}
 
 	if( !net )
@@ -322,7 +338,7 @@ bool imageNet::preProcess( void* image, uint32_t width, uint32_t height, imageFo
 
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
-	if( mNetworkType == imageNet::INCEPTION_V4 )
+	if( mModelFile == "Inception-v4.caffemodel" )  //mNetworkType == imageNet::INCEPTION_V4 )
 	{
 		// downsample, convert to band-sequential RGB, and apply pixel normalization
 		if( CUDA_FAILED(cudaTensorNormRGB(image, format, width, height,
