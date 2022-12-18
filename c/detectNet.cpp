@@ -253,6 +253,9 @@ detectNet* detectNet::Create( const char* network, float threshold, uint32_t max
 	if( locateFile(labels).length() == 0 )
 		labels = model_dir + labels;
 	
+	if( locateFile(colors).length() == 0 )
+		colors = model_dir + colors;
+	
 	// get model input/output layers
 	std::string input = JSON_STR_DEFAULT(model["input"], DETECTNET_DEFAULT_INPUT);
 	std::string output_cvg = DETECTNET_DEFAULT_COVERAGE;
