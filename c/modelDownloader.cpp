@@ -50,6 +50,11 @@ bool LoadModelManifest( nlohmann::json& models, const char* path )
 		std::ifstream file(json_path.c_str());
 		file >> models;
 	}
+	catch (nlohmann::json::parse_error &e)
+	{
+		LogError(LOG_TRT "failed to load model manifest file '%s'\n", path);
+		LogError("%s", e.what());
+	}
 	catch (...)
 	{
 		LogError(LOG_TRT "failed to load model manifest file '%s'\n", path);
@@ -166,7 +171,7 @@ bool DownloadModel( nlohmann::json& model, uint32_t retries )
 		
 		const std::string cmd_str = cmd.str();
 		
-		LogVerbose(LOG_TRT "downloading model %s...", tar.c_str());
+		LogVerbose(LOG_TRT "downloading model %s...\n", tar.c_str());
 		LogVerbose("%s\n", cmd_str.c_str());
 		
 		const int result = system(cmd_str.c_str());
