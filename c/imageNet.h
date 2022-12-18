@@ -83,7 +83,12 @@
  */
 class imageNet : public tensorNet
 {
-public:	
+public:
+	/**
+	 * List of classification results where each entry represents a (classID, confidence) pair.
+	 */
+	typedef std::vector<std::pair<uint32_t, float>> Classifications;
+	
 	/**
 	 * Load one of the following pre-trained models:
 	 *
@@ -136,12 +141,7 @@ public:
 	 * Destroy
 	 */
 	virtual ~imageNet();
-		
-	/**
-	 * List of classification results where each entry represents a (classID, confidence) pair.
-	 */
-	typedef std::vector<std::pair<uint32_t, float>> Classifications;
-	
+			
 	/**
 	 * Predict the maximum-likelihood image class whose confidence meets the minimum threshold.
 	 * Either the class with the maximum probability will be returned, or -1 if no class meets 

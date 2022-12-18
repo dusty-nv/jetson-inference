@@ -38,9 +38,8 @@
 // constructor
 imageNet::imageNet() : tensorNet()
 {
-	//mNetworkType = CUSTOM;
-	mThreshold   = IMAGENET_DEFAULT_THRESHOLD;
-	mNumClasses  = 0;
+	mThreshold = IMAGENET_DEFAULT_THRESHOLD;
+	mNumClasses = 0;
 	
 	mSmoothingBuffer = NULL;
 	mSmoothingFactor = 0;
@@ -112,35 +111,6 @@ imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, c
 	return net;
 }
 
-#if 0
-// init
-bool imageNet::init( imageNet::NetworkType networkType, uint32_t maxBatchSize, 
-				 precisionType precision, deviceType device, bool allowGPUFallback )
-{
-	if( networkType == imageNet::ALEXNET )
-		return init( "networks/alexnet.prototxt", "networks/bvlc_alexnet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );
-	else if( networkType == imageNet::GOOGLENET )
-		return init( "networks/googlenet.prototxt", "networks/bvlc_googlenet.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );
-	else if( networkType == imageNet::GOOGLENET_12 )
-		return init( "networks/GoogleNet-ILSVRC12-subset/deploy.prototxt", "networks/GoogleNet-ILSVRC12-subset/snapshot_iter_184080.caffemodel", NULL, "networks/GoogleNet-ILSVRC12-subset/labels.txt", IMAGENET_DEFAULT_INPUT, "softmax", maxBatchSize, precision, device, allowGPUFallback );
-	else if( networkType == imageNet::RESNET_18 )
-		return init( "networks/ResNet-18/deploy.prototxt", "networks/ResNet-18/ResNet-18.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );	
-	else if( networkType == imageNet::RESNET_50 )
-		return init( "networks/ResNet-50/deploy.prototxt", "networks/ResNet-50/ResNet-50.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );	
-	else if( networkType == imageNet::RESNET_101 )
-		return init( "networks/ResNet-101/deploy.prototxt", "networks/ResNet-101/ResNet-101.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
-	else if( networkType == imageNet::RESNET_152 )
-		return init( "networks/ResNet-152/deploy.prototxt", "networks/ResNet-152/ResNet-152.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
-	else if( networkType == imageNet::VGG_16 )
-		return init( "networks/VGG-16/deploy.prototxt", "networks/VGG-16/VGG-16.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );
-	else if( networkType == imageNet::VGG_19 )
-		return init( "networks/VGG-19/deploy.prototxt", "networks/VGG-19/VGG-19.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );		
-	else if( networkType == imageNet::INCEPTION_V4 )
-		return init( "networks/Inception-v4/deploy.prototxt", "networks/Inception-v4/Inception-v4.caffemodel", NULL, "networks/ilsvrc12_synset_words.txt", IMAGENET_DEFAULT_INPUT, IMAGENET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback );	
-	else
-		return NULL;
-}
-#endif
 
 // init
 bool imageNet::init(const char* prototxt_path, const char* model_path, const char* mean_binary, const char* class_path, 
@@ -263,9 +233,7 @@ imageNet* imageNet::Create( const commandLine& cmdLine )
 		modelName = cmdLine.GetString("model", "googlenet");
 	
 	// parse the network type
-	//const imageNet::NetworkType type = NetworkTypeFromStr(modelName);
-
-	if( !FindModel("classification", modelName) )//type == imageNet::CUSTOM )
+	if( !FindModel("classification", modelName) )
 	{
 		const char* prototxt = cmdLine.GetString("prototxt");
 		const char* labels   = cmdLine.GetString("labels");
@@ -338,7 +306,7 @@ bool imageNet::preProcess( void* image, uint32_t width, uint32_t height, imageFo
 
 	PROFILER_BEGIN(PROFILER_PREPROCESS);
 
-	if( mModelFile == "Inception-v4.caffemodel" )  //mNetworkType == imageNet::INCEPTION_V4 )
+	if( mModelFile == "Inception-v4.caffemodel" )
 	{
 		// downsample, convert to band-sequential RGB, and apply pixel normalization
 		if( CUDA_FAILED(cudaTensorNormRGB(image, format, width, height,
