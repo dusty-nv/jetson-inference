@@ -39,6 +39,11 @@
  */
 #define DEPTHNET_DEFAULT_OUTPUT  "output_0"
 
+/**
+ * The model type for depthNet in data/networks/models.json
+ * @ingroup depthNet
+ */
+#define DEPTHNET_MODEL_TYPE "monodepth"
 
 /**
  * Command-line options able to be passed to depthNet::Create()
@@ -64,17 +69,6 @@ class depthNet : public tensorNet
 {
 public:
 	/**
-	 * Network choice enumeration.
-	 */
-	enum NetworkType
-	{
-		CUSTOM,        /**< Custom model provided by the user */
-		FCN_MOBILENET,	/**< MobileNet backbone */
-		FCN_RESNET18,	/**< ResNet-18 backbone */
-		FCN_RESNET50,	/**< ResNet-50 backbone */
-	};
-
-	/**
 	 * Visualization flags.
 	 */
 	enum VisualizationFlags
@@ -90,21 +84,10 @@ public:
 	static uint32_t VisualizationFlagsFromStr( const char* str, uint32_t default_value=VISUALIZE_INPUT|VISUALIZE_DEPTH );
 
 	/**
-	 * Parse a string to one of the built-in pretrained models.
-	 * Valid names are "mobilenet", "resnet-18", or "resnet-50", ect.
-	 * @returns one of the depthNet::NetworkType enums, or depthNet::CUSTOM on invalid string.
+	 * Load a pre-trained model.
+	 * @see DEPTHNET_USAGE_STRING for the available models.
 	 */
-	static NetworkType NetworkTypeFromStr( const char* model_name );
-
-	/**
-	 * Convert a NetworkType enum to a string.
-	 */
-	static const char* NetworkTypeToStr( NetworkType network );
-
-	/**
-	 * Load a new network instance
-	 */
-	static depthNet* Create( NetworkType networkType=FCN_MOBILENET, 
+	static depthNet* Create( const char* network="fcn-mobilenet", 
 						uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
 						precisionType precision=TYPE_FASTEST,
 				   		deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
@@ -242,16 +225,6 @@ public:
 	inline uint32_t GetDepthFieldHeight() const					{ return DIMS_H(mOutputs[0].dims); }
 
 	/**
-	 * Retrieve the network type (alexnet or googlenet)
-	 */
-	inline NetworkType GetNetworkType() const					{ return mNetworkType; }
-
-	/**
- 	 * Retrieve a string describing the network name.
-	 */
-	inline const char* GetNetworkName() const					{ return NetworkTypeToStr(mNetworkType); }
-
-	/**
 	 * Extract and save the point cloud to a PCD file (depth only).
 	 * @note SavePointCloud() should only be called after Process()
 	 */
@@ -290,8 +263,6 @@ protected:
 	bool allocHistogramBuffers();
 	bool histogramEqualization();
 	bool histogramEqualizationCUDA();
-	
-	NetworkType mNetworkType;
 	
 	int2*     mDepthRange;
 	float*    mDepthEqualized;

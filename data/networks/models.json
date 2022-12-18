@@ -1,6 +1,5 @@
 {
     "classification": {
-    
         "alexnet": {
             "url": "https://nvidia.box.com/shared/static/2y1x8v1q7g6w5d1355dqaxd3snx6bpze.gz",
             "tar": "Alexnet.tar.gz",
@@ -110,7 +109,6 @@
     },
     
     "detection": {
-    
         "ssd-mobilenet-v1": {
             "alias": ["ssd_mobilenet_v1", "ssd_mobilenet_v1_coco", "ssd-mobilenet-v1-coco"],
             "url": "https://nvidia.box.com/shared/static/0pg3xi9opwio65df14rdgrtw40ivbk1o.gz",
@@ -230,7 +228,6 @@
     },
     
     "segmentation": {
-    
         "fcn-resnet18-cityscapes-512x256": {
             "alias": ["fcn_resnet18_cityscapes_512x256", "fcn_resnet18_cityscapes", "fcn-resnet18-cityscapes"],
             "url": "https://nvidia.box.com/shared/static/k7s7gdgi098309fndm2xbssj553vf71s.gz",
@@ -354,7 +351,6 @@
     },
     
     "pose": {
-    
         "resnet18-body": {
             "alias": ["resnet18_body"],
             "url": "https://nvidia.box.com/shared/static/waf8bsu58v9qh9qj3sp3wsw1nyj61xm5.gz",
@@ -386,6 +382,35 @@
             "topology": "human_pose.json",
             "colors": "colors.txt",
             "description": "DenseNet121-based human body model with PAF attention"
+        }
+    },
+    
+    "monodepth": {
+        "fcn-mobilenet": {
+            "alias": ["fcn_mobilenet", "monodepth-mobilenet", "monodepth_mobilenet", "mobilenet"],
+            "url": "https://nvidia.box.com/shared/static/frgbiqeieaja0o8b0eyb87fjbsqd4zup.gz",
+            "tar": "MonoDepth-FCN-Mobilenet.tar.gz",
+            "dir": "MonoDepth-FCN-Mobilenet",
+            "model": "monodepth_fcn_mobilenet.onnx",
+            "description": "FCN-Mobilenet monocular depth estimation model"
         },
+        
+        "fcn-resnet18": {
+            "alias": ["fcn_resnet18", "monodepth-resnet18", "monodepth_resnet18", "resnet18"],
+            "url": "https://nvidia.box.com/shared/static/ai2sxrp1tg8mk4j0jbrw3vthqjp8x0af.gz",
+            "tar": "MonoDepth-FCN-ResNet18.tar.gz",
+            "dir": "MonoDepth-FCN-ResNet18",
+            "model": "monodepth_fcn_resnet18.onnx",
+            "description": "FCN-ResNet18 monocular depth estimation model"
+        },
+        
+        "fcn-resnet50": {
+            "alias": ["fcn_resnet50", "monodepth-resnet50", "monodepth_resnet50", "resnet50"],
+            "url": "https://nvidia.box.com/shared/static/3umpq9yrv3nj3ltiwlooijx5of414gbh.gz",
+            "tar": "MonoDepth-FCN-ResNet50.tar.gz",
+            "dir": "MonoDepth-FCN-ResNet50",
+            "model": "monodepth_fcn_resnet50.onnx",
+            "description": "FCN-ResNet50 monocular depth estimation model"
+        }
     }
 }

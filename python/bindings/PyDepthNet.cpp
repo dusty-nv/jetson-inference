@@ -65,7 +65,7 @@ static int PyDepthNet_Init( PyDepthNet_Object* self, PyObject *args, PyObject *k
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
-		LogVerbose(LOG_PY_INFERENCE "depthNet loading network using argv command line params\n");
+		LogDebug(LOG_PY_INFERENCE "depthNet loading network using argv command line params\n");
 
 		// parse the python list into char**
 		const size_t argc = PyList_Size(argList);
@@ -107,20 +107,11 @@ static int PyDepthNet_Init( PyDepthNet_Object* self, PyObject *args, PyObject *k
 	}
 	else
 	{
-		LogVerbose(LOG_PY_INFERENCE "depthNet loading build-in network '%s'\n", network);
-		
-		// parse the selected built-in network
-		depthNet::NetworkType networkType = depthNet::NetworkTypeFromStr(network);
-		
-		if( networkType == depthNet::CUSTOM )
-		{
-			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "depthNet invalid built-in network was requested");
-			return -1;
-		}
+		LogDebug(LOG_PY_INFERENCE "depthNet loading build-in network '%s'\n", network);
 		
 		// load the built-in network
 		Py_BEGIN_ALLOW_THREADS
-		self->net = depthNet::Create(networkType);
+		self->net = depthNet::Create(network, DEFAULT_MAX_BATCH_SIZE);
 		Py_END_ALLOW_THREADS
 	}
 

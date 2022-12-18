@@ -22,12 +22,13 @@
  
 #include "depthNet.h"
 #include "tensorConvert.h"
+#include "modelDownloader.h"
 
 #include "commandLine.h"
+#include "filesystem.h"
 #include "cudaMappedMemory.h"
 
 #include "mat33.h"
-
 
 #define DEPTH_HISTOGRAM_CUDA
 
@@ -35,7 +36,6 @@
 // constructor
 depthNet::depthNet() : tensorNet()
 {
-	mNetworkType    = CUSTOM;
 	mDepthRange     = NULL;
 	mDepthEqualized = NULL;
 	
@@ -112,57 +112,21 @@ uint32_t depthNet::VisualizationFlagsFromStr( const char* str_user, uint32_t def
 }
 
 
-// NetworkTypeFromStr
-depthNet::NetworkType depthNet::NetworkTypeFromStr( const char* modelName )
-{
-	if( !modelName )
-		return depthNet::CUSTOM;
-
-	depthNet::NetworkType type = depthNet::FCN_MOBILENET;
-
-	if( strcasecmp(modelName, "mobilenet") == 0 || strcasecmp(modelName, "fcn-mobilenet") == 0 || strcasecmp(modelName, "fcn_mobilenet") == 0 || strcasecmp(modelName, "monodepth-fcn-mobilenet") == 0 || strcasecmp(modelName, "monodepth_fcn_mobilenet") == 0 )
-		type = depthNet::FCN_MOBILENET;
-	else if( strcasecmp(modelName, "resnet18") == 0 || strcasecmp(modelName, "fcn-resnet18") == 0 || strcasecmp(modelName, "fcn_resnet18") == 0 || strcasecmp(modelName, "monodepth-fcn-resnet18") == 0 || strcasecmp(modelName, "monodepth_fcn_resnet18") == 0 )
-		type = depthNet::FCN_RESNET18;
-	else if( strcasecmp(modelName, "resnet50") == 0 || strcasecmp(modelName, "fcn-resnet50") == 0 || strcasecmp(modelName, "fcn_resnet50") == 0 || strcasecmp(modelName, "monodepth-fcn-resnet50") == 0 || strcasecmp(modelName, "monodepth_fcn_resnet50") == 0 )
-		type = depthNet::FCN_RESNET50;
-	else
-		type = depthNet::CUSTOM;
-
-	return type;
-}
-
-
-// NetworkTypeToStr
-const char* depthNet::NetworkTypeToStr( depthNet::NetworkType type )
-{
-	switch(type)
-	{
-		case FCN_MOBILENET:	return "MonoDepth-FCN-Mobilenet";
-		case FCN_RESNET18:	return "MonoDepth-FCN-ResNet18";
-		case FCN_RESNET50:	return "MonoDepth-FCN-ResNet50";
-		default:			return "Custom";
-	}
-}
-
-
 // Create
-depthNet* depthNet::Create( depthNet::NetworkType networkType, uint32_t maxBatchSize, 
+depthNet* depthNet::Create( const char* network, uint32_t maxBatchSize, 
 					   precisionType precision, deviceType device, bool allowGPUFallback )
 {
-	depthNet* net = NULL;
+	nlohmann::json model;
 	
-	if( networkType == FCN_MOBILENET )
-		net = Create("networks/MonoDepth-FCN-Mobilenet/monodepth_fcn_mobilenet.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
-	else if( networkType == FCN_RESNET18 )
-		net = Create("networks/MonoDepth-FCN-ResNet18/monodepth_fcn_resnet18.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
-	else if( networkType == FCN_RESNET50 )
-		net = Create("networks/MonoDepth-FCN-ResNet50/monodepth_fcn_resnet50.onnx", DEPTHNET_DEFAULT_INPUT, DEPTHNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
+	if( !DownloadModel(DEPTHNET_MODEL_TYPE, network, model) )
+		return NULL;
 	
-	if( net != NULL )
-		net->mNetworkType = networkType;
+	std::string model_dir = "networks/" + model["dir"].get<std::string>() + "/";
+	std::string model_path = model_dir + JSON_STR(model["model"]);
+	std::string input = JSON_STR_DEFAULT(model["input"], DEPTHNET_DEFAULT_INPUT);
+	std::string output = JSON_STR_DEFAULT(model["output"], DEPTHNET_DEFAULT_OUTPUT);
 
-	return net;
+	return Create(model_path.c_str(), input.c_str(), output.c_str(), maxBatchSize, precision, device, allowGPUFallback);
 }
 
 
@@ -170,6 +134,18 @@ depthNet* depthNet::Create( depthNet::NetworkType networkType, uint32_t maxBatch
 depthNet* depthNet::Create( const char* model_path, const char* input_blob, const char* output_blob,
 					   uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback )
 {
+	// check for built-in model string
+	if( FindModel(DEPTHNET_MODEL_TYPE, model_path) )
+	{
+		return Create(model_path, maxBatchSize, precision, device, allowGPUFallback);
+	}
+	else if( fileExtension(model_path).length() == 0 )
+	{
+		LogError(LOG_TRT "couldn't find built-in mono-depth model '%s'\n", model_path);
+		return NULL;
+	}
+	
+	// load custom model
 	depthNet* net = new depthNet();
 	
 	if( !net )
@@ -272,9 +248,7 @@ depthNet* depthNet::Create( const commandLine& cmdLine )
 		modelName = cmdLine.GetString("model", "fcn-mobilenet");
 	
 	// parse the network type
-	const depthNet::NetworkType type = NetworkTypeFromStr(modelName);
-
-	if( type == depthNet::CUSTOM )
+	if( !FindModel(DEPTHNET_MODEL_TYPE, modelName) )
 	{
 		const char* input  = cmdLine.GetString("input_blob");
 		const char* output = cmdLine.GetString("output_blob");
@@ -292,7 +266,7 @@ depthNet* depthNet::Create( const commandLine& cmdLine )
 	else
 	{
 		// create from pretrained model
-		net = depthNet::Create(type);
+		net = depthNet::Create(modelName, DEFAULT_MAX_BATCH_SIZE);
 	}
 
 	if( !net )
