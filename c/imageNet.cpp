@@ -86,6 +86,7 @@ imageNet* imageNet::Create( const char* prototxt_path, const char* model_path, c
 					   const char* class_path, const char* input, const char* output, uint32_t maxBatchSize,
 					   precisionType precision, deviceType device, bool allowGPUFallback )
 {
+	// check for built-in model string
 	if( FindModel(IMAGENET_MODEL_TYPE, model_path) )
 	{
 		return Create(model_path, maxBatchSize, precision, device, allowGPUFallback);
@@ -155,64 +156,7 @@ bool imageNet::init(const char* prototxt_path, const char* model_path, const cha
 	LogSuccess(LOG_TRT "imageNet -- %s initialized.\n", model_path);
 	return true;
 }
-			
 
-#if 0
-// NetworkTypeFromStr
-imageNet::NetworkType imageNet::NetworkTypeFromStr( const char* modelName )
-{
-	if( !modelName )
-		return imageNet::CUSTOM;
-
-	imageNet::NetworkType type = imageNet::GOOGLENET;
-
-	if( strcasecmp(modelName, "alexnet") == 0 )
-		type = imageNet::ALEXNET;
-	else if( strcasecmp(modelName, "googlenet") == 0 )
-		type = imageNet::GOOGLENET;
-	else if( strcasecmp(modelName, "googlenet-12") == 0 || strcasecmp(modelName, "googlenet_12") == 0 )
-		type = imageNet::GOOGLENET_12;
-	else if( strcasecmp(modelName, "resnet-18") == 0 || strcasecmp(modelName, "resnet_18") == 0 || strcasecmp(modelName, "resnet18") == 0 )
-		type = imageNet::RESNET_18;
-	else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 )
-		type = imageNet::RESNET_50;
-	else if( strcasecmp(modelName, "resnet-101") == 0 || strcasecmp(modelName, "resnet_101") == 0 || strcasecmp(modelName, "resnet101") == 0 )
-		type = imageNet::RESNET_101;
-	else if( strcasecmp(modelName, "resnet-152") == 0 || strcasecmp(modelName, "resnet_152") == 0 || strcasecmp(modelName, "resnet152") == 0 )
-		type = imageNet::RESNET_152;
-	else if( strcasecmp(modelName, "vgg-16") == 0 || strcasecmp(modelName, "vgg_16") == 0 || strcasecmp(modelName, "vgg16") == 0 )
-		type = imageNet::VGG_16;
-	else if( strcasecmp(modelName, "vgg-19") == 0 || strcasecmp(modelName, "vgg_19") == 0 || strcasecmp(modelName, "vgg19") == 0 )
-		type = imageNet::VGG_19;
-	else if( strcasecmp(modelName, "inception-v4") == 0 || strcasecmp(modelName, "inception_v4") == 0 || strcasecmp(modelName, "inceptionv4") == 0 )
-		type = imageNet::INCEPTION_V4;
-	else
-		type = imageNet::CUSTOM;
-
-	return type;
-}
-
-
-// NetworkTypeToStr
-const char* imageNet::NetworkTypeToStr( imageNet::NetworkType network )
-{
-	switch(network)
-	{
-		case imageNet::ALEXNET:		return "AlexNet";
-		case imageNet::GOOGLENET:	return "GoogleNet";
-		case imageNet::GOOGLENET_12:	return "GoogleNet-12";
-		case imageNet::RESNET_18:	return "ResNet-18";
-		case imageNet::RESNET_50:	return "ResNet-50";
-		case imageNet::RESNET_101:	return "ResNet-101";
-		case imageNet::RESNET_152:	return "ResNet-152";
-		case imageNet::VGG_16:		return "VGG-16";
-		case imageNet::VGG_19:		return "VGG-19";
-		case imageNet::INCEPTION_V4:	return "Inception-v4";
-	}
-
-	return "Custom";
-}
-#endif
 
 // Create
 imageNet* imageNet::Create( int argc, char** argv )
@@ -233,7 +177,7 @@ imageNet* imageNet::Create( const commandLine& cmdLine )
 		modelName = cmdLine.GetString("model", "googlenet");
 	
 	// parse the network type
-	if( !FindModel("classification", modelName) )
+	if( !FindModel(IMAGENET_MODEL_TYPE, modelName) )
 	{
 		const char* prototxt = cmdLine.GetString("prototxt");
 		const char* labels   = cmdLine.GetString("labels");
