@@ -25,7 +25,9 @@
 
 
 #include "tensorNet.h"
+
 #include <array>
+#include <vector>
 
 
 /**
@@ -65,6 +67,12 @@
  * @ingroup poseNet
  */
 #define POSENET_DEFAULT_LINK_SCALE 0.0013f
+
+/**
+ * The model type for poseNet in data/networks/models.json
+ * @ingroup poseNet
+ */
+#define POSENET_MODEL_TYPE "pose"
 
 /**
  * Standard command-line options able to be passed to poseNet::Create()
@@ -142,23 +150,6 @@ public:
 		OVERLAY_KEYPOINTS = (1 << 2),  /**< Overlay the keypoints (joints) as circles */
 		OVERLAY_DEFAULT   = OVERLAY_LINKS|OVERLAY_KEYPOINTS,
 	};
-	
-	/**
-	 * Network choice enumeration.
-	 */
-	enum NetworkType
-	{
-		CUSTOM = 0,		/**< Custom model from user */
-		RESNET18_BODY,		/**< ResNet18-based human body model with PAF attention */
-		RESNET18_HAND,		/**< ResNet18-based human hand model with PAF attention */
-		DENSENET121_BODY,	/**< DenseNet121-based human body model with PAF attention */
-	};
-
-	/**
-	 * Parse a string to one of the built-in pretrained models.
-	 * @returns one of the poseNet::NetworkType enums, or poseNet::CUSTOM on invalid string.
-	 */
-	static NetworkType NetworkTypeFromStr( const char* model_name );
 
 	/**
 	 * Parse a string sequence into OverlayFlags enum.
@@ -169,12 +160,12 @@ public:
 	static uint32_t OverlayFlagsFromStr( const char* flags );
 
 	/**
-	 * Load a new network instance
-	 * @param networkType type of pre-supported network to load
+	 * Load a pre-trained model.
+	 * @param network type of pre-supported network to load (@see POSENET_USAGE_STRING for models)
 	 * @param threshold default minimum threshold for detection
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
-	static poseNet* Create( NetworkType networkType=RESNET18_BODY, float threshold=POSENET_DEFAULT_THRESHOLD, 
+	static poseNet* Create( const char* network="resnet18-body", float threshold=POSENET_DEFAULT_THRESHOLD, 
 					    uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, precisionType precision=TYPE_FASTEST, 
 					    deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	

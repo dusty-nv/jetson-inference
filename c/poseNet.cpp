@@ -22,6 +22,7 @@
  
 #include "poseNet.h"
 #include "tensorConvert.h"
+#include "modelDownloader.h"
 #include "cudaDraw.h"
 
 #include "commandLine.h"
@@ -82,27 +83,6 @@ poseNet::~poseNet()
 	SAFE_FREE(mAssignmentWorkspace);
 	SAFE_FREE(mConnectionWorkspace);
 	SAFE_FREE(mKeypointColors);
-}
-
-
-// NetworkTypeFromStr
-poseNet::NetworkType poseNet::NetworkTypeFromStr( const char* modelName )
-{
-	if( !modelName )
-		return poseNet::CUSTOM;
-
-	poseNet::NetworkType type = poseNet::RESNET18_BODY;
-
-	if( strcasecmp(modelName, "resnet18-body") == 0 || strcasecmp(modelName, "resnet18_body") == 0 || strcasecmp(modelName, "pose-resnet18-body") == 0 || strcasecmp(modelName, "pose_resnet18_body") == 0 )
-		type = poseNet::RESNET18_BODY;
-	else if( strcasecmp(modelName, "resnet18-hand") == 0 || strcasecmp(modelName, "resnet18_hand") == 0 || strcasecmp(modelName, "pose-resnet18-hand") == 0 || strcasecmp(modelName, "pose_resnet18_hand") == 0 )
-		type = poseNet::RESNET18_HAND;
-	else if( strcasecmp(modelName, "densenet121-body") == 0 || strcasecmp(modelName, "densenet121_body") == 0 || strcasecmp(modelName, "pose-densenet121-body") == 0 || strcasecmp(modelName, "pose_densenet121_body") == 0)
-		type = poseNet::DENSENET121_BODY;
-	else
-		type = poseNet::CUSTOM;
-
-	return type;
 }
 
 
@@ -214,6 +194,18 @@ poseNet* poseNet::Create( const char* model, const char* topology, const char* c
 					 const char* input_blob, const char* cmap_blob, const char* paf_blob, 
 					 uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback )
 {
+	// check for built-in model string
+	if( FindModel(POSENET_MODEL_TYPE, model) )
+	{
+		return Create(model, threshold, maxBatchSize, precision, device, allowGPUFallback);
+	}
+	else if( fileExtension(model).length() == 0 )
+	{
+		LogError(LOG_TRT "couldn't find built-in pose estimation model '%s'\n", model);
+		return NULL;
+	}
+	
+	// load custom model
 	poseNet* net = new poseNet();
 	
 	if( !net )
@@ -230,17 +222,37 @@ poseNet* poseNet::Create( const char* model, const char* topology, const char* c
 
 
 // Create
-poseNet* poseNet::Create( NetworkType networkType, float threshold, uint32_t maxBatchSize, 
+poseNet* poseNet::Create( const char* network, float threshold, uint32_t maxBatchSize, 
 					 precisionType precision, deviceType device, bool allowGPUFallback )
 {
-	if( networkType == RESNET18_BODY )
-		return Create("networks/Pose-ResNet18-Body/pose_resnet18_body.onnx", "networks/Pose-ResNet18-Body/human_pose.json", "networks/Pose-ResNet18-Body/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
-	else if( networkType == RESNET18_HAND )
-		return Create("networks/Pose-ResNet18-Hand/pose_resnet18_hand.onnx", "networks/Pose-ResNet18-Hand/hand_pose.json", "networks/Pose-ResNet18-Hand/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
-	else if( networkType == DENSENET121_BODY )
-		return Create("networks/Pose-DenseNet121-Body/pose_densenet121_body.onnx", "networks/Pose-DenseNet121-Body/human_pose.json", "networks/Pose-DenseNet121-Body/colors.txt", threshold, POSENET_DEFAULT_INPUT, POSENET_DEFAULT_CMAP, POSENET_DEFAULT_PAF, maxBatchSize, precision, device, allowGPUFallback );
-	else
+	nlohmann::json model;
+	
+	if( !DownloadModel(POSENET_MODEL_TYPE, network, model) )
 		return NULL;
+	
+	std::string model_dir = "networks/" + model["dir"].get<std::string>() + "/";
+	std::string model_path = model_dir + JSON_STR(model["model"]);
+	std::string topology = model_dir + JSON_STR(model["topology"]);
+	std::string colors = model_dir + JSON_STR(model["colors"]);
+
+	std::string input = JSON_STR_DEFAULT(model["input"], POSENET_DEFAULT_INPUT);
+	std::string output_cmap = POSENET_DEFAULT_CMAP;
+	std::string output_paf = POSENET_DEFAULT_PAF;
+
+	nlohmann::json output = model["output"];
+	
+	if( output.is_object() )
+	{
+		if( output["cmap"].is_string() )
+			output_cmap = output["cmap"].get<std::string>();
+		
+		if( output["paf"].is_string() )
+			output_cmap = output["paf"].get<std::string>();
+	}
+	
+	return Create(model_path.c_str(), topology.c_str(), colors.c_str(), threshold,
+			    input.c_str(), output_cmap.c_str(), output_paf.c_str(), 
+			    maxBatchSize, precision, device, allowGPUFallback);
 }
 
 
@@ -273,9 +285,7 @@ poseNet* poseNet::Create( const commandLine& cmdLine )
 		maxBatchSize = DEFAULT_MAX_BATCH_SIZE;
 
 	// parse the model type
-	const poseNet::NetworkType type = NetworkTypeFromStr(modelName);
-
-	if( type == poseNet::CUSTOM )
+	if( !FindModel(POSENET_MODEL_TYPE, modelName) )
 	{
 		const char* colors   = cmdLine.GetString("colors");
 		const char* input    = cmdLine.GetString("input_blob");
@@ -300,7 +310,7 @@ poseNet* poseNet::Create( const commandLine& cmdLine )
 	else
 	{
 		// create poseNet from pretrained model
-		net = poseNet::Create(type, threshold, maxBatchSize);
+		net = poseNet::Create(modelName, threshold, maxBatchSize);
 	}
 
 	if( !net )

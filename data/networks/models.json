@@ -351,5 +351,41 @@
             "colors": "colors.txt",
             "description": "FCN-ResNet18 trained on SUN RGB-D dataset (640x512)"
         }
+    },
+    
+    "pose": {
+    
+        "resnet18-body": {
+            "alias": ["resnet18_body"],
+            "url": "https://nvidia.box.com/shared/static/waf8bsu58v9qh9qj3sp3wsw1nyj61xm5.gz",
+            "tar": "Pose-ResNet18-Body.tar.gz",
+            "dir": "Pose-ResNet18-Body",
+            "model": "pose_resnet18_body.onnx",
+            "topology": "human_pose.json",
+            "colors": "colors.txt",
+            "description": "ResNet18-based human body model with PAF attention"
+        },
+        
+        "resnet18-hand": {
+            "alias": ["resnet18_hand"],
+            "url": "https://nvidia.box.com/shared/static/srfcadyqv4eaeq6lvu5qpsm6l5oatcnq.gz",
+            "tar": "Pose-ResNet18-Hand.tar.gz",
+            "dir": "Pose-ResNet18-Hand",
+            "model": "pose_resnet18_hand.onnx",
+            "topology": "hand_pose.json",
+            "colors": "colors.txt",
+            "description": "ResNet18-based human hand model with PAF attention"
+        },
+        
+        "densenet121-body": {
+            "alias": ["densenet121_body"],
+            "url": "https://nvidia.box.com/shared/static/sizfwdkjmvzlo96serrs7u175wxldrv5.gz",
+            "tar": "Pose-DenseNet121-Body.tar.gz",
+            "dir": "Pose-DenseNet121-Body",
+            "model": "pose_densenet121_body.onnx",
+            "topology": "human_pose.json",
+            "colors": "colors.txt",
+            "description": "DenseNet121-based human body model with PAF attention"
+        },
     }
 }

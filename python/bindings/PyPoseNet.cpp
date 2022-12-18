@@ -863,20 +863,8 @@ static int PyPoseNet_Init( PyPoseNet_Object* self, PyObject *args, PyObject *kwd
 	}
 	else
 	{
-		LogVerbose(LOG_PY_INFERENCE "poseNet loading build-in network '%s'\n", network);
-		
-		// parse the selected built-in network
-		poseNet::NetworkType networkType = poseNet::NetworkTypeFromStr(network);
-		
-		if( networkType == poseNet::CUSTOM )
-		{
-			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "poseNet invalid built-in network was requested");
-			return -1;
-		}
-		
-		// load the built-in network
 		Py_BEGIN_ALLOW_THREADS
-		self->net = poseNet::Create(networkType, threshold);
+		self->net = poseNet::Create(network, threshold);
 		Py_END_ALLOW_THREADS
 	}
 
