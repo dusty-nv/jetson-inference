@@ -53,7 +53,7 @@ bool LoadModelManifest( nlohmann::json& models, const char* path )
 	catch (nlohmann::json::parse_error &e)
 	{
 		LogError(LOG_TRT "failed to load model manifest file '%s'\n", path);
-		LogError("%s", e.what());
+		LogError("%s\n", e.what());
 	}
 	catch (...)
 	{
