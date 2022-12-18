@@ -30,8 +30,8 @@ set(BUILD_EXPERIMENTAL "NO" CACHE BOOL "If YES, will enable support for experime
 
 
 # copy configuration tools to build dir
-file(COPY "tools/download-models.sh" DESTINATION ${PROJECT_BINARY_DIR})
-file(COPY "tools/download-models.rc" DESTINATION ${PROJECT_BINARY_DIR})
+#file(COPY "tools/download-models.sh" DESTINATION ${PROJECT_BINARY_DIR})
+#file(COPY "tools/download-models.rc" DESTINATION ${PROJECT_BINARY_DIR})
 file(COPY "tools/install-pytorch.sh" DESTINATION ${PROJECT_BINARY_DIR})
 file(COPY "tools/install-pytorch.rc" DESTINATION ${PROJECT_BINARY_DIR})
 
