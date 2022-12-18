@@ -71,8 +71,14 @@
 #define DETECTNET_DEFAULT_ALPHA 120
 
 /**
+ * The model type for detectNet in data/networks/models.json
+ * @ingroup detectNet
+ */
+#define DETECTNET_MODEL_TYPE "detection"
+
+/**
  * Standard command-line options able to be passed to detectNet::Create()
- * @ingroup imageNet
+ * @ingroup detectNet
  */
 #define DETECTNET_USAGE_STRING  "detectNet arguments: \n" 					\
 		  "  --network=NETWORK     pre-trained model to load, one of the following:\n" 		\
@@ -192,40 +198,6 @@ public:
 		OVERLAY_LINES      = (1 << 3),     /**< Overlay the bounding box lines (unfilled) */
 		OVERLAY_DEFAULT    = OVERLAY_BOX|OVERLAY_LABEL|OVERLAY_CONFIDENCE, /**< The default choice of overlay */
 	};
-	
-	/**
-	 * Network choice enumeration.
-	 */
-	enum NetworkType
-	{
-		CUSTOM = 0,		/**< Custom model from user */
-		COCO_AIRPLANE,		/**< MS-COCO airplane class */
-		COCO_BOTTLE,		/**< MS-COCO bottle class */
-		COCO_CHAIR,		/**< MS-COCO chair class */
-		COCO_DOG,			/**< MS-COCO dog class */
-		FACENET,			/**< Human facial detector trained on FDDB */
-		PEDNET,			/**< Pedestrian / person detector */
-		PEDNET_MULTI,		/**< Multi-class pedestrian + baggage detector */
-
-#if NV_TENSORRT_MAJOR > 4
-		SSD_MOBILENET_V1,	/**< SSD Mobilenet-v1 UFF model, trained on MS-COCO */
-		SSD_MOBILENET_V2,	/**< SSD Mobilenet-v2 UFF model, trained on MS-COCO */
-		SSD_INCEPTION_V2,	/**< SSD Inception-v2 UFF model, trained on MS-COCO */
-		
-		/**< Default model is SSD-Mobilenet-v2 (or PedNet for legacy JetPack's) */
-		NETWORK_DEFAULT=SSD_MOBILENET_V2
-#else
-		NETWORK_DEFAULT=PEDNET_MULTI
-#endif
-	};
-
-	/**
-	 * Parse a string to one of the built-in pretrained models.
-	 * Valid names are "pednet", "multiped", "facenet", "face", "coco-airplane", "airplane",
-	 * "coco-bottle", "bottle", "coco-chair", "chair", "coco-dog", or "dog".
-	 * @returns one of the detectNet::NetworkType enums, or detectNet::CUSTOM on invalid string.
-	 */
-	static NetworkType NetworkTypeFromStr( const char* model_name );
 
 	/**
 	 * Parse a string sequence into OverlayFlags enum.
@@ -236,15 +208,15 @@ public:
 	static uint32_t OverlayFlagsFromStr( const char* flags );
 
 	/**
-	 * Load a new network instance
-	 * @param networkType type of pre-supported network to load
+	 * Load a pre-trained model
+	 * @param network the pre-trained model to load (@see DETECTNET_USAGE_STRING for models)
 	 * @param threshold default minimum threshold for detection
 	 * @param maxBatchSize The maximum batch size that the network will support and be optimized for.
 	 */
-	static detectNet* Create( NetworkType networkType=NETWORK_DEFAULT, float threshold=DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD, 
+	static detectNet* Create( const char* network="ssd-mobilenet-v2", float threshold=DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD, 
 						 uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, precisionType precision=TYPE_FASTEST, 
 						 deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
-								  
+						 
 	/**
 	 * Load a custom network instance
 	 * @param prototxt_path File path to the deployable network prototxt

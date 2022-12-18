@@ -541,34 +541,16 @@ static int PyDetectNet_Init( PyDetectNet_Object* self, PyObject *args, PyObject 
 		// free the arguments array
 		free(argv);
 	}
-	else if( model != NULL && strlen(model) > 0 )
+	else
 	{
 		LogVerbose(LOG_PY_INFERENCE "detectNet loading custom model '%s'\n", model);
 		
 		// load the network using custom model parameters
 		Py_BEGIN_ALLOW_THREADS
-		self->net = detectNet::Create(NULL, model, 0.0f, labels, colors, threshold, input_blob, output_cvg, output_bbox);
+		self->net = detectNet::Create(NULL, model != NULL ? model : network, 0.0f, labels, colors, threshold, input_blob, output_cvg, output_bbox);
 		Py_END_ALLOW_THREADS
 	}	
-	else
-	{
-		LogVerbose(LOG_PY_INFERENCE "detectNet loading build-in network '%s'\n", network);
-		
-		// parse the selected built-in network
-		detectNet::NetworkType networkType = detectNet::NetworkTypeFromStr(network);
-		
-		if( networkType == detectNet::CUSTOM )
-		{
-			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid built-in network was requested");
-			return -1;
-		}
-		
-		// load the built-in network
-		Py_BEGIN_ALLOW_THREADS
-		self->net = detectNet::Create(networkType, threshold);
-		Py_END_ALLOW_THREADS
-	}
-
+	
 	// confirm the network loaded
 	if( !self->net )
 	{
