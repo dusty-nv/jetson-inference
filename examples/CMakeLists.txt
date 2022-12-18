@@ -5,11 +5,12 @@ add_subdirectory(detectnet)
 add_subdirectory(posenet)
 add_subdirectory(segnet)
 add_subdirectory(actionnet)
-add_subdirectory(featurenet)
 add_subdirectory(backgroundnet)
 	
 # experimental examples
 if(BUILD_EXPERIMENTAL)
+	add_subdirectory(experimental/featurenet)
+		
 	add_subdirectory(experimental/flownet-console)
 	add_subdirectory(experimental/flownet-camera)
 
