@@ -1,0 +1,111 @@
+{
+    "classification": {
+    
+        "alexnet": {
+            "url": "https://nvidia.box.com/shared/static/2y1x8v1q7g6w5d1355dqaxd3snx6bpze.gz",
+            "tar": "Alexnet.tar.gz",
+            "dir": "Alexnet",
+            "model": "bvlc_alexnet.caffemodel",
+            "prototxt": "alexnet.prototxt",
+            "labels": "networks/ilsvrc12_synset_words.txt",
+            "description": "Alexnet trained on 1000-class ILSVRC12"
+        },
+        
+        "googlenet": {
+            "url": "https://nvidia.box.com/shared/static/u28j5jm4hnf1ex94dnhsuyu8p799l5d5.gz",
+            "tar": "Googlenet.tar.gz",
+            "dir": "Googlenet",
+            "model": "bvlc_googlenet.caffemodel",
+            "prototxt": "googlenet.prototxt",
+            "labels": "networks/ilsvrc12_synset_words.txt",
+            "description": "Googlenet trained 1000-class ILSVRC12"
+        },
+        
+        "googlenet-12": {
+            "url": "https://nvidia.box.com/shared/static/zb8i3zcg39sdjjxfty7o5935hpbd64y4.gz",
+            "tar": "GoogleNet-ILSVRC12-subset.tar.gz",
+            "dir": "GoogleNet-ILSVRC12-subset",
+            "model": "snapshot_iter_184080.caffemodel",
+            "prototxt": "deploy.prototxt",
+            "labels": "labels.txt",
+            "description": "GoogleNet trained on 12-class subset of ImageNet ILSVRC12"
+        },
+        
+        "resnet-18": {
+            "alias": ["resnet_18", "resnet18"],
+            "url": "https://nvidia.box.com/shared/static/gph1qfor89vh498op8cicvwc13zltu3h.gz",
+            "tar": "ResNet-18.tar.gz",
+            "dir": "ResNet-18",
+            "model": "ResNet-18.caffemodel",
+            "prototxt": "deploy.prototxt",
+            "labels": "networks/ilsvrc12_synset_words.txt",
+            "description": "ResNet-18 trained on 1000-class ILSVRC15"
+        },
+        
+        "resnet-50": {
+            "alias": ["resnet_50", "resnet50"],
+            "url": "https://nvidia.box.com/shared/static/ht46fmnwvow0o0n0ke92x6bzkht8g5xb.gz",
+            "tar": "ResNet-50.tar.gz",
+            "dir": "ResNet-50",
+            "model": "ResNet-50.caffemodel",
+            "prototxt": "deploy.prototxt",
+            "labels": "networks/ilsvrc12_synset_words.txt",
+            "description": "ResNet-50 trained on 1000-class ILSVRC15"
+        },
+        
+        "resnet-101": {
+            "alias": ["resnet_101", "resnet101"],
+            "url": "https://nvidia.box.com/shared/static/7zog25pu70nxjh2irni49e5ujlg4dl82.gz",
+            "tar": "ResNet-101.tar.gz",
+            "dir": "ResNet-101",
+            "model": "ResNet-101.caffemodel",
+            "prototxt": "deploy.prototxt",
+            "labels": "networks/ilsvrc12_synset_words.txt",
+            "description": "ResNet-101 trained on 1000-class ILSVRC15"
+        },
+        
+        "resnet-152": {
+            "alias": ["resnet_152", "resnet152"],
+            "url": "https://nvidia.box.com/shared/static/6t621ru1i054vscvhx3rqck8597es7w8.gz",
+            "tar": "ResNet-152.tar.gz",
+            "dir": "ResNet-152",
+            "model": "ResNet-152.caffemodel",
+            "prototxt": "deploy.prototxt",
+            "labels": "networks/ilsvrc12_synset_words.txt",
+            "description": "ResNet-152 trained on 1000-class ILSVRC15"
+        },
+        
+        "vgg-16": {
+            "alias": ["vgg_16", "vgg16"],
+            "url": "https://nvidia.box.com/shared/static/ar2ttdpnw1drzxnvpw0umzkw67fka3h0.gz",
+            "tar": "VGG-16.tar.gz",
+            "dir": "VGG-16",
+            "model": "VGG-16.caffemodel",
+            "prototxt": "deploy.prototxt",
+            "labels": "networks/ilsvrc12_synset_words.txt",
+            "description": "VGG-16 trained on 1000-class ILSVRC14"
+        },
+        
+        "vgg-19": {
+            "alias": ["vgg_19", "vgg19"],
+            "url": "https://nvidia.box.com/shared/static/1ubk73f1akhh4h7mo0iq7erars7j5yyu.gz",
+            "tar": "VGG-19.tar.gz",
+            "dir": "VGG-19",
+            "model": "VGG-19.caffemodel",
+            "prototxt": "deploy.prototxt",
+            "labels": "networks/ilsvrc12_synset_words.txt",
+            "description": "VGG-19 trained on 1000-class ILSVRC14"
+        },
+        
+        "inception-v4": {
+            "alias": ["inception_v4", "inceptionv4"],
+            "url": "https://nvidia.box.com/shared/static/maidbjiwkg6bz2bk7drwq7rj8v4whdl9.gz",
+            "tar": "Inception-v4.tar.gz",
+            "dir": "Inception-v4",
+            "model": "Inception-v4.caffemodel",
+            "prototxt": "deploy.prototxt",
+            "labels": "networks/ilsvrc12_synset_words.txt",
+            "description": "Inception-v4 trained on 1000-class ILSVRC12"
+        }
+    }
+}
