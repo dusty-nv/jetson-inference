@@ -77,8 +77,6 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
-		LogVerbose(LOG_PY_INFERENCE "segNet loading network using argv command line params\n");
-
 		// parse the python list into char**
 		const size_t argc = PyList_Size(argList);
 
@@ -117,34 +115,13 @@ static int PySegNet_Init( PySegNet_Object* self, PyObject *args, PyObject *kwds 
 		// free the arguments array
 		free(argv);
 	}
-	else if( model != NULL )
-	{
-		LogVerbose(LOG_PY_INFERENCE "segNet loading custom model '%s'\n", model);
-		
-		// load the network using custom model parameters
-		Py_BEGIN_ALLOW_THREADS
-		self->net = segNet::Create(NULL, model, labels, colors, input_blob, output_blob);
-		Py_END_ALLOW_THREADS
-	}
 	else
 	{
-		LogVerbose(LOG_PY_INFERENCE "segNet loading build-in network '%s'\n", network);
-		
-		// parse the selected built-in network
-		segNet::NetworkType networkType = segNet::NetworkTypeFromStr(network);
-		
-		if( networkType == segNet::SEGNET_CUSTOM )
-		{
-			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid built-in network was requested");
-			return -1;
-		}
-		
-		// load the built-in network
 		Py_BEGIN_ALLOW_THREADS
-		self->net = segNet::Create(networkType);
+		self->net = segNet::Create(NULL, model != NULL ? model : network, labels, colors, input_blob, output_blob);
 		Py_END_ALLOW_THREADS
 	}
-
+	
 	// confirm the network loaded
 	if( !self->net )
 	{

@@ -31,19 +31,25 @@
  * Name of default input blob for segmentation model.
  * @ingroup segNet
  */
-#define SEGNET_DEFAULT_INPUT   "data"
+#define SEGNET_DEFAULT_INPUT   "input_0"
 
 /**
  * Name of default output blob for segmentation model.
  * @ingroup segNet
  */
-#define SEGNET_DEFAULT_OUTPUT  "score_fr_21classes"
+#define SEGNET_DEFAULT_OUTPUT  "output_0"
 
 /**
  * Default alpha blending value used during overlay
  * @ingroup segNet
  */
 #define SEGNET_DEFAULT_ALPHA 150
+
+/**
+ * The model type for segNet in data/networks/models.json
+ * @ingroup segNet
+ */
+#define SEGNET_MODEL_TYPE "segmentation"
 
 /**
  * Standard command-line options able to be passed to segNet::Create()
@@ -83,36 +89,6 @@ class segNet : public tensorNet
 {
 public:
 	/**
-	 * Enumeration of pretrained/built-in network models.
-	 */
-	enum NetworkType
-	{
-		FCN_RESNET18_CITYSCAPES_512x256,   /**< FCN-ResNet18 trained on Cityscapes dataset (512x256) */
-		FCN_RESNET18_CITYSCAPES_1024x512,  /**< FCN-ResNet18 trained on Cityscapes dataset (1024x512) */
-		FCN_RESNET18_CITYSCAPES_2048x1024, /**< FCN-ResNet18 trained on Cityscapes dataset (2048x1024) */
-		FCN_RESNET18_DEEPSCENE_576x320,	/**< FCN-ResNet18 trained on DeepScene Forest dataset (576x320) */
-		FCN_RESNET18_DEEPSCENE_864x480,	/**< FCN-ResNet18 trained on DeepScene Forest dataset (864x480) */
-		FCN_RESNET18_MHP_512x320,	     /**< FCN-ResNet18 trained on Multi-Human Parsing dataset (512x320) */
-		FCN_RESNET18_MHP_640x360,	     /**< FCN-ResNet18 trained on Multi-Human Parsing dataset (640x360) */		
-		FCN_RESNET18_VOC_320x320,   		/**< FCN-ResNet18 trained on Pascal VOC dataset (320x320) */
-		FCN_RESNET18_VOC_512x320,   		/**< FCN-ResNet18 trained on Pascal VOC dataset (512x320) */
-		FCN_RESNET18_SUNRGB_512x400,		/**< FCN-ResNet18 trained on SUN RGB-D dataset (512x400) */
-		FCN_RESNET18_SUNRGB_640x512,		/**< FCN-ResNet18 trained on SUN RGB-D dataset (640x512) */
-
-		/* legacy models (deprecated) */
-		FCN_ALEXNET_PASCAL_VOC,		     /**< FCN-Alexnet trained on Pascal VOC dataset. */
-		FCN_ALEXNET_SYNTHIA_CVPR16,	     /**< FCN-Alexnet trained on SYNTHIA CVPR16 dataset. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
-		FCN_ALEXNET_SYNTHIA_SUMMER_HD,     /**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
-		FCN_ALEXNET_SYNTHIA_SUMMER_SD,     /**< FCN-Alexnet trained on SYNTHIA SEQS summer datasets. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
-		FCN_ALEXNET_CITYSCAPES_HD,	     /**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. */
-		FCN_ALEXNET_CITYSCAPES_SD,	     /**< FCN-Alexnet trained on Cityscapes dataset with 21 classes. @note To save disk space, this model isn't downloaded by default. Enable it in CMakePreBuild.sh */
-		FCN_ALEXNET_AERIAL_FPV_720p, 	     /**< FCN-Alexnet trained on aerial first-person view of the horizon line for drones, 1280x720 and 21 output classes */
-		
-		/* add new models here */
-		SEGNET_CUSTOM
-	};
-
-	/**
  	 * Enumeration of mask/overlay filtering modes.
 	 */
 	enum FilterMode
@@ -126,9 +102,8 @@ public:
 	 */
 	enum VisualizationFlags
 	{
-		VISUALIZE_OVERLAY = (1 << 0),
-		VISUALIZE_MASK    = (1 << 1),
-		/*VISUALIZE_LEGEND  = (1 << 2)*/	// TODO
+		VISUALIZE_OVERLAY = (1 << 0),  /**< Overlay the segmentation class colors with alpha blending */
+		VISUALIZE_MASK    = (1 << 1),  /**< View just the colorized segmentation class mask */
 	};
 
 	/**
@@ -145,22 +120,10 @@ public:
 	static FilterMode FilterModeFromStr( const char* str, FilterMode default_value=FILTER_LINEAR );
 
 	/**
-	 * Parse a string from one of the built-in pretrained models.
-	 * Valid names are "cityscapes-hd", "cityscapes-sd", "pascal-voc", ect.
-	 * @returns one of the segNet::NetworkType enums, or segNet::CUSTOM on invalid string.
+	 * Load a pre-trained model.
+	 * @see SEGNET_USAGE_STRING for the models available.
 	 */
-	static NetworkType NetworkTypeFromStr( const char* model_name );
-
-	/**
-	 * Convert a NetworkType enum to a human-readable string.
-	 * @returns stringized version of the provided NetworkType enum.
-	 */
-	static const char* NetworkTypeToStr( NetworkType networkType );
-
-	/**
-	 * Load a new network instance
-	 */
-	static segNet* Create( NetworkType networkType=FCN_ALEXNET_CITYSCAPES_SD, uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE,
+	static segNet* Create( const char* network="fcn-resnet18-voc", uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE,
 					   precisionType precision=TYPE_FASTEST, deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
@@ -348,16 +311,6 @@ public:
 	 */
 	inline uint32_t GetGridHeight() const						{ return DIMS_H(mOutputs[0].dims); }
 
-	/**
-	 * Retrieve the network type (alexnet or googlenet)
-	 */
-	inline NetworkType GetNetworkType() const					{ return mNetworkType; }
-
-	/**
- 	 * Retrieve a string describing the network name.
-	 */
-	inline const char* GetNetworkName() const					{ return NetworkTypeToStr(mNetworkType); }
-
 protected:
 	segNet();
 	
@@ -381,8 +334,6 @@ protected:
 	uint32_t 	  mLastInputWidth;	/**< width in pixels of last input image to be processed */
 	uint32_t 	  mLastInputHeight;	/**< height in pixels of last input image to be processed */
 	imageFormat mLastInputFormat; /**< pixel format of last input image */
-
-	NetworkType mNetworkType;	/**< Pretrained built-in model type enumeration */
 };
 
 

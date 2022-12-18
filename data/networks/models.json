@@ -227,5 +227,129 @@
             "labels": "class_labels.txt",
             "description": "MS-COCO dog class"
         }
+    },
+    
+    "segmentation": {
+    
+        "fcn-resnet18-cityscapes-512x256": {
+            "alias": ["fcn_resnet18_cityscapes_512x256", "fcn_resnet18_cityscapes", "fcn-resnet18-cityscapes"],
+            "url": "https://nvidia.box.com/shared/static/k7s7gdgi098309fndm2xbssj553vf71s.gz",
+            "tar": "FCN-ResNet18-Cityscapes-512x256.tar.gz",
+            "dir": "FCN-ResNet18-Cityscapes-512x256",
+            "model": "fcn_resnet18.onnx",
+            "labels": "classes.txt",
+            "colors": "colors.txt",
+            "description": "FCN-ResNet18 trained on Cityscapes dataset (512x256)"
+        },
+    
+        "fcn-resnet18-cityscapes-1024x512": {
+            "alias": ["fcn_resnet18_cityscapes_1024x512"],
+            "url": "https://nvidia.box.com/shared/static/9aqg4gpjmk7ipz4z0raa5mvs35om6emy.gz",
+            "tar": "FCN-ResNet18-Cityscapes-1024x512.tar.gz",
+            "dir": "FCN-ResNet18-Cityscapes-1024x512",
+            "model": "fcn_resnet18.onnx",
+            "labels": "classes.txt",
+            "colors": "colors.txt",
+            "description": "FCN-ResNet18 trained on Cityscapes dataset (1024x512)"
+        },
+        
+        "fcn-resnet18-cityscapes-2048x1024": {
+            "alias": ["fcn_resnet18_cityscapes_2048x1024"],
+            "url": "https://nvidia.box.com/shared/static/ylh3d2qk8qvitalq8sy803o7avrb6w0h.gz",
+            "tar": "FCN-ResNet18-Cityscapes-2048x1024.tar.gz",
+            "dir": "FCN-ResNet18-Cityscapes-2048x1024",
+            "model": "fcn_resnet18.onnx",
+            "labels": "classes.txt",
+            "colors": "colors.txt",
+            "description": "FCN-ResNet18 trained on Cityscapes dataset (2048x1024)"
+        },
+        
+        "fcn-resnet18-deepscene-576x320": {
+            "alias": ["fcn_resnet18_deepscene_576x320", "fcn_resnet18_deepscene", "fcn-resnet18-deepscene"],
+            "url": "https://nvidia.box.com/shared/static/jm0zlezvweiimpzluohg6453s0u0nvcv.gz",
+            "tar": "FCN-ResNet18-DeepScene-576x320.tar.gz",
+            "dir": "FCN-ResNet18-DeepScene-576x320",
+            "model": "fcn_resnet18.onnx",
+            "labels": "classes.txt",
+            "colors": "colors.txt",
+            "description": "FCN-ResNet18 trained on DeepScene Forest dataset (576x320)"
+        },
+        
+        "fcn-resnet18-deepscene-864x480": {
+            "alias": ["fcn_resnet18_deepscene_864x480"],
+            "url": "https://nvidia.box.com/shared/static/gooux9b5nknk8wlk60ou9s2unpo760iq.gz",
+            "tar": "FCN-ResNet18-DeepScene-864x480.tar.gz",
+            "dir": "FCN-ResNet18-DeepScene-864x480",
+            "model": "fcn_resnet18.onnx",
+            "labels": "classes.txt",
+            "colors": "colors.txt",
+            "description": "FCN-ResNet18 trained on DeepScene Forest dataset (864x480)"
+        },
+        
+        "fcn-resnet18-mhp-512x320": {
+            "alias": ["fcn_resnet18_mhp_512x320", "fcn_resnet18_mhp", "fcn-resnet18-mhp"],
+            "url": "https://nvidia.box.com/shared/static/dgaw0ave3bdws1t5ed333ftx5dbpt9zv.gz",
+            "tar": "FCN-ResNet18-MHP-512x320.tar.gz",
+            "dir": "FCN-ResNet18-MHP-512x320",
+            "model": "fcn_resnet18.onnx",
+            "labels": "classes.txt",
+            "colors": "colors.txt",
+            "description": "FCN-ResNet18 trained on Multi-Human Parsing dataset (512x320)"
+        },
+        
+        "fcn-resnet18-mhp-640x360": {
+            "alias": ["fcn_resnet18_mhp_640x360"],
+            "url": "https://nvidia.box.com/shared/static/50mvlrjwbq9ugkmnnqp1sm99g2j21sfn.gz",
+            "tar": "FCN-ResNet18-MHP-640x360.tar.gz",
+            "dir": "FCN-ResNet18-MHP-640x360",
+            "model": "fcn_resnet18.onnx",
+            "labels": "classes.txt",
+            "colors": "colors.txt",
+            "description": "FCN-ResNet18 trained on Multi-Human Parsing dataset (640x360)"
+        },
+        
+        "fcn-resnet18-voc-320x320": {
+            "alias": ["fcn_resnet18_voc_320x320", "fcn_resnet18_voc", "fcn-resnet18-voc", "fcn_resnet18_pascal_voc", "fcn-resnet18-pascal-voc"],
+            "url": "https://nvidia.box.com/shared/static/p63pgrr6tm33tn23913gq6qvaiarydaj.gz",
+            "tar": "FCN-ResNet18-Pascal-VOC-320x320.tar.gz",
+            "dir": "FCN-ResNet18-Pascal-VOC-320x320",
+            "model": "fcn_resnet18.onnx",
+            "labels": "classes.txt",
+            "colors": "colors.txt",
+            "description": "FCN-ResNet18 trained on Pascal VOC dataset (320x320)"
+        },
+        
+        "fcn-resnet18-voc-512x320": {
+            "alias": ["fcn_resnet18_voc_512x320"],
+            "url": "https://nvidia.box.com/shared/static/njup7f3vu4mgju89kfre98olwljws5pk.gz",
+            "tar": "FCN-ResNet18-Pascal-VOC-512x320.tar.gz",
+            "dir": "FCN-ResNet18-Pascal-VOC-512x320",
+            "model": "fcn_resnet18.onnx",
+            "labels": "classes.txt",
+            "colors": "colors.txt",
+            "description": "FCN-ResNet18 trained on Pascal VOC dataset (512x320)"
+        },
+        
+        "fcn-resnet18-sun-512x400": {
+            "alias": ["fcn_resnet18_sun_512x400", "fcn_resnet18_sun", "fcn-resnet18-sun"],
+            "url": "https://nvidia.box.com/shared/static/5vs9t2wah5axav11k8o3l9skb7yy3xgd.gz",
+            "tar": "FCN-ResNet18-SUN-RGBD-512x400.tar.gz",
+            "dir": "FCN-ResNet18-SUN-RGBD-512x400",
+            "model": "fcn_resnet18.onnx",
+            "labels": "classes.txt",
+            "colors": "colors.txt",
+            "description": "FCN-ResNet18 trained on SUN RGB-D dataset (512x400)"
+        },
+        
+        "fcn-resnet18-sun-640x512": {
+            "alias": ["fcn_resnet18_sun_640x512"],
+            "url": "https://nvidia.box.com/shared/static/z5llxysbcqd8zzzsm7vjqeihs7ihdw20.gz",
+            "tar": "FCN-ResNet18-SUN-RGBD-640x512.tar.gz",
+            "dir": "FCN-ResNet18-SUN-RGBD-640x512",
+            "model": "fcn_resnet18.onnx",
+            "labels": "classes.txt",
+            "colors": "colors.txt",
+            "description": "FCN-ResNet18 trained on SUN RGB-D dataset (640x512)"
+        }
     }
 }
