@@ -177,12 +177,18 @@ bool DownloadModel( nlohmann::json& model, uint32_t retries )
 		const int result = system(cmd_str.c_str());
 		
 		if( result == 0 )
+		{
+			LogSuccess(LOG_TRT "downloaded model %s\n", tar.c_str());
 			return true;
+		}
 		
 		LogError(LOG_TRT "model download failed on retry %u with error %i\n", retry, result);
 	}
 	
 	LogError(LOG_TRT "failed to download model after %u retries\n", retries);
+	LogInfo(LOG_TRT "if this error keeps occuring, see here for a mirror to download the models from:\n");
+	LogInfo(LOG_TRT "   https://github.com/dusty-nv/jetson-inference/releases\n");
+	
 	return false;
 }
 
