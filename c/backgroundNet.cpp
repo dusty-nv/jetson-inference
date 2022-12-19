@@ -22,14 +22,16 @@
 
 #include "backgroundNet.h"
 #include "tensorConvert.h"
+#include "modelDownloader.h"
 
 #include "commandLine.h"
+#include "filesystem.h"
 
 
 // constructor
 backgroundNet::backgroundNet() : tensorNet()
 {
-	mNetworkType = CUSTOM;
+
 }
 
 
@@ -41,23 +43,21 @@ backgroundNet::~backgroundNet()
 
 
 // Create
-backgroundNet* backgroundNet::Create( backgroundNet::NetworkType networkType, uint32_t maxBatchSize, 
+backgroundNet* backgroundNet::Create( const char* network, uint32_t maxBatchSize, 
 					             precisionType precision, deviceType device, bool allowGPUFallback )
 {
-	backgroundNet* net = NULL;
+	nlohmann::json model;
 	
-	if( networkType == U2NET )
-		net = Create("networks/Background-U2Net/u2net.onnx", BACKGROUNDNET_DEFAULT_INPUT, BACKGROUNDNET_DEFAULT_OUTPUT, maxBatchSize, precision, device, allowGPUFallback);
-	
-	if( !net )
-	{
-		LogError(LOG_TRT "backgroundNet -- invalid built-in model '%s' requested\n", backgroundNet::NetworkTypeToStr(networkType));
+	if( !DownloadModel(BACKGROUNDNET_MODEL_TYPE, network, model) )
 		return NULL;
-	}
 	
-	net->mNetworkType = networkType;
-	
-	return net;
+	std::string model_dir = "networks/" + model["dir"].get<std::string>() + "/";
+	std::string model_path = model_dir + JSON_STR(model["model"]);;
+	std::string input = JSON_STR_DEFAULT(model["input"], BACKGROUNDNET_DEFAULT_INPUT);
+	std::string output = JSON_STR_DEFAULT(model["output"], BACKGROUNDNET_DEFAULT_OUTPUT);
+		
+	return Create(model_path.c_str(), input.c_str(), output.c_str(), 
+			    maxBatchSize, precision, device, allowGPUFallback);
 }
 
 
@@ -80,9 +80,7 @@ backgroundNet* backgroundNet::Create( const commandLine& cmdLine )
 		modelName = cmdLine.GetString("model", "u2net");
 	
 	// parse the network type
-	const backgroundNet::NetworkType type = NetworkTypeFromStr(modelName);
-
-	if( type == backgroundNet::CUSTOM )
+	if( !FindModel(BACKGROUNDNET_MODEL_TYPE, modelName) )
 	{
 		const char* input  = cmdLine.GetString("input_blob", BACKGROUNDNET_DEFAULT_INPUT);
 		const char* output = cmdLine.GetString("output_blob", BACKGROUNDNET_DEFAULT_OUTPUT);
@@ -97,7 +95,7 @@ backgroundNet* backgroundNet::Create( const commandLine& cmdLine )
 	else
 	{
 		// create from pretrained model
-		net = backgroundNet::Create(type);
+		net = backgroundNet::Create(modelName, DEFAULT_MAX_BATCH_SIZE);
 	}
 
 	if( !net )
@@ -116,6 +114,18 @@ backgroundNet* backgroundNet::Create( const char* model_path, const char* input,
 						        uint32_t maxBatchSize, precisionType precision, 
 						        deviceType device, bool allowGPUFallback )
 {
+	// check for built-in model string
+	if( FindModel(BACKGROUNDNET_MODEL_TYPE, model_path) )
+	{
+		return Create(model_path, maxBatchSize, precision, device, allowGPUFallback);
+	}
+	else if( fileExtension(model_path).length() == 0 )
+	{
+		LogError(LOG_TRT "couldn't find built-in background model '%s'\n", model_path);
+		return NULL;
+	}
+	
+	// load custom model
 	backgroundNet* net = new backgroundNet();
 	
 	if( !net )
@@ -137,7 +147,7 @@ bool backgroundNet::init( const char* model_path, const char* input, const char*
 		return NULL;
 	
 	LogInfo("\n");
-	LogInfo("backgroundNet -- loading feature matching network model from:\n");
+	LogInfo("backgroundNet -- loading background network from:\n");
 	LogInfo("           -- model       %s\n", model_path);
 	LogInfo("           -- input_blob  '%s'\n", input);
 	LogInfo("           -- output_blob '%s'\n", output);
@@ -152,35 +162,6 @@ bool backgroundNet::init( const char* model_path, const char* input, const char*
 	}
 		
 	return true;
-}
-
-
-// NetworkTypeFromStr
-backgroundNet::NetworkType backgroundNet::NetworkTypeFromStr( const char* modelName )
-{
-	if( !modelName )
-		return backgroundNet::CUSTOM;
-
-	backgroundNet::NetworkType type = backgroundNet::CUSTOM;
-
-	if( strcasecmp(modelName, "u2net") == 0 )
-		type = backgroundNet::U2NET;
-	else
-		type = backgroundNet::CUSTOM;
-
-	return type;
-}
-
-
-// NetworkTypeToStr
-const char* backgroundNet::NetworkTypeToStr( backgroundNet::NetworkType network )
-{
-	switch(network)
-	{
-		case backgroundNet::U2NET:  return "u2net";
-	}
-
-	return "Custom";
 }
 	
 

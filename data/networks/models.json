@@ -438,5 +438,15 @@
             "output": "350",
             "description": "ResNet-34 trained on 1040-class Kinetics-700 and Moments-In-Time dataset"
         }
+    },
+    
+    "background": {
+        "u2net": {
+            "url": "https://nvidia.box.com/shared/static/pp72renayt4do23sxyqtzu406nsftxg4.gz",
+            "tar": "Background-U2Net.tar.gz",
+            "dir": "Background-U2Net",
+            "model": "u2net.onnx",
+            "description": "U2-Net (U-Square Net) for Salient Object Detection"
+        }
     }
 }

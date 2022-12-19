@@ -32,7 +32,6 @@
 typedef struct {
 	PyTensorNet_Object base;
 	backgroundNet* net;		// object instance
-	PyObject* depthField;	// depth field cudaImage
 } PyBackgroundNet_Object;
 
 
@@ -73,7 +72,7 @@ static int PyBackgroundNet_Init( PyBackgroundNet_Object* self, PyObject *args, P
 	// determine whether to use argv or built-in network
 	if( argList != NULL && PyList_Check(argList) && PyList_Size(argList) > 0 )
 	{
-		LogVerbose(LOG_PY_INFERENCE "backgroundNet loading network using argv command line params\n");
+		LogDebug(LOG_PY_INFERENCE "backgroundNet loading network using argv command line params\n");
 
 		// parse the python list into char**
 		const size_t argc = PyList_Size(argList);
@@ -113,31 +112,13 @@ static int PyBackgroundNet_Init( PyBackgroundNet_Object* self, PyObject *args, P
 		// free the arguments array
 		free(argv);
 	}
-	else if( model != NULL )
+	else
 	{
-		LogVerbose(LOG_PY_INFERENCE "backgroundNet loading custom model '%s'\n", model);
+		LogDebug(LOG_PY_INFERENCE "backgroundNet loading custom model '%s'\n", model);
 		
 		// load the network using custom model parameters
 		Py_BEGIN_ALLOW_THREADS
-		self->net = backgroundNet::Create(model, input_blob, output_blob);
-		Py_END_ALLOW_THREADS
-	}
-	else
-	{
-		LogVerbose(LOG_PY_INFERENCE "backgroundNet loading build-in network '%s'\n", network);
-		
-		// parse the selected built-in network
-		backgroundNet::NetworkType networkType = backgroundNet::NetworkTypeFromStr(network);
-		
-		if( networkType == backgroundNet::CUSTOM )
-		{
-			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "backgroundNet invalid built-in network was requested");
-			return -1;
-		}
-		
-		// load the built-in network
-		Py_BEGIN_ALLOW_THREADS
-		self->net = backgroundNet::Create(networkType);
+		self->net = backgroundNet::Create(model != NULL ? model : network, input_blob, output_blob);
 		Py_END_ALLOW_THREADS
 	}
 

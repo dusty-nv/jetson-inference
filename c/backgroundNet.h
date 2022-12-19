@@ -40,6 +40,11 @@
  */
 #define BACKGROUNDNET_DEFAULT_OUTPUT  "output_0"
 
+/**
+ * The model type for backgroundNet in data/networks/models.json
+ * @ingroup backgroundNet
+ */
+#define BACKGROUNDNET_MODEL_TYPE "background"
 
 /**
  * Standard command-line options able to be passed to backgroundNet::Create()
@@ -63,30 +68,9 @@ class backgroundNet : public tensorNet
 {
 public:
 	/**
-	 * Network choice enumeration.
+	 * Load a pre-trained model.
 	 */
-	enum NetworkType
-	{
-		CUSTOM,        /**< Custom model provided by the user */
-		U2NET,		/**< U2-Net (U-Square Net) for Salient Object Detection */
-	};
-
-	/**
-	 * Parse a string to one of the built-in pretrained models.
-	 * Valid names are "u2net", ect.
-	 * @returns one of the backgroundNet::NetworkType enums, or backgroundNet::CUSTOM on invalid string.
-	 */
-	static NetworkType NetworkTypeFromStr( const char* model_name );
-
-	/**
-	 * Convert a NetworkType enum to a string.
-	 */
-	static const char* NetworkTypeToStr( NetworkType network );
-
-	/**
-	 * Load a new network instance
-	 */
-	static backgroundNet* Create( NetworkType networkType=U2NET, uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+	static backgroundNet* Create( const char* network="u2net", uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
 							precisionType precision=TYPE_FASTEST, deviceType device=DEVICE_GPU, bool allowGPUFallback=true );
 	
 	/**
@@ -172,23 +156,12 @@ public:
 	 */
 	bool Process( void* input, void* output, uint32_t width, uint32_t height, imageFormat format,
 			    cudaFilterMode filter=FILTER_LINEAR, bool maskAlpha=true );
-	
-	/**
-	 * Retrieve the network type (alexnet or googlenet)
-	 */
-	inline NetworkType GetNetworkType() const					{ return mNetworkType; }
-
-	/**
- 	 * Retrieve a string describing the network name.
-	 */
-	inline const char* GetNetworkName() const					{ return NetworkTypeToStr(mNetworkType); }
 
 protected:
 	backgroundNet();
 	
 	bool init(const char* model_path, const char* input, const char* output, uint32_t maxBatchSize, precisionType precision, deviceType device, bool allowGPUFallback );
 
-	NetworkType mNetworkType;
 };
 
 
