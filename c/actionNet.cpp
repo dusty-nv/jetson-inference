@@ -22,17 +22,18 @@
 
 #include "actionNet.h"
 #include "tensorConvert.h"
+#include "modelDownloader.h"
 
 #include "commandLine.h"
+#include "filesystem.h"
 #include "logging.h"
 
 
 // constructor
 actionNet::actionNet() : tensorNet()
 {
-	mNetworkType = CUSTOM;
-	mNumClasses  = 0;
-	mNumFrames   = 0;
+	mNumClasses = 0;
+	mNumFrames  = 0;
 	
 	mInputBuffers[0] = NULL;
 	mInputBuffers[1] = NULL;
@@ -53,30 +54,23 @@ actionNet::~actionNet()
 
 
 // Create
-actionNet* actionNet::Create( actionNet::NetworkType networkType, uint32_t maxBatchSize, 
-					   precisionType precision, deviceType device, bool allowGPUFallback )
+actionNet* actionNet::Create( const char* network, uint32_t maxBatchSize, 
+					     precisionType precision, deviceType device, bool allowGPUFallback )
 {
-	actionNet* net = NULL;
+	nlohmann::json model;
 	
-	if( networkType == RESNET_18 )
-		net = Create("networks/Action-ResNet18/resnet-18-kinetics-moments.onnx", "networks/Action-ResNet18/labels.txt", "0", "198", maxBatchSize, precision, device, allowGPUFallback);
-	else if( networkType == RESNET_34 )
-		net = Create("networks/Action-ResNet34/resnet-34-kinetics-moments.onnx", "networks/Action-ResNet34/labels.txt", "0", "350", maxBatchSize, precision, device, allowGPUFallback);
-	/*else if( networkType == RESNET_50 )
-		net = Create("networks/Action-ResNet50/resnet-50-kinetics.onnx", "networks/Action-ResNet50/labels.txt", "0", "503", maxBatchSize, precision, device, allowGPUFallback);
-	else if( networkType == RESNET_101 )
-		net = Create("networks/Action-ResNet101/resnext-101-kinetics.onnx", "networks/Action-ResNet101/labels.txt", "0", "979", maxBatchSize, precision, device, allowGPUFallback);*/
-	
-	if( !net )
-	{
-		LogError(LOG_TRT "actionNet -- invalid built-in model '%s' requested\n", actionNet::NetworkTypeToStr(networkType));
+	if( !DownloadModel(ACTIONNET_MODEL_TYPE, network, model) )
 		return NULL;
-	}
 	
-	net->mNetworkType = networkType;
-	return net;
-}
+	std::string model_dir = "networks/" + model["dir"].get<std::string>() + "/";
+	std::string model_path = model_dir + JSON_STR(model["model"]);
+	std::string labels = model_dir + JSON_STR(model["labels"]);
+	std::string input = JSON_STR_DEFAULT(model["input"], ACTIONNET_DEFAULT_INPUT);
+	std::string output = JSON_STR_DEFAULT(model["output"], ACTIONNET_DEFAULT_OUTPUT);
 
+	return Create(model_path.c_str(), labels.c_str(), input.c_str(), output.c_str(), 
+			    maxBatchSize, precision, device, allowGPUFallback);
+}
 
 
 // Create
@@ -98,17 +92,12 @@ actionNet* actionNet::Create( const commandLine& cmdLine )
 		modelName = cmdLine.GetString("model", "resnet-18");
 	
 	// parse the network type
-	const actionNet::NetworkType type = NetworkTypeFromStr(modelName);
-
-	if( type == actionNet::CUSTOM )
+	if( !FindModel(ACTIONNET_MODEL_TYPE, modelName) )
 	{
 		const char* labels = cmdLine.GetString("labels");
-		const char* input  = cmdLine.GetString("input_blob");
-		const char* output = cmdLine.GetString("output_blob");
+		const char* input  = cmdLine.GetString("input_blob", ACTIONNET_DEFAULT_INPUT);
+		const char* output = cmdLine.GetString("output_blob", ACTIONNET_DEFAULT_OUTPUT);
 
-		if( !input ) 	input    = ACTIONNET_DEFAULT_INPUT;
-		if( !output )  output   = ACTIONNET_DEFAULT_OUTPUT;
-		
 		int maxBatchSize = cmdLine.GetInt("batch_size");
 		
 		if( maxBatchSize < 1 )
@@ -119,7 +108,7 @@ actionNet* actionNet::Create( const commandLine& cmdLine )
 	else
 	{
 		// create from pretrained model
-		net = actionNet::Create(type);
+		net = actionNet::Create(modelName);
 	}
 
 	if( !net )
@@ -139,6 +128,18 @@ actionNet* actionNet::Create( const char* model_path, const char* class_path,
 						uint32_t maxBatchSize, precisionType precision, 
 						deviceType device, bool allowGPUFallback )
 {
+	// check for built-in model string
+	if( FindModel(ACTIONNET_MODEL_TYPE, model_path) )
+	{
+		return Create(model_path, maxBatchSize, precision, device, allowGPUFallback);
+	}
+	else if( fileExtension(model_path).length() == 0 )
+	{
+		LogError(LOG_TRT "couldn't find built-in action model '%s'\n", model_path);
+		return NULL;
+	}
+	
+	// load custom model
 	actionNet* net = new actionNet();
 	
 	if( !net )
@@ -199,44 +200,6 @@ bool actionNet::init(const char* model_path, const char* class_path,
 	
 	LogSuccess(LOG_TRT "actionNet -- %s initialized.\n", model_path);
 	return true;
-}
-			
-
-// NetworkTypeFromStr
-actionNet::NetworkType actionNet::NetworkTypeFromStr( const char* modelName )
-{
-	if( !modelName )
-		return actionNet::CUSTOM;
-
-	actionNet::NetworkType type = actionNet::CUSTOM;
-
-	if( strcasecmp(modelName, "resnet-18") == 0 || strcasecmp(modelName, "resnet_18") == 0 || strcasecmp(modelName, "resnet18") == 0 )
-		type = actionNet::RESNET_18;
-	else if( strcasecmp(modelName, "resnet-34") == 0 || strcasecmp(modelName, "resnet_34") == 0 || strcasecmp(modelName, "resnet34") == 0 )
-		type = actionNet::RESNET_34;
-	/*else if( strcasecmp(modelName, "resnet-50") == 0 || strcasecmp(modelName, "resnet_50") == 0 || strcasecmp(modelName, "resnet50") == 0 )
-		type = actionNet::RESNET_50;
-	else if( strcasecmp(modelName, "resnet-101") == 0 || strcasecmp(modelName, "resnet_101") == 0 || strcasecmp(modelName, "resnet101") == 0 )
-		type = actionNet::RESNET_101;*/
-	else
-		type = actionNet::CUSTOM;
-
-	return type;
-}
-
-
-// NetworkTypeToStr
-const char* actionNet::NetworkTypeToStr( actionNet::NetworkType network )
-{
-	switch(network)
-	{
-		case actionNet::RESNET_18:	return "ResNet-18";
-		case actionNet::RESNET_34:	return "ResNet-34";
-		/*case actionNet::RESNET_50:	return "ResNet-50";
-		case actionNet::RESNET_101:	return "ResNet-101";*/
-	}
-
-	return "Custom";
 }
 
 

@@ -114,34 +114,16 @@ static int PyActionNet_Init( PyActionNet_Object* self, PyObject *args, PyObject 
 		// free the arguments array
 		free(argv);
 	}
-	else if( model != NULL )
+	else
 	{
-		LogVerbose(LOG_PY_INFERENCE "actionNet loading custom model '%s'\n", model);
+		LogDebug(LOG_PY_INFERENCE "actionNet loading custom model '%s'\n", model);
 		
 		// load the network using custom model parameters
 		Py_BEGIN_ALLOW_THREADS
-		self->net = actionNet::Create(model, labels, input_blob, output_blob);
+		self->net = actionNet::Create(model != NULL ? model : network, labels, input_blob, output_blob);
 		Py_END_ALLOW_THREADS
 	}
-	else
-	{
-		LogVerbose(LOG_PY_INFERENCE "actionNet loading build-in network '%s'\n", network);
-		
-		// parse the selected built-in network
-		actionNet::NetworkType networkType = actionNet::NetworkTypeFromStr(network);
-		
-		if( networkType == actionNet::CUSTOM )
-		{
-			PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet invalid built-in network was requested");
-			return -1;
-		}
-		
-		// load the built-in network
-		Py_BEGIN_ALLOW_THREADS
-		self->net = actionNet::Create(networkType);
-		Py_END_ALLOW_THREADS
-	}
-
+	
 	// confirm the network loaded
 	if( !self->net )
 	{

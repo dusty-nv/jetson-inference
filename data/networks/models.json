@@ -412,5 +412,31 @@
             "model": "monodepth_fcn_resnet50.onnx",
             "description": "FCN-ResNet50 monocular depth estimation model"
         }
+    },
+    
+    "action": {
+        "resnet-18": {
+            "alias": ["resnet_18", "resnet18"],
+            "url": "https://nvidia.box.com/shared/static/rhuvudgijtefzno55092fgwy0xn485n0.gz",
+            "tar": "Action-ResNet18.tar.gz",
+            "dir": "Action-ResNet18",
+            "model": "resnet-18-kinetics-moments.onnx",
+            "labels": "labels.txt",
+            "input": "0",
+            "output": "198",
+            "description": "ResNet-18 trained on 1040-class Kinetics-700 and Moments-In-Time dataset"
+        },
+        
+        "resnet-34": {
+            "alias": ["resnet_34", "resnet34"],
+            "url": "https://nvidia.box.com/shared/static/gr9kgox9zpwh93v0v28f9zjkzr1n4ffs.gz",
+            "tar": "Action-ResNet34.tar.gz",
+            "dir": "Action-ResNet34",
+            "model": "resnet-34-kinetics-moments.onnx",
+            "labels": "labels.txt",
+            "input": "0",
+            "output": "350",
+            "description": "ResNet-34 trained on 1040-class Kinetics-700 and Moments-In-Time dataset"
+        }
     }
 }

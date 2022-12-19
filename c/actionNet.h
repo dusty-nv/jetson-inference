@@ -39,6 +39,11 @@
  */
 #define ACTIONNET_DEFAULT_OUTPUT  "output"
 
+/**
+ * The model type for actionNet in data/networks/models.json
+ * @ingroup actionNet
+ */
+#define ACTIONNET_MODEL_TYPE "action"
 
 /**
  * Standard command-line options able to be passed to actionNet::Create()
@@ -57,38 +62,16 @@
 
 
 /**
- * Action/activity classification on a sequence of images, using TensorRT.
+ * Action/activity classification on a sequence of images or video, using TensorRT.
  * @ingroup actionNet
  */
 class actionNet : public tensorNet
 {
 public:
 	/**
-	 * Network choice enumeration.
+	 * Load a pre-trained model, either "resnet-18" or "resnet-34".
 	 */
-	enum NetworkType
-	{
-		CUSTOM,        /**< Custom model provided by the user */
-		RESNET_18,	/**< ResNet-18 trained on 1040-class Kinetics-700 and Moments In Time dataset */
-		RESNET_34,	/**< ResNet-50 trained on 1040-class Kinetics-700 and Moments In Time dataset */
-	};
-
-	/**
-	 * Parse a string to one of the built-in pretrained models.
-	 * Valid names are "resnet-18", or "resnet-34", ect.
-	 * @returns one of the actionNet::NetworkType enums, or actionNet::CUSTOM on invalid string.
-	 */
-	static NetworkType NetworkTypeFromStr( const char* model_name );
-
-	/**
-	 * Convert a NetworkType enum to a string.
-	 */
-	static const char* NetworkTypeToStr( NetworkType network );
-
-	/**
-	 * Load a new network instance
-	 */
-	static actionNet* Create( NetworkType networkType=RESNET_18, uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
+	static actionNet* Create( const char* network="resnet-18", uint32_t maxBatchSize=DEFAULT_MAX_BATCH_SIZE, 
 						 precisionType precision=TYPE_FASTEST, deviceType device=DEVICE_GPU, 
 						 bool allowGPUFallback=true );
 	
@@ -169,16 +152,6 @@ public:
 	 */
 	inline const char* GetClassPath() const						{ return mClassPath.c_str(); }
 
-	/**
-	 * Retrieve the network type (alexnet or googlenet)
-	 */
-	inline NetworkType GetNetworkType() const					{ return mNetworkType; }
-
-	/**
- 	 * Retrieve a string describing the network name.
-	 */
-	inline const char* GetNetworkName() const					{ return NetworkTypeToStr(mNetworkType); }
-
 protected:
 	actionNet();
 	
@@ -196,7 +169,6 @@ protected:
 	std::vector<std::string> mClassDesc;
 
 	std::string mClassPath;
-	NetworkType mNetworkType;
 };
 
 
