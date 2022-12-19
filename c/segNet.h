@@ -74,7 +74,6 @@
 		  "  --colors=COLORS      path to text file containing the colors for each class\n" 				\
 		  "  --input-blob=INPUT   name of the input layer (default: '" SEGNET_DEFAULT_INPUT "')\n" 		\
 		  "  --output-blob=OUTPUT name of the output layer (default: '" SEGNET_DEFAULT_OUTPUT "')\n" 		\
-		  "  --batch-size=BATCH   maximum batch size (default is 1)\n"								\
             "  --alpha=ALPHA        overlay alpha blending value, range 0-255 (default: 150)\n"			\
 		  "  --visualize=VISUAL   visualization flags (e.g. --visualize=overlay,mask)\n"				\
 		  "                       valid combinations are:  'overlay', 'mask'\n"						\

@@ -90,7 +90,6 @@
 		  "  --output-cvg=COVERAGE name of the coverge output layer (default is '" POSENET_DEFAULT_CMAP "')\n" 	\
 		  "  --output-bbox=BOXES   name of the bounding output layer (default is '" POSENET_DEFAULT_PAF "')\n" 	\
 		  "  --mean-pixel=PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
-		  "  --batch-size=BATCH    maximum batch size (default is 1)\n"										\
 		  "  --threshold=THRESHOLD minimum threshold for detection (default is 0.5)\n"							\
 		  "  --overlay=OVERLAY     detection overlay flags (e.g. --overlay=links,keypoints)\n"					\
 		  "                        valid combinations are:  'box', 'links', 'keypoints', 'none'\n"				\

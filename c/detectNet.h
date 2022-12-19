@@ -99,7 +99,6 @@
 		  "  --output-cvg=COVERAGE name of the coverage/confidence output layer (default is '" DETECTNET_DEFAULT_COVERAGE "')\n" 	\
 		  "  --output-bbox=BOXES   name of the bounding output layer (default is '" DETECTNET_DEFAULT_BBOX "')\n" 	\
 		  "  --mean-pixel=PIXEL    mean pixel value to subtract from input (default is 0.0)\n"					\
-		  "  --batch-size=BATCH    maximum batch size (default is 1)\n"										\
 		  "  --confidence=CONF     minimum confidence threshold for detection (default is 0.5)\n"		           	\
 		  "  --clustering=CLUSTER  minimum overlapping area threshold for clustering (default is 0.75)\n"             \
             "  --alpha=ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\

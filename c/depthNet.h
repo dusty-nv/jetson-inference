@@ -57,7 +57,6 @@
 		  "  --model MODEL        path to custom model to load (onnx)\n" 			\
 		  "  --input_blob INPUT   name of the input layer (default is '" DEPTHNET_DEFAULT_INPUT "')\n" 	\
 		  "  --output_blob OUTPUT name of the output layer (default is '" DEPTHNET_DEFAULT_OUTPUT "')\n" 	\
-		  "  --batch_size BATCH   maximum batch size (default is 1)\n"								\
 		  "  --profile            enable layer profiling in TensorRT\n\n"
 
 

@@ -56,7 +56,6 @@
 		  "  --model=MODEL        path to custom model to load (caffemodel, uff, or onnx)\n" 				\
 		  "  --input-blob=INPUT   name of the input layer (default is '" BACKGROUNDNET_DEFAULT_INPUT "')\n" 	\
 		  "  --output-blob=OUTPUT name of the output layer (default is '" BACKGROUNDNET_DEFAULT_OUTPUT "')\n" 	\
-		  "  --batch-size=BATCH   maximum batch size (default is 1)\n"									\
 		  "  --profile            enable layer profiling in TensorRT\n\n"
 
 
