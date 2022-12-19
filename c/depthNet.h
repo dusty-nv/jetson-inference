@@ -51,9 +51,9 @@
  */
 #define DEPTHNET_USAGE_STRING  "depthNet arguments: \n" 							\
 		  "  --network NETWORK    pre-trained model to load, one of the following:\n" 	\
-		  "                           * monodepth-mobilenet\n"                          \
-		  "                           * monodepth-resnet18\n"                           \
-		  "                           * monodepth-resnet50\n"                           \
+		  "                           * fcn-mobilenet\n"                          		\
+		  "                           * fcn-resnet18\n"                           		\
+		  "                           * fcn-resnet50\n"                           		\
 		  "  --model MODEL        path to custom model to load (onnx)\n" 			\
 		  "  --input_blob INPUT   name of the input layer (default is '" DEPTHNET_DEFAULT_INPUT "')\n" 	\
 		  "  --output_blob OUTPUT name of the output layer (default is '" DEPTHNET_DEFAULT_OUTPUT "')\n" 	\
