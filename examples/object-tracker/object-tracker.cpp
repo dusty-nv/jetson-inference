@@ -109,7 +109,7 @@ int main( int argc, char** argv )
 	}
 
 	// parse overlay flags
-	const uint32_t overlayFlags = detectNet::OverlayFlagsFromStr(cmdLine.GetString("overlay", "box")); //"box,labels,conf"));
+	const uint32_t overlayFlags = detectNet::OverlayFlagsFromStr(cmdLine.GetString("overlay", "box,labels,conf"));
 
 	
 	/*
@@ -159,13 +159,21 @@ int main( int argc, char** argv )
 		}	
 
 		// track objects
-		if( !tracker->Process(image, input->GetWidth(), input->GetHeight(), detections, numDetections) )
-		{
-			LogError("object-tracker:  failed to update tracking\n");
-		}
+		const int numTracks = tracker->Process(image, input->GetWidth(), input->GetHeight(), detections, numDetections);
 		
+		if( numTracks > 0 )
+		{
+			LogVerbose("%i objects tracked\n", numTracks);
+		
+			for( int n=0; n < numTracks; n++ )
+			{
+				LogVerbose("tracked  obj %i  class #%u (%s)  confidence=%f  instance=%i  frames=%i  lost=%i\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence, detections[n].Instance, detections[n].TrackFrames, detections[n].TrackLost);
+				LogVerbose("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
+			}
+		}
+
 		if( overlayFlags != detectNet::OVERLAY_NONE )
-			net->Overlay(image, image, input->GetWidth(), input->GetHeight(), detections, numDetections, detectNet::OVERLAY_BOX); //overlayFlags);
+			net->Overlay(image, image, input->GetWidth(), input->GetHeight(), detections, numTracks, overlayFlags);
 		
 		// render outputs
 		if( output != NULL )
