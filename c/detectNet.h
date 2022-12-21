@@ -338,7 +338,7 @@ public:
 	 * @param[in]  width width of the input image in pixels.
 	 * @param[in]  height height of the input image in pixels.
 	 * @param[out] detections pointer to user-allocated array that will be filled with the detection results.
-	 *                        @see GetMaxDetections() for the number of detection results that should be allocated in this buffer.
+	 *             @see GetMaxDetections() for the number of detection results that should be allocated in this buffer.
 	 * @param[in]  overlay bitwise OR combination of overlay flags (@see OverlayFlags and @see Overlay()), or OVERLAY_NONE.
 	 * @returns    The number of detected objects, 0 if there were no detected objects, and -1 if an error was encountered.
 	 */
