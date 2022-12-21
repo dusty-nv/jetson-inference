@@ -19,7 +19,7 @@
 	url = https://github.com/dusty-nv/pytorch-segmentation
 	branch = master
 [submodule "plugins/pose"]
-	path = plugins/pose
+	path = c/plugins/pose
 	url = https://github.com/dusty-nv/trt_pose
 [submodule "docker/containers"]
 	path = docker/containers
