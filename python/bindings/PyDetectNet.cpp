@@ -181,7 +181,7 @@ static PyObject* PyDetection_Contains( PyDetection_Object* self, PyObject *args,
 // GetInstance
 static PyObject* PyDetection_GetInstance( PyDetection_Object* self, void* closure )
 {
-	return PYLONG_FROM_UNSIGNED_LONG(self->det.Instance);
+	return PYLONG_FROM_LONG(self->det.Instance);
 }
 
 // SetInstance
@@ -197,9 +197,6 @@ static int PyDetection_SetInstance( PyDetection_Object* self, PyObject* value, v
 
 	if( PyErr_Occurred() != NULL )
 		return -1;
-
-	if( arg < 0 )
-		arg = 0;
 
 	self->det.Instance = arg;
 	return 0;
