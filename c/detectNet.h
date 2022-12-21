@@ -119,11 +119,15 @@ public:
 	 */
 	struct Detection
 	{
-		// Object Info
-		uint32_t Instance;	/**< Index of this unique object instance */
+		// Detection Info
 		uint32_t ClassID;	/**< Class index of the detected object. */
 		float Confidence;	/**< Confidence value of the detected object. */
 
+		// Tracking Info
+		int Instance;		/**< Unique tracking ID (or -1 if untracked) */
+		int TrackFrames;	/**< The number of frames the object has been positively tracked for */
+		int TrackLost;   	/**< The number of consecutive frames tracking has been lost for */
+		
 		// Bounding Box Coordinates
 		float Left;		/**< Left bounding box coordinate (in pixels) */
 		float Right;		/**< Right bounding box coordinate (in pixels) */
@@ -166,6 +170,12 @@ public:
 		/**< Return the area of the bounding box intersection */
 		inline float IntersectionArea( float x1, float y1, float x2, float y2 ) const	{ if(!Overlaps(x1,y1,x2,y2)) return 0.0f; return (fminf(Right, x2) - fmaxf(Left, x1)) * (fminf(Bottom, y2) - fmaxf(Top, y1)); }
 
+		/**< Calculate the Intersection-Over-Union (IOU) ratio */
+		inline float IOU( const Detection& det ) const							{ return IOU(det.Left, det.Top, det.Right, det.Bottom); }
+		
+		/**< Calculate the Intersection-Over-Union (IOU) ratio */
+		inline float IOU( float x1, float y1, float x2, float y2 ) const;
+		
 		/**< Return true if the bounding boxes overlap */
 		inline bool Overlaps( const Detection& det ) const						{ return !(det.Left > Right || det.Right < Left || det.Top > Bottom || det.Bottom < Top); }
 		
@@ -179,7 +189,7 @@ public:
 		inline bool Expand( const Detection& det )      							{ if(!Overlaps(det)) return false; Left = fminf(det.Left, Left); Top = fminf(det.Top, Top); Right = fmaxf(det.Right, Right); Bottom = fmaxf(det.Bottom, Bottom); return true; }
 
 		/**< Reset all member variables to zero */
-		inline void Reset()													{ Instance = 0; ClassID = 0; Confidence = 0; Left = 0; Right = 0; Top = 0; Bottom = 0; } 								
+		inline void Reset()													{ ClassID = 0; Confidence = 0; Instance = -1; TrackFrames = 0; TrackLost = 0; Left = 0; Right = 0; Top = 0; Bottom = 0; } 								
 
 		/**< Default constructor */
 		inline Detection()													{ Reset(); }
@@ -520,6 +530,29 @@ protected:
 
 	static const uint32_t mNumDetectionSets = 16; // size of detection ringbuffer
 };
+
+
+// bounding box IOU
+inline float detectNet::Detection::IOU( float x1, float y1, float x2, float y2 ) const		
+{
+	const float overlap_x0 = fmaxf(Left, x1);
+	const float overlap_y0 = fmaxf(Top, y1);
+	const float overlap_x1 = fminf(Right, x2);
+	const float overlap_y1 = fminf(Bottom, y2);
+	
+	// check if there is an overlap
+	if( (overlap_x1 - overlap_x0 <= 0) || (overlap_y1 - overlap_y0 <= 0) )
+		return 0;
+	
+	// calculate the ratio of the overlap to each ROI size and the unified size
+	const float size_1 = Area();
+	const float size_2 = Area(x1, y1, x2, y2);
+	
+	const float size_intersection = (overlap_x1 - overlap_x0) * (overlap_y1 - overlap_y0);
+	const float size_union = size_1 + size_2 - size_intersection;
+	
+	return size_intersection / size_union;
+}
 
 
 #endif

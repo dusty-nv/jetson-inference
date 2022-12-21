@@ -649,7 +649,7 @@ int detectNet::postProcessSSD_UFF( Detection* detections, uint32_t width, uint32
 		if( object_data[2] < mConfidenceThreshold )
 			continue;
 
-		detections[numDetections].Instance   = numDetections; //(uint32_t)object_data[0];
+		detections[numDetections].Instance   = -1; //numDetections; //(uint32_t)object_data[0];
 		detections[numDetections].ClassID    = (uint32_t)object_data[1];
 		detections[numDetections].Confidence = object_data[2];
 		detections[numDetections].Left       = object_data[3] * width;
@@ -711,7 +711,7 @@ int detectNet::postProcessSSD_ONNX( Detection* detections, uint32_t width, uint3
 		// populate a new detection entry
 		const float* coord = bbox + n * numCoord;
 
-		detections[numDetections].Instance   = numDetections;
+		detections[numDetections].Instance   = -1; //numDetections;
 		detections[numDetections].ClassID    = maxClass;
 		detections[numDetections].Confidence = maxScore;
 		detections[numDetections].Left       = coord[0] * width;
@@ -791,7 +791,7 @@ int detectNet::postProcessDetectNet( Detection* detections, uint32_t width, uint
 				// create new entry if the detection wasn't merged with another detection
 				if( !detectionMerged )
 				{
-					detections[numDetections].Instance   = numDetections;
+					detections[numDetections].Instance   = -1; //numDetections;
 					detections[numDetections].ClassID    = z;
 					detections[numDetections].Confidence = coverage;
 				
@@ -861,7 +861,7 @@ int detectNet::postProcessDetectNet_v2( Detection* detections, uint32_t width, u
 				LogDebug(LOG_TRT "rect x=%u y=%u  conf=%f  (%f, %f)  (%f, %f) \n", x, y, confidence, x1, y1, x2, y2);
 			#endif
 				
-				detections[numDetections].Instance   = numDetections;
+				detections[numDetections].Instance   = -1; //numDetections;
 				detections[numDetections].ClassID    = c;
 				detections[numDetections].Confidence = confidence;
 				detections[numDetections].Left       = x1;
@@ -897,7 +897,7 @@ int detectNet::clusterDetections( Detection* detections, int n )
 				{
 					detections[m] = detections[n];
 
-					detections[m].Instance = m;
+					detections[m].Instance = -1; //m;
 					detections[m].ClassID = detections[n].ClassID;
 					detections[m].Confidence = detections[n].Confidence;					
 				}
@@ -937,8 +937,8 @@ void detectNet::sortDetections( Detection* detections, int numDetections )
 	}
 
 	// renumber the instance ID's
-	for( int i=0; i < numDetections; i++ )
-		detections[i].Instance = i;	
+	//for( int i=0; i < numDetections; i++ )
+	//	detections[i].Instance = i;	
 }
 
 
@@ -1027,7 +1027,12 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 				char str[256];
 
 				if( (flags & OVERLAY_LABEL) && (flags & OVERLAY_CONFIDENCE) )
-					sprintf(str, "%s %.1f%%", className, confidence);
+				{
+					if( detections[n].Instance >= 0 )
+						sprintf(str, "%s %i %.1f%%", className, detections[n].Instance, confidence);
+					else
+						sprintf(str, "%s %.1f%%", className, confidence);
+				}
 				else
 					sprintf(str, "%.1f%%", confidence);
 
