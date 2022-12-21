@@ -102,6 +102,17 @@ else()
 	endif()	
 endif()
 	
+# check for VPI (TODO: VPI 1.0 support for JetPack 4.x)
+find_package(VPI 2.0)
+
+if( NOT VPI_FOUND )
+	message("-- didn't find VPI on system, disabling VPI")
+else()
+	message("-- VPI version:  " ${VPI_VERSION})
+	set(HAS_VPI 1)
+	add_definitions(-DHAS_VPI)
+endif()
+
 # setup project output paths
 set(PROJECT_OUTPUT_DIR  ${PROJECT_BINARY_DIR}/${CMAKE_SYSTEM_PROCESSOR})
 set(PROJECT_INCLUDE_DIR ${PROJECT_OUTPUT_DIR}/include)
@@ -120,21 +131,21 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 include_directories(${PROJECT_INCLUDE_DIR} ${PROJECT_INCLUDE_DIR}/jetson-inference ${PROJECT_INCLUDE_DIR}/jetson-utils)
 include_directories(/usr/include/gstreamer-1.0 /usr/lib/${CMAKE_SYSTEM_PROCESSOR}/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/${CMAKE_SYSTEM_PROCESSOR}/glib-2.0/include/)
 
-file(GLOB inferenceSources c/*.cpp c/*.cu calibration/*.cpp)
-file(GLOB inferenceIncludes c/*.h c/*.cuh calibration/*.h)
+file(GLOB inferenceSources c/*.cpp c/*.cu c/calibration/*.cpp c/trackers/*.cpp)
+file(GLOB inferenceIncludes c/*.h c/*.cuh c/calibration/*.h c/trackers/*.h)
 
 if(BUILD_EXPERIMENTAL)
 	message("-- BUILD_EXPERIMENTAL enabled")
 
 	file(GLOB experimentalSources c/experimental/*.cpp c/experimental/*.cu)
 	file(GLOB experimentalIncludes c/experimental/*.h c/experimental/*.cuh)
-	file(GLOB_RECURSE pluginSources plugins/*.cpp plugins/*.cu)
+	file(GLOB_RECURSE pluginSources c/plugins/*.cpp c/plugins/*.cu)
 
 	list(APPEND inferenceSources ${experimentalSources})
 	list(APPEND inferenceIncludes ${experimentalIncludes})
 else()
 	message("-- BUILD_EXPERIMENTAL disabled")
-	file(GLOB pluginSources plugins/*.cpp plugins/*.cu plugins/pose/trt_pose/parse/*.cpp)
+	file(GLOB pluginSources c/plugins/*.cpp c/plugins/*.cu c/plugins/pose/trt_pose/parse/*.cpp)
 endif()
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
@@ -142,7 +153,7 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
 endif()
 	
 cuda_add_library(jetson-inference SHARED ${inferenceSources} ${pluginSources})
-target_include_directories(jetson-inference PRIVATE ${PROJECT_SOURCE_DIR}/plugins/pose/trt_pose/parse)
+target_include_directories(jetson-inference PRIVATE ${PROJECT_SOURCE_DIR}/c/plugins/pose/trt_pose/parse)
 
 # transfer all headers to the include directory
 file(MAKE_DIRECTORY ${PROJECT_INCLUDE_DIR}/jetson-inference)
@@ -184,13 +195,17 @@ target_link_libraries(jetson-inference jetson-utils nvinfer nvinfer_plugin nvcaf
 
 if(CUDA_VERSION_MAJOR GREATER 9)
 	target_link_libraries(jetson-inference nvonnxparser)
-
-    if(HAS_OPENCV) 
-        message("-- Linking jetson-inference with OpenCV " ${OpenCV_VERSION})
-        target_link_libraries(jetson-inference opencv_core opencv_calib3d)
-    endif()
 endif()
 
+if(HAS_OPENCV) 
+   message("-- linking jetson-inference with OpenCV " ${OpenCV_VERSION})
+   target_link_libraries(jetson-inference opencv_core opencv_calib3d)
+endif()
+
+if(HAS_VPI) 
+   message("-- linking jetson-inference with VPI " ${VPI_VERSION})
+   target_link_libraries(jetson-inference vpi)
+endif()
 
 # install includes
 foreach(include ${inferenceIncludes})
