@@ -69,12 +69,12 @@ public:
 	/**
 	 * Process
 	 */
-	template<typename T> bool Process( T* image, uint32_t width, uint32_t height, detectNet::Detection* detections, int numDetections )			{ return Process((void*)image, width, height, imageFormatFromType<T>(), detections, numDetections); }
+	template<typename T> int Process( T* image, uint32_t width, uint32_t height, detectNet::Detection* detections, int numDetections )			{ return Process((void*)image, width, height, imageFormatFromType<T>(), detections, numDetections); }
 	
 	/**
 	 * Process
 	 */
-	virtual bool Process( void* image, uint32_t width, uint32_t height, imageFormat format, detectNet::Detection* detections, int numDetections ) = 0;
+	virtual int Process( void* image, uint32_t width, uint32_t height, imageFormat format, detectNet::Detection* detections, int numDetections ) = 0;
 
 	/**
 	 * GetType

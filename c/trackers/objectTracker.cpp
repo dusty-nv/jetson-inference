@@ -21,6 +21,8 @@
  */
  
 #include "objectTracker.h"
+
+#include "objectTrackerIOU.h"
 #include "objectTrackerKLT.h"
 
 
@@ -35,6 +37,10 @@ objectTracker* objectTracker::Create( objectTracker::Type type )
 		LogError(LOG_TRACKER "couldn't create KLT tracker (not built with VPI enabled)\n");
 		return NULL;
 	#endif
+	}
+	else if( type == IOU )
+	{
+		return objectTrackerIOU::Create();
 	}
 	
 	return NULL;
@@ -55,6 +61,10 @@ objectTracker* objectTracker::Create( const commandLine& cmdLine )
 		LogError(LOG_TRACKER "couldn't create KLT object tracker (not built with VPI enabled)\n");
 		return NULL;
 	#endif
+	}
+	else if( type == IOU )
+	{
+		return objectTrackerIOU::Create(cmdLine);
 	}
 	else
 	{
@@ -86,6 +96,9 @@ const char* objectTracker::TypeToStr( objectTracker::Type type )
 // TypeFromStr
 objectTracker::Type objectTracker::TypeFromStr( const char* str )
 {
+	if( !str )
+		return NONE;
+	
 	if( strcasecmp(str, "IOU") == 0 )
 		return IOU;
 	else if( strcasecmp(str, "KLT") == 0 )

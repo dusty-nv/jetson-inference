@@ -316,12 +316,12 @@ void detectionToBox( const detectNet::Detection& detection, VPIKLTTrackedBoundin
 
 
 // Process
-bool objectTrackerKLT::Process( void* input, uint32_t width, uint32_t height, imageFormat format, detectNet::Detection* detections, int numDetections )
+int objectTrackerKLT::Process( void* input, uint32_t width, uint32_t height, imageFormat format, detectNet::Detection* detections, int numDetections )
 {
 	if( !init(width, height, format) )
 	{
 		LogError(LOG_VPI "failed to initialize object tracker (%ux%u)\n", width, height);
-		return false;
+		return -1;
 	}
 	
 	VPIImage currImage = mImages[mFrameCount % 2];
@@ -338,7 +338,7 @@ bool objectTrackerKLT::Process( void* input, uint32_t width, uint32_t height, im
 	if( mFrameCount == 0 )
 	{
 		mFrameCount++;
-		return true;
+		return 0;
 	}
 	
 	// update the tracker
@@ -461,7 +461,7 @@ bool objectTrackerKLT::Process( void* input, uint32_t width, uint32_t height, im
 	VPI_VERIFY(vpiArrayUnlock(mOutputPreds));
 	
 	mFrameCount++;
-	return true;
+	return 0;	// TODO update output tracks
 }
 
 #endif
