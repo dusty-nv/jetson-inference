@@ -21,6 +21,7 @@
  */
  
 #include "detectNet.h"
+#include "objectTracker.h"
 #include "tensorConvert.h"
 #include "modelDownloader.h"
 
@@ -48,6 +49,7 @@
 // constructor
 detectNet::detectNet( float meanPixel ) : tensorNet()
 {
+	mTracker   = NULL;
 	mMeanPixel = meanPixel;
 	mLineWidth = 2.0f;
 	
@@ -67,6 +69,8 @@ detectNet::detectNet( float meanPixel ) : tensorNet()
 // destructor
 detectNet::~detectNet()
 {
+	SAFE_DELETE(mTracker);
+	
 	CUDA_FREE_HOST(mDetectionSets);
 	CUDA_FREE_HOST(mClassColors);
 }
@@ -384,6 +388,9 @@ detectNet* detectNet::Create( const commandLine& cmdLine )
 	net->SetOverlayAlpha(cmdLine.GetFloat("alpha", DETECTNET_DEFAULT_ALPHA));
 	net->SetClusteringThreshold(cmdLine.GetFloat("clustering", DETECTNET_DEFAULT_CLUSTERING_THRESHOLD));
 	
+	// enable tracking if requested
+	net->SetTracker(objectTracker::Create(cmdLine));
+	
 	return net;
 }
 	
@@ -514,7 +521,7 @@ int detectNet::Detect( void* input, uint32_t width, uint32_t height, imageFormat
 	PROFILER_END(PROFILER_NETWORK);
 	
 	// post-processing / clustering
-	const int numDetections = postProcess(detections, width, height);
+	const int numDetections = postProcess(input, width, height, format, detections);
 
 	// render the overlay
 	if( overlay != 0 && numDetections > 0 )
@@ -592,7 +599,7 @@ bool detectNet::preProcess( void* input, uint32_t width, uint32_t height, imageF
 
 
 // postProcess
-int detectNet::postProcess( Detection* detections, uint32_t width, uint32_t height )
+int detectNet::postProcess( void* input, uint32_t width, uint32_t height, imageFormat format, Detection* detections )
 {
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
 	
@@ -628,6 +635,10 @@ int detectNet::postProcess( Detection* detections, uint32_t width, uint32_t heig
 		if( detections[n].Bottom >= height )
 			detections[n].Bottom = height - 1;
 	}
+	
+	// update tracking
+	if( mTracker != NULL )
+		numDetections = mTracker->Process(input, width, height, format, detections, numDetections);
 	
 	PROFILER_END(PROFILER_POSTPROCESS);	
 	return numDetections;

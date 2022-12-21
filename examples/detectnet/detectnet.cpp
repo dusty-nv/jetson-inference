@@ -147,8 +147,11 @@ int main( int argc, char** argv )
 		
 			for( int n=0; n < numDetections; n++ )
 			{
-				LogVerbose("detected obj %i  class #%u (%s)  confidence=%f\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence);
-				LogVerbose("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
+				LogVerbose("\ndetected obj %i  class #%u (%s)  confidence=%f\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence);
+				LogVerbose("bounding box %i  (%.2f, %.2f)  (%.2f, %.2f)  w=%.2f  h=%.2f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
+			
+				if( detections[n].Instance >= 0 ) // is this a tracked object?
+					LogVerbose("tracking instance %i  frames=%i  lost=%i\n", detections[n].Instance, detections[n].TrackFrames, detections[n].TrackLost);
 			}
 		}	
 

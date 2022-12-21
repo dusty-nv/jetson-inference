@@ -134,24 +134,49 @@ static PyObject* PyDetection_ToString( PyDetection_Object* self )
 	self->det.Center(&cx, &cy);
 
 	// format string
-	char str[1024];
+	char str[4096];
 
-	sprintf(str, 
-		   "<detectNet.Detection object>\n"
-		   "   -- ClassID: %i\n"
-		   "   -- Confidence: %g\n"
-		   "   -- Left:    %g\n"
-		   "   -- Top:     %g\n"
-		   "   -- Right:   %g\n"
-		   "   -- Bottom:  %g\n"
-		   "   -- Width:   %g\n"
-		   "   -- Height:  %g\n"
-		   "   -- Area:    %g\n"
-		   "   -- Center:  (%g, %g)",
-		   self->det.ClassID, self->det.Confidence, 
-		   self->det.Left, self->det.Top, self->det.Right, self->det.Bottom,
-		   self->det.Width(), self->det.Height(), self->det.Area(), cx, cy);
-
+	if( self->det.Instance >= 0 )
+	{
+		sprintf(str, 
+			   "<detectNet.Detection object>\n"
+			   "   -- ClassID:      %i\n"
+			   "   -- Confidence:   %g\n"
+			   "   -- Instance:     %i\n"
+			   "   -- Track Frames: %i\n"
+			   "   -- Track Lost:   %i\n"
+			   "   -- Left:    %g\n"
+			   "   -- Top:     %g\n"
+			   "   -- Right:   %g\n"
+			   "   -- Bottom:  %g\n"
+			   "   -- Width:   %g\n"
+			   "   -- Height:  %g\n"
+			   "   -- Area:    %g\n"
+			   "   -- Center:  (%g, %g)",
+			   self->det.ClassID, self->det.Confidence, 
+			   self->det.Instance, self->det.TrackFrames, self->det.TrackLost,
+			   self->det.Left, self->det.Top, self->det.Right, self->det.Bottom,
+			   self->det.Width(), self->det.Height(), self->det.Area(), cx, cy);
+	}
+	else
+	{
+		sprintf(str, 
+			   "<detectNet.Detection object>\n"
+			   "   -- ClassID: %i\n"
+			   "   -- Confidence: %g\n"
+			   "   -- Left:    %g\n"
+			   "   -- Top:     %g\n"
+			   "   -- Right:   %g\n"
+			   "   -- Bottom:  %g\n"
+			   "   -- Width:   %g\n"
+			   "   -- Height:  %g\n"
+			   "   -- Area:    %g\n"
+			   "   -- Center:  (%g, %g)",
+			   self->det.ClassID, self->det.Confidence, 
+			   self->det.Left, self->det.Top, self->det.Right, self->det.Bottom,
+			   self->det.Width(), self->det.Height(), self->det.Area(), cx, cy);
+	}
+	
 	return PYSTRING_FROM_STRING(str);
 }
 

@@ -136,7 +136,7 @@ int objectTrackerIOU::Process( void* input, uint32_t width, uint32_t height, ima
 	
 	for( int n=0; n < mTracks.size(); n++ )
 	{
-		if( mTracks[n].TrackFrames >= 5 )
+		if( mTracks[n].TrackFrames >= 3 )
 			detections[numDetections++] = mTracks[n];
 	}
 	

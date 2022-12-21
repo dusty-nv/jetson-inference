@@ -68,9 +68,11 @@ objectTracker* objectTracker::Create( const commandLine& cmdLine )
 	}
 	else
 	{
-		LogError(LOG_TRACKER "tried to create invalid object tracker type:  %s\n", str);
-		return NULL;
+		if( str != NULL )
+			LogError(LOG_TRACKER "tried to create invalid object tracker type:  %s\n", str);
 	}
+	
+	return NULL;
 }
 
 

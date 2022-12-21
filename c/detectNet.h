@@ -107,6 +107,10 @@
 		  "  --profile             enable layer profiling in TensorRT\n\n"
 
 
+// forward declarations
+class objectTracker;
+
+
 /**
  * Object recognition and localization networks with TensorRT support.
  * @ingroup detectNet
@@ -430,6 +434,16 @@ public:
 	inline void SetClusteringThreshold( float threshold ) 			{ mClusteringThreshold = threshold; }
 
 	/**
+	 * Get the object tracker being used.
+	 */
+	inline objectTracker* GetTracker() const					{ return mTracker; }
+	
+	/**
+	 * Set the object tracker to be used.
+	 */
+	inline void SetTracker( objectTracker* tracker ) 				{ mTracker = tracker; }
+	
+	/**
 	 * Retrieve the maximum number of simultaneous detections the network supports.
 	 * Knowing this is useful for allocating the buffers to store the output detection results.
 	 */
@@ -484,7 +498,7 @@ public:
  	 * Set overlay alpha blending value for all classes (between 0-255).
 	 */
 	void SetOverlayAlpha( float alpha );
-	
+
 protected:
 
 	// constructor
@@ -500,8 +514,8 @@ protected:
 			 precisionType precision, deviceType device, bool allowGPUFallback );
 	
 	bool preProcess( void* input, uint32_t width, uint32_t height, imageFormat format );
+	int postProcess( void* input, uint32_t width, uint32_t height, imageFormat format, Detection* detections );
 	
-	int postProcess( Detection* detections, uint32_t width, uint32_t height );
 	int postProcessSSD_UFF( Detection* detections, uint32_t width, uint32_t height );
 	int postProcessSSD_ONNX( Detection* detections, uint32_t width, uint32_t height );
 	int postProcessDetectNet( Detection* detections, uint32_t width, uint32_t height );
@@ -510,6 +524,8 @@ protected:
 	int clusterDetections( Detection* detections, int n );
 	void sortDetections( Detection* detections, int numDetections );
 
+	objectTracker* mTracker;
+	
 	float mConfidenceThreshold;	 // TODO change this to per-class
 	float mClusteringThreshold;	 // TODO change this to per-class
 	
