@@ -19,8 +19,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
- 
+
+#include "detectNet.h" 
 #include "objectTracker.h"
+
 
 #include "objectTrackerIOU.h"
 #include "objectTrackerKLT.h"
@@ -29,29 +31,44 @@
 // Create
 objectTracker* objectTracker::Create( objectTracker::Type type )
 {
+	objectTracker* tracker = NULL;
+	
 	if( type == KLT )
 	{
 	#if HAS_VPI
-		return objectTrackerKLT::Create();
+		tracker = objectTrackerKLT::Create();
 	#else
 		LogError(LOG_TRACKER "couldn't create KLT tracker (not built with VPI enabled)\n");
-		return NULL;
 	#endif
 	}
 	else if( type == IOU )
 	{
-		return objectTrackerIOU::Create();
+		tracker = objectTrackerIOU::Create();
 	}
 	
-	return NULL;
+	if( !tracker )
+		return NULL;
+	
+	if( !tracker->Init() )
+	{
+		delete tracker;
+		return NULL;
+	}
+	
+	return tracker;
 }
 
 
 // Create
 objectTracker* objectTracker::Create( const commandLine& cmdLine )
 {
-	const char* str = cmdLine.GetString("tracker", cmdLine.GetString("tracking"));
-	const Type type = TypeFromStr(str);
+	Type type = IOU;
+	
+	const bool useDefault = cmdLine.GetFlag("tracking");
+	const char* typeStr = cmdLine.GetString("tracker", cmdLine.GetString("tracking"));
+	
+	if( !useDefault )
+		type = TypeFromStr(typeStr);
 	
 	if( type == KLT )
 	{
@@ -68,8 +85,8 @@ objectTracker* objectTracker::Create( const commandLine& cmdLine )
 	}
 	else
 	{
-		if( str != NULL )
-			LogError(LOG_TRACKER "tried to create invalid object tracker type:  %s\n", str);
+		if( typeStr != NULL )
+			LogError(LOG_TRACKER "tried to create invalid object tracker type:  %s\n", typeStr);
 	}
 	
 	return NULL;

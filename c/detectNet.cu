@@ -106,7 +106,12 @@ cudaError_t launchDetectionOverlay( T* input, T* output, uint32_t width, uint32_
 		const dim3 blockDim(8, 8);
 		const dim3 gridDim(iDivUp(boxWidth,blockDim.x), iDivUp(boxHeight,blockDim.y));
 
-		gpuDetectionOverlayBox<T><<<gridDim, blockDim>>>(input, output, width, height, (int)detections[n].Left, (int)detections[n].Top, boxWidth, boxHeight, colors[detections[n].ClassID]); 
+		float4 color = colors[detections[n].ClassID];
+		
+		if( detections[n].TrackID >= 0 )
+			color.w *= 1.0f - (fminf(detections[n].TrackLost, 15.0f) / 15.0f);
+			
+		gpuDetectionOverlayBox<T><<<gridDim, blockDim>>>(input, output, width, height, (int)detections[n].Left, (int)detections[n].Top, boxWidth, boxHeight, color); 
 	}
 
 	return cudaGetLastError();

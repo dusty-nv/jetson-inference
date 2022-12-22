@@ -104,7 +104,7 @@
             "  --alpha=ALPHA         overlay alpha blending value, range 0-255 (default: 120)\n"					\
 		  "  --overlay=OVERLAY     detection overlay flags (e.g. --overlay=box,labels,conf)\n"					\
 		  "                        valid combinations are:  'box', 'lines', 'labels', 'conf', 'none'\n"			\
-		  "  --profile             enable layer profiling in TensorRT\n\n"
+		  "  --profile             enable layer profiling in TensorRT\n\n"				\
 
 
 // forward declarations
@@ -128,8 +128,9 @@ public:
 		float Confidence;	/**< Confidence value of the detected object. */
 
 		// Tracking Info
-		int Instance;		/**< Unique tracking ID (or -1 if untracked) */
-		int TrackFrames;	/**< The number of frames the object has been positively tracked for */
+		int TrackID;		/**< Unique tracking ID (or -1 if untracked) */
+		int TrackStatus;	/**< -1 for dropped, 0 for initializing, 1 for active/valid */ 
+		int TrackFrames;	/**< The number of frames the object has been re-identified for */
 		int TrackLost;   	/**< The number of consecutive frames tracking has been lost for */
 		
 		// Bounding Box Coordinates
@@ -193,7 +194,7 @@ public:
 		inline bool Expand( const Detection& det )      							{ if(!Overlaps(det)) return false; Left = fminf(det.Left, Left); Top = fminf(det.Top, Top); Right = fmaxf(det.Right, Right); Bottom = fmaxf(det.Bottom, Bottom); return true; }
 
 		/**< Reset all member variables to zero */
-		inline void Reset()													{ ClassID = 0; Confidence = 0; Instance = -1; TrackFrames = 0; TrackLost = 0; Left = 0; Right = 0; Top = 0; Bottom = 0; } 								
+		inline void Reset()													{ ClassID = 0; Confidence = 0; TrackID = -1; TrackStatus = -1; TrackFrames = 0; TrackLost = 0; Left = 0; Right = 0; Top = 0; Bottom = 0; } 								
 
 		/**< Default constructor */
 		inline Detection()													{ Reset(); }
@@ -208,7 +209,8 @@ public:
 		OVERLAY_BOX        = (1 << 0),	/**< Overlay the object bounding boxes (filled) */
 		OVERLAY_LABEL 	    = (1 << 1),	/**< Overlay the class description labels */
 		OVERLAY_CONFIDENCE = (1 << 2),	/**< Overlay the detection confidence values */
-		OVERLAY_LINES      = (1 << 3),     /**< Overlay the bounding box lines (unfilled) */
+		OVERLAY_TRACKING   = (1 << 3),	/**< Overlay tracking information (like track ID) */
+		OVERLAY_LINES      = (1 << 4),     /**< Overlay the bounding box lines (unfilled) */
 		OVERLAY_DEFAULT    = OVERLAY_BOX|OVERLAY_LABEL|OVERLAY_CONFIDENCE, /**< The default choice of overlay */
 	};
 

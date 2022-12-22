@@ -46,12 +46,12 @@ typedef struct {
 				  "    Center (x,y) coordinate of bounding box\n\n" \
 				  "ClassID\n" \
 				  "    Class index of the detected object\n\n" \
+				  "TrackID\n" \
+				  "    Unique tracking ID (or -1 if untracked)\n\n" \
 				  "Confidence\n" \
 				  "    Confidence value of the detected object\n\n" \
 				  "Height\n" \
 				  "    Height of bounding box\n\n" \
-				  "Instance\n" \
-				  "    Instance index of the detected object\n\n" \
 				  "Left\n" \
 				  "    Left bounding box coordinate\n\n" \
 				  "Right\n" \
@@ -136,15 +136,16 @@ static PyObject* PyDetection_ToString( PyDetection_Object* self )
 	// format string
 	char str[4096];
 
-	if( self->det.Instance >= 0 )
+	if( self->det.TrackID >= 0 )
 	{
 		sprintf(str, 
 			   "<detectNet.Detection object>\n"
-			   "   -- ClassID:      %i\n"
-			   "   -- Confidence:   %g\n"
-			   "   -- Instance:     %i\n"
-			   "   -- Track Frames: %i\n"
-			   "   -- Track Lost:   %i\n"
+			   "   -- Confidence:  %g\n"
+			   "   -- ClassID:     %i\n"
+			   "   -- TrackID:     %i\n"
+			   "   -- TrackStatus: %i\n"
+			   "   -- TrackFrames: %i\n"
+			   "   -- TrackLost:   %i\n"
 			   "   -- Left:    %g\n"
 			   "   -- Top:     %g\n"
 			   "   -- Right:   %g\n"
@@ -153,8 +154,8 @@ static PyObject* PyDetection_ToString( PyDetection_Object* self )
 			   "   -- Height:  %g\n"
 			   "   -- Area:    %g\n"
 			   "   -- Center:  (%g, %g)",
-			   self->det.ClassID, self->det.Confidence, 
-			   self->det.Instance, self->det.TrackFrames, self->det.TrackLost,
+			   self->det.Confidence, self->det.ClassID,  
+			   self->det.TrackID, self->det.TrackStatus, self->det.TrackFrames, self->det.TrackLost,
 			   self->det.Left, self->det.Top, self->det.Right, self->det.Bottom,
 			   self->det.Width(), self->det.Height(), self->det.Area(), cx, cy);
 	}
@@ -162,8 +163,8 @@ static PyObject* PyDetection_ToString( PyDetection_Object* self )
 	{
 		sprintf(str, 
 			   "<detectNet.Detection object>\n"
-			   "   -- ClassID: %i\n"
 			   "   -- Confidence: %g\n"
+			   "   -- ClassID: %i\n"
 			   "   -- Left:    %g\n"
 			   "   -- Top:     %g\n"
 			   "   -- Right:   %g\n"
@@ -172,7 +173,7 @@ static PyObject* PyDetection_ToString( PyDetection_Object* self )
 			   "   -- Height:  %g\n"
 			   "   -- Area:    %g\n"
 			   "   -- Center:  (%g, %g)",
-			   self->det.ClassID, self->det.Confidence, 
+			   self->det.Confidence, self->det.ClassID,  
 			   self->det.Left, self->det.Top, self->det.Right, self->det.Bottom,
 			   self->det.Width(), self->det.Height(), self->det.Area(), cx, cy);
 	}
@@ -203,18 +204,18 @@ static PyObject* PyDetection_Contains( PyDetection_Object* self, PyObject *args,
 }
 
 
-// GetInstance
-static PyObject* PyDetection_GetInstance( PyDetection_Object* self, void* closure )
+// GetTrackID
+static PyObject* PyDetection_GetTrackID( PyDetection_Object* self, void* closure )
 {
-	return PYLONG_FROM_LONG(self->det.Instance);
+	return PYLONG_FROM_LONG(self->det.TrackID);
 }
 
-// SetInstance
-static int PyDetection_SetInstance( PyDetection_Object* self, PyObject* value, void* closure )
+// SetTrackID
+static int PyDetection_SetTrackID( PyDetection_Object* self, PyObject* value, void* closure )
 {
 	if( !value )
 	{
-		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.Instance attribute");
+		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.TrackID attribute");
 		return -1;
 	}
 
@@ -223,7 +224,7 @@ static int PyDetection_SetInstance( PyDetection_Object* self, PyObject* value, v
 	if( PyErr_Occurred() != NULL )
 		return -1;
 
-	self->det.Instance = arg;
+	self->det.TrackID = arg;
 	return 0;
 }
 
@@ -441,8 +442,9 @@ static PyObject* PyDetection_GetROI( PyDetection_Object* self, void* closure )
 
 static PyGetSetDef pyDetection_GetSet[] = 
 {
-	{ "Instance", (getter)PyDetection_GetInstance, (setter)PyDetection_SetInstance, "Instance index of the detected object", NULL},
 	{ "ClassID", (getter)PyDetection_GetClassID, (setter)PyDetection_SetClassID, "Class index of the detected object", NULL},
+	{ "TrackID", (getter)PyDetection_GetTrackID, (setter)PyDetection_SetTrackID, "Unique tracking ID (-1 if untracked)", NULL},
+	{ "Instance", (getter)PyDetection_GetTrackID, (setter)PyDetection_SetTrackID, "Unique tracking ID (-1 if untracked)", NULL}, // legacy
 	{ "Confidence", (getter)PyDetection_GetConfidence, (setter)PyDetection_SetConfidence, "Confidence value of the detected object", NULL},
 	{ "Left", (getter)PyDetection_GetLeft, (setter)PyDetection_SetLeft, "Left bounding box coordinate", NULL},
 	{ "Right", (getter)PyDetection_GetRight, (setter)PyDetection_SetRight, "Right bounding box coordinate", NULL},

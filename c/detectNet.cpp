@@ -660,7 +660,7 @@ int detectNet::postProcessSSD_UFF( Detection* detections, uint32_t width, uint32
 		if( object_data[2] < mConfidenceThreshold )
 			continue;
 
-		detections[numDetections].Instance   = -1; //numDetections; //(uint32_t)object_data[0];
+		detections[numDetections].TrackID   = -1; //numDetections; //(uint32_t)object_data[0];
 		detections[numDetections].ClassID    = (uint32_t)object_data[1];
 		detections[numDetections].Confidence = object_data[2];
 		detections[numDetections].Left       = object_data[3] * width;
@@ -722,7 +722,7 @@ int detectNet::postProcessSSD_ONNX( Detection* detections, uint32_t width, uint3
 		// populate a new detection entry
 		const float* coord = bbox + n * numCoord;
 
-		detections[numDetections].Instance   = -1; //numDetections;
+		detections[numDetections].TrackID   = -1; //numDetections;
 		detections[numDetections].ClassID    = maxClass;
 		detections[numDetections].Confidence = maxScore;
 		detections[numDetections].Left       = coord[0] * width;
@@ -802,7 +802,7 @@ int detectNet::postProcessDetectNet( Detection* detections, uint32_t width, uint
 				// create new entry if the detection wasn't merged with another detection
 				if( !detectionMerged )
 				{
-					detections[numDetections].Instance   = -1; //numDetections;
+					detections[numDetections].TrackID   = -1; //numDetections;
 					detections[numDetections].ClassID    = z;
 					detections[numDetections].Confidence = coverage;
 				
@@ -872,7 +872,7 @@ int detectNet::postProcessDetectNet_v2( Detection* detections, uint32_t width, u
 				LogDebug(LOG_TRT "rect x=%u y=%u  conf=%f  (%f, %f)  (%f, %f) \n", x, y, confidence, x1, y1, x2, y2);
 			#endif
 				
-				detections[numDetections].Instance   = -1; //numDetections;
+				detections[numDetections].TrackID   = -1; //numDetections;
 				detections[numDetections].ClassID    = c;
 				detections[numDetections].Confidence = confidence;
 				detections[numDetections].Left       = x1;
@@ -902,24 +902,30 @@ int detectNet::clusterDetections( Detection* detections, int n )
 		{
 			// if the intersecting detections have different classes, pick the one with highest confidence
 			// otherwise if they have the same object class, expand the detection bounding box
+		#ifdef CLUSTER_INTERCLASS
 			if( detections[n].ClassID != detections[m].ClassID )
 			{
 				if( detections[n].Confidence > detections[m].Confidence )
 				{
 					detections[m] = detections[n];
 
-					detections[m].Instance = -1; //m;
+					detections[m].TrackID = -1; //m;
 					detections[m].ClassID = detections[n].ClassID;
-					detections[m].Confidence = detections[n].Confidence;					
+					detections[m].Confidence = detections[n].Confidence;	
 				}
+				
+				return 0; // merged detection
 			}
 			else
+		#else
+			if( detections[n].ClassID == detections[m].ClassID )
+		#endif
 			{
 				detections[m].Expand(detections[n]);
 				detections[m].Confidence = fmaxf(detections[n].Confidence, detections[m].Confidence);
-			}
 
-			return 0; // merged detection
+				return 0; // merged detection
+			}
 		}
 	}
 
@@ -949,7 +955,7 @@ void detectNet::sortDetections( Detection* detections, int numDetections )
 
 	// renumber the instance ID's
 	//for( int i=0; i < numDetections; i++ )
-	//	detections[i].Instance = i;	
+	//	detections[i].TrackID = i;	
 }
 
 
@@ -1008,7 +1014,7 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 	}
 			
 	// class label overlay
-	if( (flags & OVERLAY_LABEL) || (flags & OVERLAY_CONFIDENCE) )
+	if( (flags & OVERLAY_LABEL) || (flags & OVERLAY_CONFIDENCE) || (flags & OVERLAY_TRACKING) )
 	{
 		static cudaFont* font = NULL;
 
@@ -1025,38 +1031,42 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 		}
 
 		// draw each object's description
-		std::vector< std::pair< std::string, int2 > > labels;
-
+	#ifdef BATCH_TEXT
+		std::vector<std::pair<std::string, int2>> labels;
+	#endif 
 		for( uint32_t n=0; n < numDetections; n++ )
 		{
 			const char* className  = GetClassDesc(detections[n].ClassID);
 			const float confidence = detections[n].Confidence * 100.0f;
 			const int2  position   = make_int2(detections[n].Left+5, detections[n].Top+3);
 			
+			char buffer[256];
+			char* str = buffer;
+			
+			if( flags & OVERLAY_LABEL )
+				str += sprintf(str, "%s ", className);
+			
+			if( flags & OVERLAY_TRACKING && detections[n].TrackID >= 0 )
+				str += sprintf(str, "%i ", detections[n].TrackID);
+			
 			if( flags & OVERLAY_CONFIDENCE )
-			{
-				char str[256];
+				str += sprintf(str, "%.1f%%", confidence);
 
-				if( (flags & OVERLAY_LABEL) && (flags & OVERLAY_CONFIDENCE) )
-				{
-					if( detections[n].Instance >= 0 )
-						sprintf(str, "%s %i %.1f%%", className, detections[n].Instance, confidence);
-					else
-						sprintf(str, "%s %.1f%%", className, confidence);
-				}
-				else
-					sprintf(str, "%.1f%%", confidence);
-
-				labels.push_back(std::pair<std::string, int2>(str, position));
-			}
-			else
+		#ifdef BATCH_TEXT
+			labels.push_back(std::pair<std::string, int2>(buffer, position));
+		#else
+			if( detections[n].TrackID >= 0 )
 			{
-				// overlay label only
-				labels.push_back(std::pair<std::string, int2>(className, position));
+				float4 color = make_float4(255,255,255,255);
+				color.w *= 1.0f - (fminf(detections[n].TrackLost, 15.0f) / 15.0f);
+				font->OverlayText(output, format, width, height, buffer, position.x, position.y, color);
 			}
+		#endif
 		}
 
+	#ifdef BATCH_TEXT
 		font->OverlayText(output, format, width, height, labels, make_float4(255,255,255,255));
+	#endif
 	}
 	
 	PROFILER_END(PROFILER_VISUALIZE);
@@ -1105,6 +1115,8 @@ uint32_t detectNet::OverlayFlagsFromStr( const char* str_user )
 			flags |= OVERLAY_LABEL;
 		else if( strcasecmp(token, "conf") == 0 || strcasecmp(token, "confidence") == 0 )
 			flags |= OVERLAY_CONFIDENCE;
+		else if( strcasecmp(token, "track") == 0 || strcasecmp(token, "tracking") == 0 )
+			flags |= OVERLAY_TRACKING;
 		else if( strcasecmp(token, "line") == 0 || strcasecmp(token, "lines") == 0 )
 			flags |= OVERLAY_LINES;
 		else if( strcasecmp(token, "default") == 0 )

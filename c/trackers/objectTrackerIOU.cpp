@@ -24,10 +24,15 @@
 
 
 // constructor
-objectTrackerIOU::objectTrackerIOU()
+objectTrackerIOU::objectTrackerIOU( uint32_t minFrames, uint32_t dropFrames, float overlapThreshold )
 {
+	mIDCount = 0;
 	mFrameCount = 0;
-	mInstanceCount = 0;
+	
+	mMinFrames = minFrames;
+	mDropFrames = dropFrames;
+	
+	mOverlapThreshold = overlapThreshold;
 	
 	mTracks.reserve(128);
 }
@@ -39,10 +44,11 @@ objectTrackerIOU::~objectTrackerIOU()
 
 }
 
+
 // Create
-objectTrackerIOU* objectTrackerIOU::Create()
+objectTrackerIOU* objectTrackerIOU::Create( uint32_t minFrames, uint32_t dropFrames, float overlapThreshold )
 {
-	objectTrackerIOU* tracker = new objectTrackerIOU();
+	objectTrackerIOU* tracker = new objectTrackerIOU(minFrames, dropFrames, overlapThreshold);
 	
 	if( !tracker )
 		return NULL;
@@ -54,7 +60,9 @@ objectTrackerIOU* objectTrackerIOU::Create()
 // Create
 objectTrackerIOU* objectTrackerIOU::Create( const commandLine& cmdLine )
 {
-	return Create();
+	return Create(cmdLine.GetUnsignedInt("tracker-min-frames", OBJECT_TRACKER_DEFAULT_MIN_FRAMES),
+			    cmdLine.GetUnsignedInt("tracker-drop-frames", OBJECT_TRACKER_DEFAULT_DROP_FRAMES),
+			    cmdLine.GetFloat("tracker-overlap", OBJECT_TRACKER_DEFAULT_OVERLAP_THRESHOLD));
 }
 
 
@@ -73,7 +81,7 @@ int findBestIOU( const detectNet::Detection& track, detectNet::Detection* detect
 	
 	for( int n=0; n < numDetections; n++ )
 	{
-		if( detections[n].Instance >= 0 )
+		if( detections[n].TrackID >= 0 )
 			continue; // this bbox is already a match for another track
 		
 		if( detections[n].ClassID != track.ClassID )
@@ -91,44 +99,49 @@ int findBestIOU( const detectNet::Detection& track, detectNet::Detection* detect
 	return maxDetection;
 }
 		
-		
+
 // Process
 int objectTrackerIOU::Process( void* input, uint32_t width, uint32_t height, imageFormat format, detectNet::Detection* detections, int numDetections )
 {
 	// update active tracks
 	for( int n=0; n < mTracks.size(); n++ )
 	{
-		const int bestMatch = findBestIOU(mTracks[n], detections, numDetections);
+		const int bestMatch = findBestIOU(mTracks[n], detections, numDetections, mOverlapThreshold);
 		
 		if( bestMatch >= 0 )
 		{
-			detections[bestMatch].Instance = mTracks[n].Instance;
+			detections[bestMatch].TrackID = (mTracks[n].TrackFrames == mMinFrames) ? mIDCount++ : mTracks[n].TrackID;
 			detections[bestMatch].TrackFrames = mTracks[n].TrackFrames + 1;
+			detections[bestMatch].TrackStatus = (detections[bestMatch].TrackFrames >= mMinFrames) ? 1 : 0;
 			detections[bestMatch].TrackLost = 0;
 			
 			mTracks[n] = detections[bestMatch];
 			
-			LogVerbose(LOG_TRACKER "updated track -> instance=%i class=%u frames=%i\n", detections[n].Instance, detections[n].ClassID, detections[n].TrackFrames);
+			LogVerbose(LOG_TRACKER "updated track %i -> class=%u status=%i frames=%i\n", detections[n].TrackID, detections[n].ClassID, detections[n].TrackStatus, detections[n].TrackFrames);
 		}
 		else
 		{
 			mTracks[n].TrackLost++;
+			
+			if( mTracks[n].TrackLost >= mDropFrames )
+				mTracks[n].TrackStatus = -1;
 		}
 	}
 	
 	// add new tracks
 	for( int n=0; n < numDetections; n++ )
 	{
-		if( detections[n].Instance >= 0 )
+		if( detections[n].TrackID >= 0 )
 			continue;
 		
-		detections[n].Instance = mInstanceCount++;
+		detections[n].TrackID = -1;
+		detections[n].TrackStatus = 0;
 		detections[n].TrackFrames = 0;
 		detections[n].TrackLost = 0;
 		
 		mTracks.push_back(detections[n]);
 		
-		LogVerbose(LOG_TRACKER "added track -> instance=%i class=%u\n", detections[n].Instance, detections[n].ClassID);
+		LogVerbose(LOG_TRACKER "added track %i -> class=%u\n", detections[n].TrackID, detections[n].ClassID);
 	}
 	
 	// add valid tracks to the output array
@@ -136,16 +149,16 @@ int objectTrackerIOU::Process( void* input, uint32_t width, uint32_t height, ima
 	
 	for( int n=0; n < mTracks.size(); n++ )
 	{
-		if( mTracks[n].TrackFrames >= 3 )
+		if( mTracks[n].TrackFrames >= mMinFrames )
 			detections[numDetections++] = mTracks[n];
 	}
 	
 	// remove dropped tracks
 	for( auto iter = mTracks.begin(); iter != mTracks.end(); )
 	{
-		if( iter->TrackLost > 15 )
+		if( iter->TrackStatus < 0 )
 		{
-			LogVerbose(LOG_TRACKER "dropped track -> instance=%i class=%u frames=%i\n", iter->Instance, iter->ClassID, iter->TrackFrames);
+			LogVerbose(LOG_TRACKER "dropped track %i -> class=%u frames=%i\n", iter->TrackID, iter->ClassID, iter->TrackFrames);
 			iter = mTracks.erase(iter);
 		}
 		else

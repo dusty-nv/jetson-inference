@@ -51,6 +51,7 @@ int usage()
 	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
 
 	printf("%s", detectNet::Usage());
+	printf("%s", objectTracker::Usage());
 	printf("%s", videoSource::Usage());
 	printf("%s", videoOutput::Usage());
 	printf("%s", Log::Usage());
@@ -167,7 +168,7 @@ int main( int argc, char** argv )
 		
 			for( int n=0; n < numTracks; n++ )
 			{
-				LogVerbose("tracked  obj %i  class #%u (%s)  confidence=%f  instance=%i  frames=%i  lost=%i\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence, detections[n].Instance, detections[n].TrackFrames, detections[n].TrackLost);
+				LogVerbose("tracked  obj %i  class #%u (%s)  confidence=%f  instance=%i  frames=%i  lost=%i\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence, detections[n].TrackID, detections[n].TrackFrames, detections[n].TrackLost);
 				LogVerbose("bounding box %i  (%f, %f)  (%f, %f)  w=%f  h=%f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
 			}
 		}

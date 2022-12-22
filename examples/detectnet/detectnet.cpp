@@ -24,6 +24,8 @@
 #include "videoOutput.h"
 
 #include "detectNet.h"
+#include "objectTracker.h"
+
 
 #include <signal.h>
 
@@ -49,14 +51,15 @@ void sig_handler(int signo)
 int usage()
 {
 	printf("usage: detectnet [--help] [--network=NETWORK] [--threshold=THRESHOLD] ...\n");
-	printf("                 input_URI [output_URI]\n\n");
+	printf("                 input [output]\n\n");
 	printf("Locate objects in a video/image stream using an object detection DNN.\n");
 	printf("See below for additional arguments that may not be shown above.\n\n");
 	printf("positional arguments:\n");
-	printf("    input_URI       resource URI of input stream  (see videoSource below)\n");
-	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
+	printf("    input           resource URI of input stream  (see videoSource below)\n");
+	printf("    output          resource URI of output stream (see videoOutput below)\n\n");
 
 	printf("%s", detectNet::Usage());
+	printf("%s", objectTracker::Usage());
 	printf("%s", videoSource::Usage());
 	printf("%s", videoOutput::Usage());
 	printf("%s", Log::Usage());
@@ -150,8 +153,8 @@ int main( int argc, char** argv )
 				LogVerbose("\ndetected obj %i  class #%u (%s)  confidence=%f\n", n, detections[n].ClassID, net->GetClassDesc(detections[n].ClassID), detections[n].Confidence);
 				LogVerbose("bounding box %i  (%.2f, %.2f)  (%.2f, %.2f)  w=%.2f  h=%.2f\n", n, detections[n].Left, detections[n].Top, detections[n].Right, detections[n].Bottom, detections[n].Width(), detections[n].Height()); 
 			
-				if( detections[n].Instance >= 0 ) // is this a tracked object?
-					LogVerbose("tracking instance %i  frames=%i  lost=%i\n", detections[n].Instance, detections[n].TrackFrames, detections[n].TrackLost);
+				if( detections[n].TrackID >= 0 ) // is this a tracked object?
+					LogVerbose("tracking  ID %i  status=%i  frames=%i  lost=%i\n", detections[n].TrackID, detections[n].TrackStatus, detections[n].TrackFrames, detections[n].TrackLost);
 			}
 		}	
 

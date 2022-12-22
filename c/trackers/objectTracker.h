@@ -28,12 +28,23 @@
 
 
 /**
- * Tracker logging prefix
+ * Standard command-line options able to be passed to detectNet::Create()
+ * @ingroup objectTracker
+ */
+#define OBJECT_TRACKER_USAGE_STRING  "objectTracker arguments: \n" 	\
+		  "  --tracking               flag to enable default tracker (IOU)\n"									\
+		  "  --tracker=TRACKER        enable tracking with 'IOU' or 'KLT'\n"									\
+		  "  --tracker-min-frames=N   the number of re-identified frames for a track to be considered valid (default: 3)\n" \
+		  "  --tracker-lost-frames=N  number of consecutive lost frames before a track is removed (default: 15)\n"  \
+		  "  --tracker-overlap=N      how much IOU overlap is required for a bounding box to be matched (default: 0.5)\n\n" \
+	
+/**
+ * Object tracker logging prefix
  * @ingroup objectTracker
  */
 #define LOG_TRACKER "[tracker] "
 
-
+  
 /**
  * Object tracker interface
  * @ingroup objectTracker
@@ -67,6 +78,11 @@ public:
 	static objectTracker* Create( const commandLine& cmdLine );
 	
 	/**
+	 * Init (optional)
+	 */
+	virtual bool Init()					{ return true; }
+	
+	/**
 	 * Process
 	 */
 	template<typename T> int Process( T* image, uint32_t width, uint32_t height, detectNet::Detection* detections, int numDetections )			{ return Process((void*)image, width, height, imageFormatFromType<T>(), detections, numDetections); }
@@ -81,6 +97,11 @@ public:
 	 */
 	virtual Type GetType() const = 0;
 	
+	/**
+	 * Usage string for command line arguments to Create()
+	 */
+	static inline const char* Usage() 		{ return OBJECT_TRACKER_USAGE_STRING; }
+
 	/**
 	 * Convert a Type enum to string.
 	 */
