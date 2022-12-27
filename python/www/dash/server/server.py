@@ -21,11 +21,16 @@
 # DEALINGS IN THE SOFTWARE.
 #
 import os
+import sys
+import time
+import random
+
 import ssl
 import json
-import time
+import flask
+import requests
+
 import psutil
-import random
 import traceback
 import threading
 import multiprocessing
@@ -36,17 +41,25 @@ from xmlrpc.server import SimpleXMLRPCServer
 
 from jetson_utils import Log
 
-from .model import Model
-from .stream import Stream
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from model import Model
+from stream import Stream
 
+    
+def server_request(*args, **kwargs):
+    args = list(args)
+    args[1] = f"{Server.instance.rest_url}{args[1]}"
+    return requests.request(*args, **kwargs)
+    
     
 # what to call this...
 #  class WebRTCServer
 #  class BackendServer
 #  class InferenceServer
 #  class MediaServer
-class Server(object):
+#  class DNNServer
+class Server:
     """
     Backend media streaming server for handling resources like cameras, DNN models, datasets, ect.
     It captures video from a variety of input sources (e.g. V4L2 cameras, MIPI CSI, RTP/RTSP),
@@ -68,9 +81,11 @@ class Server(object):
     
     This class is typically a singleton and can be accessed with Server.instance 
     """
-    instance = None
-
-    def __init__(self, name='server-backend', host='0.0.0.0', rpc_port=49565, webrtc_port=49567, 
+    instance = None   # singleton instance
+    api = None        # flask REST server
+    
+    def __init__(self, name='server-backend', host='0.0.0.0', 
+                 rpc_port=49565, rest_port=49566, webrtc_port=49567, 
                  ssl_cert=None, ssl_key=None, stun_server=None, resources=None):
         """
         Create a new instance of the backend server.
@@ -85,10 +100,12 @@ class Server(object):
             stun_server (string) -- override the default WebRTC STUN server (stun.l.google.com:19302)
             resources (string or dict) -- either a path a json config file or dict containing resources to load
         """
-        self.instance = self
+        Server.instance = self
         self.name = name
         self.host = host
         self.rpc_port = rpc_port
+        self.rest_url = f"{'https://' if ssl_cert else 'http://'}{host}:{rest_port}"
+        self.rest_port = rest_port
         self.webrtc_port = webrtc_port
         self.ssl_cert = ssl_cert
         self.ssl_key = ssl_key
@@ -108,9 +125,6 @@ class Server(object):
         if self.os_process is not None:
             setproctitle.setproctitle(multiprocessing.current_process().name)
             Log.Verbose(f"[{self.name}] started {self.name} process (pid={self.os_process.pid})")
-            
-        # load resources
-        self.load_resources(self.init_resources)
         
         # create the RPC server
         self.rpc_server = SimpleXMLRPCServer((self.host, self.rpc_port), allow_none=True)  # logRequests = False 
@@ -127,9 +141,25 @@ class Server(object):
         
         Log.Info(f"[{self.name}] RPC server is running @ http://{self.host}:{self.rpc_port}")
 
+        # create the rest server
+        Server.api = flask.Flask(__name__)
+        self.api_thread = threading.Thread(target=lambda: Server.api.run(host=self.host, port=self.rest_port,
+                                           ssl_context=(self.ssl_cert, self.ssl_key) if self.ssl_cert else None),
+                                           name=f"{self.name}-rest")
+        self.api_thread.start()
+        
+        # register rest API's
+        Server.api.add_url_rule('/status', view_func=self.get_status, methods=['GET'])
+        Server.api.add_url_rule('/resources', view_func=self.get_resources, methods=['GET'])
+        
+        Log.Info(f"[{self.name}] REST server is running @ {self.rest_url}")
+        
+        # load resources
+        self.load_resources(self.init_resources)
+        
         # indicate that server is ready to run
         self.run_flag = True
-
+        
     def connect(self, autostart=True, retries=10):
         """
         Attempt to connect to an existing instance of the server process.
@@ -138,13 +168,27 @@ class Server(object):
         if self.os_process is None:
             time.sleep(random.uniform(0.5, 5.0))
 
-        if not is_process_running(self.name):
+        if autostart and not is_process_running(self.name):
             Log.Verbose(f"[{self.name}] couldn't find existing server process running")
-            if autostart:
-                return self.start()
-            else:
-                return None
+            return self.start()
         
+        # run a rest status query
+        retry_count = 0
+        
+        for retry_count in range(retries):
+            time.sleep(0.5)
+            
+            try:
+                response = Server.request('GET', '/status')
+                print(f'server status:  {response.json()}')
+                if response.ok and response.json()['running']:
+                    break
+                else:
+                    if retry_count == retries - 1:
+                        raise Exception(f"[{self.name}] failed to start running")
+            except Exception as error:
+                traceback.print_exc()
+                
         # create the RPC proxy object for the caller
         self.rpc_proxy = ServerProxy(f"http://{self.host}:{self.rpc_port}")
         
@@ -316,7 +360,31 @@ class Server(object):
                 
             for name, resource in resources[group].items():
                 self.add_resource(group, name, **resource)
-            
+         
+    @classmethod
+    def request(cls, *args, **kwargs):
+        """
+        Wrapper around requests.request() that appends the server's address to the request URL.
+        This can be used to make JSON REST API requests to the server.
+        """
+        args = list(args)
+        args[1] = f"{Server.instance.rest_url}{args[1]}"
+        return requests.request(*args, **kwargs)
+        
+    def get_status(self):
+        """
+        /status REST API
+        """
+        Log.Verbose(f"[{self.name}] GET /status REST API")
+        return flask.jsonify({'running': self.is_running()})
+        
+    def get_resources(self):
+        """
+        /resources REST API
+        """
+        Log.Verbose(f"[{self.name}] GET /resources REST API")
+        return flask.jsonify(self.list_resources())
+        
 def is_process_running(name):
     """
     Check if there is any running process that contains the given name processName.
@@ -351,7 +419,7 @@ if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
     
-    parser.add_argument("--config", default=None, type=str, help=f"path to JSON file to load global configuration from (default is {DASH_CONFIG_FILE})")
+    parser.add_argument("--config", default=None, type=str, help=f"path to JSON file to load global configuration from")
     parser.add_argument("--name", default=None, type=str, help="Name of the backend server process to use")
     parser.add_argument("--host", default=None, type=int, help="interface for the server to use (default is all interfaces, 0.0.0.0)")
     parser.add_argument("--port", default=None, type=int, help="port used for webserver (default is 8050)")
@@ -361,6 +429,7 @@ if __name__ == '__main__':
     parser.add_argument("--ssl-key", default=None, type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
     parser.add_argument("--stun-server", default=None, type=str, help="STUN server to use for WebRTC")
     parser.add_argument("--resources", default=None, type=str, help="path to JSON config file to load initial server resources from")
+    parser.add_argument("--connect", action="store_true", help="connect to the server instead of starting it")
     
     args = parser.parse_args()
     
@@ -394,4 +463,8 @@ if __name__ == '__main__':
     print_config(config)
 
     server = Server(**config['server'])
-    server.start()
+    
+    if args.connect:
+        server.connect(autostart=False)
+    else:
+        server.run()

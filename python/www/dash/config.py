@@ -15,10 +15,12 @@ import json
 import pprint
 import mergedeep
 
+print(f"config __file__ {__file__}")
 
 # This config file gets loaded on start-up, or the defaults written to.
 # It can also be set with the $DASH_CONFIG_FILE environment variable.
-DASH_CONFIG_FILE=os.getenv('DASH_CONFIG_FILE', 'data/config.json')
+DASH_CONFIG_FILE=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data/config.json')
+DASH_CONFIG_FILE=os.getenv('DASH_CONFIG_FILE', DASH_CONFIG_FILE)
 
 
 # These are the default config options that are used to populate DASH_CONFIG_FILE
@@ -39,6 +41,7 @@ config={
         'name' : 'server-backend',      # name of the backend server process (also used for logging)
         'host' : '0.0.0.0',             # hostname/IP of the backend server to bind/connect to
         'rpc_port' : 49565,             # port used for RPC server
+        'rest_port' : 49566,            # port used for JSON REST API
         'webrtc_port' : 49567,          # port used for WebRTC server
         'ssl_cert' : None,              # path to PEM-encoded SSL/TLS certificate file for enabling HTTPS
         'ssl_key' : None,               # path to PEM-encoded SSL/TLS key file for enabling HTTPS
