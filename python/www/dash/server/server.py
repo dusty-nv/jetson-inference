@@ -231,9 +231,31 @@ class Server:
         else:
             time.sleep(1.0)
 
+    @classmethod
+    def request(cls, *args, **kwargs):
+        """
+        Wrapper around requests.request() that appends the server's address to the request URL.
+        This can be used to make JSON REST API requests to the server without needing it's URL.
+        """
+        args = list(args)
+        
+        if len(args) == 0:
+            raise ValueError("Server.request() needs at least one argument containing the path")
+            
+        if len(args) == 1:
+            args.insert(0, 'GET')
+            
+        if not args[1].startswith('http'):
+            if args[1][0] != '/':
+                args[1] = '/' + args[1]
+            args[1] = f"{Server.instance.rest_url}{args[1]}"
+
+        return requests.request(*args, **kwargs)
+        
     def add_resource(self, group, name, *args, **kwargs):
         """
         Add a resource to the server.
+        This function should only be called from the process the server is running in.
         
         Parameters:
             group (string) -- should be one of:  'streams', 'models', 'datasets'
@@ -263,6 +285,7 @@ class Server:
     def get_resource(self, group, name):
         """
         Return a config dict of a resource from a particular group.
+        This function should only be called from the process the server is running in.
         
         Parameters:
             group (string) -- should be one of:  'streams', 'models', 'datasets'
@@ -270,6 +293,7 @@ class Server:
         """
         if name not in self.resources[group] and not name.startswith('/'):
             name = '/' + name
+            
         return self.resources[group][name].get_config()
         
     def list_resources(self, groups=None):
@@ -278,6 +302,7 @@ class Server:
         By default, resources from all of the groups will be returned (models, streams, and datasets).
         If the requested group is a string, only resources from that group will be returned.
         If the requested group is a list, resources from each of those groups will be returned.
+        This function should only be called from the process the server is running in.
         """ 
         if groups is None:
             groups = self.resources.keys()
@@ -294,6 +319,7 @@ class Server:
     def load_resources(self, resources):
         """
         Load resources (streams/models/datasets) from a json config file or dict
+        This function should only be called from the process the server is running in.
         
         Parameters:
             resources (string or dict) -- a path to a json config file, or a dict
@@ -323,27 +349,6 @@ class Server:
             for name, resource in resources[group].items():
                 self.add_resource(group, name, **resource)
          
-    @classmethod
-    def request(cls, *args, **kwargs):
-        """
-        Wrapper around requests.request() that appends the server's address to the request URL.
-        This can be used to make JSON REST API requests to the server.
-        """
-        args = list(args)
-        
-        if len(args) == 0:
-            raise ValueError("Server.request() needs at least one argument containing the path")
-            
-        if len(args) == 1:
-            args.insert(0, 'GET')
-            
-        if not args[1].startswith('http'):
-            if args[1][0] != '/':
-                args[1] = '/' + args[1]
-            args[1] = f"{Server.instance.rest_url}{args[1]}"
-
-        return requests.request(*args, **kwargs)
-
     def _get_status(self):
         """
         /status REST GET request handler
