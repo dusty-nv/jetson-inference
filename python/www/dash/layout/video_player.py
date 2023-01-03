@@ -11,7 +11,7 @@ from server import Server
 
 
 def create_video_player(stream):
-    stream_config = Server.instance.get_resource('streams', stream)
+    stream_config = Server.request(f"/streams/{stream}").json()
     stream_config['video_player'] = f"video_player_element_{stream}"
     
     #print('create_video_player')

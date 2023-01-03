@@ -250,7 +250,7 @@ def model_submit_pretrained(n_clicks, type, network):
         raise PreventUpdate
         
     print(f"model_submit_pretrained({n_clicks}, {type}, {network})")
-    Server.instance.add_resource('models', network, type, network)
+    Server.request('POST', 'models', data={'name': network, 'type': type, 'model': network})
     raise PreventUpdate
 
     
@@ -271,7 +271,17 @@ def model_submit_import_classification(n_clicks, type, path, labels, layer_input
         raise PreventUpdate
         
     print(f"model_submit_import_classification({n_clicks}, {type}, {path}, {labels}, {layer_input}, {layer_output})")
-    Server.instance.add_resource('models', model_name_from_path(path), type, path, labels, layer_input, layer_output)
+    
+    args = {
+        'name': model_name_from_path(path),
+        'type': type,
+        'model': path,
+        'labels': labels,
+        'input_layers': layer_input,
+        'output_layers': layer_output
+    }
+    
+    Server.request('POST', 'models', data=args)
     raise PreventUpdate
 
 
@@ -293,7 +303,17 @@ def model_submit_import_detection(n_clicks, type, path, labels, layer_input, lay
         raise PreventUpdate
         
     print(f"model_submit_import_detection({n_clicks}, {type}, {path}, {labels}, {layer_input}, {layer_scores}, {layer_bbox})")
-    Server.instance.add_resource('models', model_name_from_path(path), type, path, labels, layer_input, {'scores': layer_scores, 'bbox': layer_bbox})
+    
+    args = {
+        'name': model_name_from_path(path),
+        'type': type,
+        'model': path,
+        'labels': labels,
+        'input_layers': layer_input,
+        'output_layers': {'scores': layer_scores, 'bbox': layer_bbox}
+    }
+    
+    Server.request('POST', 'models', data=args)
     raise PreventUpdate
 
 
@@ -336,7 +356,7 @@ def show_model_dialog(n1, n2, n3, is_open):
         raise PreventUpdate
 
     if isinstance(dash.ctx.triggered_id, dict) and dash.ctx.triggered_id['type'] == 'navbar_model':
-        model = Server.instance.get_resource('models', dash.ctx.triggered_id['index'])
+        model = Server.request(f"models/{dash.ctx.triggered_id['index']}").json()
         
     if is_open:
         return False, dash.no_update

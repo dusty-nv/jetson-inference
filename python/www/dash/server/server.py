@@ -27,6 +27,7 @@ import random
 
 import ssl
 import json
+import http
 import flask
 import requests
 
@@ -36,23 +37,16 @@ import threading
 import multiprocessing
 import setproctitle
 
-from xmlrpc.client import ServerProxy
-from xmlrpc.server import SimpleXMLRPCServer
-
 from jetson_utils import Log
 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from model import Model
 from stream import Stream
 
     
-def server_request(*args, **kwargs):
-    args = list(args)
-    args[1] = f"{Server.instance.rest_url}{args[1]}"
-    return requests.request(*args, **kwargs)
-    
-    
+
 # what to call this...
 #  class WebRTCServer
 #  class BackendServer
@@ -75,17 +69,14 @@ class Server:
         * connect() attempts to connect to an existing process, and if not starts one
         * running 'python3 server.py' to launch it manually (see __main__ below)
         
-    It typically runs in it's own process where it uses RPC for command & control.
-    Once start() or connect() are run, the server instance will be replaced with
-    the RPC proxy that forwards function calls to the process running the server.
-    
+    It typically runs in it's own process and uses JSON REST API's for command & control.
     This class is typically a singleton and can be accessed with Server.instance 
     """
     instance = None   # singleton instance
     api = None        # flask REST server
     
     def __init__(self, name='server-backend', host='0.0.0.0', 
-                 rpc_port=49565, rest_port=49566, webrtc_port=49567, 
+                 rest_port=49565, webrtc_port=49567, 
                  ssl_cert=None, ssl_key=None, stun_server=None, resources=None):
         """
         Create a new instance of the backend server.
@@ -93,7 +84,7 @@ class Server:
         Parameters:
             name (string) -- name of the backend server process (also used for logging)
             host (string) -- hostname/IP of the backend server to bind/connect to
-            rpc_port (int) -- port used for RPC server
+            rest_port (int) -- port used for JSON REST API server
             webrtc_port (int) -- port used for WebRTC server
             ssl_cert (string) -- path to PEM-encoded SSL/TLS certificate file for enabling HTTPS
             ssl_key (string) -- path to PEM-encoded SSL/TLS key file for enabling HTTPS
@@ -103,7 +94,6 @@ class Server:
         Server.instance = self
         self.name = name
         self.host = host
-        self.rpc_port = rpc_port
         self.rest_url = f"{'https://' if ssl_cert else 'http://'}{host}:{rest_port}"
         self.rest_port = rest_port
         self.webrtc_port = webrtc_port
@@ -125,21 +115,6 @@ class Server:
         if self.os_process is not None:
             setproctitle.setproctitle(multiprocessing.current_process().name)
             Log.Verbose(f"[{self.name}] started {self.name} process (pid={self.os_process.pid})")
-        
-        # create the RPC server
-        self.rpc_server = SimpleXMLRPCServer((self.host, self.rpc_port), allow_none=True)  # logRequests = False 
-        
-        #if self.ssl_context is not None:
-        #    self.rpc_server.socket = ssl.wrap_socket(self.rpc_server.socket, certfile=self.ssl_context[0], keyfile=self.ssl_context[1], 
-        #                                             server_side=True, ssl_version=ssl.PROTOCOL_TLS)
-            
-        self.rpc_server.register_instance(self, allow_dotted_names=True)
-        
-        # run the RPC server in it's own thread
-        self.rpc_thread = threading.Thread(target=lambda: self.rpc_server.serve_forever(), name=f"{self.name}-rpc")
-        self.rpc_thread.start()     
-        
-        Log.Info(f"[{self.name}] RPC server is running @ http://{self.host}:{self.rpc_port}")
 
         # create the rest server
         Server.api = flask.Flask(__name__)
@@ -148,9 +123,17 @@ class Server:
                                            name=f"{self.name}-rest")
         self.api_thread.start()
         
-        # register rest API's
-        Server.api.add_url_rule('/status', view_func=self.get_status, methods=['GET'])
-        Server.api.add_url_rule('/resources', view_func=self.get_resources, methods=['GET'])
+        # register REST API's
+        Server.api.add_url_rule('/status', view_func=self._get_status, methods=['GET'])
+        Server.api.add_url_rule('/resources', view_func=self._get_resources, methods=['GET'])
+        
+        Server.api.add_url_rule('/streams', view_func=self._get_streams, methods=['GET'])
+        Server.api.add_url_rule('/streams', view_func=self._add_stream, methods=['POST'])
+        Server.api.add_url_rule('/streams/<name>', view_func=self._get_stream, methods=['GET'])
+        
+        Server.api.add_url_rule('/models', view_func=self._get_models, methods=['GET'])
+        Server.api.add_url_rule('/models', view_func=self._add_model, methods=['POST'])
+        Server.api.add_url_rule('/models/<name>', view_func=self._get_model, methods=['GET'])
         
         Log.Info(f"[{self.name}] REST server is running @ {self.rest_url}")
         
@@ -180,8 +163,9 @@ class Server:
             
             try:
                 response = Server.request('GET', '/status')
-                print(f'server status:  {response.json()}')
-                if response.ok and response.json()['running']:
+                status = response.json()
+                print(f"[{self.name}] server status:  {status}")
+                if response.ok and status['running']:
                     break
                 else:
                     if retry_count == retries - 1:
@@ -189,32 +173,8 @@ class Server:
             except Exception as error:
                 traceback.print_exc()
                 
-        # create the RPC proxy object for the caller
-        self.rpc_proxy = ServerProxy(f"http://{self.host}:{self.rpc_port}")
-        
-        # rudimentary check to confirm the process started/initialized ok
-        # TODO put this in a loop and re-try multiple times for when we start loading models/ect at server start-up
-        retry_count = 0
-        
-        for retry_count in range(retries):
-            time.sleep(0.5)
-        
-            try:
-                if self.rpc_proxy.is_running():
-                    break
-                else:
-                    if retry_count == retries - 1:
-                        raise Exception(f"[{self.name}] failed to start running")
-            except ConnectionRefusedError as error:
-                Log.Verbose(f"[{self.name}] {error}")
-            
-            #Log.Verbose(f"[{self.name}] waiting for connection... (retry {retry_count+1} of {retries})")
-          
-        Log.Verbose(f"[{self.name}] {psutil.Process(os.getpid()).name()} (pid={os.getpid()}) connected to {self.name} process (pid={find_process_pid(self.name)})")
-        
-        Server.instance = self.rpc_proxy
-        return self.rpc_proxy
-            
+        Log.Verbose(f"[{self.name}] {psutil.Process(os.getpid()).name()} (pid={os.getpid()}) connected to {self.name} process (pid={status['pid']})")
+     
     def start(self):
         """
         Launch the server running in a new process.
@@ -308,6 +268,8 @@ class Server:
             group (string) -- should be one of:  'streams', 'models', 'datasets'
             name (string)  -- the name of the resource
         """
+        if name not in self.resources[group] and not name.startswith('/'):
+            name = '/' + name
         return self.resources[group][name].get_config()
         
     def list_resources(self, groups=None):
@@ -368,22 +330,88 @@ class Server:
         This can be used to make JSON REST API requests to the server.
         """
         args = list(args)
-        args[1] = f"{Server.instance.rest_url}{args[1]}"
+        
+        if len(args) == 0:
+            raise ValueError("Server.request() needs at least one argument containing the path")
+            
+        if len(args) == 1:
+            args.insert(0, 'GET')
+            
+        if not args[1].startswith('http'):
+            if args[1][0] != '/':
+                args[1] = '/' + args[1]
+            args[1] = f"{Server.instance.rest_url}{args[1]}"
+
         return requests.request(*args, **kwargs)
+
+    def _get_status(self):
+        """
+        /status REST GET request handler
+        """
+        return {'running': self.is_running(), 'pid': os.getpid()}
         
-    def get_status(self):
+    def _get_resources(self):
         """
-        /status REST API
+        /resources REST GET request handler
         """
-        Log.Verbose(f"[{self.name}] GET /status REST API")
-        return flask.jsonify({'running': self.is_running()})
+        return self.list_resources()
+
+    def _get_models(self):
+        """
+        /models REST GET request handler
+        """
+        return self.list_resources('models')
         
-    def get_resources(self):
+    def _get_model(self, name):
         """
-        /resources REST API
+        /model/<name> REST GET request handler
         """
-        Log.Verbose(f"[{self.name}] GET /resources REST API")
-        return flask.jsonify(self.list_resources())
+        return self.get_resource('models', name)
+
+    def _add_model(self):
+        """
+        /models REST POST request handler
+        """
+        args = flask.request.form
+        
+        try:
+            model = Model(self, **args)
+        except Exception as error:
+            Log.Error(f"[{self.name}] failed to create model")
+            traceback.print_exc()
+            return '', http.HTTPStatus.INTERNAL_SERVER_ERROR
+            
+        self.resources['models'][model.name] = model
+        return model.get_config(), http.HTTPStatus.CREATED       
+
+    def _get_streams(self):
+        """
+        /streams REST GET request handler
+        """
+        return self.list_resources('streams')
+        
+    def _get_stream(self, name):
+        """
+        /stream/<name> REST GET request handler
+        """
+        return self.get_resource('streams', name)
+
+    def _add_stream(self):
+        """
+        /streams REST POST request handler
+        """
+        args = flask.request.form
+        
+        try:
+            stream = Stream(self, args['name'], args['source'], args.get('models'))
+        except Exception as error:
+            Log.Error(f"[{self.name}] failed to create stream")
+            traceback.print_exc()
+            return '', http.HTTPStatus.INTERNAL_SERVER_ERROR
+            
+        self.resources['streams'][stream.name] = stream
+        return stream.get_config(), http.HTTPStatus.CREATED
+        
         
 def is_process_running(name):
     """

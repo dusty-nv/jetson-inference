@@ -62,7 +62,7 @@ def list_models():
     """
     Return a drop-down list of models from the server that can be selected.
     """
-    models = Server.instance.list_resources('models') if Server.instance is not None else []
+    models = Server.request('/models').json() if Server.instance is not None else []
     return [{'label': model, 'value': model} for model in models]
     
     
@@ -87,7 +87,7 @@ def show_stream_dialog(n1, n2, n3, is_open):
         raise PreventUpdate
 
     if isinstance(dash.ctx.triggered_id, dict) and dash.ctx.triggered_id['type'] == 'card-settings-stream':
-        stream = Server.instance.get_resource('streams', dash.ctx.triggered_id['index'])
+        stream = Server.request(f"/streams/{dash.ctx.triggered_id['index']}").json()
         
     if is_open:
         return False, dash.no_update
@@ -110,7 +110,7 @@ def stream_submit(n_clicks, name, source, model):
         raise PreventUpdate
         
     print(f"adding stream {name} from source {source} with model {model}")
-    Server.instance.add_resource('streams', name, source, model)
+    Server.request('POST', '/streams', data={'name': name, 'source': source, 'models': model})
     raise PreventUpdate
     
 '''    

@@ -51,6 +51,9 @@ class Stream:
         # lookup models
         self.models = []
         
+        if models is None:
+            models = []
+            
         if isinstance(models, str):
             models = [models]
 
@@ -60,7 +63,6 @@ class Stream:
             else:
                 Log.Verbose(f"[{self.server.name}] model '{model}' was not loaded on server")
 
-            
     def process(self):
         """
         Perform one capture/process/output iteration
@@ -69,8 +71,9 @@ class Stream:
             img = self.source.Capture()
             results = [model.process(img) for model in self.models]
             
-            print('model results:')
-            pprint.pprint(results)
+            if len(results) > 0:
+                print('model results:')
+                pprint.pprint(results)
             
             for model, result in zip(self.models, results):
                 model.visualize(img, result) 

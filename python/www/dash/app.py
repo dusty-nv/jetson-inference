@@ -24,6 +24,7 @@
 import dash
 import http
 import pprint
+import traceback
 
 import warnings  # supress dash_auth import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -74,16 +75,17 @@ def on_refresh(n_intervals, previous_resources):
     """
     try:
         # retry later when other longer-running RPC requests are in-flight
-        server_resources = Server.instance.list_resources()
-    except http.client.CannotSendRequest as error:
-        print(f'[dash]   error refreshing server resources:  http.client.CannotSendRequest {error}')
+        server_resources = Server.request('/resources').json()
+    except Exception as error:
+        traceback.print_exc()
+        print(f"[dash]   error refreshing server resources")
         raise PreventUpdate
 
     if previous_resources is not None:
         if server_resources == previous_resources:
             raise PreventUpdate   # if the config hasn't changed, skip the update
 
-    print(f'[dash]   received updated resources config from backend server:')
+    print(f"[dash]   received updated resources config from backend server:")
     pprint.pprint(server_resources, indent=4)
     return server_resources
 
