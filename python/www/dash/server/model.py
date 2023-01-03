@@ -23,6 +23,9 @@
 from jetson_inference import imageNet, detectNet
 from jetson_utils import cudaFont, Log
 
+from collections import deque
+from pprint import pprint
+
 
 class Model:
     """
@@ -43,9 +46,14 @@ class Model:
             input_layers (string or dict) -- the model's input layer(s)
             output_layers (string or dict) -- the model's output layers()
         """
+        self.server = server
         self.name = name
         self.type = type
-        self.server = server
+        self.model = model
+        self.labels = labels
+        self.input_layers = input_layers
+        self.output_layers = output_layers
+        self.results = deque(maxlen=2)
 
         if type == 'classification':
             self.net = imageNet(model=model, labels=labels, input_blob=input_layers, output_blob=output_layers)
@@ -61,7 +69,10 @@ class Model:
                                  output_bbox=output_layers['bbox'])
         else:
             raise ValueError(f"invalid model type '{type}'")
-            
+       
+    def clone(self):
+        return Model(self.server, **self.get_config())
+        
     def get_config(self):
         """
         Return a dict representation of the object.
@@ -69,6 +80,10 @@ class Model:
         return {
             'name' : self.name,
             'type' : self.type,
+            'model' : self.model,
+            'labels' : self.labels,
+            'input_layers': self.input_layers,
+            'output_layers': self.output_layers
         }
 
     def get_num_classes(self):
@@ -88,14 +103,22 @@ class Model:
         Process an image with the model and return the results.
         """
         if self.type == 'classification':
-            return self.net.Classify(img)
+            results = self.net.Classify(img)
         elif self.type == 'detection':
-            return self.net.Detect(img, overlay='none')
+            results = self.net.Detect(img, overlay='none')
     
-    def visualize(self, img, results):
+        print(f"{self.name} results:")
+        pprint(results)
+        
+        self.results.append(results)
+        
+    def visualize(self, img, results=None):
         """
         Visualize the results on an image.
         """
+        if results is None:
+            results = self.results[-1]
+            
         if self.type == 'classification':
             str = "{:05.2f}% {:s}".format(results[1] * 100, self.get_class_name(results[0]))
             self.font.OverlayText(img, img.width, img.height, str, 5, 5, self.font.White, self.font.Gray40)

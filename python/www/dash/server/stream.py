@@ -59,7 +59,7 @@ class Stream:
 
         for model in models:
             if model in server.resources['models']:
-                self.models.append(server.resources['models'][model])
+                self.models.append(server.resources['models'][model].clone())
             else:
                 Log.Verbose(f"[{self.server.name}] model '{model}' was not loaded on server")
 
@@ -69,14 +69,12 @@ class Stream:
         """
         try:
             img = self.source.Capture()
-            results = [model.process(img) for model in self.models]
             
-            if len(results) > 0:
-                print('model results:')
-                pprint.pprint(results)
-            
-            for model, result in zip(self.models, results):
-                model.visualize(img, result) 
+            for model in self.models:
+                model.process(img)
+                
+            for model in self.models:
+                model.visualize(img)
         except:
             # TODO check if stream is still open, if not reconnect?
             traceback.print_exc()
