@@ -1303,7 +1303,7 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 	if( !engine )
 		return NULL;
 
-		nvinfer1::IExecutionContext* context = engine->createExecutionContext();
+	nvinfer1::IExecutionContext* context = engine->createExecutionContext();
 	
 	if( !context )
 	{
