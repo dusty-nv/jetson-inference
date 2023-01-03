@@ -32,6 +32,7 @@ function onAddRemoteStream(event) {
 	console.log("Adding remote stream to HTML video player (%s)", url);
 	connections[url].stream = event.streams[0];
 	connections[url].videoElement.srcObject = event.streams[0];
+	connections[url].videoElement.play();
 }
 
 function onIceCandidate(event) {
@@ -62,6 +63,7 @@ function onServerMessage(event) {
 		connections[url].webrtcPeer = new RTCPeerConnection(connections[url].webrtcConfig);
 		connections[url].webrtcPeer.url = url;
 		
+		connections[url].webrtcPeer.onconnectionstatechange = (ev) => { console.log("WebRTC connection state:  " + connections[url].webrtcPeer.connectionState); }
 		connections[url].webrtcPeer.ontrack = onAddRemoteStream;
 		connections[url].webrtcPeer.onicecandidate = onIceCandidate;
 	}
