@@ -3072,7 +3072,7 @@ textarea.form-control-lg {
 
 .btn-check:focus + .btn, .btn:focus {
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(55, 90, 127, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(80, 120, 80, 0.25);
 }
 
 .btn:disabled, .btn.disabled,
@@ -3089,29 +3089,29 @@ fieldset:disabled .btn {
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #2f4d6c;
-  border-color: #2c4866;
+  background-color: #325c2b;
+  border-color: #2b4f25;
 }
 
 .btn-check:focus + .btn-primary, .btn-primary:focus {
   color: #fff;
-  background-color: #2f4d6c;
-  border-color: #2c4866;
-  box-shadow: 0 0 0 0.25rem rgba(85, 115, 146, 0.5);
+  background-color: #325c2b;
+  border-color: #2b4f25;
+  box-shadow: 0 0 0 0.25rem rgba(80, 120, 80, 0.5);
 }
 
 .btn-check:checked + .btn-primary,
 .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active,
 .show > .btn-primary.dropdown-toggle {
   color: #fff;
-  background-color: #2c4866;
-  border-color: #29445f;
+  background-color: #2b4f25;
+  border-color: #2b4f25;
 }
 
 .btn-check:checked + .btn-primary:focus,
 .btn-check:active + .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active:focus,
 .show > .btn-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.25rem rgba(85, 115, 146, 0.5);
+  box-shadow: 0 0 0 0.25rem rgba(80, 120, 80, 0.5);
 }
 
 .btn-primary:disabled, .btn-primary.disabled {
