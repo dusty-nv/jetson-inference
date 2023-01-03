@@ -372,7 +372,7 @@ class Server:
         """
         /models REST POST request handler
         """
-        args = flask.request.form
+        args = flask.request.get_json()
         
         try:
             model = Model(self, **args)
@@ -400,7 +400,7 @@ class Server:
         """
         /streams REST POST request handler
         """
-        args = flask.request.form
+        args = flask.request.get_json()
         
         try:
             stream = Stream(self, args['name'], args['source'], args.get('models'))

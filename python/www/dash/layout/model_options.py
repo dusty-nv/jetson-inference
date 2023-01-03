@@ -250,7 +250,7 @@ def model_submit_pretrained(n_clicks, type, network):
         raise PreventUpdate
         
     print(f"model_submit_pretrained({n_clicks}, {type}, {network})")
-    Server.request('POST', 'models', data={'name': network, 'type': type, 'model': network})
+    Server.request('POST', 'models', json={'name': network, 'type': type, 'model': network})
     raise PreventUpdate
 
     
@@ -281,7 +281,7 @@ def model_submit_import_classification(n_clicks, type, path, labels, layer_input
         'output_layers': layer_output
     }
     
-    Server.request('POST', 'models', data=args)
+    Server.request('POST', 'models', json=args)
     raise PreventUpdate
 
 
@@ -313,7 +313,7 @@ def model_submit_import_detection(n_clicks, type, path, labels, layer_input, lay
         'output_layers': {'scores': layer_scores, 'bbox': layer_bbox}
     }
     
-    Server.request('POST', 'models', data=args)
+    Server.request('POST', 'models', json=args)
     raise PreventUpdate
 
 

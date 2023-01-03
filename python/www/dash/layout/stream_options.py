@@ -110,7 +110,7 @@ def stream_submit(n_clicks, name, source, model):
         raise PreventUpdate
         
     print(f"adding stream {name} from source {source} with model {model}")
-    Server.request('POST', '/streams', data={'name': name, 'source': source, 'models': model})
+    Server.request('POST', '/streams', json={'name': name, 'source': source, 'models': model})
     raise PreventUpdate
     
 '''    
