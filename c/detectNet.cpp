@@ -1055,12 +1055,12 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 		#ifdef BATCH_TEXT
 			labels.push_back(std::pair<std::string, int2>(buffer, position));
 		#else
+			float4 color = make_float4(255,255,255,255);
+		
 			if( detections[n].TrackID >= 0 )
-			{
-				float4 color = make_float4(255,255,255,255);
 				color.w *= 1.0f - (fminf(detections[n].TrackLost, 15.0f) / 15.0f);
-				font->OverlayText(output, format, width, height, buffer, position.x, position.y, color);
-			}
+			
+			font->OverlayText(output, format, width, height, buffer, position.x, position.y, color);
 		#endif
 		}
 
