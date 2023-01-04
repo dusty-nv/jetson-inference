@@ -93,7 +93,10 @@ int main( int argc, char** argv )
 	videoOutput* output = videoOutput::Create(cmdLine, ARG_POSITION(1));
 	
 	if( !output )
+	{
 		LogError("posenet: failed to create output stream\n");	
+		return 1;
+	}
 	
 
 	/*
