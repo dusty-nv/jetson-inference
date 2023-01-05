@@ -431,12 +431,12 @@ PyObject* PyImageNet_SetSmoothing( PyImageNet_Object* self, PyObject* args )
 		return NULL;
 	}
 	
-	float threshold = 0.0f;
+	float factor = 0.0f;
 
-	if( !PyArg_ParseTuple(args, "f", &threshold) )
+	if( !PyArg_ParseTuple(args, "f", &factor) )
 		return NULL;
 
-	self->net->SetSmoothing(threshold);
+	self->net->SetSmoothing(factor);
 	Py_RETURN_NONE;
 }
 
