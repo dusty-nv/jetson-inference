@@ -82,6 +82,9 @@ def create_navbar_menus(resources={}):
             id='navbar_models_dropdown',
     )]
     
+    # events menu
+    navbar += [dbc.NavLink('Events', id='navbar_events', n_clicks=0)]
+    
     # help menu
     navbar += [dbc.NavLink('Help', id='navbar_help', href="https://github.com/dusty-nv/jetson-inference", target='_blank')]
     

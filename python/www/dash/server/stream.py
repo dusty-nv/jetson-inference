@@ -59,7 +59,7 @@ class Stream:
 
         for model in models:
             if model in server.resources['models']:
-                self.models.append(server.resources['models'][model].clone())
+                self.models.append(server.resources['models'][model].clone(stream=self))
             else:
                 Log.Verbose(f"[{self.server.name}] model '{model}' was not loaded on server")
 

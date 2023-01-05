@@ -25,6 +25,7 @@ from jetson_utils import cudaFont, Log
 
 from collections import deque
 from pprint import pprint
+from time import time
 
 
 class Model:
@@ -32,7 +33,7 @@ class Model:
     Represents DNN models for classification, detection, segmentation, ect.
     These can be either built-in models or user-provided / user-trained.
     """
-    def __init__(self, server, name, type, model, labels='', input_layers='', output_layers=''):
+    def __init__(self, server, name, type, model, labels='', input_layers='', output_layers='', **kwargs):
         """
         Load the model, either from a built-in pre-trained model or from a user-provided model.
         
@@ -54,6 +55,7 @@ class Model:
         self.input_layers = input_layers
         self.output_layers = output_layers
         self.results = deque(maxlen=2)
+        self.stream = kwargs.get('stream')
 
         if type == 'classification':
             self.net = imageNet(model=model, labels=labels, input_blob=input_layers, output_blob=output_layers)
@@ -70,8 +72,8 @@ class Model:
         else:
             raise ValueError(f"invalid model type '{type}'")
        
-    def clone(self):
-        return Model(self.server, **self.get_config())
+    def clone(self, **kwargs):
+        return Model(self.server, **self.get_config(), **kwargs)
         
     def get_config(self):
         """
@@ -97,13 +99,28 @@ class Model:
         Return the class name or description for the given class ID.
         """
         return self.net.GetClassDesc(class_id)
-  
+    
     def process(self, img):
         """
         Process an image with the model and return the results.
+        TODO refactor event creation
         """
         if self.type == 'classification':
             results = self.net.Classify(img)
+            
+            if len(self.results) > 0:
+                last_results = self.results[-1]
+            else:
+                last_results = (-1, -1)
+                
+            if results[0] != last_results[0]:
+                self.last_event = [time(), time(), self.stream.name, self.name, results[0], self.net.GetClassLabel(results[0]), results[1], results[1]]
+                self.server.events.append(self.last_event)
+            else:
+                self.last_event[1] = time()
+                self.last_event[6] = results[1]
+                self.last_event[7] = max(self.last_event[6], results[1])
+
         elif self.type == 'detection':
             results = self.net.Detect(img, overlay='none')
     
@@ -111,14 +128,18 @@ class Model:
         pprint(results)
         
         self.results.append(results)
-        
+        return results
+
     def visualize(self, img, results=None):
         """
         Visualize the results on an image.
         """
         if results is None:
-            results = self.results[-1]
-            
+            if len(self.results) > 0:
+                results = self.results[-1]
+            else:
+                return
+                
         if self.type == 'classification':
             str = "{:05.2f}% {:s}".format(results[1] * 100, self.get_class_name(results[0]))
             self.font.OverlayText(img, img.width, img.height, str, 5, 5, self.font.White, self.font.Gray40)

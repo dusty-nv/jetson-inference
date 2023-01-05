@@ -77,7 +77,8 @@ class Server:
     
     def __init__(self, name='server-backend', host='0.0.0.0', 
                  rest_port=49565, webrtc_port=49567, 
-                 ssl_cert=None, ssl_key=None, stun_server=None, resources=None):
+                 ssl_cert=None, ssl_key=None, stun_server=None, 
+                 resources=None):
         """
         Create a new instance of the backend server.
         
@@ -107,6 +108,7 @@ class Server:
             'streams' : {},
             #'datasets': {},
         }
+        self.events = []
         
     def init(self):
         """
@@ -134,6 +136,8 @@ class Server:
         Server.api.add_url_rule('/models', view_func=self._get_models, methods=['GET'])
         Server.api.add_url_rule('/models', view_func=self._add_model, methods=['POST'])
         Server.api.add_url_rule('/models/<name>', view_func=self._get_model, methods=['GET'])
+        
+        Server.api.add_url_rule('/events', view_func=self._get_events, methods=['GET'])
         
         Log.Info(f"[{self.name}] REST server is running @ {self.rest_url}")
         
@@ -416,6 +420,12 @@ class Server:
             
         self.resources['streams'][stream.name] = stream
         return stream.get_config(), http.HTTPStatus.CREATED
+        
+    def _get_events(self):
+        """
+        /events REST GET request handler
+        """
+        return flask.jsonify(self.events)
         
         
 def is_process_running(name):
