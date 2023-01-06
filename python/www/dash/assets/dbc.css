@@ -1,0 +1,455 @@
+/*
+https://community.plotly.com/t/styling-dash-datatable-select-rows-radio-button-and-checkbox/59466/2
+Defines the .dbc class
+  Description: The dbc class improves the style of Dash components when using Bootstrap V5 themes
+  Author: @AnnMarieW
+  Updated: 2022-09-08
+*/
+
+
+/* --------- dcc dropdown ---- */
+
+
+/* input box */
+.dbc .Select-control {
+  background-color: var(--bs-body-bg) !important;
+  border: solid rgba(100, 100, 100, 0.4) 1px !important;
+}
+
+/* changes the text color of input box */
+.dbc .Select-value-label {
+  color: var(--bs-body-color) !important;
+}
+
+.dbc .Select input {
+  color: var(--bs-body-color);
+}
+
+/* dropdown menu options */
+.dbc .VirtualizedSelectOption {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+/* dropdown menu hover effect */
+.dbc .VirtualizedSelectFocusedOption {
+  background-color: rgba(100, 100, 100, 0.2);
+  color: black;
+}
+
+/* border on focus - default is blue
+ * shadow box around input box.  default is blue
+ */
+.dbc .is-focused:not(.is-open) > .Select-control {
+  border-color: var(--bs-primary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.2);
+}
+
+/* primary  this colors the input box text and x  of multi */
+.dbc .Select--multi .Select-value {
+  color: var(--bs-body-color);
+  background-color: rgba(var(--bs-primary-rgb), 0.2);
+  border-color: rgba(var(--bs-primary-rgb), 0.6) !important;
+}
+
+/* ---------------------------------------
+ * textarea
+ */
+.dbc textarea {
+  background-color: var(--bs-body-bg) !important;
+  color: var(--bs-body-color) !important;
+  border-color: rgba(100, 100, 100, 0.4) !important;
+}
+
+/* Use this classname for dcc.Input */
+.dbc input:not([type=radio]):not([type=checkbox]) {
+  color: var(--bs-body-color) !important;
+  background-color: var(--bs-body-bg) !important;
+}
+
+
+.dbc input::placeholder {
+  color: var(--bs-body-color) !important;
+  background-color: var(--bs-body-bg) !important;
+}
+
+
+/* ---------------------------------------
+ * Datatable
+ */
+
+/* fixes margins so data isn't cut off at table edges */
+.dbc .dash-table-container .row {
+  display: block !important;
+  margin: 0;
+}
+
+/* fixes  when the table dropdown doesn't drop down */
+.dbc .Select-menu-outer {
+  display: block !important;
+}
+
+.dash-table-container .dropdown {
+  position: static;
+}
+
+/*
+ *  sort arrow and delete icons in the DataTable header - changes pink color
+ *  these icons appear when the table is sortable and/or columns are deletable
+ */
+.dbc .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner table {
+  --accent: var(--bs-primary) !important;
+  --hover: none !important;
+  font-family: var(--bs-font-sans-serif);
+}
+
+.dbc input.dash-filter--case--sensitive {
+  border-color: var(--bs-primary) !important;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 2px;
+  color: var(--bs-primary) !important;
+}
+
+/* pagination buttons - this removes the default pink hover */
+.dbc .last-page:hover,
+.previous-page:hover,
+.first-page:hover,
+.next-page:hover {
+  color: var(--bs-primary) !important;
+}
+
+
+/* table details */
+body .dbc .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner td {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border-color: rgba(100, 100, 100, 0.4) !important;
+}
+
+/* on hover highlight entire row
+.dash-spreadsheet tr:hover td.dash-cell {
+            border-color: rgba(100, 100, 100, 0.4) !important;
+            border-width: 0.5px !important;
+            background-color: rgba(var(--bs-primary-rgb), 0.2) !important;
+
+         }
+*/
+
+/* table header */
+body .dbc .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner th {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border-color: rgba(100, 100, 100, 0.4) !important;
+}
+
+
+/* filter row in the header */
+.dbc .dash-spreadsheet .dash-filter {
+  font-family: var(--bs-font-family-sans-serif);
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  --border: var(--bs-gray);
+}
+
+/* tooltips  */
+.dbc .dash-table-tooltip {
+  background-color: var(--bs-gray-500) !important;
+  color: var(--bs-body-color);
+  width: fit-content;
+  /* max and min width are both set to 300px in the dash stylesheet. Override them with your own definitions. */
+  max-width: 300px;
+  min-width: unset;
+}
+
+/* pagination */
+.dbc .dash-table-container .previous-next-container .page-number .current-page-container .current-page-shadow {
+  background-color: transparent;
+  color: var(--bs-body-color) !important;
+}
+
+.dbc .dash-table-container .previous-next-container .page-number .current-page-container input.current-page {
+  background-color: transparent;
+}
+
+.dbc .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner table {
+  border-collapse: inherit;
+  border-spacing: unset;
+}
+
+/* active cell */
+.dbc .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner td.focused {
+  background-color: rgba(var(--bs-primary-rgb), 0.2) !important;
+  outline: 1px solid var(--bs-primary);
+}
+
+/* active cell when cell is  editable */
+.dbc .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner input:not([type=radio]):not([type=checkbox]) {
+  background-color: transparent !important;
+}
+
+/* selected cells */
+.dbc .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner td.cell--selected {
+  background-color: rgba(var(--bs-primary-rgb), 0.2) !important;
+}
+
+/*  dropdown inside datatable */
+.dbc .dash-table-container .dash-spreadsheet .Select-menu-outer {
+  background-color: var(--bs-gray-500);
+  border-color: rgba(100, 100, 100, 0.4)
+}
+
+.dbc .dash-table-container .dash-spreadsheet .Select-option:hover {
+  background-color: rgba(var(--bs-gray-500), .4);
+}
+
+.dbc .dash-table-container .dash-spreadsheet .Select-option {
+  background-color: rgba(var(--bs-gray-500), .4);
+}
+
+
+/*---- Sliders ----------------- */
+
+.dbc .rc-slider-track {
+  background-color: rgba(var(--bs-primary-rgb), 0.50);
+}
+
+.dbc .rc-slider-handle {
+  border: solid 1px var(--bs-primary);
+  background-color: var(--bs-body-bg);
+}
+
+.dbc .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 5px rgba(var(--bs-primary-rgb), 0.25);
+}
+
+.dbc .rc-slider-handle-click-focused:focus {
+  border-color: var(--bs-primary);
+  box-shadow: unset;
+}
+
+.dbc .rc-slider-handle:hover {
+  border-color: rgba(var(--bs-primary-rgb), 0.25);
+}
+
+.dbc .rc-slider-handle:active {
+  border-color: rgba(var(--bs-primary-rgb), 0.25);
+  box-shadow: 0 0 5px rgba(var(--bs-primary-rgb), 0.25);
+}
+
+.dbc .rc-slider-dot-active {
+  border-color: var(--bs-primary);
+}
+
+
+/* ------------ datepickers -----------------------*/
+
+.dbc .SingleDatePickerInput__withBorder {
+  border-color: rgba(100, 100, 100, 0.4) !important;
+  background-color: transparent !important;
+}
+
+.dbc .DateInput_input__focused {
+  border-bottom: 1px solid rgba(100, 100, 100, 0.4) !important;
+}
+
+.dbc .DateRangePickerInput__withBorder {
+  border-color: rgba(100, 100, 100, 0.4) !important;
+}
+
+.dbc .DateInput_fangStroke {
+  stroke: rgba(100, 100, 100, 0.4);
+  fill: transparent;
+}
+
+.dbc .DateRangePickerInput {
+  background-color: var(--bs-body-bg);
+}
+
+.dbc .DateRangePickerInput_arrow {
+  background-color: var(--bs-body-bg);
+}
+
+.dbc .DateRangePickerInput_arrow svg {
+  fill: var(--bs-body-color) !important;
+}
+
+.dbc .DateInput_fangShape {
+  fill: var(--bs-body-bg);
+}
+
+.dbc .DateInput_input {
+  background-color: var(--bs-body-bg);
+  font-family: var(--bs-body-font-family);
+}
+
+.dbc .DayPicker {
+  background-color: var(--bs-body-bg);
+}
+
+.dbc .DayPickerNavigation_button {
+  border: border-color: rgba(100, 100, 100, 0.4);
+  background-color: transparent;
+}
+
+.dbc .CalendarMonth_caption {
+  color: var(--bs-body-color) font-weight: bold
+}
+
+.dbc date-picker-range {
+  background-color: var(--bs-body-bg);
+}
+
+.dbc .CalendarMonthGrid {
+  background-color: var(--bs-body-bg);
+}
+
+.dbc .CalendarMonth {
+  background-color: var(--bs-body-bg);
+}
+
+.dbc .CalendarDay__default {
+  color: var(--bs-body-color);
+  border-color: rgba(100, 100, 100, 0.4) !important;
+  background-color: var(--bs-body-bg);
+}
+
+.dbc .CalendarDay__default:hover {
+  background: rgba(var(--bs-primary-rgb), 0.3);
+  color: white;
+}
+
+.dbc .CalendarDay__selected {
+  background: var(--bs-primary);
+  border: 1px var(--bs-primary);
+  color: white;
+}
+
+.dbc .CalendarDay__selected:hover {
+  background: var(--bs-primary);
+  border: 1px var(--bs-primary);
+  color: white;
+}
+
+.dbc .CalendarDay__blocked_out_of_range {
+  opacity: .5;
+}
+
+.dbc .CalendarDay__hovered_span {
+  background: rgba(var(--bs-primary-rgb), 0.2);
+  color: white;
+}
+
+.dbc .CalendarDay__hovered_span:hover {
+  background: rgba(var(--bs-primary-rgb), 0.2);
+  color: white;
+}
+
+.dbc .CalendarDay__selected_span {
+  background: var(--bs-primary);
+  color: white;
+}
+
+.dbc .DayPickerKeyboardShortcuts__show {
+  display: none;
+}
+
+.dbc .DayPickerKeyboardShortcuts_show__bottomRight {
+  display: none;
+}
+/* --------- end calendar ---------------------*/
+
+/* makes text in forms visible with dark themes */
+.dbc .form-control {
+  color: var(--bs-body-color)
+}
+
+/* fixes font in headings with theme switcher */
+.dbc h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6  {
+	font-family: inherit;
+}
+
+/* makes close button in offcanvas visible in all themes */
+.offcanvas-header .btn-close {
+  background-color: rgba(var(--bs-primary-rgb), 0.2) !important;
+}
+
+
+/* styles code in dcc.Markdown with the GitHub Dark Dimmed theme */
+.dbc pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}/*!
+  Theme: GitHub Dark Dimmed
+  Description: Dark dimmed theme as seen on github.com
+  Author: github.com
+  Maintainer: @Hirse
+  Updated: 2021-05-15
+  Colors taken from GitHub's CSS
+*/
+.dbc .hljs{color:#adbac7;background:#22272e}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#f47067}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#dcbdfb}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#6cb6ff}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#96d0ff}.hljs-built_in,.hljs-symbol{color:#f69d50}.hljs-code,.hljs-comment,.hljs-formula{color:#768390}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#8ddb8c}.hljs-subst{color:#adbac7}.hljs-section{color:#316dca;font-weight:700}.hljs-bullet{color:#eac55f}.hljs-emphasis{color:#adbac7;font-style:italic}.hljs-strong{color:#adbac7;font-weight:700}.hljs-addition{color:#b4f1b4;background-color:#1b4721}.hljs-deletion{color:#ffd8d3;background-color:#78191b}
+
+
+/* ---------  dcc tabs -------------------------
+*  Note - To style tabs here, it's necessary to use `!important` to override  the default style.
+*         This means it's not possible to change the border, background or text color
+*         with `style={..}` or `className={..} etc in the dcc.Tabs or dcc.Tab components.
+*
+*         If you prefer to set the style in the component definition, delete this section
+*
+*/
+.dbc .tab {
+    border-color: rgba(100, 100, 100, 0.4) !important;
+    background-color: var(--bs-body-bg) !important;
+    color: var(--bs-body-body) !important;
+}
+.dbc .tab--selected {
+    border-top: 4px solid rgba(var(--bs-primary-rgb), 0.50) !important;
+    background-color: var(--bs-body-bg) !important;
+    color: var(--bs-body-body) !important;
+}
+/* ----- end tabs -------------------------------------*/
+
+
+/* ---- styles the checkboxes and radio buttons when row is selectable in the Dash DataTable --- */
+.dbc-row-selectable input[type=checkbox],  .dbc-row-selectable input[type=radio] {
+    border: 1px solid rgb(100, 100, 100);
+    color: var(--bs-body-color);
+    font-weight: bold;
+    background-color: inherit;
+    width: 1em;
+    height: 1em;
+    outline: 0;
+    padding: 0;
+    float: left;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin-right: 5px;
+}
+
+.dbc-row-selectable input[type=radio] {
+    border-radius: 50%;
+    position: relative;
+}
+
+.dbc-row-selectable input[type=radio]:checked:before {
+    content: "";
+    background-color: var(--bs-primary);
+    float: left;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    transform: scale(0.65);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+}
+
+.dbc-row-selectable input[type=checkbox]:checked:before {
+    content: "✓";
+    float: left;
+    width: 1em;
+    height: 1em;
+    line-height: 1em;
+    text-align: center;
+}
+
+/* ---- end dbc-row-selectable -------------------------*/
