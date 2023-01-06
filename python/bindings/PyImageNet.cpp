@@ -467,9 +467,9 @@ static PyMethodDef pyImageNet_Methods[] =
 	{ "GetClassDesc", (PyCFunction)PyImageNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassSynset", (PyCFunction)PyImageNet_GetClassSynset, METH_VARARGS, DOC_GET_CLASS_SYNSET},
 	{ "GetThreshold", (PyCFunction)PyImageNet_GetThreshold, METH_NOARGS, DOC_GET_THRESHOLD},
-	{ "SetThreshold", (PyCFunction)PyImageNet_GetThreshold, METH_VARARGS, DOC_SET_THRESHOLD},
+	{ "SetThreshold", (PyCFunction)PyImageNet_SetThreshold, METH_VARARGS, DOC_SET_THRESHOLD},
 	{ "GetSmoothing", (PyCFunction)PyImageNet_GetSmoothing, METH_NOARGS, DOC_GET_SMOOTHING},
-	{ "SetSmoothing", (PyCFunction)PyImageNet_GetSmoothing, METH_VARARGS, DOC_SET_SMOOTHING},
+	{ "SetSmoothing", (PyCFunction)PyImageNet_SetSmoothing, METH_VARARGS, DOC_SET_SMOOTHING},
 	{ "Usage", (PyCFunction)PyImageNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},
 	{NULL}  /* Sentinel */
 };
