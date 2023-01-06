@@ -42,10 +42,10 @@ from jetson_utils import Log
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from event import Event
 from model import Model
 from stream import Stream
 
-    
 
 # what to call this...
 #  class WebRTCServer
@@ -118,14 +118,9 @@ class Server:
             setproctitle.setproctitle(multiprocessing.current_process().name)
             Log.Verbose(f"[{self.name}] started {self.name} process (pid={self.os_process.pid})")
 
-        # create the rest server
+        # create the REST server
         Server.api = flask.Flask(__name__)
-        self.api_thread = threading.Thread(target=lambda: Server.api.run(host=self.host, port=self.rest_port,
-                                           ssl_context=(self.ssl_cert, self.ssl_key) if self.ssl_cert else None),
-                                           name=f"{self.name}-rest")
-        self.api_thread.start()
         
-        # register REST API's
         Server.api.add_url_rule('/status', view_func=self._get_status, methods=['GET'])
         Server.api.add_url_rule('/resources', view_func=self._get_resources, methods=['GET'])
         
@@ -138,6 +133,20 @@ class Server:
         Server.api.add_url_rule('/models/<name>', view_func=self._get_model, methods=['GET'])
         
         Server.api.add_url_rule('/events', view_func=self._get_events, methods=['GET'])
+        
+        # setup a JSON encoder for some custom objects
+        class MyJSONEncoder(flask.json.JSONEncoder):
+            def default(self, obj):
+                if isinstance(obj, Event): return obj.to_list()
+                return super(MyJSONEncoder, self).default(obj)
+        
+        Server.api.json_encoder = MyJSONEncoder
+        
+        # start the REST server
+        self.api_thread = threading.Thread(target=lambda: Server.api.run(host=self.host, port=self.rest_port,
+                                           ssl_context=(self.ssl_cert, self.ssl_key) if self.ssl_cert else None),
+                                           name=f"{self.name}-rest")
+        self.api_thread.start()
         
         Log.Info(f"[{self.name}] REST server is running @ {self.rest_url}")
         

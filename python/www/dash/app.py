@@ -62,7 +62,7 @@ app.layout = dash.html.Div([
     create_model_dialog(),
     dcc.Store(id='server_resources'),
     dcc.Interval(id='refresh_timer', interval=config['dash']['refresh'])
-])
+], className='dbc')
 
 
 @app.callback(Output('server_resources', 'data'),

@@ -27,6 +27,8 @@ from collections import deque
 from pprint import pprint
 from time import time
 
+from event import Event
+
 
 class Model:
     """
@@ -56,10 +58,20 @@ class Model:
         self.output_layers = output_layers
         self.results = deque(maxlen=2)
         self.stream = kwargs.get('stream')
-
+        self.kwargs = kwargs
+        
+        print(f"MODEL KWARGS:  {kwargs}")
+        
         if type == 'classification':
             self.net = imageNet(model=model, labels=labels, input_blob=input_layers, output_blob=output_layers)
             self.font = cudaFont()
+            
+            if 'threshold' in kwargs:
+                self.net.SetThreshold(kwargs['threshold'])
+                
+            if 'smoothing' in kwargs:
+                self.net.SetSmoothing(kwargs['smoothing'])
+                
         elif type == 'detection':
             if not output_layers:
                 output_layers = {'scores': '', 'bbox': ''}
@@ -85,7 +97,8 @@ class Model:
             'model' : self.model,
             'labels' : self.labels,
             'input_layers': self.input_layers,
-            'output_layers': self.output_layers
+            'output_layers': self.output_layers,
+            **self.kwargs
         }
 
     def get_num_classes(self):
@@ -108,24 +121,23 @@ class Model:
         if self.type == 'classification':
             results = self.net.Classify(img)
             
-            if len(self.results) > 0:
-                last_results = self.results[-1]
-            else:
-                last_results = (-1, -1)
-                
-            if results[0] != last_results[0]:
-                self.last_event = [time(), time(), self.stream.name, self.name, results[0], self.net.GetClassLabel(results[0]), results[1], results[1]]
-                self.server.events.append(self.last_event)
-            else:
-                self.last_event[1] = time()
-                self.last_event[6] = results[1]
-                self.last_event[7] = max(self.last_event[6], results[1])
+            if results[0] >= 0:
+                if len(self.results) > 0:
+                    last_results = self.results[-1]
+                else:
+                    last_results = (-1, -1)
+                    
+                if results[0] != last_results[0]:
+                    self.last_event = Event(self.stream, self, results[0], self.get_class_name(results[0]), results[1])
+                    #self.server.events.append(self.last_event)
+                else:
+                    self.last_event.update(results[1])
 
         elif self.type == 'detection':
             results = self.net.Detect(img, overlay='none')
     
-        print(f"{self.name} results:")
-        pprint(results)
+        #print(f"{self.name} results:")
+        #pprint(results)
         
         self.results.append(results)
         return results
@@ -141,7 +153,9 @@ class Model:
                 return
                 
         if self.type == 'classification':
-            str = "{:05.2f}% {:s}".format(results[1] * 100, self.get_class_name(results[0]))
-            self.font.OverlayText(img, img.width, img.height, str, 5, 5, self.font.White, self.font.Gray40)
+            if results[0] >= 0:
+                str = "{:05.2f}% {:s}".format(results[1] * 100, self.get_class_name(results[0]))
+                self.font.OverlayText(img, img.width, img.height, str, 5, 5, self.font.White, self.font.Gray40)
         elif self.type == 'detection':
-            self.net.Overlay(img, results)
+            if len(results) > 0:
+                self.net.Overlay(img, results)
