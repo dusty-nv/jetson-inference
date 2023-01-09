@@ -363,11 +363,12 @@ class Server:
             for name, resource in resources[group].items():
                 self.add_resource(group, name, **resource)
          
-    def alert(self, text, level='info', duration=2500):
+    @staticmethod
+    def alert(text, level='info', duration=2500):
         """
         Add alert text which gets displayed on the front-end page
         """
-        self.alerts.append((text, level, time.time(), duration))
+        Server.instance.alerts.append((text, level, time.time(), duration))
         
     def _get_status(self):
         """
