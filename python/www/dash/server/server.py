@@ -245,8 +245,8 @@ class Server:
         else:
             time.sleep(1.0)
 
-    @classmethod
-    def request(cls, *args, **kwargs):
+    @staticmethod
+    def request(*args, **kwargs):
         """
         Wrapper around requests.request() that appends the server's address to the request URL.
         This can be used to make JSON REST API requests to the server without needing it's URL.
