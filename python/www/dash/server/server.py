@@ -109,6 +109,7 @@ class Server:
             #'datasets': {},
         }
         self.events = []
+        self.alerts = []
         
     def init(self):
         """
@@ -362,11 +363,17 @@ class Server:
             for name, resource in resources[group].items():
                 self.add_resource(group, name, **resource)
          
+    def alert(self, text, level='info', duration=2500):
+        """
+        Add alert text which gets displayed on the front-end page
+        """
+        self.alerts.append((text, level, time.time(), duration))
+        
     def _get_status(self):
         """
         /status REST GET request handler
         """
-        return {'running': self.is_running(), 'pid': os.getpid()}
+        return {'running': self.is_running(), 'pid': os.getpid(), 'alerts': self.alerts}
         
     def _get_resources(self):
         """
@@ -393,13 +400,17 @@ class Server:
         args = flask.request.get_json()
         
         try:
+            self.alert(f"Loading {args['type']} model {args['model']}...")
             model = Model(self, **args)
         except Exception as error:
+            self.alert(f"Error loading {args['type']} model {args['model']}", level="error")
             Log.Error(f"[{self.name}] failed to create model")
             traceback.print_exc()
             return '', http.HTTPStatus.INTERNAL_SERVER_ERROR
             
         self.resources['models'][model.name] = model
+        self.alert(f"Loaded {model.type} model {model.model}", level="success")
+        
         return model.get_config(), http.HTTPStatus.CREATED       
 
     def _get_streams(self):
@@ -421,13 +432,17 @@ class Server:
         args = flask.request.get_json()
         
         try:
+            self.alert(f"Creating stream {args['name']}...")
             stream = Stream(self, args['name'], args['source'], args.get('models'))
         except Exception as error:
+            self.alert(f"Error creating stream {args['name']}", level="error", duration=0)
             Log.Error(f"[{self.name}] failed to create stream")
             traceback.print_exc()
             return '', http.HTTPStatus.INTERNAL_SERVER_ERROR
             
         self.resources['streams'][stream.name] = stream
+        self.alert(f"Created stream {stream.name}", level="success")
+        
         return stream.get_config(), http.HTTPStatus.CREATED
         
     def _get_events(self):

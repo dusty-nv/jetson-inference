@@ -36,7 +36,7 @@ from dash.exceptions import PreventUpdate
 from config import config, print_config
 from server import Server
 
-from layout import create_grid, create_navbar, create_stream_dialog, create_model_dialog
+from layout import create_grid, create_navbar, create_alerts, create_stream_dialog, create_model_dialog
 
 
 # create the dash app
@@ -57,6 +57,7 @@ if len(config['dash']['users']) > 0:
 # define the default layout
 app.layout = dash.html.Div([
     create_navbar(),
+    create_alerts(),
     create_grid(),
     create_stream_dialog(),
     create_model_dialog(),
