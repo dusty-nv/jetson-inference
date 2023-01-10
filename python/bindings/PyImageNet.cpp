@@ -311,7 +311,7 @@ PyObject* PyImageNet_GetClassDesc( PyImageNet_Object* self, PyObject* args )
 		return NULL;
 	}
 		
-	if( classIdx < 0 || classIdx >= self->net->GetNumClasses() )
+	if( /*classIdx < 0 ||*/ classIdx >= (int)self->net->GetNumClasses() )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet requested class index is out of bounds");
 		return NULL;
@@ -345,7 +345,7 @@ PyObject* PyImageNet_GetClassSynset( PyImageNet_Object* self, PyObject* args )
 		return NULL;
 	}
 		
-	if( classIdx < 0 || classIdx >= self->net->GetNumClasses() )
+	if( /*classIdx < 0 ||*/ classIdx >= (int)self->net->GetNumClasses() )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "imageNet requested class index is out of bounds");
 		return NULL;
