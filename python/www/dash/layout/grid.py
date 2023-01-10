@@ -110,8 +110,6 @@ def create_grid(children=[], id='grid'):
             * cards that have been collapsed need the container minimized
             * cards that have been expanded need the original container size restored
         """
-        print('sync_layout')
-        
         if isinstance(dash.ctx.triggered_id, dict) and dash.ctx.triggered_id['type'] == 'card-body':
             index = dash.ctx.triggered_id['index']
             style = find_card_style(styles, index)
