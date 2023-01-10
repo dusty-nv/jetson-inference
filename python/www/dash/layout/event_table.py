@@ -66,6 +66,7 @@ def create_event_table():
             id='event_table',
             page_size=10,
             filter_action='native',
+            filter_options={'case': 'insensitive', 'placeholder_text': 'filter...'},
             sort_action='native',
             sort_by=[{'column_id': 'id', 'direction': 'desc'}],
             css=[{'selector': '.show-hide', 'rule': 'display: none'}],
@@ -78,7 +79,7 @@ def create_event_table():
     return create_card(
         html.Div(children, className='dbc-row-selectable'),
         title=f"Events", 
-        width=9,
+        width=6,
         height=12,
         id='events'
     )
