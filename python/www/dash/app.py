@@ -57,8 +57,8 @@ if len(config['dash']['users']) > 0:
 # define the default layout
 app.layout = dash.html.Div([
     create_navbar(),
-    create_alerts(),
     create_grid(),
+    create_alerts(),
     create_stream_dialog(),
     create_model_dialog(),
     dcc.Store(id='server_resources'),
@@ -75,7 +75,6 @@ def on_refresh(n_intervals, previous_resources):
     This can trigger updates to the clientside nav structure.
     """
     try:
-        # retry later when other longer-running RPC requests are in-flight
         server_resources = Server.request('/resources').json()
     except Exception as error:
         traceback.print_exc()

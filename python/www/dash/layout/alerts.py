@@ -31,13 +31,20 @@ from datetime import datetime
 
 
 def create_alerts():
+    style={
+        'position': 'absolute', 
+        'width': '100%', 
+        'bottom': 0, 
+        'zIndex': 9999
+    }
+    
     return html.Div([
-        dbc.Alert('Placeholder Text', color='#444444', dismissable=True, is_open=False, id='alerts'),
+        dbc.Alert('Placeholder Text', color='#444444', style=style, dismissable=True, is_open=False, id='alerts'),
         dcc.Store(id='alert_count', data=0),
-        dcc.Interval(id='alert_timer', interval=500)
+        dcc.Interval(id='alert_timer', interval=1000)
     ])
-    
-    
+
+
 @dash.callback(Output('alerts', 'children'),
                Output('alerts', 'is_open'),
                Output('alerts', 'duration'),
@@ -57,7 +64,7 @@ def refresh_alerts(n_intervals, alert_count):
     for n in range(alert_count, len(alerts)):
         max_duration = max(max_duration, alerts[n][3]) if (max_duration > 0 and alerts[n][3] > 0) else 0
         text = f"[{datetime.fromtimestamp(alerts[n][2]).strftime('%H:%M:%S')}]  {alerts[n][0]}"
-        children.extend([html.Span(text, style={'color': level_to_color(alerts[n][1])}), html.Br()])
+        children.extend([html.Span(text, style={'color': level_to_color(alerts[n][1]), 'font-family': 'monospace'}), html.Br()])
         
     return children, True, max_duration, len(alerts)
     
