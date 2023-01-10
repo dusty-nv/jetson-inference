@@ -21,6 +21,7 @@
 #
 
 from time import time
+import traceback
 
 
 class Event:
@@ -46,13 +47,25 @@ class Event:
         self.frames = 0
         
         Server.instance.events.append(self)
-        
+        self.dispatch()
+                    
     def update(self, score):
         self.score = score
         self.maxScore = max(self.maxScore, score)
         self.end = time()
         self.frames += 1
+        self.dispatch()
         
+    def dispatch(self):
+        from server import Server
+        for action in Server.instance.actions:
+            if action['active']:
+                try:
+                    action['function'](self)
+                except Exception as error:
+                    Log.Error(f"[{Server.instance.name}] failed to run action {action['module_name']}.{action['function_name']}")
+                    traceback.print_exc()
+                    
     def to_dict(self):
         return {
             'id': self.id,

@@ -24,6 +24,7 @@ import os
 import sys
 import time
 import random
+import pprint
 
 import ssl
 import json
@@ -32,6 +33,7 @@ import flask
 import requests
 
 import psutil
+import importlib
 import traceback
 import threading
 import multiprocessing
@@ -110,6 +112,7 @@ class Server:
         }
         self.events = []
         self.alerts = []
+        self.actions = []
         
     def init(self):
         """
@@ -151,8 +154,9 @@ class Server:
         
         Log.Info(f"[{self.name}] REST server is running @ {self.rest_url}")
         
-        # load resources
+        # load resources and extensions
         self.load_resources(self.init_resources)
+        self.load_actions()
         
         # indicate that server is ready to run
         self.run_flag = True
@@ -362,9 +366,37 @@ class Server:
                 
             for name, resource in resources[group].items():
                 self.add_resource(group, name, **resource)
-         
+     
+    def load_actions(self):
+        """
+        Load action modules from server/actions/ directory.
+        """
+        dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'actions')
+        
+        for path in os.listdir(dir):
+            path = os.path.join(dir, path)
+            base, ext = os.path.splitext(path)
+            
+            if ext != '.py':
+                continue
+                
+            name = f"actions.{os.path.basename(base)}"
+            Log.Info(f"[{self.name}] loading module {name} from {path}")
+            
+            try:
+                spec = importlib.util.spec_from_file_location(name, path)
+                module = importlib.util.module_from_spec(spec)
+                sys.modules[name] = module
+                spec.loader.exec_module(module)
+            except Exception as error:
+                Log.Error(f"[{self.name}] failed to load module {name} from {path}")
+                traceback.print_exc()
+        
+        Log.Verbose(f"[{self.name}]  Registered actions:")
+        pprint.pprint(self.actions)
+        
     @staticmethod
-    def alert(text, level='info', duration=2500):
+    def alert(text, level='info', duration=3500):
         """
         Add alert text which gets displayed on the front-end page
         """

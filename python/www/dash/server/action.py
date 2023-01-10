@@ -1,0 +1,46 @@
+#
+# Copyright (c) 2022, NVIDIA CORPORATION. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+
+def action(event_handler, active=True):
+    """
+    Decorator for registering an event handler that filters events and performs actions.
+    Event handlers receive one argument - an event (see below for an example) - and it
+    will be called every time an event is created or updated in the system.
+    
+    @action
+    def on_event(event):
+        if event.label == 'person' and event.frames > 15:
+            # do something
+            
+    The event objects are mutable and actions can store state in them if desired.
+    """
+    from server import Server
+    
+    Server.instance.actions.append({
+        'function': event_handler,
+        'module_name': event_handler.__module__, 
+        'function_name': event_handler.__name__, 
+        'active': active
+    })
+    
+    return event_handler
