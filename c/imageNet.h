@@ -249,17 +249,7 @@ public:
  	 * Retrieve the path to the file containing the class descriptions.
 	 */
 	inline const char* GetClassPath() const						{ return mClassPath.c_str(); }
-#if 0
-	/**
-	 * Retrieve the network type (alexnet or googlenet)
-	 */
-	inline NetworkType GetNetworkType() const					{ return mNetworkType; }
-
-	/**
- 	 * Retrieve a string describing the network name.
-	 */
-	inline const char* GetNetworkName() const					{ return NetworkTypeToStr(mNetworkType); }
-#endif	
+	
 	/**
 	 * Return the confidence threshold used for classification.
 	 */
