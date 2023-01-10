@@ -60,8 +60,6 @@ class Model:
         self.stream = kwargs.get('stream')
         self.kwargs = kwargs
         
-        print(f"MODEL KWARGS:  {kwargs}")
-        
         if type == 'classification':
             self.net = imageNet(model=model, labels=labels, input_blob=input_layers, output_blob=output_layers)
             self.font = cudaFont()
@@ -153,9 +151,7 @@ class Model:
                 return
                 
         if self.type == 'classification':
-            if results[0] >= 0:
-                str = "{:05.2f}% {:s}".format(results[1] * 100, self.get_class_name(results[0]))
-                self.font.OverlayText(img, img.width, img.height, str, 5, 5, self.font.White, self.font.Gray40)
+            str = f"{results[1] * 100:05.2f}% {self.get_class_name(results[0])}"
+            self.font.OverlayText(img, img.width, img.height, str, 5, 5, self.font.White, self.font.Gray40)
         elif self.type == 'detection':
-            if len(results) > 0:
-                self.net.Overlay(img, results)
+            self.net.Overlay(img, results)
