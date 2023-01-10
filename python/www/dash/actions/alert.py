@@ -3,10 +3,10 @@
 from server import Server, action
 
 
-@action
+@action('Browser Alerts')
 def on_event(event):
     """
-    Action that triggers an alert notification once per object
+    Action that triggers a browser alert notification once per object
     """
     if event.frames > 10 and not hasattr(event, 'action_triggered'):
         Server.alert(f"Detected '{event.label}' ({event.maxScore * 100:.1f}%)")

@@ -21,10 +21,10 @@
 #
 
 
-def action(event_handler, active=True):
+def action(function=None, name=None, enabled=True):
     """
-    Decorator for registering an event handler that filters events and performs actions.
-    Event handlers receive one argument - an event (see below for an example) - and it
+    Decorator for registering an event callback that filters events and performs actions.
+    Event callbacks receive one argument - an event (see below for an example) - and it
     will be called every time an event is created or updated in the system.
     
     @action
@@ -36,11 +36,28 @@ def action(event_handler, active=True):
     """
     from server import Server
     
-    Server.instance.actions.append({
-        'function': event_handler,
-        'module_name': event_handler.__module__, 
-        'function_name': event_handler.__name__, 
-        'active': active
-    })
-    
-    return event_handler
+    if isinstance(function, str) and not name:
+        name = function
+       
+    def register(function, name, enabled):
+        key = f"{function.__module__}.{function.__name__}"
+        
+        if not name:
+            name = key
+            
+        Server.instance.actions[key] = {
+            'function': function,
+            'enabled': enabled,
+            'name': name,
+        }
+
+        return function
+        
+    def outer(function):
+        return register(function, name, enabled)
+        
+    if callable(function):
+        return register(function, name, enabled)
+    else:   
+        return outer
+        

@@ -112,7 +112,7 @@ class Server:
         }
         self.events = []
         self.alerts = []
-        self.actions = []
+        self.actions = {}
         
     def init(self):
         """
@@ -137,11 +137,13 @@ class Server:
         Server.api.add_url_rule('/models/<name>', view_func=self._get_model, methods=['GET'])
         
         Server.api.add_url_rule('/events', view_func=self._get_events, methods=['GET'])
+        Server.api.add_url_rule('/actions', view_func=self._get_actions, methods=['GET'])
         
         # setup a JSON encoder for some custom objects
         class MyJSONEncoder(flask.json.JSONEncoder):
             def default(self, obj):
                 if isinstance(obj, Event): return obj.to_list()
+                elif callable(obj): return str(obj)
                 return super(MyJSONEncoder, self).default(obj)
         
         Server.api.json_encoder = MyJSONEncoder
@@ -483,7 +485,12 @@ class Server:
         /events REST GET request handler
         """
         return flask.jsonify(self.events)
-        
+     
+    def _get_actions(self):
+        """
+        /actions REST GET request handler
+        """
+        return self.actions
         
 def is_process_running(name):
     """

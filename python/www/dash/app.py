@@ -36,7 +36,7 @@ from dash.exceptions import PreventUpdate
 from config import config, print_config
 from server import Server
 
-from layout import create_grid, create_navbar, create_alerts, create_stream_dialog, create_model_dialog
+from layout import create_grid, create_navbar, create_alerts, create_stream_dialog, create_model_dialog, create_actions_dialog
 
 
 # create the dash app
@@ -61,6 +61,7 @@ app.layout = dash.html.Div([
     create_alerts(),
     create_stream_dialog(),
     create_model_dialog(),
+    create_actions_dialog(),
     dcc.Store(id='server_resources'),
     dcc.Interval(id='refresh_timer', interval=config['dash']['refresh'])
 ], className='dbc')

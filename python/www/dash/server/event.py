@@ -58,12 +58,12 @@ class Event:
         
     def dispatch(self):
         from server import Server
-        for action in Server.instance.actions:
-            if action['active']:
+        for key, action in Server.instance.actions.items():
+            if action['enabled']:
                 try:
                     action['function'](self)
                 except Exception as error:
-                    Log.Error(f"[{Server.instance.name}] failed to run action {action['module_name']}.{action['function_name']}")
+                    Log.Error(f"[{Server.instance.name}] failed to run action {key}")
                     traceback.print_exc()
                     
     def to_dict(self):
