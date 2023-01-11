@@ -33,6 +33,7 @@ import flask
 import requests
 
 import psutil
+import inspect
 import importlib
 import traceback
 import threading
@@ -112,7 +113,8 @@ class Server:
         }
         self.events = []
         self.alerts = []
-        self.actions = {}
+        self.actions = []
+        self.action_types = {}
         
     def init(self):
         """
@@ -138,13 +140,19 @@ class Server:
         Server.api.add_url_rule('/models/<name>', view_func=self._get_model, methods=['GET'])
         
         Server.api.add_url_rule('/actions', view_func=self._get_actions, methods=['GET'])
-        Server.api.add_url_rule('/actions/<name>', view_func=self._get_action, methods=['GET'])
-        Server.api.add_url_rule('/actions/<name>', view_func=self._set_action, methods=['PUT'])
+        Server.api.add_url_rule('/actions', view_func=self._add_action, methods=['POST'])
+        Server.api.add_url_rule('/actions/types', view_func=self._get_action_types, methods=['GET'])
+        Server.api.add_url_rule('/actions/<int:id>', view_func=self._get_action, methods=['GET'])
+        Server.api.add_url_rule('/actions/<int:id>', view_func=self._set_action, methods=['PUT'])
         
         # setup a JSON encoder for some custom objects
+        from server import Action
+        
         class MyJSONEncoder(flask.json.JSONEncoder):
             def default(self, obj):
                 if isinstance(obj, Event): return obj.to_list()
+                elif isinstance(obj, Action): return obj.to_dict()
+                elif isinstance(obj, property): return str(obj)
                 elif callable(obj): return str(obj)
                 return super(MyJSONEncoder, self).default(obj)
         
@@ -159,8 +167,8 @@ class Server:
         Log.Info(f"[{self.name}] REST server is running @ {self.rest_url}")
         
         # load resources and extensions
-        self.load_resources(self.init_resources)
         self.load_actions()
+        self.load_resources(self.init_resources)
         
         # indicate that server is ready to run
         self.run_flag = True
@@ -375,8 +383,10 @@ class Server:
         """
         Load action modules from server/actions/ directory.
         """
-        dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'actions')
+        from server import Action
         
+        dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'actions')
+
         for path in os.listdir(dir):
             path = os.path.join(dir, path)
             base, ext = os.path.splitext(path)
@@ -384,26 +394,66 @@ class Server:
             if ext != '.py':
                 continue
                 
-            name = f"actions.{os.path.basename(base)}"
-            Log.Info(f"[{self.name}] loading module {name} from {path}")
+            module_name = f"actions.{os.path.basename(base)}"
+            Log.Info(f"[{self.name}] loading module {module_name} from {path}")
             
             try:
-                spec = importlib.util.spec_from_file_location(name, path)
+                spec = importlib.util.spec_from_file_location(module_name, path)
                 module = importlib.util.module_from_spec(spec)
-                sys.modules[name] = module
+                sys.modules[module_name] = module
                 spec.loader.exec_module(module)
+                
+                def is_action(obj):
+                    return inspect.isclass(obj) and issubclass(obj, Action) and obj != Action
+                    
+                def is_property(obj):
+                    return isinstance(obj, property)
+                    
+                for obj_name, obj in inspect.getmembers(module, is_action):
+                    qual_name = f"{module_name}.{obj_name}"
+                    Log.Verbose(f"[{self.name}] found class {qual_name} in {path}")
+                    
+                    action = {
+                        'name': qual_name,
+                        'class': obj_name,
+                        'module': module_name,
+                        'object': obj,
+                        'properties': {}
+                    }
+                    
+                    for prop_name, prop_obj in inspect.getmembers(obj, is_property):
+                        action['properties'][prop_name] = {
+                            'object': prop_obj,
+                            'mutable': prop_obj.fset is not None,
+                        }
+                        
+                        prop_type = inspect.signature(prop_obj.fget).return_annotation
+                        
+                        if prop_type == inspect.Signature.empty:
+                            continue
+                            
+                        if isinstance(prop_type, type):  # str, int, float
+                            action['properties'][prop_name]['type'] = prop_type.__name__
+                        else:  # typing Union/Generic
+                            action['properties'][prop_name]['type'] = str(prop_type).replace('typing.', '')
+       
+                    self.action_types[qual_name] = action
+                            
             except Exception as error:
-                Log.Error(f"[{self.name}] failed to load module {name} from {path}")
+                Log.Error(f"[{self.name}] failed to load module {module_name} from {path}")
                 traceback.print_exc()
         
-        Log.Verbose(f"[{self.name}]  Registered actions:")
-        pprint.pprint(self.actions)
+        Log.Verbose(f"[{self.name}] registered actions:")
+        pprint.pprint(self.action_types)
         
     @staticmethod
     def alert(text, level='info', duration=3500):
         """
         Add alert text which gets displayed on the front-end page
         """
+        if level == 'error':
+            Log.Error(f"[{self.name}] {text}")
+            
         Server.instance.alerts.append((text, level, time.time(), duration))
         
     def _get_status(self):
@@ -441,7 +491,6 @@ class Server:
             model = Model(self, **args)
         except Exception as error:
             self.alert(f"Error loading {args['type']} model {args['model']}", level="error")
-            Log.Error(f"[{self.name}] failed to create model")
             traceback.print_exc()
             return '', http.HTTPStatus.INTERNAL_SERVER_ERROR
             
@@ -473,7 +522,6 @@ class Server:
             stream = Stream(self, args['name'], args['source'], args.get('models'))
         except Exception as error:
             self.alert(f"Error creating stream {args['name']}", level="error", duration=0)
-            Log.Error(f"[{self.name}] failed to create stream")
             traceback.print_exc()
             return '', http.HTTPStatus.INTERNAL_SERVER_ERROR
             
@@ -488,26 +536,55 @@ class Server:
         """
         return flask.jsonify(self.events)
      
+    def _add_action(self):
+        """
+        /action REST POST request handler
+        """
+        args = flask.request.get_json()
+        
+        try:
+            action_type = self.action_types[args['type']]
+            action = action_type['object']()
+            action.id = len(self.actions)
+            action.type = action_type
+            
+            if not action.name:
+                action.name = action.type['class']
+                
+        except Exception as error:
+            self.alert(f"Error creating action {args['type']}", level="error")
+            traceback.print_exc()
+            return '', http.HTTPStatus.INTERNAL_SERVER_ERROR
+        
+        self.actions.append(action)
+        return action.to_dict(), http.HTTPStatus.CREATED    
+        
     def _get_actions(self):
         """
         /actions REST GET request handler
         """
         return self.actions
+      
+    def _get_action_types(self):
+        """
+        /actions/types REST GET request handler
+        """
+        return self.action_types
         
-    def _get_action(self, name):
+    def _get_action(self, id):
         """
-        /actions/<name> REST GET request handler
+        /actions/<int:id> REST GET request handler
         """
-        return self.actions[name]
+        return self.actions[id]
        
-    def _set_action(self, name):
+    def _set_action(self, id):
         """
-        /actions/<name> REST GET request handler
+        /actions/<int:id> REST GET request handler
         """
         msg = flask.request.get_json()
         
         for key, value in msg.items():
-            self.actions[name][key] = value
+            setattr(self.actions[id], key, value)
             
         return '', http.HTTPStatus.OK
         

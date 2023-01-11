@@ -41,30 +41,56 @@ def create_actions_dialog():
     ]
     
     return dbc.Modal(children, id='actions_dialog', is_open=False)
-    
-    
+  
+        
 def create_actions_body():
     """
-    Create the dialog body used for configuring actions.
+    Create the dialog body used for creating/configuring actions.
+    """
+    action_types = Server.request('/actions/types').json()
+    
+    print('ACTION_TYPES:')
+    print(action_types)
+
+    children = [
+        html.Div([
+            dbc.Select( 
+                id='create_action_type',
+                placeholder="Create new action...",
+                options=[{'label': f"{type['class']} ({type['name']})", 'value': type['name']} for type in action_types.values()],
+                style={'flexGrow': 100},
+            ),
+            dbc.Button('Create', id='create_action_button', className='ms-2', n_clicks=0),
+        ], style={'display': 'flex'}),
+        html.Hr(),
+        html.Div(create_action_settings(), id='action_settings')
+    ]
+    
+    return children
+   
+   
+def create_action_settings():
+    """
+    Create components for configuring each action
     """
     actions = Server.request('/actions').json()
     children = []
     
-    def action_name(key, name):
-        if key == name:  return key
-        else:  return f"{name} ({key})"
-        
-    for key, action in actions.items():
+    print('ACTIONS:')
+    print(actions)
+    
+    for action in actions:
         children += [
             dbc.Checklist(
-                options = [{'label': action_name(key, action['name']), 'value': key}],
-                value = [key] if action['enabled'] else [],
-                id = {'type': 'action_switch', 'index': key},
+                options = [{'label': f"[{action['id']}] {action['name']}", 'value': action['id']}],
+                value = [action['id']] if action['enabled'] else [],
+                id = {'type': 'action_enabled', 'index': action['id']},
                 switch = True),
-            html.Div(id={'type': 'hidden_div_action', 'index': key}, style={'display':'none'})
+            html.Div(id={'type': 'hidden_div_action', 'index': action['id']}, style={'display':'none'})
         ]
     
     return children
+
     
 @dash.callback(
     Output('actions_dialog', 'is_open'),
@@ -77,9 +103,6 @@ def show_actions_dialog(n1, n2, is_open):
     """
     Callback for triggering to show/hide the actions dialog
     """
-    print(f'show_actions_dialog({n1}, {n2}, {is_open})')
-    print(dash.ctx.triggered)
-
     if not dash.ctx.triggered[0]['value']:
         raise PreventUpdate
 
@@ -90,30 +113,25 @@ def show_actions_dialog(n1, n2, is_open):
    
  
 @dash.callback(
-    Output({'type': 'hidden_div_action', 'index': MATCH}, 'children'),
-    Input({'type': 'action_switch', 'index': MATCH}, 'value'),
+    Output('action_settings', 'children'),
+    Input('create_action_button', 'n_clicks'),
+    State('create_action_type', 'value')
 )
-def on_action_toggled(value):
+def on_create_action(n_clicks, value):
+    if not n_clicks or not value:
+        raise PreventUpdate
+    
+    Server.request('POST', f"/actions", json={'type': value})
+    return create_action_settings()
+    
+    
+@dash.callback(
+    Output({'type': 'hidden_div_action', 'index': MATCH}, 'children'),
+    Input({'type': 'action_enabled', 'index': MATCH}, 'value'),
+)
+def on_action_setting(enabled):
     if not dash.ctx.triggered_id:
         raise PreventUpdate
         
-    Server.request('PUT', f"/actions/{dash.ctx.triggered_id['index']}", json={'enabled': len(value) > 0})
+    Server.request('PUT', f"/actions/{dash.ctx.triggered_id['index']}", json={'enabled': len(enabled) > 0})
     raise PreventUpdate
-    
-    
-"""
-@dash.callback(
-    Output('hidden_div_stream', 'children'),
-    Input('stream_options_submit', 'n_clicks'),
-    State('stream_options_name', 'value'),
-    State('stream_options_source', 'value'),
-    State('stream_options_model', 'value'),
-)
-def stream_submit(n_clicks, name, source, model):
-    if n_clicks == 0:
-        raise PreventUpdate
-        
-    print(f"adding stream {name} from source {source} with model {model}")
-    Server.request('POST', '/streams', json={'name': name, 'source': source, 'models': model})
-    raise PreventUpdate
-"""

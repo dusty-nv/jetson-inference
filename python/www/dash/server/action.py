@@ -20,7 +20,55 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
+import copy
 
+
+class Action:
+    """
+    Base class for actions that filter events and trigger notifications/responses/ect.
+    Users should inherit from this class and implement their own logic in on_event()
+    Any @property attributes are automatically configurable from the webpage UI.
+    """
+    def __init__(self, name=None, enabled=False):
+        self.id = -1      # gets assigned by the server (int)
+        self.type = None  # gets assigned by the server (ActionType)
+        self.name = name 
+        self.enabled = enabled
+
+    def on_event(self, event):
+        pass
+ 
+    def to_dict(self):
+        config = {
+            'id': self.id,
+            'name': self.name,
+            'type': self.type['name'],
+            'enabled': self.enabled,
+            'properties': copy.deepcopy(self.type['properties'])
+        }
+        
+        for property in config['properties'].values():
+            property['value'] = property['object'].fget(self)
+            
+        return config
+        
+        
+"""     
+class ActionFilter:
+    
+    @property
+    def labels(
+    
+    @property
+    def min_frames(self):
+        return self._min_frames
+        
+    @min_frames.setter
+    def min_frames(self, min_frames):
+        self._min_frames = int(min_frames)
+"""
+    
+''' 
 def action(function=None, name=None, enabled=True):
     """
     Decorator for registering an event callback that filters events and performs actions.
@@ -60,4 +108,4 @@ def action(function=None, name=None, enabled=True):
         return register(function, name, enabled)
     else:   
         return outer
-        
+'''       
