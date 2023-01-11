@@ -127,6 +127,7 @@ class Server:
         
         Server.api.add_url_rule('/status', view_func=self._get_status, methods=['GET'])
         Server.api.add_url_rule('/resources', view_func=self._get_resources, methods=['GET'])
+        Server.api.add_url_rule('/events', view_func=self._get_events, methods=['GET'])
         
         Server.api.add_url_rule('/streams', view_func=self._get_streams, methods=['GET'])
         Server.api.add_url_rule('/streams', view_func=self._add_stream, methods=['POST'])
@@ -136,8 +137,9 @@ class Server:
         Server.api.add_url_rule('/models', view_func=self._add_model, methods=['POST'])
         Server.api.add_url_rule('/models/<name>', view_func=self._get_model, methods=['GET'])
         
-        Server.api.add_url_rule('/events', view_func=self._get_events, methods=['GET'])
         Server.api.add_url_rule('/actions', view_func=self._get_actions, methods=['GET'])
+        Server.api.add_url_rule('/actions/<name>', view_func=self._get_action, methods=['GET'])
+        Server.api.add_url_rule('/actions/<name>', view_func=self._set_action, methods=['PUT'])
         
         # setup a JSON encoder for some custom objects
         class MyJSONEncoder(flask.json.JSONEncoder):
@@ -491,6 +493,24 @@ class Server:
         /actions REST GET request handler
         """
         return self.actions
+        
+    def _get_action(self, name):
+        """
+        /actions/<name> REST GET request handler
+        """
+        return self.actions[name]
+       
+    def _set_action(self, name):
+        """
+        /actions/<name> REST GET request handler
+        """
+        msg = flask.request.get_json()
+        
+        for key, value in msg.items():
+            self.actions[name][key] = value
+            
+        return '', http.HTTPStatus.OK
+        
         
 def is_process_running(name):
     """
