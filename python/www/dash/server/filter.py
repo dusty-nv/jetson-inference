@@ -33,6 +33,7 @@ class EventFilter:
         super(EventFilter, self).__init__()
         self._labels = labels
         self._min_frames = min_frames
+        self._min_score = min_score
         
     def filter(self, event):
         """

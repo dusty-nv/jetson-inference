@@ -58,10 +58,9 @@ def create_actions_body():
                 id='create_action_type',
                 placeholder="Create new action...",
                 options=[{'label': f"{type['class']} ({type['name']})", 'value': type['name']} for type in action_types.values()],
-                style={'flexGrow': 100},
             ),
             dbc.Button('Create', id='create_action_button', className='ms-2', n_clicks=0),
-        ], style={'display': 'flex'}),
+        ], style={'display': 'flex', 'justifyContent': 'space-between'}),
         html.Hr(),
         html.Div(create_action_settings(), id='action_settings')
     ]
@@ -88,7 +87,6 @@ def create_action_settings( expanded_actions=[] ):
                     id={'type': 'action_enabled', 'index': action['id']}, 
                     label=f"[{action['id']}] {action['name']}",
                     value=action['enabled'],
-                    style={'flexGrow': 100}
                 ),
                 html.I(
                     id={'type': 'action_expand', 'index': action['id']}, 
@@ -96,7 +94,7 @@ def create_action_settings( expanded_actions=[] ):
                     n_clicks=0,
                 ),
                 html.Div(id={'type': 'hidden_div_action', 'index': action['id']}, style={'display':'none'})
-           ], style={'display': 'flex'})
+           ], style={'display': 'flex', 'justifyContent': 'space-between'})
         ]
         
         properties = []
@@ -157,27 +155,7 @@ def create_action_settings( expanded_actions=[] ):
     
     return children
 
-def rolldown_class_name(is_expanded):
-    return 'fa fa-chevron-circle-up fa-lg mt-1' if is_expanded else 'fa fa-chevron-circle-down fa-lg mt-1'
-    
-@dash.callback(
-    Output({'type': 'action_properties', 'index': MATCH}, 'is_open'),
-    Output({'type': 'action_expand', 'index': MATCH}, 'className'),
-    Input({'type': 'action_expand', 'index': MATCH}, 'n_clicks'),
-    State({'type': 'action_properties', 'index': MATCH}, 'is_open')
-)
-def on_action_expand(n_clicks, is_open):
-    """
-    Callback for expanding/collapsing action properties
-    """
-    if not dash.ctx.triggered_id:
-        raise PreventUpdate
-        
-    is_open = not is_open
-    
-    return is_open, rolldown_class_name(is_open)
-    
-    
+
 @dash.callback(
     Output('actions_dialog', 'is_open'),
     Output('actions_dialog_body', 'children'),
@@ -222,7 +200,32 @@ def on_action_enabled(enabled):
     Server.request('PUT', f"/actions/{dash.ctx.triggered_id['index']}", json={'enabled': enabled})
     raise PreventUpdate
     
+ 
+@dash.callback(
+    Output({'type': 'action_properties', 'index': MATCH}, 'is_open'),
+    Output({'type': 'action_expand', 'index': MATCH}, 'className'),
+    Input({'type': 'action_expand', 'index': MATCH}, 'n_clicks'),
+    State({'type': 'action_properties', 'index': MATCH}, 'is_open')
+)
+def on_action_expand(n_clicks, is_open):
+    """
+    Callback for expanding/collapsing action properties
+    """
+    if not dash.ctx.triggered_id:
+        raise PreventUpdate
+        
+    is_open = not is_open
     
+    return is_open, rolldown_class_name(is_open)
+    
+    
+def rolldown_class_name(is_expanded):
+    """
+    Return the FontAwesome icon name for the rolldown
+    """
+    return 'fa fa-chevron-circle-up fa-lg mt-1' if is_expanded else 'fa fa-chevron-circle-down fa-lg mt-1'
+    
+
 @dash.callback(
     Output({'type': 'hidden_div_action_bool', 'index': MATCH}, 'children'),
     Input({'type': 'action_property_bool', 'index': MATCH}, 'value')

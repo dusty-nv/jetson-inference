@@ -11,11 +11,13 @@ from server import Server
 
 
 def create_video_player(stream):
+    """
+    Create a video player card from a stream
+    TODO:  scale the card dimensions based on stream aspect ratio (default is 1280x720)
+           grid row height is 30px (different than column width)
+    """
     stream_config = Server.request(f"/streams/{stream}").json()
     stream_config['video_player'] = f"video_player_element_{stream}"
-    
-    #print('create_video_player')
-    #print(stream_config)
     
     """
     # https://stackoverflow.com/questions/23248441/resizing-video-element-to-parent-div
@@ -24,27 +26,27 @@ def create_video_player(stream):
         'position': 'absolute', 
         'right': 0, 
         'bottom': 0,
-        'min-width': '50%', 
-        'min-height': '50%',
+        'minWidth': '50%', 
+        'minHeight': '50%',
         'width': 'auto', 
         'height': 'auto', 
-        'z-index': -100,
-        'background-size': 'cover',
+        'zIndex': -100,
+        'backgroundSize': 'cover',
         'overflow': 'hidden',
     }
     """
     video_player_style={
         'width': '100%',
-        #'object-fit': 'cover',
+        #'objectFit': 'cover',
     }
     
     children = [
-        html.Video(id=stream_config['video_player'], controls=True, autoPlay=True, style=video_player_style),
+        html.Video(id=stream_config['video_player'], controls=True, autoPlay=True, muted=True, style=video_player_style),
         html.Div(id={'type': 'hidden_div_video_player', 'index': stream}, style={'display':'none'}),
         dcc.Store(id={'type': 'video_player_config', 'index': stream}, data=json.dumps(stream_config)),
     ]
     
-    return create_card(children, title=stream, id=stream, width=6, height=12, settings_button='card-settings-stream')
+    return create_card(children, title=stream, id=stream, width=6, height=15, settings_button='card-settings-stream')
 
     
 @card_callback(Input({'type': 'navbar_stream', 'index': ALL}, 'n_clicks'))

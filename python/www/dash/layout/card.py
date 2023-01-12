@@ -66,8 +66,8 @@ def create_card(children, title=None, id=None, width=None, height=None,
         "width": '100%',
         "height": '100%',
         "display": "flex",  
-        "flex-direction": "column",
-        "flex-grow": "0",
+        "flexDirection": "column",
+        "flexGrow": 0,
         "visibility": "visible",  # used to expand/collapse the card body
         "card-index": id,         # this is used to track which card this style belongs to in sync_layout()
     }
@@ -88,7 +88,7 @@ def create_card(children, title=None, id=None, width=None, height=None,
         header += [dbc.Button("__", className="btn-close float-end", style={"background": "transparent"}, id={"type": "card-collapse-button", "index": id})]
     
     if settings_button:
-        header += [dbc.Button("*", className="btn-close float-end", style={"background": "transparent"}, id={"type": settings_button if isinstance(settings_button, str) else "card-settings-button", "index": id}, n_clicks=0)]
+        header += [dbc.Button("⚙", className="btn-close float-end", style={"background": "transparent"}, id={"type": settings_button if isinstance(settings_button, str) else "card-settings-button", "index": id}, n_clicks=0)]
 
     # return a card container
     return html.Div(
@@ -122,14 +122,10 @@ def collapse_card(n_clicks, style):
 
     return style    
 
-"""
-List of card callback functions
-"""
+
+# List of card callback functions
 card_callbacks = []
 
-#@card_callback
-#@card_open
-#@card_close
 def card_callback(*args, **kwargs):
     """
     Decorator used to register card callbacks with the grid.
@@ -143,7 +139,7 @@ def card_callback(*args, **kwargs):
             return create_card([f"My card body {n_clicks}"], title=f"My card {n_clicks}", id=f"my_card_{n_clicks}")
      
     The reason these are used is because the grid needs to manage it's own children, but dash Outputs can 
-    only have one callback. So this card_generator decorator registers your sub-callback with the grid's callback.
+    only have one callback. So this card_callback decorator registers your sub-callback with the grid's callback.
     """
     def inner(func):
         global card_callbacks
