@@ -45,9 +45,6 @@ from jetson_utils import Log
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from event import Event
-from model import Model
-from stream import Stream
 
 
 # what to call this...
@@ -146,8 +143,9 @@ class Server:
         Server.api.add_url_rule('/actions/<int:id>', view_func=self._set_action, methods=['PUT'])
         
         # setup a JSON encoder for some custom objects
+        from server import Event
         from server import Action
-        
+            
         class MyJSONEncoder(flask.json.JSONEncoder):
             def default(self, obj):
                 if isinstance(obj, Event): return obj.to_list()
@@ -292,6 +290,9 @@ class Server:
             name (string)  -- the name of the resource
             args (list)    -- arguments to create the resource with
         """
+        from server import Model
+        from server import Stream
+        
         if group not in self.resources:
             Log.Error(f"[{self.name}] invalid resource group '{group}'")
             return
@@ -483,6 +484,7 @@ class Server:
         """
         /models REST POST request handler
         """
+        from server import Model
         args = flask.request.get_json()
         
         try:
@@ -514,6 +516,7 @@ class Server:
         """
         /streams REST POST request handler
         """
+        from server import Stream
         args = flask.request.get_json()
         
         try:

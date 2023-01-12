@@ -27,7 +27,6 @@ from collections import deque
 from pprint import pprint
 from time import time
 
-from event import Event
 
 
 class Model:
@@ -116,6 +115,8 @@ class Model:
         Process an image with the model and return the results.
         TODO refactor event creation
         """
+        from server import Event
+        
         if self.type == 'classification':
             results = self.net.Classify(img)
             
