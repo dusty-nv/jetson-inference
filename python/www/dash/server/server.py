@@ -430,9 +430,8 @@ class Server:
                         prop_type = inspect.signature(prop_obj.fget).return_annotation
                         
                         if prop_type == inspect.Signature.empty:
-                            continue
-                            
-                        if isinstance(prop_type, type):  # str, int, float
+                            action['properties'][prop_name]['type'] = None  
+                        elif isinstance(prop_type, type):  # str, int, float
                             action['properties'][prop_name]['type'] = prop_type.__name__
                         else:  # typing Union/Generic
                             action['properties'][prop_name]['type'] = str(prop_type).replace('typing.', '')

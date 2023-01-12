@@ -81,13 +81,52 @@ def create_action_settings():
     
     for action in actions:
         children += [
-            dbc.Checklist(
-                options = [{'label': f"[{action['id']}] {action['name']}", 'value': action['id']}],
-                value = [action['id']] if action['enabled'] else [],
-                id = {'type': 'action_enabled', 'index': action['id']},
-                switch = True),
+            dbc.Switch(
+                id={'type': 'action_enabled', 'index': action['id']}, 
+                label=f"[{action['id']}] {action['name']}",
+                value=action['enabled']
+            ),
             html.Div(id={'type': 'hidden_div_action', 'index': action['id']}, style={'display':'none'})
         ]
+        
+        for property_name, property in action['properties'].items():
+            index = f"{action['id']}.{property_name}"
+            disabled = not property['mutable']
+            debounce = True
+            
+            if property['type'] == 'str' or property['type'] is None:
+                control = dbc.Input(
+                    type='text', 
+                    value=property['value'], 
+                    disabled=disabled, 
+                    debounce=debounce,
+                    id={'type': 'action_property_str', 'index': index},
+                )
+            elif property['type'] == 'int':
+                control = dbc.Input(
+                    type='number', 
+                    value=property['value'], 
+                    disabled=disabled, 
+                    debounce=debounce,
+                    id={'type': 'action_property_int', 'index': index},
+                )
+            elif property['type'] == 'float':
+                control = dbc.Input(
+                    type='number', 
+                    value=property['value'],
+                    step=0.1,
+                    disabled=disabled,
+                    debounce=debounce,
+                    id={'type': 'action_property_float', 'index': index},
+                )   
+            else:
+                print(f"[dash]   warning -- skipping unsupported action property type '{property['int']}'")
+                continue
+
+            children += [
+                dbc.Row([dbc.Col(property_name, width=3), dbc.Col(control)], align='center', className='mb-2'),
+                html.Div(id={'type': f"hidden_div_action_{property['type']}", 'index': index}, style={'display':'none'})
+            ]
     
     return children
 
@@ -133,5 +172,50 @@ def on_action_setting(enabled):
     if not dash.ctx.triggered_id:
         raise PreventUpdate
         
-    Server.request('PUT', f"/actions/{dash.ctx.triggered_id['index']}", json={'enabled': len(enabled) > 0})
+    Server.request('PUT', f"/actions/{dash.ctx.triggered_id['index']}", json={'enabled': enabled})
+    raise PreventUpdate
+    
+    
+@dash.callback(
+    Output({'type': 'hidden_div_action_int', 'index': MATCH}, 'children'),
+    Input({'type': 'action_property_int', 'index': MATCH}, 'value')
+)
+def on_action_property_int(value):
+    """
+    Callback for updating int properties
+    """
+    if not dash.ctx.triggered_id:
+        raise PreventUpdate
+        
+    print(f"on_action_property_int({value}) => {dash.ctx.triggered_id}")
+    raise PreventUpdate
+    
+    
+@dash.callback(
+    Output({'type': 'hidden_div_action_float', 'index': MATCH}, 'children'),
+    Input({'type': 'action_property_float', 'index': MATCH}, 'value')
+)
+def on_action_property_float(value):
+    """
+    Callback for updating float properties
+    """
+    if not dash.ctx.triggered_id:
+        raise PreventUpdate
+        
+    print(f"on_action_property_float({value}) => {dash.ctx.triggered_id}")
+    raise PreventUpdate
+  
+  
+@dash.callback(
+    Output({'type': 'hidden_div_action_str', 'index': MATCH}, 'children'),
+    Input({'type': 'action_property_str', 'index': MATCH}, 'value')
+)
+def on_action_property_str(value):
+    """
+    Callback for updating float properties
+    """
+    if not dash.ctx.triggered_id:
+        raise PreventUpdate
+        
+    print(f"on_action_property_str({value}) => {dash.ctx.triggered_id}")
     raise PreventUpdate
