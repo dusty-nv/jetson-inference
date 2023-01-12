@@ -102,6 +102,11 @@ def create_action_settings():
                     debounce=debounce,
                     id={'type': 'action_property_str', 'index': index},
                 )
+            elif property['type'] == 'bool':
+                control = dbc.Switch(
+                    value=property['value'], 
+                    id={'type': 'action_property_bool', 'index': index},
+                )
             elif property['type'] == 'int':
                 control = dbc.Input(
                     type='number', 
@@ -168,11 +173,29 @@ def on_create_action(n_clicks, value):
     Output({'type': 'hidden_div_action', 'index': MATCH}, 'children'),
     Input({'type': 'action_enabled', 'index': MATCH}, 'value'),
 )
-def on_action_setting(enabled):
+def on_action_enabled(enabled):
     if not dash.ctx.triggered_id:
         raise PreventUpdate
         
     Server.request('PUT', f"/actions/{dash.ctx.triggered_id['index']}", json={'enabled': enabled})
+    raise PreventUpdate
+    
+    
+@dash.callback(
+    Output({'type': 'hidden_div_action_bool', 'index': MATCH}, 'children'),
+    Input({'type': 'action_property_bool', 'index': MATCH}, 'value')
+)
+def on_action_property_bool(value):
+    """
+    Callback for updating boolean properties
+    """
+    if not dash.ctx.triggered_id:
+        raise PreventUpdate
+        
+    print(f"on_action_property_bool({value}) => {dash.ctx.triggered_id}")
+    
+    index = dash.ctx.triggered_id['index'].split('.')
+    Server.request('PUT', f"/actions/{index[0]}", json={index[1]: bool(value)})
     raise PreventUpdate
     
     
@@ -188,6 +211,9 @@ def on_action_property_int(value):
         raise PreventUpdate
         
     print(f"on_action_property_int({value}) => {dash.ctx.triggered_id}")
+    
+    index = dash.ctx.triggered_id['index'].split('.')
+    Server.request('PUT', f"/actions/{index[0]}", json={index[1]: int(value)})
     raise PreventUpdate
     
     
@@ -203,6 +229,9 @@ def on_action_property_float(value):
         raise PreventUpdate
         
     print(f"on_action_property_float({value}) => {dash.ctx.triggered_id}")
+    
+    index = dash.ctx.triggered_id['index'].split('.')
+    Server.request('PUT', f"/actions/{index[0]}", json={index[1]: float(value)})
     raise PreventUpdate
   
   
@@ -212,10 +241,13 @@ def on_action_property_float(value):
 )
 def on_action_property_str(value):
     """
-    Callback for updating float properties
+    Callback for updating string properties
     """
     if not dash.ctx.triggered_id:
         raise PreventUpdate
         
     print(f"on_action_property_str({value}) => {dash.ctx.triggered_id}")
+    
+    index = dash.ctx.triggered_id['index'].split('.')
+    Server.request('PUT', f"/actions/{index[0]}", json={index[1]: str(value)})
     raise PreventUpdate

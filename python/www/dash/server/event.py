@@ -21,6 +21,8 @@
 #
 
 from time import time
+from server import Server
+
 import traceback
 
 
@@ -32,8 +34,6 @@ class Event:
         """
         Create a new event
         """
-        from server import Server
-
         self.id = len(Server.instance.events)
         self.stream = stream
         self.model = model
@@ -93,3 +93,50 @@ class Event:
             self.score,
             self.maxScore
         ]
+
+
+class EventFilter:
+    """
+    Class for filtering events.  Inherit your actions from this class to automatically
+    add filtering properties and call `self.filter(event)` in your `on_event()` callback.
+    """
+    def __init__(self, labels=[], min_frames=None, **kwargs):
+        """
+        Initialize a new filter.
+        """
+        super(EventFilter, self).__init__()
+        self._labels = labels
+        self._min_frames = min_frames
+        
+    def filter(self, event):
+        """
+        Return true if an event passes the filter, otherwise false.
+        """
+        if len(self._labels) > 0 and event.label not in self._labels:
+            return False
+            
+        if self._min_frames and event.frames < self._min_frames:
+            return False
+            
+        return True
+        
+    @property
+    def labels(self) -> str:
+        return ';'.join(self._labels)
+        
+    @labels.setter
+    def labels(self, labels):
+        if isinstance(labels, str):
+            self._labels = labels.split(';')
+            self._labels = [label.strip() for label in self._labels]
+        else:
+            self._labels = labels
+        
+    @property
+    def min_frames(self) -> int:
+        return self._min_frames
+        
+    @min_frames.setter
+    def min_frames(self, min_frames):
+        self._min_frames = int(min_frames)
+        

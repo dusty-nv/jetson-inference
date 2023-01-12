@@ -29,9 +29,11 @@ class Action:
     Users should inherit from this class and implement their own logic in on_event()
     Any @property attributes are automatically configurable from the webpage UI.
     """
-    def __init__(self, name=None, enabled=False):
-        self.id = -1      # gets assigned by the server (int)
-        self.type = None  # gets assigned by the server (ActionType)
+    def __init__(self, name=None, enabled=False, **kwargs):
+        super(Action, self).__init__()
+        
+        self.id = -1
+        self.type = None 
         self.name = name 
         self.enabled = enabled
 
@@ -52,21 +54,6 @@ class Action:
             
         return config
         
-        
-"""     
-class ActionFilter:
-    
-    @property
-    def labels(
-    
-    @property
-    def min_frames(self):
-        return self._min_frames
-        
-    @min_frames.setter
-    def min_frames(self, min_frames):
-        self._min_frames = int(min_frames)
-"""
     
 ''' 
 def action(function=None, name=None, enabled=True):

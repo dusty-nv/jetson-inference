@@ -1,43 +1,35 @@
 #!/usr/bin/env python3
 
-from server import Server, Action
-#from typing import Union, List
+from server import Server, Action, EventFilter
 
 
-class BrowserAlert(Action):
+class BrowserAlert(Action, EventFilter):
+    """
+    Action that triggers browser alerts and supports event filtering.
+    """
     def __init__(self):
-        super().__init__()
-        self._min_frames = 10
-        self._labels = None
+        super(BrowserAlert, self).__init__()
         
-    @property
-    def min_frames(self) -> int: #-> Union[List[int], str]:
-        return self._min_frames
-        
-    @min_frames.setter
-    def min_frames(self, min_frames):
-        self._min_frames = int(min_frames)
-        
-    @property
-    def labels(self) -> str:
-        return self._labels
-        
-    @labels.setter
-    def labels(self, labels):
-        self._labels = labels
+        self._test_bool = False
+        self._test_float = 20.0
     
+    @property
+    def test_bool(self) -> bool:
+        return self._test_bool
+        
+    @test_bool.setter
+    def test_bool(self, value):
+        self._test_bool = value
+        
+    @property
+    def test_float(self) -> float:
+        return self._test_float
+
+    @test_float.setter
+    def test_float(self, value):
+        self._test_float = value
+        
     def on_event(self, event):
-        if event.frames > self._min_frames and not hasattr(event, 'alert_triggered'):
+        if self.filter(event) and not hasattr(event, 'alert_triggered'):
             Server.alert(f"Detected '{event.label}' ({event.maxScore * 100:.1f}%)")
             event.alert_triggered = True
-            
-''' 
-@action('Browser Alerts')
-def on_event(event, min_frames=10):
-    """
-    Action that triggers a browser alert notification once per object
-    """
-    if event.frames > 10 and not hasattr(event, 'action_triggered'):
-        Server.alert(f"Detected '{event.label}' ({event.maxScore * 100:.1f}%)")
-        event.action_triggered = True
-'''
