@@ -68,8 +68,8 @@ def create_actions_body():
     
     return children
    
-   
-def create_action_settings():
+
+def create_action_settings( expanded_actions=[] ):
     """
     Create components for configuring each action
     """
@@ -80,14 +80,26 @@ def create_action_settings():
     print(actions)
     
     for action in actions:
+        is_expanded = action['id'] in expanded_actions
+        
         children += [
-            dbc.Switch(
-                id={'type': 'action_enabled', 'index': action['id']}, 
-                label=f"[{action['id']}] {action['name']}",
-                value=action['enabled']
-            ),
-            html.Div(id={'type': 'hidden_div_action', 'index': action['id']}, style={'display':'none'})
+            html.Div([
+                dbc.Switch(
+                    id={'type': 'action_enabled', 'index': action['id']}, 
+                    label=f"[{action['id']}] {action['name']}",
+                    value=action['enabled'],
+                    style={'flexGrow': 100}
+                ),
+                html.I(
+                    id={'type': 'action_expand', 'index': action['id']}, 
+                    className=rolldown_class_name(is_expanded), 
+                    n_clicks=0,
+                ),
+                html.Div(id={'type': 'hidden_div_action', 'index': action['id']}, style={'display':'none'})
+           ], style={'display': 'flex'})
         ]
+        
+        properties = []
         
         for property_name, property in action['properties'].items():
             index = f"{action['id']}.{property_name}"
@@ -128,13 +140,43 @@ def create_action_settings():
                 print(f"[dash]   warning -- skipping unsupported action property type '{property['int']}'")
                 continue
 
-            children += [
+            properties += [
                 dbc.Row([dbc.Col(property_name, width=3), dbc.Col(control)], align='center', className='mb-2'),
                 html.Div(id={'type': f"hidden_div_action_{property['type']}", 'index': index}, style={'display':'none'})
             ]
+ 
+        children += [
+            dbc.Collapse(
+                properties,
+                is_open=is_expanded,
+                style={'backgroundColor': '#3A3A3A'},
+                className='px-2 pt-2 pb-1 border border-dark rounded',
+                id={'type': 'action_properties', 'index': action['id']},
+            )
+        ]
     
     return children
 
+def rolldown_class_name(is_expanded):
+    return 'fa fa-chevron-circle-up fa-lg mt-1' if is_expanded else 'fa fa-chevron-circle-down fa-lg mt-1'
+    
+@dash.callback(
+    Output({'type': 'action_properties', 'index': MATCH}, 'is_open'),
+    Output({'type': 'action_expand', 'index': MATCH}, 'className'),
+    Input({'type': 'action_expand', 'index': MATCH}, 'n_clicks'),
+    State({'type': 'action_properties', 'index': MATCH}, 'is_open')
+)
+def on_action_expand(n_clicks, is_open):
+    """
+    Callback for expanding/collapsing action properties
+    """
+    if not dash.ctx.triggered_id:
+        raise PreventUpdate
+        
+    is_open = not is_open
+    
+    return is_open, rolldown_class_name(is_open)
+    
     
 @dash.callback(
     Output('actions_dialog', 'is_open'),
@@ -165,8 +207,8 @@ def on_create_action(n_clicks, value):
     if not n_clicks or not value:
         raise PreventUpdate
     
-    Server.request('POST', f"/actions", json={'type': value})
-    return create_action_settings()
+    action = Server.request('POST', f"/actions", json={'type': value}).json()
+    return create_action_settings(expanded_actions=[action['id']])
     
     
 @dash.callback(

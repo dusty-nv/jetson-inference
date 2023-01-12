@@ -41,7 +41,7 @@ from layout import create_grid, create_navbar, create_alerts, create_stream_dial
 
 # create the dash app
 external_scripts = ['https://webrtc.github.io/adapter/adapter-latest.js']
-external_stylesheets = [] #[dbc.themes.DARKLY] #[dbc.themes.SLATE] #[dbc.themes.FLATLY] #[dbc.themes.SUPERHERO] #['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'] # 'https://use.fontawesome.com/releases/v5.8.1/css/all.css'
 
 app = dash.Dash(__name__, 
                 title=config['dash']['title'],
