@@ -1,6 +1,7 @@
 dash
 dash_auth
 dash_bootstrap_components
+dash_bootstrap_templates
 git+https://github.com/dusty-nv/dash-draggable
 psutil
 setproctitle
