@@ -90,7 +90,7 @@ def create_grid(children=[], id='grid'):
         Once card(s) are removed, the card index no longer corresponds to the actual list index.
         """
         for style in styles:
-            if style['card-index'] == index:
+            if style['cardIndex'] == index:
                 return style
         return None
         
@@ -169,8 +169,8 @@ def create_grid(children=[], id='grid'):
                         # otherwise if/when the screen resizes to this breakpoint, the container will snap to 1x1
                         layout = {
                             'i': child['props']['id'],
-                            'w': style.get('default-grid-width', DEFAULT_LAYOUT_SIZES[breakpoint]['w']),
-                            'h': style.get('default-grid-height', DEFAULT_LAYOUT_SIZES[breakpoint]['h']),
+                            'w': style.get('defaultGridWidth', DEFAULT_LAYOUT_SIZES[breakpoint]['w']),
+                            'h': style.get('defaultGridHeight', DEFAULT_LAYOUT_SIZES[breakpoint]['h']),
                             'x': 0,
                             'y': 0,
                         }
@@ -183,8 +183,8 @@ def create_grid(children=[], id='grid'):
                         # there was an existing layout for this breakpoint, but it was assigned by the grid as 1x1
                         # this happens when a new child gets added to the grid, but only for the active breakpoint
                         if layout['w'] == 1 and layout['h'] == 1:
-                            layout['w'] = style.get('default-grid-width', DEFAULT_LAYOUT_SIZES[breakpoint]['w'])
-                            layout['h'] = style.get('default-grid-height', DEFAULT_LAYOUT_SIZES[breakpoint]['h'])
+                            layout['w'] = style.get('defaultGridWidth', DEFAULT_LAYOUT_SIZES[breakpoint]['w'])
+                            layout['h'] = style.get('defaultGridHeight', DEFAULT_LAYOUT_SIZES[breakpoint]['h'])
 
             return layouts, dash.no_update
         

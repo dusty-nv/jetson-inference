@@ -64,7 +64,7 @@ def refresh_alerts(n_intervals, alert_count):
     for n in range(alert_count, len(alerts)):
         max_duration = max(max_duration, alerts[n][3]) if (max_duration > 0 and alerts[n][3] > 0) else 0
         text = f"[{datetime.fromtimestamp(alerts[n][2]).strftime('%H:%M:%S')}]  {alerts[n][0]}"
-        children.extend([html.Span(text, style={'color': level_to_color(alerts[n][1]), 'font-family': 'monospace'}), html.Br()])
+        children.extend([html.Span(text, style={'color': level_to_color(alerts[n][1]), 'fontFamily': 'monospace'}), html.Br()])
         
     return children, True, max_duration, len(alerts)
     

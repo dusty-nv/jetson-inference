@@ -69,14 +69,14 @@ def create_card(children, title=None, id=None, width=None, height=None,
         "flexDirection": "column",
         "flexGrow": 0,
         "visibility": "visible",  # used to expand/collapse the card body
-        "card-index": id,         # this is used to track which card this style belongs to in sync_layout()
+        "cardIndex": id,         # this is used to track which card this style belongs to in sync_layout()
     }
 
     if width is not None:
-        card_style['default-grid-width'] = width
+        card_style['defaultGridWidth'] = width
        
     if height is not None:
-        card_style['default-grid-height'] = height
+        card_style['defaultGridHeight'] = height
     
     # build the header children
     header = [html.H5(title, className="d-inline")]
