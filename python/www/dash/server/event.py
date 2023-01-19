@@ -45,19 +45,26 @@ class Event:
         self.begin = time()
         self.end = self.begin
         self.frames = 0
+        self.scores = [(self.begin,score)]
         
         Server.instance.events.append(self)
         self.dispatch()
                     
     def update(self, score):
+        """
+        Update an event with new results
+        """
+        self.end = time()
         self.score = score
         self.maxScore = max(self.maxScore, score)
-        self.end = time()
+        self.scores.append((self.end, score))
         self.frames += 1
         self.dispatch()
         
     def dispatch(self):
-        from server import Server
+        """
+        Send this event to actions for processing
+        """
         for action in Server.instance.actions:
             if action.enabled:
                 try:
@@ -67,6 +74,9 @@ class Event:
                     traceback.print_exc()
         
     def to_dict(self):
+        """
+        Return a dict representation of the event
+        """
         return {
             'id': self.id,
             'begin': self.begin,
@@ -77,10 +87,14 @@ class Event:
             'classID': self.classID,
             'label': self.label,
             'score': self.score,
-            'maxScore': self.maxScore
+            'maxScore': self.maxScore,
+            'scores': self.scores,
         }
       
     def to_list(self):
+        """
+        Return a list representation of the event
+        """
         return [
             self.id,
             self.begin,
@@ -91,5 +105,6 @@ class Event:
             self.classID,
             self.label,
             self.score,
-            self.maxScore
+            self.maxScore,
+            self.scores
         ]

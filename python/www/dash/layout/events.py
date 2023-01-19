@@ -101,14 +101,14 @@ def refresh_events(n_intervals):
             '2': datetime.fromtimestamp(event[2]).strftime(date_format),
         }
         
-        for n in range(3, len(event)):
+        for n in range(3, 10):
             d[str(n)] = event[n]
         
         return d
         
     return [event_to_dict(event) for event in records]
            
-@card_callback(Input('navbar_events', 'n_clicks'))
+@card_callback(Input('navbar_event_table', 'n_clicks'))
 def open_events(n_clicks):
     if n_clicks > 0:
         return create_event_table()  

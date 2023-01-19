@@ -82,11 +82,21 @@ def create_navbar_menus(resources={}):
             id='navbar_models_dropdown',
     )]
     
-    # events/actions
-    navbar += [
-        dbc.NavLink('Events', id='navbar_events', n_clicks=0),
-        dbc.NavLink('Actions', id='navbar_actions', n_clicks=0),
+    # events menu
+    events_menu = [
+        dbc.DropdownMenuItem('Event Table', id='navbar_event_table', n_clicks=0),
+        dbc.DropdownMenuItem('Timeline', id='navbar_event_timeline', n_clicks=0),
+        dbc.DropdownMenuItem('Actions', id='navbar_actions', n_clicks=0),
     ]
+    
+    navbar += [
+        dbc.DropdownMenu(
+            children=events_menu,
+            nav=True,
+            in_navbar=True,
+            label='Events',
+            id='navbar_events_dropdown',
+    )]
 
     # config menu
     config_menu = [dbc.DropdownMenuItem('Help', id='navbar_help', href="https://github.com/dusty-nv/jetson-inference", target='_blank')]

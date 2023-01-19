@@ -65,12 +65,12 @@ app.layout = dash.html.Div([
     create_model_dialog(),
     create_actions_dialog(),
     dcc.Store(id='server_resources'),
-    dcc.Interval(id='refresh_timer', interval=config['dash']['refresh'])
+    dcc.Interval(id='server_refresh_timer', interval=config['dash']['refresh'])
 ], className='dbc')
 
 
 @app.callback(Output('server_resources', 'data'),
-              Input('refresh_timer', 'n_intervals'),
+              Input('server_refresh_timer', 'n_intervals'),
               Input('server_resources', 'data'))
 def on_refresh(n_intervals, previous_resources):
     """

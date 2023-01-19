@@ -5,6 +5,7 @@ from .navbar import create_navbar
 from .alerts import create_alerts
 from .actions import create_actions_dialog
 from .events import create_event_table
+from .event_timeline import create_event_timeline
 
 from .video_player import create_video_player
 from .stream_options import create_stream_dialog, create_stream_options
