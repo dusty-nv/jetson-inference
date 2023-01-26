@@ -382,6 +382,12 @@ tensorNet::tensorNet()
 // Destructor
 tensorNet::~tensorNet()
 {
+	if( mContext != NULL )
+	{
+		mContext->destroy();
+		mContext = NULL;
+	}
+	
 	if( mEngine != NULL )
 	{
 		mEngine->destroy();
