@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <script type='text/javascript' src='https://webrtc.github.io/adapter/adapter-latest.js'></script>
+    <script type='text/javascript' src='/webrtc.js'></script>
+    <script type='text/javascript'>
+
+      play = function() {
+        playStream(document.getElementById('play-stream').value, document.getElementById('video-player'));
+      };
+      
+      send = function() {
+        /*sendStream(null, 8554, '/input', config, function (errmsg) { console.error(errmsg); });*/
+        alert(document.getElementById('send-stream').value);
+      }
+      
+      window.onload = function() {
+        document.getElementById('play-stream').value = (window.location.protocol == 'https:' ? 'wss://' : 'ws://') + window.location.hostname + ':8554/output'
+        if( window.location.protocol == 'https:' ) {
+          for( var n=0; n < 4; n++ ) {
+            document.getElementById('send-stream').add(new Option(n)); /* new Option(text, value, defaultSelected, selected); */
+          }
+        }
+        else
+        {
+          document.getElementById('send-stream').add(new Option('use HTTPS to enable browser webcam'));
+          document.getElementById('send-button').disabled = true;
+        }
+      }
+    </script>
+  </head>
+
+  <body style="background-color:#333333; color:#FFFFFF;">
+    <div>
+      <video id="video-player" autoplay controls playsinline muted>Your browser does not support video</video>
+    </div>
+    <div>
+      <label for="send-stream">Device:</label>
+      <select id="send-stream" name="send-stream" style="width: 260;"></select>
+      <button id="send-button" onclick="send()">Send</button>
+    </div>
+    <div>
+      <label for="play-stream">Stream:</label>
+      <input id="play-stream" name="play-stream" type="text" size="32">
+      <button id="play-button" onclick="play()">Play</button>
+    </div>
+  </body>
+</html>
