@@ -30,10 +30,13 @@ import ssl
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 from jetson_inference import imageNet, detectNet, actionNet
-from jetson_utils import videoSource, videoOutput
+from jetson_utils import videoSource, videoOutput, cudaFont
 
 
 class Stream(threading.Thread):
+    """
+    Thread for streaming video and applying DNN inference
+    """
     def __init__(self, args):
         super().__init__()
         self.args = args
@@ -41,19 +44,49 @@ class Stream(threading.Thread):
         self.output = videoOutput(args.output, argv=sys.argv)
         self.frames = 0
 
+        if args.classification:
+            self.net = imageNet(argv=sys.argv)
+            self.font = cudaFont()
+        elif args.action:
+            self.net = actionNet(argv=sys.argv)
+            self.font = cudaFont()
+        elif args.detection:
+            self.net = detectNet(argv=sys.argv)
+            
     def process(self):
         img = self.input.Capture()
+        
+        if args.classification or args.action:
+            classID, confidence = self.net.Classify(img)
+            classLabel = self.net.GetClassLabel(classID)
+            confidence *= 100.0
+
+            print(f"{confidence:05.2f}% class #{classID} ({classLabel})")
+
+            self.font.OverlayText(img, text=f"{confidence:05.2f}% {classLabel}", x=5, y=5, 
+                                  color=self.font.White, background=self.font.Gray40)
+        elif args.detection:
+            detections = self.net.Detect(img, overlay="box,labels,conf")
+
+            print(f"detected {len(detections)} objects")
+
+            for detection in detections:
+                print(detection)
+        
         self.output.Render(img)
-        self.frames += 1
+
         if self.frames % 25 == 0 or self.frames < 15:
             print(f"captured {self.frames} frames from {args.input} => {args.output} ({img.width} x {img.height})")
    
+        self.frames += 1
+        
     def run(self):
         while True:
             try:
                 self.process()
             except:
                 traceback.print_exc()
+        
         
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, 
