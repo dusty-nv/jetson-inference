@@ -9,32 +9,48 @@
       };
       
       send = function() {
-        /*sendStream(null, 8554, '/input', config, function (errmsg) { console.error(errmsg); });*/
-        alert(document.getElementById('send-stream').value);
+        sendStream(getWebsocketURL('input'), document.getElementById('send-stream').value);
       }
       
       window.onload = function() {
-        document.getElementById('play-stream').value = (window.location.protocol == 'https:' ? 'wss://' : 'ws://') + window.location.hostname + ':8554/output'
-        if( window.location.protocol == 'https:' ) {
-          for( var n=0; n < 4; n++ ) {
-            document.getElementById('send-stream').add(new Option(n)); /* new Option(text, value, defaultSelected, selected); */
-          }
+        var playStream = document.getElementById('play-stream');
+        var sendStream = document.getElementById('send-stream');
+        var sendButton = document.getElementById('send-button');
+
+        playStream.value = getWebsocketURL('output');
+
+        if( checkMediaDevices() ) {
+          navigator.mediaDevices.getUserMedia({audio: false, video: true}).then((stream) => {
+            navigator.mediaDevices.enumerateDevices().then((devices) => {
+              stream.getTracks().forEach(track => track.stop());
+              devices.forEach((device) => {
+                if( device.kind == 'videoinput' ) {
+                  console.log(`Browser media device:  ${device.kind}  label=${device.label}  id=${device.deviceId}`);
+                  sendStream.add(new Option(device.label, device.deviceId));  // new Option(text, value, defaultSelected, selected);
+                }
+              });
+              if( sendStream.options.length == 0 ) {
+                sendStream.add(new Option('browser has no webcams available'));
+                sendButton.disabled = true;
+              }
+            });
+          }).catch(reportError);
         }
         else
         {
-          document.getElementById('send-stream').add(new Option('use HTTPS to enable browser webcam'));
-          document.getElementById('send-button').disabled = true;
+          sendStream.add(new Option('use HTTPS to enable browser webcam'));
+          sendButton.disabled = true;
         }
       }
     </script>
   </head>
 
-  <body style="background-color:#333333; color:#FFFFFF;">
+  <body style="background-color:#333333; color:#FFFFFF; font-family:Arial">
     <div>
       <video id="video-player" autoplay controls playsinline muted>Your browser does not support video</video>
     </div>
     <div>
-      <label for="send-stream">Device:</label>
+      <label for="send-stream">Webcam:</label>
       <select id="send-stream" name="send-stream" style="width: 260;"></select>
       <button id="send-button" onclick="send()">Send</button>
     </div>
