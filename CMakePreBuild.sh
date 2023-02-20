@@ -35,6 +35,7 @@ $SUDO apt-get install -y --no-install-recommends \
 		dialog \
 		libglew-dev \
 		glew-utils \
+		gstreamer1.0-libav \
 		gstreamer1.0-nice \
 		libgstreamer1.0-dev \
 		libgstrtspserver-1.0-dev \
