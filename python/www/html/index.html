@@ -10,6 +10,7 @@
       
       send = function() {
         sendStream(getWebsocketURL('input'), document.getElementById('send-stream').value);
+        play(); // autoplay browser stream
       }
       
       window.onload = function() {
@@ -19,14 +20,15 @@
 
         playStream.value = getWebsocketURL('output');
 
+        // populate the list of browser video devices (requires HTTPS)
         if( checkMediaDevices() ) {
-          navigator.mediaDevices.getUserMedia({audio: false, video: true}).then((stream) => {
+          navigator.mediaDevices.getUserMedia({audio: false, video: true}).then((stream) => { // get permission from user
             navigator.mediaDevices.enumerateDevices().then((devices) => {
-              stream.getTracks().forEach(track => track.stop());
+              stream.getTracks().forEach(track => track.stop()); // close the device opened to get permissions
               devices.forEach((device) => {
                 if( device.kind == 'videoinput' ) {
                   console.log(`Browser media device:  ${device.kind}  label=${device.label}  id=${device.deviceId}`);
-                  sendStream.add(new Option(device.label, device.deviceId));  // new Option(text, value, defaultSelected, selected);
+                  sendStream.add(new Option(device.label, device.deviceId));
                 }
               });
               if( sendStream.options.length == 0 ) {
