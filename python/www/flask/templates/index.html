@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WebRTC Flask Example</title>
+    <script type='text/javascript' src='/static/webrtc.js'></script>
+    <script type='text/javascript'>
+      window.onload = function() {
+        console.log('Websocket protocol: ' + getWebsocketProtocol());
+        
+        fetch('/api/example').then(function(response) {
+          return response.json();
+        }).then(function(msg) {
+          console.log('GET response:');
+          console.log(msg); 
+        });
+        
+        fetch('/api/example', {
+          method: 'POST',
+          body: JSON.stringify({
+            test: 'abc',
+            variable: 123,
+            completed: false
+          }),
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+          }
+        }).then(function(response) {
+          return response.json();
+        }).then(function(msg) {
+          console.log('POST response:');
+          console.log(msg); 
+        });
+        
+        fetch('/api/example', {
+          method: 'PUT',
+          body: JSON.stringify({
+            test: 'def',
+            variable: 456,
+            completed: true
+          }),
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+          }
+        }).then(function(response) {
+          console.log('PUT response:');
+          console.log(response);
+        });
+      }
+    </script>
+  </head>
+  
+  <body style="background-color:#333333; color:#FFFFFF; font-family:Arial">
+    <div>
+      <h1>Hello {{ name }}!</h1>
+    </div>
+  </body>
+</html>
