@@ -31,7 +31,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-    return flask.render_template('index.html', name='world')
+    return flask.render_template('index.html', title='Hello AI World')
     
 @app.route('/api/example', methods=['GET'])
 def get_example():
