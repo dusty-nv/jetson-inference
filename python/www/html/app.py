@@ -21,104 +21,42 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-import threading
-import traceback
-import argparse
 import sys
 import ssl
+import argparse
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+from stream import Stream
 
-from jetson_inference import imageNet, detectNet, actionNet
-from jetson_utils import videoSource, videoOutput, cudaFont
+parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, epilog=Stream.usage())
 
+parser.add_argument("--host", default='0.0.0.0', type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
+parser.add_argument("--port", default=8050, type=int, help="port used for webserver (default is 8050)")
+parser.add_argument("--ssl-key", default='', type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
+parser.add_argument("--ssl-cert", default='', type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
+parser.add_argument("--input", default='webrtc://@:8554/input', type=str, help="input camera stream or video file")
+parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help="WebRTC output stream to serve from --input")
+parser.add_argument("--no-stream", action="store_true", help="disable creation of the input/output stream (serve website only)")
+parser.add_argument("--classification", action="store_true", help="load classification model (see imageNet arguments)")
+parser.add_argument("--detection", action="store_true", help="load object detection model (see detectNet arguments)")
+parser.add_argument("--action", action="store_true", help="load action recognition model (see actionNet arguments)")
+parser.add_argument("--pose", action="store_true", help="load action recognition model (see actionNet arguments)")
 
-class Stream(threading.Thread):
-    """
-    Thread for streaming video and applying DNN inference
-    """
-    def __init__(self, args):
-        super().__init__()
-        self.args = args
-        self.input = videoSource(args.input, argv=sys.argv)
-        self.output = videoOutput(args.output, argv=sys.argv)
-        self.frames = 0
+args = parser.parse_known_args()[0]
 
-        if args.classification:
-            self.net = imageNet(argv=sys.argv)
-            self.font = cudaFont()
-        elif args.action:
-            self.net = actionNet(argv=sys.argv)
-            self.font = cudaFont()
-        elif args.detection:
-            self.net = detectNet(argv=sys.argv)
-            
-    def process(self):
-        img = self.input.Capture()
-        
-        if args.classification or args.action:
-            classID, confidence = self.net.Classify(img)
-            classLabel = self.net.GetClassLabel(classID)
-            confidence *= 100.0
+# start stream thread
+if not args.no_stream:
+    stream = Stream(args)
+    stream.start()
 
-            print(f"{confidence:05.2f}% class #{classID} ({classLabel})")
+# patch to serve javascript
+SimpleHTTPRequestHandler.extensions_map['.js'] = 'text/javascript'
 
-            self.font.OverlayText(img, text=f"{confidence:05.2f}% {classLabel}", x=5, y=5, 
-                                  color=self.font.White, background=self.font.Gray40)
-        elif args.detection:
-            detections = self.net.Detect(img, overlay="box,labels,conf")
+# start webserver
+httpd = HTTPServer((args.host, args.port), SimpleHTTPRequestHandler)
 
-            print(f"detected {len(detections)} objects")
-
-            for detection in detections:
-                print(detection)
-        
-        self.output.Render(img)
-
-        if self.frames % 25 == 0 or self.frames < 15:
-            print(f"captured {self.frames} frames from {args.input} => {args.output} ({img.width} x {img.height})")
-   
-        self.frames += 1
-        
-    def run(self):
-        while True:
-            try:
-                self.process()
-            except:
-                traceback.print_exc()
-        
-        
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, 
-                                     epilog=imageNet.Usage() + detectNet.Usage() + actionNet.Usage() + 
-                                     videoSource.Usage() + videoOutput.Usage())
-
-    parser.add_argument("--host", default='0.0.0.0', type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
-    parser.add_argument("--port", default=8050, type=int, help="port used for webserver (default is 8050)")
-    parser.add_argument("--ssl-key", default='', type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
-    parser.add_argument("--ssl-cert", default='', type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
-    parser.add_argument("--input", default='webrtc://@:8554/input', type=str, help="input camera stream or video file")
-    parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help="WebRTC output stream to serve from --input")
-    parser.add_argument("--no-stream", action="store_true", help="disable creation of the input/output stream (serve website only)")
-    parser.add_argument("--classification", action="store_true", help="load classification model (see imageNet arguments)")
-    parser.add_argument("--detection", action="store_true", help="load object detection model (see detectNet arguments)")
-    parser.add_argument("--action", action="store_true", help="load action recognition model (see actionNet arguments)")
+if args.ssl_key and args.ssl_cert:
+    httpd.socket = ssl.wrap_socket(httpd.socket, keyfile=args.ssl_key, certfile=args.ssl_cert, server_side=True)
+    print('HTTPS enabled')
     
-    args = parser.parse_known_args()[0]
-    
-    # start stream thread
-    if not args.no_stream:
-        stream = Stream(args)
-        stream.start()
-
-    # patch to serve javascript
-    SimpleHTTPRequestHandler.extensions_map['.js'] = 'text/javascript'
-
-    # start webserver
-    httpd = HTTPServer((args.host, args.port), SimpleHTTPRequestHandler)
-
-    if args.ssl_key and args.ssl_cert:
-        httpd.socket = ssl.wrap_socket(httpd.socket, keyfile=args.ssl_key, certfile=args.ssl_cert, server_side=True)
-        print('HTTPS enabled')
-        
-    httpd.serve_forever()
+httpd.serve_forever()
