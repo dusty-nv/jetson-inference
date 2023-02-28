@@ -35,6 +35,7 @@ def index():
     
 @app.route('/api/example', methods=['GET'])
 def get_example():
+    print('get_example()')
     return {
         'id': 'example',
         'data': [0,1,2,3]
@@ -57,7 +58,25 @@ def set_example():
     print(msg)
     
     return '', http.HTTPStatus.OK
+
+confidence_threshold = 0.75
     
+@app.route('/api/confidence-threshold', methods=['GET'])
+def get_confidence_threshold():
+    print('get_confidence_threshold()')
+    return flask.jsonify(confidence_threshold)
+    
+@app.route('/api/confidence-threshold', methods=['PUT'])
+def set_confidence_threshold():
+    global confidence_threshold
+    msg = flask.request.get_json()
+    
+    print('set_confidence_threshold()')
+    print(msg)
+    print(type(msg))
+    confidence_threshold = float(msg)
+    
+    return '', http.HTTPStatus.OK
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

@@ -3,63 +3,79 @@
   <head>
     <meta charset="utf-8">
     <title>{{ title }}</title>
-    <link rel="stylesheet" href="/static/darkly.css">
-    <script type='text/javascript' src='/static/bootstrap.min.js'></script>
+    <link rel="stylesheet" href="/static/bootstrap.css">
+    <script type='text/javascript' src='/static/bootstrap.bundle.min.js'></script>
     <script type='text/javascript' src='/static/webrtc.js'></script>
     <script type='text/javascript' src='/static/rest.js'></script>
+    <script type='text/javascript' src='/static/debounce.js'></script>
     <script type='text/javascript'>
       window.onload = function() {
         console.log('Websocket protocol: ' + getWebsocketProtocol());
         
-        /*fetch('/api/example').then(function(response) {
-          return response.json();
-        }).then(function(msg) {
-          console.log('GET response:');
-          console.log(msg); 
-        });*/
-        
-        rest_get('/api/example', function(json) {
-          console.log(json)
+        rest_get('/api/example').then(function(json) {
+          console.log(json);
+        });
+
+        rest_post('/api/example', {
+          test: 'abc',
+          variable: 123,
+          completed: false
+        }).then(function(json) {
+          console.log(json);
+        });
+
+        rest_put('/api/example', {
+          test: 'def',
+          variable: 456,
+          completed: true
         });
         
-        fetch('/api/example', {
-          method: 'POST',
-          body: JSON.stringify({
-            test: 'abc',
-            variable: 123,
-            completed: false
-          }),
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8'
-          }
-        }).then(function(response) {
-          return response.json();
-        }).then(function(msg) {
-          console.log('POST response:');
-          console.log(msg); 
-        });
-        
-        fetch('/api/example', {
-          method: 'PUT',
-          body: JSON.stringify({
-            test: 'def',
-            variable: 456,
-            completed: true
-          }),
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8'
-          }
-        }).then(function(response) {
-          console.log('PUT response:');
-          console.log(response);
+        rest_get('/api/confidence-threshold').then(function(value) {
+          document.getElementById('confidence-threshold').value = value;
+          document.getElementById('confidence-threshold-value').innerHTML = value;
         });
       }
+      
+      function onConfidenceThreshold() {
+        var value = parseFloat(document.getElementById('confidence-threshold').value);
+        document.getElementById('confidence-threshold-value').innerHTML = value;
+        console.log(`onConfidenceThreshold(${value})`);
+        rest_put('/api/confidence-threshold', value);
+      }
+      
+      function onClusteringThreshold() {
+        var value = parseFloat(document.getElementById('clustering-threshold').value);
+        document.getElementById('clustering-threshold-value').innerHTML = value;
+        console.log(`onClusteringThreshold(${value})`);
+      }
+      
     </script>
   </head>
   
   <body>
-    <div>
-      <h1>{{ title }}</h1>
-    </div>
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">{{ title }}</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+    <form>
+      <div class="row">
+        <label for="confidence-threshold" class="col-1" style="width: 12.5%">Confidence Threshold</label>
+        <div class="col-3">
+          <input id="confidence-threshold" type="range" class="form-range" min="0.0" max="1.0" value="0.5" step="0.01" oninput="debounce(onConfidenceThreshold)()">
+        </div>
+        <div id="confidence-threshold-value" class="col-1">0.5</div>
+      </div>
+      <div class="row">
+        <label for="clustering-threshold" class="col-1" style="width: 12.5%">Clustering Threshold</label>
+        <div class="col-3">
+          <input id="clustering-threshold" type="range" class="form-range" min="0.0" max="1.0" value="0.5" step="0.01" oninput="onClusteringThreshold()">
+        </div>
+        <div id="clustering-threshold-value" class="col-1">0.5</div>
+      </div>
+    </form>
   </body>
 </html>

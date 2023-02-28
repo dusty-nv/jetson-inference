@@ -20,12 +20,37 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-function rest_get(url, func) {
-  fetch('/api/example').then(function(response) {
-          return response.json();
-        }).then(function(msg) {
-          console.log('GET response:');
-          console.log(msg); 
-          func(msg);
-        });
+function rest_get(url) {
+  return fetch(url).then(function(response) {
+    return response.json();
+  }).then(function(json) {
+    console.log(`GET response from ${url}`);
+    console.log(json); 
+    return json;
+  });
+}
+
+function rest_put(url, data, response_handler) {
+  fetch(url, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+    headers: {'Content-type': 'application/json; charset=UTF-8'}
+  }).then(function(response) {
+    console.log(`PUT response from ${url}`);
+    console.log(response);
+  });  
+}
+
+function rest_post(url, data, response_handler) {
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {'Content-type': 'application/json; charset=UTF-8'}
+  }).then(function(response) {
+    return response.json();
+  }).then(function(json) {
+    console.log(`POST response from ${url}`);
+    console.log(json);
+    return json;
+  });  
 }
