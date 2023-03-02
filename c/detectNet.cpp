@@ -637,7 +637,7 @@ int detectNet::postProcess( void* input, uint32_t width, uint32_t height, imageF
 	}
 	
 	// update tracking
-	if( mTracker != NULL )
+	if( mTracker != NULL && mTracker->IsEnabled() )
 		numDetections = mTracker->Process(input, width, height, format, detections, numDetections);
 	
 	PROFILER_END(PROFILER_POSTPROCESS);	

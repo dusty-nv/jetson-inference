@@ -78,10 +78,10 @@ public:
 	static objectTracker* Create( const commandLine& cmdLine );
 	
 	/**
-	 * Init (optional)
+	 * Destructor
 	 */
-	virtual bool Init()					{ return true; }
-	
+	virtual ~objectTracker();
+
 	/**
 	 * Process
 	 */
@@ -93,14 +93,29 @@ public:
 	virtual int Process( void* image, uint32_t width, uint32_t height, imageFormat format, detectNet::Detection* detections, int numDetections ) = 0;
 
 	/**
+	 * IsEnabled
+	 */
+	inline bool IsEnabled() const					{ return mEnabled; }
+	
+	/**
+	 * SetEnabled
+	 */
+	inline virtual void SetEnabled( bool enabled )	{ mEnabled = enabled; }
+	
+	/**
 	 * GetType
 	 */
 	virtual Type GetType() const = 0;
 	
 	/**
+	 * IsType
+	 */
+	inline bool IsType( Type type ) const			{ return GetType() == type; }
+	
+	/**
 	 * Usage string for command line arguments to Create()
 	 */
-	static inline const char* Usage() 		{ return OBJECT_TRACKER_USAGE_STRING; }
+	static inline const char* Usage() 				{ return OBJECT_TRACKER_USAGE_STRING; }
 
 	/**
 	 * Convert a Type enum to string.
@@ -111,6 +126,11 @@ public:
 	 * Parse a Type enum from a string.
 	 */
 	static Type TypeFromStr( const char* str );
+	
+protected:
+	objectTracker();
+	
+	bool mEnabled;
 };
 
 #endif

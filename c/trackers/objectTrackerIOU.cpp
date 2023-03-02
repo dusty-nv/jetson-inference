@@ -103,6 +103,9 @@ int findBestIOU( const detectNet::Detection& track, detectNet::Detection* detect
 // Process
 int objectTrackerIOU::Process( void* input, uint32_t width, uint32_t height, imageFormat format, detectNet::Detection* detections, int numDetections )
 {
+	if( !mEnabled )
+		return numDetections;
+	
 	// update active tracks
 	for( int n=0; n < mTracks.size(); n++ )
 	{

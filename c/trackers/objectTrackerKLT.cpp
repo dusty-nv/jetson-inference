@@ -318,6 +318,9 @@ void detectionToBox( const detectNet::Detection& detection, VPIKLTTrackedBoundin
 // Process
 int objectTrackerKLT::Process( void* input, uint32_t width, uint32_t height, imageFormat format, detectNet::Detection* detections, int numDetections )
 {
+	if( !mEnabled )
+		return numDetections;
+	
 	if( !init(width, height, format) )
 	{
 		LogError(LOG_VPI "failed to initialize object tracker (%ux%u)\n", width, height);

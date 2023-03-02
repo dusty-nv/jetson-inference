@@ -81,7 +81,7 @@ public:
 	/**
 	 * Destroy
 	 */
-	~objectTrackerIOU();
+	virtual ~objectTrackerIOU();
 	
 	/**
 	 * The number of re-identified frames before before establishing a track
@@ -99,7 +99,7 @@ public:
 	inline uint32_t GetDropFrames() const					{ return mDropFrames; }
 	
 	/**
-	 * Set the number of re-identified frames before before establishing a track
+	 * Set the number of consecutive lost frames after which a track is removed
 	 */
 	inline void SetDropFrames( uint32_t frames )				{ mDropFrames = frames; }
 	

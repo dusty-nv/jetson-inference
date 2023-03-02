@@ -28,6 +28,20 @@
 #include "objectTrackerKLT.h"
 
 
+// constructor
+objectTracker::objectTracker()
+{
+	mEnabled = true;
+}
+
+
+// destructor
+objectTracker::~objectTracker()
+{
+	
+}
+
+
 // Create
 objectTracker* objectTracker::Create( objectTracker::Type type )
 {
@@ -48,13 +62,7 @@ objectTracker* objectTracker::Create( objectTracker::Type type )
 	
 	if( !tracker )
 		return NULL;
-	
-	if( !tracker->Init() )
-	{
-		delete tracker;
-		return NULL;
-	}
-	
+
 	return tracker;
 }
 
