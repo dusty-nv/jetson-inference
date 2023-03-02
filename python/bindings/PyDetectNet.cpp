@@ -24,6 +24,8 @@
 #include "PyDetectNet.h"
 
 #include "detectNet.h"
+#include "objectTrackerIOU.h"
+
 #include "logging.h"
 
 #include "../../utils/python/bindings/PyCUDA.h"
@@ -887,11 +889,8 @@ PyObject* PyDetectNet_GetClassDesc( PyDetectNet_Object* self, PyObject* args )
 	int classIdx = 0;
 
 	if( !PyArg_ParseTuple(args, "i", &classIdx) )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.GetClassDesc() failed to parse arguments");
 		return NULL;
-	}
-		
+	
 	if( classIdx < 0 || classIdx >= self->net->GetNumClasses() )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet requested class index is out of bounds");
@@ -921,10 +920,7 @@ PyObject* PyDetectNet_GetClassSynset( PyDetectNet_Object* self, PyObject* args )
 	int classIdx = 0;
 
 	if( !PyArg_ParseTuple(args, "i", &classIdx) )
-	{
-		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet.GetClassSynset() failed to parse arguments");
 		return NULL;
-	}
 		
 	if( classIdx < 0 || classIdx >= self->net->GetNumClasses() )
 	{
@@ -936,6 +932,212 @@ PyObject* PyDetectNet_GetClassSynset( PyDetectNet_Object* self, PyObject* args )
 }
 
 
+#define DOC_GET_TRACKER_TYPE "Returns the type of tracker being used as a string\n\n" \
+					    "Parameters:  (none)\n\n" \
+					    "Returns:\n" \
+					    "  (string) -- 'IOU', 'KLT', or None if no tracking\n"
+
+// GetTrackerType
+static PyObject* PyDetectNet_GetTrackerType( PyDetectNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid object instance");
+		return NULL;
+	}
+	
+	objectTracker* tracker = self->net->GetTracker();
+	
+	if( !tracker )
+		Py_RETURN_NONE;
+	
+	return Py_BuildValue("s", objectTracker::TypeToStr(tracker->GetType()));
+}
+
+
+#define DOC_SET_TRACKER_TYPE "Sets the type of tracker being used\n\n" \
+				 	    "Parameters:\n" \
+					    "  (string) -- 'IOU' or 'KLT' (other strings will disable tracking)\n" \
+					    "Returns:  (none)"
+
+// SetTrackerType
+static PyObject* PyDetectNet_SetTrackerType( PyDetectNet_Object* self, PyObject* args )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid object instance");
+		return NULL;
+	}
+	
+	const char* typeStr = NULL;
+
+	if( !PyArg_ParseTuple(args, "s", &typeStr) )
+		return NULL;
+
+	const objectTracker::Type type = objectTracker::TypeFromStr(typeStr);
+	
+	// either create a new tracker, or save the existing one if the requested type matches
+	objectTracker* tracker = self->net->GetTracker();
+	
+	if( tracker != NULL && tracker->IsType(type) )
+		Py_RETURN_NONE;
+	
+	if( tracker != NULL )
+		delete tracker;
+	
+	self->net->SetTracker(objectTracker::Create(type));
+	
+	Py_RETURN_NONE;
+}
+
+
+#define DOC_IS_TRACKER_ENABLED "Returns true if tracking is enabled, otherwise false\n\n" \
+					      "Parameters:  (none)\n\n" \
+					      "Returns:\n" \
+					      "  (bool) -- true if tracking is enabled, otherwise false\n"
+
+// IsTrackerEnabled
+static PyObject* PyDetectNet_IsTrackerEnabled( PyDetectNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid object instance");
+		return NULL;
+	}
+	
+	objectTracker* tracker = self->net->GetTracker();
+	
+	if( tracker != NULL && tracker->IsEnabled() )
+		Py_RETURN_TRUE;
+	
+	Py_RETURN_FALSE;
+}
+
+
+#define DOC_SET_TRACKER_ENABLED "Sets if tracking is enabled or disabled.\n" \
+						  "When enabling tracking, if the tracker type wasn't previously\n" \
+						  "set with detectNet.SetTrackerType(), then 'IOU' will be used.\n\n" \
+				 	       "Parameters:\n" \
+					       "  (bool) -- true to enable tracking, false to disable it\n" \
+					       "Returns:  (none)"
+
+// SetTrackerEnabled
+static PyObject* PyDetectNet_SetTrackerEnabled( PyDetectNet_Object* self, PyObject* args )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid object instance");
+		return NULL;
+	}
+	
+	int enabled = 0;
+
+	if( !PyArg_ParseTuple(args, "p", &enabled) )
+		return NULL;
+
+	objectTracker* tracker = self->net->GetTracker();
+
+	if( tracker != NULL )
+	{
+		tracker->SetEnabled((bool)enabled);
+		Py_RETURN_NONE;
+	}
+	
+	if( !enabled )
+		Py_RETURN_NONE;
+	
+	self->net->SetTracker(objectTracker::Create(objectTracker::IOU));
+	
+	Py_RETURN_NONE;
+}
+
+
+#define DOC_GET_TRACKER_PARAMS "Returns a dict containing various tracking parameters.\n\n" \
+				 "Parameters: (none)\n\n" \
+				 "Returns: a dict containing the following keys/values (dependent on the type of tracker):\n" \
+				 "  minFrames (int) -- the number of re-identified frames before before establishing a track (IOU tracker only)\n" \
+				 "  dropFrames (int) -- the number of consecutive lost frames after which a track is removed (IOU tracker only)\n" \
+				 "  overlapThreshold (float) -- how much IOU overlap is required for a bounding box to be matched, between [0,1] (IOU tracker only)\n"
+				 
+// GetTrackerParams
+static PyObject* PyDetectNet_GetTrackerParams( PyDetectNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid object instance");
+		return NULL;
+	}
+	
+	PyObject* dict = PyDict_New();
+	
+	objectTracker* tracker = self->net->GetTracker();
+	
+	if( !tracker )
+		return dict;
+	
+	if( tracker->IsType(objectTracker::IOU) )
+	{
+		objectTrackerIOU* iou = (objectTrackerIOU*)tracker;
+		
+		PYDICT_SET_UINT(dict, "minFrames", iou->GetMinFrames());
+		PYDICT_SET_UINT(dict, "dropFrames", iou->GetDropFrames());
+		PYDICT_SET_FLOAT(dict, "overlapThreshold", iou->GetOverlapThreshold());
+	}
+	
+	return dict;
+}
+
+
+#define DOC_SET_TRACKER_PARAMS "Sets various tracker parameters using keyword arguments.\n\n" \
+				 "Parameters:\n" \
+				 "  minFrames (int) -- the number of re-identified frames before before establishing a track (IOU tracker only)\n" \
+				 "  dropFrames (int) -- the number of consecutive lost frames after which a track is removed (IOU tracker only)\n" \
+				 "  overlapThreshold (float) -- how much IOU overlap is required for a bounding box to be matched, between [0,1] (IOU tracker only)\n\n" \
+				 "Returns:\n" \
+				 "  None"
+
+// SetTrackerParams
+static PyObject* PyDetectNet_SetTrackerParams( PyDetectNet_Object* self, PyObject* args, PyObject *kwds )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid object instance");
+		return NULL;
+	}
+	
+	// parse arguments
+	int minFrames = -1;
+	int dropFrames = -1;
+	float overlapThreshold = -1;
+
+	static char* kwlist[]  = {"minFrames", "dropFrames", "overlapThreshold", NULL};
+
+	if( !PyArg_ParseTupleAndKeywords(args, kwds, "|iif", kwlist, &minFrames, &dropFrames, &overlapThreshold) )
+		return NULL;
+	
+	objectTracker* tracker = self->net->GetTracker();
+	
+	if( !tracker )
+		Py_RETURN_NONE;
+	
+	if( tracker->IsType(objectTracker::IOU) )
+	{
+		objectTrackerIOU* iou = (objectTrackerIOU*)tracker;
+		
+		if( minFrames >= 0 )
+			iou->SetMinFrames(minFrames);
+		
+		if( dropFrames >= 0 )
+			iou->SetDropFrames(dropFrames);
+		
+		if( overlapThreshold >= 0 )
+			iou->SetOverlapThreshold(overlapThreshold);
+	}
+	
+	Py_RETURN_NONE;
+}
+
+	
 #define DOC_SET_OVERLAY_ALPHA "Set the alpha blending value used during overlay visualization for all classes\n\n" \
 				 	  "Parameters:\n" \
 					  "  alpha (float) -- desired alpha value, between 0.0 and 255.0\n" \
@@ -1031,6 +1233,12 @@ static PyMethodDef pyDetectNet_Methods[] =
 	{ "SetConfidenceThreshold", (PyCFunction)PyDetectNet_SetConfidenceThreshold, METH_VARARGS, DOC_SET_CONFIDENCE_THRESHOLD}, 
 	{ "GetClusteringThreshold", (PyCFunction)PyDetectNet_GetClusteringThreshold, METH_NOARGS, DOC_GET_CLUSTERING_THRESHOLD},
 	{ "SetClusteringThreshold", (PyCFunction)PyDetectNet_SetClusteringThreshold, METH_VARARGS, DOC_SET_CLUSTERING_THRESHOLD},
+	{ "GetTrackerType", (PyCFunction)PyDetectNet_GetTrackerType, METH_NOARGS, DOC_GET_TRACKER_TYPE},
+	{ "SetTrackerType", (PyCFunction)PyDetectNet_SetTrackerType, METH_VARARGS, DOC_SET_TRACKER_TYPE},
+	{ "IsTrackerEnabled", (PyCFunction)PyDetectNet_IsTrackerEnabled, METH_NOARGS, DOC_IS_TRACKER_ENABLED},
+	{ "SetTrackerEnabled", (PyCFunction)PyDetectNet_SetTrackerEnabled, METH_VARARGS, DOC_SET_TRACKER_ENABLED},
+	{ "GetTrackerParams", (PyCFunction)PyDetectNet_GetTrackerParams, METH_NOARGS, DOC_GET_TRACKER_PARAMS},
+	{ "SetTrackerParams", (PyCFunction)PyDetectNet_SetTrackerParams, METH_VARARGS|METH_KEYWORDS, DOC_SET_TRACKER_PARAMS},
 	{ "SetOverlayAlpha", (PyCFunction)PyDetectNet_SetOverlayAlpha, METH_VARARGS|METH_KEYWORDS, DOC_SET_OVERLAY_ALPHA},
 	{ "SetLineWidth", (PyCFunction)PyDetectNet_SetLineWidth, METH_VARARGS|METH_KEYWORDS, DOC_SET_LINE_WIDTH},
 	{ "Usage", (PyCFunction)PyDetectNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},	

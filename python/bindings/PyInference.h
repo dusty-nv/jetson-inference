@@ -92,5 +92,38 @@
 #define PY_RETURN_BOOL(x)	if(x) Py_RETURN_TRUE; else Py_RETURN_FALSE
 #endif
 
+#define PYDICT_SET_ITEM(dict, key, val) { \
+	PyObject* object = val; \
+	if( object != NULL ) { \
+		PyDict_SetItemString(dict, key, object); \
+		Py_DECREF(object); \
+	} \
+}
+	
+#define PYDICT_SET_STRING(dict, key, str) { \
+	const char* string = str; \
+	if( string != NULL && strlen(string) > 0 ) { \
+		PyObject* obj = PYSTRING_FROM_STRING(string); \
+		PyDict_SetItemString(dict, key, obj); \
+		Py_DECREF(obj); \
+	} \
+}
+
+#define PYDICT_SET_STDSTR(dict, key, str) \
+	if( str.length() > 0 ) { \
+		PyObject* obj = PYSTRING_FROM_STRING(str.c_str()); \
+		PyDict_SetItemString(dict, key, obj); \
+		Py_DECREF(obj); \
+	}
+	
+#define PYDICT_SET_BOOL(dict, key, val) { \
+	const bool value = val; \
+	PyDict_SetItemString(dict, key, value ? Py_True : Py_False); \
+}
+
+#define PYDICT_SET_INT(dict, key, val)		PYDICT_SET_ITEM(dict, key, PYLONG_FROM_LONG(val))
+#define PYDICT_SET_UINT(dict, key, val)		PYDICT_SET_ITEM(dict, key, PYLONG_FROM_UNSIGNED_LONG(val))
+#define PYDICT_SET_FLOAT(dict, key, val)	PYDICT_SET_ITEM(dict, key, PyFloat_FromDouble(val))
+
 #endif
 
