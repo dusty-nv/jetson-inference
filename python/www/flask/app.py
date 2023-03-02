@@ -26,57 +26,35 @@ import flask
 import requests
 import argparse
 
+from stream import Stream
+
 
 app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
-    return flask.render_template('index.html', title='Hello AI World')
+    return flask.render_template('index.html', title=args.title, send_webrtc=args.input.startswith('webrtc'))
     
-@app.route('/api/example', methods=['GET'])
-def get_example():
-    print('get_example()')
-    return {
-        'id': 'example',
-        'data': [0,1,2,3]
-    }
-
-@app.route('/api/example', methods=['POST'])
-def add_example():
-    msg = flask.request.get_json()
+@app.route('/api/confidence-threshold', methods=['GET', 'PUT'])
+def confidence_threshold():
+    if flask.request.method == 'PUT':
+        threshold = float(flask.request.get_json())
+        print(f'set_confidence_threshold({threshold})')
+        stream.net.SetConfidenceThreshold(threshold)
+        return '', http.HTTPStatus.OK
+    else:
+        return flask.jsonify(stream.net.GetConfidenceThreshold())
+  
+@app.route('/api/clustering-threshold', methods=['GET', 'PUT'])
+def clustering_threshold():
+    if flask.request.method == 'PUT':
+        threshold = float(flask.request.get_json())
+        print(f'set_clustering_threshold({threshold})')
+        stream.net.SetClusteringThreshold(threshold)
+        return '', http.HTTPStatus.OK
+    else:
+        return flask.jsonify(stream.net.GetClusteringThreshold())
     
-    print('add_example()')
-    print(msg)
-    
-    return {'id': 'example', 'message': 'ok'}
-    
-@app.route('/api/example', methods=['PUT'])
-def set_example():
-    msg = flask.request.get_json()
-    
-    print('set_example()')
-    print(msg)
-    
-    return '', http.HTTPStatus.OK
-
-confidence_threshold = 0.75
-    
-@app.route('/api/confidence-threshold', methods=['GET'])
-def get_confidence_threshold():
-    print('get_confidence_threshold()')
-    return flask.jsonify(confidence_threshold)
-    
-@app.route('/api/confidence-threshold', methods=['PUT'])
-def set_confidence_threshold():
-    global confidence_threshold
-    msg = flask.request.get_json()
-    
-    print('set_confidence_threshold()')
-    print(msg)
-    print(type(msg))
-    confidence_threshold = float(msg)
-    
-    return '', http.HTTPStatus.OK
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -85,8 +63,15 @@ if __name__ == '__main__':
     parser.add_argument("--port", default=8050, type=int, help="port used for webserver (default is 8050)")
     parser.add_argument("--ssl-key", default=None, type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
     parser.add_argument("--ssl-cert", default=None, type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
+    parser.add_argument("--title", default='Hello AI World', type=str, help="the title of the webpage as shown in the browser")
+    parser.add_argument("--input", default='webrtc://@:8554/input', type=str, help="input camera stream or video file")
+    parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help="WebRTC output stream to serve from --input")
+
+    args = parser.parse_known_args()[0]
     
-    args = parser.parse_args()
+    # start stream thread
+    stream = Stream(args)
+    stream.start()
     
     # check if HTTPS/SSL requested
     ssl_context = None
@@ -95,4 +80,4 @@ if __name__ == '__main__':
         ssl_context = (args.ssl_cert, args.ssl_key)
         
     # start the webserver
-    app.run(host=args.host, port=args.port, ssl_context=ssl_context, debug=True)
+    app.run(host=args.host, port=args.port, ssl_context=ssl_context, debug=True, use_reloader=False)

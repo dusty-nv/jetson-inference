@@ -9,44 +9,80 @@
     <script type='text/javascript' src='/static/rest.js'></script>
     <script type='text/javascript' src='/static/debounce.js'></script>
     <script type='text/javascript'>
+      play = function() {
+        playStream(document.getElementById('play-stream').value, document.getElementById('video-player'));
+      };
+      
+      send = function() {
+        sendStream(getWebsocketURL('input'), document.getElementById('send-stream').value);
+        play(); // autoplay browser stream
+      }
+      
       window.onload = function() {
-        console.log('Websocket protocol: ' + getWebsocketProtocol());
-        
-        rest_get('/api/example').then(function(json) {
-          console.log(json);
-        });
+        var playStream = document.getElementById('play-stream');
+        var sendStream = document.getElementById('send-stream');
+        var sendButton = document.getElementById('send-button');
 
-        rest_post('/api/example', {
-          test: 'abc',
-          variable: 123,
-          completed: false
-        }).then(function(json) {
-          console.log(json);
-        });
-
-        rest_put('/api/example', {
-          test: 'def',
-          variable: 456,
-          completed: true
-        });
-        
+        playStream.value = getWebsocketURL('output');
+    
+      {% if send_webrtc %}
+        // populate the list of browser video devices (requires HTTPS)
+        if( checkMediaDevices() ) {
+          navigator.mediaDevices.getUserMedia({audio: false, video: true}).then((stream) => { // get permission from user
+            navigator.mediaDevices.enumerateDevices().then((devices) => {
+              stream.getTracks().forEach(track => track.stop()); // close the device opened to get permissions
+              devices.forEach((device) => {
+                if( device.kind == 'videoinput' ) {
+                  console.log(`Browser media device:  ${device.kind}  label=${device.label}  id=${device.deviceId}`);
+                  sendStream.add(new Option(device.label, device.deviceId));
+                }
+              });
+              if( sendStream.options.length == 0 ) {
+                sendStream.add(new Option('browser has no webcams available'));
+                sendButton.disabled = true;
+              }
+            });
+          }).catch(reportError);
+        }
+        else
+        {
+          sendStream.add(new Option('use HTTPS to enable browser webcam'));
+          sendButton.disabled = true;
+        }
+      {% else %}
+        // auto-play other sources, since they're already running
+        play();
+      {% endif %}
+      
+        // get the default control settings
         rest_get('/api/confidence-threshold').then(function(value) {
           document.getElementById('confidence-threshold').value = value;
           document.getElementById('confidence-threshold-value').innerHTML = value;
+        });
+        
+        rest_get('/api/clustering-threshold').then(function(value) {
+          document.getElementById('clustering-threshold').value = value;
+          document.getElementById('clustering-threshold-value').innerHTML = value;
         });
       }
       
       function onConfidenceThreshold() {
         var value = parseFloat(document.getElementById('confidence-threshold').value);
         document.getElementById('confidence-threshold-value').innerHTML = value;
-        console.log(`onConfidenceThreshold(${value})`);
         rest_put('/api/confidence-threshold', value);
+        console.log(`onConfidenceThreshold(${value})`);
       }
       
       function onClusteringThreshold() {
         var value = parseFloat(document.getElementById('clustering-threshold').value);
         document.getElementById('clustering-threshold-value').innerHTML = value;
+        rest_put('/api/clustering-threshold', value);
         console.log(`onClusteringThreshold(${value})`);
+      }
+      
+      function onTrackingToggle() {
+        var value = document.getElementById('tracking-toggle').checked;
+        console.log(`onTrackingToggle(${value})`);
       }
       
     </script>
@@ -61,21 +97,56 @@
         </button>
       </div>
     </nav>
-    <form>
-      <div class="row">
-        <label for="confidence-threshold" class="col-1" style="width: 12.5%">Confidence Threshold</label>
-        <div class="col-3">
-          <input id="confidence-threshold" type="range" class="form-range" min="0.0" max="1.0" value="0.5" step="0.01" oninput="debounce(onConfidenceThreshold)()">
+    <div>
+      <video id="video-player" autoplay controls playsinline muted>Your browser does not support video</video>
+    </div>
+    <div class="card" style="width: 36rem;">
+      <div class="card-body">
+        <h5 class="card-title">Streaming</h5>
+        <div class="row">
+          <label for="send-stream" class="col-2">Webcam:</label>
+          <div class="col-6">
+            <select id="send-stream" name="send-stream"></select>
+          </div>
+          <div class="col-2">
+            <button id="send-button" onclick="send()">Send</button>
+          </div>
         </div>
-        <div id="confidence-threshold-value" class="col-1">0.5</div>
-      </div>
-      <div class="row">
-        <label for="clustering-threshold" class="col-1" style="width: 12.5%">Clustering Threshold</label>
-        <div class="col-3">
-          <input id="clustering-threshold" type="range" class="form-range" min="0.0" max="1.0" value="0.5" step="0.01" oninput="onClusteringThreshold()">
+        <div class="row">
+          <label for="play-stream" class="col-2">Stream:</label>
+          <div class="col-6">
+            <input id="play-stream" name="play-stream" type="text" size="32">
+          </div>
+          <div class="col-2">
+            <button id="play-button" onclick="play()">Play</button>
+          </div>
         </div>
-        <div id="clustering-threshold-value" class="col-1">0.5</div>
       </div>
-    </form>
+    </div>
+    <div class="card" style="width: 36rem;">
+      <div class="card-body">
+        <h5 class="card-title">Object Detection</h5>
+        <div class="row">
+          <label for="confidence-threshold" class="col-4">Confidence Threshold</label>
+          <div class="col-6">
+            <input id="confidence-threshold" type="range" class="form-range" min="0.0" max="1.0" value="0.5" step="0.01" oninput="debounce(onConfidenceThreshold)()">
+          </div>
+          <div id="confidence-threshold-value" class="col-2">0.5</div>
+        </div>
+        <div class="row">
+          <label for="clustering-threshold" class="col-4">Clustering Threshold</label>
+          <div class="col-6">
+            <input id="clustering-threshold" type="range" class="form-range" min="0.0" max="1.0" value="0.5" step="0.01" oninput="debounce(onClusteringThreshold)()">
+          </div>
+          <div id="clustering-threshold-value" class="col-2">0.5</div>
+        </div>
+        <div class="row">
+          <label for="tracking-toggle" class="col-4">Tracking</label>
+          <div class="col-2">
+            <input id="tracking-toggle" type="checkbox" class="form-checkbox" oninput="onTrackingToggle()">
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
