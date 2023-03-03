@@ -28,32 +28,42 @@ import argparse
 
 from stream import Stream
 
-
+    
+# Flask server and routes
 app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
     return flask.render_template('index.html', title=args.title, send_webrtc=args.input.startswith('webrtc'))
-    
-@app.route('/api/confidence-threshold', methods=['GET', 'PUT'])
+ 
+@app.route('/detection/confidence_threshold', methods=['GET', 'PUT'])
 def confidence_threshold():
-    if flask.request.method == 'PUT':
-        threshold = float(flask.request.get_json())
-        print(f'set_confidence_threshold({threshold})')
-        stream.net.SetConfidenceThreshold(threshold)
-        return '', http.HTTPStatus.OK
-    else:
-        return flask.jsonify(stream.net.GetConfidenceThreshold())
+    return rest_property(stream.net.GetConfidenceThreshold, stream.net.SetConfidenceThreshold, float)
   
-@app.route('/api/clustering-threshold', methods=['GET', 'PUT'])
+@app.route('/detection/clustering_threshold', methods=['GET', 'PUT'])
 def clustering_threshold():
-    if flask.request.method == 'PUT':
-        threshold = float(flask.request.get_json())
-        print(f'set_clustering_threshold({threshold})')
-        stream.net.SetClusteringThreshold(threshold)
-        return '', http.HTTPStatus.OK
-    else:
-        return flask.jsonify(stream.net.GetClusteringThreshold())
+    return rest_property(stream.net.GetClusteringThreshold, stream.net.SetClusteringThreshold, float)
+    
+@app.route('/detection/tracking-enabled', methods=['GET', 'PUT'])
+def tracking_enabled():
+    return rest_property(stream.net.IsTrackingEnabled, stream.net.SetTrackingEnabled, bool)
+
+
+def rest_property(getter, setter, type):
+    """
+    Handle the boilerplate of getting/setting a REST JSON property.
+    This function handles GET and PUT requests for different datatypes.
+    """
+    if flask.request.method == 'GET':
+        value = getter()
+        response = flask.jsonify(value)
+    elif flask.request.method == 'PUT':
+        value = type(flask.request.get_json())
+        setter(value)
+        response = ('', http.HTTPStatus.OK)
+        
+    print(f"{flask.request.remote_addr} - - REST {flask.request.method} {flask.request.path} => {value}")
+    return response
     
     
 if __name__ == '__main__':

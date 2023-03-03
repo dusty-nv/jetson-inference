@@ -41,8 +41,13 @@ class Stream(threading.Thread):
         self.frames = 0
             
     def process(self):
-        img = self.input.Capture()
-        
+        try:
+            img = self.input.Capture()
+        except:
+            if self.frames > 0:
+                traceback.print_exc()
+            return
+            
         detections = self.net.Detect(img, overlay="box,labels,conf")
 
         print(f"detected {len(detections)} objects")

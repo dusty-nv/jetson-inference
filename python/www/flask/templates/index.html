@@ -55,38 +55,81 @@
       {% endif %}
       
         // get the default control settings
-        rest_get('/api/confidence-threshold').then(function(value) {
-          document.getElementById('confidence-threshold').value = value;
-          document.getElementById('confidence-threshold-value').innerHTML = value;
+        /*rest_get('/detection/confidence_threshold').then(function(value) {
+          document.getElementById('confidence_threshold').value = value;
+          document.getElementById('confidence_threshold_value').innerHTML = value;
         });
         
-        rest_get('/api/clustering-threshold').then(function(value) {
-          document.getElementById('clustering-threshold').value = value;
-          document.getElementById('clustering-threshold-value').innerHTML = value;
+        rest_get('/detection/clustering_threshold').then(function(value) {
+          document.getElementById('clustering_threshold').value = value;
+          document.getElementById('clustering_threshold_value').innerHTML = value;
+        });*/
+        
+        rest_get('/detection/tracking-enabled').then(function(value) {
+          document.getElementById('tracking-toggle').checked = value;
+          document.getElementById('tracking-controls').style.display = value ? null : 'none';
         });
       }
       
-      function onConfidenceThreshold() {
+      /*function onConfidenceThreshold() {
         var value = parseFloat(document.getElementById('confidence-threshold').value);
         document.getElementById('confidence-threshold-value').innerHTML = value;
-        rest_put('/api/confidence-threshold', value);
+        rest_put('/detection/confidence-threshold', value);
         console.log(`onConfidenceThreshold(${value})`);
       }
       
       function onClusteringThreshold() {
         var value = parseFloat(document.getElementById('clustering-threshold').value);
         document.getElementById('clustering-threshold-value').innerHTML = value;
-        rest_put('/api/clustering-threshold', value);
+        rest_put('/detection/clustering-threshold', value);
         console.log(`onClusteringThreshold(${value})`);
-      }
+      }*/
       
       function onTrackingToggle() {
         var value = document.getElementById('tracking-toggle').checked;
+        document.getElementById('tracking-controls').style.display = value ? null : 'none';
+        rest_put('/detection/tracking-enabled', value);
         console.log(`onTrackingToggle(${value})`);
       }
       
+      function onTrackingMinFrames() {
+        var value = parseInt(document.getElementById('tracking-min-frames').value);
+        document.getElementById('tracking-min-frames-value').innerHTML = value;
+        //rest_put('/detection/clustering-threshold', value);
+        console.log(`onTrackingMinFrames(${value})`);
+      }
     </script>
   </head>
+  
+  {% macro slider(id, rest_path, label, min=0.0, max=1.0, step=0.01) -%}
+    <div class="row">
+      <script type='text/javascript'>
+        function get_{{ id }}() {
+          return rest_get('{{ rest_path }}').then(function(value) {
+            document.getElementById('{{ id }}').value = value;
+            document.getElementById('{{ id }}_value').innerHTML = value;
+            console.log(`get_{{ id }}(${value})`);
+            return value;
+          });
+        }
+        
+        function set_{{ id }}() {
+          var value = parseFloat(document.getElementById('{{ id }}').value);
+          document.getElementById('{{ id }}_value').innerHTML = value;
+          rest_put('{{ rest_path }}', value);
+          console.log(`set_{{ id }}(${value})`);
+        }
+      </script>
+      <label for="{{ id }}" class="col-4">{{ label }}</label>
+      <div class="col-6">
+        <input id="{{ id }}" type="range" class="form-range" min="{{ min }}" max="{{ max }}" step="{{ step }}" oninput="debounce(set_{{ id }})()">
+      </div>
+      <div id="{{ id }}_value" class="col-2">{{ value }}</div>
+      <script>
+        get_{{ id }}();
+      </script>
+    </div>
+  {%- endmacro %}
   
   <body>
     <nav class="navbar navbar-expand-lg bg-light">
@@ -126,13 +169,14 @@
     <div class="card" style="width: 36rem;">
       <div class="card-body">
         <h5 class="card-title">Object Detection</h5>
+        <!--
         <div class="row">
           <label for="confidence-threshold" class="col-4">Confidence Threshold</label>
           <div class="col-6">
             <input id="confidence-threshold" type="range" class="form-range" min="0.0" max="1.0" value="0.5" step="0.01" oninput="debounce(onConfidenceThreshold)()">
           </div>
           <div id="confidence-threshold-value" class="col-2">0.5</div>
-        </div>
+        </div> 
         <div class="row">
           <label for="clustering-threshold" class="col-4">Clustering Threshold</label>
           <div class="col-6">
@@ -140,12 +184,31 @@
           </div>
           <div id="clustering-threshold-value" class="col-2">0.5</div>
         </div>
+        -->
+        {{ slider('confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
+        {{ slider('clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
+
         <div class="row">
-          <label for="tracking-toggle" class="col-4">Tracking</label>
+          <label for="tracking-toggle" class="col-4">Tracking Enabled</label>
           <div class="col-2">
             <input id="tracking-toggle" type="checkbox" class="form-checkbox" oninput="onTrackingToggle()">
           </div>
         </div>
+        <div id="tracking-controls">
+          <div class="row">
+            <label for="tracking-min-frames" class="col-4">Tracking Min Frames</label>
+            <div class="col-6">
+              <input id="tracking-min-frames" type="range" class="form-range" min="0" max="60" value="3" oninput="debounce(onTrackingMinFrames)()">
+            </div>
+            <div id="tracking-min-frames-value" class="col-2">3</div>
+          </div>
+          <div class="row">
+            <label for="tracking-drop-frames" class="col-4">Tracking Drop Frames</label>
+            <div class="col-6">
+              <input id="tracking-drop-frames" type="range" class="form-range" min="0" max="60" value="15" oninput="debounce(onTrackingDropFrames)()">
+            </div>
+            <div id="tracking-drop-frames-value" class="col-2">15</div>
+          </div>
       </div>
     </div>
   </body>
