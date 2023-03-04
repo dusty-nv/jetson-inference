@@ -44,22 +44,43 @@ def confidence_threshold():
 def clustering_threshold():
     return rest_property(stream.net.GetClusteringThreshold, stream.net.SetClusteringThreshold, float)
     
-@app.route('/detection/tracking-enabled', methods=['GET', 'PUT'])
+@app.route('/detection/tracking_enabled', methods=['GET', 'PUT'])
 def tracking_enabled():
     return rest_property(stream.net.IsTrackingEnabled, stream.net.SetTrackingEnabled, bool)
 
+@app.route('/detection/tracking_min_frames', methods=['GET', 'PUT'])
+def tracking_min_frames():
+    return rest_property(stream.net.GetTrackingParams, stream.net.SetTrackingParams, int, key='minFrames')
 
-def rest_property(getter, setter, type):
+@app.route('/detection/tracking_drop_frames', methods=['GET', 'PUT'])
+def tracking_drop_frames():
+    return rest_property(stream.net.GetTrackingParams, stream.net.SetTrackingParams, int, key='dropFrames')
+
+@app.route('/detection/tracking_overlap_threshold', methods=['GET', 'PUT'])
+def tracking_overlap_threshold():
+    return rest_property(stream.net.GetTrackingParams, stream.net.SetTrackingParams, int, key='overlapThreshold')
+    
+    
+def rest_property(getter, setter, type, key=None):
     """
     Handle the boilerplate of getting/setting a REST JSON property.
     This function handles GET and PUT requests for different datatypes.
     """
     if flask.request.method == 'GET':
         value = getter()
+        
+        if key:
+            value = value[key]
+            
         response = flask.jsonify(value)
     elif flask.request.method == 'PUT':
         value = type(flask.request.get_json())
-        setter(value)
+        
+        if key:
+            setter(**{key:value})
+        else:
+            setter(value)
+            
         response = ('', http.HTTPStatus.OK)
         
     print(f"{flask.request.remote_addr} - - REST {flask.request.method} {flask.request.path} => {value}")

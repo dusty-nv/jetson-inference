@@ -1,4 +1,70 @@
 <!doctype html>
+
+  {# Jinja macro for creating a range slider that connects to a backend JSON REST API #}
+  {% macro slider(id, rest_path, label, min=0.0, max=1.0, step=0.01, oninput=none) -%}
+    <div class="row">
+      <script type='text/javascript'>
+        function get_{{ id }}() {
+          return rest_get('{{ rest_path }}').then(function(value) {
+            document.getElementById('{{ id }}').value = value;
+            document.getElementById('{{ id }}_value').innerHTML = value;
+            console.log(`get_{{ id }}(${value})`);
+            return value;
+          });
+        }
+        
+        function set_{{ id }}() {
+          var value = parseFloat(document.getElementById('{{ id }}').value);
+          document.getElementById('{{ id }}_value').innerHTML = value;
+          rest_put('{{ rest_path }}', value);
+          {% if oninput is not none %}
+            {{ oninput }};
+          {% endif %}
+          console.log(`set_{{ id }}(${value})`);
+        }
+      </script>
+      <label for="{{ id }}" class="col-4">{{ label }}</label>
+      <div class="col-6">
+        <input id="{{ id }}" type="range" class="form-range" min="{{ min }}" max="{{ max }}" step="{{ step }}" oninput="debounce(set_{{ id }})()">
+      </div>
+      <div id="{{ id }}_value" class="col-2">{{ value }}</div>
+      <script>
+        get_{{ id }}();
+      </script>
+    </div>
+  {%- endmacro %}
+  
+  {# Jinja macro for creating a checkbox element that connects to a backend JSON REST API #}
+  {% macro checkbox(id, rest_path, label, oninput=none) -%}
+    <div class="row">
+      <script type='text/javascript'>
+        function get_{{ id }}() {
+          return rest_get('{{ rest_path }}').then(function(value) {
+            document.getElementById('{{ id }}').checked = value;
+            console.log(`get_{{ id }}(${value})`);
+            return value;
+          });
+        }
+        
+        function set_{{ id }}() {
+          var value = document.getElementById('{{ id }}').checked;
+          rest_put('{{ rest_path }}', value);
+          {% if oninput is not none %}
+            {{ oninput }};
+          {% endif %}
+          console.log(`set_{{ id }}(${value})`);
+        }
+      </script>
+      <label for="{{ id }}" class="col-4">{{ label }}</label>
+      <div class="col-2">
+        <input id="{{ id }}" type="checkbox" class="form-checkbox" oninput="set_{{ id }}()">
+      </div>
+      <script>
+        get_{{ id }}();
+      </script>
+    </div>
+  {%- endmacro %}
+  
 <html>
   <head>
     <meta charset="utf-8">
@@ -53,84 +119,9 @@
         // auto-play other sources, since they're already running
         play();
       {% endif %}
-      
-        // get the default control settings
-        /*rest_get('/detection/confidence_threshold').then(function(value) {
-          document.getElementById('confidence_threshold').value = value;
-          document.getElementById('confidence_threshold_value').innerHTML = value;
-        });
-        
-        rest_get('/detection/clustering_threshold').then(function(value) {
-          document.getElementById('clustering_threshold').value = value;
-          document.getElementById('clustering_threshold_value').innerHTML = value;
-        });*/
-        
-        rest_get('/detection/tracking-enabled').then(function(value) {
-          document.getElementById('tracking-toggle').checked = value;
-          document.getElementById('tracking-controls').style.display = value ? null : 'none';
-        });
-      }
-      
-      /*function onConfidenceThreshold() {
-        var value = parseFloat(document.getElementById('confidence-threshold').value);
-        document.getElementById('confidence-threshold-value').innerHTML = value;
-        rest_put('/detection/confidence-threshold', value);
-        console.log(`onConfidenceThreshold(${value})`);
-      }
-      
-      function onClusteringThreshold() {
-        var value = parseFloat(document.getElementById('clustering-threshold').value);
-        document.getElementById('clustering-threshold-value').innerHTML = value;
-        rest_put('/detection/clustering-threshold', value);
-        console.log(`onClusteringThreshold(${value})`);
-      }*/
-      
-      function onTrackingToggle() {
-        var value = document.getElementById('tracking-toggle').checked;
-        document.getElementById('tracking-controls').style.display = value ? null : 'none';
-        rest_put('/detection/tracking-enabled', value);
-        console.log(`onTrackingToggle(${value})`);
-      }
-      
-      function onTrackingMinFrames() {
-        var value = parseInt(document.getElementById('tracking-min-frames').value);
-        document.getElementById('tracking-min-frames-value').innerHTML = value;
-        //rest_put('/detection/clustering-threshold', value);
-        console.log(`onTrackingMinFrames(${value})`);
       }
     </script>
   </head>
-  
-  {% macro slider(id, rest_path, label, min=0.0, max=1.0, step=0.01) -%}
-    <div class="row">
-      <script type='text/javascript'>
-        function get_{{ id }}() {
-          return rest_get('{{ rest_path }}').then(function(value) {
-            document.getElementById('{{ id }}').value = value;
-            document.getElementById('{{ id }}_value').innerHTML = value;
-            console.log(`get_{{ id }}(${value})`);
-            return value;
-          });
-        }
-        
-        function set_{{ id }}() {
-          var value = parseFloat(document.getElementById('{{ id }}').value);
-          document.getElementById('{{ id }}_value').innerHTML = value;
-          rest_put('{{ rest_path }}', value);
-          console.log(`set_{{ id }}(${value})`);
-        }
-      </script>
-      <label for="{{ id }}" class="col-4">{{ label }}</label>
-      <div class="col-6">
-        <input id="{{ id }}" type="range" class="form-range" min="{{ min }}" max="{{ max }}" step="{{ step }}" oninput="debounce(set_{{ id }})()">
-      </div>
-      <div id="{{ id }}_value" class="col-2">{{ value }}</div>
-      <script>
-        get_{{ id }}();
-      </script>
-    </div>
-  {%- endmacro %}
-  
   <body>
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
@@ -169,46 +160,28 @@
     <div class="card" style="width: 36rem;">
       <div class="card-body">
         <h5 class="card-title">Object Detection</h5>
-        <!--
-        <div class="row">
-          <label for="confidence-threshold" class="col-4">Confidence Threshold</label>
-          <div class="col-6">
-            <input id="confidence-threshold" type="range" class="form-range" min="0.0" max="1.0" value="0.5" step="0.01" oninput="debounce(onConfidenceThreshold)()">
-          </div>
-          <div id="confidence-threshold-value" class="col-2">0.5</div>
-        </div> 
-        <div class="row">
-          <label for="clustering-threshold" class="col-4">Clustering Threshold</label>
-          <div class="col-6">
-            <input id="clustering-threshold" type="range" class="form-range" min="0.0" max="1.0" value="0.5" step="0.01" oninput="debounce(onClusteringThreshold)()">
-          </div>
-          <div id="clustering-threshold-value" class="col-2">0.5</div>
-        </div>
-        -->
+        
         {{ slider('confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
         {{ slider('clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
 
-        <div class="row">
-          <label for="tracking-toggle" class="col-4">Tracking Enabled</label>
-          <div class="col-2">
-            <input id="tracking-toggle" type="checkbox" class="form-checkbox" oninput="onTrackingToggle()">
-          </div>
-        </div>
+        <script type='text/javascript'>
+          function onTrackingEnabled() {
+            var value = document.getElementById('tracking_enabled').checked;
+            document.getElementById('tracking-controls').style.display = value ? null : 'none';
+            console.log(`onTrackingEnabled(${value})`);
+          }
+        </script>
+        
+        {{ checkbox('tracking_enabled', '/detection/tracking_enabled', 'Tracking Enabled', oninput='onTrackingEnabled()') }}
+
         <div id="tracking-controls">
-          <div class="row">
-            <label for="tracking-min-frames" class="col-4">Tracking Min Frames</label>
-            <div class="col-6">
-              <input id="tracking-min-frames" type="range" class="form-range" min="0" max="60" value="3" oninput="debounce(onTrackingMinFrames)()">
-            </div>
-            <div id="tracking-min-frames-value" class="col-2">3</div>
-          </div>
-          <div class="row">
-            <label for="tracking-drop-frames" class="col-4">Tracking Drop Frames</label>
-            <div class="col-6">
-              <input id="tracking-drop-frames" type="range" class="form-range" min="0" max="60" value="15" oninput="debounce(onTrackingDropFrames)()">
-            </div>
-            <div id="tracking-drop-frames-value" class="col-2">15</div>
-          </div>
+          {{ slider('tracking_min_frames', '/detection/tracking_min_frames', 'Tracking Min Frames', min=0, max=60, step=1) }}
+          {{ slider('tracking_drop_frames', '/detection/tracking_drop_frames', 'Tracking Drop Frames', min=0, max=60, step=1) }}
+          {{ slider('tracking_overlap_threshold', '/detection/tracking_overlap_threshold', 'Tracking Overlap Threshold') }}
+        </div>
+        <script type='text/javascript'>
+          onTrackingEnabled();  // set default values
+        </script>
       </div>
     </div>
   </body>
