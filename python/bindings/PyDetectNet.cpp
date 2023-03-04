@@ -1073,9 +1073,12 @@ static PyObject* PyDetectNet_GetTrackingParams( PyDetectNet_Object* self )
 	objectTracker* tracker = self->net->GetTracker();
 	
 	if( !tracker )
-		return dict;
-	
-	if( tracker->IsType(objectTracker::IOU) )
+	{
+		PYDICT_SET_UINT(dict, "minFrames", OBJECT_TRACKER_DEFAULT_MIN_FRAMES);
+		PYDICT_SET_UINT(dict, "dropFrames", OBJECT_TRACKER_DEFAULT_DROP_FRAMES);
+		PYDICT_SET_FLOAT(dict, "overlapThreshold", OBJECT_TRACKER_DEFAULT_OVERLAP_THRESHOLD);
+	}
+	else if( tracker->IsType(objectTracker::IOU) )
 	{
 		objectTrackerIOU* iou = (objectTrackerIOU*)tracker;
 		
