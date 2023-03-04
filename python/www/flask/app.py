@@ -21,94 +21,83 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-import http
 import flask
-import requests
 import argparse
 
 from stream import Stream
-
+from utils import rest_property
     
-# Flask server and routes
-app = flask.Flask(__name__)
+    
+parser = argparse.ArgumentParser()
 
+parser.add_argument("--host", default='0.0.0.0', type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
+parser.add_argument("--port", default=8050, type=int, help="port used for webserver (default is 8050)")
+parser.add_argument("--ssl-key", default=None, type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
+parser.add_argument("--ssl-cert", default=None, type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
+parser.add_argument("--title", default='Hello AI World', type=str, help="the title of the webpage as shown in the browser")
+parser.add_argument("--input", default='webrtc://@:8554/input', type=str, help="input camera stream or video file")
+parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help="WebRTC output stream to serve from --input")
+parser.add_argument("--classification", action="store_true", help="load classification model (see imageNet arguments)")
+parser.add_argument("--detection", action="store_true", help="load object detection model (see detectNet arguments)")
+parser.add_argument("--action", action="store_true", help="load action recognition model (see actionNet arguments)")
+parser.add_argument("--pose", action="store_true", help="load action recognition model (see actionNet arguments)")
+
+args = parser.parse_known_args()[0]
+    
+    
+# create Flask & stream instance
+app = flask.Flask(__name__)
+stream = Stream(args)
+
+# Flask routes
 @app.route('/')
 def index():
-    return flask.render_template('index.html', title=args.title, send_webrtc=args.input.startswith('webrtc'))
+    return flask.render_template('index.html', title=args.title, send_webrtc=args.input.startswith('webrtc'),
+                                 classification=args.classification, detection=args.detection)
  
-@app.route('/detection/confidence_threshold', methods=['GET', 'PUT'])
-def confidence_threshold():
-    return rest_property(stream.net.GetConfidenceThreshold, stream.net.SetConfidenceThreshold, float)
-  
-@app.route('/detection/clustering_threshold', methods=['GET', 'PUT'])
-def clustering_threshold():
-    return rest_property(stream.net.GetClusteringThreshold, stream.net.SetClusteringThreshold, float)
-    
-@app.route('/detection/tracking_enabled', methods=['GET', 'PUT'])
-def tracking_enabled():
-    return rest_property(stream.net.IsTrackingEnabled, stream.net.SetTrackingEnabled, bool)
-
-@app.route('/detection/tracking_min_frames', methods=['GET', 'PUT'])
-def tracking_min_frames():
-    return rest_property(stream.net.GetTrackingParams, stream.net.SetTrackingParams, int, key='minFrames')
-
-@app.route('/detection/tracking_drop_frames', methods=['GET', 'PUT'])
-def tracking_drop_frames():
-    return rest_property(stream.net.GetTrackingParams, stream.net.SetTrackingParams, int, key='dropFrames')
-
-@app.route('/detection/tracking_overlap_threshold', methods=['GET', 'PUT'])
-def tracking_overlap_threshold():
-    return rest_property(stream.net.GetTrackingParams, stream.net.SetTrackingParams, int, key='overlapThreshold')
-    
-    
-def rest_property(getter, setter, type, key=None):
-    """
-    Handle the boilerplate of getting/setting a REST JSON property.
-    This function handles GET and PUT requests for different datatypes.
-    """
-    if flask.request.method == 'GET':
-        value = getter()
+if args.classification:
+    @app.route('/classification/enabled', methods=['GET', 'PUT'])
+    def classification_enabled():
+        return rest_property(stream.models['classification'].IsEnabled, stream.models['classification'].SetEnabled, bool)
         
-        if key:
-            value = value[key]
-            
-        response = flask.jsonify(value)
-    elif flask.request.method == 'PUT':
-        value = type(flask.request.get_json())
+if args.detection:
+    @app.route('/detection/enabled', methods=['GET', 'PUT'])
+    def detection_enabled():
+        return rest_property(stream.models['detection'].IsEnabled, stream.models['detection'].SetEnabled, bool)
+      
+    @app.route('/detection/confidence_threshold', methods=['GET', 'PUT'])
+    def detection_confidence_threshold():
+        return rest_property(stream.models['detection'].net.GetConfidenceThreshold, stream.models['detection'].net.SetConfidenceThreshold, float)
+      
+    @app.route('/detection/clustering_threshold', methods=['GET', 'PUT'])
+    def detection_clustering_threshold():
+        return rest_property(stream.models['detection'].net.GetClusteringThreshold, stream.models['detection'].net.SetClusteringThreshold, float)
         
-        if key:
-            setter(**{key:value})
-        else:
-            setter(value)
-            
-        response = ('', http.HTTPStatus.OK)
-        
-    print(f"{flask.request.remote_addr} - - REST {flask.request.method} {flask.request.path} => {value}")
-    return response
-    
-    
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    
-    parser.add_argument("--host", default='0.0.0.0', type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
-    parser.add_argument("--port", default=8050, type=int, help="port used for webserver (default is 8050)")
-    parser.add_argument("--ssl-key", default=None, type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
-    parser.add_argument("--ssl-cert", default=None, type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
-    parser.add_argument("--title", default='Hello AI World', type=str, help="the title of the webpage as shown in the browser")
-    parser.add_argument("--input", default='webrtc://@:8554/input', type=str, help="input camera stream or video file")
-    parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help="WebRTC output stream to serve from --input")
+    @app.route('/detection/tracking_enabled', methods=['GET', 'PUT'])
+    def detection_tracking_enabled():
+        return rest_property(stream.models['detection'].net.IsTrackingEnabled, stream.models['detection'].net.SetTrackingEnabled, bool)
 
-    args = parser.parse_known_args()[0]
+    @app.route('/detection/tracking_min_frames', methods=['GET', 'PUT'])
+    def detection_tracking_min_frames():
+        return rest_property(stream.models['detection'].net.GetTrackingParams, stream.models['detection'].net.SetTrackingParams, int, key='minFrames')
+
+    @app.route('/detection/tracking_drop_frames', methods=['GET', 'PUT'])
+    def detection_tracking_drop_frames():
+        return rest_property(stream.models['detection'].net.GetTrackingParams, stream.models['detection'].net.SetTrackingParams, int, key='dropFrames')
+
+    @app.route('/detection/tracking_overlap_threshold', methods=['GET', 'PUT'])
+    def detection_tracking_overlap_threshold():
+        return rest_property(stream.models['detection'].net.GetTrackingParams, stream.models['detection'].net.SetTrackingParams, int, key='overlapThreshold')
     
-    # start stream thread
-    stream = Stream(args)
-    stream.start()
     
-    # check if HTTPS/SSL requested
-    ssl_context = None
+# start stream thread
+stream.start()
+
+# check if HTTPS/SSL requested
+ssl_context = None
+
+if args.ssl_cert and args.ssl_key:
+    ssl_context = (args.ssl_cert, args.ssl_key)
     
-    if args.ssl_cert and args.ssl_key:
-        ssl_context = (args.ssl_cert, args.ssl_key)
-        
-    # start the webserver
-    app.run(host=args.host, port=args.port, ssl_context=ssl_context, debug=True, use_reloader=False)
+# start the webserver
+app.run(host=args.host, port=args.port, ssl_context=ssl_context, debug=True, use_reloader=False)

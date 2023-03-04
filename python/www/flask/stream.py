@@ -24,7 +24,7 @@ import sys
 import threading
 import traceback
 
-from jetson_inference import detectNet
+from model import Model
 from jetson_utils import videoSource, videoOutput
 
 
@@ -33,14 +33,27 @@ class Stream(threading.Thread):
     Thread for streaming video and applying DNN inference
     """
     def __init__(self, args):
+        """
+        Create a stream from input/output video sources, along with DNN models.
+        """
         super().__init__()
+        
         self.args = args
         self.input = videoSource(args.input, argv=sys.argv)
         self.output = videoOutput(args.output, argv=sys.argv)
-        self.net = detectNet(argv=sys.argv)
         self.frames = 0
+        self.models = {}
+        
+        if args.classification:
+            self.models['classification'] = Model('classification', 'googlenet')
+        
+        if args.detection:
+            self.models['detection'] = Model('detection', 'ssd-mobilenet-v2')
             
     def process(self):
+        """
+        Capture one image from the stream, process it, and output it.
+        """
         try:
             img = self.input.Capture()
         except:
@@ -48,13 +61,12 @@ class Stream(threading.Thread):
                 traceback.print_exc()
             return
             
-        detections = self.net.Detect(img, overlay="box,labels,conf")
+        for model in self.models.values():
+            model.Process(img)
+            
+        for model in self.models.values():
+            model.Visualize(img)
 
-        print(f"detected {len(detections)} objects")
-
-        #for detection in detections:
-        #    print(detection)
-                
         self.output.Render(img)
 
         if self.frames % 25 == 0 or self.frames < 15:
@@ -63,6 +75,9 @@ class Stream(threading.Thread):
         self.frames += 1
         
     def run(self):
+        """
+        Run the stream processing thread forever.
+        """
         while True:
             try:
                 self.process()
@@ -71,5 +86,8 @@ class Stream(threading.Thread):
                 
     @staticmethod
     def usage():
-        return detectNet.Usage() + videoSource.Usage() + videoOutput.Usage()
+        """
+        Return help text for when the app is started with -h or --help
+        """
+        return videoSource.Usage() + videoOutput.Usage()
         

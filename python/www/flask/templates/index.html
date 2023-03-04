@@ -157,9 +157,23 @@
         </div>
       </div>
     </div>
+  {% if classification %}
+    <div class="card" style="width: 36rem;">
+      <div class="card-body">
+        <h5 class="card-title">Classification</h5>
+        
+        {{ checkbox('classification_enabled', '/classification/enabled', 'Classification Enabled') }}
+        
+      </div>
+    </div>
+  {% endif %}
+  
+  {% if detection %}
     <div class="card" style="width: 36rem;">
       <div class="card-body">
         <h5 class="card-title">Object Detection</h5>
+        
+        {{ checkbox('detection_enabled', '/detection/enabled', 'Detection Enabled') }}
         
         {{ slider('confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
         {{ slider('clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
@@ -177,12 +191,13 @@
         <div id="tracking-controls">
           {{ slider('tracking_min_frames', '/detection/tracking_min_frames', 'Tracking Min Frames', min=0, max=60, step=1) }}
           {{ slider('tracking_drop_frames', '/detection/tracking_drop_frames', 'Tracking Drop Frames', min=0, max=60, step=1) }}
-          {{ slider('tracking_overlap_threshold', '/detection/tracking_overlap_threshold', 'Tracking Overlap Threshold') }}
+          {{ slider('tracking_overlap_threshold', '/detection/tracking_overlap_threshold', 'Overlap Threshold') }}
         </div>
         <script type='text/javascript'>
           onTrackingEnabled();  // set default values
         </script>
       </div>
     </div>
+  {% endif %}
   </body>
 </html>
