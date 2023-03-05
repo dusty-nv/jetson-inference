@@ -1140,7 +1140,25 @@ static PyObject* PyDetectNet_SetTrackingParams( PyDetectNet_Object* self, PyObje
 	Py_RETURN_NONE;
 }
 
+
+#define DOC_GET_OVERLAY_ALPHA "Return the overlay alpha blending value for classes that don't have it explicitly set.\n\n" \
+				 	     "Parameters: (none)\n\n" \
+					     "Returns:\n" \
+					     "  (float) -- alpha blending value between [0,255]"
+
+// GetOverlayAlpha
+PyObject* PyDetectNet_GetOverlayAlpha( PyDetectNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid object instance");
+		return NULL;
+	}
 	
+	return PyFloat_FromDouble(self->net->GetOverlayAlpha());
+}
+
+
 #define DOC_SET_OVERLAY_ALPHA "Set the alpha blending value used during overlay visualization for all classes\n\n" \
 				 	  "Parameters:\n" \
 					  "  alpha (float) -- desired alpha value, between 0.0 and 255.0\n" \
@@ -1170,6 +1188,24 @@ PyObject* PyDetectNet_SetOverlayAlpha( PyDetectNet_Object* self, PyObject* args,
 	self->net->SetOverlayAlpha(alpha);
 
 	Py_RETURN_NONE;
+}
+
+
+#define DOC_GET_LINE_WIDTH "Return the line width used during overlay when 'lines' mode is used.\n\n" \
+				 	  "Parameters: (none)\n\n" \
+					  "Returns:\n" \
+					  "  (float) -- line width in pixels"
+
+// GetLineWidth
+PyObject* PyDetectNet_GetLineWidth( PyDetectNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "detectNet invalid object instance");
+		return NULL;
+	}
+	
+	return PyFloat_FromDouble(self->net->GetLineWidth());
 }
 
 
@@ -1242,7 +1278,9 @@ static PyMethodDef pyDetectNet_Methods[] =
 	{ "SetTrackingEnabled", (PyCFunction)PyDetectNet_SetTrackingEnabled, METH_VARARGS, DOC_SET_TRACKING_ENABLED},
 	{ "GetTrackingParams", (PyCFunction)PyDetectNet_GetTrackingParams, METH_NOARGS, DOC_GET_TRACKING_PARAMS},
 	{ "SetTrackingParams", (PyCFunction)PyDetectNet_SetTrackingParams, METH_VARARGS|METH_KEYWORDS, DOC_SET_TRACKING_PARAMS},
+	{ "GetOverlayAlpha", (PyCFunction)PyDetectNet_GetOverlayAlpha, METH_NOARGS, DOC_GET_OVERLAY_ALPHA},
 	{ "SetOverlayAlpha", (PyCFunction)PyDetectNet_SetOverlayAlpha, METH_VARARGS|METH_KEYWORDS, DOC_SET_OVERLAY_ALPHA},
+	{ "GetLineWidth", (PyCFunction)PyDetectNet_GetLineWidth, METH_NOARGS, DOC_GET_LINE_WIDTH},
 	{ "SetLineWidth", (PyCFunction)PyDetectNet_SetLineWidth, METH_VARARGS|METH_KEYWORDS, DOC_SET_LINE_WIDTH},
 	{ "Usage", (PyCFunction)PyDetectNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},	
 	{NULL}  /* Sentinel */

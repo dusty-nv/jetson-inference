@@ -467,6 +467,24 @@ PyObject* PySegNet_GetClassColor( PySegNet_Object* self, PyObject* args )
 }
 
 
+#define DOC_GET_OVERLAY_ALPHA "Return the overlay alpha blending value for classes that don't have it explicitly set.\n\n" \
+				 	     "Parameters: (none)\n\n" \
+					     "Returns:\n" \
+					     "  (float) -- alpha blending value between [0,255]"
+
+// GetOverlayAlpha
+PyObject* PySegNet_GetOverlayAlpha( PySegNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "segNet invalid object instance");
+		return NULL;
+	}
+	
+	return PyFloat_FromDouble(self->net->GetOverlayAlpha());
+}
+
+
 #define DOC_SET_OVERLAY_ALPHA "Set the alpha blending value used during overlay visualization for all classes\n\n" \
 				 	  "Parameters:\n" \
 					  "  alpha (float) -- desired alpha value, between 0.0 and 255.0\n" \
@@ -603,6 +621,7 @@ static PyMethodDef PySegNet_Methods[] =
 	{ "GetGridWidth", (PyCFunction)PySegNet_GetGridWidth, METH_NOARGS, DOC_GET_GRID_WIDTH},
 	{ "GetGridHeight", (PyCFunction)PySegNet_GetGridHeight, METH_NOARGS, DOC_GET_GRID_HEIGHT},
 	{ "GetGridSize", (PyCFunction)PySegNet_GetGridSize, METH_NOARGS, DOC_GET_GRID_SIZE},
+	{ "GetOverlayAlpha", (PyCFunction)PySegNet_GetOverlayAlpha, METH_NOARGS, DOC_GET_OVERLAY_ALPHA},
 	{ "SetOverlayAlpha", (PyCFunction)PySegNet_SetOverlayAlpha, METH_VARARGS|METH_KEYWORDS, DOC_SET_OVERLAY_ALPHA},
 	{ "Usage", (PyCFunction)PySegNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},
 	{NULL}  /* Sentinel */
