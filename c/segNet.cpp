@@ -283,6 +283,9 @@ segNet* segNet::Create( const char* prototxt, const char* model, const char* lab
 	net->loadClassLabels(labels_path);
 	net->loadClassColors(colors_path);
 
+	// set overlay alpha value
+	net->SetOverlayAlpha(SEGNET_DEFAULT_ALPHA);
+	
 	return net;
 }
 
@@ -437,6 +440,21 @@ void segNet::SetClassColor( uint32_t classIndex, const float4& color )
 void segNet::SetClassColor( uint32_t classIndex, float r, float g, float b, float a )
 {
 	SetClassColor(classIndex, make_float4(r,g,b,a));
+}
+
+
+// GetOverlayAlpha
+float segNet::GetOverlayAlpha() const
+{
+	const uint32_t numClasses = GetNumClasses();
+
+	for( uint32_t n=0; n < numClasses; n++ )
+	{
+		if( !mColorsAlphaSet[n] )
+			return mClassColors[n].w;
+	}
+	
+	return SEGNET_DEFAULT_ALPHA;
 }
 
 

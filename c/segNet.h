@@ -288,6 +288,11 @@ public:
 	void SetClassColor( uint32_t classIndex, float r, float g, float b, float a=255.0f );
 	
 	/**
+	 * Retrieve the overlay alpha blending value for classes that don't have it explicitly set.
+	 */
+	float GetOverlayAlpha() const;
+	
+	/**
  	 * Set overlay alpha blending value for all classes (between 0-255),
 	 * (optionally except for those that have been explicitly set).
 	 */
