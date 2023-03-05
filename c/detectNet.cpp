@@ -52,17 +52,17 @@ detectNet::detectNet( float meanPixel ) : tensorNet()
 	mTracker   = NULL;
 	mMeanPixel = meanPixel;
 	mLineWidth = 2.0f;
-	
+
 	mNumClasses  = 0;
 	mClassColors = NULL;
 	
 	mDetectionSets = NULL;
 	mDetectionSet  = 0;
 	mMaxDetections = 0;
+	mOverlayAlpha  = DETECTNET_DEFAULT_ALPHA;
 	
 	mConfidenceThreshold = DETECTNET_DEFAULT_CONFIDENCE_THRESHOLD;
 	mClusteringThreshold = DETECTNET_DEFAULT_CLUSTERING_THRESHOLD;
-	
 }
 
 
@@ -1136,4 +1136,6 @@ void detectNet::SetOverlayAlpha( float alpha )
 
 	for( uint32_t n=0; n < numClasses; n++ )
 		mClassColors[n].w = alpha;
+	
+	mOverlayAlpha = alpha;
 }

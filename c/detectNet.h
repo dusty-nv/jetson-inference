@@ -492,9 +492,19 @@ public:
 	inline void SetClassColor( uint32_t classIndex, float r, float g, float b, float a=255.0f )	{ mClassColors[classIndex] = make_float4(r,g,b,a); }
 	
 	/**
+	 * Retrieve the line width used during overlay when OVERLAY_LINES is used.
+	 */
+	inline float GetLineWidth() const							{ return mLineWidth; }
+	
+	/**
 	 * Set the line width used during overlay when OVERLAY_LINES is used.
 	 */
 	inline void SetLineWidth( float width )						{ mLineWidth = width; }
+	
+	/**
+	 * Retrieve the overlay alpha blending value for classes that don't have it explicitly set (between 0-255).
+	 */
+	inline float GetOverlayAlpha() const						{ return mOverlayAlpha; }
 	
 	/**
  	 * Set overlay alpha blending value for all classes (between 0-255).
@@ -533,6 +543,7 @@ protected:
 	
 	float mMeanPixel;
 	float mLineWidth;
+	float mOverlayAlpha;
 	
 	float4* mClassColors;
 	
