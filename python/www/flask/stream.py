@@ -44,11 +44,15 @@ class Stream(threading.Thread):
         self.frames = 0
         self.models = {}
         
+        # these are in the order that the overlays should be composited
+        if args.segmentation:
+            self.models['segmentation'] = Model('segmentation', model=args.segmentation)
+            
         if args.classification:
-            self.models['classification'] = Model('classification', 'googlenet')
+            self.models['classification'] = Model('classification', model=args.classification)
         
         if args.detection:
-            self.models['detection'] = Model('detection', 'ssd-mobilenet-v2')
+            self.models['detection'] = Model('detection', model=args.detection)
             
     def process(self):
         """
@@ -65,7 +69,7 @@ class Stream(threading.Thread):
             model.Process(img)
             
         for model in self.models.values():
-            model.Visualize(img)
+            img = model.Visualize(img)
 
         self.output.Render(img)
 

@@ -6,7 +6,10 @@
       <script type='text/javascript'>
         function get_{{ id }}() {
           return rest_get('{{ rest_path }}').then(function(value) {
-            document.getElementById('{{ id }}').value = value;
+            document.getElementById('{{ id }}').value = value;   
+          {% if step < 1 %}
+            value = value.toFixed(2);
+          {% endif %}
             document.getElementById('{{ id }}_value').innerHTML = value;
             console.log(`get_{{ id }}(${value})`);
             return value;
@@ -137,6 +140,7 @@
     <div class="card" style="width: 36rem;">
       <div class="card-body">
         <h5 class="card-title">Streaming</h5>
+      {% if send_webrtc %}
         <div class="row">
           <label for="send-stream" class="col-2">Webcam:</label>
           <div class="col-6">
@@ -146,6 +150,7 @@
             <button id="send-button" onclick="send()">Send</button>
           </div>
         </div>
+      {% endif %}
         <div class="row">
           <label for="play-stream" class="col-2">Stream:</label>
           <div class="col-6">
@@ -157,45 +162,60 @@
         </div>
       </div>
     </div>
-  {% if classification %}
+  {% if classification|length %}
     <div class="card" style="width: 36rem;">
       <div class="card-body">
-        <h5 class="card-title">Classification</h5>
+        <h5 class="card-title">Classification &nbsp;<small><small>({{ classification }})</small></small></h5>
         
         {{ checkbox('classification_enabled', '/classification/enabled', 'Classification Enabled') }}
         
+        {{ slider('classification_confidence_threshold', '/classification/confidence_threshold', 'Confidence Threshold') }}
+        {{ slider('classification_output_smoothing', '/classification/output_smoothing', 'Output Smoothing') }}
       </div>
     </div>
   {% endif %}
   
-  {% if detection %}
+  {% if detection|length %}
     <div class="card" style="width: 36rem;">
       <div class="card-body">
-        <h5 class="card-title">Object Detection</h5>
+        <h5 class="card-title">Object Detection &nbsp;<small><small>({{ detection }})</small></small></h5>
         
         {{ checkbox('detection_enabled', '/detection/enabled', 'Detection Enabled') }}
         
-        {{ slider('confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
-        {{ slider('clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
-
+        {{ slider('detection_confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
+        {{ slider('detection_clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
+        {{ slider('detection_overlay_alpha', '/detection/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
+        
         <script type='text/javascript'>
-          function onTrackingEnabled() {
-            var value = document.getElementById('tracking_enabled').checked;
-            document.getElementById('tracking-controls').style.display = value ? null : 'none';
+          function onDetectionTrackingEnabled() {
+            var value = document.getElementById('detection_tracking_enabled').checked;
+            document.getElementById('detection_tracking_controls').style.display = value ? null : 'none';
             console.log(`onTrackingEnabled(${value})`);
           }
         </script>
         
-        {{ checkbox('tracking_enabled', '/detection/tracking_enabled', 'Tracking Enabled', oninput='onTrackingEnabled()') }}
+        {{ checkbox('detection_tracking_enabled', '/detection/tracking_enabled', 'Tracking Enabled', oninput='onDetectionTrackingEnabled()') }}
 
-        <div id="tracking-controls">
-          {{ slider('tracking_min_frames', '/detection/tracking_min_frames', 'Tracking Min Frames', min=0, max=60, step=1) }}
-          {{ slider('tracking_drop_frames', '/detection/tracking_drop_frames', 'Tracking Drop Frames', min=0, max=60, step=1) }}
-          {{ slider('tracking_overlap_threshold', '/detection/tracking_overlap_threshold', 'Overlap Threshold') }}
+        <div id="detection_tracking_controls">
+          {{ slider('detection_tracking_min_frames', '/detection/tracking_min_frames', 'Tracking Min Frames', min=0, max=60, step=1) }}
+          {{ slider('detection_tracking_drop_frames', '/detection/tracking_drop_frames', 'Tracking Drop Frames', min=0, max=60, step=1) }}
+          {{ slider('detection_tracking_overlap_threshold', '/detection/tracking_overlap_threshold', 'Overlap Threshold') }}
         </div>
         <script type='text/javascript'>
-          onTrackingEnabled();  // set default values
+          onDetectionTrackingEnabled();  // set default visibility of tracking controls
         </script>
+      </div>
+    </div>
+  {% endif %}
+  
+  {% if segmentation|length %}
+    <div class="card" style="width: 36rem;">
+      <div class="card-body">
+        <h5 class="card-title">Segmentation &nbsp;<small><small>({{ segmentation }})</small></small></h5>
+        
+        {{ checkbox('segmentation_enabled', '/segmentation/enabled', 'Segmentation Enabled') }}
+        {{ slider('segmentation_overlay_alpha', '/segmentation/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
+        
       </div>
     </div>
   {% endif %}

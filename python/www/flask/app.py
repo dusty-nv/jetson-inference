@@ -37,10 +37,11 @@ parser.add_argument("--ssl-cert", default=None, type=str, help="path to PEM-enco
 parser.add_argument("--title", default='Hello AI World', type=str, help="the title of the webpage as shown in the browser")
 parser.add_argument("--input", default='webrtc://@:8554/input', type=str, help="input camera stream or video file")
 parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help="WebRTC output stream to serve from --input")
-parser.add_argument("--classification", action="store_true", help="load classification model (see imageNet arguments)")
-parser.add_argument("--detection", action="store_true", help="load object detection model (see detectNet arguments)")
-parser.add_argument("--action", action="store_true", help="load action recognition model (see actionNet arguments)")
-parser.add_argument("--pose", action="store_true", help="load action recognition model (see actionNet arguments)")
+parser.add_argument("--classification", default='', type=str, help="load classification model (see imageNet arguments)")
+parser.add_argument("--detection", default='', type=str, help="load object detection model (see detectNet arguments)")
+parser.add_argument("--segmentation", default='', type=str, help="load semantic segmentation model (see segNet arguments)")
+parser.add_argument("--action", default='', type=str, help="load action recognition model (see actionNet arguments)")
+parser.add_argument("--pose", default='', type=str, help="load action recognition model (see actionNet arguments)")
 
 args = parser.parse_known_args()[0]
     
@@ -53,12 +54,20 @@ stream = Stream(args)
 @app.route('/')
 def index():
     return flask.render_template('index.html', title=args.title, send_webrtc=args.input.startswith('webrtc'),
-                                 classification=args.classification, detection=args.detection)
- 
+                                 classification=args.classification, detection=args.detection, segmentation=args.segmentation)
+
 if args.classification:
     @app.route('/classification/enabled', methods=['GET', 'PUT'])
     def classification_enabled():
         return rest_property(stream.models['classification'].IsEnabled, stream.models['classification'].SetEnabled, bool)
+        
+    @app.route('/classification/confidence_threshold', methods=['GET', 'PUT'])
+    def classification_confidence_threshold():
+        return rest_property(stream.models['classification'].net.GetThreshold, stream.models['classification'].net.SetThreshold, float)
+      
+    @app.route('/classification/output_smoothing', methods=['GET', 'PUT'])
+    def classification_output_smoothing():
+        return rest_property(stream.models['classification'].net.GetSmoothing, stream.models['classification'].net.SetSmoothing, float)
         
 if args.detection:
     @app.route('/detection/enabled', methods=['GET', 'PUT'])
@@ -72,6 +81,10 @@ if args.detection:
     @app.route('/detection/clustering_threshold', methods=['GET', 'PUT'])
     def detection_clustering_threshold():
         return rest_property(stream.models['detection'].net.GetClusteringThreshold, stream.models['detection'].net.SetClusteringThreshold, float)
+        
+    @app.route('/detection/overlay_alpha', methods=['GET', 'PUT'])
+    def detection_overlay_alpha():
+        return rest_property(stream.models['detection'].net.GetOverlayAlpha, stream.models['detection'].net.SetOverlayAlpha, float)
         
     @app.route('/detection/tracking_enabled', methods=['GET', 'PUT'])
     def detection_tracking_enabled():
@@ -88,8 +101,17 @@ if args.detection:
     @app.route('/detection/tracking_overlap_threshold', methods=['GET', 'PUT'])
     def detection_tracking_overlap_threshold():
         return rest_property(stream.models['detection'].net.GetTrackingParams, stream.models['detection'].net.SetTrackingParams, int, key='overlapThreshold')
+   
+if args.segmentation:
+    @app.route('/segmentation/enabled', methods=['GET', 'PUT'])
+    def segmentation_enabled():
+        return rest_property(stream.models['segmentation'].IsEnabled, stream.models['segmentation'].SetEnabled, bool)
     
-    
+    @app.route('/segmentation/overlay_alpha', methods=['GET', 'PUT'])
+    def segmentation_overlay_alpha():
+        return rest_property(stream.models['segmentation'].net.GetOverlayAlpha, stream.models['segmentation'].net.SetOverlayAlpha, float)
+        
+        
 # start stream thread
 stream.start()
 

@@ -20,15 +20,15 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-from jetson_inference import imageNet, detectNet, poseNet, actionNet
-from jetson_utils import cudaFont, Log
+from jetson_inference import imageNet, detectNet, segNet, poseNet, actionNet
+from jetson_utils import cudaFont, cudaAllocMapped, Log
 
 
 class Model:
     """
     Represents DNN models for classification, detection, pose, ect.
     """
-    def __init__(self, type, model, labels='', input_layers='', output_layers='', **kwargs):
+    def __init__(self, type, model, labels='', colors='', input_layers='', output_layers='', **kwargs):
         """
         Load the model, either from a built-in pre-trained model or from a user-provided model.
         
@@ -60,9 +60,14 @@ class Model:
             elif not isinstance(output_layers, dict) or output_layers.keys() < {'scores', 'bbox'}:
                 raise ValueError("for detection models, output_layers should be a dict with keys 'scores' and 'bbox'")
                 
-            self.net = detectNet(model=model, labels=labels, input_blob=input_layers, 
+            self.net = detectNet(model=model, labels=labels, colors=colors,
+                                 input_blob=input_layers, 
                                  output_cvg=output_layers['scores'], 
                                  output_bbox=output_layers['bbox'])
+                                 
+        elif type == 'segmentation':
+            self.net = segNet(model=model, labels=labels, colors=colors, input_blob=input_layers, output_blob=output_layers)
+            self.overlayImg = None
         else:
             raise ValueError(f"invalid model type '{type}'")
         
@@ -77,7 +82,9 @@ class Model:
             self.results = self.net.Classify(img)
         elif self.type == 'detection':
             self.results = self.net.Detect(img, overlay='none')
-
+        elif self.type == 'segmentation':
+            self.results = self.net.Process(img)
+            
         return self.results
 
     def Visualize(self, img, results=None):
@@ -85,17 +92,25 @@ class Model:
         Visualize the results on an image.
         """
         if not self.enabled:
-            return
+            return img
             
         if results is None:
             results = self.results
                 
         if self.type == 'classification':
-            str = f"{results[1] * 100:05.2f}% {self.net.GetClassLabel(results[0])}"
-            self.font.OverlayText(img, img.width, img.height, str, 5, 5, self.font.White, self.font.Gray40)
+            if results[0] >= 0:
+                str = f"{results[1] * 100:05.2f}% {self.net.GetClassLabel(results[0])}"
+                self.font.OverlayText(img, img.width, img.height, str, 5, 5, self.font.White, self.font.Gray40)
         elif self.type == 'detection':
             self.net.Overlay(img, results)
-
+        elif self.type == 'segmentation':
+            if not self.overlayImg or self.overlayImg.width != img.width or self.overlayImg.height != img.height:
+                self.overlayImg = cudaAllocMapped(like=img)
+            self.net.Overlay(self.overlayImg, filter_mode='linear')
+            return self.overlayImg
+            
+        return img
+        
     def IsEnabled(self):
         """
         Returns true if the model is enabled for processing, false otherwise.
