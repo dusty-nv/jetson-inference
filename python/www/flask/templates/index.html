@@ -72,7 +72,10 @@
   <head>
     <meta charset="utf-8">
     <title>{{ title }}</title>
+    
     <link rel="stylesheet" href="/static/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <script type='text/javascript' src='/static/bootstrap.bundle.min.js'></script>
     <script type='text/javascript' src='/static/webrtc.js'></script>
     <script type='text/javascript' src='/static/rest.js'></script>
@@ -126,6 +129,7 @@
     </script>
   </head>
   <body>
+    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">{{ title }}</a>
@@ -134,88 +138,110 @@
         </button>
       </div>
     </nav>
+    
+    <!-- Video Player -->
     <div>
       <video id="video-player" autoplay controls playsinline muted>Your browser does not support video</video>
     </div>
+    
+    <!-- Stream Controls -->
     <div class="card" style="width: 36rem;">
       <div class="card-body">
-        <h5 class="card-title">Streaming</h5>
-      {% if send_webrtc %}
-        <div class="row">
-          <label for="send-stream" class="col-2">Webcam:</label>
-          <div class="col-6">
-            <select id="send-stream" name="send-stream"></select>
-          </div>
-          <div class="col-2">
-            <button id="send-button" onclick="send()">Send</button>
-          </div>
+        <div class="card-title" data-bs-toggle="collapse" href="#stream_controls" role="button">
+          <h5 class="d-inline">Streaming</h5>
+          <span class="float-end float-top fa fa-chevron-circle-down fa-lg mt-1"></span>
         </div>
-      {% endif %}
-        <div class="row">
-          <label for="play-stream" class="col-2">Stream:</label>
-          <div class="col-6">
-            <input id="play-stream" name="play-stream" type="text" size="32">
+        <div class="collapse show" id="stream_controls">
+        {% if send_webrtc %}
+          <div class="row">
+            <label for="send-stream" class="col-2">Webcam:</label>
+            <div class="col-6">
+              <select id="send-stream" name="send-stream"></select>
+            </div>
+            <div class="col-2">
+              <button id="send-button" onclick="send()">Send</button>
+            </div>
           </div>
-          <div class="col-2">
-            <button id="play-button" onclick="play()">Play</button>
+        {% endif %}
+          <div class="row">
+            <label for="play-stream" class="col-2">Stream:</label>
+            <div class="col-6">
+              <input id="play-stream" name="play-stream" type="text" size="32">
+            </div>
+            <div class="col-2">
+              <button id="play-button" onclick="play()">Play</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    
+  <!-- Classification Controls -->
   {% if classification|length %}
     <div class="card" style="width: 36rem;">
       <div class="card-body">
-        <h5 class="card-title">Classification &nbsp;<small><small>({{ classification }})</small></small></h5>
-        
-        {{ checkbox('classification_enabled', '/classification/enabled', 'Classification Enabled') }}
-        
-        {{ slider('classification_confidence_threshold', '/classification/confidence_threshold', 'Confidence Threshold') }}
-        {{ slider('classification_output_smoothing', '/classification/output_smoothing', 'Output Smoothing') }}
+        <div class="card-title" data-bs-toggle="collapse" href="#classification_controls" role="button">
+          <h5 class="d-inline">Classification &nbsp;<small><small>({{ classification }})</small></small></h5>
+          <span class="float-end float-top fa fa-chevron-circle-down fa-lg mt-1"></span>
+        </div>
+        <div class="collapse" id="classification_controls">
+          {{ checkbox('classification_enabled', '/classification/enabled', 'Classification Enabled') }}
+          {{ slider('classification_confidence_threshold', '/classification/confidence_threshold', 'Confidence Threshold') }}
+          {{ slider('classification_output_smoothing', '/classification/output_smoothing', 'Output Smoothing') }}
+        </div>
       </div>
     </div>
   {% endif %}
   
+  <!-- Detection Controls -->
   {% if detection|length %}
     <div class="card" style="width: 36rem;">
       <div class="card-body">
-        <h5 class="card-title">Object Detection &nbsp;<small><small>({{ detection }})</small></small></h5>
-        
-        {{ checkbox('detection_enabled', '/detection/enabled', 'Detection Enabled') }}
-        
-        {{ slider('detection_confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
-        {{ slider('detection_clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
-        {{ slider('detection_overlay_alpha', '/detection/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
-        
-        <script type='text/javascript'>
-          function onDetectionTrackingEnabled() {
-            var value = document.getElementById('detection_tracking_enabled').checked;
-            document.getElementById('detection_tracking_controls').style.display = value ? null : 'none';
-            console.log(`onTrackingEnabled(${value})`);
-          }
-        </script>
-        
-        {{ checkbox('detection_tracking_enabled', '/detection/tracking_enabled', 'Tracking Enabled', oninput='onDetectionTrackingEnabled()') }}
-
-        <div id="detection_tracking_controls">
-          {{ slider('detection_tracking_min_frames', '/detection/tracking_min_frames', 'Tracking Min Frames', min=0, max=60, step=1) }}
-          {{ slider('detection_tracking_drop_frames', '/detection/tracking_drop_frames', 'Tracking Drop Frames', min=0, max=60, step=1) }}
-          {{ slider('detection_tracking_overlap_threshold', '/detection/tracking_overlap_threshold', 'Overlap Threshold') }}
+        <div class="card-title" data-bs-toggle="collapse" href="#detection_controls" role="button">
+          <h5 class="d-inline">Object Detection &nbsp;<small><small>({{ detection }})</small></small></h5>
+          <span class="float-end float-top fa fa-chevron-circle-down fa-lg mt-1"></span>
         </div>
-        <script type='text/javascript'>
-          onDetectionTrackingEnabled();  // set default visibility of tracking controls
-        </script>
+        <div class="collapse" id="detection_controls">
+          {{ checkbox('detection_enabled', '/detection/enabled', 'Detection Enabled') }}
+          {{ slider('detection_confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
+          {{ slider('detection_clustering_threshold', '/detection/clustering_threshold', 'Clustering Threshold') }}
+          {{ slider('detection_overlay_alpha', '/detection/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
+          
+          <script type='text/javascript'>
+            function onDetectionTrackingEnabled() {
+              var value = document.getElementById('detection_tracking_enabled').checked;
+              document.getElementById('detection_tracking_controls').style.display = value ? null : 'none';
+              console.log(`onTrackingEnabled(${value})`);
+            }
+          </script>
+          
+          {{ checkbox('detection_tracking_enabled', '/detection/tracking_enabled', 'Tracking Enabled', oninput='onDetectionTrackingEnabled()') }}
+
+          <div id="detection_tracking_controls">
+            {{ slider('detection_tracking_min_frames', '/detection/tracking_min_frames', 'Tracking Min Frames', min=0, max=60, step=1) }}
+            {{ slider('detection_tracking_drop_frames', '/detection/tracking_drop_frames', 'Tracking Drop Frames', min=0, max=60, step=1) }}
+            {{ slider('detection_tracking_overlap_threshold', '/detection/tracking_overlap_threshold', 'Overlap Threshold') }}
+          </div>
+          <script type='text/javascript'>
+            onDetectionTrackingEnabled();  // set default visibility of tracking controls
+          </script>
+        </div>
       </div>
     </div>
   {% endif %}
   
+  <!-- Segmentation Controls -->
   {% if segmentation|length %}
     <div class="card" style="width: 36rem;">
       <div class="card-body">
-        <h5 class="card-title">Segmentation &nbsp;<small><small>({{ segmentation }})</small></small></h5>
-        
-        {{ checkbox('segmentation_enabled', '/segmentation/enabled', 'Segmentation Enabled') }}
-        {{ slider('segmentation_overlay_alpha', '/segmentation/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
-        
+        <div class="card-title" data-bs-toggle="collapse" href="#segmentation_controls" role="button">
+          <h5 class="d-inline">Segmentation &nbsp;<small><small>({{ segmentation }})</small></small></h5>
+          <span class="float-end float-top fa fa-chevron-circle-down fa-lg mt-1"></span>
+        </div>
+        <div class="collapse" id="segmentation_controls">
+          {{ checkbox('segmentation_enabled', '/segmentation/enabled', 'Segmentation Enabled') }}
+          {{ slider('segmentation_overlay_alpha', '/segmentation/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
+        </div>
       </div>
     </div>
   {% endif %}
