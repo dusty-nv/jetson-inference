@@ -1,12 +1,18 @@
 <!doctype html>
+
 <html>
   <head>
+    {% from 'macros.html' import checkbox, slider, card_header, collapse_handler %}
+    
     <meta charset="utf-8">
     <title>{{ title }}</title>
         
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    
     <link rel="stylesheet" href="/static/bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
+    <script type='text/javascript' src="/static/jquery-3.6.3.min.js"></script>
     <script type='text/javascript' src='/static/bootstrap.bundle.min.js'></script>
     <script type='text/javascript' src='/static/webrtc.js'></script>
     <script type='text/javascript' src='/static/rest.js'></script>
@@ -60,30 +66,34 @@
     </script>
   </head>
   <body>
-    {% from 'controls.html' import checkbox, slider %}
-    
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">{{ title }}</a>
+      <!--
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+        <div class="collapse navbar-collapse" id="navbar-menu-items">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" href="https://github.com/dusty-nv/jetson-inference" target="_blank">Help</a>
+            </li>
+          </ul>
+        </div>
+      -->
       </div>
     </nav>
     
     <!-- Video Player -->
-    <div>
+    <div style="position: sticky; top: 0px; z-index: 999;">
       <video id="video-player" autoplay controls playsinline muted>Your browser does not support video</video>
     </div>
     
     <!-- Stream Controls -->
     <div class="card" style="width: 36rem;">
       <div class="card-body">
-        <div class="card-title" data-bs-toggle="collapse" href="#stream_controls" role="button">
-          <h5 class="d-inline">Streaming</h5>
-          <span class="float-end float-top fa fa-chevron-circle-down fa-lg mt-1"></span>
-        </div>
+        {{ card_header('stream_controls', 'Streaming', arrow='down') }}
         <div class="collapse show" id="stream_controls">
         {% if send_webrtc %}
           <div class="row">
@@ -91,7 +101,7 @@
             <div class="col-6">
               <select id="send-stream" name="send-stream"></select>
             </div>
-            <div class="col-2">
+            <div class="col-4">
               <button id="send-button" onclick="send()">Send</button>
             </div>
           </div>
@@ -101,11 +111,12 @@
             <div class="col-6">
               <input id="play-stream" name="play-stream" type="text" size="32">
             </div>
-            <div class="col-2">
+            <div class="col-4">
               <button id="play-button" onclick="play()">Play</button>
             </div>
           </div>
         </div>
+        {{ collapse_handler('stream_controls') }}
       </div>
     </div>
     
@@ -113,15 +124,13 @@
   {% if classification|length %}
     <div class="card" style="width: 36rem;">
       <div class="card-body">
-        <div class="card-title" data-bs-toggle="collapse" href="#classification_controls" role="button">
-          <h5 class="d-inline">Classification &nbsp;<small><small>({{ classification }})</small></small></h5>
-          <span class="float-end float-top fa fa-chevron-circle-down fa-lg mt-1"></span>
-        </div>
+        {{ card_header('classification_controls', 'Classification', classification) }}
         <div class="collapse" id="classification_controls">
           {{ checkbox('classification_enabled', '/classification/enabled', 'Classification Enabled') }}
           {{ slider('classification_confidence_threshold', '/classification/confidence_threshold', 'Confidence Threshold') }}
           {{ slider('classification_output_smoothing', '/classification/output_smoothing', 'Output Smoothing') }}
         </div>
+        {{ collapse_handler('classification_controls') }}
       </div>
     </div>
   {% endif %}
@@ -130,10 +139,7 @@
   {% if detection|length %}
     <div class="card" style="width: 36rem;">
       <div class="card-body">
-        <div class="card-title" data-bs-toggle="collapse" href="#detection_controls" role="button">
-          <h5 class="d-inline">Object Detection &nbsp;<small><small>({{ detection }})</small></small></h5>
-          <span class="float-end float-top fa fa-chevron-circle-down fa-lg mt-1"></span>
-        </div>
+        {{ card_header('detection_controls', 'Object Detection', detection) }}
         <div class="collapse" id="detection_controls">
           {{ checkbox('detection_enabled', '/detection/enabled', 'Detection Enabled') }}
           {{ slider('detection_confidence_threshold', '/detection/confidence_threshold', 'Confidence Threshold') }}
@@ -159,6 +165,7 @@
             onDetectionTrackingEnabled();  // set default visibility of tracking controls
           </script>
         </div>
+        {{ collapse_handler('detection_controls') }}
       </div>
     </div>
   {% endif %}
@@ -167,16 +174,55 @@
   {% if segmentation|length %}
     <div class="card" style="width: 36rem;">
       <div class="card-body">
-        <div class="card-title" data-bs-toggle="collapse" href="#segmentation_controls" role="button">
-          <h5 class="d-inline">Segmentation &nbsp;<small><small>({{ segmentation }})</small></small></h5>
-          <span class="float-end float-top fa fa-chevron-circle-down fa-lg mt-1"></span>
-        </div>
+        {{ card_header('segmentation_controls', 'Segmentation', segmentation) }}
         <div class="collapse" id="segmentation_controls">
           {{ checkbox('segmentation_enabled', '/segmentation/enabled', 'Segmentation Enabled') }}
           {{ slider('segmentation_overlay_alpha', '/segmentation/overlay_alpha', 'Overlay Alpha', min=0, max=255, step=1) }}
         </div>
+        {{ collapse_handler('segmentation_controls') }}
       </div>
     </div>
   {% endif %}
+  
+  <!-- Pose Controls -->
+  {% if pose|length %}
+    <div class="card" style="width: 36rem;">
+      <div class="card-body">
+        {{ card_header('pose_controls', 'Pose Estimation', pose) }}
+        <div class="collapse" id="pose_controls">
+          {{ checkbox('pose_enabled', '/pose/enabled', 'Pose Enabled') }}
+          {{ slider('pose_confidence_threshold', '/pose/confidence_threshold', 'Confidence Threshold') }}
+        </div>
+        {{ collapse_handler('pose_controls') }}
+      </div>
+    </div>
+  {% endif %}
+  
+  <!-- Action Controls -->
+  {% if action|length %}
+    <div class="card" style="width: 36rem;">
+      <div class="card-body">
+        {{ card_header('action_controls', 'Action Recognition', action) }}
+        <div class="collapse" id="action_controls">
+          {{ checkbox('action_enabled', '/action/enabled', 'Action Enabled') }}
+        </div>
+        {{ collapse_handler('action_controls') }}
+      </div>
+    </div>
+  {% endif %}
+  
+  <!-- Background Controls -->
+  {% if background|length %}
+    <div class="card" style="width: 36rem;">
+      <div class="card-body">
+        {{ card_header('background_controls', 'Background Removal', background) }}
+        <div class="collapse" id="background_controls">
+          {{ checkbox('background_enabled', '/background/enabled', 'Removal Enabled') }}
+        </div>
+        {{ collapse_handler('background_controls') }}
+      </div>
+    </div>
+  {% endif %}
+  
   </body>
 </html>

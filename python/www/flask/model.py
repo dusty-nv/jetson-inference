@@ -20,7 +20,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-from jetson_inference import imageNet, detectNet, segNet, poseNet, actionNet
+from jetson_inference import imageNet, detectNet, segNet, poseNet, actionNet, backgroundNet
 from jetson_utils import cudaFont, cudaAllocMapped, Log
 
 
@@ -43,11 +43,11 @@ class Model:
         self.type = type
         self.model = model
         self.enabled = True
+        self.results = None
         
         if type == 'classification':
             self.net = imageNet(model=model, labels=labels, input_blob=input_layers, output_blob=output_layers)
-            self.font = cudaFont()
-            
+
             if 'threshold' in kwargs:
                 self.net.SetThreshold(kwargs['threshold'])
                 
@@ -68,9 +68,19 @@ class Model:
         elif type == 'segmentation':
             self.net = segNet(model=model, labels=labels, colors=colors, input_blob=input_layers, output_blob=output_layers)
             self.overlayImg = None
+        elif type == 'pose':
+            self.net = poseNet(model)
+        elif type == 'action':
+            self.net = actionNet(model)
+        elif type == 'background':
+            self.net = backgroundNet(model)
         else:
             raise ValueError(f"invalid model type '{type}'")
-        
+            
+        if type == 'classification' or type == 'action':
+            self.font = cudaFont()
+            self.fontLine = 0
+            
     def Process(self, img):
         """
         Process an image with the model and return the results.
@@ -78,13 +88,15 @@ class Model:
         if not self.enabled:
             return
             
-        if self.type == 'classification':
+        if self.type == 'classification' or self.type == 'action':
             self.results = self.net.Classify(img)
         elif self.type == 'detection':
             self.results = self.net.Detect(img, overlay='none')
         elif self.type == 'segmentation':
             self.results = self.net.Process(img)
-            
+        elif self.type == 'pose':
+            self.results = self.net.Process(img)
+        
         return self.results
 
     def Visualize(self, img, results=None):
@@ -97,10 +109,10 @@ class Model:
         if results is None:
             results = self.results
                 
-        if self.type == 'classification':
+        if self.type == 'classification' or self.type == 'action':
             if results[0] >= 0:
                 str = f"{results[1] * 100:05.2f}% {self.net.GetClassLabel(results[0])}"
-                self.font.OverlayText(img, img.width, img.height, str, 5, 5, self.font.White, self.font.Gray40)
+                self.font.OverlayText(img, img.width, img.height, str, 5, 5 + (self.fontLine * 37), self.font.White, self.font.Gray40)
         elif self.type == 'detection':
             self.net.Overlay(img, results)
         elif self.type == 'segmentation':
@@ -108,6 +120,10 @@ class Model:
                 self.overlayImg = cudaAllocMapped(like=img)
             self.net.Overlay(self.overlayImg, filter_mode='linear')
             return self.overlayImg
+        elif self.type == 'pose':
+            self.net.Overlay(img, self.results, 'links,keypoints')
+        elif self.type == 'background':
+            self.net.Process(img)
             
         return img
         

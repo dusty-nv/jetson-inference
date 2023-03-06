@@ -35,7 +35,7 @@
     </script>
   </div>
 {%- endmacro %}
-  
+
 {# Jinja macro for creating a checkbox element that connects to a backend JSON REST API #}
 {% macro checkbox(id, rest_path, label, oninput=none) -%}
   <div class="row">
@@ -65,4 +65,30 @@
       get_{{ id }}();
     </script>
   </div>
+{%- endmacro %}
+
+{# Jinja macro for creating a card header #}
+{% macro card_header(collapse_id, title, subtitle, arrow='up') -%}
+  <div class="card-title" data-bs-toggle="collapse" href="#{{ collapse_id }}" role="button">
+    <h5 class="d-inline">{{ title }}</h5>
+  {% if subtitle|length %}
+    <p class="d-inline">({{ subtitle }})</p>
+  {% endif %}
+    <span class="float-end float-top fa fa-chevron-circle-{{ arrow }} fa-lg mt-1" id="{{ collapse_id }}_collapse_btn"></span>
+  </div>
+{%- endmacro %}
+
+{# Jinja macro for the card event handlers#}
+{% macro collapse_handler(collapse_id) -%}
+  <script type='text/javascript'>
+    $('#{{ collapse_id }}').on('hide.bs.collapse', function () {
+      document.getElementById('{{ collapse_id }}_collapse_btn').classList.remove('fa-chevron-circle-down');
+      document.getElementById('{{ collapse_id }}_collapse_btn').classList.add('fa-chevron-circle-up');
+    })
+    
+    $('#{{ collapse_id }}').on('show.bs.collapse', function () {
+      document.getElementById('{{ collapse_id }}_collapse_btn').classList.remove('fa-chevron-circle-up');
+      document.getElementById('{{ collapse_id }}_collapse_btn').classList.add('fa-chevron-circle-down');
+    })
+  </script>
 {%- endmacro %}

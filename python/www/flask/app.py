@@ -40,6 +40,7 @@ parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help
 parser.add_argument("--classification", default='', type=str, help="load classification model (see imageNet arguments)")
 parser.add_argument("--detection", default='', type=str, help="load object detection model (see detectNet arguments)")
 parser.add_argument("--segmentation", default='', type=str, help="load semantic segmentation model (see segNet arguments)")
+parser.add_argument("--background", default='', type=str, help="load background removal model (see backgroundNet arguments)")
 parser.add_argument("--action", default='', type=str, help="load action recognition model (see actionNet arguments)")
 parser.add_argument("--pose", default='', type=str, help="load action recognition model (see actionNet arguments)")
 
@@ -54,7 +55,9 @@ stream = Stream(args)
 @app.route('/')
 def index():
     return flask.render_template('index.html', title=args.title, send_webrtc=args.input.startswith('webrtc'),
-                                 classification=args.classification, detection=args.detection, segmentation=args.segmentation)
+                                 classification=args.classification, detection=args.detection, 
+                                 segmentation=args.segmentation, pose=args.pose,
+                                 action=args.action, background=args.background)
 
 if args.classification:
     @app.route('/classification/enabled', methods=['GET', 'PUT'])
@@ -110,8 +113,31 @@ if args.segmentation:
     @app.route('/segmentation/overlay_alpha', methods=['GET', 'PUT'])
     def segmentation_overlay_alpha():
         return rest_property(stream.models['segmentation'].net.GetOverlayAlpha, stream.models['segmentation'].net.SetOverlayAlpha, float)
+  
+if args.pose:
+    @app.route('/pose/enabled', methods=['GET', 'PUT'])
+    def pose_enabled():
+        return rest_property(stream.models['pose'].IsEnabled, stream.models['pose'].SetEnabled, bool)
+      
+    @app.route('/pose/confidence_threshold', methods=['GET', 'PUT'])
+    def pose_confidence_threshold():
+        return rest_property(stream.models['pose'].net.GetThreshold, stream.models['pose'].net.SetThreshold, float)
+   
+if args.action:
+    @app.route('/action/enabled', methods=['GET', 'PUT'])
+    def action_enabled():
+        return rest_property(stream.models['action'].IsEnabled, stream.models['action'].SetEnabled, bool)
+
+    # TODO
+    # confidence_threshold
+    # skip frames
         
+if args.background:
+    @app.route('/background/enabled', methods=['GET', 'PUT'])
+    def background_enabled():
+        return rest_property(stream.models['background'].IsEnabled, stream.models['background'].SetEnabled, bool)
         
+    
 # start stream thread
 stream.start()
 
