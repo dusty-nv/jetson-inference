@@ -37,7 +37,7 @@
   --bs-gray-700: #444;
   --bs-gray-800: #303030;
   --bs-gray-900: #222;
-  --bs-primary: #375a7f;
+  --bs-primary: #407537;
   --bs-secondary: #444;
   --bs-success: #00bc8c;
   --bs-info: #3498db;
@@ -45,7 +45,7 @@
   --bs-danger: #e74c3c;
   --bs-light: #adb5bd;
   --bs-dark: #303030;
-  --bs-primary-rgb: 55, 90, 127;
+  --bs-primary-rgb: 63, 117, 55;
   --bs-secondary-rgb: 68, 68, 68;
   --bs-success-rgb: 0, 188, 140;
   --bs-info-rgb: 52, 152, 219;
@@ -3781,7 +3781,7 @@ textarea.form-control-lg {
   --bs-navbar-brand-padding-y: 0.3125rem;
   --bs-navbar-brand-margin-end: 1rem;
   --bs-navbar-brand-font-size: 1.25rem;
-  --bs-navbar-brand-color: #222;
+  --bs-navbar-brand-color: rgb(255,255,255);
   --bs-navbar-brand-hover-color: #222;
   --bs-navbar-nav-link-padding-x: 0.5rem;
   --bs-navbar-toggler-padding-y: 0.25rem;
