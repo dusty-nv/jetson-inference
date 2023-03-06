@@ -328,7 +328,7 @@ int actionNet::Classify( void* image, uint32_t width, uint32_t height, imageForm
 		const float value = mOutputs[0].CPU[n];
 		
 		if( value >= 0.01f )
-			LogVerbose("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
+			LogDebug("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
 	
 		if( value > classMax )
 		{
