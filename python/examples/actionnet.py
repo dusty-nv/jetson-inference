@@ -35,7 +35,6 @@ parser = argparse.ArgumentParser(description="Classify the action/activity of an
 parser.add_argument("input", type=str, default="", nargs='?', help="URI of the input stream")
 parser.add_argument("output", type=str, default="", nargs='?', help="URI of the output stream")
 parser.add_argument("--network", type=str, default="resnet-18", help="pre-trained model to load (see below for options)")
-parser.add_argument("--skip-frames", type=int, default=2, help="how many frames to skip between classifications (default: 2)")
 
 try:
 	args = parser.parse_known_args()[0]
@@ -53,25 +52,17 @@ input = videoSource(args.input, argv=sys.argv)
 output = videoOutput(args.output, argv=sys.argv)
 font = cudaFont()
 
-skipped = 0
-confidence = 0
-class_id = 0
-class_desc = ""
-
 # process frames until the user exits
 while True:
     # capture the next image
     img = input.Capture()
 
-    # run inference every N frames
-    skipped += 1
+    # classify the action sequence
+    class_id, confidence = net.Classify(img)
+    class_desc = net.GetClassDesc(class_id)
     
-    if skipped % args.skip_frames == 0:
-        class_id, confidence = net.Classify(img)
-        class_desc = net.GetClassDesc(class_id)
-        print(f"actionnet:  {confidence * 100:2.5f}% class #{class_id} ({class_desc})")
-        skipped = 0
-
+    print(f"actionnet:  {confidence * 100:2.5f}% class #{class_id} ({class_desc})")
+    
     # overlay the result on the image	
     font.OverlayText(img, img.width, img.height, "{:05.2f}% {:s}".format(confidence * 100, class_desc), 5, 5, font.White, font.Gray40)
 

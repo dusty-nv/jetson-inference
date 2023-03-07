@@ -49,7 +49,6 @@ int usage()
 	printf("optional arguments:\n");
 	printf("  --help            show this help message and exit\n");
 	printf("  --network=NETWORK pre-trained model to load (see below for options)\n");
-	printf("  --skip-frames=N   how many frames to skip between classifications (default: 2)\n");
 	printf("positional arguments:\n");
 	printf("    input_URI       resource URI of input stream  (see videoSource below)\n");
 	printf("    output_URI      resource URI of output stream (see videoOutput below)\n\n");
@@ -127,11 +126,6 @@ int main( int argc, char** argv )
 		return 1;
 	}
 
-	const uint32_t skip_frames = cmdLine.GetInt("skip-frames", 2);
-	
-	uint32_t skipped = 0;
-	float confidence = 0.0f;
-	int class_id = 0;
 
 	/*
 	 * processing loop
@@ -151,19 +145,14 @@ int main( int argc, char** argv )
 			continue;
 		}
 
-		// run inference every N frames
-		skipped += 1;
-		
-		if( skipped % skip_frames == 0 )
-		{
-			class_id = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
-			skipped = 0;
-			
-			if( class_id >= 0 )
-				LogVerbose("actionnet:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, class_id, net->GetClassDesc(class_id));	
-			else
-				LogError("actionnet:  failed to classify frame\n");
-		}
+		// classify the action sequence
+		float confidence = 0.0f;
+		const int class_id = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
+
+		if( class_id >= 0 )
+			LogVerbose("actionnet:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, class_id, net->GetClassDesc(class_id));	
+		else
+			LogError("actionnet:  failed to classify frame\n");
 
 		// overlay the results
 		if( class_id >= 0 )

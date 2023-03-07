@@ -32,14 +32,19 @@
 // constructor
 actionNet::actionNet() : tensorNet()
 {
-	mNumClasses = 0;
-	mNumFrames  = 0;
+	mThreshold     = 0.01f;
+	mNumClasses    = 0;
+	mNumFrames     = 0;
+	mSkipFrames    = 1;
+	mFramesSkipped = 10000; // so the very first frame always gets processed
 	
 	mInputBuffers[0] = NULL;
 	mInputBuffers[1] = NULL;
 	
 	mCurrentInputBuffer = 0;
 	mCurrentFrameIndex  = 0;
+	mLastClassification = 0;
+	mLastConfidence     = 0.0f;
 }
 
 
@@ -118,6 +123,10 @@ actionNet* actionNet::Create( const commandLine& cmdLine )
 	if( cmdLine.GetFlag("profile") )
 		net->EnableLayerProfiler();
 
+	// parse additional arguments
+	net->SetThreshold(cmdLine.GetFloat("threshold", net->GetThreshold()));
+	net->SetSkipFrames(cmdLine.GetUnsignedInt("skip_frames", net->GetSkipFrames()));
+	
 	return net;
 }
 
@@ -285,7 +294,7 @@ int actionNet::Classify( void* image, uint32_t width, uint32_t height, imageForm
 	if( !image || width == 0 || height == 0 )
 	{
 		LogError(LOG_TRT "actionNet::Classify( 0x%p, %u, %u ) -> invalid parameters\n", image, width, height);
-		return -1;
+		return -2;
 	}
 	
 	if( !imageFormatIsRGB(format) )
@@ -300,18 +309,32 @@ int actionNet::Classify( void* image, uint32_t width, uint32_t height, imageForm
 		return false;
 	}
 	
+	// skip frames as needed
+	if( mFramesSkipped < mSkipFrames )
+	{
+		//LogVerbose(LOG_TRT "actionNet::Classify() -- skipping frame (framesSkipped=%u skipFrames=%u)\n", mFramesSkipped, mSkipFrames);
+		
+		if( confidence != NULL )
+			*confidence = mLastConfidence;
+	
+		mFramesSkipped++;
+		return mLastClassification;
+	}
+	
+	mFramesSkipped = 0;
+	
 	// apply input pre-processing
 	if( !preProcess(image, width, height, format) )
 	{
 		LogError(LOG_TRT "actionNet::Classify() -- tensor pre-processing failed\n");
-		return -1;
+		return -2;
 	}
 	
 	// process with TRT
 	PROFILER_BEGIN(PROFILER_NETWORK);
 
 	if( !ProcessNetwork() )
-		return -1;
+		return -2;
 
 	PROFILER_END(PROFILER_NETWORK);
 	PROFILER_BEGIN(PROFILER_POSTPROCESS);
@@ -321,26 +344,29 @@ int actionNet::Classify( void* image, uint32_t width, uint32_t height, imageForm
 	
 	// determine the maximum class
 	int classIndex = -1;
-	float classMax = -1.0f;
+	float classMax = 0.0f;
 	
 	for( size_t n=0; n < mNumClasses; n++ )
 	{
-		const float value = mOutputs[0].CPU[n];
+		const float conf = mOutputs[0].CPU[n];
 		
-		if( value >= 0.01f )
-			LogDebug("class %04zu - %f  (%s)\n", n, value, mClassDesc[n].c_str());
+		if( conf < mThreshold )
+			continue;
 	
-		if( value > classMax )
+		if( conf > classMax )
 		{
 			classIndex = n;
-			classMax   = value;
+			classMax = conf;
 		}
 	}
 	
+	PROFILER_END(PROFILER_POSTPROCESS);	
+
 	if( confidence != NULL )
 		*confidence = classMax;
 	
-	//printf("\nmaximum class:  #%i  (%f) (%s)\n", classIndex, classMax, mClassDesc[classIndex].c_str());
-	PROFILER_END(PROFILER_POSTPROCESS);	
+	mLastConfidence = classMax;
+	mLastClassification = classIndex;
+
 	return classIndex;
 }

@@ -195,7 +195,7 @@ static PyObject* PyActionNet_Classify( PyActionNet_Object* self, PyObject* args,
 	img_class = self->net->Classify(ptr, width, height, format, &confidence);
 	Py_END_ALLOW_THREADS
 	
-	if( img_class < 0 )
+	if( img_class < -1 )
 	{
 		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet.Classify() encountered an error classifying the image");
 		return NULL;
@@ -204,9 +204,7 @@ static PyObject* PyActionNet_Classify( PyActionNet_Object* self, PyObject* args,
 	// create output objects
 	PyObject* pyClass = PYLONG_FROM_LONG(img_class);
 	PyObject* pyConf  = PyFloat_FromDouble(confidence);
-
-	// return tuple
-	PyObject* tuple = PyTuple_Pack(2, pyClass, pyConf);
+	PyObject* tuple   = PyTuple_Pack(2, pyClass, pyConf);
 
 	Py_DECREF(pyClass);
 	Py_DECREF(pyConf);
@@ -283,6 +281,95 @@ PyObject* PyActionNet_GetClassDesc( PyActionNet_Object* self, PyObject* args )
 }
 
 
+#define DOC_GET_THRESHOLD  "Return the minimum confidence threshold for classification.\n\n" \
+					  "Parameters:  (none)\n\n" \
+					  "Returns:\n" \
+					  "  (float) -- the confidence threshold for classification"
+
+// GetThreshold
+static PyObject* PyActionNet_GetThreshold( PyActionNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet invalid object instance");
+		return NULL;
+	}
+
+	return PyFloat_FromDouble(self->net->GetThreshold());
+}
+
+
+#define DOC_SET_THRESHOLD  "Set the minimum confidence threshold for classification.\n\n" \
+					  "Parameters:\n" \
+					  "  (float) -- confidence threshold\n\n" \
+					  "Returns:  (none)"
+
+// SetThreshold
+PyObject* PyActionNet_SetThreshold( PyActionNet_Object* self, PyObject* args )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet invalid object instance");
+		return NULL;
+	}
+	
+	float threshold = 0.0f;
+
+	if( !PyArg_ParseTuple(args, "f", &threshold) )
+		return NULL;
+
+	self->net->SetThreshold(threshold);
+	Py_RETURN_NONE;
+}
+
+
+#define DOC_GET_SKIP_FRAMES "Return the number of frames that are skipped in between classifications.\n\n" \
+				 	   "Parameters:  (none)\n\n" \
+					   "Returns:\n" \
+					   "  (int) -- the number of frames skipped in between classifications"
+
+// GetSkipFrames
+static PyObject* PyActionNet_GetSkipFrames( PyActionNet_Object* self )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet invalid object instance");
+		return NULL;
+	}
+
+	return PYLONG_FROM_UNSIGNED_LONG(self->net->GetSkipFrames());
+}
+
+
+#define DOC_SET_SKIP_FRAMES  	"Set the number of frames that are skipped in between classifications.\n" \
+						"Since actionNet operates on video sequences, it's often helpful to skip frames\n" \
+						"to lengthen the window of time the model gets to 'see' an action being performed.\n\n" \
+						"The default setting is 1, where every other frame is skipped.\n" \
+						"Setting this to 0 will disable it, and every frame will be processed.\n" \
+						"When a frame is skipped, the classification results from the last frame are returned.\n\n" \
+						"Parameters:\n" \
+						"  (int) -- the number of frames skipped in between classifications\n\n" \
+						"Returns:  (none)"
+
+// SetSkipFrames
+PyObject* PyActionNet_SetSkipFrames( PyActionNet_Object* self, PyObject* args )
+{
+	if( !self || !self->net )
+	{
+		PyErr_SetString(PyExc_Exception, LOG_PY_INFERENCE "actionNet invalid object instance");
+		return NULL;
+	}
+	
+	int skipFrames = 0;
+
+	if( !PyArg_ParseTuple(args, "i", &skipFrames) )
+		return NULL;
+
+	self->net->SetSkipFrames(skipFrames);
+	Py_RETURN_NONE;
+}
+
+
 #define DOC_USAGE_STRING     "Return the command line parameters accepted by __init__()\n\n" \
 					    "Parameters:  (none)\n\n" \
 					    "Returns:\n" \
@@ -307,6 +394,10 @@ static PyMethodDef pyActionNet_Methods[] =
      { "GetNumClasses", (PyCFunction)PyActionNet_GetNumClasses, METH_NOARGS, DOC_GET_NUM_CLASSES},
 	{ "GetClassLabel", (PyCFunction)PyActionNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
 	{ "GetClassDesc", (PyCFunction)PyActionNet_GetClassDesc, METH_VARARGS, DOC_GET_CLASS_DESC},
+	{ "GetThreshold", (PyCFunction)PyActionNet_GetThreshold, METH_NOARGS, DOC_GET_THRESHOLD},
+	{ "SetThreshold", (PyCFunction)PyActionNet_SetThreshold, METH_VARARGS, DOC_SET_THRESHOLD},
+	{ "GetSkipFrames", (PyCFunction)PyActionNet_GetSkipFrames, METH_NOARGS, DOC_GET_SKIP_FRAMES},
+	{ "SetSkipFrames", (PyCFunction)PyActionNet_SetSkipFrames, METH_VARARGS, DOC_SET_SKIP_FRAMES},
 	{ "Usage", (PyCFunction)PyActionNet_Usage, METH_NOARGS|METH_STATIC, DOC_USAGE_STRING},
 	{NULL}  /* Sentinel */
 };

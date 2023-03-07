@@ -57,6 +57,8 @@
 		  "  --labels=LABELS      path to text file containing the labels for each class\n" 				\
 		  "  --input-blob=INPUT   name of the input layer (default is '" ACTIONNET_DEFAULT_INPUT "')\n" 	\
 		  "  --output-blob=OUTPUT name of the output layer (default is '" ACTIONNET_DEFAULT_OUTPUT "')\n" 	\
+		  "  --threshold=CONF     minimum confidence threshold for classification (default is 0.01)\n" 	\
+		  "  --skip-frames=SKIP   how many frames to skip between classifications (default is 1)\n"         \
 		  "  --profile            enable layer profiling in TensorRT\n\n"
 
 
@@ -112,7 +114,13 @@ public:
 	virtual ~actionNet();
 	
 	/**
-	 * Append an image to the sequence and classify the action.  
+	 * Append an image to the sequence and classify the action, returning the index of the top class.
+	 * Either the class with the maximum confidence will be returned, or -1 if no class meets 
+	 * the threshold set by SetThreshold() or the `--threshold` command-line argument.
+	 *
+	 * If this frame was skipped due to SetSkipFrames() being used, then the last frame's results will
+	 * be returned.  By default, every other frame is skipped in order to lengthen the action's window.
+	 *
 	 * @param image input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
@@ -122,7 +130,13 @@ public:
 	template<typename T> int Classify( T* image, uint32_t width, uint32_t height, float* confidence=NULL )		{ return Classify((void*)image, width, height, imageFormatFromType<T>(), confidence); }
 	
 	/**
-	 * Append an image to the sequence and classify the action. 
+	 * Append an image to the sequence and classify the action, returning the index of the top class.
+	 * Either the class with the maximum confidence will be returned, or -1 if no class meets 
+	 * the threshold set by SetThreshold() or the `--threshold` command-line argument.
+	 *
+	 * If this frame was skipped due to SetSkipFrames() being used, then the last frame's results will
+	 * be returned.  By default, every other frame is skipped in order to lengthen the action's window.
+	 *
 	 * @param image input image in CUDA device memory.
 	 * @param width width of the input image in pixels.
 	 * @param height height of the input image in pixels.
@@ -139,18 +153,47 @@ public:
 	/**
 	 * Retrieve the description of a particular class.
 	 */
-	inline const char* GetClassLabel( uint32_t index ) const		{ return mClassDesc[index].c_str(); }
+	inline const char* GetClassLabel( int index ) const			{ return GetClassDesc(index); }
 	
 	/**
 	 * Retrieve the description of a particular class.
 	 */
-	inline const char* GetClassDesc( uint32_t index )	const		{ return mClassDesc[index].c_str(); }
+	inline const char* GetClassDesc( int index )	const			{ return index >= 0 ? mClassDesc[index].c_str() : "none"; }
 
 	/**
  	 * Retrieve the path to the file containing the class descriptions.
 	 */
 	inline const char* GetClassPath() const						{ return mClassPath.c_str(); }
 
+	/**
+	 * Return the confidence threshold used for classification.
+	 */
+	inline float GetThreshold() const							{ return mThreshold; }
+	
+	/**
+	 * Set the confidence threshold used for classification.
+	 * Classes with a confidence below this threshold will be ignored.
+	 * @note this can also be set using the `--threshold=N` command-line argument.
+	 */
+	inline void SetThreshold( float threshold ) 					{ mThreshold = threshold; }
+	
+	/**
+	 * Return the number of frames that are skipped in between classifications.
+	 * @see SetFrameSkip for more info.
+	 */
+	inline uint32_t GetSkipFrames() const						{ return mSkipFrames; }
+	
+	/**
+	 * Set the number of frames that are skipped in between classifications.
+	 * Since actionNet operates on video sequences, it's often helpful to skip frames 
+	 * to lengthen the window of time the model gets to 'see' an action being performed.
+	 *
+	 * The default setting is 1, where every other frame is skipped.
+	 * Setting this to 0 will disable it, and every frame will be processed.
+	 * When a frame is skipped, the classification results from the last frame are returned.
+	 */
+	inline void SetSkipFrames( uint32_t frames )					{ mSkipFrames = frames; }
+	 
 protected:
 	actionNet();
 	
@@ -160,11 +203,17 @@ protected:
 	float* mInputBuffers[2];
 	
 	uint32_t mNumClasses;
-	uint32_t mNumFrames;
+	uint32_t mNumFrames;	// number of frames fed into the model
+	uint32_t mSkipFrames;	// number of frames to skip when processing
+	uint32_t mFramesSkipped;	// frame skip counter
 	
 	uint32_t mCurrentInputBuffer;
 	uint32_t mCurrentFrameIndex;
-		
+
+	float mThreshold;
+	float mLastConfidence;
+	int   mLastClassification;
+	
 	std::vector<std::string> mClassDesc;
 
 	std::string mClassPath;
