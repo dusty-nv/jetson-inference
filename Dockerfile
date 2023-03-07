@@ -84,9 +84,7 @@ RUN cd /tmp && ./opencv_install.sh ${OPENCV_URL} ${OPENCV_DEB}
 # copy source
 #
 COPY c c
-COPY calibration calibration
 COPY examples examples
-COPY plugins plugins
 COPY python python
 COPY tools tools
 COPY utils utils
@@ -102,13 +100,16 @@ RUN mkdir docs && \
     touch docs/CMakeLists.txt && \
     sed -i 's/nvcaffe_parser/nvparsers/g' CMakeLists.txt && \
     cp -r /usr/local/include/gstreamer-1.0/gst/webrtc /usr/include/gstreamer-1.0/gst && \
-    ln -s /usr/lib/aarch64-linux-gnu/libgstwebrtc-1.0.so.0 /usr/lib/aarch64-linux-gnu/libgstwebrtc-1.0.so && \
+    ln -s /usr/lib/$(uname -m)-linux-gnu/libgstwebrtc-1.0.so.0 /usr/lib/$(uname -m)-linux-gnu/libgstwebrtc-1.0.so && \
     mkdir build && \
     cd build && \
     cmake ../ && \
     make -j$(nproc) && \
     make install && \
-    /bin/bash -O extglob -c "cd /jetson-inference/build; rm -rf -v !(aarch64|download-models.*)" && \
+    /bin/bash -O extglob -c "cd /jetson-inference/build; rm -rf -v !($(uname -m)|download-models.*)" && \
     rm -rf /var/lib/apt/lists/* \
     && apt-get clean
     
+
+# workaround for "cannot allocate memory in static TLS block"
+ENV LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
