@@ -42,6 +42,7 @@ $SUDO apt-get install -y --no-install-recommends \
 		libglib2.0-dev \
 		libsoup2.4-dev \
 		libjson-glib-dev \
+		python3-pip \
 		qtbase5-dev
 
 if [ $BUILD_CONTAINER = "NO" ]; then
@@ -57,14 +58,14 @@ if [ $ARCH != "x86_64" ]; then
 	$SUDO apt-get install -y libpython3-dev python3-numpy
 fi
 
+# install python packages for webapps
+pip3 install --no-cache-dir --verbose -r ../python/www/flask/requirements.txt
+pip3 install --no-cache-dir --verbose -r ../python/www/dash/requirements.txt
+
 # download/install models and PyTorch
 if [ $BUILD_CONTAINER = "NO" ]; then
 	#./download-models.sh $BUILD_INTERACTIVE
 	./install-pytorch.sh $BUILD_INTERACTIVE
-else
-	# in container, the models are mounted and PyTorch is already installed
-	echo "Running in Docker container => skipping model downloads";
 fi
-
 
 echo "[Pre-build]  Finished CMakePreBuild script"
