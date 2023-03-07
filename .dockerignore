@@ -1,6 +1,7 @@
-.git
 .cache
+.git
 __pycache__
-*.pyc
-*.pyo
-*.pyd
+**/__pycache__
+**.pyc
+**.pyo
+**.pyd
