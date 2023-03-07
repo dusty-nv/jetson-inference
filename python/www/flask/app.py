@@ -127,10 +127,14 @@ if args.action:
     @app.route('/action/enabled', methods=['GET', 'PUT'])
     def action_enabled():
         return rest_property(stream.models['action'].IsEnabled, stream.models['action'].SetEnabled, bool)
-
-    # TODO
-    # confidence_threshold
-    # skip frames
+        
+    @app.route('/action/confidence_threshold', methods=['GET', 'PUT'])
+    def action_confidence_threshold():
+        return rest_property(stream.models['action'].net.GetThreshold, stream.models['action'].net.SetThreshold, float)
+        
+    @app.route('/action/skip_frames', methods=['GET', 'PUT'])
+    def action_skip_frames():
+        return rest_property(stream.models['action'].net.GetSkipFrames, stream.models['action'].net.SetSkipFrames, int)
         
 if args.background:
     @app.route('/background/enabled', methods=['GET', 'PUT'])

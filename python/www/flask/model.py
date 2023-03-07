@@ -44,6 +44,7 @@ class Model:
         self.model = model
         self.enabled = True
         self.results = None
+        self.frames = 0
         
         if type == 'classification':
             self.net = imageNet(model=model, labels=labels, input_blob=input_layers, output_blob=output_layers)
@@ -97,6 +98,7 @@ class Model:
         elif self.type == 'pose':
             self.results = self.net.Process(img)
         
+        self.frames += 1
         return self.results
 
     def Visualize(self, img, results=None):
