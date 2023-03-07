@@ -416,7 +416,7 @@
     
     "action": {
         "resnet-18": {
-            "alias": ["resnet_18", "resnet18"],
+            "alias": ["resnet_18", "resnet18", "resnet18-kinetics"],
             "url": "https://nvidia.box.com/shared/static/rhuvudgijtefzno55092fgwy0xn485n0.gz",
             "tar": "Action-ResNet18.tar.gz",
             "dir": "Action-ResNet18",
@@ -428,7 +428,7 @@
         },
         
         "resnet-34": {
-            "alias": ["resnet_34", "resnet34"],
+            "alias": ["resnet_34", "resnet34", "resnet34-kinetics"],
             "url": "https://nvidia.box.com/shared/static/gr9kgox9zpwh93v0v28f9zjkzr1n4ffs.gz",
             "tar": "Action-ResNet34.tar.gz",
             "dir": "Action-ResNet34",
