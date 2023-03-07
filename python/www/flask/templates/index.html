@@ -107,13 +107,29 @@
           </div>
         {% endif %}
           <div class="row">
-            <label for="play-stream" class="col-2">Stream:</label>
+            <label for="play-stream" class="col-2">Viewer:</label>
             <div class="col-6">
               <input id="play-stream" name="play-stream" type="text" size="32">
             </div>
             <div class="col-4">
               <button id="play-button" onclick="play()">Play</button>
             </div>
+          </div>
+          <div class="row">
+            <label for="connection-stats-show" class="col-2">Stats:</label>
+            <div class="col-2">
+              <input id="connection-stats-show" type="checkbox" class="form-checkbox" oninput="onConnectionStats()">
+            </div>
+            <script type='text/javascript'>
+              function onConnectionStats() {
+                var show = document.getElementById('connection-stats-show').checked;
+                document.getElementById('connection-stats').style.display = show ? null : 'none';
+              }
+            </script>
+          </div>
+          <div class="row" id="connection-stats" style="display: none">
+            <pre class="col-6" id='connection-stats-play'></pre>
+            <pre class="col-6" id='connection-stats-send'></pre>
           </div>
         </div>
         {{ collapse_handler('stream_controls') }}
@@ -204,7 +220,7 @@
       <div class="card-body">
         {{ card_header('action_controls', 'Action Recognition', action) }}
         <div class="collapse" id="action_controls">
-          {{ checkbox('action_enabled', '/action/enabled', 'Action Enabled') }}
+          {{ checkbox('action_enabled', '/action/enabled', 'Recognition Enabled') }}
         </div>
         {{ collapse_handler('action_controls') }}
       </div>

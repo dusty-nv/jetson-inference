@@ -85,6 +85,66 @@ function onIceCandidate(event) {
   connections[url].websocket.send(JSON.stringify({'type': 'ice', 'data': event.candidate }));
 }
 
+function getConnectionStats(url, reportType) { 
+  if( reportType == undefined ) 
+    reportType = 'all'; 
+
+  connections[url].webrtcPeer.getStats(null).then((stats) => { 
+    let statsOutput = ''; 
+
+    stats.forEach((report) => { 
+      if( reportType == 'inbound-rtp' && report.type === 'inbound-rtp' && report.kind === 'video') { 
+        statsOutput += `# inbound-rtp\n`; 
+
+        if( connections[url].bytesReceived != undefined ) 
+          statsOutput += `bitrate:          ${((report.bytesReceived - connections[url].bytesReceived) / 125000).toFixed(3)} mbps\n`; 
+
+        connections[url].bytesReceived = report.bytesReceived; 
+
+        statsOutput += `bytesReceived:    ${report.bytesReceived}\n`; 
+        statsOutput += `packetsReceived:  ${report.packetsReceived}\n`; 
+        statsOutput += `packetsLost:      ${report.packetsLost}\n`; 
+        statsOutput += `framesReceived:   ${report.framesReceived}\n`; 
+        statsOutput += `framesDropped:    ${report.framesDropped}\n`; 
+        statsOutput += `frameWidth:       ${report.frameWidth}\n`; 
+        statsOutput += `frameHeight:      ${report.frameHeight}\n`; 
+        statsOutput += `framesPerSecond:  ${report.framesPerSecond}\n`; 
+        statsOutput += `keyFramesDecoded: ${report.keyFramesDecoded}\n`; 
+        statsOutput += `jitter:           ${report.jitter}\n`; 
+      } 
+      else if( reportType =='outbound-rtp' && report.type === 'outbound-rtp' && report.kind === 'video') { 
+        statsOutput += `# outbound-rtp\n`; 
+
+        if( connections[url].bytesSent != undefined ) 
+          statsOutput += `bitrate:          ${((report.bytesSent - connections[url].bytesSent) / 125000).toFixed(3)} mbps\n`; 
+
+        connections[url].bytesSent = report.bytesSent; 
+
+        statsOutput += `bytesSent:        ${report.bytesSent}\n`; 
+        statsOutput += `packetsSent:      ${report.packetsSent}\n`; 
+        statsOutput += `packetsResent:    ${report.retransmittedPacketsSent}\n`; 
+        statsOutput += `framesSent:       ${report.framesSent}\n`; 
+        statsOutput += `frameWidth:       ${report.frameWidth}\n`; 
+        statsOutput += `frameHeight:      ${report.frameHeight}\n`; 
+        statsOutput += `framesPerSecond:  ${report.framesPerSecond}\n`; 
+        statsOutput += `keyFramesSent:    ${report.keyFramesEncoded}\n`; 
+      } 
+      else if( reportType == 'all' || reportType == report.type ) { 
+        statsOutput += `<h2>Report: ${report.type}</h2>\n<strong>ID:</strong> ${report.id}<br>\n` + 
+        `<strong>Timestamp:</strong> ${report.timestamp}\n`; 
+
+        Object.keys(report).forEach((statName) => { 
+          if (statName !== 'id' && statName !== 'timestamp' && statName !== 'type') 
+            statsOutput += `<strong>${statName}:</strong> ${report[statName]}\n`; 
+        }); 
+      } 
+    }); 
+
+    var statsElement = (connections[url].type == 'inbound') ? 'connection-stats-play' : 'connection-stats-send'; 
+    document.getElementById(statsElement).innerHTML = statsOutput; 
+  }); 
+} 
+
 function onServerMessage(event) {
   var msg;
   var url = event.srcElement.url;
@@ -101,6 +161,9 @@ function onServerMessage(event) {
 
     connections[url].webrtcPeer.onconnectionstatechange = (ev) => {
       console.log('WebRTC connection state (%s) ' + connections[url].webrtcPeer.connectionState, url);
+      
+      if( connections[url].webrtcPeer.connectionState == 'connected' )
+        setInterval(getConnectionStats, 1000, url, connections[url].type == 'inbound' ? 'inbound-rtp' : 'outbound-rtp');
     }
 
     if( connections[url].type == 'inbound' ) {
