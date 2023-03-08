@@ -92,7 +92,7 @@ class Stream(threading.Thread):
         
     def run(self):
         """
-        Run the stream processing thread forever.
+        Run the stream processing thread's main loop.
         """
         while True:
             try:
