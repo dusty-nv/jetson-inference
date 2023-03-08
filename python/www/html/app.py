@@ -39,6 +39,8 @@ parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help
 parser.add_argument("--no-stream", action="store_true", help="disable creation of the input/output stream (serve website only)")
 parser.add_argument("--classification", action="store_true", help="load classification model (see imageNet arguments)")
 parser.add_argument("--detection", action="store_true", help="load object detection model (see detectNet arguments)")
+parser.add_argument("--segmentation", action="store_true", help="load semantic segmentation model (see segNet arguments)")
+parser.add_argument("--background", action="store_true", help="load background removal model (see backgroundNet arguments)")
 parser.add_argument("--action", action="store_true", help="load action recognition model (see actionNet arguments)")
 parser.add_argument("--pose", action="store_true", help="load action recognition model (see actionNet arguments)")
 
