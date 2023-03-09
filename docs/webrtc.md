@@ -75,13 +75,11 @@ $ imagenet.py --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT webrtc://@:8554/input my_v
 
 > **note**: using browser webcams requires [HTTPS/SSL](#enabling-https--ssl) to be enabled
 
-Then navigate your browser again to `https://<JETSON-IP>:8554`, and you'll be prompted to enable access to the camera device and streaming will begin.  Until then, there will be warning messages printed in the terminal on your Jetson about video capture timeouts occurring - these are normal and can be ignored, as the client providing the stream has not yet connected.
+Then navigate your browser again to `https://<JETSON-IP>:8554`, and you'll be prompted to enable access to the camera device and streaming will begin.  Until then, there will be warning messages printed in the Jetson's terminal about video capture timeouts occurring - these are normal and can be ignored, as the client providing the stream has not yet connected.
 
 #### videoSource Code
 
 If you're using the videoSource interface in your program and want to hardcode it for receiving WebRTC (as opposed to parsing the command-line), you can create it like so:
-
-#### Python
 
 ``` python
 # Python
