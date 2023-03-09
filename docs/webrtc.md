@@ -109,7 +109,5 @@ $ posenet.py --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT webrtc://@:8554/input webrt
 
 Then when you navigate to the page, it will both send the video from your browser's webcam and playback the results.  Subsequent examples will show how to make your own backend server applications and frontends with different web frameworks.
  
-<p align="right">Next | <b><a href="webapp-html.md">HTML / Javascript</a></b>
-<br/>
-Back | <b><a href="pytorch-collect-detection.md">Collecting your own Detection Datasets</a></p>
+<p align="right">Next | <b><a href="webapp-html.md">HTML / JavaScript</a></b></p>
 </b><p align="center"><sup>© 2016-2023 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
