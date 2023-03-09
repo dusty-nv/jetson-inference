@@ -331,16 +331,16 @@ import sys
 
 # parse command line
 parser = argparse.ArgumentParser()
-parser.add_argument("input_URI", type=str, help="URI of the input stream")
-parser.add_argument("output_URI", type=str, default="", nargs='?', help="URI of the output stream")
-opt = parser.parse_known_args()[0]
+parser.add_argument("input", type=str, help="URI of the input stream")
+parser.add_argument("output", type=str, default="", nargs='?', help="URI of the output stream")
+args = parser.parse_known_args()[0]
 
 # create video sources & outputs
-input = jetson.utils.videoSource(opt.input_URI, argv=sys.argv)
-output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv)
+input = jetson.utils.videoSource(args.input, argv=sys.argv)
+output = jetson.utils.videoOutput(args.output, argv=sys.argv)
 
 # capture frames until user exits
-while output.IsStreaming():
+while True:
 	image = input.Capture(format='rgb8')  # can also be format='rgba8', 'rgb32f', 'rgba32f'
 	
 	if image is None:  # capture timeout
