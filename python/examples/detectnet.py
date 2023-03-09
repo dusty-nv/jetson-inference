@@ -60,31 +60,32 @@ net = detectNet(args.network, sys.argv, args.threshold)
 #                 input_blob="input_0", output_cvg="scores", output_bbox="boxes", 
 #                 threshold=args.threshold)
 
-# process frames until the user exits
+# process frames until EOS or the user exits
 while True:
-	# capture the next image
-	img = input.Capture()
+    # capture the next image
+    img = input.Capture()
 
-	# detect objects in the image (with overlay)
-	detections = net.Detect(img, overlay=args.overlay)
+    if img is None: # timeout
+        continue  
+        
+    # detect objects in the image (with overlay)
+    detections = net.Detect(img, overlay=args.overlay)
 
-	# print the detections
-	print("detected {:d} objects in image".format(len(detections)))
+    # print the detections
+    print("detected {:d} objects in image".format(len(detections)))
 
-	for detection in detections:
-		print(detection)
+    for detection in detections:
+        print(detection)
 
-	# render the image
-	output.Render(img)
+    # render the image
+    output.Render(img)
 
-	# update the title bar
-	output.SetStatus("{:s} | Network {:.0f} FPS".format(args.network, net.GetNetworkFPS()))
+    # update the title bar
+    output.SetStatus("{:s} | Network {:.0f} FPS".format(args.network, net.GetNetworkFPS()))
 
-	# print out performance info
-	net.PrintProfilerTimes()
+    # print out performance info
+    net.PrintProfilerTimes()
 
-	# exit on input/output EOS
-	if not input.IsStreaming() or not output.IsStreaming():
-		break
-
-
+    # exit on input/output EOS
+    if not input.IsStreaming() or not output.IsStreaming():
+        break

@@ -65,6 +65,9 @@ while True:
     # capture the next image
     img = input.Capture()
 
+    if img is None: # timeout
+        continue  
+
     # classify the image and get the topK predictions
     # if you only want the top class, you can simply run:
     #   class_id, confidence = net.Classify(img)

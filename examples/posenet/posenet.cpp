@@ -119,17 +119,16 @@ int main( int argc, char** argv )
 	 */
 	while( !signal_recieved )
 	{
-		// capture next image image
+		// capture next image
 		uchar3* image = NULL;
-
-		if( !input->Capture(&image) )
+		int status = 0;
+		
+		if( !input->Capture(&image, &status) )
 		{
-			// check for EOS
-			if( !input->IsStreaming() )
-				break;
-
-			LogError("posenet: failed to capture next frame\n");
-			continue;
+			if( status == videoSource::TIMEOUT )
+				continue;
+			
+			break; // EOS
 		}
 
 		// run pose estimation
@@ -155,7 +154,7 @@ int main( int argc, char** argv )
 
 			// check if the user quit
 			if( !output->IsStreaming() )
-				signal_recieved = true;
+				break;
 		}
 
 		// print out timing info

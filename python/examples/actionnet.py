@@ -57,6 +57,9 @@ while True:
     # capture the next image
     img = input.Capture()
 
+    if img is None: # timeout
+        continue  
+
     # classify the action sequence
     class_id, confidence = net.Classify(img)
     class_desc = net.GetClassDesc(class_id)

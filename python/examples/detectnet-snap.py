@@ -74,8 +74,11 @@ input = videoSource(args.input, argv=sys.argv)
 
 # process frames until the user exits
 while True:
-	# capture the next image
-	img = input.Capture()
+    # capture the next image
+    img = input.Capture()
+
+    if img is None: # timeout
+        continue  
 
 	# detect objects in the image (with overlay)
 	detections = net.Detect(img, overlay=args.overlay)

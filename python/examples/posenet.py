@@ -57,6 +57,9 @@ while True:
     # capture the next image
     img = input.Capture()
 
+    if img is None: # timeout
+        continue  
+
     # perform pose estimation (with overlay)
     poses = net.Process(img, overlay=opt.overlay)
 

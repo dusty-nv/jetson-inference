@@ -66,6 +66,9 @@ while True:
     # capture the next image
     img_input = input.Capture()
 
+    if img_input is None: # timeout
+        continue
+        
     # allocate buffers for this size image
     buffers.Alloc(img_input.shape, img_input.format)
 

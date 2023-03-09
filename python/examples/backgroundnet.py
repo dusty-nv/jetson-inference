@@ -80,6 +80,9 @@ while True:
     # capture the next image (with alpha channel)
     img_input = input.Capture(format='rgba8')
 
+    if img_input is None: # timeout
+        continue
+        
     # perform background removal
     net.Process(img_input, filter=args.filter_mode)
 

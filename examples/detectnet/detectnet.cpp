@@ -26,7 +26,6 @@
 #include "detectNet.h"
 #include "objectTracker.h"
 
-
 #include <signal.h>
 
 
@@ -66,6 +65,7 @@ int usage()
 
 	return 0;
 }
+
 
 int main( int argc, char** argv )
 {
@@ -129,17 +129,16 @@ int main( int argc, char** argv )
 	 */
 	while( !signal_recieved )
 	{
-		// capture next image image
+		// capture next image
 		uchar3* image = NULL;
+		int status = 0;
 		
-		if( !input->Capture(&image) )
+		if( !input->Capture(&image, &status) )
 		{
-			// check for EOS
-			if( !input->IsStreaming() && input->GetFrameCount() > 0 )
-				break; 
-
-			LogError("detectnet:  failed to capture video frame\n");
-			continue;
+			if( status == videoSource::TIMEOUT )
+				continue;
+			
+			break; // EOS
 		}
 
 		// detect objects in the frame
@@ -173,7 +172,7 @@ int main( int argc, char** argv )
 
 			// check if the user quit
 			if( !output->IsStreaming() )
-				signal_recieved = true;
+				break;
 		}
 
 		// print out timing info
