@@ -39,18 +39,18 @@ parser.add_argument("--overlay", type=str, default="links,keypoints", help="pose
 parser.add_argument("--threshold", type=float, default=0.15, help="minimum detection threshold to use") 
 
 try:
-	opt = parser.parse_known_args()[0]
+	args = parser.parse_known_args()[0]
 except:
 	print("")
 	parser.print_help()
 	sys.exit(0)
 
 # load the pose estimation model
-net = poseNet(opt.network, sys.argv, opt.threshold)
+net = poseNet(args.network, sys.argv, args.threshold)
 
 # create video sources & outputs
-input = videoSource(opt.input, argv=sys.argv)
-output = videoOutput(opt.output, argv=sys.argv)
+input = videoSource(args.input, argv=sys.argv)
+output = videoOutput(args.output, argv=sys.argv)
 
 # process frames until EOS or the user exits
 while True:
@@ -61,7 +61,7 @@ while True:
         continue  
 
     # perform pose estimation (with overlay)
-    poses = net.Process(img, overlay=opt.overlay)
+    poses = net.Process(img, overlay=args.overlay)
 
     # print the pose results
     print("detected {:d} objects in image".format(len(poses)))
@@ -75,7 +75,7 @@ while True:
     output.Render(img)
 
     # update the title bar
-    output.SetStatus("{:s} | Network {:.0f} FPS".format(opt.network, net.GetNetworkFPS()))
+    output.SetStatus("{:s} | Network {:.0f} FPS".format(args.network, net.GetNetworkFPS()))
 
     # print out performance info
     net.PrintProfilerTimes()

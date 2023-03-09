@@ -46,11 +46,11 @@ parser.add_argument("--stats", action="store_true", help="compute statistics abo
 is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
 
 try:
-	args = parser.parse_known_args()[0]
+    args = parser.parse_known_args()[0]
 except:
-	print("")
-	parser.print_help()
-	sys.exit(0)
+    print("")
+    parser.print_help()
+    sys.exit(0)
 
 # load the segmentation network
 net = segNet(args.network, sys.argv)
@@ -74,45 +74,45 @@ input = videoSource(args.input, argv=sys.argv)
 
 # process frames until EOS or the user exits
 while True:
-	# capture the next image
-	img_input = input.Capture()
+    # capture the next image
+    img_input = input.Capture()
 
     if img_input is None: # timeout
         continue
         
-	# allocate buffers for this size image
-	buffers.Alloc(img_input.shape, img_input.format)
+    # allocate buffers for this size image
+    buffers.Alloc(img_input.shape, img_input.format)
 
-	# process the segmentation network
-	net.Process(img_input, ignore_class=args.ignore_class)
+    # process the segmentation network
+    net.Process(img_input, ignore_class=args.ignore_class)
 
-	# generate the overlay
-	if buffers.overlay:
-		net.Overlay(buffers.overlay, filter_mode=args.filter_mode)
+    # generate the overlay
+    if buffers.overlay:
+        net.Overlay(buffers.overlay, filter_mode=args.filter_mode)
 
-	# generate the mask
-	if buffers.mask:
-		net.Mask(buffers.mask, filter_mode=args.filter_mode)
+    # generate the mask
+    if buffers.mask:
+        net.Mask(buffers.mask, filter_mode=args.filter_mode)
 
-	# composite the images
-	if buffers.composite:
-		cudaOverlay(buffers.overlay, buffers.composite, 0, 0)
-		cudaOverlay(buffers.mask, buffers.composite, buffers.overlay.width, 0)
+    # composite the images
+    if buffers.composite:
+        cudaOverlay(buffers.overlay, buffers.composite, 0, 0)
+        cudaOverlay(buffers.mask, buffers.composite, buffers.overlay.width, 0)
 
-	# render the output image
-	output.Render(buffers.output)
+    # render the output image
+    output.Render(buffers.output)
 
-	# update the title bar
-	output.SetStatus("{:s} | Network {:.0f} FPS".format(args.network, net.GetNetworkFPS()))
+    # update the title bar
+    output.SetStatus("{:s} | Network {:.0f} FPS".format(args.network, net.GetNetworkFPS()))
 
-	# print out performance info
-	cudaDeviceSynchronize()
-	net.PrintProfilerTimes()
+    # print out performance info
+    cudaDeviceSynchronize()
+    net.PrintProfilerTimes()
 
     # compute segmentation class stats
-	if args.stats:
-		buffers.ComputeStats()
-    
-	# exit on input/output EOS
-	if not input.IsStreaming() or not output.IsStreaming():
-		break
+    if args.stats:
+        buffers.ComputeStats()
+
+    # exit on input/output EOS
+    if not input.IsStreaming() or not output.IsStreaming():
+        break

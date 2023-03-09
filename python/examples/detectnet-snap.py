@@ -53,11 +53,11 @@ parser.add_argument("--snapshots", type=str, default="images/test/detections", h
 parser.add_argument("--timestamp", type=str, default="%Y%m%d-%H%M%S-%f", help="timestamp format used in snapshot filenames")
 
 try:
-	args = parser.parse_known_args()[0]
+    args = parser.parse_known_args()[0]
 except:
-	print("")
-	parser.print_help()
-	sys.exit(0)
+    print("")
+    parser.print_help()
+    sys.exit(0)
 
 # make sure the snapshots dir exists
 os.makedirs(args.snapshots, exist_ok=True)
@@ -79,34 +79,33 @@ while True:
     if img is None: # timeout
         continue  
 
-	# detect objects in the image (with overlay)
-	detections = net.Detect(img, overlay=args.overlay)
+    # detect objects in the image (with overlay)
+    detections = net.Detect(img, overlay=args.overlay)
 
-	# print the detections
-	print("detected {:d} objects in image".format(len(detections)))
-    
-	timestamp = datetime.datetime.now().strftime(args.timestamp)
-    
-	for idx, detection in enumerate(detections):
-		print(detection)
-		roi = (int(detection.Left), int(detection.Top), int(detection.Right), int(detection.Bottom))
-		snapshot = cudaAllocMapped(width=roi[2]-roi[0], height=roi[3]-roi[1], format=img.format)
-		cudaCrop(img, snapshot, roi)
-		cudaDeviceSynchronize()
-		saveImage(os.path.join(args.snapshots, f"{timestamp}-{idx}.jpg"), snapshot)
-		del snapshot
+    # print the detections
+    print("detected {:d} objects in image".format(len(detections)))
+
+    timestamp = datetime.datetime.now().strftime(args.timestamp)
+
+    for idx, detection in enumerate(detections):
+        print(detection)
+        roi = (int(detection.Left), int(detection.Top), int(detection.Right), int(detection.Bottom))
+        snapshot = cudaAllocMapped(width=roi[2]-roi[0], height=roi[3]-roi[1], format=img.format)
+        cudaCrop(img, snapshot, roi)
+        cudaDeviceSynchronize()
+        saveImage(os.path.join(args.snapshots, f"{timestamp}-{idx}.jpg"), snapshot)
+        del snapshot
+
+    # render the image
+    output.Render(img)
+
+    # update the title bar
+    output.SetStatus("{:s} | Network {:.0f} FPS".format(args.network, net.GetNetworkFPS()))
+
+    # print out performance info
+    net.PrintProfilerTimes()
+
+    # exit on input/output EOS
+    if not input.IsStreaming() or not output.IsStreaming():
+        break
         
-	# render the image
-	output.Render(img)
-
-	# update the title bar
-	output.SetStatus("{:s} | Network {:.0f} FPS".format(args.network, net.GetNetworkFPS()))
-
-	# print out performance info
-	net.PrintProfilerTimes()
-
-	# exit on input/output EOS
-	if not input.IsStreaming() or not output.IsStreaming():
-		break
-
-

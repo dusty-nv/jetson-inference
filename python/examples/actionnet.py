@@ -37,11 +37,11 @@ parser.add_argument("output", type=str, default="", nargs='?', help="URI of the 
 parser.add_argument("--network", type=str, default="resnet-18", help="pre-trained model to load (see below for options)")
 
 try:
-	args = parser.parse_known_args()[0]
+    args = parser.parse_known_args()[0]
 except:
-	print("")
-	parser.print_help()
-	sys.exit(0)
+    print("")
+    parser.print_help()
+    sys.exit(0)
 
 
 # load the recognition network

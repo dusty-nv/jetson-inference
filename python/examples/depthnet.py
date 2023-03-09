@@ -45,21 +45,21 @@ parser.add_argument("--colormap", type=str, default="viridis-inverted", help="co
                                            "plasma", "plasma-inverted", "turbo", "turbo-inverted", "viridis", "viridis-inverted"])
 
 try:
-	opt = parser.parse_known_args()[0]
+	args = parser.parse_known_args()[0]
 except:
 	print("")
 	parser.print_help()
 	sys.exit(0)
 
 # load the segmentation network
-net = depthNet(opt.network, sys.argv)
+net = depthNet(args.network, sys.argv)
 
 # create buffer manager
-buffers = depthBuffers(opt)
+buffers = depthBuffers(args)
 
 # create video sources & outputs
-input = videoSource(opt.input, argv=sys.argv)
-output = videoOutput(opt.output, argv=sys.argv)
+input = videoSource(args.input, argv=sys.argv)
+output = videoOutput(args.output, argv=sys.argv)
 
 # process frames until EOS or the user exits
 while True:
@@ -73,7 +73,7 @@ while True:
     buffers.Alloc(img_input.shape, img_input.format)
 
     # process the mono depth and visualize
-    net.Process(img_input, buffers.depth, opt.colormap, opt.filter_mode)
+    net.Process(img_input, buffers.depth, args.colormap, args.filter_mode)
 
     # composite the images
     if buffers.use_input:
@@ -86,7 +86,7 @@ while True:
     output.Render(buffers.composite)
 
     # update the title bar
-    output.SetStatus("{:s} | {:s} | Network {:.0f} FPS".format(opt.network, net.GetNetworkName(), net.GetNetworkFPS()))
+    output.SetStatus("{:s} | {:s} | Network {:.0f} FPS".format(args.network, net.GetNetworkName(), net.GetNetworkFPS()))
 
     # print out performance info
     cudaDeviceSynchronize()
