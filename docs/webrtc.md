@@ -7,9 +7,9 @@
 
 jetson-inference includes an integrated WebRTC server for streaming low-latency live HD video to/from web browsers that can be used for building interactive web applications powered by Jetson and edge AI on the backend.  WebRTC integrates seamlessly with DNN inferencing pipelines via the [videoSource/videoOutput](aux-streaming.md#source-code) interfaces from jetson-utils, and uses hardware-accelerated video encoding and decoding through GStreamer.  It supports sending and receiving multiple streams to/from multiple clients simultaneously, and includes a built-in webserver for viewing the streams remotely without needing to build your own frontend:
 
-<p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-builtin.jpg" width="600"></p>
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-builtin.jpg" width="600">
 
-In the screenshot above, the webcam from a laptop is being streamed to a Jetson over WebRTC, where the Jetson decodes it and performs object detection using detectNet, before re-encoding the output and sending it back to the browser via WebRTC again for playback.  The round-trip latency goes largely unnoticed over local wireless networks, even in full-duplex mode like this.  On the client side, it's been tested with multiple browsers including Chrome/Chromium, mobile Android, and mobile iOS (Safari) using H.264 compression.
+In this screenshot, the webcam from a laptop is being streamed to a Jetson over WebRTC, where the Jetson decodes it and performs object detection using detectNet, before re-encoding the output and sending it back to the browser via WebRTC again for playback.  The round-trip latency goes largely unnoticed over local wireless networks, even in full-duplex mode like this.  On the client side, it's been tested with multiple browsers including Chrome/Chromium, mobile Android, and mobile iOS (Safari) using H.264 compression.
 
 Any application using videoSource/videoOutput (including the C++ & Python examples from this repo like imagenet/imagenet.py, detectnet/detectnet.py, ect) can easily make use of this WebRTC server by launching them with a stream URL of `webrtc://@:8554/my_stream` or similar.  Further examples are provided that build on these and implement customizable frontends with more complex processing pipeines and web UI's with interactive controls.
 
@@ -43,19 +43,16 @@ $ detectnet.py --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT csi://0 webrtc://@:8554/o
 
 You should then be able to navigate your browser to `https://<JETSON-IP>:8554` and view the video stream like in the image above.  Various connection statistics are dynamically updated on the page, like the bitrate and number of frames and packets received/dropped.  Sometimes it can be helpful to open the browser's debug console log (`Ctrl+Shift+I` in Chrome) as status messages about the state of the WebRTC connection get printed out there.
 
-### videoOutput Code
+#### videoOutput Code
 
 If you're using the videoOutput interface in your program and want to hardcode it for streaming WebRTC (as opposed to parsing the command-line), you can create it like so:
 
-#### Python
 
 ``` python
+# Python
 output = jetson_utils.videoOutput("webrtc://@:8554/output", argv=["--ssl-key=key.pem", "--ssl-cert=cert.pem"])
-```
 
-#### C++
-
-``` cpp
+# C++
 videoOptions options;
 
 options.sslKey = "key.pem";
@@ -86,7 +83,7 @@ If you're using the videoSource interface in your program and want to hardcode i
 
 #### Python
 
-```
+``` python
 # Python
 input = jetson_utils.videoInput("webrtc://@:8554/input", argv=["--ssl-key=key.pem", "--ssl-cert=cert.pem"])
 
