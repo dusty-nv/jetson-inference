@@ -131,11 +131,11 @@ int main( int argc, char** argv )
 	{
 		// capture next image image
 		uchar3* image = NULL;
-
+		
 		if( !input->Capture(&image) )
 		{
 			// check for EOS
-			if( !input->IsStreaming() )
+			if( !input->IsStreaming() && input->GetFrameCount() > 0 )
 				break; 
 
 			LogError("detectnet:  failed to capture video frame\n");
