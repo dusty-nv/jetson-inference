@@ -9,7 +9,7 @@ jetson-inference includes an integrated WebRTC server for streaming low-latency 
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-builtin.jpg" width="600">
 
-In this screenshot, the webcam from a laptop is being streamed to a Jetson over WebRTC, where the Jetson decodes it and performs object detection using detectNet, before re-encoding the output and sending it back to the browser via WebRTC again for playback.  The round-trip latency goes largely unnoticed over local wireless networks, even in full-duplex mode like this.  On the client side, it's been tested with multiple browsers including Chrome/Chromium, mobile Android, and mobile iOS (Safari) using H.264 compression.
+In this screenshot, the webcam from a laptop is being streamed to a Jetson over WebRTC, where the Jetson decodes it and performs object detection using detectNet, before re-encoding the output and sending it back to the browser again via WebRTC for playback.  The round-trip latency goes largely unnoticed over local wireless networks, even in full-duplex mode like this.  On the client side, it's been tested with multiple browsers including Chrome/Chromium, mobile Android, and mobile iOS (Safari) using H.264 compression.
 
 Any application using videoSource/videoOutput (including the C++ & Python examples from this repo like imagenet/imagenet.py, detectnet/detectnet.py, ect) can easily make use of this WebRTC server by launching them with a stream URL of `webrtc://@:8554/my_stream` or similar.  Further examples are provided that build on these and implement customizable frontends with more complex processing pipeines and web UI's with interactive controls.
 
@@ -70,7 +70,7 @@ You can also receive streams from browser webcams via WebRTC.  To do that, enabl
 
 ``` bash
 $ video-viewer --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT webrtc://@:8554/input my_video.mp4  # save browser webcam to MP4 file
-$ imagenet.py  --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT webrtc://@:8554/input my_video.mp4  # save browser webcam to MP4 file (applying classification)
+$ imagenet.py --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT webrtc://@:8554/input my_video.mp4  # save browser webcam to MP4 file (applying classification)
 ```
 
 > **note**: using browser webcams requires [HTTPS/SSL](#enabling-https--ssl) to be enabled
@@ -103,7 +103,7 @@ You can then use the videoSource interface in your main loop to capture video ju
 To both send and recieve WebRTC streams simulateously, simply specify the `webrtc://` protocol for both the input and output locations:
 
 ``` bash
-$ video-viewer --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT webrtc://@:8554/input webrtc://@:8554/output  # browser -> Jetson -> browser loopback
+$ video-viewer --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT webrtc://@:8554/input webrtc://@:8554/output  # browser->Jetson->browser loopback
 $ posenet.py --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT webrtc://@:8554/input webrtc://@:8554/output    # loopback with pose estimation
 ```
 
