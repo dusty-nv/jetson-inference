@@ -72,7 +72,7 @@ buffers = segmentationBuffers(net, args)
 # create video source
 input = videoSource(args.input, argv=sys.argv)
 
-# process frames until user exits
+# process frames until EOS or the user exits
 while True:
 	# capture the next image
 	img_input = input.Capture()

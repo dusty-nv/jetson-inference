@@ -75,7 +75,7 @@ def replaceBackground(img_input):
     return img_output
 
 
-# process frames until the user exits
+# process frames until EOS or the user exits
 while True:
     # capture the next image (with alpha channel)
     img_input = input.Capture(format='rgba8')

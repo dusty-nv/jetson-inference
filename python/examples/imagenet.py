@@ -60,7 +60,7 @@ input = videoSource(args.input, argv=sys.argv)
 output = videoOutput(args.output, argv=sys.argv+is_headless)
 font = cudaFont()
 
-# process frames until the user exits
+# process frames until EOS or the user exits
 while True:
     # capture the next image
     img = input.Capture()

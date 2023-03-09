@@ -71,8 +71,7 @@ net = detectNet(args.network, sys.argv, args.threshold)
 # create video sources
 input = videoSource(args.input, argv=sys.argv)
 
-
-# process frames until the user exits
+# process frames until EOS or the user exits
 while True:
     # capture the next image
     img = input.Capture()

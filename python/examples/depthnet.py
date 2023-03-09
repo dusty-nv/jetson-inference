@@ -61,7 +61,7 @@ buffers = depthBuffers(opt)
 input = videoSource(opt.input, argv=sys.argv)
 output = videoOutput(opt.output, argv=sys.argv)
 
-# process frames until user exits
+# process frames until EOS or the user exits
 while True:
     # capture the next image
     img_input = input.Capture()

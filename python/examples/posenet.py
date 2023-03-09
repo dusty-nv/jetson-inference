@@ -52,7 +52,7 @@ net = poseNet(opt.network, sys.argv, opt.threshold)
 input = videoSource(opt.input, argv=sys.argv)
 output = videoOutput(opt.output, argv=sys.argv)
 
-# process frames until the user exits
+# process frames until EOS or the user exits
 while True:
     # capture the next image
     img = input.Capture()
