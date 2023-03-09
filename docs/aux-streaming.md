@@ -341,9 +341,17 @@ output = jetson.utils.videoOutput(opt.output_URI, argv=sys.argv)
 
 # capture frames until user exits
 while output.IsStreaming():
-	image = input.Capture(format='rgb8')  // can also be format='rgba8', 'rgb32f', 'rgba32f'
+	image = input.Capture(format='rgb8')  # can also be format='rgba8', 'rgb32f', 'rgba32f'
+	
+	if image is None:  # capture timeout
+		continue
+		
 	output.Render(image)
 	output.SetStatus("Video Viewer | {:d}x{:d} | {:.1f} FPS".format(image.width, image.height, output.GetFrameRate()))
+	
+	# exit on input/output EOS
+	if not input.IsStreaming() or not output.IsStreaming():
+		break
 ```
 
 ### C++
@@ -363,27 +371,24 @@ int main( int argc, char** argv )
 	// capture/display loop
 	while( true )
 	{
-		uchar3* nextFrame = NULL;  // can be uchar3, uchar4, float3, float4
-
-		if( !inputStream->Capture(&nextFrame, 1000) )
-			continue;
+		uchar3* image = NULL;  // can be uchar3, uchar4, float3, float4
+		int status = 0;        // see videoSource::Status (OK, TIMEOUT, EOS, ERROR)
+		
+		if( !inputStream->Capture(&image, 1000, &status) )  // 1000ms timeout
+		{
+			if( status == videoSource::TIMEOUT )
+				continue;
+				
+			break; // EOS
+		}
 
 		if( outputStream != NULL )
 		{
-			outputStream->Render(nextFrame, inputStream->GetWidth(), inputStream->GetHeight());
+			outputStream->Render(image, inputStream->GetWidth(), inputStream->GetHeight());
 
-			// update status bar
-			char str[256];
-			sprintf(str, "Video Viewer (%ux%u) | %.1f FPS", inputStream->GetWidth(), inputStream->GetHeight(), outputStream->GetFrameRate());
-			outputStream->SetStatus(str);	
-
-			// check if the user quit
-			if( !outputStream->IsStreaming() )
+			if( !outputStream->IsStreaming() )  // check if the user quit
 				break;
 		}
-
-		if( !inputStream->IsStreaming() )
-			break;
 	}
 
 	// destroy resources
