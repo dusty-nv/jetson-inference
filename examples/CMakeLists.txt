@@ -6,10 +6,6 @@ add_subdirectory(posenet)
 add_subdirectory(segnet)
 add_subdirectory(actionnet)
 add_subdirectory(backgroundnet)
-	
-if(HAS_VPI)
-	add_subdirectory(object-tracker)
-endif()
 
 # experimental examples
 if(BUILD_EXPERIMENTAL)
