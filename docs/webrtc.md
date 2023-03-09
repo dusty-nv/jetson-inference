@@ -43,15 +43,19 @@ $ detectnet.py --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT csi://0 webrtc://@:8554/o
 
 You should then be able to navigate your browser to `https://<JETSON-IP>:8554` and view the video stream like in the image above.  Various connection statistics are dynamically updated on the page, like the bitrate and number of frames and packets received/dropped.  Sometimes it can be helpful to open the browser's debug console log (`Ctrl+Shift+I` in Chrome) as status messages about the state of the WebRTC connection get printed out there.
 
-#### videoOutput Code
+### videoOutput Code
 
 If you're using the videoOutput interface in your program and want to hardcode it for streaming WebRTC (as opposed to parsing the command-line), you can create it like so:
 
-```
-# Python
-output = jetson_utils.videoOutput("webrtc://@:8554/output", argv=["--ssl-key=key.pem", "--ssl-cert=cert.pem"])
+#### Python
 
-# C++
+``` python
+output = jetson_utils.videoOutput("webrtc://@:8554/output", argv=["--ssl-key=key.pem", "--ssl-cert=cert.pem"])
+```
+
+#### C++
+
+``` cpp
 videoOptions options;
 
 options.sslKey = "key.pem";
@@ -72,7 +76,7 @@ $ video-viewer --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT webrtc://@:8554/input my_
 $ imagenet.py  --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT webrtc://@:8554/input my_video.mp4  # save browser webcam to MP4 file (applying classification)
 ```
 
-> **note**: using browser webcams requires [HTTPS/SSL](#enabling-https-ssl) to be enabled.
+> **note**: using browser webcams requires [HTTPS/SSL](#enabling-https--ssl) to be enabled
 
 Then navigate your browser again to `https://<JETSON-IP>:8554`, and you'll be prompted to enable access to the camera device and streaming will begin.  Until then, there will be warning messages printed in the terminal on your Jetson about video capture timeouts occurring - these are normal and can be ignored, as the client providing the stream has not yet connected.
 
