@@ -1,0 +1,91 @@
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
+<p align="right"><sup><a href="webrtc.md">Back</a> | <a href="webapp-flask.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<br/>
+<sup>WebApp Frameworks</sup></s></p>
+
+# HTML / JavaScript
+
+Included in this repo are various example webapps using WebRTC that are found under [`jetson-inference/python/www`](../python/www), such as:
+
+```
++ python/
+  + www/
+    - html   # core HTML/JavaScript
+    - flask  # Flask + HTML/JavaScript
+    - dash   # Plotly Dash
+```
+
+Each of these demonstrate WebRTC integration with different Python-based webserver frameworks for building out your own AI-powered interactive webapps.  These generally follow a similar template for code components:
+
+```
+- app.py      # server-side Python code for running the webserver
+- stream.py   # server-side Python code for WebRTC streaming/inferencing
+- webrtc.js   # client-side WebRTC JavaScript code
+- index.html  # client-side HTML code
+```
+
+This html example is the simplest and highlights the core HTML/JavaScript code needed to playback/send WebRTC streams and apply DNN inferencing.  You can then apply this to any web framework of choice should you already have an existing or preferred frontend to integrate with.
+
+## Running the Example
+
+Launching app.py will start a built-in Python webserver (which is easy to use, but isn't intended for production and can be easily changed out) along with an independent thread that runs the WebRTC streaming/inferencing code:
+
+``` bash
+$ cd jetson-inference/python/www/html
+$ python3 app.py --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT
+```
+
+> **note**: using browser webcams requires [HTTPS/SSL](webrtc.md#enabling-https--ssl) to be enabled
+
+You should then be able to navigate your browser to `https://<JETSON-IP>:8050` and start the stream.  8050 is the default port used by these webapp examples, but you can change that with the `--port=N` command-line argument.  It's also configured by default for WebRTC input and output, but if you want to use a different [video input device](aux-streaming.md#input-streams), you can set that with the `--input` argument (for example, `--input=/dev/video0` for a V4L2 camera that's directly attached to your Jetson).
+
+### Loading DNN Models
+
+This example supports running one DNN model at a time - either classification, detection, segmentation, pose estimation, action recognition, or background removal (subsequent examples support running multiple models simulateously).  You can change the DNN when you launch the app like so:
+
+``` bash
+$ python3 app.py --classification --model=resnet18
+$ python3 app.py --detection --model=ssd-mobilenet-v2
+$ python3 app.py --segmentation --model=fcn-resnet18-mhp
+$ python3 app.py --pose --model=resnet18-body
+$ python3 app.py --action --model=resnet18-kinetics
+$ python3 app.py --background --model=u2net
+```
+
+Omitting the optional `--model` argument will load the default model for that network, or if you have your own custom classification or detection model from the tutorial that you trained in PyTorch and exported to ONNX, you can use the extended command-line arguments to load it (like used [here](pytorch-cat-dog.md#processing-images-with-tensorrt) for classification and [here](pytorch-ssd.md#processing-images-with-tensorrt) for detection).
+
+## HTML Elements
+
+Consulting the source of [`index.html`](../python/www/html/index.html), let's walkthrough the most important steps of building your own webpages that use WebRTC:
+
+1.  JavaScript imports
+
+``` html
+<script type='text/javascript' src='https://webrtc.github.io/adapter/adapter-latest.js'></script>
+<script type='text/javascript' src='/webrtc.js'></script>
+```
+
+2.  HTML Video Player
+This goes in the body:
+``` html
+<video id="video-player" autoplay controls playsinline muted>Your browser does not support video</video>
+```
+
+3.  JavaScript call to start playback
+``` javascript
+// playStream(url, videoElement) is a helper function from webrtc.js that connects the specified WebRTC stream to the video player
+// getWebSocketURL() is a helper function that makes a URL path of the form:  wss://<SERVER-IP>:8554/output
+// document.getElementById('video-player') retreives the page's video player element
+playStream(getWebsocketURL('output'), document.getElementById('video-player'));
+```
+
+Normally this JavaScript function would be called in `window.onload()` or from an event handler like a button's `onclick()` event (like shown in this example).  And although it's not called out above, there's also code included for enumerating a browser's webcams and sending those over WebRTC to the Jetson as a video input.  You can essentially copy & paste this code (along with `webrtc.js`) into any project to enable WebRTC.
+
+## Server Stream
+
+// TODO
+
+<p align="right">Next | <b><a href="webapp-flask.md">Flask</a></b>
+<br/>
+Back | <b><a href="webrtc.md">WebRTC Server</a></p>
+</b><p align="center"><sup>© 2016-2023 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
