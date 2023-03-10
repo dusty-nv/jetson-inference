@@ -59,13 +59,11 @@ class Stream(threading.Thread):
         """
         Capture one image from the stream, process it, and output it.
         """
-        try:
-            img = self.input.Capture()
-        except:
-            if self.frames > 0:
-                traceback.print_exc()
-            return
+        img = self.input.Capture()
         
+        if img is None:  # timeout
+            return
+
         if self.args.classification or self.args.action:
             classID, confidence = self.net.Classify(img)
             classLabel = self.net.GetClassLabel(classID)

@@ -21,6 +21,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
+import os
 import sys
 import ssl
 import argparse
@@ -32,10 +33,10 @@ parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, 
 
 parser.add_argument("--host", default='0.0.0.0', type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
 parser.add_argument("--port", default=8050, type=int, help="port used for webserver (default is 8050)")
-parser.add_argument("--ssl-key", default='', type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
-parser.add_argument("--ssl-cert", default='', type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
-parser.add_argument("--input", default='webrtc://@:8554/input', type=str, help="input camera stream or video file")
-parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help="WebRTC output stream to serve from --input")
+parser.add_argument("--ssl-key", default=os.getenv("SSL_KEY"), type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
+parser.add_argument("--ssl-cert", default=os.getenv("SSL_CERT"), type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
+parser.add_argument("--input", default="webrtc://@:8554/input", type=str, help="input camera stream or video file")
+parser.add_argument("--output", default="webrtc://@:8554/output", type=str, help="WebRTC output stream to serve from --input")
 parser.add_argument("--no-stream", action="store_true", help="disable creation of the input/output stream (serve website only)")
 parser.add_argument("--classification", action="store_true", help="load classification model (see imageNet arguments)")
 parser.add_argument("--detection", action="store_true", help="load object detection model (see detectNet arguments)")
