@@ -28,6 +28,8 @@ This html example is the simplest and highlights the core HTML/JavaScript code n
 
 ## Running the Example
 
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-html.jpg" width="600">
+
 Launching app.py will start a built-in Python webserver (which is easy to use, but isn't intended for production and can be easily changed out) along with an independent thread that runs the WebRTC streaming/inferencing code:
 
 ``` bash
@@ -58,7 +60,7 @@ Omitting the optional `--model` argument will load the default model for that ne
 
 Consulting the source of [`index.html`](../python/www/html/index.html), let's walkthrough the most important steps of building your own webpages that use WebRTC:
 
-1.  JavaScript imports
+1.  JavaScript Imports
 
 ``` html
 <script type='text/javascript' src='https://webrtc.github.io/adapter/adapter-latest.js'></script>
@@ -66,12 +68,15 @@ Consulting the source of [`index.html`](../python/www/html/index.html), let's wa
 ```
 
 2.  HTML Video Player
-This goes in the body:
+
+This should go in the page `<body>` to create the video player element:
+
 ``` html
-<video id="video-player" autoplay controls playsinline muted>Your browser does not support video</video>
+<video id="video-player" autoplay controls playsinline muted></video>
 ```
 
-3.  JavaScript call to start playback
+3.  Start Playback
+
 ``` javascript
 // playStream(url, videoElement) is a helper function from webrtc.js that connects the specified WebRTC stream to the video player
 // getWebSocketURL() is a helper function that makes a URL path of the form:  wss://<SERVER-IP>:8554/output
