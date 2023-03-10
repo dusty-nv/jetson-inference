@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="webrtc.md">Back</a> | <a href="webapp-flask.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="webrtc-server.md">Back</a> | <a href="webrtc-flask.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>WebApp Frameworks</sup></s></p>
 
@@ -24,7 +24,7 @@ Each of these demonstrate WebRTC integration with different Python-based webserv
 - index.html  # client-side HTML code
 ```
 
-This html example is the simplest and highlights the core HTML/JavaScript code needed to playback/send WebRTC streams and apply DNN inferencing.  You can then apply this to any web framework of choice should you already have an existing or preferred frontend to integrate with.
+This first example is the simplest and highlights the core HTML/JavaScript code needed to playback/send WebRTC streams and apply DNN inferencing.  You can apply this to any web framework of choice should you already have a preferred frontend to integrate with.
 
 ## Running the Example
 
@@ -34,7 +34,7 @@ Launching app.py will start a built-in Python webserver (which is easy to use, b
 
 ``` bash
 $ cd jetson-inference/python/www/html
-$ python3 app.py --ssl-key=$SSL_KEY --ssl-cert=$SSL_CERT
+$ python3 app.py --classification  # see below for other DNN options
 ```
 
 > **note**: using browser webcams requires [HTTPS/SSL](webrtc.md#enabling-https--ssl) to be enabled
@@ -86,11 +86,8 @@ playStream(getWebsocketURL('output'), document.getElementById('video-player'));
 
 Normally this JavaScript function would be called in `window.onload()` or from an event handler like a button's `onclick()` event (like shown in this example).  And although it's not called out above, there's also code included for enumerating a browser's webcams and sending those over WebRTC to the Jetson as a video input.  You can essentially copy & paste this code (along with `webrtc.js`) into any project to enable WebRTC.
 
-## Server Stream
 
-// TODO
-
-<p align="right">Next | <b><a href="webapp-flask.md">Flask</a></b>
+<p align="right">Next | <b><a href="webrtc-flask.md">Flask</a></b>
 <br/>
-Back | <b><a href="webrtc.md">WebRTC Server</a></p>
+Back | <b><a href="webrtc-server.md">WebRTC Server</a></p>
 </b><p align="center"><sup>© 2016-2023 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

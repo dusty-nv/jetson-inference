@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="pytorch-collect-detection.md">Back</a> | <a href="webapp-html.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="pytorch-collect-detection.md">Back</a> | <a href="webrtc-html.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>WebApp Frameworks</sup></s></p>
 
@@ -52,15 +52,10 @@ If you're using the videoOutput interface in your program and want to hardcode i
 
 ``` python
 # Python
-output = jetson_utils.videoOutput("webrtc://@:8554/output", argv=["--ssl-key=key.pem", "--ssl-cert=cert.pem"])
+output = jetson_utils.videoOutput("webrtc://@:8554/output")
 
 # C++
-videoOptions options;
-
-options.sslKey = "key.pem";
-options.sslCert = "cert.pem";
-
-videoOutput* output = videoOutput::Create("webrtc://@:8554/output", options);
+videoOutput* output = videoOutput::Create("webrtc://@:8554/output");
 ```
 
 You can then use the videoOutput interface in your main loop to render frames just like you would have before like in these [examples](aux-streaming.md#source-code).
@@ -85,15 +80,10 @@ If you're using the videoSource interface in your program and want to hardcode i
 
 ``` python
 # Python
-input = jetson_utils.videoInput("webrtc://@:8554/input", argv=["--ssl-key=key.pem", "--ssl-cert=cert.pem"])
+input = jetson_utils.videoInput("webrtc://@:8554/input")
 
 # C++
-videoOptions options;
-
-options.sslKey = "key.pem";
-options.sslCert = "cert.pem";
-
-videoSource* input = videoInput::Create("webrtc://@:8554/input", options);
+videoSource* input = videoInput::Create("webrtc://@:8554/input");
 ```
 
 You can then use the videoSource interface in your main loop to capture video just like you would have before like in these [examples](aux-streaming.md#source-code).
@@ -109,5 +99,5 @@ $ posenet.py webrtc://@:8554/input webrtc://@:8554/output    # loopback with pos
 
 Then when you navigate to the page, it will both send the video from your browser's webcam and playback the results.  Subsequent examples will show how to make your own backend server applications and frontends with different web frameworks.
  
-<p align="right">Next | <b><a href="webapp-html.md">HTML / JavaScript</a></b></p>
+<p align="right">Next | <b><a href="webrtc-html.md">HTML / JavaScript</a></b></p>
 </b><p align="center"><sup>© 2016-2023 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
