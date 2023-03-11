@@ -30,7 +30,7 @@ This first example is the simplest and highlights the core HTML/JavaScript code 
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-html.jpg" width="600">
 
-Launching app.py will start a built-in Python webserver (which is easy to use, but isn't intended for production and can be easily changed out) along with an independent thread that runs the WebRTC streaming/inferencing code:
+Launching app.py will start a built-in Python webserver (which is easy to use, but isn't intended for production and can be easily changed out) along with an independent streaming thread that runs the WebRTC capture/transport and inferencing code:
 
 ``` bash
 $ cd jetson-inference/python/www/html
