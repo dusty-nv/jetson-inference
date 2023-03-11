@@ -9,9 +9,9 @@ jetson-inference includes an integrated WebRTC server for streaming low-latency 
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-builtin.jpg" width="600">
 
-In this screenshot of full-duplex, the webcam from a laptop is being streamed to a Jetson over WebRTC, where the Jetson decodes it and performs object detection using detectNet, before re-encoding the output and sending it back to the browser again via WebRTC for playback.  The round-trip latency goes largely unnoticed interactivity-wise over local wireless networks.  On the client side, it's been tested with multiple browsers including Chrome/Chromium, mobile Android, and mobile iOS (Safari) using H.264 compression.
+In this screenshot of full-duplex mode, the webcam from a laptop is being streamed to a Jetson over WebRTC, where the Jetson decodes it and performs object detection using detectNet, before re-encoding the output and sending it back to the browser again via WebRTC for playback.  The round-trip latency goes largely unnoticed from an interactivity standpoint over local wireless networks.  On the client side, it's been tested with multiple browsers including Chrome/Chromium, mobile Android, and mobile iOS (Safari) using H.264 compression.
 
-Any application using videoSource/videoOutput (including the C++ & Python examples from this repo like imagenet/imagenet.py, detectnet/detectnet.py, ect) can easily make use of this WebRTC server by launching them with a stream URL of `webrtc://@:8554/my_stream` or similar.  Further examples are provided that build on these and implement customizable frontends with more complex processing pipeines and web UI's with interactive controls.
+Any application using videoSource/videoOutput (including the C++ & Python examples from this repo like imagenet/imagenet.py, detectnet/detectnet.py, ect) can easily enable this WebRTC server by launching them with a stream URL of `webrtc://@:8554/my_stream` or similar.  Further examples are provided that build on these components and implement customizable frontends with more complex processing pipeines and web UI's with interactive controls.
 
 ## Enabling HTTPS / SSL
 

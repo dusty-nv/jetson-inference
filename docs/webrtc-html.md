@@ -15,7 +15,7 @@ Included in this repo are various example webapps using WebRTC that are found un
     - dash   # Plotly Dash
 ```
 
-Each of these demonstrate WebRTC integration with different Python-based webserver frameworks for building out your own AI-powered interactive webapps.  These generally follow a similar template for code components:
+Each of these demonstrate WebRTC integration with different Python-based webserver frameworks for building out your own AI-powered interactive webapps.  These generally have similar components like the following:
 
 ```
 - app.py      # server-side Python code for running the webserver

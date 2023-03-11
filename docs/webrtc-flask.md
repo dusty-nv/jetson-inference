@@ -3,11 +3,18 @@
 <br/>
 <sup>WebApp Frameworks</sup></s></p>
 
-# Flask
+# Flask + REST
 
-[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a popular Python web micro-framework that routes HTTP/HTTPS requests to user Python functions and uses the [Jinja](https://jinja.palletsprojects.com/en/3.1.x/templates/) templating engine to generate HTML content parameterized by Python variables.  At the same time you can also easily handle backend REST requests (typically JSON), which can be used by the client to dynamically control properties and content from the frontend based on user inputs.  This interactive example (found under [`python/www/flask`](../python/www/flask)) has multiple DNNs that you can toggle simulateously from the webapp and control their various settings with the UI in realtime.
+[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a popular Python web micro-framework that routes HTTP/HTTPS requests to user Python functions and uses the [Jinja](https://jinja.palletsprojects.com/en/3.1.x/templates/) templating engine to generate HTML content parameterized by Python variables.  At the same time you can also easily handle backend REST requests (typically JSON), which can be used by the client to dynamically control properties and trigger content from the frontend based on user inputs.  This interactive example (found under [`python/www/flask`](../python/www/flask)) has multiple DNNs that you can toggle simulateously from the webapp and control their various settings with the UI in realtime.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-flask.jpg" width="600">
+
+It also uses [Bootstrap](https://getbootstrap.com/) CSS for styling and the UI components.  The main source files for this example are:
+
+* [`app.py`](../python/www/flask/app.py) (webserver)
+* [`stream.py`](../python/www/flask/stream.py) (WebRTC streaming thread)
+* [`model.py`](../python/www/flask/model.py) (DNN inferencing)
+* [index.html](../python/www/flask/templates/index.html) (frontend presentation)
 
 ## Running the Example
 
@@ -24,23 +31,23 @@ You should then be able to navigate your browser to `https://<JETSON-IP>:8050` a
 
 ### Loading DNN Models
 
-This example supports loading multiple DNN models which can run simultaneously (as in the [previous example](webrtc-html.md) - classification, detection, segmentation, pose estimation, action recognition, and background removal).  When you launch the app, you can pick which models are loaded like so:
+This example supports loading multiple DNN models which can run simultaneously (classification, detection, segmentation, pose estimation, action recognition, and background removal).  When you launch the app, you can pick which models are loaded like so:
 
 ``` bash
 $ python3 app.py \
-	--classification=resnet18 \
-	--detection=ssd-mobilenet-v2 \
-	--segmentation=fcn-resnet18-mhp \
-	--pose=resnet18-body \
-	--action=resnet18-kinetics \
-	--background=u2net
+    --classification=resnet18 \
+    --detection=ssd-mobilenet-v2 \
+    --segmentation=fcn-resnet18-mhp \
+    --pose=resnet18-body \
+    --action=resnet18-kinetics \
+    --background=u2net
 ```
 
-> **note**: depending on the Jetson you are using and the other processes running, you may not have enough memory available to load all of these at once or compute capacity to run them all in realtime.
+> **note**: depending on the Jetson you are using and the other processes running, you may not have enough memory available to load all of these models at once or the compute capacity to run them all in realtime.
 
 ## REST Queries
 
-This example takes the core HTML/JavaScript code for doing WebRTC from the [previous example](webrtc-html.md) and builds on it by implementing REST JSON queries.  You can see the backend stubs for these in [app.py](../python/www/flask/app.py), which the frontend JavaScript connects to in [index.html](../python/www/flask/templates/index.html).  Templates and macros are used to reduce the amount of boilerplate code and makes it quick to add new settings:
+This app takes the core HTML/JavaScript code for doing WebRTC from the [previous example](webrtc-html.md) and builds on it with REST JSON queries.  You can see the backend stubs for these in [app.py](../python/www/flask/app.py), which JavaScript queries from the client in [index.html](../python/www/flask/templates/index.html).  Templates and macros are used to reduce the amount of boilerplate code for these and makes it quick to add new settings:
 
 ```
 # backend - app.py (Python)
