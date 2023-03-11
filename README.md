@@ -60,7 +60,7 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 	* [Re-training on the PlantCLEF Dataset](docs/pytorch-plants.md)
 	* [Collecting your own Classification Datasets](docs/pytorch-collect.md)
 * Object Detection (SSD-Mobilenet)
-	# * [Re-training SSD-Mobilenet](docs/pytorch-ssd.md)
+	* [Re-training SSD-Mobilenet](docs/pytorch-ssd.md)
 	* [Collecting your own Detection Datasets](docs/pytorch-collect-detection.md)
 
 #### WebApp Frameworks
