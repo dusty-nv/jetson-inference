@@ -9,12 +9,12 @@
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-flask.jpg" width="600">
 
-It also uses [Bootstrap](https://getbootstrap.com/) CSS for styling and the UI components.  The main source files for this example are:
+It also uses [Bootstrap](https://getbootstrap.com/) CSS for styling and the UI components.  The main source files for this example are as follows:
 
-* [`app.py`](../python/www/flask/app.py) (webserver)
-* [`stream.py`](../python/www/flask/stream.py) (WebRTC streaming thread)
-* [`model.py`](../python/www/flask/model.py) (DNN inferencing)
-* [index.html](../python/www/flask/templates/index.html) (frontend presentation)
+  * [`app.py`](../python/www/flask/app.py) (webserver)
+  * [`stream.py`](../python/www/flask/stream.py) (WebRTC streaming thread)
+  * [`model.py`](../python/www/flask/model.py) (DNN inferencing)
+  * [`index.html`](../python/www/flask/templates/index.html) (frontend presentation)
 
 ## Running the Example
 
