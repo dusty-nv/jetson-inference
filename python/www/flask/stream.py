@@ -103,5 +103,5 @@ class Stream(threading.Thread):
         """
         Return help text for when the app is started with -h or --help
         """
-        return videoSource.Usage() + videoOutput.Usage()
+        return videoSource.Usage() + videoOutput.Usage() + Model.Usage()
         

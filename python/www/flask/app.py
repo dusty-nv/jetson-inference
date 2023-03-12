@@ -29,7 +29,7 @@ from stream import Stream
 from utils import rest_property
     
     
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, epilog=Stream.usage())
 
 parser.add_argument("--host", default='0.0.0.0', type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
 parser.add_argument("--port", default=8050, type=int, help="port used for webserver (default is 8050)")

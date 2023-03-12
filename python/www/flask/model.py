@@ -140,3 +140,10 @@ class Model:
         Enable/disable processing of the model.
         """
         self.enabled = enabled
+        
+    @staticmethod
+    def Usage():
+        """
+        Return help text for when the app is started with -h or --help
+        """
+        return imageNet.Usage() + detectNet.Usage() + segNet.Usage() + actionNet.Usage() + poseNet.Usage() + backgroundNet.Usage() 
