@@ -21,6 +21,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
+import os
 import flask
 import argparse
 
@@ -32,8 +33,8 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("--host", default='0.0.0.0', type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
 parser.add_argument("--port", default=8050, type=int, help="port used for webserver (default is 8050)")
-parser.add_argument("--ssl-key", default=None, type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
-parser.add_argument("--ssl-cert", default=None, type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
+parser.add_argument("--ssl-key", default=os.getenv('SSL_KEY'), type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
+parser.add_argument("--ssl-cert", default=os.getenv('SSL_CERT'), type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
 parser.add_argument("--title", default='Hello AI World', type=str, help="the title of the webpage as shown in the browser")
 parser.add_argument("--input", default='webrtc://@:8554/input', type=str, help="input camera stream or video file")
 parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help="WebRTC output stream to serve from --input")

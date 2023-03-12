@@ -70,11 +70,9 @@ class Stream(threading.Thread):
         """
         Capture one image from the stream, process it, and output it.
         """
-        try:
-            img = self.input.Capture()
-        except:
-            if self.frames > 0:
-                traceback.print_exc()
+        img = self.input.Capture()
+        
+        if img is None:  # timeout
             return
             
         for model in self.models.values():
