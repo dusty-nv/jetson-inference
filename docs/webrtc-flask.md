@@ -5,7 +5,7 @@
 
 # Flask + REST
 
-[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a popular Python web micro-framework that routes HTTP/HTTPS requests to user Python functions and uses the [Jinja](https://jinja.palletsprojects.com/en/3.1.x/templates/) templating engine to generate HTML content parameterized by Python variables.  At the same time you can also easily handle backend REST requests (typically JSON), which can be used by the client to dynamically control properties and trigger content from the frontend based on user inputs.  This interactive example (found under [`python/www/flask`](../python/www/flask)) has multiple DNNs that you can toggle simulateously from the webapp and control their various settings with the UI in realtime:
+[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a popular Python web micro-framework that routes HTTP/HTTPS requests to user Python functions and uses the [Jinja](https://jinja.palletsprojects.com/en/3.1.x/templates/) templating engine to generate HTML content parameterized by Python variables.  At the same time you can also easily handle backend REST requests (typically JSON), which can be used by the client to dynamically control properties and trigger content from the frontend based on user inputs.  This interactive example (found under [`python/www/flask`](../python/www/flask)) has multiple DNNs that you can toggle simultaneously from the webapp and control their various settings with the UI in realtime:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-flask.jpg" width="600">
 
@@ -45,11 +45,11 @@ $ python3 app.py \
 
 > **note**: depending on the Jetson you're using and background processes, you may not have enough memory available to load all of these models at once or the compute capacity to run them all in realtime.  See [Mounting Swap](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui) to conserve memory.
 
-To list which built-in models are available, you can run `app.py --help` or view [`data/networks/models.json`](../data/networks/models.json)  
+To list which built-in models are available, you can run `app.py --help` or view [`data/networks/models.json`](../data/networks/models.json).  Each model has an expandable drop-down for turning it on/off, along with interactive controls for changing its settings.  The client/server communication for implementing these are done using JSON REST queries, which are discussed below.
 
 ## REST Queries
 
-This app takes the core HTML/JavaScript code for doing WebRTC from the [previous example](webrtc-html.md) and builds on it with REST JSON queries.  You can see the backend stubs for these in [app.py](../python/www/flask/app.py), which JavaScript queries from the client in [index.html](../python/www/flask/templates/index.html).  Templates and macros are used to reduce the amount of boilerplate code for these and makes it quick to add new settings:
+This app takes the core HTML/JavaScript code for streaming WebRTC from the [previous example](webrtc-html.md) and builds on it with JSON REST queries for dynamically updating .  You can see the backend stubs for these in [app.py](../python/www/flask/app.py), which JavaScript queries from the client in [index.html](../python/www/flask/templates/index.html).  Templates and macros are used to reduce the amount of boilerplate code for these and makes it quick to add new settings:
 
 ``` python
 # backend - app.py (Python)
