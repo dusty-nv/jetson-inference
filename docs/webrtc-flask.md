@@ -43,7 +43,7 @@ $ python3 app.py \
     --background=u2net
 ```
 
-> **note**: depending on the Jetson you are using and the other processes running, you may not have enough memory available to load all of these models at once or the compute capacity to run them all in realtime.  See [Mounting Swap](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui) to conserve memory.
+> **note**: depending on the Jetson you're using and background processes, you may not have enough memory available to load all of these models at once or the compute capacity to run them all in realtime.  See [Mounting Swap](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui) to conserve memory.
 
 To list which built-in models are available, you can run `app.py --help` or view [`data/networks/models.json`](../data/networks/models.json)  
 
