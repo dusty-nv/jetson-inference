@@ -22,7 +22,7 @@ Launching app.py will start a Flask webserver, along with a streaming thread tha
 
 ``` bash
 $ cd jetson-inference/python/www/flask
-$ python3 app.py --classification=resnet-18 --detection=ssd-mobilenet-v2
+$ python3 app.py --detection=ssd-mobilenet-v2 --pose=resnet18-hand --action=resnet18-kinetics
 ```
 
 > **note**: using browser webcams requires [HTTPS/SSL](webrtc.md#enabling-https--ssl) to be enabled
@@ -44,6 +44,8 @@ $ python3 app.py \
 ```
 
 > **note**: depending on the Jetson you are using and the other processes running, you may not have enough memory available to load all of these models at once or the compute capacity to run them all in realtime.
+
+To see which built-in models are available, you can run `app.py --help` or view [`data/networks/manifest.json`](../data/networks/manifest.json).  
 
 ## REST Queries
 
