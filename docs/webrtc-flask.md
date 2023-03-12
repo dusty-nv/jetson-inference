@@ -5,7 +5,7 @@
 
 # Flask + REST
 
-[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a popular Python web micro-framework that routes HTTP/HTTPS requests to user Python functions and uses the [Jinja](https://jinja.palletsprojects.com/en/3.1.x/templates/) templating engine to generate HTML content parameterized by Python variables.  At the same time you can also easily handle backend REST requests (typically JSON), which can be used by the client to dynamically control properties and trigger content from the frontend based on user inputs.  This interactive example (found under [`python/www/flask`](../python/www/flask)) has multiple DNNs that you can toggle simulateously from the webapp and control their various settings with the UI in realtime.
+[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a popular Python web micro-framework that routes HTTP/HTTPS requests to user Python functions and uses the [Jinja](https://jinja.palletsprojects.com/en/3.1.x/templates/) templating engine to generate HTML content parameterized by Python variables.  At the same time you can also easily handle backend REST requests (typically JSON), which can be used by the client to dynamically control properties and trigger content from the frontend based on user inputs.  This interactive example (found under [`python/www/flask`](../python/www/flask)) has multiple DNNs that you can toggle simulateously from the webapp and control their various settings with the UI in realtime:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-flask.jpg" width="600">
 
@@ -25,7 +25,7 @@ $ cd jetson-inference/python/www/flask
 $ python3 app.py --detection=ssd-mobilenet-v2 --pose=resnet18-hand --action=resnet18-kinetics
 ```
 
-> **note**: using browser webcams requires [HTTPS/SSL](webrtc.md#enabling-https--ssl) to be enabled
+> **note**: using browser webcams requires [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) to be enabled
 
 You should then be able to navigate your browser to `https://<JETSON-IP>:8050` and start the stream.  8050 is the default port used, but you can change that with the `--port=N` command-line argument.  It's also configured by default for WebRTC input and output, but if you want to use a different [video input device](aux-streaming.md#input-streams), you can set that with the `--input` argument (for example, `--input=/dev/video0` for a V4L2 camera that's directly attached to your Jetson).
 
@@ -43,7 +43,7 @@ $ python3 app.py \
     --background=u2net
 ```
 
-> **note**: depending on the Jetson you are using and the other processes running, you may not have enough memory available to load all of these models at once or the compute capacity to run them all in realtime.
+> **note**: depending on the Jetson you are using and the other processes running, you may not have enough memory available to load all of these models at once or the compute capacity to run them all in realtime.  See [Mounting Swap](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui) to conserve memory.
 
 To list which built-in models are available, you can run `app.py --help` or view [`data/networks/models.json`](../data/networks/models.json)  
 
