@@ -45,7 +45,7 @@ $ python3 app.py \
 
 > **note**: depending on the Jetson you are using and the other processes running, you may not have enough memory available to load all of these models at once or the compute capacity to run them all in realtime.
 
-To see which built-in models are available, you can run `app.py --help` or view [`data/networks/manifest.json`](../data/networks/manifest.json).  
+To list which built-in models are available, you can run `app.py --help` or view [`data/networks/models.json`](../data/networks/models.json)  
 
 ## REST Queries
 
