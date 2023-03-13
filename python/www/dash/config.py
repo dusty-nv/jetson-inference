@@ -26,7 +26,7 @@ DASH_CONFIG_FILE=os.getenv('DASH_CONFIG_FILE', DASH_CONFIG_FILE)
 # the config file will automatically be created and will then override these. 
 config={
     'dash' : {                          # frontend webserver options  (consider renaming 'dash' to 'app')
-        'title' : 'WebRTC Dashboard',   # title of the dash app (used in browser title bar and navbar)
+        'title' : 'Hello AI World',     # title of the dash app (used in browser title bar and navbar)
         'host' : '0.0.0.0',             # hostname/IP of the frontend webserver (ignored by gunicorn)
         'port' : 8050,                  # port used for the frontend webserver (ignored by gunicorn)
         'refresh' : 2500,               # the interval at which the server state is refreshed
@@ -39,7 +39,7 @@ config={
         'name' : 'server-backend',      # name of the backend server process (also used for logging)
         'host' : '0.0.0.0',             # hostname/IP of the backend server to bind/connect to
         'rest_port' : 49565,            # port used for JSON REST API
-        'webrtc_port' : 49567,          # port used for WebRTC server
+        'webrtc_port' : 8554,          # port used for WebRTC server
         'ssl_cert' : None,              # path to PEM-encoded SSL/TLS certificate file for enabling HTTPS
         'ssl_key' : None,               # path to PEM-encoded SSL/TLS key file for enabling HTTPS
         'stun_server' : None,           # override the default WebRTC STUN server (stun.l.google.com:19302)
