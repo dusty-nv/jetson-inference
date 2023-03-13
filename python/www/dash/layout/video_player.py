@@ -46,7 +46,7 @@ def create_video_player(stream):
         dcc.Store(id={'type': 'video_player_config', 'index': stream}, data=json.dumps(stream_config)),
     ]
     
-    return create_card(children, title=stream, id=stream, width=6, height=15, settings_button='card-settings-stream')
+    return create_card(children, title=stream, id=stream, width=6, height=15) #, settings_button='card-settings-stream')
 
     
 @card_callback(Input({'type': 'navbar_stream', 'index': ALL}, 'n_clicks'))

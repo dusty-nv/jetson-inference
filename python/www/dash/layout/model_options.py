@@ -42,7 +42,7 @@ def create_model_options(model={}):
     """
     Create the dialog body used for creating/configuring models.
     """
-    children = [dbc.ModalHeader(dbc.ModalTitle(model.get('name', 'Add Model')))]
+    children = [dbc.ModalHeader(dbc.ModalTitle(model.get('name', 'Load Model')))]
  
     tabs = dbc.Tabs([
             dbc.Tab(label='Pre-trained', tab_id='model_tab_pretrained'),
@@ -338,7 +338,7 @@ def switch_model_tab(at):
 @dash.callback(
     Output('model_options_dialog', 'is_open'),
     Output('model_options_dialog', 'children'),
-    Input('navbar_add_model', 'n_clicks'), 
+    Input('navbar_load_model', 'n_clicks'), 
     Input({'type': 'model_options_submit', 'index': ALL}, 'n_clicks'),
     Input({'type': 'navbar_model', 'index': ALL}, 'n_clicks'),
     State('model_options_dialog', 'is_open'),

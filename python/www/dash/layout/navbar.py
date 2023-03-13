@@ -68,7 +68,7 @@ def create_navbar_menus(resources={}):
     )]
      
     # models menu
-    model_menu = [dbc.DropdownMenuItem('Add Model', id='navbar_add_model', n_clicks=0)]
+    model_menu = [dbc.DropdownMenuItem('Load Model', id='navbar_load_model', n_clicks=0)]
     model_menu += [
         dbc.DropdownMenuItem(name, id={'type': 'navbar_model', 'index': name}, n_clicks=0) for name in resources.get('models', [])
     ]

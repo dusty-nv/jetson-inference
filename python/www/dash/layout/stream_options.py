@@ -36,7 +36,7 @@ def create_stream_options(stream={}):
         ], className='mb-3'),
         
         html.Div([
-            dbc.Label('Model', html_for='stream_options_model'),
+            dbc.Label('Models', html_for='stream_options_model'),
             #dbc.Select(options=list_models(), multi=True, id='stream_options_model'),
             dcc.Dropdown(options=list_models(), multi=True, id='stream_options_model'),
             dbc.FormText("The DNN model(s) to use for processing the stream"),
