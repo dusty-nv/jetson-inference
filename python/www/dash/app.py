@@ -21,6 +21,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
+import os
 import dash
 import http
 import pprint
@@ -100,8 +101,8 @@ if __name__ == '__main__':
     
     parser.add_argument("--host", default=None, type=str, help="interface for the webserver to use (default is all interfaces, 0.0.0.0)")
     parser.add_argument("--port", default=None, type=int, help="port used for webserver (default is 8050)")
-    parser.add_argument("--ssl-cert", default=None, type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
-    parser.add_argument("--ssl-key", default=None, type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
+    parser.add_argument("--ssl-key", default=os.getenv('SSL_KEY'), type=str, help="path to PEM-encoded SSL/TLS key file for enabling HTTPS")
+    parser.add_argument("--ssl-cert", default=os.getenv('SSL_CERT'), type=str, help="path to PEM-encoded SSL/TLS certificate file for enabling HTTPS")
     parser.add_argument("--resources", default=None, type=str, help="path to JSON config file to load initial server resources from")
     
     args = parser.parse_args()
@@ -112,11 +113,11 @@ if __name__ == '__main__':
     if args.port:
         config['dash']['port'] = args.port
 
-    if args.ssl_cert:
-        config['server']['ssl_cert'] = args.ssl_cert
-        
     if args.ssl_key:
         config['server']['ssl_key'] = args.ssl_key
+        
+    if args.ssl_cert:
+        config['server']['ssl_cert'] = args.ssl_cert
         
     if args.resources:
         config['server']['resources'] = args.resources
@@ -128,13 +129,14 @@ if __name__ == '__main__':
     
     if config['server']['ssl_cert'] and config['server']['ssl_key']:
         ssl_context = (config['server']['ssl_cert'], config['server']['ssl_key'])
+        print(ssl_context)
         
     # start the backend server
     Server(**config['server']).start()
 
     # disable code reloading because it starts the app multiple times (https://dash.plotly.com/devtools)
     # https://community.plotly.com/t/dash-multi-page-app-functions-are-called-twice-unintentionally/46450
-    app.run_server(host=config['dash']['host'], port=config['dash']['port'], ssl_context=ssl_context, debug=True, use_reloader=False)
+    app.run_server(host=config['dash']['host'], port=config['dash']['port'], ssl_context=ssl_context, debug=False, use_reloader=False)
 
 else:
     # gunicorn instance

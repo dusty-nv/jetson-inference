@@ -101,7 +101,7 @@ window.dash_clientside.webrtc =
 		var ws_protocol = 'ws://';
 
 		if( 'sslCert' in streamConfig['output'] )
-			ws_protocol = 'wss:///';
+			ws_protocol = 'wss://';
 		
 		// get the WebRTC websocket URL
 		var url = ws_protocol + window.location.hostname + ':' + streamConfig['output']['resource']['port'] + streamConfig['output']['resource']['path'];
