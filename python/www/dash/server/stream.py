@@ -40,6 +40,8 @@ class Stream:
         if server.ssl_cert and server.ssl_key:
             video_args = [f"--ssl-cert={server.ssl_cert}", f"--ssl-key={server.ssl_key}"]
             
+        video_args += ['--input-codec=mjpeg', '--output-encoder=cpu']
+        
         self.server = server
         self.name = name
         self.frame_count = 0
@@ -70,6 +72,9 @@ class Stream:
         try:
             img = self.source.Capture()
             
+            if img is None:  # timeout
+                return
+                
             for model in self.models:
                 model.process(img)
                 

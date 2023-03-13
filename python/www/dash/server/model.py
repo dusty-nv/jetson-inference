@@ -78,6 +78,10 @@ class Model:
             self.net = detectNet(model=model, labels=labels, input_blob=input_layers, 
                                  output_cvg=output_layers['scores'], 
                                  output_bbox=output_layers['bbox'])
+                                 
+            if 'tracking' in kwargs:
+                self.net.SetTrackingEnabled(kwargs['tracking'])
+                
         else:
             raise ValueError(f"invalid model type '{type}'")
        

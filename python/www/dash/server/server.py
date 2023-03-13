@@ -30,6 +30,7 @@ import ssl
 import json
 import http
 import flask
+import urllib3
 import requests
 
 import psutil
@@ -46,13 +47,11 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
+# suppress InsecureRequestWarning from using self-signed SSL certificates
+# Unverified HTTPS request is being made to host '0.0.0.0'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+urllib3.disable_warnings()
 
-# what to call this...
-#  class WebRTCServer
-#  class BackendServer
-#  class InferenceServer
-#  class MediaServer
-#  class DNNServer
+
 class Server:
     """
     Backend media streaming server for handling resources like cameras, DNN models, datasets, ect.
@@ -278,6 +277,8 @@ class Server:
                 args[1] = '/' + args[1]
             args[1] = f"{Server.instance.rest_url}{args[1]}"
 
+        kwargs['verify'] = False
+        
         return requests.request(*args, **kwargs)
         
     def add_resource(self, group, name, *args, **kwargs):
