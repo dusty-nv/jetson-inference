@@ -99,7 +99,7 @@ def create_navbar_menus(resources={}):
     )]
 
     # config menu
-    config_menu = [dbc.DropdownMenuItem('Help', id='navbar_help', href="https://github.com/dusty-nv/jetson-inference", target='_blank')]
+    config_menu = [dbc.DropdownMenuItem('Help', id='navbar_help', href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/webrtc-dash.md", target='_blank')]
     
     navbar += [
         dbc.DropdownMenu(
