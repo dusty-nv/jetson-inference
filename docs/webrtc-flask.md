@@ -70,7 +70,7 @@ These above implement the controls for the classification model, and there are o
 
 [`rest_property()`](../python/www/flask/utils.py) is backend utility function in Python that handles `GET` and `PUT` REST requests for getting/setting user-defined attributes.  [`checkbox()`](../python/www/flask/templates/macros.html) and [`slider()`](../python/www/flask/templates/macros.html) are Jinja macros that render the HTML components for the controls and JavaScript for executing the REST queries.  If you're wondering what the `{{ ... }}` code is in index.html, those are [Jinja](https://jinja.palletsprojects.com/en/3.1.x/templates/) template expressions that get evaluated server-side to generate the page content when Flask handles requests from the client.
 
-<p align="right">Next | <b><a href="webrtc-flask.md">Flask</a></b>
+<p align="right">Next | <b><a href="webrtc-dash.md">Plotly Dash</a></b>
 <br/>
-Back | <b><a href="webrtc-server.md">WebRTC Server</a></p>
+Back | <b><a href="webrtc-html.md">HTML / JavaScript</a></p>
 </b><p align="center"><sup>© 2016-2023 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
