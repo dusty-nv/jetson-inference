@@ -325,9 +325,10 @@ Below is the source code to `video-viewer.py` and `video-viewer.cpp`, slightly a
 
 ### Python
 ```python
-import jetson.utils
-import argparse
 import sys
+import argparse
+
+from jetson_utils import videoSource, videoOutput
 
 # parse command line
 parser = argparse.ArgumentParser()
@@ -347,8 +348,7 @@ while True:
 		continue
 		
 	output.Render(image)
-	output.SetStatus("Video Viewer | {:d}x{:d} | {:.1f} FPS".format(image.width, image.height, output.GetFrameRate()))
-	
+
 	# exit on input/output EOS
 	if not input.IsStreaming() or not output.IsStreaming():
 		break
@@ -356,16 +356,16 @@ while True:
 
 ### C++
 ```c++
-#include "videoSource.h"
-#include "videoOutput.h"
+#include <jetson-utils/videoSource.h>
+#include <jetson-utils/videoOutput.h>
 
 int main( int argc, char** argv )
 {
 	// create input/output streams
-	videoSource* inputStream = videoSource::Create(argc, argv, ARG_POSITION(0));
-	videoOutput* outputStream = videoOutput::Create(argc, argv, ARG_POSITION(1));
+	videoSource* input = videoSource::Create(argc, argv, ARG_POSITION(0));
+	videoOutput* output = videoOutput::Create(argc, argv, ARG_POSITION(1));
 	
-	if( !inputStream )
+	if( !input )
 		return 0;
 
 	// capture/display loop
@@ -374,7 +374,7 @@ int main( int argc, char** argv )
 		uchar3* image = NULL;  // can be uchar3, uchar4, float3, float4
 		int status = 0;        // see videoSource::Status (OK, TIMEOUT, EOS, ERROR)
 		
-		if( !inputStream->Capture(&image, 1000, &status) )  // 1000ms timeout
+		if( !input->Capture(&image, 1000, &status) )  // 1000ms timeout
 		{
 			if( status == videoSource::TIMEOUT )
 				continue;
@@ -382,18 +382,18 @@ int main( int argc, char** argv )
 			break; // EOS
 		}
 
-		if( outputStream != NULL )
+		if( output != NULL )
 		{
-			outputStream->Render(image, inputStream->GetWidth(), inputStream->GetHeight());
+			output->Render(image, inputStream->GetWidth(), inputStream->GetHeight());
 
-			if( !outputStream->IsStreaming() )  // check if the user quit
+			if( !output->IsStreaming() )  // check if the user quit
 				break;
 		}
 	}
 
 	// destroy resources
-	SAFE_DELETE(inputStream);
-	SAFE_DELETE(outputStream);
+	SAFE_DELETE(input);
+	SAFE_DELETE(output);
 }
 ```
 
