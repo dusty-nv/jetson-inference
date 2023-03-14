@@ -162,18 +162,25 @@ done
 
 echo "V4L2_DEVICES:  $V4L2_DEVICES"
 
-# run the container
-sudo xhost +si:localuser:root
+# check for display
+DISPLAY_ENV=" "
 
+if [ -n "$DISPLAY" ]; then
+	DISPLAY_ENV="-e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix"
+	sudo xhost +si:localuser:root
+fi
+
+echo "DISPLAY:       $DISPLAY_ENV"
+
+# run the container
 if [ $ARCH = "aarch64" ]; then
 
 	sudo docker run --runtime nvidia -it --rm \
 		--network host \
-		-e DISPLAY=$DISPLAY \
-		-v /tmp/.X11-unix/:/tmp/.X11-unix \
 		-v /tmp/argus_socket:/tmp/argus_socket \
 		-v /etc/enctune.conf:/etc/enctune.conf \
-		$V4L2_DEVICES $DATA_VOLUME $USER_VOLUME \
+		$DISPLAY_ENV $V4L2_DEVICES \
+		$DATA_VOLUME $USER_VOLUME \
 		$CONTAINER_IMAGE $USER_COMMAND
     
 elif [ $ARCH = "x86_64" ]; then
@@ -184,9 +191,8 @@ elif [ $ARCH = "x86_64" ]; then
 		--ulimit memlock=-1 \
 		--ulimit stack=67108864 \
 		-e NVIDIA_DRIVER_CAPABILITIES=all \
-		-e DISPLAY=$DISPLAY \
-		-v /tmp/.X11-unix/:/tmp/.X11-unix \
-		$V4L2_DEVICES $DATA_VOLUME $USER_VOLUME \
+		$DISPLAY_ENV $V4L2_DEVICES \
+		$DATA_VOLUME $USER_VOLUME \
 		$CONTAINER_IMAGE $USER_COMMAND
 		
 fi

@@ -35,11 +35,12 @@ ENV SHELL /bin/bash
 
 WORKDIR /jetson-inference
 
-        
+  
 #
 # install development packages
 #
-RUN apt-get update && \
+RUN add-apt-repository --remove "deb https://apt.kitware.com/ubuntu/ $(lsb_release --codename --short) main" && \
+    apt-get update && \
     apt-get purge -y '*opencv*' || echo "existing OpenCV installation not found" && \
     apt-get install -y --no-install-recommends \
             cmake \
@@ -49,21 +50,18 @@ RUN apt-get update && \
 		  gstreamer1.0-tools \
 		  gstreamer1.0-libav \
 		  gstreamer1.0-rtsp \
-		  gstreamer1.0-plugins-rtp \
 		  gstreamer1.0-plugins-good \
 		  gstreamer1.0-plugins-bad \
 		  gstreamer1.0-plugins-ugly \
 		  libgstreamer-plugins-base1.0-dev \
 		  libgstreamer-plugins-good1.0-dev \
-		  libgstreamer-plugins-bad1.0-dev \
+		  libgstreamer-plugins-bad1.0-dev && \
+    if [ `lsb_release --codename --short` != 'bionic' ]; then \
+    apt-get install -y --no-install-recommends \
+		  gstreamer1.0-plugins-rtp; \
+    else echo "skipping packages unavailable for Ubuntu 18.04"; fi \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
-    
-# install python packages
-RUN pip3 install --no-cache-dir --verbose --upgrade Cython && \
-    pip3 install --no-cache-dir --verbose -r python/training/detection/ssd/requirements.txt && \
-    pip3 install --no-cache-dir --verbose -r python/www/flask/requirements.txt && \
-    pip3 install --no-cache-dir --verbose -r python/www/dash/requirements.txt
 
 # make a copy of this cause it gets purged...
 RUN mkdir -p /usr/local/include/gstreamer-1.0/gst && \
@@ -95,6 +93,15 @@ COPY CMakeLists.txt CMakeLists.txt
 COPY CMakePreBuild.sh CMakePreBuild.sh
 
 
+# 
+# install python packages
+#
+RUN pip3 install --no-cache-dir --verbose --upgrade Cython && \
+    pip3 install --no-cache-dir --verbose -r python/training/detection/ssd/requirements.txt && \
+    pip3 install --no-cache-dir --verbose -r python/www/flask/requirements.txt && \
+    pip3 install --no-cache-dir --verbose -r python/www/dash/requirements.txt
+    
+    
 #
 # build source
 #

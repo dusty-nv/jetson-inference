@@ -25,6 +25,8 @@ if [ -z $BASE_IMAGE ]; then
 			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r34.1.1-pth1.12-py3"
 		elif [ $L4T_VERSION = "34.1.0" ]; then
 			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r34.1.0-pth1.12-py3"
+		elif [ $L4T_VERSION = "32.7.1" ]; then
+			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.7.1-pth1.10-py3"
 		elif [ $L4T_VERSION = "32.6.1" ]; then
 			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.6.1-pth1.9-py3"
 		elif [ $L4T_VERSION = "32.5.1" ]; then

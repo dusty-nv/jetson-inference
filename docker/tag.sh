@@ -27,6 +27,10 @@ if [ $ARCH = "aarch64" ]; then
 			# L4T R32.7.x all run the R32.7.0 container
 			CONTAINER_IMAGE="jetson-inference:r32.7.1"
 		fi
+	elif [ $L4T_RELEASE -eq 35 ]; then
+		if [ $L4T_REVISION_MAJOR -gt 2 ]; then
+			CONTAINER_IMAGE="jetson-inference:r35.2.1"
+		fi
 	fi
 	
 	CONTAINER_REMOTE_IMAGE="dustynv/$CONTAINER_IMAGE"
