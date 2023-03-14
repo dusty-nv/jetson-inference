@@ -87,7 +87,7 @@ playStream(getWebsocketURL('output'), document.getElementById('video-player'));
 Normally this JavaScript function would be called in `window.onload()` or from an event handler like a button's `onclick()` event (like shown in this example).  And although it's not called out above, there's also code included for enumerating a browser's webcams and sending those over WebRTC to the Jetson as a video input.  You can essentially copy & paste this code (along with `webrtc.js`) into any project to enable WebRTC.
 
 
-<p align="right">Next | <b><a href="webrtc-flask.md">Flask</a></b>
+<p align="right">Next | <b><a href="webrtc-flask.md">Flask + REST</a></b>
 <br/>
 Back | <b><a href="webrtc-server.md">WebRTC Server</a></p>
 </b><p align="center"><sup>© 2016-2023 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

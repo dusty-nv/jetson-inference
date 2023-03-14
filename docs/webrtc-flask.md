@@ -22,6 +22,7 @@ Launching app.py will start a Flask webserver, along with a streaming thread tha
 
 ``` bash
 $ cd jetson-inference/python/www/flask
+$ pip3 install -r requirements.txt
 $ python3 app.py --detection=ssd-mobilenet-v2 --pose=resnet18-hand --action=resnet18-kinetics
 ```
 
