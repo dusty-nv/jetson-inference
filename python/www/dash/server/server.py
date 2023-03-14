@@ -566,7 +566,7 @@ class Server:
         """
         /actions REST GET request handler
         """
-        return self.actions
+        return flask.jsonify(self.actions)
       
     def _get_action_types(self):
         """

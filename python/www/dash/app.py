@@ -136,7 +136,7 @@ if __name__ == '__main__':
 
     # disable code reloading because it starts the app multiple times (https://dash.plotly.com/devtools)
     # https://community.plotly.com/t/dash-multi-page-app-functions-are-called-twice-unintentionally/46450
-    app.run_server(host=config['dash']['host'], port=config['dash']['port'], ssl_context=ssl_context, debug=False, use_reloader=False)
+    app.run_server(host=config['dash']['host'], port=config['dash']['port'], ssl_context=ssl_context, debug=True, use_reloader=False)
 
 else:
     # gunicorn instance

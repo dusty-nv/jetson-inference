@@ -349,8 +349,8 @@ def show_model_dialog(n1, n2, n3, is_open):
     """
     model = {}
     
-    print(f'show_model_dialog({n1}, {n2}, {n3}, {is_open})')
-    print(dash.ctx.triggered_id)
+    #print(f'show_model_dialog({n1}, {n2}, {n3}, {is_open})')
+    #print(dash.ctx.triggered_id)
 
     if not dash.ctx.triggered[0]['value']:
         raise PreventUpdate

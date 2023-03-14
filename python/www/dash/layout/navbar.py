@@ -121,6 +121,6 @@ def refresh_nav(resources):
     """
     Refresh the navbar structure on server updates
     """
-    print("refreshing page navigation")
+    #print("refreshing page navigation")
     return create_navbar_menus(resources)
        

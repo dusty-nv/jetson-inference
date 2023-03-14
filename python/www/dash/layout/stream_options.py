@@ -80,8 +80,8 @@ def show_stream_dialog(n1, n2, n3, is_open):
     """
     stream = {}
     
-    print(f'show_stream_dialog({n1}, {n2}, {n3}, {is_open})')
-    print(dash.ctx.triggered)
+    #print(f'show_stream_dialog({n1}, {n2}, {n3}, {is_open})')
+    #print(dash.ctx.triggered)
 
     if not dash.ctx.triggered[0]['value']:
         raise PreventUpdate

@@ -46,11 +46,15 @@ class Action:
             'name': self.name,
             'type': self.type['name'],
             'enabled': self.enabled,
-            'properties': copy.deepcopy(self.type['properties'])
+            'properties': {} #copy.deepcopy(self.type['properties'])  # Python 3.6:  TypeError: can't pickle property objects
         }
         
-        for property in config['properties'].values():
-            property['value'] = property['object'].fget(self)
+        for key, property in self.type['properties'].items(): #config['properties'].values():
+            config['properties'][key] = {}
+            config['properties'][key]['type'] = property['type']
+            config['properties'][key]['value'] = property['object'].fget(self)
+            config['properties'][key]['mutable'] = property['mutable']
+            #property['value'] = property['object'].fget(self)
             
         return config
         

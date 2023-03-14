@@ -49,8 +49,8 @@ def create_actions_body():
     """
     action_types = Server.request('/actions/types').json()
     
-    print('ACTION_TYPES:')
-    print(action_types)
+    #print('ACTION_TYPES:')
+    #print(action_types)
 
     children = [
         html.Div([
@@ -75,8 +75,8 @@ def create_action_settings( expanded_actions=[] ):
     actions = Server.request('/actions').json()
     children = []
     
-    print('ACTIONS:')
-    print(actions)
+    #print('ACTIONS:')
+    #print(actions)
     
     for action in actions:
         is_expanded = action['id'] in expanded_actions
