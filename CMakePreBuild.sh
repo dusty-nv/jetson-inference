@@ -43,6 +43,7 @@ $SUDO apt-get install -y --no-install-recommends \
 		libsoup2.4-dev \
 		libjson-glib-dev \
 		python3-pip \
+		python3-packaging \
 		qtbase5-dev
 
 if [ $BUILD_CONTAINER = "NO" ]; then
@@ -58,9 +59,8 @@ if [ $ARCH != "x86_64" ]; then
 	$SUDO apt-get install -y libpython3-dev python3-numpy
 fi
 
-# install python packages for webapps
-pip3 install --no-cache-dir --verbose -r ../python/www/flask/requirements.txt
-pip3 install --no-cache-dir --verbose -r ../python/www/dash/requirements.txt
+# install cython for if numpy gets built by later packages
+pip3 install --no-cache-dir --verbose --upgrade Cython
 
 # download/install models and PyTorch
 if [ $BUILD_CONTAINER = "NO" ]; then

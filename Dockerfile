@@ -59,9 +59,11 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
     
-# pip dependencies for pytorch-ssd
-RUN pip3 install --verbose --upgrade Cython && \
-    pip3 install --verbose boto3 pandas tensorboard
+# install python packages
+RUN pip3 install --no-cache-dir --verbose --upgrade Cython && \
+    pip3 install --no-cache-dir --verbose -r python/training/detection/ssd/requirements.txt && \
+    pip3 install --no-cache-dir --verbose -r python/www/flask/requirements.txt && \
+    pip3 install --no-cache-dir --verbose -r python/www/dash/requirements.txt
 
 # make a copy of this cause it gets purged...
 RUN mkdir -p /usr/local/include/gstreamer-1.0/gst && \
