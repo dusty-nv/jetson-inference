@@ -145,10 +145,10 @@ while :; do
     shift
 done
 
-echo "CONTAINER:     $CONTAINER_IMAGE"
-echo "DATA_VOLUME:   $DATA_VOLUME"
-echo "USER_VOLUME:   $USER_VOLUME"
-echo "USER_COMMAND:  $USER_COMMAND"
+echo "CONTAINER:      $CONTAINER_IMAGE"
+echo "DATA_VOLUME:    $DATA_VOLUME"
+echo "USER_VOLUME:    $USER_VOLUME"
+echo "USER_COMMAND:   $USER_COMMAND"
 
 # check for V4L2 devices
 V4L2_DEVICES=" "
@@ -163,23 +163,28 @@ done
 echo "V4L2_DEVICES:  $V4L2_DEVICES"
 
 # check for display
-DISPLAY_ENV=" "
+DISPLAY_DEVICE=" "
 
 if [ -n "$DISPLAY" ]; then
-	DISPLAY_ENV="-e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix"
 	sudo xhost +si:localuser:root
+	DISPLAY_DEVICE="-e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix"
 fi
 
-echo "DISPLAY:       $DISPLAY_ENV"
+echo "DISPLAY_DEVICE: $DISPLAY_ENV"
 
 # run the container
 if [ $ARCH = "aarch64" ]; then
 
+	# /proc or /sys files aren't mountable into docker
+	cat /proc/device-tree/model > /tmp/nv_jetson_model
+	
 	sudo docker run --runtime nvidia -it --rm \
 		--network host \
 		-v /tmp/argus_socket:/tmp/argus_socket \
 		-v /etc/enctune.conf:/etc/enctune.conf \
-		$DISPLAY_ENV $V4L2_DEVICES \
+		-v /etc/nv_tegra_release:/etc/nv_tegra_release \
+		-v /tmp/nv_jetson_model:/tmp/nv_jetson_model \
+		$DISPLAY_DEVICE $V4L2_DEVICES \
 		$DATA_VOLUME $USER_VOLUME \
 		$CONTAINER_IMAGE $USER_COMMAND
     
@@ -191,7 +196,7 @@ elif [ $ARCH = "x86_64" ]; then
 		--ulimit memlock=-1 \
 		--ulimit stack=67108864 \
 		-e NVIDIA_DRIVER_CAPABILITIES=all \
-		$DISPLAY_ENV $V4L2_DEVICES \
+		$DISPLAY_DEVICE $V4L2_DEVICES \
 		$DATA_VOLUME $USER_VOLUME \
 		$CONTAINER_IMAGE $USER_COMMAND
 		
