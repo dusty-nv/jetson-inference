@@ -90,7 +90,7 @@ class MyAction(Action):
 ```
 
 
-Action plugins should implement the `on_event()` callback which receives all new and updated events from the system.  The plugins then filter the events by domain-specific critera before triggering a response of some kind.  See the [`Event`](../python/www/dash/server/event.py) class for the event attributes that can be accessed.  This code all runs in the backend streaming process, and has access to the low-level data streams without impacting performance.
+Action plugins should implement the `on_event()` callback, which receives all new and updated events from the system.  The plugins then filter the events by domain-specific critera before triggering a response of some kind.  See the [`Event`](../python/www/dash/server/event.py) class for the event attributes that can be accessed.  This code all runs in the backend streaming process, and has access to the low-level data streams without impacting performance.
 
 ### Filters
 
