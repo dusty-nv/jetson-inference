@@ -27,7 +27,7 @@ $ pip3 install -r requirements.txt
 $ python3 app.py --detection=ssd-mobilenet-v2 --pose=resnet18-hand --action=resnet18-kinetics
 ```
 
-> **note**: it's recommended to enable [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) before running this.
+> **note**: it's recommended to enable [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) when running the server
 
 You should then be able to navigate your browser to `https://<JETSON-IP>:8050` and start configuring the system.  8050 is the default port used, but you can change that with the `--port=N` command-line argument.  There are also various settings that you can change through `data/config.json` (which gets written with the defaults from [`config.py`](../python/www/dash/config.py) the first time you run the app).
 
@@ -37,7 +37,7 @@ The first thing to do is to load some DNN models by going to the `Models -> Load
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-model-load.jpg" width="400">
 
-After selecting the model in the dialog, you should see a status message appear at the bottom of the main page when it's been loaded.  Typically this takes a 5-10 seconds, but if it's the first time you've loaded that particular model it could take TensorRT a few minutes to generate the network engine (to avoid this delay, it's recommended to load the model once with one of the imagenet/detectnet programs prior to running the webapp)
+After selecting the model in the dialog, you should see a status message appear at the bottom of the main page when it's been loaded.  Typically this takes a 5-10 seconds, but if it's the first time you've loaded that particular model it could take TensorRT a few minutes to generate the network engine (to avoid this delay, it's recommended to load the model once with one of the imagenet.py/detectnet.py programs prior to running the webapp)
 
 #### Importing Models 
 
@@ -45,7 +45,7 @@ To load a customized classification or detection ONNX model that you trained wit
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-model-import.jpg" width="400">
 
-It's expected that your model already exists somewhere on the server, and you can fill out the input/output layer names with the same ones like used [here](pytorch-cat-dog.md#processing-images-with-tensorrt) for classification and [here](pytorch-ssd.md#processing-images-with-tensorrt) for detection.
+It's expected that your model already exists somewhere on the server, and you can fill out the input/output layer names with the same ones you would use with imagenet.py/detectnet.py (like used [here](pytorch-cat-dog.md#processing-images-with-tensorrt) for classification and [here](pytorch-ssd.md#processing-images-with-tensorrt) for detection)
 
 ### Creating Streams
 
@@ -65,7 +65,7 @@ You can filter and sort by column in the table, and visualize the results in the
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-event-timeline.jpg" width="750">
 
-The y-axis of this plot shows confidence score, the x-axis shows time, and each object class gets a different trace in the chart.  Creating a range of different types of dynamic [graphs](https://plotly.com/python/) and [tables](https://dash.plotly.com/datatable) is a strong feature of Plotly Dash.
+The y-axis of this plot shows confidence score, the x-axis shows time, and each object class gets a different trace in the chart.  Quickly creating different types of dynamic [graphs](https://plotly.com/python/) and [tables](https://dash.plotly.com/datatable) is a strong feature of Plotly Dash, and you can extend these when creating your own apps.
 
 ## Actions
 
@@ -73,7 +73,7 @@ Actions are plugins that filter events and trigger user-defined code (such as al
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-actions.jpg" width="400">
 
-You can create and add your own action types under the project's [`actions/`](../python/www/dash/actions) directory, and they will automatically be loaded by the app at start-up and selectable from the UI.  Multiple instances of a type of action can be created by the user, each with independent settings they can control. 
+You can add your own action types under the project's [`actions/`](../python/www/dash/actions) directory, and they'll automatically be loaded by the app at start-up and selectable from the UI.  Multiple instances of a type of action can be created by the user, each with independent settings they can control. 
 
 For example, here's the skeleton of an action that simply logs messages to the server's terminal:
 
@@ -85,8 +85,8 @@ class MyAction(Action):
         super().__init__()
 	   
     def on_event(self, event):
-        if event.label == 'person' and event.maxScore > 0.5:
-            print('Detected a person!')          
+        if event.label == 'person' and event.score > 0.5:
+            print("Detected a person!")  # do something        
 ```
 
 
