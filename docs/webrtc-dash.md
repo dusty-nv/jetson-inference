@@ -19,7 +19,7 @@ As before, it uses WebRTC for streaming live video and TensorRT for inferencing.
 
 ## Running the Example
 
-Launching app.py will start the dashboard, along with a backend process that runs the WebRTC capture/transport, inferencing, and event/action triggers.  Whereas previous examples ran the streaming in a thread inside same process as the webserver, running the streaming backend in it's own independent process allows for multiple webserver workers to load-balance in deployment (i.e. with [Gunicorn](https://gunicorn.org/) or other production WSGI webservers).  These processes share metadata over JSON REST queries (with the video data residing within the streaming process).
+Launching app.py will start the dashboard, along with a backend process that runs the WebRTC capture/transport, inferencing, and event/action triggers.  Whereas previous examples ran the streaming in a thread inside same process as the webserver, running the streaming backend in it's own independent process allows for multiple webserver workers to load-balance in deployment (i.e. with [Gunicorn](https://gunicorn.org/) or other production WSGI webservers).  These processes share metadata over JSON REST messages (with the video data residing within the streaming process).
 
 ``` bash
 $ cd jetson-inference/python/www/dash
@@ -75,7 +75,7 @@ Actions are plugins that filter events and trigger user-defined code (such as al
 
 You can add your own action types under the project's [`actions/`](../python/www/dash/actions) directory, and they'll automatically be loaded by the app at start-up and selectable from the UI.  Multiple instances of a type of action can be created by the user, each with independent settings they can control. 
 
-For example, here's the skeleton of an action that simply logs messages to the server's terminal:
+For example, here's the template for an action that simply logs messages to the server's terminal:
 
 ``` python
 from server import Action
@@ -116,7 +116,7 @@ It's possible that in some more advanced scenarios, you may want to re-trigger t
 
 ### Properties
 
-Plugins that have `@property` decorators will have those properties automatically exposed to the UI so that they can be modified by the user at runtime.  For example:
+Plugins that have `@property` decorators will have those properties automatically exposed to the UI so that they can be dynamically modified by the user at runtime.  The client/server communication happens transparently using JSON REST queries underneath.  For example:
 
 ``` python
 @property
