@@ -59,11 +59,11 @@ The syntax for connecting to various types of cameras and video devices can be f
 
 When the output of a DNN changes (i.e. the classification result changes, or a new object is detected) it logs an event in the system.  These events can be monitored in realtime by opening the Events Table from under the `Events` menu:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-event-table.jpg" width="750">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-event-table.jpg" width="750">
 
 You can filter and sort by column in the table, and visualize the results in the Event Timeline:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-event-timeline.jpg" width="750">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-event-timeline.jpg" width="750">
 
 The y-axis of this plot shows confidence score, the x-axis shows time, and each object class gets a different trace in the chart.  Creating a range of different types of dynamic [graphs](https://plotly.com/python/) and [tables](https://dash.plotly.com/datatable) is a strong feature of Plotly Dash.
 
@@ -73,9 +73,28 @@ Actions are plugins that filter events and trigger user-defined code (such as al
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-actions.jpg" width="400">
 
-You can create and add your own actions under the project's [`actions/`](../python/www/dash/actions) directory, and they will automatically be loaded by the app at start-up and selectable from the UI.  
+You can create and add your own action types under the project's [`actions/`](../python/www/dash/actions) directory, and they will automatically be loaded by the app at start-up and selectable from the UI.  Multiple instances of a type of action can be created by the user, each with independent settings they can control. 
 
-For example, here's the code for the simple [BrowserAlert plugin](../python/www/dash/actions/alert.py) that shows messages in the client window:
+For example, here's the skeleton of an action that simply logs messages to the server's terminal:
+
+``` python
+from server import Action
+
+class MyAction(Action):
+    def __init__(self):
+        super().__init__()
+	   
+    def on_event(self, event):
+        if event.label == 'person' and event.maxScore > 0.5:
+            print('Detected a person!')          
+```
+
+
+Action plugins should implement the `on_event()` callback which receives all new and updated events from the system.  The plugins then filter the events by domain-specific critera before triggering a response of some kind.  See the [`Event`](../python/www/dash/server/event.py) class for the event attributes that can be accessed.  This code all runs in the backend streaming process, and has access to the low-level data streams without impacting performance.
+
+### Filters
+
+Actions can implement custom event filtering logic, and/or inherit from the [`EventFilter`](../python/www/dash/server/filter.py) mix-in that implements some default filtering (like class labels, minimum confidence score, minimum number of frames, ect) which can be called with the `filter()` function.  The [`BrowserAlert`](../python/www/dash/actions/alert.py) plugin uses that below.  It then checks/sets an attribute (`alert_triggered`) which prevents the same event from triggering multiple alerts:  
 
 ``` python
 from server import Server, Action, EventFilter
@@ -93,11 +112,7 @@ class BrowserAlert(Action, EventFilter):
             event.alert_triggered = True
 ```
 
-Action plugins should implement the `on_event()` callback which receives all new and updated events from the system.  The plugins then filter the events by domain-specific critera before triggering a response of some kind.  See the [`Event`](../python/www/dash/server/event.py) class for the event attributes that can be accessed.  This code all runs in the backend streaming process.
-
-### Filters
-
-Actions can implement custom event filtering logic, and/or inherit from the [`EventFilter`](../python/www/dash/server/filter.py) mix-in that implements some default filtering (like class labels, minimum confidence score, minimum number of frames, ect) which can be called with the `filter()` function.  The BrowserAlert plugin uses this above.  It then checks/sets an attribute (`alert_triggered`) which prevents the same event from triggering multiple alerts.  It's possible that in some more advanced scenarios, you may want to re-trigger the action when other aspects of the event changes (like a significant deviation in confidence score, or exceeding an amount of time being detected, for example)
+It's possible that in some more advanced scenarios, you may want to re-trigger the action when other aspects of the event changes (like a significant deviation in confidence score, or exceeding an amount of time being detected, for example)
 
 ### Properties
 
