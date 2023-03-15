@@ -116,7 +116,7 @@ It's possible that in some more advanced scenarios, you may want to re-trigger t
 
 ### Properties
 
-Plugins that have `@property` decorators will have those properties automatically exposed to the UI so that they can be dynamically modified by the user at runtime.  The client/server communication happens transparently using JSON REST queries.  For example, from [`EventFilter`](../python/www/dash/server/filter.py):
+Plugins that have `@property` decorators will have those properties automatically exposed to the UI so that they can be dynamically modified by the user at runtime.  The client/server communication happens transparently using JSON REST queries.  For example, from [`EventFilter`](../python/www/dash/server/filter.py) -
 
 ``` python
 @property
