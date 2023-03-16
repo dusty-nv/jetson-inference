@@ -116,7 +116,7 @@ It's possible that in some more advanced scenarios, you may want to re-trigger t
 
 ### Properties
 
-Plugins that have `@property` decorators will have those properties automatically exposed to the UI so that they can be dynamically modified by the user at runtime.  The client/server communication happens transparently using JSON REST queries.  For example, from [`EventFilter`](../python/www/dash/server/filter.py) -
+Plugins that have `@property` decorators will have those properties automatically exposed to the UI so that they can be dynamically modified by the user at runtime.  The client/server communication happens transparently using JSON REST queries.  For example, from [`EventFilter`](../python/www/dash/server/filter.py)
 
 ``` python
 @property
@@ -144,7 +144,7 @@ def min_score(self, min_score):
    self._min_score = float(min_score)
 ```
 
-Note the Python type hints that are used on the getter functions - these inform the frontend of what kind of UI control to use (e.g. textbox, slider, checkbox, ect).  Supported types are `str`, `int`, `float`, and `bool`.  If the type hint is omitted, it will be assumed to be a string with textbox input, and the plugin will be responsible for parsing/converting it to the desired type.
+Note the Python type hints that are specified on the getter functions - these inform the frontend of what kind of UI control to use (e.g. textbox, slider, checkbox, ect).  Supported types are `str`, `int`, `float`, and `bool`.  If the type hint is omitted, it will be assumed to be a string with a textbox input, and the user's plugin will be responsible for parsing/converting it to the desired type.
 
 <p align="right">Next | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
 <br/>
