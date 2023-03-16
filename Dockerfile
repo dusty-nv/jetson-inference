@@ -71,6 +71,19 @@ RUN mkdir -p /usr/local/include/gstreamer-1.0/gst && \
 
 
 # 
+# install python packages
+#
+COPY python/training/detection/ssd/requirements.txt /tmp/pytorch_ssd_requirements.txt
+COPY python/www/flask/requirements.txt /tmp/flask_requirements.txt
+COPY python/www/dash/requirements.txt /tmp/dash_requirements.txt
+
+RUN pip3 install --no-cache-dir --verbose --upgrade Cython && \
+    pip3 install --no-cache-dir --verbose -r /tmp/pytorch_ssd_requirements.txt && \
+    pip3 install --no-cache-dir --verbose -r /tmp/flask_requirements.txt && \
+    pip3 install --no-cache-dir --verbose -r /tmp/dash_requirements.txt
+    
+    
+# 
 # install OpenCV (with CUDA)
 #
 ARG OPENCV_URL=https://nvidia.box.com/shared/static/5v89u6g5rb62fpz4lh0rz531ajo2t5ef.gz
@@ -93,15 +106,6 @@ COPY CMakeLists.txt CMakeLists.txt
 COPY CMakePreBuild.sh CMakePreBuild.sh
 
 
-# 
-# install python packages
-#
-RUN pip3 install --no-cache-dir --verbose --upgrade Cython && \
-    pip3 install --no-cache-dir --verbose -r python/training/detection/ssd/requirements.txt && \
-    pip3 install --no-cache-dir --verbose -r python/www/flask/requirements.txt && \
-    pip3 install --no-cache-dir --verbose -r python/www/dash/requirements.txt
-    
-    
 #
 # build source
 #
