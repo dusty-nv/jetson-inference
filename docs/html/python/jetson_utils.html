@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: package jetson_utils</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>jetson_utils</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/lib/python3.8/dist-packages/jetson_utils/__init__.py">/usr/lib/python3.8/dist-packages/jetson_utils/__init__.py</a></font></td></tr></table>
+    <p><tt>#print("jetson.utils.__init__.py")</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Package Contents</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial">jetson.utils.Log
+</font></dt><dt><font face="helvetica, arial">jetson.utils.cudaFont
+</font></dt><dt><font face="helvetica, arial">jetson.utils.cudaMemory
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial">jetson.utils.cudaImage
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial">jetson.utils.glDisplay
+</font></dt><dt><font face="helvetica, arial">jetson.utils.gstCamera
+</font></dt><dt><font face="helvetica, arial">jetson.utils.videoOutput
+</font></dt><dt><font face="helvetica, arial">jetson.utils.videoSource
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Log">class <strong>Log</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Logging&nbsp;interface<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Class methods defined here:<br>
+<dl><dt><a name="Log-Debug"><strong>Debug</strong></a>(...)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt><a href="#Log">Log</a>&nbsp;a&nbsp;debug&nbsp;message</tt></dd></dl>
+
+<dl><dt><a name="Log-Error"><strong>Error</strong></a>(...)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt><a href="#Log">Log</a>&nbsp;an&nbsp;error&nbsp;message</tt></dd></dl>
+
+<dl><dt><a name="Log-GetFilename"><strong>GetFilename</strong></a>(...)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Get&nbsp;the&nbsp;current&nbsp;logging&nbsp;level&nbsp;(as&nbsp;a&nbsp;string)</tt></dd></dl>
+
+<dl><dt><a name="Log-GetLevel"><strong>GetLevel</strong></a>(...)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Get&nbsp;the&nbsp;current&nbsp;logging&nbsp;level&nbsp;(as&nbsp;a&nbsp;string)</tt></dd></dl>
+
+<dl><dt><a name="Log-Info"><strong>Info</strong></a>(...)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt><a href="#Log">Log</a>&nbsp;an&nbsp;info&nbsp;message</tt></dd></dl>
+
+<dl><dt><a name="Log-SetFilename"><strong>SetFilename</strong></a>(...)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Set&nbsp;the&nbsp;current&nbsp;logging&nbsp;level&nbsp;(as&nbsp;a&nbsp;string)</tt></dd></dl>
+
+<dl><dt><a name="Log-SetLevel"><strong>SetLevel</strong></a>(...)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Set&nbsp;the&nbsp;current&nbsp;logging&nbsp;level&nbsp;(as&nbsp;a&nbsp;string)</tt></dd></dl>
+
+<dl><dt><a name="Log-Success"><strong>Success</strong></a>(...)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt><a href="#Log">Log</a>&nbsp;a&nbsp;success&nbsp;message</tt></dd></dl>
+
+<dl><dt><a name="Log-Usage"><strong>Usage</strong></a>(...)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Get&nbsp;the&nbsp;command-line&nbsp;usage&nbsp;string</tt></dd></dl>
+
+<dl><dt><a name="Log-Verbose"><strong>Verbose</strong></a>(...)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt><a href="#Log">Log</a>&nbsp;a&nbsp;verbose&nbsp;message</tt></dd></dl>
+
+<dl><dt><a name="Log-Warning"><strong>Warning</strong></a>(...)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt><a href="#Log">Log</a>&nbsp;a&nbsp;warning&nbsp;message</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="cudaFont">class <strong>cudaFont</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Bitmap&nbsp;font&nbsp;overlay&nbsp;rendering&nbsp;with&nbsp;CUDA<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="cudaFont-GetSize"><strong>GetSize</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;size&nbsp;of&nbsp;the&nbsp;font&nbsp;(height&nbsp;in&nbsp;pixels)</tt></dd></dl>
+
+<dl><dt><a name="cudaFont-OverlayText"><strong>OverlayText</strong></a>(...)</dt><dd><tt>Render&nbsp;the&nbsp;font&nbsp;overlay&nbsp;for&nbsp;a&nbsp;given&nbsp;text&nbsp;string</tt></dd></dl>
+
+<dl><dt><a name="cudaFont-__init__"><strong>__init__</strong></a>(self, /, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="cudaFont-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;<a href="builtins.html#object">object</a>.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>Black</strong></dt>
+<dd><tt>Black&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Blue</strong></dt>
+<dd><tt>Blue&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Brown</strong></dt>
+<dd><tt>Brown&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Cyan</strong></dt>
+<dd><tt>Cyan&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Gray</strong></dt>
+<dd><tt>Gray&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Gray10</strong></dt>
+<dd><tt>Gray&nbsp;color&nbsp;tuple&nbsp;(10%&nbsp;alpha)</tt></dd>
+</dl>
+<dl><dt><strong>Gray20</strong></dt>
+<dd><tt>Gray&nbsp;color&nbsp;tuple&nbsp;(20%&nbsp;alpha)</tt></dd>
+</dl>
+<dl><dt><strong>Gray30</strong></dt>
+<dd><tt>Gray&nbsp;color&nbsp;tuple&nbsp;(30%&nbsp;alpha)</tt></dd>
+</dl>
+<dl><dt><strong>Gray40</strong></dt>
+<dd><tt>Gray&nbsp;color&nbsp;tuple&nbsp;(40%&nbsp;alpha)</tt></dd>
+</dl>
+<dl><dt><strong>Gray50</strong></dt>
+<dd><tt>Gray&nbsp;color&nbsp;tuple&nbsp;(50%&nbsp;alpha)</tt></dd>
+</dl>
+<dl><dt><strong>Gray60</strong></dt>
+<dd><tt>Gray&nbsp;color&nbsp;tuple&nbsp;(60%&nbsp;alpha)</tt></dd>
+</dl>
+<dl><dt><strong>Gray70</strong></dt>
+<dd><tt>Gray&nbsp;color&nbsp;tuple&nbsp;(70%&nbsp;alpha)</tt></dd>
+</dl>
+<dl><dt><strong>Gray80</strong></dt>
+<dd><tt>Gray&nbsp;color&nbsp;tuple&nbsp;(80%&nbsp;alpha)</tt></dd>
+</dl>
+<dl><dt><strong>Gray90</strong></dt>
+<dd><tt>Gray&nbsp;color&nbsp;tuple&nbsp;(90%&nbsp;alpha)</tt></dd>
+</dl>
+<dl><dt><strong>Green</strong></dt>
+<dd><tt>Green&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Lime</strong></dt>
+<dd><tt>Lime&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Magenta</strong></dt>
+<dd><tt>Magenta&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Orange</strong></dt>
+<dd><tt>Orange&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Purple</strong></dt>
+<dd><tt>Purple&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Red</strong></dt>
+<dd><tt>Red&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Tan</strong></dt>
+<dd><tt>Tan&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>White</strong></dt>
+<dd><tt>White&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>Yellow</strong></dt>
+<dd><tt>Yellow&nbsp;color&nbsp;tuple</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="cudaImage">class <strong>cudaImage</strong></a>(cudaMemory)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>CUDA&nbsp;image<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd>cudaImage</dd>
+<dd>cudaMemory</dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="cudaImage-__delitem__"><strong>__delitem__</strong></a>(self, key, /)</dt><dd><tt>Delete&nbsp;self[key].</tt></dd></dl>
+
+<dl><dt><a name="cudaImage-__getitem__"><strong>__getitem__</strong></a>(self, key, /)</dt><dd><tt>Return&nbsp;self[key].</tt></dd></dl>
+
+<dl><dt><a name="cudaImage-__init__"><strong>__init__</strong></a>(self, /, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="cudaImage-__len__"><strong>__len__</strong></a>(self, /)</dt><dd><tt>Return&nbsp;len(self).</tt></dd></dl>
+
+<dl><dt><a name="cudaImage-__setitem__"><strong>__setitem__</strong></a>(self, key, value, /)</dt><dd><tt>Set&nbsp;self[key]&nbsp;to&nbsp;value.</tt></dd></dl>
+
+<dl><dt><a name="cudaImage-__str__"><strong>__str__</strong></a>(self, /)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="cudaImage-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;<a href="builtins.html#object">object</a>.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__array_interface__</strong></dt>
+<dd><tt>Numpy&nbsp;__array_interface__&nbsp;dict</tt></dd>
+</dl>
+<dl><dt><strong>__cuda_array_interface__</strong></dt>
+<dd><tt>Numba&nbsp;__cuda_array_interface__&nbsp;dict</tt></dd>
+</dl>
+<dl><dt><strong>channels</strong></dt>
+<dd><tt>Number&nbsp;of&nbsp;color&nbsp;channels&nbsp;in&nbsp;the&nbsp;image</tt></dd>
+</dl>
+<dl><dt><strong>format</strong></dt>
+<dd><tt>Pixel&nbsp;format&nbsp;of&nbsp;the&nbsp;image</tt></dd>
+</dl>
+<dl><dt><strong>height</strong></dt>
+<dd><tt>Height&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)</tt></dd>
+</dl>
+<dl><dt><strong>shape</strong></dt>
+<dd><tt>Image&nbsp;dimensions&nbsp;in&nbsp;(height,&nbsp;width,&nbsp;channels)&nbsp;tuple</tt></dd>
+</dl>
+<dl><dt><strong>timestamp</strong></dt>
+<dd><tt>Timestamp&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;nanoseconds)</tt></dd>
+</dl>
+<dl><dt><strong>width</strong></dt>
+<dd><tt>Width&nbsp;of&nbsp;the&nbsp;image&nbsp;(in&nbsp;pixels)</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from cudaMemory:<br>
+<dl><dt><strong>freeOnDelete</strong></dt>
+<dd><tt>Will&nbsp;the&nbsp;CUDA&nbsp;memory&nbsp;be&nbsp;released&nbsp;when&nbsp;the&nbsp;Python&nbsp;object&nbsp;is&nbsp;deleted?</tt></dd>
+</dl>
+<dl><dt><strong>gpudata</strong></dt>
+<dd><tt>Address&nbsp;of&nbsp;CUDA&nbsp;memory&nbsp;(PyCUDA&nbsp;interface)</tt></dd>
+</dl>
+<dl><dt><strong>mapped</strong></dt>
+<dd><tt>Is&nbsp;the&nbsp;memory&nbsp;mapped&nbsp;to&nbsp;CPU&nbsp;also?&nbsp;(zeroCopy)</tt></dd>
+</dl>
+<dl><dt><strong>ptr</strong></dt>
+<dd><tt>Address&nbsp;of&nbsp;CUDA&nbsp;memory</tt></dd>
+</dl>
+<dl><dt><strong>size</strong></dt>
+<dd><tt>Size&nbsp;(in&nbsp;bytes)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="cudaMemory">class <strong>cudaMemory</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>CUDA&nbsp;memory<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="cudaMemory-__init__"><strong>__init__</strong></a>(self, /, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="cudaMemory-__str__"><strong>__str__</strong></a>(self, /)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="cudaMemory-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;<a href="builtins.html#object">object</a>.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>freeOnDelete</strong></dt>
+<dd><tt>Will&nbsp;the&nbsp;CUDA&nbsp;memory&nbsp;be&nbsp;released&nbsp;when&nbsp;the&nbsp;Python&nbsp;object&nbsp;is&nbsp;deleted?</tt></dd>
+</dl>
+<dl><dt><strong>gpudata</strong></dt>
+<dd><tt>Address&nbsp;of&nbsp;CUDA&nbsp;memory&nbsp;(PyCUDA&nbsp;interface)</tt></dd>
+</dl>
+<dl><dt><strong>mapped</strong></dt>
+<dd><tt>Is&nbsp;the&nbsp;memory&nbsp;mapped&nbsp;to&nbsp;CPU&nbsp;also?&nbsp;(zeroCopy)</tt></dd>
+</dl>
+<dl><dt><strong>ptr</strong></dt>
+<dd><tt>Address&nbsp;of&nbsp;CUDA&nbsp;memory</tt></dd>
+</dl>
+<dl><dt><strong>size</strong></dt>
+<dd><tt>Size&nbsp;(in&nbsp;bytes)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="glDisplay">class <strong>glDisplay</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>OpenGL&nbsp;display&nbsp;window<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="glDisplay-BeginRender"><strong>BeginRender</strong></a>(...)</dt><dd><tt>Clear&nbsp;window&nbsp;and&nbsp;begin&nbsp;rendering&nbsp;a&nbsp;frame</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-EndRender"><strong>EndRender</strong></a>(...)</dt><dd><tt>Finish&nbsp;rendering&nbsp;and&nbsp;refresh&nbsp;/&nbsp;flip&nbsp;the&nbsp;backbuffer</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-GetFPS"><strong>GetFPS</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;average&nbsp;frame&nbsp;time&nbsp;(in&nbsp;milliseconds)</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-GetHeight"><strong>GetHeight</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;height&nbsp;of&nbsp;the&nbsp;window&nbsp;(in&nbsp;pixels)</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-GetWidth"><strong>GetWidth</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;width&nbsp;of&nbsp;the&nbsp;window&nbsp;(in&nbsp;pixels)</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-IsClosed"><strong>IsClosed</strong></a>(...)</dt><dd><tt>Returns&nbsp;true&nbsp;if&nbsp;the&nbsp;window&nbsp;has&nbsp;been&nbsp;closed</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-IsFullscreen"><strong>IsFullscreen</strong></a>(...)</dt><dd><tt>Returns&nbsp;true&nbsp;if&nbsp;the&nbsp;window&nbsp;is&nbsp;fullscreen</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-IsMaximized"><strong>IsMaximized</strong></a>(...)</dt><dd><tt>Returns&nbsp;true&nbsp;if&nbsp;the&nbsp;window&nbsp;is&nbsp;maximized</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-IsOpen"><strong>IsOpen</strong></a>(...)</dt><dd><tt>Returns&nbsp;true&nbsp;if&nbsp;the&nbsp;window&nbsp;is&nbsp;open</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-ProcessEvents"><strong>ProcessEvents</strong></a>(...)</dt><dd><tt>Process&nbsp;UI&nbsp;events</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-Render"><strong>Render</strong></a>(...)</dt><dd><tt>Render&nbsp;a&nbsp;CUDA&nbsp;float4&nbsp;image&nbsp;using&nbsp;OpenGL&nbsp;interop</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-RenderOnce"><strong>RenderOnce</strong></a>(...)</dt><dd><tt>Begin&nbsp;the&nbsp;frame,&nbsp;render&nbsp;a&nbsp;CUDA&nbsp;float4&nbsp;image&nbsp;using&nbsp;OpenGL&nbsp;interop,&nbsp;and&nbsp;then&nbsp;end&nbsp;the&nbsp;frame</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-SetBackgroundColor"><strong>SetBackgroundColor</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;window&nbsp;background&nbsp;color</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-SetFullscreen"><strong>SetFullscreen</strong></a>(...)</dt><dd><tt>Sets&nbsp;the&nbsp;window&nbsp;to&nbsp;fullscreen&nbsp;mode&nbsp;based&nbsp;on&nbsp;bool&nbsp;argument</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-SetMaximized"><strong>SetMaximized</strong></a>(...)</dt><dd><tt>Sets&nbsp;the&nbsp;window&nbsp;to&nbsp;maximized/unmaximized&nbsp;based&nbsp;on&nbsp;bool&nbsp;argument</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-SetTitle"><strong>SetTitle</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;window&nbsp;title&nbsp;string</tt></dd></dl>
+
+<dl><dt><a name="glDisplay-__init__"><strong>__init__</strong></a>(self, /, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="glDisplay-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;<a href="builtins.html#object">object</a>.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="gstCamera">class <strong>gstCamera</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>MIPI&nbsp;CSI&nbsp;or&nbsp;USB&nbsp;camera&nbsp;using&nbsp;GStreamer<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="gstCamera-Capture"><strong>Capture</strong></a>(...)</dt><dd><tt>Capture&nbsp;a&nbsp;camera&nbsp;frame&nbsp;(in&nbsp;raw&nbsp;format&nbsp;by&nbsp;default)</tt></dd></dl>
+
+<dl><dt><a name="gstCamera-CaptureRGBA"><strong>CaptureRGBA</strong></a>(...)</dt><dd><tt>Capture&nbsp;a&nbsp;camera&nbsp;frame&nbsp;and&nbsp;convert&nbsp;it&nbsp;to&nbsp;float4&nbsp;RGBA</tt></dd></dl>
+
+<dl><dt><a name="gstCamera-Close"><strong>Close</strong></a>(...)</dt><dd><tt>Stop&nbsp;streaming&nbsp;camera&nbsp;frames</tt></dd></dl>
+
+<dl><dt><a name="gstCamera-GetHeight"><strong>GetHeight</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;height&nbsp;of&nbsp;the&nbsp;camera&nbsp;(in&nbsp;pixels)</tt></dd></dl>
+
+<dl><dt><a name="gstCamera-GetWidth"><strong>GetWidth</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;width&nbsp;of&nbsp;the&nbsp;camera&nbsp;(in&nbsp;pixels)</tt></dd></dl>
+
+<dl><dt><a name="gstCamera-Open"><strong>Open</strong></a>(...)</dt><dd><tt>Open&nbsp;the&nbsp;camera&nbsp;for&nbsp;streaming&nbsp;frames</tt></dd></dl>
+
+<dl><dt><a name="gstCamera-__init__"><strong>__init__</strong></a>(self, /, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="gstCamera-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;<a href="builtins.html#object">object</a>.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="videoOutput">class <strong>videoOutput</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#videoOutput">videoOutput</a>&nbsp;interface&nbsp;for&nbsp;streaming&nbsp;video&nbsp;and&nbsp;images<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="videoOutput-Close"><strong>Close</strong></a>(...)</dt><dd><tt>Stop&nbsp;streaming&nbsp;video&nbsp;frames</tt></dd></dl>
+
+<dl><dt><a name="videoOutput-GetFrameRate"><strong>GetFrameRate</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;frames&nbsp;per&nbsp;second&nbsp;of&nbsp;the&nbsp;video&nbsp;output</tt></dd></dl>
+
+<dl><dt><a name="videoOutput-GetHeight"><strong>GetHeight</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;height&nbsp;of&nbsp;the&nbsp;video&nbsp;output&nbsp;(in&nbsp;pixels)</tt></dd></dl>
+
+<dl><dt><a name="videoOutput-GetOptions"><strong>GetOptions</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;dict&nbsp;representation&nbsp;of&nbsp;the&nbsp;videoOptions&nbsp;of&nbsp;the&nbsp;output</tt></dd></dl>
+
+<dl><dt><a name="videoOutput-GetWidth"><strong>GetWidth</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;width&nbsp;of&nbsp;the&nbsp;video&nbsp;output&nbsp;(in&nbsp;pixels)</tt></dd></dl>
+
+<dl><dt><a name="videoOutput-IsStreaming"><strong>IsStreaming</strong></a>(...)</dt><dd><tt>Return&nbsp;true&nbsp;if&nbsp;the&nbsp;stream&nbsp;is&nbsp;open,&nbsp;return&nbsp;false&nbsp;if&nbsp;closed</tt></dd></dl>
+
+<dl><dt><a name="videoOutput-Open"><strong>Open</strong></a>(...)</dt><dd><tt>Open&nbsp;the&nbsp;video&nbsp;output&nbsp;for&nbsp;streaming&nbsp;frames</tt></dd></dl>
+
+<dl><dt><a name="videoOutput-Render"><strong>Render</strong></a>(...)</dt><dd><tt>Render&nbsp;a&nbsp;frame&nbsp;(supplied&nbsp;as&nbsp;a&nbsp;<a href="#cudaImage">cudaImage</a>)</tt></dd></dl>
+
+<dl><dt><a name="videoOutput-SetStatus"><strong>SetStatus</strong></a>(...)</dt><dd><tt>Set&nbsp;the&nbsp;status&nbsp;string&nbsp;(i.e.&nbsp;window&nbsp;title&nbsp;bar&nbsp;text)</tt></dd></dl>
+
+<dl><dt><a name="videoOutput-__init__"><strong>__init__</strong></a>(self, /, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="videoOutput-Usage"><strong>Usage</strong></a>(...)</dt><dd><tt>Return&nbsp;help&nbsp;text&nbsp;describing&nbsp;the&nbsp;command&nbsp;line&nbsp;options</tt></dd></dl>
+
+<dl><dt><a name="videoOutput-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;<a href="builtins.html#object">object</a>.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="videoSource">class <strong>videoSource</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#videoSource">videoSource</a>&nbsp;interface&nbsp;for&nbsp;cameras,&nbsp;video&nbsp;streams,&nbsp;and&nbsp;images<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="videoSource-Capture"><strong>Capture</strong></a>(...)</dt><dd><tt>Capture&nbsp;a&nbsp;frame&nbsp;and&nbsp;return&nbsp;the&nbsp;<a href="#cudaImage">cudaImage</a></tt></dd></dl>
+
+<dl><dt><a name="videoSource-Close"><strong>Close</strong></a>(...)</dt><dd><tt>Stop&nbsp;streaming&nbsp;video&nbsp;frames</tt></dd></dl>
+
+<dl><dt><a name="videoSource-GetFrameCount"><strong>GetFrameCount</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;number&nbsp;of&nbsp;frames&nbsp;captured&nbsp;so&nbsp;far</tt></dd></dl>
+
+<dl><dt><a name="videoSource-GetFrameRate"><strong>GetFrameRate</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;frames&nbsp;per&nbsp;second&nbsp;of&nbsp;the&nbsp;video&nbsp;source</tt></dd></dl>
+
+<dl><dt><a name="videoSource-GetHeight"><strong>GetHeight</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;height&nbsp;of&nbsp;the&nbsp;video&nbsp;source&nbsp;(in&nbsp;pixels)</tt></dd></dl>
+
+<dl><dt><a name="videoSource-GetOptions"><strong>GetOptions</strong></a>(...)</dt><dd><tt>Return&nbsp;a&nbsp;dict&nbsp;representing&nbsp;the&nbsp;videoOptions&nbsp;of&nbsp;the&nbsp;source</tt></dd></dl>
+
+<dl><dt><a name="videoSource-GetWidth"><strong>GetWidth</strong></a>(...)</dt><dd><tt>Return&nbsp;the&nbsp;width&nbsp;of&nbsp;the&nbsp;video&nbsp;source&nbsp;(in&nbsp;pixels)</tt></dd></dl>
+
+<dl><dt><a name="videoSource-IsStreaming"><strong>IsStreaming</strong></a>(...)</dt><dd><tt>Return&nbsp;true&nbsp;if&nbsp;the&nbsp;stream&nbsp;is&nbsp;open,&nbsp;return&nbsp;false&nbsp;if&nbsp;closed</tt></dd></dl>
+
+<dl><dt><a name="videoSource-Open"><strong>Open</strong></a>(...)</dt><dd><tt>Open&nbsp;the&nbsp;video&nbsp;source&nbsp;for&nbsp;streaming&nbsp;frames</tt></dd></dl>
+
+<dl><dt><a name="videoSource-__init__"><strong>__init__</strong></a>(self, /, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="videoSource-Usage"><strong>Usage</strong></a>(...)</dt><dd><tt>Return&nbsp;help&nbsp;text&nbsp;describing&nbsp;the&nbsp;command&nbsp;line&nbsp;options</tt></dd></dl>
+
+<dl><dt><a name="videoSource-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;<a href="builtins.html#object">object</a>.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-adaptFontSize"><strong>adaptFontSize</strong></a>(...)</dt><dd><tt>Determine&nbsp;an&nbsp;appropriate&nbsp;font&nbsp;size&nbsp;for&nbsp;the&nbsp;given&nbsp;image&nbsp;dimension</tt></dd></dl>
+ <dl><dt><a name="-cudaAllocMapped"><strong>cudaAllocMapped</strong></a>(...)</dt><dd><tt>Allocate&nbsp;CUDA&nbsp;ZeroCopy&nbsp;mapped&nbsp;memory</tt></dd></dl>
+ <dl><dt><a name="-cudaConvertColor"><strong>cudaConvertColor</strong></a>(...)</dt><dd><tt>Perform&nbsp;colorspace&nbsp;conversion&nbsp;on&nbsp;the&nbsp;GPU</tt></dd></dl>
+ <dl><dt><a name="-cudaCrop"><strong>cudaCrop</strong></a>(...)</dt><dd><tt>Crop&nbsp;an&nbsp;image&nbsp;on&nbsp;the&nbsp;GPU</tt></dd></dl>
+ <dl><dt><a name="-cudaDeviceSynchronize"><strong>cudaDeviceSynchronize</strong></a>(...)</dt><dd><tt>Wait&nbsp;for&nbsp;the&nbsp;GPU&nbsp;to&nbsp;complete&nbsp;all&nbsp;work</tt></dd></dl>
+ <dl><dt><a name="-cudaDrawCircle"><strong>cudaDrawCircle</strong></a>(...)</dt><dd><tt>Draw&nbsp;a&nbsp;circle&nbsp;with&nbsp;the&nbsp;specified&nbsp;radius&nbsp;and&nbsp;color&nbsp;centered&nbsp;at&nbsp;position&nbsp;(x,y)</tt></dd></dl>
+ <dl><dt><a name="-cudaDrawLine"><strong>cudaDrawLine</strong></a>(...)</dt><dd><tt>Draw&nbsp;a&nbsp;line&nbsp;with&nbsp;the&nbsp;specified&nbsp;color&nbsp;and&nbsp;line&nbsp;width&nbsp;from&nbsp;(x1,y1)&nbsp;to&nbsp;(x2,y2)</tt></dd></dl>
+ <dl><dt><a name="-cudaDrawRect"><strong>cudaDrawRect</strong></a>(...)</dt><dd><tt>Draw&nbsp;a&nbsp;rect&nbsp;with&nbsp;the&nbsp;specified&nbsp;color&nbsp;at&nbsp;(left,&nbsp;top,&nbsp;right,&nbsp;bottom)</tt></dd></dl>
+ <dl><dt><a name="-cudaFromNumpy"><strong>cudaFromNumpy</strong></a>(...)</dt><dd><tt>Copy&nbsp;a&nbsp;numpy&nbsp;ndarray&nbsp;to&nbsp;CUDA&nbsp;memory</tt></dd></dl>
+ <dl><dt><a name="-cudaMalloc"><strong>cudaMalloc</strong></a>(...)</dt><dd><tt>Allocated&nbsp;CUDA&nbsp;memory&nbsp;on&nbsp;the&nbsp;GPU&nbsp;with&nbsp;<a href="#-cudaMalloc">cudaMalloc</a>()</tt></dd></dl>
+ <dl><dt><a name="-cudaMemcpy"><strong>cudaMemcpy</strong></a>(...)</dt><dd><tt>Copy&nbsp;src&nbsp;image&nbsp;to&nbsp;dst&nbsp;image&nbsp;(or&nbsp;if&nbsp;dst&nbsp;is&nbsp;not&nbsp;provided,&nbsp;return&nbsp;a&nbsp;new&nbsp;image&nbsp;with&nbsp;the&nbsp;contents&nbsp;of&nbsp;src)</tt></dd></dl>
+ <dl><dt><a name="-cudaNormalize"><strong>cudaNormalize</strong></a>(...)</dt><dd><tt>Normalize&nbsp;the&nbsp;pixel&nbsp;intensities&nbsp;of&nbsp;an&nbsp;image&nbsp;between&nbsp;two&nbsp;ranges</tt></dd></dl>
+ <dl><dt><a name="-cudaOverlay"><strong>cudaOverlay</strong></a>(...)</dt><dd><tt>Overlay&nbsp;the&nbsp;input&nbsp;image&nbsp;onto&nbsp;the&nbsp;composite&nbsp;output&nbsp;image&nbsp;at&nbsp;position&nbsp;(x,y)</tt></dd></dl>
+ <dl><dt><a name="-cudaResize"><strong>cudaResize</strong></a>(...)</dt><dd><tt>Resize&nbsp;an&nbsp;image&nbsp;on&nbsp;the&nbsp;GPU</tt></dd></dl>
+ <dl><dt><a name="-cudaToNumpy"><strong>cudaToNumpy</strong></a>(...)</dt><dd><tt>Create&nbsp;a&nbsp;numpy&nbsp;ndarray&nbsp;wrapping&nbsp;the&nbsp;CUDA&nbsp;memory,&nbsp;without&nbsp;copying&nbsp;it</tt></dd></dl>
+ <dl><dt><a name="-loadImage"><strong>loadImage</strong></a>(...)</dt><dd><tt>Load&nbsp;an&nbsp;image&nbsp;from&nbsp;disk&nbsp;into&nbsp;GPU&nbsp;memory</tt></dd></dl>
+ <dl><dt><a name="-loadImageRGBA"><strong>loadImageRGBA</strong></a>(...)</dt><dd><tt>Load&nbsp;an&nbsp;image&nbsp;from&nbsp;disk&nbsp;into&nbsp;GPU&nbsp;memory&nbsp;as&nbsp;float4&nbsp;RGBA</tt></dd></dl>
+ <dl><dt><a name="-logUsage"><strong>logUsage</strong></a>(...)</dt><dd><tt>Return&nbsp;help&nbsp;text&nbsp;describing&nbsp;the&nbsp;command&nbsp;line&nbsp;arguments&nbsp;of&nbsp;the&nbsp;logging&nbsp;interface</tt></dd></dl>
+ <dl><dt><a name="-saveImage"><strong>saveImage</strong></a>(...)</dt><dd><tt>Save&nbsp;an&nbsp;image&nbsp;to&nbsp;disk</tt></dd></dl>
+ <dl><dt><a name="-saveImageRGBA"><strong>saveImageRGBA</strong></a>(...)</dt><dd><tt>Save&nbsp;a&nbsp;float4&nbsp;RGBA&nbsp;image&nbsp;to&nbsp;disk</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>VERSION</strong> = '1.0.0'</td></tr></table>
+</body></html>

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['segnet',['segNet',['../classsegNet.html',1,'']]],
-  ['socket',['Socket',['../classSocket.html',1,'']]],
-  ['strpair',['StrPair',['../classtinyxml2_1_1StrPair.html',1,'tinyxml2']]]
+  ['objectpose_2115',['ObjectPose',['../structposeNet_1_1ObjectPose.html',1,'poseNet']]],
+  ['objecttracker_2116',['objectTracker',['../classobjectTracker.html',1,'']]],
+  ['objecttrackeriou_2117',['objectTrackerIOU',['../classobjectTrackerIOU.html',1,'']]]
 ];

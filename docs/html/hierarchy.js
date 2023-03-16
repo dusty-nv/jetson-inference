@@ -1,5 +1,13 @@
 var hierarchy =
 [
+    [ "_NvBufferChromaSubSamplingParams", "struct__NvBufferChromaSubSamplingParams.html", null ],
+    [ "_NvBufferCompositeParams", "struct__NvBufferCompositeParams.html", null ],
+    [ "_NvBufferCreateParams", "struct__NvBufferCreateParams.html", null ],
+    [ "_NvBufferParams", "struct__NvBufferParams.html", null ],
+    [ "_NvBufferParamsEx", "struct__NvBufferParamsEx.html", null ],
+    [ "_NvBufferSyncObjParams", "struct__NvBufferSyncObjParams.html", null ],
+    [ "_NvBufferSyncObjRec", "struct__NvBufferSyncObjRec.html", null ],
+    [ "_NvBufferTransformParams", "struct__NvBufferTransformParams.html", null ],
     [ "binary_function", null, [
       [ "doj::alphanum_less< Ty >", "structdoj_1_1alphanum__less.html", null ]
     ] ],
@@ -33,6 +41,9 @@ var hierarchy =
     [ "glTexture", "classglTexture.html", null ],
     [ "glWidget", "classglWidget.html", null ],
     [ "cudaFont::GlyphInfo", "structcudaFont_1_1GlyphInfo.html", null ],
+    [ "gstBufferManager", "classgstBufferManager.html", null ],
+    [ "gstWebRTC", "classgstWebRTC.html", null ],
+    [ "WebRTCServer::HttpRoute", "structWebRTCServer_1_1HttpRoute.html", null ],
     [ "ILogger", null, [
       [ "tensorNet::Logger", "classtensorNet_1_1Logger.html", null ]
     ] ],
@@ -45,6 +56,8 @@ var hierarchy =
     [ "IProfiler", null, [
       [ "tensorNet::Profiler", "classtensorNet_1_1Profiler.html", null ]
     ] ],
+    [ "NetworkInterface::IPv4", "structNetworkInterface_1_1IPv4.html", null ],
+    [ "NetworkInterface::IPv6", "structNetworkInterface_1_1IPv6.html", null ],
     [ "JoystickDevice", "classJoystickDevice.html", null ],
     [ "KeyboardDevice", "classKeyboardDevice.html", null ],
     [ "poseNet::ObjectPose::Keypoint", "structposeNet_1_1ObjectPose_1_1Keypoint.html", null ],
@@ -58,13 +71,22 @@ var hierarchy =
       [ "tinyxml2::MemPoolT< ITEM_SIZE >", "classtinyxml2_1_1MemPoolT.html", null ]
     ] ],
     [ "Mutex", "classMutex.html", null ],
-    [ "networkAdapter_t", "structnetworkAdapter__t.html", null ],
+    [ "NetworkInterface", "structNetworkInterface.html", null ],
+    [ "NvBufferCompositeBackground", "structNvBufferCompositeBackground.html", null ],
+    [ "NvBufferRect", "structNvBufferRect.html", null ],
     [ "poseNet::ObjectPose", "structposeNet_1_1ObjectPose.html", null ],
+    [ "objectTracker", "classobjectTracker.html", [
+      [ "objectTrackerIOU", "classobjectTrackerIOU.html", null ]
+    ] ],
+    [ "gstWebRTC::PeerContext", "structgstWebRTC_1_1PeerContext.html", null ],
     [ "Process", "classProcess.html", null ],
     [ "RingBuffer", "classRingBuffer.html", null ],
+    [ "RTSPServer", "classRTSPServer.html", null ],
     [ "Socket", "classSocket.html", null ],
     [ "tinyxml2::StrPair", "classtinyxml2_1_1StrPair.html", null ],
     [ "tensorNet", "classtensorNet.html", [
+      [ "actionNet", "classactionNet.html", null ],
+      [ "backgroundNet", "classbackgroundNet.html", null ],
       [ "depthNet", "classdepthNet.html", null ],
       [ "detectNet", "classdetectNet.html", null ],
       [ "imageNet", "classimageNet.html", null ],
@@ -87,6 +109,9 @@ var hierarchy =
       [ "gstDecoder", "classgstDecoder.html", null ],
       [ "imageLoader", "classimageLoader.html", null ]
     ] ],
+    [ "WebRTCPeer", "structWebRTCPeer.html", null ],
+    [ "WebRTCServer", "classWebRTCServer.html", null ],
+    [ "WebRTCServer::WebsocketRoute", "structWebRTCServer_1_1WebsocketRoute.html", null ],
     [ "tinyxml2::XMLAttribute", "classtinyxml2_1_1XMLAttribute.html", null ],
     [ "tinyxml2::XMLConstHandle", "classtinyxml2_1_1XMLConstHandle.html", null ],
     [ "tinyxml2::XMLHandle", "classtinyxml2_1_1XMLHandle.html", null ],

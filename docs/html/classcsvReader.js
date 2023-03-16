@@ -1,6 +1,6 @@
 var classcsvReader =
 [
-    [ "csvReader", "classcsvReader.html#a78a1bbc9a537958955ea1c0ee292a68e", null ],
+    [ "csvReader", "classcsvReader.html#aa152f1c1f2c298782ef00dbc0ab44659", null ],
     [ "~csvReader", "classcsvReader.html#ad9bcff499b2864cba243ad89e71c0561", null ],
     [ "Close", "classcsvReader.html#a4fc10c933a0f7ae36a6bb892259f6cc2", null ],
     [ "GetDelimiters", "classcsvReader.html#aebd2551a4d24767f51ac7b2601af86c2", null ],

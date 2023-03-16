@@ -9,5 +9,6 @@ var poseNet_8h =
     [ "POSENET_DEFAULT_LINK_SCALE", "group__poseNet.html#gac3bab0abe576c7fa92c5094e0817c966", null ],
     [ "POSENET_DEFAULT_PAF", "group__poseNet.html#ga6301da70768db25c4a7a0ee2e03cb79d", null ],
     [ "POSENET_DEFAULT_THRESHOLD", "group__poseNet.html#ga9be57c475962d2397058c45c835cc2b5", null ],
+    [ "POSENET_MODEL_TYPE", "group__poseNet.html#ga6f47161a1dfbc3a213f62069f163c6e0", null ],
     [ "POSENET_USAGE_STRING", "group__imageNet.html#ga4f809f603917dd53041335c0881b198e", null ]
 ];

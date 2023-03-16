@@ -1,10 +1,22 @@
 var searchData=
 [
-  ['verbose',['VERBOSE',['../classLog.html#afb5d4c945d835d194a295461d752531ea0763041e407c0324563ab6aff02b11ee',1,'Log']]],
-  ['vgg_5f16',['VGG_16',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470a4a1ff14a90c30b505d6a2e563ad02bdc',1,'imageNet']]],
-  ['vgg_5f19',['VGG_19',['../classimageNet.html#a0b7e93af566fe96bfc58cda5f4503470ab44362ca647faaeb0b4a3124aef6a6fa',1,'imageNet']]],
-  ['visualize_5fdepth',['VISUALIZE_DEPTH',['../classdepthNet.html#a79173edc788bdf267e4622ad0f52e476a8675b85af577753f73916d1087ff3c4e',1,'depthNet']]],
-  ['visualize_5finput',['VISUALIZE_INPUT',['../classdepthNet.html#a79173edc788bdf267e4622ad0f52e476a8e00a42ee2103dc6081b8886553b9c91',1,'depthNet']]],
-  ['visualize_5fmask',['VISUALIZE_MASK',['../classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3a44b13e054270ce1d9a77fea8bfa83bd5',1,'segNet']]],
-  ['visualize_5foverlay',['VISUALIZE_OVERLAY',['../classsegNet.html#a09a07cb06cd461f6003b655e945d9cf3ab6a2dc917492d6b83de4b94c9233cb5f',1,'segNet']]]
+  ['warning_3939',['WARNING',['../classLog.html#afb5d4c945d835d194a295461d752531ea3af89ac37cc3e24957e7901211345e96',1,'Log']]],
+  ['webrtc_5faudio_3940',['WEBRTC_AUDIO',['../group__network.html#ggabfc2d28deff979bf1183220b57b78bd4ae076480a0c0d9a717f926b7cda1744fd',1,'WebRTCServer.h']]],
+  ['webrtc_5fmulti_5fclient_3941',['WEBRTC_MULTI_CLIENT',['../group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a25abb9f2f31e749534b50835291d40f0',1,'WebRTCServer.h']]],
+  ['webrtc_5fpeer_5fclosed_3942',['WEBRTC_PEER_CLOSED',['../group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a1a11199124c60fea07d424d28aaa072c',1,'WebRTCServer.h']]],
+  ['webrtc_5fpeer_5fconnected_3943',['WEBRTC_PEER_CONNECTED',['../group__network.html#ggabfc2d28deff979bf1183220b57b78bd4ad0e08bdd9c1c0a10e019235f9e341278',1,'WebRTCServer.h']]],
+  ['webrtc_5fpeer_5fconnecting_3944',['WEBRTC_PEER_CONNECTING',['../group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a66831e34a5556976064e4d62e5fcc753',1,'WebRTCServer.h']]],
+  ['webrtc_5fpeer_5fstreaming_3945',['WEBRTC_PEER_STREAMING',['../group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a02bfc67384ac6c23bde10f88d829fb09',1,'WebRTCServer.h']]],
+  ['webrtc_5fprivate_3946',['WEBRTC_PRIVATE',['../group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a819f229f6bfeb116f686451ecdec02f0',1,'WebRTCServer.h']]],
+  ['webrtc_5fpublic_3947',['WEBRTC_PUBLIC',['../group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a6679628f8219a94c62e06c70190bbf93',1,'WebRTCServer.h']]],
+  ['webrtc_5freceive_3948',['WEBRTC_RECEIVE',['../group__network.html#ggabfc2d28deff979bf1183220b57b78bd4aa0b0d71eedf0e9cb89dad480acf2a808',1,'WebRTCServer.h']]],
+  ['webrtc_5fsend_3949',['WEBRTC_SEND',['../group__network.html#ggabfc2d28deff979bf1183220b57b78bd4add7aa55d55c61e54ef02a9d6561b38d3',1,'WebRTCServer.h']]],
+  ['webrtc_5fvideo_3950',['WEBRTC_VIDEO',['../group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a98eb7641bdbb1edc5fe77bdd3e3650ab',1,'WebRTCServer.h']]],
+  ['widget_5fcreated_3951',['WIDGET_CREATED',['../group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749fea596bff109a8d5a26abf4e8d776903919',1,'glEvents.h']]],
+  ['widget_5fmoved_3952',['WIDGET_MOVED',['../group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749fea0ec18df1c78ce7428c5a828b29ec8c83',1,'glEvents.h']]],
+  ['widget_5fresized_3953',['WIDGET_RESIZED',['../group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749fea833cc0c2132855c06b26ee0508f22116',1,'glEvents.h']]],
+  ['widget_5fselected_3954',['WIDGET_SELECTED',['../group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749fea1a95cd0d3e7b79901949c2aa3397c955',1,'glEvents.h']]],
+  ['window_5fclosed_3955',['WINDOW_CLOSED',['../group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749feaa2199f69612be7b5e44d25fab5dab570',1,'glEvents.h']]],
+  ['window_5fresized_3956',['WINDOW_RESIZED',['../group__OpenGL.html#ggadad47fc5cdbc7af41eee1991038749feafb6f46ac831d8060d921687aba839a82',1,'glEvents.h']]],
+  ['write_3957',['Write',['../classRingBuffer.html#add028ff4436a9c7467ea5df2d81623a4aa40fc1352f6c1c44e21d12a856cd9e35',1,'RingBuffer']]]
 ];

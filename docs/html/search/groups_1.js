@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['dnn_20vision_20library_20_28jetson_2dinference_29',['DNN Vision Library (jetson-inference)',['../group__deepVision.html',1,'']]],
-  ['depthnet',['depthNet',['../group__depthNet.html',1,'']]],
-  ['detectnet',['detectNet',['../group__detectNet.html',1,'']]],
-  ['drawing',['Drawing',['../group__drawing.html',1,'']]]
+  ['backgroundnet_4032',['backgroundNet',['../group__backgroundNet.html',1,'']]],
+  ['buffer_20manager_4033',['Buffer Manager',['../group__ee__nvbuffering__group.html',1,'']]]
 ];

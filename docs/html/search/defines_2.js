@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['ip_5fany',['IP_ANY',['../Socket_8h.html#aff78e91b6eed5ac391a5de7b6e62311e',1,'Socket.h']]],
-  ['ip_5fbroadcast',['IP_BROADCAST',['../Socket_8h.html#a35513f0b657dc418e4108dec538299ff',1,'Socket.h']]],
-  ['ip_5floopback',['IP_LOOPBACK',['../Socket_8h.html#a64a65b271e90777a9531f8b34ebcdd51',1,'Socket.h']]]
+  ['gst_5fcaps_5ffeature_5fmemory_5fnvmm_3996',['GST_CAPS_FEATURE_MEMORY_NVMM',['../gstBufferManager_8h.html#a1a6949766f17f44492860703e0c4a0f0',1,'gstBufferManager.h']]],
+  ['gst_5fuse_5funstable_5fapi_3997',['GST_USE_UNSTABLE_API',['../gstWebRTC_8h.html#a731560b99d1cffbdf05cfd2fdac43214',1,'gstWebRTC.h']]]
 ];

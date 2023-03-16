@@ -11,6 +11,7 @@ var tensorNet_8h =
     [ "NOEXCEPT", "tensorNet_8h.html#a10a59554805ac7ce3905fd3540f98137", null ],
     [ "NV_TENSORRT_MAJOR", "tensorNet_8h.html#aca5940a61fa51e91f41d88d9198bf935", null ],
     [ "NV_TENSORRT_MINOR", "tensorNet_8h.html#a7df0f049b87bee17d6aed394544e8979", null ],
+    [ "TENSORRT_VERSION_CHECK", "group__tensorNet.html#ga1d190b2948bf323a7c5f83fd3689c235", null ],
     [ "Dims3", "tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b", null ],
     [ "deviceType", "group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4", [
       [ "DEVICE_GPU", "group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b", null ],

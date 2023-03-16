@@ -1,8 +1,12 @@
 var searchData=
 [
-  ['segnet_5fcustom',['SEGNET_CUSTOM',['../classsegNet.html#ab561d3c9e3c733e785aaa790f0f2f660a95a81cd526c1ada9d225f6142f5f0f41',1,'segNet']]],
-  ['silent',['SILENT',['../classLog.html#afb5d4c945d835d194a295461d752531eabfeaf96ee427cb4a1e58079fe56d6659',1,'Log']]],
-  ['socket_5ftcp',['SOCKET_TCP',['../group__network.html#ggaa78c7398fa81f7f62aa233159d4d8d97a2843397fd39bd96681bca78a8aa03096',1,'Socket.h']]],
-  ['socket_5fudp',['SOCKET_UDP',['../group__network.html#ggaa78c7398fa81f7f62aa233159d4d8d97a180747545a72ff6d0fd0569e781aefd5',1,'Socket.h']]],
-  ['success',['SUCCESS',['../classLog.html#afb5d4c945d835d194a295461d752531ead5214ff9471f920797b08c249706ab69',1,'Log']]]
+  ['text_5felement_3923',['TEXT_ELEMENT',['../classtinyxml2_1_1StrPair.html#a0301ef962e15dd94574431f1c61266c5aae519eb5a639858591763aa5fc6cc953',1,'tinyxml2::StrPair']]],
+  ['text_5felement_5fleave_5fentities_3924',['TEXT_ELEMENT_LEAVE_ENTITIES',['../classtinyxml2_1_1StrPair.html#a0301ef962e15dd94574431f1c61266c5a96be48cf899bfeea0aa227f984f1fa63',1,'tinyxml2::StrPair']]],
+  ['threaded_3925',['Threaded',['../classRingBuffer.html#add028ff4436a9c7467ea5df2d81623a4a1118d6f9d4da6a8b6fbc5d6de4c093e9',1,'RingBuffer']]],
+  ['timeout_3926',['TIMEOUT',['../classvideoSource.html#adf535af6425bba4700aa49a8a1c31fc8a53f14b4b251e2a20a98045206ba0dd1b',1,'videoSource']]],
+  ['type_5fdisabled_3927',['TYPE_DISABLED',['../group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1a4ed47814b2f80f0e92daad5af7bc38',1,'tensorNet.h']]],
+  ['type_5ffastest_3928',['TYPE_FASTEST',['../group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9',1,'tensorNet.h']]],
+  ['type_5ffp16_3929',['TYPE_FP16',['../group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a085813e6021d0d8884d768725151a526',1,'tensorNet.h']]],
+  ['type_5ffp32_3930',['TYPE_FP32',['../group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a5bbefcad9ecb657a3841c2e8db6828d3',1,'tensorNet.h']]],
+  ['type_5fint8_3931',['TYPE_INT8',['../group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a12cf69049b0ce2b80538213ab4ee4908',1,'tensorNet.h']]]
 ];

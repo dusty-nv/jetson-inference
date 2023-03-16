@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['threadentryfunction',['ThreadEntryFunction',['../group__threads.html#gaf5d0ae569fdc16f5708d68f64457ed79',1,'Thread.h']]]
+  ['gleventhandler_3599',['glEventHandler',['../group__OpenGL.html#gacbcfc0668226b31d1becba25887ff47e',1,'glEvents.h']]],
+  ['glwidgeteventhandler_3600',['glWidgetEventHandler',['../classglWidget.html#a205213b643ddc9475c7a40da4711cda3',1,'glWidget']]]
 ];

@@ -1,15 +1,40 @@
 var group__network =
 [
-    [ "networkAdapter_t", "structnetworkAdapter__t.html", [
-      [ "ipAddress", "structnetworkAdapter__t.html#a309dd0e73b680f0ee5a24e70db253ab2", null ],
-      [ "name", "structnetworkAdapter__t.html#ac6b4bed1cbd995eb103dac32f547ba20", null ]
+    [ "NetworkInterface", "structNetworkInterface.html", [
+      [ "IPv4", "structNetworkInterface_1_1IPv4.html", [
+        [ "address", "structNetworkInterface_1_1IPv4.html#a1df5dd971891858041d4d310f921c6ec", null ],
+        [ "broadcast", "structNetworkInterface_1_1IPv4.html#a23c805adf54a92ad7fba25d10285f9a9", null ],
+        [ "netmask", "structNetworkInterface_1_1IPv4.html#a9e7c31e9b8ffd2137f9f11eb4edaa58d", null ]
+      ] ],
+      [ "IPv6", "structNetworkInterface_1_1IPv6.html", [
+        [ "address", "structNetworkInterface_1_1IPv6.html#a665c42b91cbd6f7033d8068a57135a74", null ],
+        [ "prefix", "structNetworkInterface_1_1IPv6.html#a8d8d7313a0be1e0ddfec26a97d87a846", null ]
+      ] ],
+      [ "ipv4", "structNetworkInterface.html#ac5ed1543c19ac9600faea3c2d3caf5c7", null ],
+      [ "ipv6", "structNetworkInterface.html#a0303c41a0e338773749eb8772dea3f15", null ],
+      [ "name", "structNetworkInterface.html#a36f3119ebeebc4f41a339dfd9ad329d4", null ],
+      [ "up", "structNetworkInterface.html#abe51eb63965aedb79524afd991ee077d", null ]
+    ] ],
+    [ "RTSPServer", "classRTSPServer.html", [
+      [ "RTSPServer", "classRTSPServer.html#ab096687afe7d5e081185ba38cdf4e99b", null ],
+      [ "~RTSPServer", "classRTSPServer.html#a187ee9b223f5989501f9a603083c70f2", null ],
+      [ "AddRoute", "classRTSPServer.html#a830f81d7d7b8ba121675f79fce43eaac", null ],
+      [ "AddRoute", "classRTSPServer.html#ad167dd8db30be68de8a9bd51a4bf4c27", null ],
+      [ "init", "classRTSPServer.html#ad59fe5692a09586b17a455eebfc1c62f", null ],
+      [ "Release", "classRTSPServer.html#a0c8972a8e28a351689f554e393aa8cf6", null ],
+      [ "mMainLoop", "classRTSPServer.html#ab061de4075266b011645739d083fac25", null ],
+      [ "mPort", "classRTSPServer.html#af8c65d149ac8dd1c529269054fcf854d", null ],
+      [ "mRefCount", "classRTSPServer.html#ad08c41ce4c018aef7faa1fc1a8e309b3", null ],
+      [ "mRunning", "classRTSPServer.html#ae2673512fa380a665f725e44740ae911", null ],
+      [ "mServer", "classRTSPServer.html#ab07d23789188b9e0db6b0806e54d4e0c", null ],
+      [ "mThread", "classRTSPServer.html#ae32c747d072148444724e6089d558c23", null ]
     ] ],
     [ "Socket", "classSocket.html", [
       [ "~Socket", "classSocket.html#aeac4eb6379a543d38ed88977d3b6630a", null ],
       [ "Accept", "classSocket.html#ae3fb80aa2f7ab74d371fe045bc1312ee", null ],
       [ "Bind", "classSocket.html#a3935a15fa982064c2cb35996a2d6ef3d", null ],
-      [ "Bind", "classSocket.html#a27b61fa80a52fe2a3cd8e53490f87371", null ],
       [ "Bind", "classSocket.html#adb916cc93bb51552ec6181890189c10b", null ],
+      [ "Bind", "classSocket.html#a27b61fa80a52fe2a3cd8e53490f87371", null ],
       [ "Connect", "classSocket.html#ae52ee0bd9db277eee9324ed8da312bc7", null ],
       [ "Connect", "classSocket.html#aaa166710a82dfd4c8a594b2f8fb36dc7", null ],
       [ "EnableJumboBuffer", "classSocket.html#a90ff068da1fa6e1a28a014adca9efd74", null ],
@@ -17,18 +42,97 @@ var group__network =
       [ "GetMTU", "classSocket.html#a4e9d1c14216315b46e2ab531735eec45", null ],
       [ "GetType", "classSocket.html#a7c5d363579140822d7477b21df0ca1e7", null ],
       [ "PrintIP", "classSocket.html#a2a1a0827f962d665cbcd8fe363c2f411", null ],
-      [ "Recieve", "classSocket.html#a30b5c0d94e1477859a1b05ce9cd2bedf", null ],
       [ "Recieve", "classSocket.html#abf5d5e11719d38cc656cd36e8c8dd9be", null ],
+      [ "Recieve", "classSocket.html#a30b5c0d94e1477859a1b05ce9cd2bedf", null ],
       [ "Send", "classSocket.html#a899ae7dea24300c0c11ffc908f428f76", null ],
       [ "SetBufferSize", "classSocket.html#a453d33c92c88a15b0d93601ef9f067aa", null ],
       [ "SetRecieveTimeout", "classSocket.html#a74faf2bdb3116dc69164549465bfb638", null ]
     ] ],
+    [ "WebRTCPeer", "structWebRTCPeer.html", [
+      [ "client_context", "structWebRTCPeer.html#a803ff5def7a8be36e0fc0f84513845f8", null ],
+      [ "connection", "structWebRTCPeer.html#af3a86d05b7dcb3795cb9a90b87a5fc14", null ],
+      [ "flags", "structWebRTCPeer.html#a6b3508b0c436b367cc4a95080df26d9f", null ],
+      [ "ID", "structWebRTCPeer.html#a77e751082f73a3cd53dd5e6060526d1e", null ],
+      [ "ip_address", "structWebRTCPeer.html#ad9ecc5b68fb8b8a00e26e4fff273ad9a", null ],
+      [ "path", "structWebRTCPeer.html#ac3738d6e644d182fd8cd46bb600cebf5", null ],
+      [ "server", "structWebRTCPeer.html#a8a3cfd24818f03363a8126037c77a26d", null ],
+      [ "user_data", "structWebRTCPeer.html#a2a7aa8d3dbc1a006db68d1508a54d0d6", null ]
+    ] ],
+    [ "WebRTCServer", "classWebRTCServer.html", [
+      [ "HttpRoute", "structWebRTCServer_1_1HttpRoute.html", [
+        [ "callback", "structWebRTCServer_1_1HttpRoute.html#a3f0724d2bfb6b5e06aa28e91879c6444", null ],
+        [ "flags", "structWebRTCServer_1_1HttpRoute.html#aff666687e8ad59351fe3b54e091f115f", null ],
+        [ "path", "structWebRTCServer_1_1HttpRoute.html#a04682f5f68e3c1fcd6ede73f62941777", null ],
+        [ "user_data", "structWebRTCServer_1_1HttpRoute.html#a920c9860af27d158470f42ead7cb91df", null ]
+      ] ],
+      [ "WebsocketRoute", "structWebRTCServer_1_1WebsocketRoute.html", [
+        [ "callback", "structWebRTCServer_1_1WebsocketRoute.html#ae009455262ee0547eec6cc6d5c3fc3a1", null ],
+        [ "flags", "structWebRTCServer_1_1WebsocketRoute.html#ae663b161b5c3bb3177f0116f4c71ad5c", null ],
+        [ "path", "structWebRTCServer_1_1WebsocketRoute.html#a8ca5ffb081600a7f8f09b63be3d8b030", null ],
+        [ "peers", "structWebRTCServer_1_1WebsocketRoute.html#aafe530e21a178e9b052b597ecf6a036e", null ],
+        [ "user_data", "structWebRTCServer_1_1WebsocketRoute.html#a2a1b71fad54d8716f06d721451fc2e4f", null ]
+      ] ],
+      [ "HttpListener", "classWebRTCServer.html#a0a9229009aca73f62c363f879255bb38", null ],
+      [ "WebsocketListener", "classWebRTCServer.html#a87c958251b5146e420439d6cd0ed2867", null ],
+      [ "WebRTCServer", "classWebRTCServer.html#a91c2b446fe98224e7bd66693ccd19e21", null ],
+      [ "~WebRTCServer", "classWebRTCServer.html#a59493ccab3274ddd2930e903ba770f1d", null ],
+      [ "AddRoute", "classWebRTCServer.html#a5d584e6f650648aad396f1873984c621", null ],
+      [ "AddRoute", "classWebRTCServer.html#ab690301a156ea291d47c93a37d84ecb9", null ],
+      [ "findHttpRoute", "classWebRTCServer.html#a0d039ca61131cbe7accdce277a5629a9", null ],
+      [ "findWebsocketRoute", "classWebRTCServer.html#a74f5de3572ef64def2be980efafd45e8", null ],
+      [ "freeRoute", "classWebRTCServer.html#a2221f9f1ba155c17f6d1f4e99057f7ba", null ],
+      [ "freeRoute", "classWebRTCServer.html#a5e9b56063cac461e703148315bbf854e", null ],
+      [ "GetSTUNServer", "classWebRTCServer.html#ad3927daf271af5dead4f21a9a2ff1ac3", null ],
+      [ "HasHTTPS", "classWebRTCServer.html#adbcd3355338382847a31e5e49f5caf97", null ],
+      [ "init", "classWebRTCServer.html#aed89521ec525e2a3c24757d2444f388d", null ],
+      [ "IsThreaded", "classWebRTCServer.html#a32e99e59a4d0c536e7edcfbbd2dcdaee", null ],
+      [ "printRouteInfo", "classWebRTCServer.html#ac7e9dc3e13c0d61c2b85819ef88fc5b7", null ],
+      [ "ProcessRequests", "classWebRTCServer.html#ac49ab53764ab184efe91a8c7040be7dc", null ],
+      [ "Release", "classWebRTCServer.html#aeb70147a334c7f4aa526523707d316b9", null ],
+      [ "mHasHTTPS", "classWebRTCServer.html#acf3e2efff7428476b75b74f5199bc06b", null ],
+      [ "mHttpRoutes", "classWebRTCServer.html#a3afcb67c4dfc05a2cf80bac068b97146", null ],
+      [ "mPeerCount", "classWebRTCServer.html#a437e4568ee60de9a5e94dfe62763e2fc", null ],
+      [ "mPort", "classWebRTCServer.html#a4c5e2f97d7cbd9cf4083aeff416dc5cc", null ],
+      [ "mRefCount", "classWebRTCServer.html#a1eb643c9200b6229942cc5e7bf8c8f56", null ],
+      [ "mSoupServer", "classWebRTCServer.html#a357507a6bd6da2cb41e90148f226b740", null ],
+      [ "mSSLCertFile", "classWebRTCServer.html#ac00aed03b4a8aa98ae5b3f5088a80f9a", null ],
+      [ "mSSLKeyFile", "classWebRTCServer.html#a333a035d9db6dea40816f8685fda5b24", null ],
+      [ "mStunServer", "classWebRTCServer.html#ae4ec44a6d8bdcd422b38082689511c66", null ],
+      [ "mThread", "classWebRTCServer.html#a229d7bef55546e26fe49056465616831", null ],
+      [ "mWebsocketRoutes", "classWebRTCServer.html#a67b529a7a9e37f892fb93b7409a2035f", null ]
+    ] ],
+    [ "INET4_ADDRLEN", "group__network.html#ga1425b28c4289aa721ccbcdc804f1b511", null ],
+    [ "INET6_ADDRLEN", "group__network.html#gab0a486cc9b29e51019a796a67d452d8c", null ],
+    [ "LOG_NETWORK", "group__network.html#gaadcbced28f4da19dc28dafcb1caf262b", null ],
+    [ "LOG_RTSP", "group__network.html#gaa7305b232ee51e64c18323093003a398", null ],
+    [ "LOG_WEBRTC", "group__network.html#ga14978cf9893d6b4dc89019227ac121e7", null ],
+    [ "RTSP_DEFAULT_PORT", "group__network.html#gad453571ec9bbc7fc4e595298a9380e53", null ],
+    [ "WEBRTC_DEFAULT_PORT", "group__network.html#ga0168a2334e9e1e13b83a665c8cce0742", null ],
+    [ "WEBRTC_DEFAULT_STUN_SERVER", "group__network.html#ga99b10c89b7c09a0c753f241f9e74c894", null ],
     [ "SocketType", "group__network.html#gaa78c7398fa81f7f62aa233159d4d8d97", [
       [ "SOCKET_UDP", "group__network.html#ggaa78c7398fa81f7f62aa233159d4d8d97a180747545a72ff6d0fd0569e781aefd5", null ],
       [ "SOCKET_TCP", "group__network.html#ggaa78c7398fa81f7f62aa233159d4d8d97a2843397fd39bd96681bca78a8aa03096", null ]
     ] ],
-    [ "IPv4Address", "group__network.html#ga00f5a6e4e9c3ac864a8e53a3bb1cd89c", null ],
-    [ "IPv4AddressStr", "group__network.html#ga8275ea11113587c3353ab2409d51930e", null ],
-    [ "networkAdapters", "group__network.html#ga652cb8426e61fdd01babddb28ebcd85e", null ],
-    [ "networkHostname", "group__network.html#ga5a28e78074e7cd736f75123c93a4a3f6", null ]
+    [ "WebRTCFlags", "group__network.html#gabfc2d28deff979bf1183220b57b78bd4", [
+      [ "WEBRTC_PRIVATE", "group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a819f229f6bfeb116f686451ecdec02f0", null ],
+      [ "WEBRTC_PUBLIC", "group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a6679628f8219a94c62e06c70190bbf93", null ],
+      [ "WEBRTC_AUDIO", "group__network.html#ggabfc2d28deff979bf1183220b57b78bd4ae076480a0c0d9a717f926b7cda1744fd", null ],
+      [ "WEBRTC_VIDEO", "group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a98eb7641bdbb1edc5fe77bdd3e3650ab", null ],
+      [ "WEBRTC_SEND", "group__network.html#ggabfc2d28deff979bf1183220b57b78bd4add7aa55d55c61e54ef02a9d6561b38d3", null ],
+      [ "WEBRTC_RECEIVE", "group__network.html#ggabfc2d28deff979bf1183220b57b78bd4aa0b0d71eedf0e9cb89dad480acf2a808", null ],
+      [ "WEBRTC_MULTI_CLIENT", "group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a25abb9f2f31e749534b50835291d40f0", null ],
+      [ "WEBRTC_PEER_CONNECTING", "group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a66831e34a5556976064e4d62e5fcc753", null ],
+      [ "WEBRTC_PEER_CONNECTED", "group__network.html#ggabfc2d28deff979bf1183220b57b78bd4ad0e08bdd9c1c0a10e019235f9e341278", null ],
+      [ "WEBRTC_PEER_STREAMING", "group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a02bfc67384ac6c23bde10f88d829fb09", null ],
+      [ "WEBRTC_PEER_CLOSED", "group__network.html#ggabfc2d28deff979bf1183220b57b78bd4a1a11199124c60fea07d424d28aaa072c", null ]
+    ] ],
+    [ "getHostByName", "group__network.html#ga604bb0e239d02117b959fda9ffd28c9a", null ],
+    [ "getHostByName", "group__network.html#gab8ffc5329146c2db42c61016dcc54c76", null ],
+    [ "getHostname", "group__network.html#ga4eeeacba2fc1201c43d42a4f5145b825", null ],
+    [ "getNetworkInterfaces", "group__network.html#gab929e511b041783d8dd4650f17d80dbd", null ],
+    [ "IPv4AddressFromStr", "group__network.html#ga5eafb2061e9a44862e8fd1a59bea2fe4", null ],
+    [ "IPv4AddressToStr", "group__network.html#ga8d1b5dfaf28b99b9d86b565a242ceab8", null ],
+    [ "IPv6AddressFromStr", "group__network.html#ga35c4991d07188de821f18cfe80cdd085", null ],
+    [ "IPv6AddressToStr", "group__network.html#ga600322ef1ffde24816714c7e5a0c5624", null ],
+    [ "printNetworkInterfaces", "group__network.html#gad1ca82becf0918d589ec9938b51a977b", null ]
 ];

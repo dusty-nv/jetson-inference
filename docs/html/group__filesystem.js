@@ -14,9 +14,9 @@ var group__filesystem =
     [ "fileChangeExtension", "group__filesystem.html#gac5d5187920a9c4e1743dbd0b57ea8294", null ],
     [ "fileExists", "group__filesystem.html#ga70cae24b8865ece1b2dbc16cbbcfe700", null ],
     [ "fileExtension", "group__filesystem.html#ga45ff5e488382fe54d24f27d340fcb5d2", null ],
+    [ "fileHasExtension", "group__filesystem.html#ga684efd9f7360be64d2f0601c47552870", null ],
     [ "fileHasExtension", "group__filesystem.html#gabd437b0bcd116aa71e6ef6e49be351f1", null ],
     [ "fileHasExtension", "group__filesystem.html#gafc84dff3ce2435020bf2bcd4c02edda7", null ],
-    [ "fileHasExtension", "group__filesystem.html#ga684efd9f7360be64d2f0601c47552870", null ],
     [ "fileIsType", "group__filesystem.html#ga2fae54af76a7a9056e1589b8b25bcc1a", null ],
     [ "fileRemoveExtension", "group__filesystem.html#gaad68e41c1ebdc261ba49694e18eb8d15", null ],
     [ "fileSize", "group__filesystem.html#ga300756f37fbacd5c996a384d698a151f", null ],
@@ -25,8 +25,8 @@ var group__filesystem =
     [ "locateFile", "group__filesystem.html#ga09605d11f78fcd2d936793371d1c2ccc", null ],
     [ "locateFile", "group__filesystem.html#ga0209cabb0f62f9cfec99a763b5a0bbd1", null ],
     [ "pathDir", "group__filesystem.html#ga54a247d108dcb744e97b74cfb2c8cbdf", null ],
+    [ "pathFilename", "group__filesystem.html#gad5cfaa7262a96cffe8e5427f9a2b2a7e", null ],
     [ "pathJoin", "group__filesystem.html#ga51f3dc6065231b5ecde30f7e3f18f918", null ],
-    [ "processDirectory", "group__filesystem.html#ga57173fd6b52c0927a912961347c21ac9", null ],
-    [ "processPath", "group__filesystem.html#gad5f5bdf6b25f89fe18d5e93191cb1fd5", null ],
-    [ "workingDirectory", "group__filesystem.html#ga7587e5be3b694cbb4d0003eeb64ed365", null ]
+    [ "readFile", "group__filesystem.html#ga9161593ad3336650b604b9b7ceb15b81", null ],
+    [ "splitPath", "group__filesystem.html#ga1d7e3acbcab579b39a83ca97d7f7d519", null ]
 ];

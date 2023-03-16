@@ -1,4 +1,21 @@
 var searchData=
 [
-  ['user',['user',['../structglDisplay_1_1eventHandler.html#a5c06d37184362d34321caf43317f9ddf',1,'glDisplay::eventHandler::user()'],['../structglWidget_1_1eventHandler.html#ad2afcf0fb176377e284563dc9d630e75',1,'glWidget::eventHandler::user()']]]
+  ['save_3554',['save',['../structvideoOptions.html#a8f2128bc68ef2316b500da0d840e3942',1,'videoOptions']]],
+  ['scanformat_3555',['scanformat',['../struct__NvBufferParamsEx.html#a465f24b3f5f73a204fc9879f83cd5a95',1,'_NvBufferParamsEx']]],
+  ['screenidx_3556',['screenIdx',['../classglDisplay.html#a987e05d68219418d2d232665d92cc1a2',1,'glDisplay']]],
+  ['secondfieldoffset_3557',['secondfieldoffset',['../struct__NvBufferParamsEx.html#ac282c3b59b502978a483219b69e6bcf3',1,'_NvBufferParamsEx']]],
+  ['server_3558',['server',['../structWebRTCPeer.html#a8a3cfd24818f03363a8126037c77a26d',1,'WebRTCPeer']]],
+  ['session_3559',['session',['../struct__NvBufferCompositeParams.html#a10b84695f3d9f778d89bb96a98373e1a',1,'_NvBufferCompositeParams::session()'],['../struct__NvBufferTransformParams.html#a8d165dfd6866f0b2dd56006fb6a9a864',1,'_NvBufferTransformParams::session()']]],
+  ['size_3560',['size',['../structtensorNet_1_1layerInfo.html#a1b51ab468f77ef7fd5524063e972ea11',1,'tensorNet::layerInfo']]],
+  ['sizeofvaliddatainbytes_3561',['sizeofvaliddatainbytes',['../struct__NvBufferParamsEx.html#a928cb3864cdb66b061b6f9cb870b90c8',1,'_NvBufferParamsEx']]],
+  ['src_5fcomp_5frect_3562',['src_comp_rect',['../struct__NvBufferCompositeParams.html#a94216bacb17bed38b3c372ef2c08745f',1,'_NvBufferCompositeParams']]],
+  ['src_5frect_3563',['src_rect',['../struct__NvBufferTransformParams.html#a75241c4f2033fce34be59ab3ee4e7548',1,'_NvBufferTransformParams']]],
+  ['sslcert_3564',['sslCert',['../structvideoOptions.html#a236086322dc1d853b29c1fa570c8723d',1,'videoOptions']]],
+  ['sslkey_3565',['sslKey',['../structvideoOptions.html#abc783d9782db081aa07af5f01e5c902c',1,'videoOptions']]],
+  ['startofvaliddata_3566',['startofvaliddata',['../struct__NvBufferParamsEx.html#a2e387503fb7e5678d7d0424d26b09cf8',1,'_NvBufferParamsEx']]],
+  ['string_3567',['string',['../classcsvData.html#a0b8a168b80460cdf91c7e926a76b1346',1,'csvData::string()'],['../structURI.html#a6ddfb39ef99352b24fef204ecb39404f',1,'URI::string()']]],
+  ['stunserver_3568',['stunServer',['../structvideoOptions.html#a8c6f6313d185d475703557642b4f9a47',1,'videoOptions']]],
+  ['supportedextensions_3569',['SupportedExtensions',['../classgstDecoder.html#af3f60fa3ebece14ba29f4a869304e4b4',1,'gstDecoder::SupportedExtensions()'],['../classgstEncoder.html#a675b50aae5ee8e07c28599f4c07aa91b',1,'gstEncoder::SupportedExtensions()'],['../classimageLoader.html#a46d3705032f0d45efab1ae07788a6e1a',1,'imageLoader::SupportedExtensions()'],['../classimageWriter.html#a3d0b61d9546c58044cfa200b4126edda',1,'imageWriter::SupportedExtensions()']]],
+  ['syncobj_3570',['syncobj',['../struct__NvBufferParamsEx.html#aa712f978e210dd38a161da12366d601f',1,'_NvBufferParamsEx']]],
+  ['syncpointid_3571',['syncpointID',['../struct__NvBufferSyncObjParams.html#aa39deb7a6c1cb9227219a93b099f4e08',1,'_NvBufferSyncObjParams']]]
 ];

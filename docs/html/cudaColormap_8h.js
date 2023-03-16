@@ -18,10 +18,10 @@ var cudaColormap_8h =
       [ "COLORMAP_LINEAR", "group__colormap.html#ggab66101108d92e39f9ab9283c31da3550a02c92018e1199bf5574c97044214a808", null ],
       [ "COLORMAP_DEFAULT", "group__colormap.html#ggab66101108d92e39f9ab9283c31da3550a02b62792467077e77c5d4cdc8e9e1968", null ]
     ] ],
-    [ "cudaColormap", "group__colormap.html#ga886c4be05916db8cedf2c942b0ed7e7c", null ],
-    [ "cudaColormap", "group__colormap.html#gaa7e5740290226dfb548259bf3c2064ea", null ],
     [ "cudaColormap", "group__colormap.html#gab317f19ccabec46729b7f65d26db9d83", null ],
     [ "cudaColormap", "group__colormap.html#ga009c4ac5c1e096fee2882697a9372b62", null ],
+    [ "cudaColormap", "group__colormap.html#ga886c4be05916db8cedf2c942b0ed7e7c", null ],
+    [ "cudaColormap", "group__colormap.html#gaa7e5740290226dfb548259bf3c2064ea", null ],
     [ "cudaColormapFree", "group__colormap.html#ga635d08d990c024d0a36483490c0899a0", null ],
     [ "cudaColormapFromStr", "group__colormap.html#ga1e36b770c903d6cc1891d2f9baae494a", null ],
     [ "cudaColormapInit", "group__colormap.html#ga91c6bbab13dad41089d483d1eee23d08", null ],

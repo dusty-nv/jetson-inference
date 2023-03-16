@@ -7,9 +7,9 @@ var classThread =
     [ "LockAffinity", "classThread.html#a786ef18c62603f0fe041e95391637740", null ],
     [ "Run", "classThread.html#ac852bc49c5bf8c2f448e4df85b1a4cae", null ],
     [ "SetPriorityLevel", "classThread.html#a46f5f8800a58219817127784c75ed1ba", null ],
-    [ "StartThread", "classThread.html#aeb4de8e03ee2008da85d695d64cf8ad6", null ],
-    [ "StartThread", "classThread.html#ababf2abf54d34b950414a49b0c4b1cc4", null ],
-    [ "StopThread", "classThread.html#ae1921e898030889d5efa0b816af73ae5", null ],
+    [ "Start", "classThread.html#a279c2b78aa2bf43371f2462623588830", null ],
+    [ "Start", "classThread.html#af729f1405c5c2a4fb43bc5f4d249bedf", null ],
+    [ "Stop", "classThread.html#a3e16995fb09c32004824ce8be5d11045", null ],
     [ "mThreadID", "classThread.html#a7599581878120ead1dd50636f3806afd", null ],
     [ "mThreadStarted", "classThread.html#ab34c3d6ae645c5aed480b86855b9253c", null ]
 ];

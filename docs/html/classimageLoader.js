@@ -2,8 +2,7 @@ var classimageLoader =
 [
     [ "~imageLoader", "classimageLoader.html#afb1939d2bbd24f54c419a33e1b1171d8", null ],
     [ "imageLoader", "classimageLoader.html#a5e8b816f3ebe2042b2d6cdd9ee70ed47", null ],
-    [ "Capture", "classimageLoader.html#aeb9f3168015df0257bb53f26a8b2874c", null ],
-    [ "Capture", "classimageLoader.html#a4c00ad180f648a1d60478dfd1057db6f", null ],
+    [ "Capture", "classimageLoader.html#a8b71a373faf66fb0c6e287acb8d5684c", null ],
     [ "Close", "classimageLoader.html#ac06b32600a172fc0107ffe8240a13cb4", null ],
     [ "GetType", "classimageLoader.html#a4b196ca1c23d9322d5b9bba6e05e0bdf", null ],
     [ "IsEOS", "classimageLoader.html#a76136fd767f46d4e413bc1d7a279a75e", null ],

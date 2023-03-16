@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['v4l2camera',['v4l2Camera',['../classv4l2Camera.html',1,'']]],
-  ['vertex',['Vertex',['../structcudaPointCloud_1_1Vertex.html',1,'cudaPointCloud']]],
-  ['videooptions',['videoOptions',['../structvideoOptions.html',1,'']]],
-  ['videooutput',['videoOutput',['../classvideoOutput.html',1,'']]],
-  ['videosource',['videoSource',['../classvideoSource.html',1,'']]]
+  ['segnet_2124',['segNet',['../classsegNet.html',1,'']]],
+  ['socket_2125',['Socket',['../classSocket.html',1,'']]],
+  ['strpair_2126',['StrPair',['../classtinyxml2_1_1StrPair.html',1,'tinyxml2']]]
 ];

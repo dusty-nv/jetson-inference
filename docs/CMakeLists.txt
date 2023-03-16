@@ -13,9 +13,11 @@ if( DOXYGEN_FOUND )
 					COMMENT "Generating API documentation" VERBATIM )
 
 	add_custom_command(TARGET "docs" POST_BUILD 
-				    COMMAND pydoc -w jetson
-				    COMMAND pydoc -w jetson.inference
-				    COMMAND pydoc -w jetson.utils
+				    COMMAND pydoc3 -w jetson
+				    COMMAND pydoc3 -w jetson.inference
+				    COMMAND pydoc3 -w jetson.utils
+				    COMMAND pydoc3 -w jetson_inference
+				    COMMAND pydoc3 -w jetson_utils
 				    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/jetson*.html ${PROJECT_OUTPUT_DIR}/docs/html/python
 				    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/navtree.js ${PROJECT_OUTPUT_DIR}/docs/html
 				    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_OUTPUT_DIR}/docs/html/group__deepVision.html ${PROJECT_OUTPUT_DIR}/docs/html/index.html 

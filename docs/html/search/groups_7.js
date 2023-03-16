@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['networking',['Networking',['../group__network.html',1,'']]],
-  ['normalization',['Normalization',['../group__normalization.html',1,'']]]
+  ['logging_4053',['Logging',['../group__log.html',1,'']]]
 ];

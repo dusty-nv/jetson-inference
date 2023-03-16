@@ -1,5 +1,6 @@
 var IPv4_8h =
 [
-    [ "IPv4Address", "group__network.html#ga00f5a6e4e9c3ac864a8e53a3bb1cd89c", null ],
-    [ "IPv4AddressStr", "group__network.html#ga8275ea11113587c3353ab2409d51930e", null ]
+    [ "INET4_ADDRLEN", "group__network.html#ga1425b28c4289aa721ccbcdc804f1b511", null ],
+    [ "IPv4AddressFromStr", "group__network.html#ga5eafb2061e9a44862e8fd1a59bea2fe4", null ],
+    [ "IPv4AddressToStr", "group__network.html#ga8d1b5dfaf28b99b9d86b565a242ceab8", null ]
 ];

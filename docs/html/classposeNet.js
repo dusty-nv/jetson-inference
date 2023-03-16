@@ -2,12 +2,6 @@ var classposeNet =
 [
     [ "ObjectPose", "structposeNet_1_1ObjectPose.html", "structposeNet_1_1ObjectPose" ],
     [ "Topology", "structposeNet_1_1Topology.html", "structposeNet_1_1Topology" ],
-    [ "NetworkType", "classposeNet.html#a8f9cb10b4594259301b205f1cfcc730b", [
-      [ "CUSTOM", "classposeNet.html#a8f9cb10b4594259301b205f1cfcc730babe1502e46700415f479ab1d50747e93b", null ],
-      [ "RESNET18_BODY", "classposeNet.html#a8f9cb10b4594259301b205f1cfcc730ba2a6cc889fd51ed74db5e34d39d56696d", null ],
-      [ "RESNET18_HAND", "classposeNet.html#a8f9cb10b4594259301b205f1cfcc730ba09c08a10758147e0f6bcf35b7107cee8", null ],
-      [ "DENSENET121_BODY", "classposeNet.html#a8f9cb10b4594259301b205f1cfcc730ba77c209d62da147f44148c7c99fe3f171", null ]
-    ] ],
     [ "OverlayFlags", "classposeNet.html#afda0875e027f7039538b8d2f6b92118a", [
       [ "OVERLAY_NONE", "classposeNet.html#afda0875e027f7039538b8d2f6b92118aac903ec60b2ac0e00b29a15f5b42380c3", null ],
       [ "OVERLAY_BOX", "classposeNet.html#afda0875e027f7039538b8d2f6b92118aa22fcdd5a4a06b67fdcb1e063a8755f23", null ],
@@ -32,11 +26,11 @@ var classposeNet =
     [ "Overlay", "classposeNet.html#a33653eab2f50e1ac5b0b6fc4ecd793ce", null ],
     [ "postProcess", "classposeNet.html#a07a41e411e22e87fd52d2e1d52bba710", null ],
     [ "Process", "classposeNet.html#ac429431dc3b83dcd5a5f3fcffe446047", null ],
-    [ "Process", "classposeNet.html#a660791bc726ceb4672d3a6b75b7e8486", null ],
     [ "Process", "classposeNet.html#a8ecb6dbc5b0246c6145c1f6222772996", null ],
+    [ "Process", "classposeNet.html#a660791bc726ceb4672d3a6b75b7e8486", null ],
     [ "Process", "classposeNet.html#a63311574884f4be3aa0b5747813f0bbe", null ],
-    [ "SetKeypointAlpha", "classposeNet.html#a635342be17027229bb25e68fe7bd96b9", null ],
     [ "SetKeypointAlpha", "classposeNet.html#aae9991bb67affc332b2a3fd671713033", null ],
+    [ "SetKeypointAlpha", "classposeNet.html#a635342be17027229bb25e68fe7bd96b9", null ],
     [ "SetKeypointColor", "classposeNet.html#acdbdb599f7f0ae08b2ab3c11d2db625e", null ],
     [ "SetKeypointScale", "classposeNet.html#a90970ad4e9c23f1624bb7415ddc5db5c", null ],
     [ "SetLinkScale", "classposeNet.html#a54a554418a2328e46504c9152e4a5330", null ],
