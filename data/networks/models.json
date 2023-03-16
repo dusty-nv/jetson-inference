@@ -306,7 +306,7 @@
         },
         
         "fcn-resnet18-voc-320x320": {
-            "alias": ["fcn_resnet18_voc_320x320", "fcn_resnet18_voc", "fcn-resnet18-voc", "fcn_resnet18_pascal_voc", "fcn-resnet18-pascal-voc"],
+            "alias": ["fcn_resnet18_voc_320x320", "fcn_resnet18_voc", "fcn-resnet18-voc", "fcn_resnet18_pascal_voc", "fcn-resnet18-pascal-voc", "fcn-resnet18-pascal-voc-320x320", "fcn_resnet18_pascal_voc_320x320"],
             "url": "https://nvidia.box.com/shared/static/p63pgrr6tm33tn23913gq6qvaiarydaj.gz",
             "tar": "FCN-ResNet18-Pascal-VOC-320x320.tar.gz",
             "dir": "FCN-ResNet18-Pascal-VOC-320x320",
@@ -317,7 +317,7 @@
         },
         
         "fcn-resnet18-voc-512x320": {
-            "alias": ["fcn_resnet18_voc_512x320"],
+            "alias": ["fcn_resnet18_voc_512x320", "fcn_resnet18_pascal_voc_512x320", "fcn-resnet18-pascal-voc-512x320"],
             "url": "https://nvidia.box.com/shared/static/njup7f3vu4mgju89kfre98olwljws5pk.gz",
             "tar": "FCN-ResNet18-Pascal-VOC-512x320.tar.gz",
             "dir": "FCN-ResNet18-Pascal-VOC-512x320",
@@ -387,7 +387,7 @@
     
     "monodepth": {
         "fcn-mobilenet": {
-            "alias": ["fcn_mobilenet", "monodepth-mobilenet", "monodepth_mobilenet", "mobilenet"],
+            "alias": ["fcn_mobilenet", "monodepth-mobilenet", "monodepth_mobilenet", "monodepth_fcn_mobilenet", "monodepth-fcn-mobilenet", "mobilenet"],
             "url": "https://nvidia.box.com/shared/static/frgbiqeieaja0o8b0eyb87fjbsqd4zup.gz",
             "tar": "MonoDepth-FCN-Mobilenet.tar.gz",
             "dir": "MonoDepth-FCN-Mobilenet",
