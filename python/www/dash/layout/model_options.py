@@ -54,7 +54,7 @@ def create_model_options(model={}):
     )
 
     children += [dbc.ModalBody([tabs, html.Div(id='model_content', className='pt-2')])]
-    children += [dbc.ModalFooter(dbc.Button('Apply', id={'type': 'model_options_submit', 'index': 0}, className='ms-auto', n_clicks=0))]
+    children += [dbc.ModalFooter(dbc.Button('Load', id={'type': 'model_options_submit', 'index': 0}, className='ms-auto', n_clicks=0))]
     
     return children
   
@@ -70,8 +70,8 @@ def create_pretrained_options():
                 options=[
                     {'label': 'Classification', 'value': 'classification'},
                     {'label': 'Object Detection', 'value': 'detection'},
-                    {'label': 'Semantic Segmentation', 'value': 'segmentation'},
-                    {'label': 'Pose Estimation', 'value': 'pose'},
+                    #{'label': 'Semantic Segmentation', 'value': 'segmentation'},
+                    #{'label': 'Pose Estimation', 'value': 'pose'},
                 ],
                 value='classification',
                 id='model_pretrained_type',

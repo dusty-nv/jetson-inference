@@ -4,7 +4,7 @@ from .grid import create_grid
 from .navbar import create_navbar
 from .alerts import create_alerts
 from .actions import create_actions_dialog
-from .events import create_event_table
+from .event_table import create_event_table
 from .event_timeline import create_event_timeline
 
 from .video_player import create_video_player
