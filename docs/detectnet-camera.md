@@ -65,7 +65,7 @@ $ ./detectnet-camera --network=coco-dog
 $ ./detectnet-camera.py --network=coco-dog
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/detectnet_camera_dog.jpg" width="800">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet_camera_dog.jpg" width="800">
 
 <br/>
 

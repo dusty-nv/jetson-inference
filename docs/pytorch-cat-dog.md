@@ -7,7 +7,7 @@
 
 The first model that we'll be re-training is a simple model that recognizes two classes:  cat or dog.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat-dog.jpg" width="700">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-cat-dog.jpg" width="700">
 
 Provided below is an 800MB dataset that includes 5000 training images, 1000 validation images, and 200 test images, each evenly split between the cat and dog classes.  The set of training images is used for transfer learning, while the validation set is used to evaluate classification accuracy during training, and the test images are to be used by us after training completes.  The network is never directly trained on the validation and test sets, only the training set.
 
