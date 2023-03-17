@@ -30,7 +30,7 @@ For examples of using these functions, see [`cuda-examples.py`](https://github.c
 
 Although the [video streaming](aux-streaming#source-code) APIs and DNN objects (such [`imageNet`](c/imageNet.h), [`detectNet`](c/detectNet.h), and [`segNet`](c/segNet.h)) expect images in RGB/RGBA format, a variety of other formats are defined for sensor acquisition and low-level I/O:  
 
-|                 | Format string | [`imageFormat` enum](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406)   | Data Type | Bit Depth |
+|                 | Format string | [`imageFormat` enum](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406)   | Data Type | Bit Depth |
 |-----------------|---------------|--------------------|-----------|-----------|
 | **RGB/RGBA**    | `rgb8`        | `IMAGE_RGB8`       | `uchar3`  | 24        |
 |                 | `rgba8`       | `IMAGE_RGBA8`      | `uchar4`  | 32        |

@@ -95,7 +95,7 @@ You can keep an eye on these statistics during training to gauge how well the mo
 
 On this dataset of 5000 images, training ResNet-18 takes approximately ~7-8 minutes per epoch on Jetson Nano, or around 4 hours to train the model to 35 epochs and 80% classification accuracy.  Below is a graph for analyzing the training progression of epochs versus model accuracy:
 
-<p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat-dog-training.jpg" width="700"></p>
+<p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-cat-dog-training.jpg" width="700"></p>
 
 At around epoch 30, the ResNet-18 model reaches 80% accuracy, and at epoch 65 it converges on 82.5% accuracy.  With additional training time, you could further improve the accuracy by increasing the size of the dataset (see the [Generating More Data](#generating-more-data-optional) section below) or by trying more complex models.
 
@@ -132,7 +132,7 @@ imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 
 imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-cat.jpg">
 
 ```bash
 # C++
@@ -142,7 +142,7 @@ imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 
 imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-dog.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-dog.jpg">
 
 ### Processing all the Test Images
 
@@ -177,7 +177,7 @@ imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output
 ```
 > **note:** for information about supported video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-otto.jpg" width="500">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-otto.jpg" width="500">
 
 ## Generating More Data (Optional)
 

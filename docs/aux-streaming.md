@@ -308,14 +308,14 @@ If you wish to specify the filename format, do so by using the printf-style `%i`
 
 Streams are accessed using the [`videoSource`](https://github.com/dusty-nv/jetson-utils/tree/master/video/videoSource.h) and [`videoOutput`](https://github.com/dusty-nv/jetson-utils/tree/master/video/videoOutput.h) objects.  These have the ability to handle each of the types of streams from above through a unified set of APIs.  Images can be captured and output in the following data formats:  
 
-| Format string | [`imageFormat` enum](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406) | Data Type | Bit Depth |
+| Format string | [`imageFormat` enum](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406) | Data Type | Bit Depth |
 |---------------|------------------|-----------|-----------|
 | `rgb8`        | `IMAGE_RGB8`     | `uchar3`  | 24        |
 | `rgba8`       | `IMAGE_RGBA8`    | `uchar4`  | 32        |
 | `rgb32f`      | `IMAGE_RGB32F`   | `float3`  | 96        |
 | `rgba32f`     | `IMAGE_RGBA32F`  | `float4`  | 128       |
 
-* the Data Type and [`imageFormat`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406) enum are C++ types
+* the Data Type and [`imageFormat`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406) enum are C++ types
 * in Python, the format string can be passed to `videoSource.Capture()` to request a specific format (the default is `rgb8`)
 * in C++, the `videoSource::Capture()` template will infer the format from the data type of the output pointer
 

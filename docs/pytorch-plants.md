@@ -7,7 +7,7 @@
 
 Next, we'll train a model capable of classifying 20 different varieties of plants and trees from the <a href="https://www.imageclef.org/lifeclef/2017/plant">PlantCLEF</a> dataset.
 
-<a href="https://www.imageclef.org/lifeclef/2017/plant"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants.jpg"></a>
+<a href="https://www.imageclef.org/lifeclef/2017/plant"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-plants.jpg"></a>
 
 Provided below is a 1.5GB subset that includes 10,475 training images, 1,155 validation images, and 30 test images across 20 classes of plants and trees.  The classes were selected from PlantCLEF 2017 from categories that had at least 500 training images in the original dataset:
 
@@ -91,7 +91,7 @@ See the [Training Metrics](pytorch-cat-dog.md#training-metrics) from the previou
 
 On the PlantCLEF dataset of 10,475 images, training ResNet-18 takes approximately ~15 minutes per epoch on Jetson Nano, or around 8 hours to train the model for 35 epochs.  Below is a graph for analyzing the training progression of epochs versus model accuracy:
 
-<p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-training.jpg" width="700"></p>
+<p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-plants-training.jpg" width="700"></p>
 
 At around epoch 30, the ResNet-18 model reaches 75% Top-5 accuracy, and at epoch 65 it converges on 85% Top-5 accuracy.  Interestingly these points of stability and convergence for the model occur at similiar times for ResNet-18 that they did for the previous Cat/Dog model.  The model's Top-1 accuracy is 55%, which we'll find to be quite effective in practice, given the diversity and challenging content from the PlantCLEF dataset (i.e. multiple overlapping varieties of plants per image and many pictures of leaves and tree trunks that are virtually indistinguishable from one another).  
 
@@ -126,7 +126,7 @@ imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 
 imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cattail.jpg cattail.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-cattail.jpg" width="500">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-plants-cattail.jpg" width="500">
 
 ```bash
 # C++
@@ -136,7 +136,7 @@ imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 
 imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/elm.jpg elm.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-elm.jpg" width="500">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-plants-elm.jpg" width="500">
 
 ```bash
 # C++
@@ -146,7 +146,7 @@ imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 
 imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/juniper.jpg juniper.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-juniper.jpg" width="500">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-plants-juniper.jpg" width="500">
 
 There are a bunch of test images included with the dataset, or you can download your own pictures to try.
 
@@ -177,9 +177,9 @@ imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 
 imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-fern.jpg" width="500">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-plants-fern.jpg" width="500">
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-plants-poison-ivy.jpg" width="500">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-plants-poison-ivy.jpg" width="500">
 
 Looks like I should be watching out for poison ivy!  
 

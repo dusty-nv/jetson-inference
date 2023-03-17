@@ -7,7 +7,7 @@
 
 In order to collect your own datasets for training customized models to classify objects or scenes of your choosing, we've created an easy-to-use tool called `camera-capture` for capturing and labeling images on your Jetson from live video:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-collection.jpg" >
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-collection.jpg" >
 
 The tool will create datasets with the following directory structure on disk:
 
@@ -91,13 +91,13 @@ $ camera-capture /dev/video0   # using V4L2 camera /dev/video0
 
 Below is the `Data Capture Control` window, which allows you to pick the desired path to the dataset and load the class label file that you created above, and then presents options for selecting the current object class and train/val/test set that you are currently collecting data for:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-collection-widget.jpg" >
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-collection-widget.jpg" >
 
 First, open the dataset path and class labels.  The tool will then create the dataset structure discussed above (unless these subdirectories already exist), and you will see your object labels populated inside the `Current Class` drop-down.  Leave the `Dataset Type` as Classification.
 
 Then position the camera at the object or scene you have currently selected in the drop-down, and click the `Capture` button (or press the spacebar) when you're ready to take an image.  The images will be saved under that class subdirectory in the train, val, or test set.  The status bar displays how many images have been saved under that category.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-capture-brontosaurus.gif" >
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-capture-brontosaurus.gif" >
 
 It's recommended to collect at least 100 training images per class before attempting training.  A rule of thumb for the validation set is that it should be roughly 10-20% the size of the training set, and the size of the test set is simply dictated by how many static images you want to test on.  You can also just run the camera to test your model if you'd like.
 

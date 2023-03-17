@@ -33,7 +33,7 @@ It comes pre-populated with the JetPack components already installed and can be 
 
 Other Jetson's should be flashed by downloading the [NVIDIA SDK Manager](https://developer.nvidia.com/embedded/dlc/nv-sdk-manager) to a host PC running Ubuntu 16.04 x86_64 or Ubuntu 18.04 x86_64.  Connect the Micro-USB or USB-C port to your host PC and enter the device into Recovery Mode.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/nvsdkm.png" width="800">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/nvsdkm.png" width="800">
 
 For more details, please refer to the **[NVIDIA SDK Manager Documentation](https://docs.nvidia.com/sdk-manager/index.html)**.
 

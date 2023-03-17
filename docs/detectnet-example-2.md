@@ -5,7 +5,7 @@
 
 # Coding Your Own Object Detection Program
 
-In this step of the tutorial, we'll walk through the creation of the previous example for realtime object detection on a live camera feed in only 10 lines of Python code.  The program will load the detection network with the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#detectNet) object, capture video frames and process them, and then render the detected objects to the display.
+In this step of the tutorial, we'll walk through the creation of the previous example for realtime object detection on a live camera feed in only 10 lines of Python code.  The program will load the detection network with the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet) object, capture video frames and process them, and then render the detected objects to the display.
 
 For your convenience and reference, the completed source is available in the [`python/examples/my-detection.py`](../python/examples/my-detection.py) file of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing.  
 
@@ -35,7 +35,7 @@ First, open up your text editor of choice and create a new file.  Below we'll as
 
 #### Importing Modules
 
-At the top of the source file, we'll import the Python modules that we're going to use in the script.  Add `import` statements to load the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) modules used for object detection and camera capture.
+At the top of the source file, we'll import the Python modules that we're going to use in the script.  Add `import` statements to load the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html) modules used for object detection and camera capture.
 
 ``` python
 import jetson.inference
@@ -47,7 +47,7 @@ import jetson.utils
 
 #### Loading the Detection Model
 
-Next use the following line to create a [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) object instance that loads the [91-class](../data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model:
+Next use the following line to create a [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet) object instance that loads the [91-class](../data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model:
 
 ``` python
 # load the object detection model
@@ -58,7 +58,7 @@ Note that you can change the model string to one of the values from [this table]
 
 #### Opening the Camera Stream
 
-To connect to the camera device for streaming, we'll create an instance of the [`videoSource`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.utils.html#videoSource) object:
+To connect to the camera device for streaming, we'll create an instance of the [`videoSource`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#videoSource) object:
 
 ``` python
 camera = jetson.utils.videoSource("csi://0")      # '/dev/video0' for V4L2
@@ -73,7 +73,7 @@ The string passed to `videoSource()` can actually be any valid resource URI, whe
 
 #### Display Loop
 
-Next, we'll create a video output interface with the [`videoOutput`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.utils.html#videoOutput) object and create a main loop that will run until the user exits:
+Next, we'll create a video output interface with the [`videoOutput`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#videoOutput) object and create a main loop that will run until the user exits:
 
 ``` python
 display = jetson.utils.videoOutput("display://0") # 'my_video.mp4' for file
@@ -118,7 +118,7 @@ Next the detection network processes the image with the `net.Detect()` function.
 
 This function will also automatically overlay the detection results on top of the input image.
 
-If you want, you can add a `print(detections)` statement here, and the coordinates, confidence, and class info will be printed out to the terminal for each detection result.  Also see the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) documentation for info about the different members of the `Detection` structures that are returned for accessing them directly in a custom application.
+If you want, you can add a `print(detections)` statement here, and the coordinates, confidence, and class info will be printed out to the terminal for each detection result.  Also see the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet) documentation for info about the different members of the `Detection` structures that are returned for accessing them directly in a custom application.
 
 #### Rendering
 

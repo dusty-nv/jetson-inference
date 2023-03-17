@@ -7,7 +7,7 @@
 
 [Plotly Dash](https://plotly.com/dash/) is a Python-based web framework for building data-driven dashboard and interactive UI's.  On the frontend it uses [React.js](https://reactjs.org/) client-side, which connects state changes to Python callbacks running on the server.  With it, you can quickly develop rich visualizations that integrate with backend processing pipelines and data analytics.  In this example (found under [`python/www/dash`](../python/www/dash)), users can dynamically create streams, load DNN models, visualize events, and setup extendable actions triggered by events:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash.jpg" width="1000">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-dash.jpg" width="1000">
 
 As before, it uses WebRTC for streaming live video and TensorRT for inferencing.  Note that this sample is still under development as a proof-of-concept.  For reference, the project is structured as follows:
 
@@ -35,7 +35,7 @@ You should then be able to navigate your browser to `https://<JETSON-IP>:8050` a
 
 The first thing to do is to load some DNN models by going to the `Models -> Load Model` menu.  Currently it supports loading pre-trained classification and detection models, in addition to importing custom-trained ONNX models:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-model-load.jpg" width="400">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-dash-model-load.jpg" width="400">
 
 After selecting the model in the dialog, you should see a status message appear at the bottom of the main page when it's been loaded.  Typically this takes a 5-10 seconds, but if it's the first time you've loaded that particular model it could take TensorRT a few minutes to generate the network engine (to avoid this delay, it's recommended to load the model once with one of the imagenet.py/detectnet.py programs prior to running the webapp)
 
@@ -43,7 +43,7 @@ After selecting the model in the dialog, you should see a status message appear 
 
 To load a customized classification or detection ONNX model that you trained with PyTorch from the Hello AI World tutorial (i.e. with [`train.py`](pytorch-cat-dog.md#re-training-resnet-18-model) or [`train_ssd.py`](https://github.com/dusty-nv/jetson-inference/blob/dev/docs/pytorch-collect-detection.md#training-your-model)), switch to the `Import` tab:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-model-import.jpg" width="400">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-dash-model-import.jpg" width="400">
 
 It's expected that your model already exists somewhere on the server, and you can fill out the input/output layer names with the same ones you would use with imagenet.py/detectnet.py (like used [here](pytorch-cat-dog.md#processing-images-with-tensorrt) for classification and [here](pytorch-ssd.md#processing-images-with-tensorrt) for detection)
 
@@ -51,7 +51,7 @@ It's expected that your model already exists somewhere on the server, and you ca
 
 By opening the `Streams -> Add Stream` menu, you can specify video sources to stream, along with the DNN models that you want applied:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-add-stream.jpg" width="400">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-dash-add-stream.jpg" width="400">
 
 The syntax for connecting to various types of cameras and video devices can be found on the [Camera Streaming and Multimedia](aux-streaming.md) page.  Note that WebRTC input from browser webcams is not yet supported in this sample, but will be added.  After you add a stream, you can open it's video player by selecting it from the `Streams` menu.  The panel widgets are draggable, resizeable, and collapsable.
 
@@ -59,11 +59,11 @@ The syntax for connecting to various types of cameras and video devices can be f
 
 When the output of a DNN changes (i.e. the classification result changes, or a new object is detected) it logs an event in the system.  These events can be monitored in realtime by opening the Events Table from under the `Events` menu:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-event-table.jpg" width="750">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-dash-event-table.jpg" width="750">
 
 You can filter and sort by column in the table, and visualize the results in the Event Timeline:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-event-timeline.jpg" width="750">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-dash-event-timeline.jpg" width="750">
 
 The y-axis of this plot shows confidence score, the x-axis shows time, and each object class gets a different trace in the chart.  Quickly creating different types of dynamic [graphs](https://plotly.com/python/) and [tables](https://dash.plotly.com/datatable) is a strong feature of Plotly Dash, and you can extend these when creating your own apps.
 
@@ -71,7 +71,7 @@ The y-axis of this plot shows confidence score, the x-axis shows time, and each 
 
 Actions are plugins that filter events and trigger user-defined code (such as alerts/notifications, playing sounds, or generating a physical response) when such an event occurs.  An action's properties are exposed through the web UI so that they are configurable at runtime:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-dash-actions.jpg" width="400">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-dash-actions.jpg" width="400">
 
 You can add your own action types under the project's [`actions/`](../python/www/dash/actions) directory, and they'll automatically be loaded by the app at start-up and selectable from the UI.  Multiple instances of a type of action can be created by the user, each with independent settings they can control. 
 

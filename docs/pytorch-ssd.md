@@ -7,11 +7,11 @@
 
 Next, we'll train our own SSD-Mobilenet object detection model using PyTorch and the [Open Images](https://storage.googleapis.com/openimages/web/visualizer/index.html?set=train&type=detection&c=%2Fm%2F06l9r) dataset.  SSD-Mobilenet is a popular network architecture for realtime object detection on mobile and embedded devices that combines the [SSD-300](https://arxiv.org/abs/1512.02325) Single-Shot MultiBox Detector with a [Mobilenet](https://arxiv.org/abs/1704.04861) backbone.  
 
-<a href="https://arxiv.org/abs/1512.02325"><img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-ssd-mobilenet.jpg"></a>
+<a href="https://arxiv.org/abs/1512.02325"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-ssd-mobilenet.jpg"></a>
 
 In the example below, we'll train a custom detection model that locates 8 different varieties of fruit, although you are welcome to pick from any of the [600 classes](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt) in the Open Images dataset to train your model on.  You can visually browse the dataset [here](https://storage.googleapis.com/openimages/web/visualizer/index.html?set=train&type=detection).
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-fruit.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-fruit.jpg">
 
 To get started, first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6** on your Jetson.  JetPack 4.4 includes TensorRT 7.1, which is the minimum TensorRT version that supports loading SSD-Mobilenet via ONNX.  And the PyTorch training scripts used for training SSD-Mobilenet are for Python3, so PyTorch should be installed for Python 3.6.
 
@@ -179,7 +179,7 @@ detectnet --model=models/fruit/ssd-mobilenet.onnx --labels=models/fruit/labels.t
 
 Below are some of the images output to the `$IMAGES/test` directory:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-fruit-2.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-fruit-2.jpg">
 
 ## Running the Live Camera Program
 

@@ -7,7 +7,7 @@
 
 Transfer learning is a technique for re-training a DNN model on a new dataset, which takes less time than training a network from scratch.  With transfer learning, the weights of a pre-trained model are fine-tuned to classify a customized dataset.  In these examples, we'll be using the <a href="https://arxiv.org/abs/1512.03385">ResNet-18</a> and [SSD-Mobilenet](pytorch-ssd.md) networks, although you can experiment with other networks too.
 
-<p align="center"><a href="https://arxiv.org/abs/1512.03385"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-resnet-18.png" width="600"></a></p>
+<p align="center"><a href="https://arxiv.org/abs/1512.03385"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-resnet-18.png" width="600"></a></p>
 
 Although training is typically performed on a PC, server, or cloud instance with discrete GPU(s) due to the often large datasets used and the associated computational demands, by using transfer learning we're able to re-train various networks onboard Jetson to get started with training and deploying our own DNN models.  
 
@@ -22,7 +22,7 @@ $ cd jetson-inference/build
 $ ./install-pytorch.sh
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/pytorch-installer.jpg" width="650">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/docs/images/pytorch-installer.jpg" width="650">
 
 > **note**: the automated PyTorch installation tool requires JetPack 4.2 or newer.<br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and if you want to do [Object Detection Training](pytorch-ssd.md), you should use JetPack 4.4 or newer and install PyTorch for **Python 3.6**.

@@ -6,7 +6,7 @@
 # Classifying Images with ImageNet
 There are multiple types of deep learning networks available, including recognition, detection/localization, and semantic segmentation.  The first deep learning capability we're highlighting in this tutorial is **image recognition**, using classifcation networks that have been trained on large datasets to identify scenes and objects.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/pytorch/docs/images/imagenet.jpg" width="1000">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet.jpg" width="1000">
 
 The [`imageNet`](../c/imageNet.h) object accepts an input image and outputs the probability for each class.  Having been trained on the ImageNet ILSVRC dataset of **[1000 objects](../data/networks/ilsvrc12_synset_words.txt)**, the GoogleNet and ResNet-18 models were automatically downloaded during the build step.  See [below](#downloading-other-classification-models) for other classification models that can be downloaded and used as well.
 
@@ -41,7 +41,7 @@ $ ./imagenet.py images/orange_0.jpg images/test/output_0.jpg  # (default network
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-orange.jpg" width="650">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-orange.jpg" width="650">
 
 ``` bash
 # C++
@@ -51,7 +51,7 @@ $ ./imagenet images/strawberry_0.jpg images/test/output_1.jpg
 $ ./imagenet.py images/strawberry_0.jpg images/test/output_1.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-strawberry.jpg" width="650">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-strawberry.jpg" width="650">
 
 In addition to loading single images, you can also load a directory or sequence of images, or a video file.  For more info, see the [Camera Streaming and Multimedia](aux-streaming.md) page or launch the application with the `--help` flag.
 
@@ -94,7 +94,7 @@ $ ./imagenet --network=resnet-18 images/jellyfish.jpg images/test/output_jellyfi
 $ ./imagenet.py --network=resnet-18 images/jellyfish.jpg images/test/output_jellyfish.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_jellyfish.jpg" width="650">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/docs/images/imagenet_jellyfish.jpg" width="650">
 
 ``` bash
 # C++
@@ -104,7 +104,7 @@ $ ./imagenet --network=resnet-18 images/stingray.jpg images/test/output_stingray
 $ ./imagenet.py --network=resnet-18 images/stingray.jpg images/test/output_stingray.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_stingray.jpg" width="650">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/docs/images/imagenet_stingray.jpg" width="650">
 
 ``` bash
 # C++
@@ -114,7 +114,7 @@ $ ./imagenet --network=resnet-18 images/coral.jpg images/test/output_coral.jpg
 $ ./imagenet.py --network=resnet-18 images/coral.jpg images/test/output_coral.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="650">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/docs/images/imagenet_coral.jpg" width="650">
 
 Feel free to experiment with using the different models and see how their accuracies and performance differ - you can download more models with the [Model Downloader](building-repo-2.md#downloading-models) tool.  There are also various test images found under `images/`
 
@@ -135,7 +135,7 @@ $ ./imagenet --network=resnet-18 jellyfish.mkv images/test/jellyfish_resnet18.mk
 $ ./imagenet.py --network=resnet-18 jellyfish.mkv images/test/jellyfish_resnet18.mkv
 ```
 
-<a href="https://www.youtube.com/watch?v=GhTleNPXqyU" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/imagenet-jellyfish-video.jpg width="750"></a>
+<a href="https://www.youtube.com/watch?v=GhTleNPXqyU" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet-jellyfish-video.jpg width="750"></a>
 
 Next we'll go through the steps to code your own image recognition program from scratch, first in Python and then C++.
 

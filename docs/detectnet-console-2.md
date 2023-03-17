@@ -6,9 +6,9 @@
 # Locating Objects with DetectNet
 The previous recognition examples output class probabilities representing the entire input image.  Next we're going to focus on **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image classification, object detection networks are capable of detecting many different objects per frame.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet.jpg" >
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet.jpg" >
 
-The [`detectNet`](../c/detectNet.h) object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  [`detectNet`](../c/detectNet.h) is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See below for various [pre-trained detection models](#pre-trained-detection-models-available)  available for download.  The default model used is a [91-class](../data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
+The [`detectNet`](../c/detectNet.h) object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  [`detectNet`](../c/detectNet.h) is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See below for various [pre-trained detection models](#pre-trained-detection-models-available)  available for download.  The default model used is a [91-class](../data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
 
 As examples of using the `detectNet` class, we provide sample programs for C++ and Python:
 
@@ -40,7 +40,7 @@ $ ./detectnet --network=ssd-mobilenet-v2 images/peds_0.jpg images/test/output.jp
 $ ./detectnet.py --network=ssd-mobilenet-v2 images/peds_0.jpg images/test/output.jpg  # --network flag is optional
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-0.jpg" >
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-ssd-peds-0.jpg" >
 
 ``` bash
 # C++
@@ -50,14 +50,14 @@ $ ./detectnet images/peds_1.jpg images/test/output.jpg
 $ ./detectnet.py images/peds_1.jpg images/test/output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-1.jpg" >
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-ssd-peds-1.jpg" >
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
 
 Below are more detection examples output from the console programs.  The [91-class](../data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-animals.jpg" >
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-animals.jpg" >
 
 Various images are found under `images/` for testing, such as `cat_*.jpg`, `dog_*.jpg`, `horse_*.jpg`, `peds_*.jpg`, ect. 
 
@@ -92,7 +92,7 @@ wget https://nvidia.box.com/shared/static/veuuimq6pwvd62p9fresqhrrmfqz0e2f.mp4 -
 ./detectnet.py pedestrians.mp4 images/test/pedestrians_ssd.mp4
 ```
 
-<a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
+<a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
 
 ``` bash
 # Download test video
@@ -105,7 +105,7 @@ wget https://nvidia.box.com/shared/static/i5i81mkd9wdh4j7wx04th961zks0lfh9.avi -
 ./detectnet.py parking.avi images/test/parking_ssd.avi
 ```
 
-<a href="https://www.youtube.com/watch?v=iB86W-kloPE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-parking-video.jpg width="585"></a>
+<a href="https://www.youtube.com/watch?v=iB86W-kloPE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-ssd-parking-video.jpg width="585"></a>
 
 Remember that you can use the `--threshold` setting to change the detection sensitivity up or down (the default is 0.5).
 

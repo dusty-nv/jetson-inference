@@ -7,7 +7,7 @@ This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for 
 
 Vision primitives, such as [`imageNet`](docs/imagenet-console-2.md) for image recognition, [`detectNet`](docs/detectnet-console-2.md) for object detection, [`segNet`](docs/segnet-console-2.md) for semantic segmentation, and [`poseNet`](docs/posenet.md) for pose estimation inherit from the shared [`tensorNet`](c/tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images.  See the **[API Reference](#api-reference)** section for detailed reference documentation of the C++ and Python libraries. 
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/deep-vision-primitives.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.jpg">
 
 Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and transfer learning onboard your Jetson, including collecting your own datasets and training your own models.  It covers image classification, object detection, semantic segmentation, pose estimation, and mono depth.
 
@@ -21,8 +21,8 @@ Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and 
 * [System Requirements](#recommended-system-requirements)
 * [Change Log](CHANGELOG.md)
 
-> &gt; &nbsp; JetPack 5.0 is now supported, along with [Jetson AGX Orin](https://developer.nvidia.com/embedded/jetson-agx-orin-developer-kit). <br/>
-> &gt; &nbsp; Try the new [Pose Estimation](docs/posenet.md) and [Mono Depth](docs/depthnet.md) tutorials! <br/>
+> &gt; &nbsp; JetPack 5 is now supported, along with [Jetson AGX Orin](https://developer.nvidia.com/embedded/jetson-agx-orin-developer-kit). <br/>
+> &gt; &nbsp; Try the new [WebApp Frameworks](#webapp-frameworks) and [WebRTC](docs/webrtc-server.md) tutorials! <br/>
 > &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 
 ## Hello AI World
@@ -91,22 +91,22 @@ Below are screencasts of Hello AI World that were recorded for the [Jetson AI Ce
 
 ## API Reference
 
-Below are links to reference documentation for the [C++](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/index.html) and [Python](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.html) libraries from the repo:
+Below are links to reference documentation for the [C++](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html) and [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.html) libraries from the repo:
 
 #### jetson-inference
 
-|                   | [C++](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html) |
+|                   | [C++](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) |
 |-------------------|--------------|--------------|
-| Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#imageNet) |
-| Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#detectNet)
-| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) |
-| Pose Estimation   | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classposeNet.html) | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#poseNet) |
-| Monocular Depth   | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classdepthNet.html) | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#depthNet) |
+| Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#imageNet) |
+| Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet)
+| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#segNet) |
+| Pose Estimation   | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classposeNet.html) | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#poseNet) |
+| Monocular Depth   | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classdepthNet.html) | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#depthNet) |
 
 #### jetson-utils
 
-* [C++](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__util.html)
-* [Python](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.utils.html)
+* [C++](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__util.html)
+* [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html)
 
 These libraries are able to be used in external projects by linking to `libjetson-inference` and `libjetson-utils`.
 
