@@ -51,12 +51,12 @@ By default, the model will process every-other frame.  You can lengthen or short
 
 Below are the pre-trained action recognition model available, and the associated `--network` argument to `actionnet` used for loading them:
 
-| Model                    | CLI argument  | Classes |
-| -------------------------|---------------|---------|
-| Action-ResNet18-Kinetics | `resnet-18`   |  1040   |
-| Action-ResNet34-Kinetics | `resnet-34`   |  1040   |
+| Model                    | CLI argument | Classes |
+| -------------------------|--------------|---------|
+| Action-ResNet18-Kinetics | `resnet18`   |  1040   |
+| Action-ResNet34-Kinetics | `resnet34`   |  1040   |
 
-These models were trained on the [Kinetics 700](https://www.deepmind.com/open-source/kinetics) and [Moments in Time](http://moments.csail.mit.edu/) datasets.  The default model is `resnet-18`.
+These models were trained on the [Kinetics 700](https://www.deepmind.com/open-source/kinetics) and [Moments in Time](http://moments.csail.mit.edu/) datasets.  See [here](https://gist.github.com/dusty-nv/3aaa2494f7be212391cca1927ef7c74e) for the list of class labels.  The default model is `resnet18`.
 
 ##
 <p align="right">Next | <b><a href="depthnet.md">Monocular Depth Estimation</a></b>
