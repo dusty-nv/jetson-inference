@@ -50,6 +50,7 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 	* [Segmenting Images from the Command Line](docs/segnet-console-2.md#segmenting-images-from-the-command-line)
 	* [Running the Live Camera Segmentation Demo](docs/segnet-camera-2.md)
 * [Pose Estimation](docs/posenet.md)
+* [Action Recognition](docs/actionnet.md)
 * [Monocular Depth](docs/depthnet.md)
 
 #### Training
@@ -95,13 +96,14 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 
 #### jetson-inference
 
-|                   | [C++](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) |
-|-------------------|--------------|--------------|
-| Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#imageNet) |
-| Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet)
-| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#segNet) |
-| Pose Estimation   | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classposeNet.html) | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#poseNet) |
-| Monocular Depth   | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classdepthNet.html) | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#depthNet) |
+|                    | [C++](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) |
+|--------------------|--------------|--------------|
+| Image Recognition  | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#imageNet) |
+| Object Detection   | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet)
+| Segmentation       | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#segNet) |
+| Pose Estimation    | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classposeNet.html) | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#poseNet) |
+| Action Recognition | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classactionNet.html) | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#actionNet) |
+| Monocular Depth    | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classdepthNet.html) | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#depthNet) |
 
 #### jetson-utils
 
@@ -119,13 +121,14 @@ Introductory code walkthroughs of using the library are covered during these ste
 
 Additional C++ and Python samples for running the networks on static images and live camera streams can be found here:
 
-|                   | C++             | Python             |
+|                   | C++              | Python             |
 |-------------------|---------------------|---------------------|
-| &nbsp;&nbsp;&nbsp;Image Recognition | [`imagenet.cpp`](examples/imagenet/imagenet.cpp) | [`imagenet.py`](python/examples/imagenet.py) |
-| &nbsp;&nbsp;&nbsp;Object Detection  | [`detectnet.cpp`](examples/detectnet/detectnet.cpp) | [`detectnet.py`](python/examples/detectnet.py) |
-| &nbsp;&nbsp;&nbsp;Segmentation      | [`segnet.cpp`](examples/segnet/segnet.cpp) | [`segnet.py`](python/examples/segnet.py) |
-| &nbsp;&nbsp;&nbsp;Pose Estimation   | [`posenet.cpp`](examples/posenet/posenet.cpp) | [`posenet.py`](python/examples/posenet.py) |
-| &nbsp;&nbsp;&nbsp;Monocular Depth   | [`depthnet.cpp`](examples/depthnet/segnet.cpp) | [`depthnet.py`](python/examples/depthnet.py) |
+| &nbsp;&nbsp;&nbsp;Image Recognition  | [`imagenet.cpp`](examples/imagenet/imagenet.cpp) | [`imagenet.py`](python/examples/imagenet.py) |
+| &nbsp;&nbsp;&nbsp;Object Detection   | [`detectnet.cpp`](examples/detectnet/detectnet.cpp) | [`detectnet.py`](python/examples/detectnet.py) |
+| &nbsp;&nbsp;&nbsp;Segmentation       | [`segnet.cpp`](examples/segnet/segnet.cpp) | [`segnet.py`](python/examples/segnet.py) |
+| &nbsp;&nbsp;&nbsp;Pose Estimation    | [`posenet.cpp`](examples/posenet/posenet.cpp) | [`posenet.py`](python/examples/posenet.py) |
+| &nbsp;&nbsp;&nbsp;Action Recognition | [`actionnet.cpp`](examples/actionnet/actionnet.cpp) | [`actionnet.py`](python/examples/actionnet.py) |
+| &nbsp;&nbsp;&nbsp;Monocular Depth    | [`depthnet.cpp`](examples/depthnet/segnet.cpp) | [`depthnet.py`](python/examples/depthnet.py) |
 
 > **note**:  for working with numpy arrays, see [Converting to Numpy Arrays](docs/aux-image.md#converting-to-numpy-arrays) and [Converting from Numpy Arrays](docs/aux-image.md#converting-from-numpy-arrays)
 
@@ -207,6 +210,13 @@ The project comes with a number of pre-trained models that are available through
 | Pose-ResNet18-Body      | `resnet18-body`    | `RESNET18_BODY`    | 18        |
 | Pose-ResNet18-Hand      | `resnet18-hand`    | `RESNET18_HAND`    | 21        |
 | Pose-DenseNet121-Body   | `densenet121-body` | `DENSENET121_BODY` | 18        |
+
+#### Action Recognition
+
+| Model                    | CLI argument | Classes |
+| -------------------------|--------------|---------|
+| Action-ResNet18-Kinetics | `resnet18`   |  1040   |
+| Action-ResNet34-Kinetics | `resnet34`   |  1040   |
 
 ## Recommended System Requirements
 
