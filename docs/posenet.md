@@ -1,16 +1,16 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="segnet-camera-2.md">Back</a> | <a href="depthnet.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="segnet-camera-2.md">Back</a> | <a href="actionnet.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Pose Estimation</sup></s></p>
 
-# Pose Estimation with PoseNet
+# Pose Estimation
 Pose estimation consists of locating various body parts (aka keypoints) that form a skeletal topology (aka links). Pose estimation has a variety of applications including gestures, AR/VR, HMI (human/machine interface), and posture/gait correction. [Pre-trained models](#pre-trained-pose-estimation-models) are provided for human body and hand pose estimation that are capable of detecting multiple people per frame.  
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/posenet-0.jpg">
 
 The [`poseNet`](../c/poseNet.h) object accepts an image as input, and outputs a list of object poses.  Each object pose contains a list of detected keypoints, along with their locations and links between keypoints.  You can query these to find particular features.  [`poseNet`](../c/poseNet.h) can be used from [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#poseNet) and [C++](../c/poseNet.h).
 
-As examples of using the `poseNet` class, we provide sample programs for C++ and Python:
+As examples of using the `poseNet` class, there are sample programs for C++ and Python:
 
 - [`posenet.cpp`](../examples/posenet/posenet.cpp) (C++) 
 - [`posenet.py`](../python/examples/posenet.py) (Python) 
@@ -122,7 +122,7 @@ This was a simple example, but you can make it more useful with further manipula
 	
 	
 ##
-<p align="right">Next | <b><a href="depthnet.md">Monocular Depth Estimation</a></b>
+<p align="right">Next | <b><a href="actionnet.md">Action Recognition</a></b>
 <br/>
 Back | <b><a href="segnet-camera-2.md">Running the Live Camera Segmentation Demo</a></p>
 </b><p align="center"><sup>© 2016-2021 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
