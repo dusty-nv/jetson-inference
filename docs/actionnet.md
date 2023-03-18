@@ -45,7 +45,7 @@ These optional command-line arguments can be used with actionnet/actionnet.py:
   --skip-frames=SKIP   how many frames to skip between classifications (default is 1)
 ```
 
-By default, the model will process every-other frame.  You can lengthen or shorten this with the `--skip-frames` parameter (`--skip-frames=0` will process every frame).
+By default, the model will process every-other frame to lengthen the window of time for classifying actions over.  You can change this with the `--skip-frames` parameter (using `--skip-frames=0` will process every frame).
 
 ### Pre-trained Action Recognition Models
 
@@ -56,7 +56,9 @@ Below are the pre-trained action recognition model available, and the associated
 | Action-ResNet18-Kinetics | `resnet18`   |  1040   |
 | Action-ResNet34-Kinetics | `resnet34`   |  1040   |
 
-These models were trained on the [Kinetics 700](https://www.deepmind.com/open-source/kinetics) and [Moments in Time](http://moments.csail.mit.edu/) datasets.  See [here](https://gist.github.com/dusty-nv/3aaa2494f7be212391cca1927ef7c74e) for the list of class labels.  The default model is `resnet18`.
+> **note:** the default model is `resnet18`
+
+These models were trained on the [Kinetics 700](https://www.deepmind.com/open-source/kinetics) and [Moments in Time](http://moments.csail.mit.edu/) datasets.  See [here](https://gist.github.com/dusty-nv/3aaa2494f7be212391cca1927ef7c74e) for the list of class labels.
 
 ##
 <p align="right">Next | <b><a href="depthnet.md">Monocular Depth Estimation</a></b>
