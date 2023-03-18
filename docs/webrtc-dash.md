@@ -19,7 +19,7 @@ As before, it uses WebRTC for streaming live video and TensorRT for inferencing.
 
 ## Running the Example
 
-Launching app.py will start the dashboard, along with a backend process that runs the WebRTC capture/transport, inferencing, and event/action triggers.  Whereas previous examples ran the streaming in a thread inside same process as the webserver, running the streaming backend in it's own independent process allows for multiple webserver workers to load-balance in deployment (i.e. with [Gunicorn](https://gunicorn.org/) or other production WSGI webservers).  These processes share metadata over JSON REST messages (with the video data residing within the streaming process).
+Launching app.py will start the dashboard, along with a backend process that runs the WebRTC capture/transport, inferencing, and event/action triggers.  Whereas previous examples ran the streaming in a thread inside same process as the webserver, running the streaming backend in it's own independent process allows for multiple webserver workers to load-balance in deployment (i.e. with [Gunicorn](https://gunicorn.org/) or other production WSGI webservers).  These processes share metadata over REST JSON messages (with the video data residing within the streaming process).
 
 ``` bash
 $ cd jetson-inference/python/www/dash
@@ -116,7 +116,7 @@ It's possible that in some more advanced scenarios, you may want to re-trigger t
 
 ### Properties
 
-Plugins that have `@property` decorators will have those properties automatically exposed to the UI so that they can be dynamically modified by the user at runtime.  The client/server communication happens transparently using JSON REST queries.  For example, from [`EventFilter`](../python/www/dash/server/filter.py)
+Plugins that have `@property` decorators will have those properties automatically exposed to the UI so that they can be dynamically modified by the user at runtime.  The client/server communication happens transparently using REST JSON queries.  For example, from [`EventFilter`](../python/www/dash/server/filter.py)
 
 ``` python
 @property

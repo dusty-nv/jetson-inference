@@ -46,11 +46,11 @@ $ python3 app.py \
 
 > **note**: depending on your Jetson and background processes, you may not have enough memory available to load all of these models at once or the compute capacity to run them all in realtime.  See [Mounting Swap](pytorch-transfer-learning.md#mounting-swap) and [Disabling the Desktop GUI](pytorch-transfer-learning.md#disabling-the-desktop-gui) to conserve memory.
 
-To list which built-in models are available, you can run `app.py --help` or view [`data/networks/models.json`](../data/networks/models.json).  Each model has an expandable drop-down for turning it on/off, along with interactive controls for changing its settings.  The client/server communication for implementing these are done using JSON REST queries, which are discussed below.
+To list which built-in models are available, you can run `app.py --help` or view [`data/networks/models.json`](../data/networks/models.json).  Each model has an expandable drop-down for turning it on/off, along with interactive controls for changing its settings.  The client/server communication for implementing these are done using REST JSON queries, which are discussed below.
 
 ## REST Queries
 
-This app takes the core HTML/JavaScript code for streaming WebRTC from the [previous example](webrtc-html.md), and builds on it with JSON REST queries for dynamically updating various components and parameters.  You can see the backend stubs for these in [app.py](../python/www/flask/app.py), which JavaScript queries from the client in [index.html](../python/www/flask/templates/index.html).  Templates and macros are used to reduce the amount of boilerplate code for these and makes it quick to add new settings:
+This app takes the core HTML/JavaScript code for streaming WebRTC from the [previous example](webrtc-html.md), and builds on it with REST JSON queries for dynamically updating various components and parameters.  You can see the backend stubs for these in [app.py](../python/www/flask/app.py), which JavaScript queries from the client in [index.html](../python/www/flask/templates/index.html).  Templates and macros are used to reduce the amount of boilerplate code for these and makes it quick to add new settings:
 
 ``` python
 # backend - app.py (Python)
