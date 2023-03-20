@@ -49,6 +49,7 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 	* [Running the Live Camera Segmentation Demo](docs/segnet-camera-2.md)
 * [Pose Estimation](docs/posenet.md)
 * [Action Recognition](docs/actionnet.md)
+* [Background Removal](docs/backgroundnet.md)
 * [Monocular Depth](docs/depthnet.md)
 
 #### Training
@@ -101,6 +102,7 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 | Segmentation       | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#segNet) |
 | Pose Estimation    | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classposeNet.html) | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#poseNet) |
 | Action Recognition | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classactionNet.html) | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#actionNet) |
+| Background Removal | [`backgroundNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classbackgroundNet.html) | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#backgroundNet) |
 | Monocular Depth    | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classdepthNet.html) | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#depthNet) |
 
 #### jetson-utils
@@ -126,6 +128,7 @@ Additional C++ and Python samples for running the networks on static images and 
 | &nbsp;&nbsp;&nbsp;Segmentation       | [`segnet.cpp`](examples/segnet/segnet.cpp) | [`segnet.py`](python/examples/segnet.py) |
 | &nbsp;&nbsp;&nbsp;Pose Estimation    | [`posenet.cpp`](examples/posenet/posenet.cpp) | [`posenet.py`](python/examples/posenet.py) |
 | &nbsp;&nbsp;&nbsp;Action Recognition | [`actionnet.cpp`](examples/actionnet/actionnet.cpp) | [`actionnet.py`](python/examples/actionnet.py) |
+| &nbsp;&nbsp;&nbsp;Background Removal | [`backgroundnet.cpp`](examples/backgroundnet/backgroundnet.cpp) | [`backgroundnet.py`](python/examples/backgroundnet.py) |
 | &nbsp;&nbsp;&nbsp;Monocular Depth    | [`depthnet.cpp`](examples/depthnet/segnet.cpp) | [`depthnet.py`](python/examples/depthnet.py) |
 
 > **note**:  for working with numpy arrays, see [Converting to Numpy Arrays](docs/aux-image.md#converting-to-numpy-arrays) and [Converting from Numpy Arrays](docs/aux-image.md#converting-from-numpy-arrays)

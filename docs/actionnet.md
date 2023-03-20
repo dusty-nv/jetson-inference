@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="posenet.md">Back</a> | <a href="depthnet.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="posenet.md">Back</a> | <a href="backgroundnet.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Action Recognition</sup></s></p>
 
@@ -59,7 +59,7 @@ Below are the pre-trained action recognition model available, and the associated
 The default is `resnet18`.  These models were trained on the [Kinetics 700](https://www.deepmind.com/open-source/kinetics) and [Moments in Time](http://moments.csail.mit.edu/) datasets (see [here](https://gist.github.com/dusty-nv/3aaa2494f7be212391cca1927ef7c74e) for the list of class labels).
 
 ##
-<p align="right">Next | <b><a href="depthnet.md">Monocular Depth Estimation</a></b>
+<p align="right">Next | <b><a href="backgroundnet.md">Background Removal</a></b>
 <br/>
 Back | <b><a href="posenet.md">Pose Estimation with PoseNet</a></p>
 </b><p align="center"><sup>© 2016-2021 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

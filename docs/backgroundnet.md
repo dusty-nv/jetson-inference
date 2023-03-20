@@ -4,7 +4,7 @@
 <sup>Background Removal</sup></s></p>
 
 # Background Removal
-Background removal (aka background subtraction) generates a mask that segments the foreground from the background of an image.  You can use it to replace or blur backgrounds (a similar effect to what you would see in video conferencing applications), or it clould aid in pre-processing for other vision DNN's like object detection/tracking or motion detection.
+Background removal (aka background subtraction or salient object detection) generates a mask that segments the foreground from the background of an image.  You can use it to replace or blur backgrounds (similar to video conferencing applications), or it clould aid in pre-processing for other vision DNN's like object detection/tracking or motion detection.  The model used is [U²-Net](https://arxiv.org/abs/2005.09007).
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/backgroundnet-dog.jpg">
 
@@ -35,7 +35,7 @@ The `--replace` command-line argument accepts the filename of an image to replac
 
 ### Live Streaming
 
-To run background removal or replacement on a live camera stream or video, pass in a device or file path from the [Camera Streaming and Multimedia](aux-streaming.md) page:
+To run background removal or replacement on a live camera stream, pass in a device from the [Camera Streaming and Multimedia](aux-streaming.md) page:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/backgroundnet-camera.jpg">
 
@@ -49,7 +49,7 @@ $ ./backgroundnet /dev/video0                             # remove the backgroun
 $ ./backgroundnet --replace=images/coral.jpg /dev/video0  # replace the background
 ```
 
-By specifying an [output stream](aux-streaming.md#output-streams), you can view this on a display (the default), over the network (like WebRTC), or save it to a video file.
+By specifying an [output stream](aux-streaming.md#output-streams), you can view this on a display (the default), over the network (like with WebRTC), or save it to a video file.
 
 ##
 <p align="right">Next | <b><a href="depthnet.md">Monocular Depth Estimation</a></b>
