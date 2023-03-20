@@ -9,6 +9,7 @@ This project supports streaming video feeds and images via a variety of interfac
 
 * [MIPI CSI cameras](#mipi-csi-cameras)
 * [V4L2 cameras](#v4l2-cameras)
+* [WebRTC](#webrtc)
 * [RTP](#rtp) / [RTSP](#rtsp) 
 * [Videos](#video-files) & [Images](#image-files)
 * [Image sequences](#image-files)
@@ -18,28 +19,30 @@ Streams are identified via a resource URI and accessed through the [`videoSource
 
 ### Input Streams
 
-|                  | Protocol     | Resource URI              | Notes                                                    |
-|------------------|--------------|---------------------------|----------------------------------------------------------|
-| [MIPI CSI camera](#mipi-csi-cameras) | `csi://`     | `csi://0`                 | CSI camera 0 (substitute other camera numbers for `0`)                    |
-| [V4L2 camera](#v4l2-cameras)     | `v4l2://`    | `v4l2:///dev/video0`      | V4L2 device 0 (substitute other camera numbers for `0`)                            |
-| [RTP stream](#rtp)       | `rtp://`     | `rtp://@:1234`            | localhost, port 1234 (requires additional configuration) |
-| [RTSP stream](#rtsp)      | `rtsp://`    | `rtsp://<remote-ip>:1234` | Replace `<remote-ip>` with remote host's IP or hostname  |
-| [Video file](#video-files)       | `file://`    | `file://my_video.mp4`     | Supports loading MP4, MKV, AVI, FLV (see codecs below)   |
-| [Image file](#image-files)       | `file://`    | `file://my_image.jpg`     | Supports loading JPG, PNG, TGA, BMP, GIF, ect.           |
-| [Image sequence](#image-files)   | `file://`    | `file://my_directory/`    | Searches for images in alphanumeric order                |
+|                                      | Protocol     | Resource URI                | Notes                                                    |
+|--------------------------------------|--------------|-----------------------------|----------------------------------------------------------|
+| [MIPI CSI camera](#mipi-csi-cameras) | `csi://`     | `csi://0`                   | CSI camera 0 (substitute other camera numbers for `0`)   |
+| [V4L2 camera](#v4l2-cameras)         | `v4l2://`    | `v4l2:///dev/video0`        | V4L2 device 0 (substitute other camera numbers for `0`)  |
+| [WebRTC stream](#webrtc)             | `webrtc://`  | `webrtc://@:8554/my_input`  | From browser webcam to localhost, port 8554 (requires HTTPS/SSL) |
+| [RTP stream](#rtp)                   | `rtp://`     | `rtp://@:1234`              | localhost, port 1234 (requires additional configuration) |
+| [RTSP stream](#rtsp)                 | `rtsp://`    | `rtsp://<remote-ip>:1234`   | Replace `<remote-ip>` with remote host's IP or hostname  |
+| [Video file](#video-files)           | `file://`    | `file://my_video.mp4`       | Supports loading MP4, MKV, AVI, FLV (see codecs below)   |
+| [Image file](#image-files)           | `file://`    | `file://my_image.jpg`       | Supports loading JPG, PNG, TGA, BMP, GIF, ect.           |
+| [Image sequence](#image-files)       | `file://`    | `file://my_directory/`      | Searches for images in alphanumeric order                |
 
 * Supported decoder codecs:  H.264, H.265, VP8, VP9, MPEG-2, MPEG-4, MJPEG
 * The `file://`, `v4l2://`, and `csi://` protocol prefixes can be omitted from the URI as shorthand
 
 ### Output Streams
 
-|                  | Protocol     | Resource URI              | Notes                                                    |
-|------------------|--------------|---------------------------|----------------------------------------------------------|
-| [RTP stream](#rtp)              | `rtp://`     | `rtp://<remote-ip>:1234`  | Replace `<remote-ip>` with remote host's IP or hostname  |
-| [Video file](#video-files)       | `file://`    | `file://my_video.mp4`     | Supports saving MP4, MKV, AVI, FLV (see codecs below)    |
-| [Image file](#image-files)       | `file://`    | `file://my_image.jpg`     | Supports saving JPG, PNG, TGA, BMP                       |
-| [Image sequence](#image-files)   | `file://`    | `file://image_%i.jpg`     | `%i` is replaced by the image number in the sequence     |
-| [OpenGL window](#output-streams)   | `display://` | `display://0`             | Creates GUI window on screen 0                           |
+|                                  | Protocol     | Resource URI                | Notes                                                    |
+|----------------------------------|--------------|-----------------------------|----------------------------------------------------------|
+| [WebRTC stream](#webrtc)         | `webrtc://`  | `webrtc://@:8554/my_output` | Send to browser, port 8554, stream name `"my_output"`    |
+| [RTP stream](#rtp)               | `rtp://`     | `rtp://<remote-ip>:1234`    | Replace `<remote-ip>` with remote host's IP or hostname  |
+| [Video file](#video-files)       | `file://`    | `file://my_video.mp4`       | Supports saving MP4, MKV, AVI, FLV (see codecs below)    |
+| [Image file](#image-files)       | `file://`    | `file://my_image.jpg`       | Supports saving JPG, PNG, TGA, BMP                       |
+| [Image sequence](#image-files)   | `file://`    | `file://image_%i.jpg`       | `%i` is replaced by the image number in the sequence     |
+| [OpenGL window](#output-streams) | `display://` | `display://0`               | Creates GUI window on screen 0                           |
 
 * Supported encoder codecs:  H.264, H.265, VP8, VP9, MJPEG
 * The `file://` protocol prefixes can be omitted from the URI as shorthand
@@ -64,14 +67,28 @@ As mentioned above, any of the examples from jetson-inference can be substituted
 #### Input Options
 
 ```
-    input_URI            resource URI of the input stream (see table above)
-  --input-width=WIDTH    explicitly request a resolution of the input stream
-  --input-height=HEIGHT  (resolution is optional, except required for RTP)
+    input                resource URI of the input stream, for example:
+                             * /dev/video0               (V4L2 camera #0)
+                             * csi://0                   (MIPI CSI camera #0)
+                             * rtp://@:1234              (RTP stream)
+                             * rtsp://user:pass@ip:1234  (RTSP stream)
+                             * webrtc://@:1234/my_stream (WebRTC stream)
+                             * file://my_image.jpg       (image file)
+                             * file://my_video.mp4       (video file)
+                             * file://my_directory/      (directory of images)
+  --input-width=WIDTH    explicitly request a width of the stream (optional)
+  --input-height=HEIGHT  explicitly request a height of the stream (optional)
+  --input-rate=RATE      explicitly request a framerate of the stream (optional)
+  --input-save=FILE      path to video file for saving the input stream to disk
   --input-codec=CODEC    RTP requires the codec to be set, one of these:
                              * h264, h265
                              * vp8, vp9
                              * mpeg2, mpeg4
                              * mjpeg
+  --input-decoder=TYPE   the decoder engine to use, one of these:
+                             * cpu
+                             * omx  (aarch64/JetPack4 only)
+                             * v4l2 (aarch64/JetPack5 only)
   --input-flip=FLIP      flip method to apply to input:
                              * none (default)
                              * counterclockwise
@@ -85,22 +102,30 @@ As mentioned above, any of the examples from jetson-inference can be substituted
                              * -1 = loop forever
                              *  0 = don't loop (default)
                              * >0 = set number of loops
-  --input-rtsp-latency=2000
-                         Number of milliseconds to buffer of an incoming RTSP 
-                             stream. Setting it to zero can give very low 
-                             delay, but may result in jitter depending on 
-                             network performance.
 ```
 
 #### Output Options
 
 ```
-    output_URI           resource URI of the output stream (see table above)
+    output               resource URI of the output stream, for example:
+                             * file://my_image.jpg       (image file)
+                             * file://my_video.mp4       (video file)
+                             * file://my_directory/      (directory of images)
+                             * rtp://<remote-ip>:1234    (RTP stream)
+                             * rtsp://@:8554/my_stream   (RTSP stream)
+                             * webrtc://@:1234/my_stream (WebRTC stream)
+                             * display://0               (OpenGL window)
   --output-codec=CODEC   desired codec for compressed output streams:
                             * h264 (default), h265
                             * vp8, vp9
                             * mpeg2, mpeg4
                             * mjpeg
+  --output-encoder=TYPE  the encoder engine to use, one of these:
+                            * cpu
+                            * omx  (aarch64/JetPack4 only)
+                            * v4l2 (aarch64/JetPack5 only)
+  --output-save=FILE     path to a video file for saving the compressed stream
+                         to disk, in addition to the primary output above
   --bitrate=BITRATE      desired target VBR bitrate for compressed streams,
                          in bits per second. The default is 4000000 (4 Mbps)
   --headless             don't create a default OpenGL GUI window
@@ -160,6 +185,23 @@ $ sudo apt-get install v4l-utils
 $ v4l2-ctl --device=/dev/video0 --list-formats-ext
 ```
   
+## WebRTC
+
+This projects includes a built-in WebRTC server that's capable of streaming video to/from browsers, including Chrome/Chromium, mobile Android, and mobile iOS (Safari).  You can use this for conveniently viewing video streams when your Jetson is headless and doesn't have a display attached, or for easily building interactive webapps that use Jetson and edge AI on the backend.
+
+``` bash
+$ video-viewer /dev/video0 webrtc://@:8554/my_output               # send V4L2 webcam to browser
+$ video-viewer webrtc://@:8554/my_input output.mp4                 # receive browser webcam (requires HTTPS/SSL) and save to MP4
+$ video-viewer webrtc://@:8554/my_input webrtc://@:8554/my_output  # receieve + send (full-duplex loopback)
+```
+
+> **note**: receiving browser webcams requires [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) to be enabled
+
+You should then be able to navigate your browser to `https://<JETSON-IP>:8554` to view the stream.  There's an entire section of the Hello AI World tutorial dedicated to using WebRTC and building applications with various webapp frameworks - please see here:
+
+* [WebAPP Frameworks](../README.md#webapp-frameworks)
+* [WebRTC Server](webrtc-server.md)
+
 ## RTP
 
 RTP network streams are broadcast to a particular host or multicast group over UDP/IP.  When recieving an RTP stream, the codec must be specified (`--input-codec`), because RTP doesn't have the ability to dynamically query this.  This will use RTP as input from another device:
