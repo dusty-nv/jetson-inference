@@ -4,7 +4,7 @@
 <sup>Background Removal</sup></s></p>
 
 # Background Removal
-Background removal (aka background subtraction, or salient object detection) generates a mask that segments the foreground from the background of an image.  You can use it to replace or blur backgrounds (similar to video conferencing applications), or it clould aid in pre-processing for other vision DNN's like object detection/tracking or motion detection.  The model used is [U²-Net](https://arxiv.org/abs/2005.09007), a fully-convolutional network (FCN).
+Background removal (aka background subtraction, or salient object detection) generates a mask that segments the foreground from the background of an image.  You can use it to replace or blur backgrounds (similar to video conferencing applications), or it clould aid in pre-processing for other vision DNN's like object detection/tracking or motion detection.  The model used is a fully-convolutional network [U²-Net](https://arxiv.org/abs/2005.09007).
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/backgroundnet-dog.jpg">
 
