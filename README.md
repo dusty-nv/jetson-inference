@@ -7,7 +7,7 @@ DNN vision primitives include [`imageNet`](docs/imagenet-console-2.md) for image
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.jpg">
 
-Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and transfer learning onboard your Jetson, including collecting your own datasets, training your own models with PyTorch, and deploying them with TensorRT.
+Follow the **[Hello AI World](#hello-ai-world)** tutorial for running inference and transfer learning onboard your Jetson, including collecting your own datasets, training your own models with PyTorch, and deploying them with TensorRT.
 
 ### Table of Contents
 
