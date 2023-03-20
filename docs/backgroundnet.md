@@ -23,12 +23,12 @@ Here's an example of removing and replacing the background of an image:
 
 ``` bash
 # C++
-$ ./backgroundnet images/bird_0.jpg images/test/bird_mask.jpg                                # remove the background
-$ ./backgroundnet --replace=images/snow.jpg images/bird_0.jpg images/test/bird_replace.jpg   # replace the background
+$ ./backgroundnet images/bird_0.jpg images/test/bird_mask.png                                 # remove the background (with alpha)
+$ ./backgroundnet --replace=images/snow.jpg images/bird_0.jpg images/test/bird_replace.jpg    # replace the background
 
 # Python
-$ ./backgroundnet.py images/bird_0.jpg images/test/bird_mask.jpg                                # remove the background
-$ ./backgroundnet.py --replace=images/snow.jpg images/bird_0.jpg images/test/bird_replace.jpg   # replace the background
+$ ./backgroundnet.py images/bird_0.jpg images/test/bird_mask.png                              # remove the background (with alpha)
+$ ./backgroundnet.py --replace=images/snow.jpg images/bird_0.jpg images/test/bird_replace.jpg # replace the background
 ```
 
 The `--replace` command-line argument accepts the filename of an image to replace the background with.  It will be re-scaled to the same resolution as the input.
