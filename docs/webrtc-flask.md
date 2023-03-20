@@ -26,7 +26,7 @@ $ pip3 install -r requirements.txt
 $ python3 app.py --detection=ssd-mobilenet-v2 --pose=resnet18-hand --action=resnet18-kinetics
 ```
 
-> **note**: using browser webcams requires [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) to be enabled
+> **note**: receiving browser webcams requires [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) to be enabled
 
 You should then be able to navigate your browser to `https://<JETSON-IP>:8050` and start the stream.  8050 is the default port used, but you can change that with the `--port=N` command-line argument.  It's also configured by default for WebRTC input and output, but if you want to use a different [video input device](aux-streaming.md#input-streams), you can set that with the `--input` argument (for example, `--input=/dev/video0` for a V4L2 camera that's directly attached to your Jetson).
 

@@ -70,7 +70,7 @@ $ video-viewer webrtc://@:8554/input my_video.mp4  # save browser webcam to MP4 
 $ imagenet.py webrtc://@:8554/input my_video.mp4   # save browser webcam to MP4 file (applying classification)
 ```
 
-> **note**: using browser webcams requires [HTTPS/SSL](#enabling-https--ssl) to be enabled
+> **note**: receiving browser webcams requires [HTTPS/SSL](#enabling-https--ssl) to be enabled
 
 Then navigate your browser again to `https://<JETSON-IP>:8554`, and you'll be prompted to enable access to the camera device and streaming will begin.  Until then, there will be warning messages printed in the Jetson's terminal about video capture timeouts occurring - these are normal and can be ignored, as the client providing the stream has not yet connected.
 
