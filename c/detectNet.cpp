@@ -730,6 +730,9 @@ int detectNet::postProcessSSD_ONNX( Detection* detections, uint32_t width, uint3
 		detections[numDetections].Right      = coord[2] * width;
 		detections[numDetections].Bottom	  = coord[3] * height;
 
+		if( strcmp(GetClassDesc(detections[numDetections].ClassID), "void") == 0 )
+			continue;
+		
 		numDetections += clusterDetections(detections, numDetections);
 	}
 
@@ -880,6 +883,9 @@ int detectNet::postProcessDetectNet_v2( Detection* detections, uint32_t width, u
 				detections[numDetections].Right      = x2;
 				detections[numDetections].Bottom	  = y2;
 
+				if( strcmp(GetClassDesc(detections[numDetections].ClassID), "void") == 0 )
+					continue;
+		
 				numDetections += clusterDetections(detections, numDetections);
 			}
 		}
