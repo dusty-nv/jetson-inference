@@ -4,7 +4,7 @@
 <sup>Action Recognition</sup></s></p>
 
 # Action Recognition
-Action recognition classifies the activity or behavior occuring over a sequence of video frames.  The DNNs typically use image classification backbones with an added temporal dimension.  For example, the ResNet18-based pre-trained models use a window of 16 frames.  You can also skip frames to lengthen the window of time over which the model classifies actions.
+Action recognition classifies the activity, behavior, or gesture occuring over a sequence of video frames.  The DNNs typically use image classification backbones with an added temporal dimension.  For example, the ResNet18-based pre-trained models use a window of 16 frames.  You can also skip frames to lengthen the window of time over which the model classifies actions.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/actionnet-windsurfing.gif">
 
