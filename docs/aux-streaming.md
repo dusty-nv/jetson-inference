@@ -199,8 +199,8 @@ $ video-viewer webrtc://@:8554/my_input webrtc://@:8554/my_output  # receieve + 
 
 You should then be able to navigate your browser to `https://<JETSON-IP>:8554` to view the stream.  There's an entire section of the Hello AI World tutorial dedicated to using WebRTC and building applications with various webapp frameworks - please see here:
 
-* [WebAPP Frameworks](../README.md#webapp-frameworks)
 * [WebRTC Server](webrtc-server.md)
+* [WebAPP Frameworks](../README.md#webapp-frameworks)
 
 ## RTP
 
