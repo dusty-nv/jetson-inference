@@ -44,6 +44,10 @@ parser.add_argument("--segmentation", default='', type=str, help="load semantic 
 parser.add_argument("--background", default='', type=str, help="load background removal model (see backgroundNet arguments)")
 parser.add_argument("--action", default='', type=str, help="load action recognition model (see actionNet arguments)")
 parser.add_argument("--pose", default='', type=str, help="load action recognition model (see actionNet arguments)")
+parser.add_argument("--labels", default='', type=str, help="path to labels.txt for loading a custom model")
+parser.add_argument("--colors", default='', type=str, help="path to colors.txt for loading a custom model")
+parser.add_argument("--input-layer", default='', type=str, help="name of input layer for loading a custom model")
+parser.add_argument("--output-layer", default='', type=str, help="name of output layer(s) for loading a custom model (comma-separated if multiple)")
 
 args = parser.parse_known_args()[0]
     
@@ -56,9 +60,13 @@ stream = Stream(args)
 @app.route('/')
 def index():
     return flask.render_template('index.html', title=args.title, send_webrtc=args.input.startswith('webrtc'),
-                                 classification=args.classification, detection=args.detection, 
-                                 segmentation=args.segmentation, pose=args.pose,
-                                 action=args.action, background=args.background)
+                                 input_stream=args.input, output_stream=args.output,
+                                 classification=os.path.basename(args.classification), 
+                                 detection=os.path.basename(args.detection), 
+                                 segmentation=os.path.basename(args.segmentation), 
+                                 pose=os.path.basename(args.pose),
+                                 action=os.path.basename(args.action), 
+                                 background=os.path.basename(args.background))
 
 if args.classification:
     @app.route('/classification/enabled', methods=['GET', 'PUT'])

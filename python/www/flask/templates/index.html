@@ -105,6 +105,13 @@
               <button id="send-button" onclick="send()">Send</button>
             </div>
           </div>
+        {% else %}
+          <div class="row">
+            <label for="input-stream" class="col-2">Input:</label>
+            <div id="input-stream" class="col-10">
+              {{ input_stream }}
+            </div>
+          </div>
         {% endif %}
           <div class="row">
             <label for="play-stream" class="col-2">Playback:</label>

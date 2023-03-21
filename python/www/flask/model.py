@@ -28,7 +28,7 @@ class Model:
     """
     Represents DNN models for classification, detection, pose, ect.
     """
-    def __init__(self, type, model, labels='', colors='', input_layers='', output_layers='', **kwargs):
+    def __init__(self, type, model, labels='', colors='', input_layer='', output_layer='', **kwargs):
         """
         Load the model, either from a built-in pre-trained model or from a user-provided model.
         
@@ -37,8 +37,8 @@ class Model:
             type (string) -- the type of the model (classification, detection, ect)
             model (string) -- either a path to the model or name of the built-in model
             labels (string) -- path to the model's labels.txt file (optional)
-            input_layers (string or dict) -- the model's input layer(s)
-            output_layers (string or dict) -- the model's output layers()
+            input_layer (string or dict) -- the model's input layer(s)
+            output_layer (string or dict) -- the model's output layers()
         """
         self.type = type
         self.model = model
@@ -47,7 +47,7 @@ class Model:
         self.frames = 0
         
         if type == 'classification':
-            self.net = imageNet(model=model, labels=labels, input_blob=input_layers, output_blob=output_layers)
+            self.net = imageNet(model=model, labels=labels, input_blob=input_layer, output_blob=output_layer)
 
             if 'threshold' in kwargs:
                 self.net.SetThreshold(kwargs['threshold'])
@@ -56,18 +56,24 @@ class Model:
                 self.net.SetSmoothing(kwargs['smoothing'])
                 
         elif type == 'detection':
-            if not output_layers:
-                output_layers = {'scores': '', 'bbox': ''}
-            elif not isinstance(output_layers, dict) or output_layers.keys() < {'scores', 'bbox'}:
-                raise ValueError("for detection models, output_layers should be a dict with keys 'scores' and 'bbox'")
-                
+            if not output_layer:
+                output_layer = {'scores': '', 'bbox': ''}
+            elif isinstance(output_layer, str):
+                output_layer = output_layer.split(',')
+                output_layer = {'scores': output_layer[0], 'bbox': output_layer[1]}
+            elif not isinstance(output_layer, dict) or output_layer.keys() < {'scores', 'bbox'}:
+                raise ValueError("for detection models, output_layer should be a dict with keys 'scores' and 'bbox'")
+             
+            print(input_layer)
+            print(output_layer)
+            
             self.net = detectNet(model=model, labels=labels, colors=colors,
-                                 input_blob=input_layers, 
-                                 output_cvg=output_layers['scores'], 
-                                 output_bbox=output_layers['bbox'])
+                                 input_blob=input_layer, 
+                                 output_cvg=output_layer['scores'], 
+                                 output_bbox=output_layer['bbox'])
                                  
         elif type == 'segmentation':
-            self.net = segNet(model=model, labels=labels, colors=colors, input_blob=input_layers, output_blob=output_layers)
+            self.net = segNet(model=model, labels=labels, colors=colors, input_blob=input_layer, output_blob=output_layer)
             self.overlayImg = None
         elif type == 'pose':
             self.net = poseNet(model)

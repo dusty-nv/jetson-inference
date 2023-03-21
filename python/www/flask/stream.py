@@ -45,6 +45,24 @@ class Stream(threading.Thread):
         self.models = {}
         
         # these are in the order that the overlays should be composited
+        model_types = {
+            'background' : args.background,
+            'segmentation' : args.segmentation,
+            'classification': args.classification,
+            'detection': args.detection,
+            'pose': args.pose,
+            'action': args.action
+        }
+        
+        for key, model in model_types.items():
+            if model:
+                self.models[key] = Model(key, model=model, labels=args.labels, colors=args.colors, input_layer=args.input_layer, output_layer=args.output_layer)
+            
+        if args.action and args.classification:
+            self.models['action'].fontLine = 1
+            
+        """
+        # these are in the order that the overlays should be composited
         if args.background:
             self.models['background'] = Model('background', model=args.background)
             
@@ -65,7 +83,8 @@ class Stream(threading.Thread):
             
             if args.classification:
                 self.models['action'].fontLine = 1
-
+        """
+        
     def process(self):
         """
         Capture one image from the stream, process it, and output it.
