@@ -1880,7 +1880,10 @@ static bool validateClassColors( float4* colors, int numLoaded, int expectedClas
 			LogWarning(LOG_TRT "filling in remaining %i class colors with default colors\n", (expectedClasses - numLoaded));
 	
 			for( int n=numLoaded; n < expectedClasses; n++ )
+			{
 				colors[n] = tensorNet::GenerateColor(n, defaultAlpha);
+				//LogVerbose(LOG_TRT "class color %i  (%f %f %f %f\n", n, colors[n].x, colors[n].y, colors[n].z, colors[n].w);
+			}
 		}
 	}
 	else if( numLoaded == 0 )
