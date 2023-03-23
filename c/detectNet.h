@@ -85,13 +85,11 @@
 		  "                            * ssd-mobilenet-v1\n" 							\
 		  "                            * ssd-mobilenet-v2 (default)\n" 					\
 		  "                            * ssd-inception-v2\n" 							\
-		  "                            * pednet\n" 									\
-		  "                            * multiped\n" 								\
-		  "                            * facenet\n" 									\
-		  "                            * coco-airplane\n" 							\
-		  "                            * coco-bottle\n" 								\
-		  "                            * coco-chair\n" 								\
-		  "                            * coco-dog\n" 								\
+		  "                            * peoplenet\n"                                        \
+		  "                            * peoplenet-pruned\n"                                 \
+		  "                            * dashcamnet\n"                                       \
+		  "                            * trafficcamnet\n"                                    \
+		  "                            * facedetect\n"                                       \
 		  "  --model=MODEL         path to custom model to load (caffemodel, uff, or onnx)\n" 					\
 		  "  --prototxt=PROTOTXT   path to custom prototxt to load (for .caffemodel only)\n" 					\
 		  "  --labels=LABELS       path to text file containing the labels for each class\n" 					\

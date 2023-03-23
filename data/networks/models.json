@@ -148,6 +148,66 @@
             "description": "SSD Inception-v2 UFF model, trained on 90-class MS-COCO"
         },
         
+        "peoplenet_deployable_quantized_v2.6.1": {
+            "alias": ["peoplenet", "peoplenet_v2.6.1", "peoplenet-v2.6.1", "peoplenet-deployable-quantized-v2.6.1"],
+            "cmd": "tao-model-downloader.sh peoplenet_deployable_quantized_v2.6.1",
+            "dir": "peoplenet_deployable_quantized_v2.6.1",
+            "model": "resnet34_peoplenet_int8.etlt.engine",
+            "labels": "labels.txt",
+            "colors": "colors.txt",
+            "input": "input_1",
+            "output": {"bbox": "output_bbox/BiasAdd", "cvg": "output_cov/Sigmoid"},
+            "description": "TAO PeopleNet model from https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/peoplenet"
+        },
+        
+        "peoplenet_pruned_quantized_v2.3.2": {
+            "alias": ["peoplenet_pruned", "peoplenet-pruned", "peoplenet_pruned_v2.3.2", "peoplenet-pruned-v2.3.2", "peoplenet_v2.3.2", "peoplenet-pruned-quantized-v2.3.2"],
+            "cmd": "tao-model-downloader.sh peoplenet_pruned_quantized_v2.3.2",
+            "dir": "peoplenet_pruned_quantized_v2.3.2",
+            "model": "resnet34_peoplenet_pruned_int8.etlt.engine",
+            "labels": "labels.txt",
+            "colors": "colors.txt",
+            "input": "input_1",
+            "output": {"bbox": "output_bbox/BiasAdd", "cvg": "output_cov/Sigmoid"},
+            "description": "TAO PeopleNet model from https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/peoplenet"
+        },
+        
+        "dashcamnet_pruned_v1.0.3": {
+            "alias": ["dashcamnet", "dashcamnet-pruned", "dashcamnet_pruned", "dashcamnet-pruned-v1.0.3", "dashcamnet_v1.0.3", "dashcamnet-v1.0.3" ],
+            "cmd": "tao-model-downloader.sh dashcamnet_pruned_v1.0.3",
+            "dir": "dashcamnet_pruned_v1.0.3",
+            "model": "resnet18_dashcamnet_pruned.etlt.engine",
+            "labels": "labels.txt",
+            "colors": "colors.txt",
+            "input": "input_1",
+            "output": {"bbox": "output_bbox/BiasAdd", "cvg": "output_cov/Sigmoid"},
+            "description": "TAO DashCamNet model from https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/dashcamnet"
+        },
+        
+        "trafficcamnet_pruned_v1.0.3": {
+            "alias": ["trafficcamnet", "trafficcamnet-pruned", "trafficcamnet_pruned", "trafficcamnet-pruned-v1.0.3", "trafficcamnet_v1.0.3", "trafficcamnet-v1.0.3" ],
+            "cmd": "tao-model-downloader.sh trafficcamnet_pruned_v1.0.3",
+            "dir": "trafficcamnet_pruned_v1.0.3",
+            "model": "resnet18_trafficcamnet_pruned.etlt.engine",
+            "labels": "labels.txt",
+            "colors": "colors.txt",
+            "input": "input_1",
+            "output": {"bbox": "output_bbox/BiasAdd", "cvg": "output_cov/Sigmoid"},
+            "description": "TAO TrafficCamNet model from https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/trafficcamnet"
+        },
+   
+        "facedetect_pruned_quantized_v2.0.1": {
+            "alias": ["facedetect", "facedetect-pruned", "facedetect_pruned", "facedetect-pruned-quantized-v2.0.1", "facedetect-v1.0.3", "facedetect_v1.0.3" ],
+            "cmd": "tao-model-downloader.sh facedetect_pruned_quantized_v2.0.1",
+            "dir": "facedetect_pruned_quantized_v2.0.1",
+            "model": "resnet18_facedetect_pruned.etlt.engine",
+            "labels": "labels.txt",
+            "colors": "colors.txt",
+            "input": "input_1",
+            "output": {"bbox": "output_bbox/BiasAdd", "cvg": "output_cov/Sigmoid"},
+            "description": "TAO FaceDetect model from https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/facenet"
+        },
+        
         "pednet": {
             "alias": ["pednet", "ped-100", "ped_100"],
             "url": "https://nvidia.box.com/shared/static/0wbxo6lmxfamm1dk90l8uewmmbpbcffb.gz",
