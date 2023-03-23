@@ -13,17 +13,18 @@ The latest source code or [Docker container](aux-docker.md) can be used onboard 
 
 If you aren't using the [Docker container](aux-docker.md), here's a condensed form of the commands to build/install the project directly on your Jetson:
 
+type there commands under $
 ``` bash
-$ sudo apt-get update
-$ sudo apt-get install git cmake libpython3-dev python3-numpy
-$ git clone --recursive --depth=1 https://github.com/dusty-nv/jetson-inference
-$ cd jetson-inference
-$ mkdir build
-$ cd build
-$ cmake ../
-$ make -j$(nproc)
-$ sudo make install
-$ sudo ldconfig
+sudo apt-get update
+sudo apt-get install git cmake libpython3-dev python3-numpy
+git clone --recursive --depth=1 https://github.com/dusty-nv/jetson-inference
+cd jetson-inference
+mkdir build
+cd build
+cmake ../
+make -j$(nproc)
+sudo make install
+sudo ldconfig
 ```
 Below we will go through each step and discuss various build options along the way.
  
