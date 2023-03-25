@@ -102,7 +102,7 @@ tao-converter \
 	$MODEL_INPUT
 ```
 
-These details (such as the input dimensions) are found on the model cards.  After converting it, you can load it with detectnet/detectnet.py like so:
+These details (such as the input dimensions) are from the model card.  After converting it, you can load it with detectnet/detectnet.py like so:
 
 ``` bash
 $ detectnet \
@@ -114,7 +114,8 @@ $ detectnet \
 	input.mp4 output.mp4
 ```
 
-Note that only TAO models based on DetectNet_v2 are currently supported in jetson-inference, as it is setup for that network's pre/post-processing.
+> **note**: only DetectNet_v2 models from TAO are currently supported in jetson-inference, as it is setup for that network's pre/post-processing.
+
 
 <p align="right">Next | <b><a href="detectnet-tracking.md">Object Tracking</a></b>
 <br/>
