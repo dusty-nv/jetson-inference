@@ -13,7 +13,6 @@ The latest source code or [Docker container](aux-docker.md) can be used onboard 
 
 If you aren't using the [Docker container](aux-docker.md), here's a condensed form of the commands to build/install the project directly on your Jetson:
 
-type there commands under $
 ``` bash
 sudo apt-get update
 sudo apt-get install git cmake libpython3-dev python3-numpy
