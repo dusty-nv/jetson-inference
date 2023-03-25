@@ -168,7 +168,7 @@ The project comes with a number of pre-trained models that are available through
 | TAO FaceDetect          | `facedetect`       | `FACEDETECT`       | face                 |
 
 <details>
-<summary>Legacy Object Detection Models</summary>
+<summary>Legacy Detection Models</summary>
 
 | Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|

@@ -125,7 +125,7 @@ Below is a table of the pre-trained object detection networks available for [dow
 | TAO FaceDetect          | `facedetect`       | `FACEDETECT`       | face                 |
 
 <details>
-<summary>Legacy Object Detection Models</summary>
+<summary>Legacy Detection Models</summary>
 
 | Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
