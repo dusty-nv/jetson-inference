@@ -270,7 +270,7 @@ $ video-viewer rtsp://<remote-ip>:1234 my_video.mp4      # subscribe to RTSP fee
 $ video-viewer rtsp://username:password@<remote-ip>:1234 # with authentication (replace username/password with credentials)
 ```
 
-You might need to supply the username/password in the URL if the RTSP server has authentication enabled.
+You might need to supply the username/password credentials in the URL if the RTSP server has authentication enabled.
 
 #### RTSP Output
 
@@ -281,7 +281,9 @@ $ video-viewer /dev/video0 rtsp://@:1234/my_output                 # stream a V4
 $ video-viewer rtsp://<remote-ip>:1234/input rtsp://@:1234/output  # subscribe to an RTSP feed, and relay it (loopback)
 ```
 
-> **note:** SSL encryption can be enabled for RTSP output in the [same way](webrtc-server.md#enabling-https--ssl) it is for WebRTC
+> **note:** SSL encryption can be enabled for RTSP output in the [same way](webrtc-server.md#enabling-https--ssl) that it is for WebRTC
+
+You should then be able to open and view the stream from an RTSP client (like VLC player) at the URL `rtsp://<jetson-ip>:1234/my_output`.
 
 ## Video Files
 

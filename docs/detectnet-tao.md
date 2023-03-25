@@ -114,7 +114,7 @@ $ detectnet \
 	input.mp4 output.mp4
 ```
 
-> **note**: only TAO DetectNet_v2 models are currently supported in jetson-inference, as it is setup for that pre/post-processing.
+> **note**: only TAO DetectNet_v2 models are currently supported in jetson-inference, as it is setup for that network's pre/post-processing.
 
 
 <p align="right">Next | <b><a href="detectnet-tracking.md">Object Tracking</a></b>
