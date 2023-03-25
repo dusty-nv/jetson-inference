@@ -35,7 +35,7 @@ $ ./detectnet --model=peoplenet pedestrians.mp4 pedestrians_peoplenet.mp4
 $ ./detectnet.py --model=peoplenet pedestrians.mp4 pedestrians_peoplenet.mp4
 ```
 
-You can also adjust the `--confidence` and `--clustering` thresholds - due to their increased accuracy, these TAO models seem to behave well with lowered thresholds without introducing too many false positives.  The [Flask webapp](#webrtc-flask.md) is convenient for playing around with these settings interactively.
+You can also adjust the `--confidence` and `--clustering` thresholds - due to their increased accuracy, these TAO models seem not introduce too many false positives with lowered thresholds due to their increased accuracy.  The [Flask webapp](#webrtc-flask.md) is convenient for playing around with these settings interactively.
 
 ### DashCamNet
 
