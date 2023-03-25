@@ -156,11 +156,22 @@ The project comes with a number of pre-trained models that are available through
 
 #### Object Detection
 
-| Network                 | CLI argument       | NetworkType enum   | Object classes       |
+| Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
-| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](data/networks/ssd_coco_labels.txt)) |
-| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](data/networks/ssd_coco_labels.txt)) |
-| SSD-Inception-v2        | `ssd-inception-v2` | `SSD_INCEPTION_V2` | 91 ([COCO classes](data/networks/ssd_coco_labels.txt)) |
+| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
+| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
+| SSD-Inception-v2        | `ssd-inception-v2` | `SSD_INCEPTION_V2` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
+| TAO PeopleNet           | `peoplenet`        | `PEOPLENET`        | person, bag, face    |
+| TAO PeopleNet (pruned)  | `peoplenet-pruned` | `PEOPLENET_PRUNED` | person, bag, face    |
+| TAO DashCamNet          | `dashcamnet`       | `DASHCAMNET`       | person, car, bike, sign |
+| TAO TrafficCamNet       | `trafficcamnet`    | `TRAFFICCAMNET`    | person, car, bike, sign | 
+| TAO FaceDetect          | `facedetect`       | `FACEDETECT`       | face                 |
+
+<details>
+<summary>Legacy Object Detection Models</summary>
+
+| Model                   | CLI argument       | NetworkType enum   | Object classes       |
+| ------------------------|--------------------|--------------------|----------------------|
 | DetectNet-COCO-Dog      | `coco-dog`         | `COCO_DOG`         | dogs                 |
 | DetectNet-COCO-Bottle   | `coco-bottle`      | `COCO_BOTTLE`      | bottles              |
 | DetectNet-COCO-Chair    | `coco-chair`       | `COCO_CHAIR`       | chairs               |
@@ -168,6 +179,8 @@ The project comes with a number of pre-trained models that are available through
 | ped-100                 | `pednet`           | `PEDNET`           | pedestrians          |
 | multiped-500            | `multiped`         | `PEDNET_MULTI`     | pedestrians, luggage |
 | facenet-120             | `facenet`          | `FACENET`          | faces                |
+
+</details>
 
 #### Semantic Segmentation
 

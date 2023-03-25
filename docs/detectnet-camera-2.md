@@ -10,6 +10,7 @@ The [`detectnet.cpp`](../examples/detectnet/detectnet.cpp) / [`detectnet.py`](..
 - MIPI CSI cameras (`csi://0`)
 - V4L2 cameras (`/dev/video0`)
 - RTP/RTSP streams (`rtsp://username:password@ip:port`)
+- WebRTC streams (`webrtc://@:port/stream_name`)
 
 For more information about video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
