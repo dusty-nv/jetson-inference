@@ -10,7 +10,7 @@ NVIDIA's [TAO Toolkit](https://developer.nvidia.com/tao-toolkit) includes highly
 | Model                   | CLI argument       | Object classes       |
 | ------------------------|--------------------|----------------------|
 | [TAO PeopleNet](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/peoplenet)          | `peoplenet`        | person, bag, face    |
-| [TAO PeopleNet](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/peoplenet) (pruned) | `peoplenet-pruned` | person, bag, face    |
+| [TAO PeopleNet](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/peoplenet) <sup>(pruned)</sup> | `peoplenet-pruned` | person, bag, face    |
 | [TAO DashCamNet](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/dashcamnet)        | `dashcamnet`       | person, car, bike, sign |
 | [TAO TrafficCamNet](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/trafficcamnet)  | `trafficcamnet`    | person, car, bike, sign | 
 | [TAO FaceDetect](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/facenet)           | `facedetect`       | face                 |
@@ -55,7 +55,7 @@ $ detectnet.py --model=dashcamnet input.mp4 output.mp4
 
 ### FaceDetect
 
-[FaceDetect](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/facenet) is a TAO model for just detecting faces.  It was trained with up to ~85% accuracy on a dataset with more than 1.8M samples.  It has a resolution of 736x416 and uses DetectNet_v2 with a ResNet-18 backbone.
+[FaceDetect](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/facenet) is a TAO model for just detecting faces.  It was trained with up to ~85% accuracy on a dataset with more than 1.8M samples taken from a variety of camera angles.  It has a resolution of 736x416 and uses DetectNet_v2 with a ResNet-18 backbone.
 
 <img src=https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tao-facenet.jpg>
 
@@ -71,19 +71,45 @@ $ detectnet.py --model=facedetect "images/humans_*.jpg" images/test/facedetect_h
 
 ### Importing Your Own TAO Detection Models
 
-Although jetson-inference can automatically download, convert, and load the pre-trained TAO detection models above, you may wish to use a different version of those models or your own DetectNet_v2 model that you trained or fine-tuned using the TAO Toolkit.  To do that, copy your ETLT model from TAO to your Jetson, along with the appropriate version of the [`tao-converter`](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/resources/tao-converter) tool.  Then depending on your model's configuration, you can run a script like this below to generate the TensorRT engine from the ETLT:
+Although jetson-inference can automatically download, convert, and load the pre-trained TAO detection models above, you may wish to use a different version of those models or your own DetectNet_v2 model that you trained or fine-tuned using the TAO Toolkit.  To do that, copy your ETLT model from TAO to your Jetson, along with the appropriate version of the [`tao-converter`](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/resources/tao-converter) tool.  Then depending on your model's configuration, you can run a script like below to generate the TensorRT engine from the ETLT:
 
 ``` bash
-SCRIPT HERE
+# model config
+MODEL_DIR="peoplenet_deployable_quantized_v2.6.1"
+MODEL_INPUT="$MODEL_DIR/resnet34_peoplenet_int8.etlt"
+MODEL_OUTPUT="$MODEL_INPUT.engine"
+
+INPUT_DIMS="3,544,960"
+OUTPUT_LAYERS="output_bbox/BiasAdd,output_cov/Sigmoid"
+MAX_BATCH_SIZE="1"
+
+WORKSPACE="4294967296" # 4GB (default)
+PRECISION="int8"       # fp32, fp16, int8
+CALIBRATION="$MODEL_DIR/resnet34_peoplenet_int8.txt"
+
+ENCRYPTION_KEY="tlt_encode"
+
+# generate TensorRT engine
+tao-converter \
+	-k $ENCRYPTION_KEY \
+	-d $INPUT_DIMS \
+	-o $OUTPUT_LAYERS \
+	-m $MAX_BATCH_SIZE \
+	-w $WORKSPACE \
+	-t $PRECISION \
+	-c $CALIBRATION \
+	-e $MODEL_OUTPUT \
+	$MODEL_INPUT
 ```
 
-Then you can load it with detectnet/detectnet.py like so:
+These details (such as the input dimension and layer names) are found on the model card.  After converting it, you can load it with detectnet/detectnet.py like so:
 
 ``` bash
-SCRIPT HERE
+$ detectnet --model=$MODEL_DIR/resnet34_peoplenet_int8.etlt.engine --labels=$MODEL_DIR/labels.txt --input-blob=input_1 --output-cvg=output_cov/Sigmoid --output-bbox=output_bbox/BiasAdd input.mp4 output.mp4
 ```
 
- 
+Note that only TAO models based on DetectNet_v2 are currently supported in jetson-inference, as it is setup to do the pre/post-processing for that network.
+
 <p align="right">Next | <b><a href="detectnet-tracking.md">Object Tracking</a></b>
 <br/>
 Back | <b><a href="detectnet-example-2.md">Coding Your Own Object Detection Program</a></p>
