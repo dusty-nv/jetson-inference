@@ -44,6 +44,7 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 	* [Detecting Objects from Images](docs/detectnet-console-2.md#detecting-objects-from-the-command-line)
 	* [Running the Live Camera Detection Demo](docs/detectnet-camera-2.md)
 	* [Coding Your Own Object Detection Program](docs/detectnet-example-2.md)
+	* [TAO Detection Models](docs/detectnet-tao.md)
 * [Semantic Segmentation](docs/segnet-console-2.md)
 	* [Segmenting Images from the Command Line](docs/segnet-console-2.md#segmenting-images-from-the-command-line)
 	* [Running the Live Camera Segmentation Demo](docs/segnet-camera-2.md)
