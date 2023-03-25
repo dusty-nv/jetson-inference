@@ -69,7 +69,7 @@ $ detectnet.py --model=facedetect "images/humans_*.jpg" images/test/facedetect_h
 
 ### Importing Your Own TAO Detection Models
 
-Although jetson-inference can automatically download, convert, and load the pre-trained TAO detection models above, you may wish to use a different version of those models or your own DetectNet_v2 model that you trained or fine-tuned using TAO.  To do that, copy your trained ETLT model to your Jetson, along with the appropriate version of the [`tao-converter`](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/resources/tao-converter) tool.  Then depending on your model's configuration, you can run a script like below to generate the TensorRT engine from the ETLT:
+Although jetson-inference can automatically download, convert, and load the pre-trained TAO detection models above, you may wish to use a different version of those models or your own DetectNet_v2 model that you trained or fine-tuned using TAO.  To do that, copy your trained ETLT model to your Jetson, along with the appropriate version of the [`tao-converter`](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/resources/tao-converter) tool.  Then depending on your model's configuration (which are typically found on the model card), you can run a script like below to generate the TensorRT engine from the ETLT:
 
 ``` bash
 # model config
@@ -100,7 +100,7 @@ tao-converter \
 	$MODEL_INPUT
 ```
 
-These details (such as the input dimensions) are from the model card.  After converting it, you can load it with detectnet/detectnet.py like so:
+After converting it, you can load it with detectnet/detectnet.py like so:
 
 ``` bash
 $ detectnet \
