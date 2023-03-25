@@ -3,7 +3,7 @@
 <br/>
 <sup>Object Detection</sup></p>
 
-# TAO Detection Models
+# Using TAO Detection Models
 
 NVIDIA's [TAO Toolkit](https://developer.nvidia.com/tao-toolkit) includes highly-accurate high-resolution object detection models, optimized/pruned and quantized for INT8 precision.  jetson-inference supports for TAO models that are based on the [DetectNet_v2](https://docs.nvidia.com/tao/tao-toolkit/text/object_detection/detectnet_v2.html) DNN architecture, including the following pre-trained models:
 
