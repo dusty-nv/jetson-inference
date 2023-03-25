@@ -283,7 +283,7 @@ $ video-viewer rtsp://<remote-ip>:1234/input rtsp://@:1234/output  # subscribe t
 
 > **note:** SSL encryption can be enabled for RTSP output in the [same way](webrtc-server.md#enabling-https--ssl) that it is for WebRTC
 
-You should then be able to open and view the stream from an RTSP client (like VLC player) at the URL `rtsp://<jetson-ip>:1234/my_output`.
+You should then be able to open and view the stream from an RTSP client (like VLC player) at the URL `rtsp://<jetson-ip>:1234/my_output`
 
 ## Video Files
 

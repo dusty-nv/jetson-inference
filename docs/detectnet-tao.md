@@ -67,8 +67,6 @@ $ detectnet --model=facedetect "images/humans_*.jpg" images/test/facedetect_huma
 $ detectnet.py --model=facedetect "images/humans_*.jpg" images/test/facedetect_humans_%i.jpg
 ```
 
-> **note**: you can run this with any input/output from the [Camera Streaming and Multimedia](aux-streaming.md) page
-
 ### Importing Your Own TAO Detection Models
 
 Although jetson-inference can automatically download, convert, and load the pre-trained TAO detection models above, you may wish to use a different version of those models or your own DetectNet_v2 model that you trained or fine-tuned using TAO.  To do that, copy your trained ETLT model to your Jetson, along with the appropriate version of the [`tao-converter`](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/resources/tao-converter) tool.  Then depending on your model's configuration, you can run a script like below to generate the TensorRT engine from the ETLT:
@@ -114,7 +112,7 @@ $ detectnet \
 	input.mp4 output.mp4
 ```
 
-> **note**: only TAO DetectNet_v2 models are currently supported in jetson-inference, as it is setup for that network's pre/post-processing.
+> **note**: only TAO DetectNet_v2 models are currently supported in jetson-inference, as it is setup for that network's pre/post-processing
 
 
 <p align="right">Next | <b><a href="detectnet-tracking.md">Object Tracking</a></b>
