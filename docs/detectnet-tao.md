@@ -71,7 +71,7 @@ $ detectnet.py --model=facedetect "images/humans_*.jpg" images/test/facedetect_h
 
 ### Importing Your Own TAO Detection Models
 
-Although jetson-inference can automatically download, convert, and load the pre-trained TAO detection models above, you may wish to use a different version of those models or your own DetectNet_v2 model that you trained or fine-tuned using the TAO Toolkit.  To do that, copy your ETLT model from TAO to your Jetson, along with the appropriate version of the [`tao-converter`](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/resources/tao-converter) tool.  Then depending on your model's configuration, you can run a script like below to generate the TensorRT engine from the ETLT:
+Although jetson-inference can automatically download, convert, and load the pre-trained TAO detection models above, you may wish to use a different version of those models or your own DetectNet_v2 model that you trained or fine-tuned using TAO.  To do that, copy your trained ETLT model to your Jetson, along with the appropriate version of the [`tao-converter`](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/resources/tao-converter) tool.  Then depending on your model's configuration, you can run a script like below to generate the TensorRT engine from the ETLT:
 
 ``` bash
 # model config
@@ -102,13 +102,19 @@ tao-converter \
 	$MODEL_INPUT
 ```
 
-These details (such as the input dimension and layer names) are found on the model card.  After converting it, you can load it with detectnet/detectnet.py like so:
+These details (such as the input dimensions) are found on the model cards.  After converting it, you can load it with detectnet/detectnet.py like so:
 
 ``` bash
-$ detectnet --model=$MODEL_DIR/resnet34_peoplenet_int8.etlt.engine --labels=$MODEL_DIR/labels.txt --input-blob=input_1 --output-cvg=output_cov/Sigmoid --output-bbox=output_bbox/BiasAdd input.mp4 output.mp4
+$ detectnet \
+	--model=$MODEL_DIR/resnet34_peoplenet_int8.etlt.engine \
+	--labels=$MODEL_DIR/labels.txt \
+	--input-blob=input_1 \
+	--output-cvg=output_cov/Sigmoid \
+	--output-bbox=output_bbox/BiasAdd \
+	input.mp4 output.mp4
 ```
 
-Note that only TAO models based on DetectNet_v2 are currently supported in jetson-inference, as it is setup to do the pre/post-processing for that network.
+Note that only TAO models based on DetectNet_v2 are currently supported in jetson-inference, as it is setup for that network's pre/post-processing.
 
 <p align="right">Next | <b><a href="detectnet-tracking.md">Object Tracking</a></b>
 <br/>
