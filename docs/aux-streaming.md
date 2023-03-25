@@ -39,6 +39,7 @@ Streams are identified via a resource URI and accessed through the [`videoSource
 |----------------------------------|--------------|-----------------------------|----------------------------------------------------------|
 | [WebRTC stream](#webrtc)         | `webrtc://`  | `webrtc://@:8554/my_output` | Send to browser, port 8554, stream name `"my_output"`    |
 | [RTP stream](#rtp)               | `rtp://`     | `rtp://<remote-ip>:1234`    | Replace `<remote-ip>` with remote host's IP or hostname  |
+| [RTSP stream](#rtsp)             | `rtsp://`    | `rtsp://@:1234/my_output`   | Reachable at `rtsp://<jetson-ip>:1234/my_output`         |
 | [Video file](#video-files)       | `file://`    | `file://my_video.mp4`       | Supports saving MP4, MKV, AVI, FLV (see codecs below)    |
 | [Image file](#image-files)       | `file://`    | `file://my_image.jpg`       | Supports saving JPG, PNG, TGA, BMP                       |
 | [Image sequence](#image-files)   | `file://`    | `file://image_%i.jpg`       | `%i` is replaced by the image number in the sequence     |
@@ -260,12 +261,27 @@ If your Jetson is transmitting RTP to another remote host (like a PC), here are 
 
 RTSP network streams are subscribed to from a remote host over UDP/IP.  Unlike RTP, RTSP can dynamically query the stream properties (like resolution and codec), so these options don't need to be explicitly provided.
 
+#### RTSP Input 
+
+To connect to an RTSP source, supply the IP address and URL of the RTSP server offering it:
+
 ```bash
 $ video-viewer rtsp://<remote-ip>:1234 my_video.mp4      # subscribe to RTSP feed from <remote-ip>, port 1234 (and save it to file)
 $ video-viewer rtsp://username:password@<remote-ip>:1234 # with authentication (replace username/password with credentials)
 ```
 
-> **note:** RTSP is supported as an input only.  Outputting RTSP would require additional support in GStreamer for an RTSP server.
+You might need to supply the username/password in the URL if the RTSP server has authentication enabled.
+
+#### RTSP Output
+
+jetson-utils includes a built-in RTSP server using GStreamer for sending compressed RTSP streams to multiple clients:
+
+```bash
+$ video-viewer /dev/video0 rtsp://@:1234/my_output                 # stream a V4L2 camera out over RTSP 
+$ video-viewer rtsp://<remote-ip>:1234/input rtsp://@:1234/output  # subscribe to an RTSP feed, and relay it (loopback)
+```
+
+> **note:** SSL encryption can be enabled for RTSP output in the [same way](webrtc-server.md#enabling-https--ssl) it is for WebRTC
 
 ## Video Files
 

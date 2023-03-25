@@ -15,7 +15,7 @@ NVIDIA's [TAO Toolkit](https://developer.nvidia.com/tao-toolkit) includes highly
 | [TAO TrafficCamNet](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/trafficcamnet)  | `trafficcamnet`    | person, car, bike, sign | 
 | [TAO FaceDetect](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/facenet)           | `facedetect`       | face                 |
 
-Although a section below covers how to load your own TAO models, let's take a look at using the pre-trained models first.
+Although a [section below](#importing-your-own-tao-detection-models) covers how to load your own TAO models, let's take a look at using the pre-trained models first.
 
 ### PeopleNet
 
@@ -114,7 +114,7 @@ $ detectnet \
 	input.mp4 output.mp4
 ```
 
-> **note**: only DetectNet_v2 models from TAO are currently supported in jetson-inference, as it is setup for that network's pre/post-processing.
+> **note**: only TAO DetectNet_v2 models are currently supported in jetson-inference, as it is setup for that pre/post-processing.
 
 
 <p align="right">Next | <b><a href="detectnet-tracking.md">Object Tracking</a></b>
