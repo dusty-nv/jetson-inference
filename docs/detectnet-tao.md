@@ -29,13 +29,13 @@ Although a section below covers how to load your own TAO models, let's take a lo
 wget https://nvidia.box.com/shared/static/veuuimq6pwvd62p9fresqhrrmfqz0e2f.mp4 -O pedestrians.mp4
 
 # C++
-$ ./detectnet --model=peoplenet pedestrians.mp4 pedestrians_peoplenet.mp4
+$ detectnet --model=peoplenet pedestrians.mp4 pedestrians_peoplenet.mp4
 
 # Python
-$ ./detectnet.py --model=peoplenet pedestrians.mp4 pedestrians_peoplenet.mp4
+$ detectnet.py --model=peoplenet pedestrians.mp4 pedestrians_peoplenet.mp4
 ```
 
-You can also adjust the `--confidence` and `--clustering` thresholds - these TAO models seem not introduce too many false positives with lower thresholds due to their increased accuracy.  The [Flask webapp](#webrtc-flask.md) is a convenient tool for playing around with these settings interactively.
+You can also adjust the `--confidence` and `--clustering` thresholds - these TAO models seem not introduce too many false positives with lower thresholds due to their increased accuracy.  The [Flask webapp](webrtc-flask.md) is a convenient tool for playing around with these settings interactively.
 
 ### DashCamNet
 
@@ -45,14 +45,45 @@ Like PeopleNet, [DashCamNet](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/ta
 
 ``` bash
 # C++
-$ ./detectnet --model=dashcamnet input.mp4 output.mp4
+$ detectnet --model=dashcamnet input.mp4 output.mp4
 
 # Python
-$ ./detectnet.py --model=dashcamnet input.mp4 output.mp4
+$ detectnet.py --model=dashcamnet input.mp4 output.mp4
 ```
 
 > **note**: you can run this with any input/output from the [Camera Streaming and Multimedia](aux-streaming.md) page
 
+### FaceDetect
+
+[FaceDetect](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/facenet) is a TAO model for just detecting faces.  It was trained with up to ~85% accuracy on a dataset with more than 1.8M samples.  It has a resolution of 736x416 and uses DetectNet_v2 with a ResNet-18 backbone.
+
+<img src=https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tao-facenet.jpg>
+
+``` bash
+# C++
+$ detectnet --model=facedetect "images/humans_*.jpg" images/test/facedetect_humans_%i.jpg
+
+# Python
+$ detectnet.py --model=facedetect "images/humans_*.jpg" images/test/facedetect_humans_%i.jpg
+```
+
+> **note**: you can run this with any input/output from the [Camera Streaming and Multimedia](aux-streaming.md) page
+
+### Importing Your Own TAO Detection Models
+
+Although jetson-inference can automatically download, convert, and load the pre-trained TAO detection models above, you may wish to use a different version of those models or your own DetectNet_v2 model that you trained or fine-tuned using the TAO Toolkit.  To do that, copy your ETLT model from TAO to your Jetson, along with the appropriate version of the [`tao-converter`](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/resources/tao-converter) tool.  Then depending on your model's configuration, you can run a script like this below to generate the TensorRT engine from the ETLT:
+
+``` bash
+SCRIPT HERE
+```
+
+Then you can load it with detectnet/detectnet.py like so:
+
+``` bash
+SCRIPT HERE
+```
+
+ 
 <p align="right">Next | <b><a href="detectnet-tracking.md">Object Tracking</a></b>
 <br/>
 Back | <b><a href="detectnet-example-2.md">Coding Your Own Object Detection Program</a></p>
