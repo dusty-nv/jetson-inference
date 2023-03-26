@@ -116,7 +116,7 @@ $ detectnet \
 
 In your own applications, you can also load them directly from [C++](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/classdetectNet.html#a9981735c38d2cb97205aa9e255ab4a0e) or [Python](https://github.com/dusty-nv/jetson-inference/blob/89a9bbe8812ec8a142910ae55e9a6c25dbdb9841/python/examples/detectnet.py#L57) by using the extended form of the detectNet API.
 
-<p align="right">Next | <b><a href="detectnet-tracking.md">Object Tracking</a></b>
+<p align="right">Next | <b><a href="detectnet-tracking.md">Object Tracking on Video</a></b>
 <br/>
 Back | <b><a href="detectnet-example-2.md">Coding Your Own Object Detection Program</a></p>
 </b><p align="center"><sup>© 2016-2023 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

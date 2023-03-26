@@ -32,7 +32,7 @@ objectTracker arguments:
   --tracker-overlap=N      how much IOU overlap is required for a bounding box to be matched (default: 0.5)
 ```
 
-These settings can be also made via Python with the [`detectNet.SetTrackerParams()`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet) function or in C++ by the [`objectTracker`](../c/tracking/objectTrackerIOU.h) API.
+These settings can be also made via Python with the [`detectNet.SetTrackerParams()`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet) function or in C++ by the [`objectTracker`](../c/tracking/objectTrackerIOU.h) API:
 
 #### Python
 ``` Python
@@ -50,9 +50,8 @@ net.SetTrackingParams(minFrames=3, dropFrames=15, overlapThreshold=0.5)
 #include <jetson-inference/objectTrackerIOU.h>
 
 detectNet* net = detectNet::Create();
-objectTrackerIOU* tracker = objectTrackerIOU::Create(3, 15, 0.5f);
 
-net->SetTracker(tracker);
+net->SetTracker(objectTrackerIOU::Create(3, 15, 0.5f));
 ``` 
 
 To play around with these settings interactively, you can use the [Flask webapp](webrtc-flask.md) from your browser.

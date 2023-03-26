@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="detectnet-camera-2.md">Back</a> | <a href="segnet-console-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="detectnet-camera-2.md">Back</a> | <a href="detectnet-tao.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></p>
 
@@ -162,7 +162,7 @@ $ python3 my-detection.py
 
 To tweak the results, you can try changing the model that's loaded along with the detection threshold.  Have fun!
 
-<p align="right">Next | <b><a href="segnet-console-2.md">Semantic Segmentation with SegNet</a></b>
+<p align="right">Next | <b><a href="detectnet-tao.md">Using TAO Detection Models</a></b>
 <br/>
 Back | <b><a href="detectnet-camera-2.md">Running the Live Camera Detection Demo</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
