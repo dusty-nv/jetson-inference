@@ -55,7 +55,7 @@ objectTrackerIOU* tracker = objectTrackerIOU::Create(3, 15, 0.5f);
 net->SetTracker(tracker);
 ``` 
 
-The [Flask webapp](webrtc-flask.md) is a convenient tool for playing around with these parameters interactively.
+To play around with these settings interactively, you can use the [Flask webapp](webrtc-flask.md) from your browser.
 
 <p align="right">Next | <b><a href="segnet-console-2.md">Semantic Segmentation</a></b>
 <br/>
