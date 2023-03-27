@@ -1027,7 +1027,7 @@ bool detectNet::Overlay( void* input, void* output, uint32_t width, uint32_t hei
 		// make sure the font object is created
 		if( !font )
 		{
-			font = cudaFont::Create(adaptFontSize(width));
+			font = cudaFont::Create(adaptFontSize(width));  // 20.0f
 	
 			if( !font )
 			{
