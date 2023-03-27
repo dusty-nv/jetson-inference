@@ -5,7 +5,7 @@
 
 # Object Tracking on Video
 
-Although with the accuracy of modern detection DNNs you can essentially do "tracking by detection", some degree of temporal filtering can be beneficial to smooth over blips in the detections and temporary occlusions in the video.  jetson-inference includes basic (but fast) multi-object tracking using frame-to-frame IOU (intersection-over-union) bounding box comparisons from [`High-Speed Tracking-by-Detection Without Using Image Information`](http://elvera.nue.tu-berlin.de/typo3/files/1517Bochinski2017.pdf) (DeepStream has more comprehensive tracking implementations available [found here](https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvtracker.html)).
+Although with the accuracy of modern detection DNNs you can essentially do "tracking by detection", some degree of temporal filtering can be beneficial to smooth over blips in the detections and temporary occlusions in the video.  jetson-inference includes basic (but fast) multi-object tracking using frame-to-frame IOU (intersection-over-union) bounding box comparisons from [`High-Speed Tracking-by-Detection Without Using Image Information`](http://elvera.nue.tu-berlin.de/typo3/files/1517Bochinski2017.pdf) (DeepStream has more comprehensive tracking implementations available [from here](https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvtracker.html)).
 
 <a href="https://www.youtube.com/watch?v=L8vwuXKQrow" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-tracking-pedestrians-youtube.jpg></a>
 
