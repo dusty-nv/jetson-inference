@@ -9,11 +9,11 @@ add_subdirectory(depth-viewer)
 # copy tools
 file(COPY "test-models.py" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 file(COPY "tao-model-downloader.sh" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-file(COPY "../docker/containers/scripts/l4t_version.sh" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+file(COPY "l4t_version.sh" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 install(PROGRAMS "test-models.py" DESTINATION bin)
 install(PROGRAMS "tao-model-downloader.sh" DESTINATION bin)
-install(PROGRAMS "../docker/containers/scripts/l4t_version.sh" DESTINATION bin)
+install(PROGRAMS "l4t_version.sh" DESTINATION bin)
 
 #file(GLOB scripts *.sh)
 #foreach(script ${scripts})
