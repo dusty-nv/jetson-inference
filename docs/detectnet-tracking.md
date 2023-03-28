@@ -60,7 +60,7 @@ To play around with these settings interactively, you can use the [Flask webapp]
 
 ### Tracking State
 
-When tracking is enabled, the [`detectNet.Detection`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/structdetectNet_1_1Detection.html) results that are returned from Detect() will have additional variables activated that describe the state of each tracked object - such as TrackID, TrackStatus, TrackFrames, and TrackLost:
+When tracking is enabled, the [`detectNet.Detection`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/structdetectNet_1_1Detection.html) results that are returned from Detect() will have additional variables activated that get updated by the tracker and describe the tracking state of each object - such as TrackID, TrackStatus, TrackFrames, and TrackLost:
 
 ``` cpp
 struct Detection
@@ -95,7 +95,7 @@ for detection in detections:
         print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has lost tracking")   
 ```
 
-These variables get updated by the tracker each frame.  If the track was lost (`TrackStatus=-1`), on subsequent frames that object will no longer be included in the detections array.
+If the track was lost (`TrackStatus=-1`), that object will no longer be included in the detections array on subsequent frames.
 
 <p align="right">Next | <b><a href="segnet-console-2.md">Semantic Segmentation</a></b>
 <br/>
