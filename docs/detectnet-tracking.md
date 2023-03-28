@@ -92,7 +92,7 @@ for detection in detections:
     if detection.TrackStatus >= 0:  # actively tracking
         print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has been tracked for {detection.TrackFrames} frames")
     else:  # if tracking was lost, this object will be dropped the next frame
-        print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has lost tracking")   
+        print(f"object {detection.TrackID} has lost tracking")   
 ```
 
 If the track was lost (`TrackStatus=-1`), that object will be dropped and no longer be included in the detections array on subsequent frames.
