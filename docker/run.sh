@@ -170,7 +170,7 @@ if [ -n "$DISPLAY" ]; then
 	DISPLAY_DEVICE="-e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix"
 fi
 
-echo "DISPLAY_DEVICE: $DISPLAY_ENV"
+echo "DISPLAY_DEVICE: $DISPLAY_DEVICE"
 
 # run the container
 if [ $ARCH = "aarch64" ]; then
