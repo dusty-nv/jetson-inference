@@ -22,7 +22,9 @@ $ detectnet --model=peoplenet --tracking pedestrians.mp4 pedestrians_tracking.mp
 $ detectnet.py --model=peoplenet --tracking pedestrians.mp4 pedestrians_tracking.mp4
 ```
 
-There are other tracking settings you can change with the following command-line options:
+### Tracking Parameters 
+
+There are other tracker settings you can change with the following command-line options:
 
 ```
 objectTracker arguments:
