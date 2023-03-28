@@ -30,7 +30,7 @@ There are other tracker settings you can change with the following command-line 
 objectTracker arguments:
   --tracking               flag to enable default tracker (IOU)
   --tracker-min-frames=N   the number of re-identified frames for a track to be considered valid (default: 3)
-  --tracker-lost-frames=N  number of consecutive lost frames before a track is removed (default: 15)
+  --tracker-drop-frames=N  number of consecutive lost frames before a track is dropped (default: 15)
   --tracker-overlap=N      how much IOU overlap is required for a bounding box to be matched (default: 0.5)
 ```
 
@@ -91,11 +91,11 @@ detections = net.Detect(img)
 for detection in detections:
     if detection.TrackStatus >= 0:  # actively tracking
         print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has been tracked for {detection.TrackFrames} frames")
-    else:  # if tracking was lost, this object will be removed the next frame
+    else:  # if tracking was lost, this object will be dropped the next frame
         print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has lost tracking")   
 ```
 
-If the track was lost (`TrackStatus=-1`), that object will no longer be included in the detections array on subsequent frames.
+If the track was lost (`TrackStatus=-1`), that object will be dropped and no longer be included in the detections array on subsequent frames.
 
 <p align="right">Next | <b><a href="segnet-console-2.md">Semantic Segmentation</a></b>
 <br/>
