@@ -56,6 +56,40 @@ net->SetTracker(objectTrackerIOU::Create(3, 15, 0.5f));
 
 To play around with these settings interactively, you can use the [Flask webapp](webrtc-flask.md) from your browser.
 
+### Tracking State
+
+When tracking is enabled, the detectNet.Detection results that are returned from detectNet.Detect() will have additional variables that are active which describe the state of each tracked object:
+
+``` cpp
+struct Detection
+{
+	// Detection Info
+	uint32_t ClassID;	/**< Class index of the detected object. */
+	float Confidence;	/**< Confidence value of the detected object. */
+
+	// Tracking Info
+	int TrackID;		/**< Unique tracking ID (or -1 if untracked) */
+	int TrackStatus;	/**< -1 for dropped, 0 for initializing, 1 for active/valid */ 
+	int TrackFrames;	/**< The number of frames the object has been re-identified for */
+	int TrackLost;   	/**< The number of consecutive frames tracking has been lost for */
+	
+	// Bounding Box Coordinates
+	float Left;		/**< Left bounding box coordinate (in pixels) */
+	float Right;		/**< Right bounding box coordinate (in pixels) */
+	float Top;		/**< Top bounding box cooridnate (in pixels) */
+	float Bottom;		/**< Bottom bounding box coordinate (in pixels) */
+};
+```
+
+These are accessible from both [C++](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/structdetectNet_1_1Detection.html) and [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet).  For example, from Python:
+
+``` python
+detections = net.Detect(img)
+
+for detection in detections:
+    print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has been tracked for {detection.TrackFrames} frames")
+```
+
 <p align="right">Next | <b><a href="segnet-console-2.md">Semantic Segmentation</a></b>
 <br/>
 Back | <b><a href="detectnet-tao.md">Using TAO Detection Models</a></p>
