@@ -95,7 +95,7 @@ for detection in detections:
         print(f"object {detection.TrackID} has lost tracking")   
 ```
 
-If the track was lost (`TrackStatus=-1`), that object will be dropped and no longer be included in the detections array on subsequent frames.
+If the track was lost (`TrackStatus=-1`), that object will be dropped and no longer included in the detections array on subsequent frames.
 
 <p align="right">Next | <b><a href="segnet-console-2.md">Semantic Segmentation</a></b>
 <br/>
