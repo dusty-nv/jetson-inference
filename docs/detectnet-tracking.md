@@ -92,6 +92,8 @@ for detection in detections:
     print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has been tracked for {detection.TrackFrames} frames")
 ```
 
+These variables get updated by the tracker each frame until the track is lost (`TrackStatus=-1`).  The frame after, that object will no longer be included in the detections array.
+
 <p align="right">Next | <b><a href="segnet-console-2.md">Semantic Segmentation</a></b>
 <br/>
 Back | <b><a href="detectnet-tao.md">Using TAO Detection Models</a></p>
