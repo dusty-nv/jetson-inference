@@ -89,7 +89,7 @@ These are accessible from both [C++](https://rawgit.com/dusty-nv/jetson-inferenc
 detections = net.Detect(img)
 
 for detection in detections:
-    if detection.TrackStatus >= 0:  
+    if detection.TrackStatus >= 0:  # actively tracking
         print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has been tracked for {detection.TrackFrames} frames")
     else:  # if tracking was lost, this object will be removed the next frame
         print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has lost tracking")   
