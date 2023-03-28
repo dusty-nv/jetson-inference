@@ -1,7 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 
 # Deploying Deep Learning
-Welcome to our instructional guide for inference and realtime vision [DNN library](#api-reference) for NVIDIA **[Jetson Nano / TX1 / TX2 / Xavier / Orin](https://developer.nvidia.com/embedded-computing)** devices.  This project uses **[TensorRT](https://developer.nvidia.com/tensorrt)** for deploying models onto GPUs, and [PyTorch](#training) for training.
+Welcome to our instructional guide for inference and realtime vision [DNN library](#api-reference) for NVIDIA **[Jetson Nano / TX1 / TX2 / Xavier / Orin](https://developer.nvidia.com/embedded-computing)** devices.  This project uses **[TensorRT](https://developer.nvidia.com/tensorrt)** to optimize models for GPUs, and PyTorch for training.
 
 Supported DNN vision primitives include [`imageNet`](docs/imagenet-console-2.md) for image classification, [`detectNet`](docs/detectnet-console-2.md) for object detection, [`segNet`](docs/segnet-console-2.md) for semantic segmentation, [`poseNet`](docs/posenet.md) for pose estimation, and [`actionNet`](docs/actionnet.md) for action recognition.  Examples are provided for streaming from live camera feeds and making webapps with WebRTC.  See the **[API Reference](#api-reference)** section for detailed reference documentation of the C++ and Python libraries. 
 
@@ -19,7 +19,7 @@ Follow the **[Hello AI World](#hello-ai-world)** tutorial for running inference 
 * [System Requirements](#recommended-system-requirements)
 * [Change Log](CHANGELOG.md)
 
-> &gt; &nbsp; JetPack 5 is now supported, along with [Jetson AGX Orin](https://developer.nvidia.com/embedded/jetson-agx-orin-developer-kit). <br/>
+> &gt; &nbsp; JetPack 5 is now supported, along with [Jetson Orin Nano](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/). <br/>
 > &gt; &nbsp; Try the new [WebApp Frameworks](#webapp-frameworks) and [WebRTC](docs/webrtc-server.md) tutorials! <br/>
 > &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 
@@ -103,7 +103,7 @@ Below are links to reference documentation for the [C++](https://rawgit.com/dust
 | Object Detection   | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__detectNet.html#classdetectNet) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet)
 | Segmentation       | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__segNet.html#classsegNet) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#segNet) |
 | Pose Estimation    | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__poseNet.html#classposeNet) | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#poseNet) |
-| Action Recognition | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__actionNet.html#classactionNetl) | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#actionNet) |
+| Action Recognition | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__actionNet.html#classactionNet) | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#actionNet) |
 | Background Removal | [`backgroundNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__backgroundNet.html#classbackgroundNet) | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#backgroundNet) |
 | Monocular Depth    | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__depthNet.html#classdepthNet) | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#depthNet) |
 
