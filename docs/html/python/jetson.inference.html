@@ -462,13 +462,11 @@ Examples&nbsp;(jetson-inference/python/examples)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-mobilenet-v1<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-mobilenet-v2&nbsp;(default)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ssd-inception-v2<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;pednet<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;multiped<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;facenet<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-airplane<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-bottle<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-chair<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;coco-dog<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;peoplenet<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;peoplenet-pruned<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;dashcamnet<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;trafficcamnet<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;facedetect<br>
 &nbsp;&nbsp;--model=MODEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;model&nbsp;to&nbsp;load&nbsp;(caffemodel,&nbsp;uff,&nbsp;or&nbsp;onnx)<br>
 &nbsp;&nbsp;--prototxt=PROTOTXT&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;custom&nbsp;prototxt&nbsp;to&nbsp;load&nbsp;(for&nbsp;.caffemodel&nbsp;only)<br>
 &nbsp;&nbsp;--labels=LABELS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;to&nbsp;text&nbsp;file&nbsp;containing&nbsp;the&nbsp;labels&nbsp;for&nbsp;each&nbsp;class<br>
@@ -677,14 +675,8 @@ Data and other attributes defined here:<br>
 ----------------------------------------------------------------------<br>
 Data&nbsp;descriptors&nbsp;defined&nbsp;here:<br>
 &nbsp;<br>
-Area<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Area&nbsp;of&nbsp;bounding&nbsp;box<br>
-&nbsp;<br>
-Bottom<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Bottom&nbsp;bounding&nbsp;box&nbsp;coordinate<br>
-&nbsp;<br>
-Center<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Center&nbsp;(x,y)&nbsp;coordinate&nbsp;of&nbsp;bounding&nbsp;box<br>
+Confidence<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Confidence&nbsp;value&nbsp;of&nbsp;the&nbsp;detected&nbsp;<a href="builtins.html#object">object</a><br>
 &nbsp;<br>
 ClassID<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Class&nbsp;index&nbsp;of&nbsp;the&nbsp;detected&nbsp;<a href="builtins.html#object">object</a><br>
@@ -692,8 +684,17 @@ ClassID<br>
 TrackID<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Unique&nbsp;tracking&nbsp;ID&nbsp;(or&nbsp;-1&nbsp;if&nbsp;untracked)<br>
 &nbsp;<br>
-Confidence<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Confidence&nbsp;value&nbsp;of&nbsp;the&nbsp;detected&nbsp;<a href="builtins.html#object">object</a><br>
+TrackStatus<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-1&nbsp;for&nbsp;dropped,&nbsp;0&nbsp;for&nbsp;initializing,&nbsp;1&nbsp;for&nbsp;active/valid<br>
+&nbsp;<br>
+TrackFrames<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;frames&nbsp;the&nbsp;<a href="builtins.html#object">object</a>&nbsp;has&nbsp;been&nbsp;re-identified&nbsp;for<br>
+&nbsp;<br>
+TrackLost<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;consecutive&nbsp;frames&nbsp;tracking&nbsp;has&nbsp;been&nbsp;lost&nbsp;for<br>
+&nbsp;<br>
+Width<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width&nbsp;of&nbsp;bounding&nbsp;box<br>
 &nbsp;<br>
 Height<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Height&nbsp;of&nbsp;bounding&nbsp;box<br>
@@ -707,8 +708,17 @@ Right<br>
 Top<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Top&nbsp;bounding&nbsp;box&nbsp;coordinate<br>
 &nbsp;<br>
-Width<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width&nbsp;of&nbsp;bounding&nbsp;box</tt></dl>
+Bottom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Bottom&nbsp;bounding&nbsp;box&nbsp;coordinate<br>
+&nbsp;<br>
+ROI<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(Left,&nbsp;Top,&nbsp;Right,&nbsp;Bottom)&nbsp;tuple<br>
+&nbsp;<br>
+Center<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Center&nbsp;(x,y)&nbsp;coordinate&nbsp;tuple<br>
+&nbsp;<br>
+Area<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Area&nbsp;of&nbsp;bounding&nbsp;box</tt></dl>
 
 <hr>
 Methods inherited from <a href="jetson.inference.html#tensorNet">tensorNet</a>:<br>

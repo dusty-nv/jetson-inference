@@ -96,15 +96,15 @@ $(document).ready(function(){initNavTree('group__input.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInputDevices.html">InputDevices</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input device manager.  <a href="classInputDevices.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJoystickDevice.html">JoystickDevice</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joystick device.  <a href="classJoystickDevice.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKeyboardDevice.html">KeyboardDevice</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keyboard device.  <a href="classKeyboardDevice.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classInputDevices"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#classInputDevices">InputDevices</a></td></tr>
+<tr class="memdesc:classInputDevices"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input device manager.  <a href="group__input.html#classInputDevices">More...</a><br /></td></tr>
+<tr class="separator:classInputDevices"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classJoystickDevice"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#classJoystickDevice">JoystickDevice</a></td></tr>
+<tr class="memdesc:classJoystickDevice"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joystick device.  <a href="group__input.html#classJoystickDevice">More...</a><br /></td></tr>
+<tr class="separator:classJoystickDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classKeyboardDevice"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#classKeyboardDevice">KeyboardDevice</a></td></tr>
+<tr class="memdesc:classKeyboardDevice"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keyboard device.  <a href="group__input.html#classKeyboardDevice">More...</a><br /></td></tr>
+<tr class="separator:classKeyboardDevice"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -114,6 +114,798 @@ Typedefs</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>HID input devices including gamepad controllers, joysticks, and keyboard. </p>
+<hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="classInputDevices" id="classInputDevices"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classInputDevices">&#9670;&nbsp;</a></span>InputDevices</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class InputDevices</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Input device manager. </p>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
+<tr class="memitem:aee59f4de36c7953b7aced9b4d0d8fe9e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#aee59f4de36c7953b7aced9b4d0d8fe9e">~InputDevices</a> ()</td></tr>
+<tr class="memdesc:aee59f4de36c7953b7aced9b4d0d8fe9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="group__input.html#aee59f4de36c7953b7aced9b4d0d8fe9e">More...</a><br /></td></tr>
+<tr class="separator:aee59f4de36c7953b7aced9b4d0d8fe9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40fd94440d7d89fbfd96b84db63887ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a40fd94440d7d89fbfd96b84db63887ad">Poll</a> (uint32_t timeout=0)</td></tr>
+<tr class="memdesc:a40fd94440d7d89fbfd96b84db63887ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll the devices for updates.  <a href="group__input.html#a40fd94440d7d89fbfd96b84db63887ad">More...</a><br /></td></tr>
+<tr class="separator:a40fd94440d7d89fbfd96b84db63887ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4980776694d32de85b4ed9b956a9911"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__input.html#classKeyboardDevice">KeyboardDevice</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#ab4980776694d32de85b4ed9b956a9911">GetKeyboard</a> () const</td></tr>
+<tr class="memdesc:ab4980776694d32de85b4ed9b956a9911"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the keyboard device.  <a href="group__input.html#ab4980776694d32de85b4ed9b956a9911">More...</a><br /></td></tr>
+<tr class="separator:ab4980776694d32de85b4ed9b956a9911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adef03b03e7fc4519dacf48220d83a7e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__input.html#classJoystickDevice">JoystickDevice</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#adef03b03e7fc4519dacf48220d83a7e9">GetJoystick</a> () const</td></tr>
+<tr class="memdesc:adef03b03e7fc4519dacf48220d83a7e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the gamepad device.  <a href="group__input.html#adef03b03e7fc4519dacf48220d83a7e9">More...</a><br /></td></tr>
+<tr class="separator:adef03b03e7fc4519dacf48220d83a7e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:a3e09be2fb85b398317b7ce4825d7e08a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__input.html#classInputDevices">InputDevices</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a3e09be2fb85b398317b7ce4825d7e08a">Create</a> ()</td></tr>
+<tr class="memdesc:a3e09be2fb85b398317b7ce4825d7e08a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create device.  <a href="group__input.html#a3e09be2fb85b398317b7ce4825d7e08a">More...</a><br /></td></tr>
+<tr class="separator:a3e09be2fb85b398317b7ce4825d7e08a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab67ffc55bf1814816ae735ce0290e66c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#ab67ffc55bf1814816ae735ce0290e66c">Enumerate</a> (<a class="el" href="group__input.html#ga50538a4d144ab00657372f458f9c3cb4">DeviceList</a> &amp;devices)</td></tr>
+<tr class="memdesc:ab67ffc55bf1814816ae735ce0290e66c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scan /dev/input for devices.  <a href="group__input.html#ab67ffc55bf1814816ae735ce0290e66c">More...</a><br /></td></tr>
+<tr class="separator:ab67ffc55bf1814816ae735ce0290e66c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8a0bed652968f7ad9e48f5a5b828504"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#aa8a0bed652968f7ad9e48f5a5b828504">FindPathByName</a> (const char *name)</td></tr>
+<tr class="memdesc:aa8a0bed652968f7ad9e48f5a5b828504"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find /dev/input path by device name.  <a href="group__input.html#aa8a0bed652968f7ad9e48f5a5b828504">More...</a><br /></td></tr>
+<tr class="separator:aa8a0bed652968f7ad9e48f5a5b828504"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Member Functions</h3></td></tr>
+<tr class="memitem:a4acecf026f4b289c7bb30f983706e79a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a4acecf026f4b289c7bb30f983706e79a">InputDevices</a> ()</td></tr>
+<tr class="separator:a4acecf026f4b289c7bb30f983706e79a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Attributes</h3></td></tr>
+<tr class="memitem:a667e29a70249c6760b63fadc18e5f742"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__input.html#classKeyboardDevice">KeyboardDevice</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a667e29a70249c6760b63fadc18e5f742">mKeyboard</a></td></tr>
+<tr class="separator:a667e29a70249c6760b63fadc18e5f742"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a850a23a3141e106df63b35bd94c536d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__input.html#classJoystickDevice">JoystickDevice</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a850a23a3141e106df63b35bd94c536d0">mJoystick</a></td></tr>
+<tr class="separator:a850a23a3141e106df63b35bd94c536d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
+<a id="aee59f4de36c7953b7aced9b4d0d8fe9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee59f4de36c7953b7aced9b4d0d8fe9e">&#9670;&nbsp;</a></span>~InputDevices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">InputDevices::~InputDevices </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+
+</div>
+</div>
+<a id="a4acecf026f4b289c7bb30f983706e79a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4acecf026f4b289c7bb30f983706e79a">&#9670;&nbsp;</a></span>InputDevices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">InputDevices::InputDevices </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="a3e09be2fb85b398317b7ce4825d7e08a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e09be2fb85b398317b7ce4825d7e08a">&#9670;&nbsp;</a></span>Create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__input.html#classInputDevices">InputDevices</a>* InputDevices::Create </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create device. </p>
+
+</div>
+</div>
+<a id="ab67ffc55bf1814816ae735ce0290e66c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab67ffc55bf1814816ae735ce0290e66c">&#9670;&nbsp;</a></span>Enumerate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void InputDevices::Enumerate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__input.html#ga50538a4d144ab00657372f458f9c3cb4">DeviceList</a> &amp;&#160;</td>
+          <td class="paramname"><em>devices</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Scan /dev/input for devices. </p>
+
+</div>
+</div>
+<a id="aa8a0bed652968f7ad9e48f5a5b828504"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8a0bed652968f7ad9e48f5a5b828504">&#9670;&nbsp;</a></span>FindPathByName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::string InputDevices::FindPathByName </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Find /dev/input path by device name. </p>
+
+</div>
+</div>
+<a id="adef03b03e7fc4519dacf48220d83a7e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adef03b03e7fc4519dacf48220d83a7e9">&#9670;&nbsp;</a></span>GetJoystick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__input.html#classJoystickDevice">JoystickDevice</a>* InputDevices::GetJoystick </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieve the gamepad device. </p>
+
+</div>
+</div>
+<a id="ab4980776694d32de85b4ed9b956a9911"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4980776694d32de85b4ed9b956a9911">&#9670;&nbsp;</a></span>GetKeyboard()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__input.html#classKeyboardDevice">KeyboardDevice</a>* InputDevices::GetKeyboard </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieve the keyboard device. </p>
+
+</div>
+</div>
+<a id="a40fd94440d7d89fbfd96b84db63887ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40fd94440d7d89fbfd96b84db63887ad">&#9670;&nbsp;</a></span>Poll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool InputDevices::Poll </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Poll the devices for updates. </p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Data Documentation</h4>
+<a id="a850a23a3141e106df63b35bd94c536d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a850a23a3141e106df63b35bd94c536d0">&#9670;&nbsp;</a></span>mJoystick</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__input.html#classJoystickDevice">JoystickDevice</a>* InputDevices::mJoystick</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a667e29a70249c6760b63fadc18e5f742"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a667e29a70249c6760b63fadc18e5f742">&#9670;&nbsp;</a></span>mKeyboard</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__input.html#classKeyboardDevice">KeyboardDevice</a>* InputDevices::mKeyboard</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+
+</div>
+</div>
+<a name="classJoystickDevice" id="classJoystickDevice"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classJoystickDevice">&#9670;&nbsp;</a></span>JoystickDevice</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class JoystickDevice</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Joystick device. </p>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
+<tr class="memitem:a9809ceb68111a4cae9318bcf6c226e2b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a9809ceb68111a4cae9318bcf6c226e2b">~JoystickDevice</a> ()</td></tr>
+<tr class="memdesc:a9809ceb68111a4cae9318bcf6c226e2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="group__input.html#a9809ceb68111a4cae9318bcf6c226e2b">More...</a><br /></td></tr>
+<tr class="separator:a9809ceb68111a4cae9318bcf6c226e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97d9c58bc468516295ad27e73876757d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a97d9c58bc468516295ad27e73876757d">Poll</a> (uint32_t timeout=0)</td></tr>
+<tr class="memdesc:a97d9c58bc468516295ad27e73876757d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll the device for updates.  <a href="group__input.html#a97d9c58bc468516295ad27e73876757d">More...</a><br /></td></tr>
+<tr class="separator:a97d9c58bc468516295ad27e73876757d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:a362d6cde0c0bfebf538aebf13414ad29"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__input.html#classJoystickDevice">JoystickDevice</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a362d6cde0c0bfebf538aebf13414ad29">Create</a> (const char *device=&quot;Microntek              USB Joystick          &quot;)</td></tr>
+<tr class="memdesc:a362d6cde0c0bfebf538aebf13414ad29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create device.  <a href="group__input.html#a362d6cde0c0bfebf538aebf13414ad29">More...</a><br /></td></tr>
+<tr class="separator:a362d6cde0c0bfebf538aebf13414ad29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Member Functions</h3></td></tr>
+<tr class="memitem:a163edc43ab946af1154a57cc5f2d313c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a163edc43ab946af1154a57cc5f2d313c">JoystickDevice</a> ()</td></tr>
+<tr class="separator:a163edc43ab946af1154a57cc5f2d313c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Attributes</h3></td></tr>
+<tr class="memitem:ae194469f26a90e7d1420844c2c71efcf"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#ae194469f26a90e7d1420844c2c71efcf">mAxisNorm</a> [<a class="el" href="group__input.html#a0726a054001c4cbbc3cea27512797c07">MAX_AXIS</a>]</td></tr>
+<tr class="separator:ae194469f26a90e7d1420844c2c71efcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a329a06f302fa1ba6ea1798762eb8f9f3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a329a06f302fa1ba6ea1798762eb8f9f3">mAxisRaw</a> [<a class="el" href="group__input.html#a0726a054001c4cbbc3cea27512797c07">MAX_AXIS</a>]</td></tr>
+<tr class="separator:a329a06f302fa1ba6ea1798762eb8f9f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e93062262104177fea0edf8460b914a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a8e93062262104177fea0edf8460b914a">mFD</a></td></tr>
+<tr class="separator:a8e93062262104177fea0edf8460b914a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a656fe1e149d73197a081912711e4be22"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a656fe1e149d73197a081912711e4be22">mPath</a></td></tr>
+<tr class="separator:a656fe1e149d73197a081912711e4be22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Protected Attributes</h3></td></tr>
+<tr class="memitem:a0726a054001c4cbbc3cea27512797c07"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a0726a054001c4cbbc3cea27512797c07">MAX_AXIS</a> = 256</td></tr>
+<tr class="separator:a0726a054001c4cbbc3cea27512797c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
+<a id="a9809ceb68111a4cae9318bcf6c226e2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9809ceb68111a4cae9318bcf6c226e2b">&#9670;&nbsp;</a></span>~JoystickDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">JoystickDevice::~JoystickDevice </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+
+</div>
+</div>
+<a id="a163edc43ab946af1154a57cc5f2d313c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a163edc43ab946af1154a57cc5f2d313c">&#9670;&nbsp;</a></span>JoystickDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">JoystickDevice::JoystickDevice </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="a362d6cde0c0bfebf538aebf13414ad29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a362d6cde0c0bfebf538aebf13414ad29">&#9670;&nbsp;</a></span>Create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__input.html#classJoystickDevice">JoystickDevice</a>* JoystickDevice::Create </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>device</em> = <code>&quot;Microntek&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;USB&#160;Joystick&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create device. </p>
+
+</div>
+</div>
+<a id="a97d9c58bc468516295ad27e73876757d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97d9c58bc468516295ad27e73876757d">&#9670;&nbsp;</a></span>Poll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool JoystickDevice::Poll </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Poll the device for updates. </p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Data Documentation</h4>
+<a id="a0726a054001c4cbbc3cea27512797c07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0726a054001c4cbbc3cea27512797c07">&#9670;&nbsp;</a></span>MAX_AXIS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int JoystickDevice::MAX_AXIS = 256</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae194469f26a90e7d1420844c2c71efcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae194469f26a90e7d1420844c2c71efcf">&#9670;&nbsp;</a></span>mAxisNorm</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float JoystickDevice::mAxisNorm[<a class="el" href="group__input.html#a0726a054001c4cbbc3cea27512797c07">MAX_AXIS</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a329a06f302fa1ba6ea1798762eb8f9f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a329a06f302fa1ba6ea1798762eb8f9f3">&#9670;&nbsp;</a></span>mAxisRaw</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int JoystickDevice::mAxisRaw[<a class="el" href="group__input.html#a0726a054001c4cbbc3cea27512797c07">MAX_AXIS</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e93062262104177fea0edf8460b914a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e93062262104177fea0edf8460b914a">&#9670;&nbsp;</a></span>mFD</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int JoystickDevice::mFD</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a656fe1e149d73197a081912711e4be22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a656fe1e149d73197a081912711e4be22">&#9670;&nbsp;</a></span>mPath</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string JoystickDevice::mPath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+
+</div>
+</div>
+<a name="classKeyboardDevice" id="classKeyboardDevice"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classKeyboardDevice">&#9670;&nbsp;</a></span>KeyboardDevice</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class KeyboardDevice</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Keyboard device. </p>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
+<tr class="memitem:ad3086c34ac8d37d209dc101fb8dec4a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#ad3086c34ac8d37d209dc101fb8dec4a4">~KeyboardDevice</a> ()</td></tr>
+<tr class="memdesc:ad3086c34ac8d37d209dc101fb8dec4a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="group__input.html#ad3086c34ac8d37d209dc101fb8dec4a4">More...</a><br /></td></tr>
+<tr class="separator:ad3086c34ac8d37d209dc101fb8dec4a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac46438355ae53c08d5990ef36c4dccb0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#ac46438355ae53c08d5990ef36c4dccb0">Poll</a> (uint32_t timeout=0)</td></tr>
+<tr class="memdesc:ac46438355ae53c08d5990ef36c4dccb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll the device for updates.  <a href="group__input.html#ac46438355ae53c08d5990ef36c4dccb0">More...</a><br /></td></tr>
+<tr class="separator:ac46438355ae53c08d5990ef36c4dccb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9b88a016a7ef8f2e5d81678ff22f1d0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#af9b88a016a7ef8f2e5d81678ff22f1d0">KeyDown</a> (uint32_t code) const</td></tr>
+<tr class="memdesc:af9b88a016a7ef8f2e5d81678ff22f1d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a particular key is pressed.  <a href="group__input.html#af9b88a016a7ef8f2e5d81678ff22f1d0">More...</a><br /></td></tr>
+<tr class="separator:af9b88a016a7ef8f2e5d81678ff22f1d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:aff7ecf8c09ec87b945d0186c161f828b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__input.html#classKeyboardDevice">KeyboardDevice</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#aff7ecf8c09ec87b945d0186c161f828b">Create</a> (const char *path=&quot;/dev/input/by-path/platform-i8042-serio-0-event-kbd&quot;)</td></tr>
+<tr class="memdesc:aff7ecf8c09ec87b945d0186c161f828b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create device.  <a href="group__input.html#aff7ecf8c09ec87b945d0186c161f828b">More...</a><br /></td></tr>
+<tr class="separator:aff7ecf8c09ec87b945d0186c161f828b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Member Functions</h3></td></tr>
+<tr class="memitem:a615b3b5c240b95d420e1d8f38b82a492"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a615b3b5c240b95d420e1d8f38b82a492">KeyboardDevice</a> ()</td></tr>
+<tr class="separator:a615b3b5c240b95d420e1d8f38b82a492"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Attributes</h3></td></tr>
+<tr class="memitem:a34accdf0dc02915191751c6ca41f2b3b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a34accdf0dc02915191751c6ca41f2b3b">mKeyMap</a> [<a class="el" href="group__input.html#a01a292fd4b19c862bfde365f2e5edd41">MAX_KEYS</a>]</td></tr>
+<tr class="separator:a34accdf0dc02915191751c6ca41f2b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54f82850016f2aecc912382ffcb4354c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a54f82850016f2aecc912382ffcb4354c">mFD</a></td></tr>
+<tr class="separator:a54f82850016f2aecc912382ffcb4354c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaec496bdd5b88c59e68ae3c99d553cd3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#aaec496bdd5b88c59e68ae3c99d553cd3">mPath</a></td></tr>
+<tr class="separator:aaec496bdd5b88c59e68ae3c99d553cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Protected Attributes</h3></td></tr>
+<tr class="memitem:a01a292fd4b19c862bfde365f2e5edd41"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__input.html#a01a292fd4b19c862bfde365f2e5edd41">MAX_KEYS</a> = 256</td></tr>
+<tr class="separator:a01a292fd4b19c862bfde365f2e5edd41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
+<a id="ad3086c34ac8d37d209dc101fb8dec4a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3086c34ac8d37d209dc101fb8dec4a4">&#9670;&nbsp;</a></span>~KeyboardDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">KeyboardDevice::~KeyboardDevice </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+
+</div>
+</div>
+<a id="a615b3b5c240b95d420e1d8f38b82a492"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a615b3b5c240b95d420e1d8f38b82a492">&#9670;&nbsp;</a></span>KeyboardDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">KeyboardDevice::KeyboardDevice </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="aff7ecf8c09ec87b945d0186c161f828b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff7ecf8c09ec87b945d0186c161f828b">&#9670;&nbsp;</a></span>Create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__input.html#classKeyboardDevice">KeyboardDevice</a>* KeyboardDevice::Create </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>path</em> = <code>&quot;/dev/input/by-path/platform-i8042-serio-0-event-kbd&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create device. </p>
+
+</div>
+</div>
+<a id="af9b88a016a7ef8f2e5d81678ff22f1d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b88a016a7ef8f2e5d81678ff22f1d0">&#9670;&nbsp;</a></span>KeyDown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool KeyboardDevice::KeyDown </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>code</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if a particular key is pressed. </p>
+
+</div>
+</div>
+<a id="ac46438355ae53c08d5990ef36c4dccb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac46438355ae53c08d5990ef36c4dccb0">&#9670;&nbsp;</a></span>Poll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool KeyboardDevice::Poll </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Poll the device for updates. </p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Data Documentation</h4>
+<a id="a01a292fd4b19c862bfde365f2e5edd41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01a292fd4b19c862bfde365f2e5edd41">&#9670;&nbsp;</a></span>MAX_KEYS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int KeyboardDevice::MAX_KEYS = 256</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a54f82850016f2aecc912382ffcb4354c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54f82850016f2aecc912382ffcb4354c">&#9670;&nbsp;</a></span>mFD</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int KeyboardDevice::mFD</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a34accdf0dc02915191751c6ca41f2b3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34accdf0dc02915191751c6ca41f2b3b">&#9670;&nbsp;</a></span>mKeyMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int KeyboardDevice::mKeyMap[<a class="el" href="group__input.html#a01a292fd4b19c862bfde365f2e5edd41">MAX_KEYS</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaec496bdd5b88c59e68ae3c99d553cd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaec496bdd5b88c59e68ae3c99d553cd3">&#9670;&nbsp;</a></span>mPath</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string KeyboardDevice::mPath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+
+</div>
+</div>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="ga50538a4d144ab00657372f458f9c3cb4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga50538a4d144ab00657372f458f9c3cb4">&#9670;&nbsp;</a></span>DeviceList</h2>
@@ -136,7 +928,7 @@ Typedefs</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 17 2023 14:29:30 for Jetson Inference by
+    <li class="footer">Generated on Tue Mar 28 2023 14:27:58 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
   </ul>

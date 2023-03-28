@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['keyboarddevice_2100',['KeyboardDevice',['../classKeyboardDevice.html',1,'']]],
-  ['keypoint_2101',['Keypoint',['../structposeNet_1_1ObjectPose_1_1Keypoint.html',1,'poseNet::ObjectPose']]]
+  ['layerinfo_1885',['layerInfo',['../structtensorNet_1_1layerInfo.html',1,'tensorNet']]],
+  ['log_1886',['Log',['../group__log.html#classLog',1,'']]],
+  ['logger_1887',['Logger',['../classtensorNet_1_1Logger.html',1,'tensorNet']]]
 ];

@@ -96,39 +96,534 @@ $(document).ready(function(){initNavTree('group__log.html',''); initResizable();
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLog.html">Log</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message logging with a variable level of output and destinations.  <a href="classLog.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classLog"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#classLog">Log</a></td></tr>
+<tr class="memdesc:classLog"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message logging with a variable level of output and destinations.  <a href="group__log.html#classLog">More...</a><br /></td></tr>
+<tr class="separator:classLog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:ga28f8a04ffc482319c4b5256655b650b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga28f8a04ffc482319c4b5256655b650b5">LOG_USAGE_STRING</a></td></tr>
-<tr class="memdesc:ga28f8a04ffc482319c4b5256655b650b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard command-line options able to be passed to <a class="el" href="classvideoOutput.html#aa2754b5d31e5466ad35db3f2832209f1" title="Create videoOutput interface from a videoOptions struct that&#39;s already been filled out.">videoOutput::Create()</a>  <a href="group__log.html#ga28f8a04ffc482319c4b5256655b650b5">More...</a><br /></td></tr>
+<tr class="memdesc:ga28f8a04ffc482319c4b5256655b650b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard command-line options able to be passed to <a class="el" href="group__video.html#aa2754b5d31e5466ad35db3f2832209f1" title="Create videoOutput interface from a videoOptions struct that&#39;s already been filled out.">videoOutput::Create()</a>  <a href="group__log.html#ga28f8a04ffc482319c4b5256655b650b5">More...</a><br /></td></tr>
 <tr class="separator:ga28f8a04ffc482319c4b5256655b650b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafb70c38315345d6bae6a42a80f611cd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(level,  format,  args...)&#160;&#160;&#160;if( level &lt;= <a class="el" href="classLog.html#a1e0dae8692350761b8809693789f31ce">Log::GetLevel</a>() ) fprintf(<a class="el" href="classLog.html#af041fc113d4bc1c646e592d2b557c478">Log::GetFile</a>(), format, ## args)</td></tr>
-<tr class="memdesc:gafb70c38315345d6bae6a42a80f611cd0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style message with the provided level.  <a href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">More...</a><br /></td></tr>
+<tr class="memitem:gafb70c38315345d6bae6a42a80f611cd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(level,  format,  args...)&#160;&#160;&#160;if( level &lt;= <a class="el" href="group__log.html#a1e0dae8692350761b8809693789f31ce">Log::GetLevel</a>() ) fprintf(<a class="el" href="group__log.html#af041fc113d4bc1c646e592d2b557c478">Log::GetFile</a>(), format, ## args)</td></tr>
+<tr class="memdesc:gafb70c38315345d6bae6a42a80f611cd0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style message with the provided level.  <a href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">More...</a><br /></td></tr>
 <tr class="separator:gafb70c38315345d6bae6a42a80f611cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0f3919667d0ac0b001e44edb569d22fe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga0f3919667d0ac0b001e44edb569d22fe">LogError</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea4cd0be82d98ca2a542adc75f2c826e5b">Log::ERROR</a>, <a class="el" href="logging_8h.html#af6467cd567c0679c15e09913f77b9555">LOG_COLOR_RED</a> <a class="el" href="logging_8h.html#a06e2b7a43c603fa725f6481ffc54f886">LOG_LEVEL_PREFIX_ERROR</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td></tr>
-<tr class="memdesc:ga0f3919667d0ac0b001e44edb569d22fe"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style error message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea4cd0be82d98ca2a542adc75f2c826e5b" title="Major errors that may impact application execution.">Log::ERROR</a>)  <a href="group__log.html#ga0f3919667d0ac0b001e44edb569d22fe">More...</a><br /></td></tr>
+<tr class="memitem:ga0f3919667d0ac0b001e44edb569d22fe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga0f3919667d0ac0b001e44edb569d22fe">LogError</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea4cd0be82d98ca2a542adc75f2c826e5b">Log::ERROR</a>, <a class="el" href="logging_8h.html#af6467cd567c0679c15e09913f77b9555">LOG_COLOR_RED</a> <a class="el" href="logging_8h.html#a06e2b7a43c603fa725f6481ffc54f886">LOG_LEVEL_PREFIX_ERROR</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td></tr>
+<tr class="memdesc:ga0f3919667d0ac0b001e44edb569d22fe"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style error message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea4cd0be82d98ca2a542adc75f2c826e5b" title="Major errors that may impact application execution.">Log::ERROR</a>)  <a href="group__log.html#ga0f3919667d0ac0b001e44edb569d22fe">More...</a><br /></td></tr>
 <tr class="separator:ga0f3919667d0ac0b001e44edb569d22fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga923829d777617140de2576c40e3880ed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga923829d777617140de2576c40e3880ed">LogWarning</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea3af89ac37cc3e24957e7901211345e96">Log::WARNING</a>, <a class="el" href="logging_8h.html#a74416ee2437694c75a11e27a158eeb5c">LOG_COLOR_YELLOW</a> <a class="el" href="logging_8h.html#a41ab2149833532498c42b857df8e6e9b">LOG_LEVEL_PREFIX_WARNING</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td></tr>
-<tr class="memdesc:ga923829d777617140de2576c40e3880ed"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style warning message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea3af89ac37cc3e24957e7901211345e96" title="Warning conditions where the application may be able to proceed in some capacity.">Log::WARNING</a>)  <a href="group__log.html#ga923829d777617140de2576c40e3880ed">More...</a><br /></td></tr>
+<tr class="memitem:ga923829d777617140de2576c40e3880ed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga923829d777617140de2576c40e3880ed">LogWarning</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea3af89ac37cc3e24957e7901211345e96">Log::WARNING</a>, <a class="el" href="logging_8h.html#a74416ee2437694c75a11e27a158eeb5c">LOG_COLOR_YELLOW</a> <a class="el" href="logging_8h.html#a41ab2149833532498c42b857df8e6e9b">LOG_LEVEL_PREFIX_WARNING</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td></tr>
+<tr class="memdesc:ga923829d777617140de2576c40e3880ed"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style warning message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea3af89ac37cc3e24957e7901211345e96" title="Warning conditions where the application may be able to proceed in some capacity.">Log::WARNING</a>)  <a href="group__log.html#ga923829d777617140de2576c40e3880ed">More...</a><br /></td></tr>
 <tr class="separator:ga923829d777617140de2576c40e3880ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8eabfc6e4b353de9c96b1e43f7d62fcd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga8eabfc6e4b353de9c96b1e43f7d62fcd">LogSuccess</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ead5214ff9471f920797b08c249706ab69">Log::SUCCESS</a>, <a class="el" href="logging_8h.html#ab3f1028e542649d3ad064ca8b9b123c0">LOG_COLOR_GREEN</a> <a class="el" href="logging_8h.html#a0209ff584cc9d36738abaa9a24342b66">LOG_LEVEL_PREFIX_SUCCESS</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td></tr>
-<tr class="memdesc:ga8eabfc6e4b353de9c96b1e43f7d62fcd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style success message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ead5214ff9471f920797b08c249706ab69" title="Successful events (e.g.">Log::SUCCESS</a>)  <a href="group__log.html#ga8eabfc6e4b353de9c96b1e43f7d62fcd">More...</a><br /></td></tr>
+<tr class="memitem:ga8eabfc6e4b353de9c96b1e43f7d62fcd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga8eabfc6e4b353de9c96b1e43f7d62fcd">LogSuccess</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ead5214ff9471f920797b08c249706ab69">Log::SUCCESS</a>, <a class="el" href="logging_8h.html#ab3f1028e542649d3ad064ca8b9b123c0">LOG_COLOR_GREEN</a> <a class="el" href="logging_8h.html#a0209ff584cc9d36738abaa9a24342b66">LOG_LEVEL_PREFIX_SUCCESS</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td></tr>
+<tr class="memdesc:ga8eabfc6e4b353de9c96b1e43f7d62fcd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style success message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ead5214ff9471f920797b08c249706ab69" title="Successful events (e.g.">Log::SUCCESS</a>)  <a href="group__log.html#ga8eabfc6e4b353de9c96b1e43f7d62fcd">More...</a><br /></td></tr>
 <tr class="separator:ga8eabfc6e4b353de9c96b1e43f7d62fcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga228a21f91213b15d7fdce08182d825e8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga228a21f91213b15d7fdce08182d825e8">LogInfo</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea8ddc7ebe42544ebab9b3d6cf49ab33d8">Log::INFO</a>, <a class="el" href="logging_8h.html#ae9e2a457f12906e64eb3a4a0cd1b0ac9">LOG_LEVEL_PREFIX_INFO</a> format, ## args)</td></tr>
-<tr class="memdesc:ga228a21f91213b15d7fdce08182d825e8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style info message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea8ddc7ebe42544ebab9b3d6cf49ab33d8" title="Informational messages that are more important than VERBOSE messages.">Log::INFO</a>)  <a href="group__log.html#ga228a21f91213b15d7fdce08182d825e8">More...</a><br /></td></tr>
+<tr class="memitem:ga228a21f91213b15d7fdce08182d825e8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga228a21f91213b15d7fdce08182d825e8">LogInfo</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea8ddc7ebe42544ebab9b3d6cf49ab33d8">Log::INFO</a>, <a class="el" href="logging_8h.html#ae9e2a457f12906e64eb3a4a0cd1b0ac9">LOG_LEVEL_PREFIX_INFO</a> format, ## args)</td></tr>
+<tr class="memdesc:ga228a21f91213b15d7fdce08182d825e8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style info message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea8ddc7ebe42544ebab9b3d6cf49ab33d8" title="Informational messages that are more important than VERBOSE messages.">Log::INFO</a>)  <a href="group__log.html#ga228a21f91213b15d7fdce08182d825e8">More...</a><br /></td></tr>
 <tr class="separator:ga228a21f91213b15d7fdce08182d825e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga98544477d87d57d0b8e2b3ac03481785"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga98544477d87d57d0b8e2b3ac03481785">LogVerbose</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea0763041e407c0324563ab6aff02b11ee">Log::VERBOSE</a>, <a class="el" href="logging_8h.html#acffad580d034d48e5eb8939e45d1de4d">LOG_LEVEL_PREFIX_VERBOSE</a> format, ## args)</td></tr>
-<tr class="memdesc:ga98544477d87d57d0b8e2b3ac03481785"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style verbose message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea0763041e407c0324563ab6aff02b11ee" title="Verbose details about program execution.">Log::VERBOSE</a>)  <a href="group__log.html#ga98544477d87d57d0b8e2b3ac03481785">More...</a><br /></td></tr>
+<tr class="memitem:ga98544477d87d57d0b8e2b3ac03481785"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga98544477d87d57d0b8e2b3ac03481785">LogVerbose</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea0763041e407c0324563ab6aff02b11ee">Log::VERBOSE</a>, <a class="el" href="logging_8h.html#acffad580d034d48e5eb8939e45d1de4d">LOG_LEVEL_PREFIX_VERBOSE</a> format, ## args)</td></tr>
+<tr class="memdesc:ga98544477d87d57d0b8e2b3ac03481785"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style verbose message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea0763041e407c0324563ab6aff02b11ee" title="Verbose details about program execution.">Log::VERBOSE</a>)  <a href="group__log.html#ga98544477d87d57d0b8e2b3ac03481785">More...</a><br /></td></tr>
 <tr class="separator:ga98544477d87d57d0b8e2b3ac03481785"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga210ef343f0bc7d17a786ea6ea882f2d9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga210ef343f0bc7d17a786ea6ea882f2d9">LogDebug</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea4e49113de847d4ce568b7f0d5647a715">Log::DEBUG</a>, <a class="el" href="logging_8h.html#a82bae11ee85a2eaafa154e291300c048">LOG_LEVEL_PREFIX_DEBUG</a> format, ## args)</td></tr>
-<tr class="memdesc:ga210ef343f0bc7d17a786ea6ea882f2d9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style debug message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea4e49113de847d4ce568b7f0d5647a715" title="Low-level debugging (disabled by default)">Log::DEBUG</a>)  <a href="group__log.html#ga210ef343f0bc7d17a786ea6ea882f2d9">More...</a><br /></td></tr>
+<tr class="memitem:ga210ef343f0bc7d17a786ea6ea882f2d9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga210ef343f0bc7d17a786ea6ea882f2d9">LogDebug</a>(format,  args...)&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea4e49113de847d4ce568b7f0d5647a715">Log::DEBUG</a>, <a class="el" href="logging_8h.html#a82bae11ee85a2eaafa154e291300c048">LOG_LEVEL_PREFIX_DEBUG</a> format, ## args)</td></tr>
+<tr class="memdesc:ga210ef343f0bc7d17a786ea6ea882f2d9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style debug message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea4e49113de847d4ce568b7f0d5647a715" title="Low-level debugging (disabled by default)">Log::DEBUG</a>)  <a href="group__log.html#ga210ef343f0bc7d17a786ea6ea882f2d9">More...</a><br /></td></tr>
 <tr class="separator:ga210ef343f0bc7d17a786ea6ea882f2d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Message logging with a variable level of output and destinations. </p>
+<hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="classLog" id="classLog"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classLog">&#9670;&nbsp;</a></span>Log</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class Log</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Message logging with a variable level of output and destinations. </p>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h3>Public Types</h3></td></tr>
+<tr class="memitem:afb5d4c945d835d194a295461d752531e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Level</a> { <br />
+&#160;&#160;<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531eabfeaf96ee427cb4a1e58079fe56d6659">SILENT</a> =0, 
+<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea4cd0be82d98ca2a542adc75f2c826e5b">ERROR</a>, 
+<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea3af89ac37cc3e24957e7901211345e96">WARNING</a>, 
+<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ead5214ff9471f920797b08c249706ab69">SUCCESS</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea8ddc7ebe42544ebab9b3d6cf49ab33d8">INFO</a>, 
+<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea0763041e407c0324563ab6aff02b11ee">VERBOSE</a>, 
+<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea4e49113de847d4ce568b7f0d5647a715">DEBUG</a>, 
+<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea04f2e465914e7dd3f9c981ddd603e8e6">DEFAULT</a> =VERBOSE
+<br />
+ }</td></tr>
+<tr class="memdesc:afb5d4c945d835d194a295461d752531e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the logging level of a message, and the threshold used by the logger to either drop or output messages.  <a href="group__log.html#afb5d4c945d835d194a295461d752531e">More...</a><br /></td></tr>
+<tr class="separator:afb5d4c945d835d194a295461d752531e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:a1e0dae8692350761b8809693789f31ce"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Level</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#a1e0dae8692350761b8809693789f31ce">GetLevel</a> ()</td></tr>
+<tr class="memdesc:a1e0dae8692350761b8809693789f31ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current logging level.  <a href="group__log.html#a1e0dae8692350761b8809693789f31ce">More...</a><br /></td></tr>
+<tr class="separator:a1e0dae8692350761b8809693789f31ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dad02e089ddac13fb2f711143c2fc0d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#a8dad02e089ddac13fb2f711143c2fc0d">SetLevel</a> (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Level</a> level)</td></tr>
+<tr class="memdesc:a8dad02e089ddac13fb2f711143c2fc0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the current logging level.  <a href="group__log.html#a8dad02e089ddac13fb2f711143c2fc0d">More...</a><br /></td></tr>
+<tr class="separator:a8dad02e089ddac13fb2f711143c2fc0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af041fc113d4bc1c646e592d2b557c478"><td class="memItemLeft" align="right" valign="top">static FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#af041fc113d4bc1c646e592d2b557c478">GetFile</a> ()</td></tr>
+<tr class="memdesc:af041fc113d4bc1c646e592d2b557c478"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current log output.  <a href="group__log.html#af041fc113d4bc1c646e592d2b557c478">More...</a><br /></td></tr>
+<tr class="separator:af041fc113d4bc1c646e592d2b557c478"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13f5e0d46c9fff3b676fdd54e69c9ece"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#a13f5e0d46c9fff3b676fdd54e69c9ece">GetFilename</a> ()</td></tr>
+<tr class="memdesc:a13f5e0d46c9fff3b676fdd54e69c9ece"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the filename of the log output.  <a href="group__log.html#a13f5e0d46c9fff3b676fdd54e69c9ece">More...</a><br /></td></tr>
+<tr class="separator:a13f5e0d46c9fff3b676fdd54e69c9ece"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f77b78fa8f1f8a0ce240fcec82d6ba1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#a5f77b78fa8f1f8a0ce240fcec82d6ba1">SetFile</a> (FILE *file)</td></tr>
+<tr class="memdesc:a5f77b78fa8f1f8a0ce240fcec82d6ba1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the logging output.  <a href="group__log.html#a5f77b78fa8f1f8a0ce240fcec82d6ba1">More...</a><br /></td></tr>
+<tr class="separator:a5f77b78fa8f1f8a0ce240fcec82d6ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa21844620716ba51851da7c701c47706"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#aa21844620716ba51851da7c701c47706">SetFile</a> (const char *filename)</td></tr>
+<tr class="memdesc:aa21844620716ba51851da7c701c47706"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the logging output.  <a href="group__log.html#aa21844620716ba51851da7c701c47706">More...</a><br /></td></tr>
+<tr class="separator:aa21844620716ba51851da7c701c47706"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadbed1bc324f43b62a977d63f8dee534"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#aadbed1bc324f43b62a977d63f8dee534">Usage</a> ()</td></tr>
+<tr class="memdesc:aadbed1bc324f43b62a977d63f8dee534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to Create()  <a href="group__log.html#aadbed1bc324f43b62a977d63f8dee534">More...</a><br /></td></tr>
+<tr class="separator:aadbed1bc324f43b62a977d63f8dee534"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a81af53022c6d286a9341676ad778cd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#a3a81af53022c6d286a9341676ad778cd">ParseCmdLine</a> (const int argc, char **argv)</td></tr>
+<tr class="memdesc:a3a81af53022c6d286a9341676ad778cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse command line options (see <a class="el" href="group__log.html#aadbed1bc324f43b62a977d63f8dee534" title="Usage string for command line arguments to Create()">Usage()</a> above)  <a href="group__log.html#a3a81af53022c6d286a9341676ad778cd">More...</a><br /></td></tr>
+<tr class="separator:a3a81af53022c6d286a9341676ad778cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9db7e596ef6b8d634c64cec0bda1d377"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#a9db7e596ef6b8d634c64cec0bda1d377">ParseCmdLine</a> (const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine)</td></tr>
+<tr class="memdesc:a9db7e596ef6b8d634c64cec0bda1d377"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse command line options (see <a class="el" href="group__log.html#aadbed1bc324f43b62a977d63f8dee534" title="Usage string for command line arguments to Create()">Usage()</a> above)  <a href="group__log.html#a9db7e596ef6b8d634c64cec0bda1d377">More...</a><br /></td></tr>
+<tr class="separator:a9db7e596ef6b8d634c64cec0bda1d377"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad99543fb936b6448fc857a9db0751dc4"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ad99543fb936b6448fc857a9db0751dc4">LevelToStr</a> (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Level</a> level)</td></tr>
+<tr class="memdesc:ad99543fb936b6448fc857a9db0751dc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a logging level to string.  <a href="group__log.html#ad99543fb936b6448fc857a9db0751dc4">More...</a><br /></td></tr>
+<tr class="separator:ad99543fb936b6448fc857a9db0751dc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4cfaba5c57f7ae9bb549326ce4842f4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Level</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ad4cfaba5c57f7ae9bb549326ce4842f4">LevelFromStr</a> (const char *str)</td></tr>
+<tr class="memdesc:ad4cfaba5c57f7ae9bb549326ce4842f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a logging level from a string.  <a href="group__log.html#ad4cfaba5c57f7ae9bb549326ce4842f4">More...</a><br /></td></tr>
+<tr class="separator:ad4cfaba5c57f7ae9bb549326ce4842f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Protected Attributes</h3></td></tr>
+<tr class="memitem:a896bac37ef2440e3d2ed3a62745fe0df"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Level</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#a896bac37ef2440e3d2ed3a62745fe0df">mLevel</a></td></tr>
+<tr class="separator:a896bac37ef2440e3d2ed3a62745fe0df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a560b1e5aa606f40e708d95ae6739ffb8"><td class="memItemLeft" align="right" valign="top">static FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#a560b1e5aa606f40e708d95ae6739ffb8">mFile</a></td></tr>
+<tr class="separator:a560b1e5aa606f40e708d95ae6739ffb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a868d2e3c70c675aab339194e442347b0"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#a868d2e3c70c675aab339194e442347b0">mFilename</a></td></tr>
+<tr class="separator:a868d2e3c70c675aab339194e442347b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Member Enumeration Documentation</h4>
+<a id="afb5d4c945d835d194a295461d752531e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb5d4c945d835d194a295461d752531e">&#9670;&nbsp;</a></span>Level</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Log::Level</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines the logging level of a message, and the threshold used by the logger to either drop or output messages. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afb5d4c945d835d194a295461d752531eabfeaf96ee427cb4a1e58079fe56d6659"></a>SILENT&#160;</td><td class="fielddoc"><p>No messages are output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afb5d4c945d835d194a295461d752531ea4cd0be82d98ca2a542adc75f2c826e5b"></a>ERROR&#160;</td><td class="fielddoc"><p>Major errors that may impact application execution. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afb5d4c945d835d194a295461d752531ea3af89ac37cc3e24957e7901211345e96"></a>WARNING&#160;</td><td class="fielddoc"><p>Warning conditions where the application may be able to proceed in some capacity. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afb5d4c945d835d194a295461d752531ead5214ff9471f920797b08c249706ab69"></a>SUCCESS&#160;</td><td class="fielddoc"><p>Successful events (e.g. </p>
+<p>the loading or creation of a resource) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afb5d4c945d835d194a295461d752531ea8ddc7ebe42544ebab9b3d6cf49ab33d8"></a>INFO&#160;</td><td class="fielddoc"><p>Informational messages that are more important than VERBOSE messages. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afb5d4c945d835d194a295461d752531ea0763041e407c0324563ab6aff02b11ee"></a>VERBOSE&#160;</td><td class="fielddoc"><p>Verbose details about program execution. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afb5d4c945d835d194a295461d752531ea4e49113de847d4ce568b7f0d5647a715"></a>DEBUG&#160;</td><td class="fielddoc"><p>Low-level debugging (disabled by default) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afb5d4c945d835d194a295461d752531ea04f2e465914e7dd3f9c981ddd603e8e6"></a>DEFAULT&#160;</td><td class="fielddoc"><p>The default level is <code>VERBOSE</code> </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="af041fc113d4bc1c646e592d2b557c478"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af041fc113d4bc1c646e592d2b557c478">&#9670;&nbsp;</a></span>GetFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static FILE* Log::GetFile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the current log output. </p>
+
+</div>
+</div>
+<a id="a13f5e0d46c9fff3b676fdd54e69c9ece"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13f5e0d46c9fff3b676fdd54e69c9ece">&#9670;&nbsp;</a></span>GetFilename()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const char* Log::GetFilename </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the filename of the log output. </p>
+<p>This may also return <code>"stdout"</code> or <code>"stderror"</code>. </p>
+
+</div>
+</div>
+<a id="a1e0dae8692350761b8809693789f31ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e0dae8692350761b8809693789f31ce">&#9670;&nbsp;</a></span>GetLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Level</a> Log::GetLevel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the current logging level. </p>
+
+</div>
+</div>
+<a id="ad4cfaba5c57f7ae9bb549326ce4842f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4cfaba5c57f7ae9bb549326ce4842f4">&#9670;&nbsp;</a></span>LevelFromStr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Level</a> Log::LevelFromStr </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse a logging level from a string. </p>
+
+</div>
+</div>
+<a id="ad99543fb936b6448fc857a9db0751dc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad99543fb936b6448fc857a9db0751dc4">&#9670;&nbsp;</a></span>LevelToStr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const char* Log::LevelToStr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Level</a>&#160;</td>
+          <td class="paramname"><em>level</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert a logging level to string. </p>
+
+</div>
+</div>
+<a id="a9db7e596ef6b8d634c64cec0bda1d377"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9db7e596ef6b8d634c64cec0bda1d377">&#9670;&nbsp;</a></span>ParseCmdLine() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Log::ParseCmdLine </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;&#160;</td>
+          <td class="paramname"><em>cmdLine</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse command line options (see <a class="el" href="group__log.html#aadbed1bc324f43b62a977d63f8dee534" title="Usage string for command line arguments to Create()">Usage()</a> above) </p>
+
+</div>
+</div>
+<a id="a3a81af53022c6d286a9341676ad778cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a81af53022c6d286a9341676ad778cd">&#9670;&nbsp;</a></span>ParseCmdLine() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Log::ParseCmdLine </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>argv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parse command line options (see <a class="el" href="group__log.html#aadbed1bc324f43b62a977d63f8dee534" title="Usage string for command line arguments to Create()">Usage()</a> above) </p>
+
+</div>
+</div>
+<a id="aa21844620716ba51851da7c701c47706"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa21844620716ba51851da7c701c47706">&#9670;&nbsp;</a></span>SetFile() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Log::SetFile </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the logging output. </p>
+<p>Can be <code>"stdout"</code>, <code>"stderr"</code>, <code>"log.txt"</code>, ect. </p>
+
+</div>
+</div>
+<a id="a5f77b78fa8f1f8a0ce240fcec82d6ba1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f77b78fa8f1f8a0ce240fcec82d6ba1">&#9670;&nbsp;</a></span>SetFile() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Log::SetFile </td>
+          <td>(</td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the logging output. </p>
+<p>This can be a built-in file, like <code>stdout</code> or <code>stderr</code>, or a file that has been opened by the user. </p>
+
+</div>
+</div>
+<a id="a8dad02e089ddac13fb2f711143c2fc0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dad02e089ddac13fb2f711143c2fc0d">&#9670;&nbsp;</a></span>SetLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Log::SetLevel </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Level</a>&#160;</td>
+          <td class="paramname"><em>level</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the current logging level. </p>
+
+</div>
+</div>
+<a id="aadbed1bc324f43b62a977d63f8dee534"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadbed1bc324f43b62a977d63f8dee534">&#9670;&nbsp;</a></span>Usage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const char* Log::Usage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Usage string for command line arguments to Create() </p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Data Documentation</h4>
+<a id="a560b1e5aa606f40e708d95ae6739ffb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a560b1e5aa606f40e708d95ae6739ffb8">&#9670;&nbsp;</a></span>mFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FILE* Log::mFile</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a868d2e3c70c675aab339194e442347b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a868d2e3c70c675aab339194e442347b0">&#9670;&nbsp;</a></span>mFilename</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Log::mFilename</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a896bac37ef2440e3d2ed3a62745fe0df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a896bac37ef2440e3d2ed3a62745fe0df">&#9670;&nbsp;</a></span>mLevel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531e">Level</a> Log::mLevel</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+
+</div>
+</div>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="gafb70c38315345d6bae6a42a80f611cd0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gafb70c38315345d6bae6a42a80f611cd0">&#9670;&nbsp;</a></span>GenericLogMessage</h2>
@@ -157,12 +652,12 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;if( level &lt;= <a class="el" href="classLog.html#a1e0dae8692350761b8809693789f31ce">Log::GetLevel</a>() ) fprintf(<a class="el" href="classLog.html#af041fc113d4bc1c646e592d2b557c478">Log::GetFile</a>(), format, ## args)</td>
+          <td></td><td>&#160;&#160;&#160;if( level &lt;= <a class="el" href="group__log.html#a1e0dae8692350761b8809693789f31ce">Log::GetLevel</a>() ) fprintf(<a class="el" href="group__log.html#af041fc113d4bc1c646e592d2b557c478">Log::GetFile</a>(), format, ## args)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style message with the provided level. </p>
+<p><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style message with the provided level. </p>
 
 </div>
 </div>
@@ -190,7 +685,7 @@ Macros</h2></td></tr>
 <div class="line">                  <span class="stringliteral">&quot;  --verbose              enable verbose logging (same as --log-level=verbose)\n&quot;</span>  \</div>
 <div class="line">                  <span class="stringliteral">&quot;  --debug                enable debug logging   (same as --log-level=debug)\n\n&quot;</span></div>
 </div><!-- fragment -->
-<p>Standard command-line options able to be passed to <a class="el" href="classvideoOutput.html#aa2754b5d31e5466ad35db3f2832209f1" title="Create videoOutput interface from a videoOptions struct that&#39;s already been filled out.">videoOutput::Create()</a> </p>
+<p>Standard command-line options able to be passed to <a class="el" href="group__video.html#aa2754b5d31e5466ad35db3f2832209f1" title="Create videoOutput interface from a videoOptions struct that&#39;s already been filled out.">videoOutput::Create()</a> </p>
 
 </div>
 </div>
@@ -215,12 +710,12 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea4e49113de847d4ce568b7f0d5647a715">Log::DEBUG</a>, <a class="el" href="logging_8h.html#a82bae11ee85a2eaafa154e291300c048">LOG_LEVEL_PREFIX_DEBUG</a> format, ## args)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea4e49113de847d4ce568b7f0d5647a715">Log::DEBUG</a>, <a class="el" href="logging_8h.html#a82bae11ee85a2eaafa154e291300c048">LOG_LEVEL_PREFIX_DEBUG</a> format, ## args)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style debug message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea4e49113de847d4ce568b7f0d5647a715" title="Low-level debugging (disabled by default)">Log::DEBUG</a>) </p>
+<p><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style debug message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea4e49113de847d4ce568b7f0d5647a715" title="Low-level debugging (disabled by default)">Log::DEBUG</a>) </p>
 
 </div>
 </div>
@@ -245,12 +740,12 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea4cd0be82d98ca2a542adc75f2c826e5b">Log::ERROR</a>, <a class="el" href="logging_8h.html#af6467cd567c0679c15e09913f77b9555">LOG_COLOR_RED</a> <a class="el" href="logging_8h.html#a06e2b7a43c603fa725f6481ffc54f886">LOG_LEVEL_PREFIX_ERROR</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea4cd0be82d98ca2a542adc75f2c826e5b">Log::ERROR</a>, <a class="el" href="logging_8h.html#af6467cd567c0679c15e09913f77b9555">LOG_COLOR_RED</a> <a class="el" href="logging_8h.html#a06e2b7a43c603fa725f6481ffc54f886">LOG_LEVEL_PREFIX_ERROR</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style error message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea4cd0be82d98ca2a542adc75f2c826e5b" title="Major errors that may impact application execution.">Log::ERROR</a>) </p>
+<p><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style error message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea4cd0be82d98ca2a542adc75f2c826e5b" title="Major errors that may impact application execution.">Log::ERROR</a>) </p>
 
 </div>
 </div>
@@ -275,12 +770,12 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea8ddc7ebe42544ebab9b3d6cf49ab33d8">Log::INFO</a>, <a class="el" href="logging_8h.html#ae9e2a457f12906e64eb3a4a0cd1b0ac9">LOG_LEVEL_PREFIX_INFO</a> format, ## args)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea8ddc7ebe42544ebab9b3d6cf49ab33d8">Log::INFO</a>, <a class="el" href="logging_8h.html#ae9e2a457f12906e64eb3a4a0cd1b0ac9">LOG_LEVEL_PREFIX_INFO</a> format, ## args)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style info message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea8ddc7ebe42544ebab9b3d6cf49ab33d8" title="Informational messages that are more important than VERBOSE messages.">Log::INFO</a>) </p>
+<p><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style info message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea8ddc7ebe42544ebab9b3d6cf49ab33d8" title="Informational messages that are more important than VERBOSE messages.">Log::INFO</a>) </p>
 
 </div>
 </div>
@@ -305,12 +800,12 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ead5214ff9471f920797b08c249706ab69">Log::SUCCESS</a>, <a class="el" href="logging_8h.html#ab3f1028e542649d3ad064ca8b9b123c0">LOG_COLOR_GREEN</a> <a class="el" href="logging_8h.html#a0209ff584cc9d36738abaa9a24342b66">LOG_LEVEL_PREFIX_SUCCESS</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ead5214ff9471f920797b08c249706ab69">Log::SUCCESS</a>, <a class="el" href="logging_8h.html#ab3f1028e542649d3ad064ca8b9b123c0">LOG_COLOR_GREEN</a> <a class="el" href="logging_8h.html#a0209ff584cc9d36738abaa9a24342b66">LOG_LEVEL_PREFIX_SUCCESS</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style success message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ead5214ff9471f920797b08c249706ab69" title="Successful events (e.g.">Log::SUCCESS</a>) </p>
+<p><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style success message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ead5214ff9471f920797b08c249706ab69" title="Successful events (e.g.">Log::SUCCESS</a>) </p>
 
 </div>
 </div>
@@ -335,12 +830,12 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea0763041e407c0324563ab6aff02b11ee">Log::VERBOSE</a>, <a class="el" href="logging_8h.html#acffad580d034d48e5eb8939e45d1de4d">LOG_LEVEL_PREFIX_VERBOSE</a> format, ## args)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea0763041e407c0324563ab6aff02b11ee">Log::VERBOSE</a>, <a class="el" href="logging_8h.html#acffad580d034d48e5eb8939e45d1de4d">LOG_LEVEL_PREFIX_VERBOSE</a> format, ## args)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style verbose message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea0763041e407c0324563ab6aff02b11ee" title="Verbose details about program execution.">Log::VERBOSE</a>) </p>
+<p><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style verbose message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea0763041e407c0324563ab6aff02b11ee" title="Verbose details about program execution.">Log::VERBOSE</a>) </p>
 
 </div>
 </div>
@@ -365,12 +860,12 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea3af89ac37cc3e24957e7901211345e96">Log::WARNING</a>, <a class="el" href="logging_8h.html#a74416ee2437694c75a11e27a158eeb5c">LOG_COLOR_YELLOW</a> <a class="el" href="logging_8h.html#a41ab2149833532498c42b857df8e6e9b">LOG_LEVEL_PREFIX_WARNING</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="group__log.html#gafb70c38315345d6bae6a42a80f611cd0">GenericLogMessage</a>(<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea3af89ac37cc3e24957e7901211345e96">Log::WARNING</a>, <a class="el" href="logging_8h.html#a74416ee2437694c75a11e27a158eeb5c">LOG_COLOR_YELLOW</a> <a class="el" href="logging_8h.html#a41ab2149833532498c42b857df8e6e9b">LOG_LEVEL_PREFIX_WARNING</a> format <a class="el" href="logging_8h.html#a8878b128231510acd20620de417738e9">LOG_COLOR_RESET</a>, ## args)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classLog.html" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style warning message (<a class="el" href="classLog.html#afb5d4c945d835d194a295461d752531ea3af89ac37cc3e24957e7901211345e96" title="Warning conditions where the application may be able to proceed in some capacity.">Log::WARNING</a>) </p>
+<p><a class="el" href="group__log.html#classLog" title="Message logging with a variable level of output and destinations.">Log</a> a printf-style warning message (<a class="el" href="group__log.html#afb5d4c945d835d194a295461d752531ea3af89ac37cc3e24957e7901211345e96" title="Warning conditions where the application may be able to proceed in some capacity.">Log::WARNING</a>) </p>
 
 </div>
 </div>
@@ -379,7 +874,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 17 2023 14:29:30 for Jetson Inference by
+    <li class="footer">Generated on Tue Mar 28 2023 14:27:58 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
   </ul>

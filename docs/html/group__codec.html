@@ -96,18 +96,18 @@ $(document).ready(function(){initNavTree('group__codec.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstBufferManager.html">gstBufferManager</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classgstBufferManager.html" title="gstBufferManager recieves GStreamer buffers from appsink elements and unpacks/maps them into CUDA add...">gstBufferManager</a> recieves GStreamer buffers from appsink elements and unpacks/maps them into CUDA address space, and handles colorspace conversion into RGB format.  <a href="classgstBufferManager.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstDecoder.html">gstDecoder</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hardware-accelerated video decoder for Jetson using GStreamer.  <a href="classgstDecoder.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstEncoder.html">gstEncoder</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hardware-accelerated video encoder for Jetson using GStreamer.  <a href="classgstEncoder.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstWebRTC.html">gstWebRTC</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static class for common WebRTC utility functions used with GStreamer.  <a href="classgstWebRTC.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classgstBufferManager"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#classgstBufferManager">gstBufferManager</a></td></tr>
+<tr class="memdesc:classgstBufferManager"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__codec.html#classgstBufferManager" title="gstBufferManager recieves GStreamer buffers from appsink elements and unpacks/maps them into CUDA add...">gstBufferManager</a> recieves GStreamer buffers from appsink elements and unpacks/maps them into CUDA address space, and handles colorspace conversion into RGB format.  <a href="group__codec.html#classgstBufferManager">More...</a><br /></td></tr>
+<tr class="separator:classgstBufferManager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classgstDecoder"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#classgstDecoder">gstDecoder</a></td></tr>
+<tr class="memdesc:classgstDecoder"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hardware-accelerated video decoder for Jetson using GStreamer.  <a href="group__codec.html#classgstDecoder">More...</a><br /></td></tr>
+<tr class="separator:classgstDecoder"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classgstEncoder"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#classgstEncoder">gstEncoder</a></td></tr>
+<tr class="memdesc:classgstEncoder"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hardware-accelerated video encoder for Jetson using GStreamer.  <a href="group__codec.html#classgstEncoder">More...</a><br /></td></tr>
+<tr class="separator:classgstEncoder"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classgstWebRTC"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#classgstWebRTC">gstWebRTC</a></td></tr>
+<tr class="memdesc:classgstWebRTC"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static class for common WebRTC utility functions used with GStreamer.  <a href="group__codec.html#classgstWebRTC">More...</a><br /></td></tr>
+<tr class="separator:classgstWebRTC"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -117,6 +117,3094 @@ Macros</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Hardware-accelerated video encoder and decoder (H.264/H.265) using GStreamer. </p>
+<hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="classgstBufferManager" id="classgstBufferManager"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classgstBufferManager">&#9670;&nbsp;</a></span>gstBufferManager</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class gstBufferManager</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p><a class="el" href="group__codec.html#classgstBufferManager" title="gstBufferManager recieves GStreamer buffers from appsink elements and unpacks/maps them into CUDA add...">gstBufferManager</a> recieves GStreamer buffers from appsink elements and unpacks/maps them into CUDA address space, and handles colorspace conversion into RGB format. </p>
+<p>It can handle both normal CPU-based GStreamer buffers and NVMM memory which can be mapped directly to the GPU without requiring memory copies using the CPU.</p>
+<p>To disable the use of NVMM memory, set -DENABLE_NVMM=OFF when building with CMake: </p><pre class="fragment">cmake -DENABLE_NVMM=OFF ../
+</pre> </div><table class="memberdecls">
+<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
+<tr class="memitem:a8d0c7f6ad4fad98bca732caa255eb94c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a8d0c7f6ad4fad98bca732caa255eb94c">gstBufferManager</a> (<a class="el" href="group__video.html#structvideoOptions">videoOptions</a> *options)</td></tr>
+<tr class="memdesc:a8d0c7f6ad4fad98bca732caa255eb94c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="group__codec.html#a8d0c7f6ad4fad98bca732caa255eb94c">More...</a><br /></td></tr>
+<tr class="separator:a8d0c7f6ad4fad98bca732caa255eb94c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12abb8d449269f24ade36c787fab1bd3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a12abb8d449269f24ade36c787fab1bd3">~gstBufferManager</a> ()</td></tr>
+<tr class="memdesc:a12abb8d449269f24ade36c787fab1bd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="group__codec.html#a12abb8d449269f24ade36c787fab1bd3">More...</a><br /></td></tr>
+<tr class="separator:a12abb8d449269f24ade36c787fab1bd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cd180e308002d209ec400f5c9966ebe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a8cd180e308002d209ec400f5c9966ebe">Enqueue</a> (GstBuffer *buffer, GstCaps *caps)</td></tr>
+<tr class="memdesc:a8cd180e308002d209ec400f5c9966ebe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enqueue a GstBuffer from GStreamer.  <a href="group__codec.html#a8cd180e308002d209ec400f5c9966ebe">More...</a><br /></td></tr>
+<tr class="separator:a8cd180e308002d209ec400f5c9966ebe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8525516c138938ed7c5d794f956297b1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a8525516c138938ed7c5d794f956297b1">Dequeue</a> (void **output, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, uint64_t timeout=UINT64_MAX)</td></tr>
+<tr class="memdesc:a8525516c138938ed7c5d794f956297b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dequeue the next frame.  <a href="group__codec.html#a8525516c138938ed7c5d794f956297b1">More...</a><br /></td></tr>
+<tr class="separator:a8525516c138938ed7c5d794f956297b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9416f0ffbcd3bee21e909fbd174c3436"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a9416f0ffbcd3bee21e909fbd174c3436">GetLastTimestamp</a> () const</td></tr>
+<tr class="memdesc:a9416f0ffbcd3bee21e909fbd174c3436"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get timestamp of the latest dequeued frame.  <a href="group__codec.html#a9416f0ffbcd3bee21e909fbd174c3436">More...</a><br /></td></tr>
+<tr class="separator:a9416f0ffbcd3bee21e909fbd174c3436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a850ecaaeb9a220bd42e718f93ecb8ae4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a850ecaaeb9a220bd42e718f93ecb8ae4">GetRawFormat</a> () const</td></tr>
+<tr class="memdesc:a850ecaaeb9a220bd42e718f93ecb8ae4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get raw image format.  <a href="group__codec.html#a850ecaaeb9a220bd42e718f93ecb8ae4">More...</a><br /></td></tr>
+<tr class="separator:a850ecaaeb9a220bd42e718f93ecb8ae4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8653af78fcfd69dd452c01b10ba3277"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ac8653af78fcfd69dd452c01b10ba3277">GetFrameCount</a> () const</td></tr>
+<tr class="memdesc:ac8653af78fcfd69dd452c01b10ba3277"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the total number of frames that have been recieved.  <a href="group__codec.html#ac8653af78fcfd69dd452c01b10ba3277">More...</a><br /></td></tr>
+<tr class="separator:ac8653af78fcfd69dd452c01b10ba3277"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Attributes</h3></td></tr>
+<tr class="memitem:a648c0f76e9eedc9d3483c36b118b2e0d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a648c0f76e9eedc9d3483c36b118b2e0d">mFormatYUV</a></td></tr>
+<tr class="memdesc:a648c0f76e9eedc9d3483c36b118b2e0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The YUV colorspace format coming from appsink (typically NV12 or YUY2)  <a href="group__codec.html#a648c0f76e9eedc9d3483c36b118b2e0d">More...</a><br /></td></tr>
+<tr class="separator:a648c0f76e9eedc9d3483c36b118b2e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bf6538dcf98e4773b6fe2ea28ee8944"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__threads.html#classRingBuffer">RingBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a9bf6538dcf98e4773b6fe2ea28ee8944">mBufferYUV</a></td></tr>
+<tr class="memdesc:a9bf6538dcf98e4773b6fe2ea28ee8944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ringbuffer of CPU-based YUV frames (non-NVMM) that come from appsink.  <a href="group__codec.html#a9bf6538dcf98e4773b6fe2ea28ee8944">More...</a><br /></td></tr>
+<tr class="separator:a9bf6538dcf98e4773b6fe2ea28ee8944"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea126364b147dd2c7946ba66f64fd3a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__threads.html#classRingBuffer">RingBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#aea126364b147dd2c7946ba66f64fd3a4">mTimestamps</a></td></tr>
+<tr class="memdesc:aea126364b147dd2c7946ba66f64fd3a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ringbuffer of timestamps that come from appsink.  <a href="group__codec.html#aea126364b147dd2c7946ba66f64fd3a4">More...</a><br /></td></tr>
+<tr class="separator:aea126364b147dd2c7946ba66f64fd3a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab07dfcccd8fa8e9e5f0c80ba969bd953"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__threads.html#classRingBuffer">RingBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ab07dfcccd8fa8e9e5f0c80ba969bd953">mBufferRGB</a></td></tr>
+<tr class="memdesc:ab07dfcccd8fa8e9e5f0c80ba969bd953"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ringbuffer of frames that have been converted to RGB colorspace.  <a href="group__codec.html#ab07dfcccd8fa8e9e5f0c80ba969bd953">More...</a><br /></td></tr>
+<tr class="separator:ab07dfcccd8fa8e9e5f0c80ba969bd953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe9df1a58cf2e4ae57c0239a12cc4aa4"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#abe9df1a58cf2e4ae57c0239a12cc4aa4">mLastTimestamp</a></td></tr>
+<tr class="memdesc:abe9df1a58cf2e4ae57c0239a12cc4aa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamp of the latest dequeued frame.  <a href="group__codec.html#abe9df1a58cf2e4ae57c0239a12cc4aa4">More...</a><br /></td></tr>
+<tr class="separator:abe9df1a58cf2e4ae57c0239a12cc4aa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f62a8198853fdab6da3775b9b879280"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__threads.html#classEvent">Event</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a9f62a8198853fdab6da3775b9b879280">mWaitEvent</a></td></tr>
+<tr class="memdesc:a9f62a8198853fdab6da3775b9b879280"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__threads.html#classEvent" title="Event object for signalling other threads.">Event</a> that gets triggered when a new frame is recieved.  <a href="group__codec.html#a9f62a8198853fdab6da3775b9b879280">More...</a><br /></td></tr>
+<tr class="separator:a9f62a8198853fdab6da3775b9b879280"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af216542e690d3be12410c217a09aaed3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__video.html#structvideoOptions">videoOptions</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#af216542e690d3be12410c217a09aaed3">mOptions</a></td></tr>
+<tr class="memdesc:af216542e690d3be12410c217a09aaed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options of the <a class="el" href="group__codec.html#classgstDecoder" title="Hardware-accelerated video decoder for Jetson using GStreamer.">gstDecoder</a> / <a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> object.  <a href="group__codec.html#af216542e690d3be12410c217a09aaed3">More...</a><br /></td></tr>
+<tr class="separator:af216542e690d3be12410c217a09aaed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac53eb50db281d89d9142576b5adf6d3"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#aac53eb50db281d89d9142576b5adf6d3">mFrameCount</a></td></tr>
+<tr class="memdesc:aac53eb50db281d89d9142576b5adf6d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total number of frames that have been recieved.  <a href="group__codec.html#aac53eb50db281d89d9142576b5adf6d3">More...</a><br /></td></tr>
+<tr class="separator:aac53eb50db281d89d9142576b5adf6d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd5bf5577fd3a1bb129419243dc91d1a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#abd5bf5577fd3a1bb129419243dc91d1a">mNvmmUsed</a></td></tr>
+<tr class="memdesc:abd5bf5577fd3a1bb129419243dc91d1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is NVMM memory actually used by the stream?  <a href="group__codec.html#abd5bf5577fd3a1bb129419243dc91d1a">More...</a><br /></td></tr>
+<tr class="separator:abd5bf5577fd3a1bb129419243dc91d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
+<a id="a8d0c7f6ad4fad98bca732caa255eb94c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d0c7f6ad4fad98bca732caa255eb94c">&#9670;&nbsp;</a></span>gstBufferManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gstBufferManager::gstBufferManager </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__video.html#structvideoOptions">videoOptions</a> *&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor. </p>
+
+</div>
+</div>
+<a id="a12abb8d449269f24ade36c787fab1bd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12abb8d449269f24ade36c787fab1bd3">&#9670;&nbsp;</a></span>~gstBufferManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gstBufferManager::~gstBufferManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="a8525516c138938ed7c5d794f956297b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8525516c138938ed7c5d794f956297b1">&#9670;&nbsp;</a></span>Dequeue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gstBufferManager::Dequeue </td>
+          <td>(</td>
+          <td class="paramtype">void **&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>UINT64_MAX</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dequeue the next frame. </p>
+<p>Returns 1 on success, 0 on timeout, -1 on error. </p>
+
+</div>
+</div>
+<a id="a8cd180e308002d209ec400f5c9966ebe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cd180e308002d209ec400f5c9966ebe">&#9670;&nbsp;</a></span>Enqueue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstBufferManager::Enqueue </td>
+          <td>(</td>
+          <td class="paramtype">GstBuffer *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GstCaps *&#160;</td>
+          <td class="paramname"><em>caps</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enqueue a GstBuffer from GStreamer. </p>
+
+</div>
+</div>
+<a id="ac8653af78fcfd69dd452c01b10ba3277"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8653af78fcfd69dd452c01b10ba3277">&#9670;&nbsp;</a></span>GetFrameCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t gstBufferManager::GetFrameCount </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the total number of frames that have been recieved. </p>
+
+</div>
+</div>
+<a id="a9416f0ffbcd3bee21e909fbd174c3436"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9416f0ffbcd3bee21e909fbd174c3436">&#9670;&nbsp;</a></span>GetLastTimestamp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t gstBufferManager::GetLastTimestamp </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get timestamp of the latest dequeued frame. </p>
+
+</div>
+</div>
+<a id="a850ecaaeb9a220bd42e718f93ecb8ae4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a850ecaaeb9a220bd42e718f93ecb8ae4">&#9670;&nbsp;</a></span>GetRawFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> gstBufferManager::GetRawFormat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get raw image format. </p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Data Documentation</h4>
+<a id="ab07dfcccd8fa8e9e5f0c80ba969bd953"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab07dfcccd8fa8e9e5f0c80ba969bd953">&#9670;&nbsp;</a></span>mBufferRGB</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__threads.html#classRingBuffer">RingBuffer</a> gstBufferManager::mBufferRGB</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ringbuffer of frames that have been converted to RGB colorspace. </p>
+
+</div>
+</div>
+<a id="a9bf6538dcf98e4773b6fe2ea28ee8944"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bf6538dcf98e4773b6fe2ea28ee8944">&#9670;&nbsp;</a></span>mBufferYUV</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__threads.html#classRingBuffer">RingBuffer</a> gstBufferManager::mBufferYUV</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ringbuffer of CPU-based YUV frames (non-NVMM) that come from appsink. </p>
+
+</div>
+</div>
+<a id="a648c0f76e9eedc9d3483c36b118b2e0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a648c0f76e9eedc9d3483c36b118b2e0d">&#9670;&nbsp;</a></span>mFormatYUV</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> gstBufferManager::mFormatYUV</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The YUV colorspace format coming from appsink (typically NV12 or YUY2) </p>
+
+</div>
+</div>
+<a id="aac53eb50db281d89d9142576b5adf6d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac53eb50db281d89d9142576b5adf6d3">&#9670;&nbsp;</a></span>mFrameCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t gstBufferManager::mFrameCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Total number of frames that have been recieved. </p>
+
+</div>
+</div>
+<a id="abe9df1a58cf2e4ae57c0239a12cc4aa4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe9df1a58cf2e4ae57c0239a12cc4aa4">&#9670;&nbsp;</a></span>mLastTimestamp</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t gstBufferManager::mLastTimestamp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Timestamp of the latest dequeued frame. </p>
+
+</div>
+</div>
+<a id="abd5bf5577fd3a1bb129419243dc91d1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd5bf5577fd3a1bb129419243dc91d1a">&#9670;&nbsp;</a></span>mNvmmUsed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstBufferManager::mNvmmUsed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is NVMM memory actually used by the stream? </p>
+
+</div>
+</div>
+<a id="af216542e690d3be12410c217a09aaed3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af216542e690d3be12410c217a09aaed3">&#9670;&nbsp;</a></span>mOptions</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__video.html#structvideoOptions">videoOptions</a>* gstBufferManager::mOptions</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Options of the <a class="el" href="group__codec.html#classgstDecoder" title="Hardware-accelerated video decoder for Jetson using GStreamer.">gstDecoder</a> / <a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> object. </p>
+
+</div>
+</div>
+<a id="aea126364b147dd2c7946ba66f64fd3a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea126364b147dd2c7946ba66f64fd3a4">&#9670;&nbsp;</a></span>mTimestamps</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__threads.html#classRingBuffer">RingBuffer</a> gstBufferManager::mTimestamps</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ringbuffer of timestamps that come from appsink. </p>
+
+</div>
+</div>
+<a id="a9f62a8198853fdab6da3775b9b879280"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f62a8198853fdab6da3775b9b879280">&#9670;&nbsp;</a></span>mWaitEvent</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__threads.html#classEvent">Event</a> gstBufferManager::mWaitEvent</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="group__threads.html#classEvent" title="Event object for signalling other threads.">Event</a> that gets triggered when a new frame is recieved. </p>
+
+</div>
+</div>
+
+</div>
+</div>
+<a name="classgstDecoder" id="classgstDecoder"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classgstDecoder">&#9670;&nbsp;</a></span>gstDecoder</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class gstDecoder</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Hardware-accelerated video decoder for Jetson using GStreamer. </p>
+<p><a class="el" href="group__codec.html#classgstDecoder" title="Hardware-accelerated video decoder for Jetson using GStreamer.">gstDecoder</a> supports loading video files from disk (MKV, MP4, AVI, FLV) and RTP/RTSP network streams over UDP/IP. The supported decoder codecs are H.264, H.265, VP8, VP9, MPEG-2, MPEG-4, and MJPEG.</p>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="group__codec.html#classgstDecoder" title="Hardware-accelerated video decoder for Jetson using GStreamer.">gstDecoder</a> implements the <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface and is intended to be used through that as opposed to directly. <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> implements additional command-line parsing of <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> to construct instances.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> </dd></dl>
+</div><div class="dynheader">
+Inheritance diagram for gstDecoder:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="group__codec.png" usemap="#gstDecoder_map" alt=""/>
+  <map id="gstDecoder_map" name="gstDecoder_map">
+<area href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,..." alt="videoSource" shape="rect" coords="0,0,84,24"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
+<tr class="memitem:a0e13e2625f959c1e612cb90e3d5720d0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a0e13e2625f959c1e612cb90e3d5720d0">~gstDecoder</a> ()</td></tr>
+<tr class="memdesc:a0e13e2625f959c1e612cb90e3d5720d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="group__codec.html#a0e13e2625f959c1e612cb90e3d5720d0">More...</a><br /></td></tr>
+<tr class="separator:a0e13e2625f959c1e612cb90e3d5720d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1815fabffb63e4b84260a3f772afb7a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ab1815fabffb63e4b84260a3f772afb7a">Capture</a> (void **image, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, uint64_t timeout=<a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a>, int *status=NULL)</td></tr>
+<tr class="memdesc:ab1815fabffb63e4b84260a3f772afb7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture the next decoded frame.  <a href="group__codec.html#ab1815fabffb63e4b84260a3f772afb7a">More...</a><br /></td></tr>
+<tr class="separator:ab1815fabffb63e4b84260a3f772afb7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab54dc71e937ed3e8ecd6fd129e16179"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#aab54dc71e937ed3e8ecd6fd129e16179">Open</a> ()</td></tr>
+<tr class="memdesc:aab54dc71e937ed3e8ecd6fd129e16179"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open the stream.  <a href="group__codec.html#aab54dc71e937ed3e8ecd6fd129e16179">More...</a><br /></td></tr>
+<tr class="separator:aab54dc71e937ed3e8ecd6fd129e16179"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88ba5cb4519d8d50aaa3e28c9bf2c8f1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a88ba5cb4519d8d50aaa3e28c9bf2c8f1">Close</a> ()</td></tr>
+<tr class="memdesc:a88ba5cb4519d8d50aaa3e28c9bf2c8f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the stream.  <a href="group__codec.html#a88ba5cb4519d8d50aaa3e28c9bf2c8f1">More...</a><br /></td></tr>
+<tr class="separator:a88ba5cb4519d8d50aaa3e28c9bf2c8f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ce4a72e8d0303f15adee8d0bff2f9d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a4ce4a72e8d0303f15adee8d0bff2f9d2">IsEOS</a> () const</td></tr>
+<tr class="memdesc:a4ce4a72e8d0303f15adee8d0bff2f9d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if End Of Stream (EOS) has been reached.  <a href="group__codec.html#a4ce4a72e8d0303f15adee8d0bff2f9d2">More...</a><br /></td></tr>
+<tr class="separator:a4ce4a72e8d0303f15adee8d0bff2f9d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9c4a4b64c50f8ae8712e3061e8a18df"><td class="memItemLeft" align="right" valign="top">virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ad9c4a4b64c50f8ae8712e3061e8a18df">GetType</a> () const</td></tr>
+<tr class="memdesc:ad9c4a4b64c50f8ae8712e3061e8a18df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the interface type (<a class="el" href="group__codec.html#a4ae2851033f43b2e70cb8f13f4331ac3" title="Unique type identifier of gstDecoder class.">gstDecoder::Type</a>)  <a href="group__codec.html#ad9c4a4b64c50f8ae8712e3061e8a18df">More...</a><br /></td></tr>
+<tr class="separator:ad9c4a4b64c50f8ae8712e3061e8a18df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:a2cae1095df64b7c61de77935b77032bb inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2cae1095df64b7c61de77935b77032bb">~videoSource</a> ()</td></tr>
+<tr class="memdesc:a2cae1095df64b7c61de77935b77032bb inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy interface and release all resources.  <a href="group__video.html#a2cae1095df64b7c61de77935b77032bb">More...</a><br /></td></tr>
+<tr class="separator:a2cae1095df64b7c61de77935b77032bb inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#a338edcb027b28a551b7f75d085ea13f8">Capture</a> (T **image, int *status)</td></tr>
+<tr class="memdesc:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture the next image from the video stream, using the default timeout of 1000ms.  <a href="group__video.html#a338edcb027b28a551b7f75d085ea13f8">More...</a><br /></td></tr>
+<tr class="separator:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#a1a838840d3d10996033a566d7e968331">Capture</a> (T **image, uint64_t timeout=<a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a>, int *status=NULL)</td></tr>
+<tr class="memdesc:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture the next image from the video stream.  <a href="group__video.html#a1a838840d3d10996033a566d7e968331">More...</a><br /></td></tr>
+<tr class="separator:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ce18fd4c3a8f934e7ec000f0d36b7e9 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0ce18fd4c3a8f934e7ec000f0d36b7e9">IsStreaming</a> () const</td></tr>
+<tr class="memdesc:a0ce18fd4c3a8f934e7ec000f0d36b7e9 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the device is actively streaming or not.  <a href="group__video.html#a0ce18fd4c3a8f934e7ec000f0d36b7e9">More...</a><br /></td></tr>
+<tr class="separator:a0ce18fd4c3a8f934e7ec000f0d36b7e9 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17f0c43e832d4de85a014b3aa4265732 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a17f0c43e832d4de85a014b3aa4265732">GetWidth</a> () const</td></tr>
+<tr class="memdesc:a17f0c43e832d4de85a014b3aa4265732 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the width of the stream, in pixels.  <a href="group__video.html#a17f0c43e832d4de85a014b3aa4265732">More...</a><br /></td></tr>
+<tr class="separator:a17f0c43e832d4de85a014b3aa4265732 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ca24054da683cae18b0bfad01dbf1d0 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a6ca24054da683cae18b0bfad01dbf1d0">GetHeight</a> () const</td></tr>
+<tr class="memdesc:a6ca24054da683cae18b0bfad01dbf1d0 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the height of the stream, in pixels.  <a href="group__video.html#a6ca24054da683cae18b0bfad01dbf1d0">More...</a><br /></td></tr>
+<tr class="separator:a6ca24054da683cae18b0bfad01dbf1d0 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e6ac667bd17a49cc94a6b16173a06ba inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a4e6ac667bd17a49cc94a6b16173a06ba">GetFrameRate</a> () const</td></tr>
+<tr class="memdesc:a4e6ac667bd17a49cc94a6b16173a06ba inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the framerate, in Hz or FPS.  <a href="group__video.html#a4e6ac667bd17a49cc94a6b16173a06ba">More...</a><br /></td></tr>
+<tr class="separator:a4e6ac667bd17a49cc94a6b16173a06ba inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f1adda850349479bb3b4c4e90b3c429 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2f1adda850349479bb3b4c4e90b3c429">GetFrameCount</a> () const</td></tr>
+<tr class="memdesc:a2f1adda850349479bb3b4c4e90b3c429 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of frames captured.  <a href="group__video.html#a2f1adda850349479bb3b4c4e90b3c429">More...</a><br /></td></tr>
+<tr class="separator:a2f1adda850349479bb3b4c4e90b3c429 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36ef21c0eb8cc9a7ce181cebf3d88e06 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a36ef21c0eb8cc9a7ce181cebf3d88e06">GetLastTimestamp</a> () const</td></tr>
+<tr class="memdesc:a36ef21c0eb8cc9a7ce181cebf3d88e06 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get timestamp of the last captured frame, in nanoseconds.  <a href="group__video.html#a36ef21c0eb8cc9a7ce181cebf3d88e06">More...</a><br /></td></tr>
+<tr class="separator:a36ef21c0eb8cc9a7ce181cebf3d88e06 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af170b23f004c98754479f84351ef4c51 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#af170b23f004c98754479f84351ef4c51">GetRawFormat</a> () const</td></tr>
+<tr class="memdesc:af170b23f004c98754479f84351ef4c51 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get raw image format.  <a href="group__video.html#af170b23f004c98754479f84351ef4c51">More...</a><br /></td></tr>
+<tr class="separator:af170b23f004c98754479f84351ef4c51 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2052b0b41222c17e3d14964f10c3ffa6 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__video.html#structURI">URI</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2052b0b41222c17e3d14964f10c3ffa6">GetResource</a> () const</td></tr>
+<tr class="memdesc:a2052b0b41222c17e3d14964f10c3ffa6 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> of the stream.  <a href="group__video.html#a2052b0b41222c17e3d14964f10c3ffa6">More...</a><br /></td></tr>
+<tr class="separator:a2052b0b41222c17e3d14964f10c3ffa6 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d423829515c5c91d132f476213e22bd inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a7d423829515c5c91d132f476213e22bd">GetOptions</a> () const</td></tr>
+<tr class="memdesc:a7d423829515c5c91d132f476213e22bd inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> of the stream.  <a href="group__video.html#a7d423829515c5c91d132f476213e22bd">More...</a><br /></td></tr>
+<tr class="separator:a7d423829515c5c91d132f476213e22bd inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0883cf58cd0d8d0c05fb192a01250b7a inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0883cf58cd0d8d0c05fb192a01250b7a">IsType</a> (uint32_t type) const</td></tr>
+<tr class="memdesc:a0883cf58cd0d8d0c05fb192a01250b7a inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this stream is of a particular type.  <a href="group__video.html#a0883cf58cd0d8d0c05fb192a01250b7a">More...</a><br /></td></tr>
+<tr class="separator:a0883cf58cd0d8d0c05fb192a01250b7a inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#ad3c1689db5baf2786099d2c0be075010">IsType</a> () const</td></tr>
+<tr class="memdesc:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a this stream is of a particular type.  <a href="group__video.html#ad3c1689db5baf2786099d2c0be075010">More...</a><br /></td></tr>
+<tr class="separator:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38909f4451ecdf3a2777aea3a088677e inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a38909f4451ecdf3a2777aea3a088677e">TypeToStr</a> () const</td></tr>
+<tr class="memdesc:a38909f4451ecdf3a2777aea3a088677e inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert this stream's class type to string.  <a href="group__video.html#a38909f4451ecdf3a2777aea3a088677e">More...</a><br /></td></tr>
+<tr class="separator:a38909f4451ecdf3a2777aea3a088677e inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:aa21be1ad8be0516974b4507cb49d4fbe"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__codec.html#classgstDecoder">gstDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#aa21be1ad8be0516974b4507cb49d4fbe">Create</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:aa21be1ad8be0516974b4507cb49d4fbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a decoder from the provided video options.  <a href="group__codec.html#aa21be1ad8be0516974b4507cb49d4fbe">More...</a><br /></td></tr>
+<tr class="separator:aa21be1ad8be0516974b4507cb49d4fbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1a531c1b0ba49a3e11b85b4aaf266f2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__codec.html#classgstDecoder">gstDecoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ae1a531c1b0ba49a3e11b85b4aaf266f2">Create</a> (const <a class="el" href="group__video.html#structURI">URI</a> &amp;resource, <a class="el" href="group__video.html#a99a95e988dcf46c0e9177abc7217cf8f">videoOptions::Codec</a> codec)</td></tr>
+<tr class="memdesc:ae1a531c1b0ba49a3e11b85b4aaf266f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a decoder instance from resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> and codec.  <a href="group__codec.html#ae1a531c1b0ba49a3e11b85b4aaf266f2">More...</a><br /></td></tr>
+<tr class="separator:ae1a531c1b0ba49a3e11b85b4aaf266f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6e1fedc2e266c7a47442f206fc02a97"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#af6e1fedc2e266c7a47442f206fc02a97">IsSupportedExtension</a> (const char *ext)</td></tr>
+<tr class="memdesc:af6e1fedc2e266c7a47442f206fc02a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the extension is in the list of SupportedExtensions.  <a href="group__codec.html#af6e1fedc2e266c7a47442f206fc02a97">More...</a><br /></td></tr>
+<tr class="separator:af6e1fedc2e266c7a47442f206fc02a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:aadf5947b119db934f02fefcd8ffe23ee inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aadf5947b119db934f02fefcd8ffe23ee">Create</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:aadf5947b119db934f02fefcd8ffe23ee inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> struct that's already been filled out.  <a href="group__video.html#aadf5947b119db934f02fefcd8ffe23ee">More...</a><br /></td></tr>
+<tr class="separator:aadf5947b119db934f02fefcd8ffe23ee inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac84b9d20c628c19e0463aca50ed2cdf9 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac84b9d20c628c19e0463aca50ed2cdf9">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options=<a class="el" href="group__video.html#structvideoOptions">videoOptions</a>())</td></tr>
+<tr class="memdesc:ac84b9d20c628c19e0463aca50ed2cdf9 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and optional <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a>.  <a href="group__video.html#ac84b9d20c628c19e0463aca50ed2cdf9">More...</a><br /></td></tr>
+<tr class="separator:ac84b9d20c628c19e0463aca50ed2cdf9 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17577a0ed75a86cea8e579f4405a2942 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a17577a0ed75a86cea8e579f4405a2942">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine)</td></tr>
+<tr class="memdesc:a17577a0ed75a86cea8e579f4405a2942 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and parsing command line arguments.  <a href="group__video.html#a17577a0ed75a86cea8e579f4405a2942">More...</a><br /></td></tr>
+<tr class="separator:a17577a0ed75a86cea8e579f4405a2942 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6306cfc0359265983842b56b5cf09212 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a6306cfc0359265983842b56b5cf09212">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const int argc, char **argv)</td></tr>
+<tr class="memdesc:a6306cfc0359265983842b56b5cf09212 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and parsing command line arguments.  <a href="group__video.html#a6306cfc0359265983842b56b5cf09212">More...</a><br /></td></tr>
+<tr class="separator:a6306cfc0359265983842b56b5cf09212 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa796136bec7acf354e3e81e5b7c0172a inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa796136bec7acf354e3e81e5b7c0172a">Create</a> (const int argc, char **argv, int positionArg=-1)</td></tr>
+<tr class="memdesc:aa796136bec7acf354e3e81e5b7c0172a inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface by parsing command line arguments, including the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a>.  <a href="group__video.html#aa796136bec7acf354e3e81e5b7c0172a">More...</a><br /></td></tr>
+<tr class="separator:aa796136bec7acf354e3e81e5b7c0172a inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac529c5b81c74eb71436e2031a6c1f214 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac529c5b81c74eb71436e2031a6c1f214">Create</a> (const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine, int positionArg=-1)</td></tr>
+<tr class="memdesc:ac529c5b81c74eb71436e2031a6c1f214 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface by parsing command line arguments, including the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a>.  <a href="group__video.html#ac529c5b81c74eb71436e2031a6c1f214">More...</a><br /></td></tr>
+<tr class="separator:ac529c5b81c74eb71436e2031a6c1f214 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac254b0c9d38c76c62e6c5f8ad20ef447 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac254b0c9d38c76c62e6c5f8ad20ef447">Usage</a> ()</td></tr>
+<tr class="memdesc:ac254b0c9d38c76c62e6c5f8ad20ef447 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="group__video.html#aadf5947b119db934f02fefcd8ffe23ee" title="Create videoSource interface from a videoOptions struct that&#39;s already been filled out.">Create()</a>  <a href="group__video.html#ac254b0c9d38c76c62e6c5f8ad20ef447">More...</a><br /></td></tr>
+<tr class="separator:ac254b0c9d38c76c62e6c5f8ad20ef447 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac080abc0de51300f838596d11b5544a8 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac080abc0de51300f838596d11b5544a8">TypeToStr</a> (uint32_t type)</td></tr>
+<tr class="memdesc:ac080abc0de51300f838596d11b5544a8 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a class type to a string.  <a href="group__video.html#ac080abc0de51300f838596d11b5544a8">More...</a><br /></td></tr>
+<tr class="separator:ac080abc0de51300f838596d11b5544a8 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Attributes</h3></td></tr>
+<tr class="memitem:a4ae2851033f43b2e70cb8f13f4331ac3"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a4ae2851033f43b2e70cb8f13f4331ac3">Type</a> = (1 &lt;&lt; 1)</td></tr>
+<tr class="memdesc:a4ae2851033f43b2e70cb8f13f4331ac3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique type identifier of <a class="el" href="group__codec.html#classgstDecoder" title="Hardware-accelerated video decoder for Jetson using GStreamer.">gstDecoder</a> class.  <a href="group__codec.html#a4ae2851033f43b2e70cb8f13f4331ac3">More...</a><br /></td></tr>
+<tr class="separator:a4ae2851033f43b2e70cb8f13f4331ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3f60fa3ebece14ba29f4a869304e4b4"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#af3f60fa3ebece14ba29f4a869304e4b4">SupportedExtensions</a> []</td></tr>
+<tr class="memdesc:af3f60fa3ebece14ba29f4a869304e4b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">String array of supported video file extensions, terminated with a NULL sentinel value.  <a href="group__codec.html#af3f60fa3ebece14ba29f4a869304e4b4">More...</a><br /></td></tr>
+<tr class="separator:af3f60fa3ebece14ba29f4a869304e4b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_attribs_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_group__video')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:a8bc5b1b9a8bc15292890fef1028adbee inherit pub_static_attribs_group__video"><td class="memItemLeft" align="right" valign="top">static const uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a> =1000</td></tr>
+<tr class="memdesc:a8bc5b1b9a8bc15292890fef1028adbee inherit pub_static_attribs_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default Capture timeout (1000ms)  <a href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">More...</a><br /></td></tr>
+<tr class="separator:a8bc5b1b9a8bc15292890fef1028adbee inherit pub_static_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Member Functions</h3></td></tr>
+<tr class="memitem:a50f9a48e5530a3f8e145d4607ba9126d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a50f9a48e5530a3f8e145d4607ba9126d">gstDecoder</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="separator:a50f9a48e5530a3f8e145d4607ba9126d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c71328dbf87e491256076f2f5dd2d05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a3c71328dbf87e491256076f2f5dd2d05">checkMsgBus</a> ()</td></tr>
+<tr class="separator:a3c71328dbf87e491256076f2f5dd2d05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93a0f91ee9efba125384da10160b6d57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a93a0f91ee9efba125384da10160b6d57">checkBuffer</a> ()</td></tr>
+<tr class="separator:a93a0f91ee9efba125384da10160b6d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34aa2ba174916bf11f6a6754035be07e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a34aa2ba174916bf11f6a6754035be07e">buildLaunchStr</a> ()</td></tr>
+<tr class="separator:a34aa2ba174916bf11f6a6754035be07e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c5f6f83bfac05602b825e1a94da5dc6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a5c5f6f83bfac05602b825e1a94da5dc6">discover</a> ()</td></tr>
+<tr class="separator:a5c5f6f83bfac05602b825e1a94da5dc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f0e18a067608c327752682ec123ad16"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a0f0e18a067608c327752682ec123ad16">init</a> ()</td></tr>
+<tr class="separator:a0f0e18a067608c327752682ec123ad16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1998b3f92ddf16a01c6bce6514e4830d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a1998b3f92ddf16a01c6bce6514e4830d">initPipeline</a> ()</td></tr>
+<tr class="separator:a1998b3f92ddf16a01c6bce6514e4830d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8555d993d58f8d8534807b4082a54bbc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a8555d993d58f8d8534807b4082a54bbc">destroyPipeline</a> ()</td></tr>
+<tr class="separator:a8555d993d58f8d8534807b4082a54bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbb1b42aab779fe3f5407991d914f5b9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#adbb1b42aab779fe3f5407991d914f5b9">isLooping</a> () const</td></tr>
+<tr class="separator:adbb1b42aab779fe3f5407991d914f5b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:aaee65d53e3dfb3f4644608c0eebcf833 inherit pro_methods_group__video"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aaee65d53e3dfb3f4644608c0eebcf833">videoSource</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="separator:aaee65d53e3dfb3f4644608c0eebcf833 inherit pro_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Protected Member Functions</h3></td></tr>
+<tr class="memitem:a300bc3d37026eba2b16bc61c41882e18"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a300bc3d37026eba2b16bc61c41882e18">onEOS</a> (_GstAppSink *sink, void *user_data)</td></tr>
+<tr class="separator:a300bc3d37026eba2b16bc61c41882e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a646597459b872ae708921cd9acb96668"><td class="memItemLeft" align="right" valign="top">static GstFlowReturn&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a646597459b872ae708921cd9acb96668">onPreroll</a> (_GstAppSink *sink, void *user_data)</td></tr>
+<tr class="separator:a646597459b872ae708921cd9acb96668"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a475b8143fe06170402fe6d4a7d686cc9"><td class="memItemLeft" align="right" valign="top">static GstFlowReturn&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a475b8143fe06170402fe6d4a7d686cc9">onBuffer</a> (_GstAppSink *sink, void *user_data)</td></tr>
+<tr class="separator:a475b8143fe06170402fe6d4a7d686cc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78a929df46b6d6e95603a765f040bdd7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a78a929df46b6d6e95603a765f040bdd7">onWebsocketMessage</a> (<a class="el" href="group__network.html#structWebRTCPeer">WebRTCPeer</a> *peer, const char *message, size_t message_size, void *user_data)</td></tr>
+<tr class="separator:a78a929df46b6d6e95603a765f040bdd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Attributes</h3></td></tr>
+<tr class="memitem:a3edb5e66d47896771bce50c2fe911649"><td class="memItemLeft" align="right" valign="top">GstBus *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a3edb5e66d47896771bce50c2fe911649">mBus</a></td></tr>
+<tr class="separator:a3edb5e66d47896771bce50c2fe911649"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b4bb0ddcf06bcec486de9d0932ea3c4"><td class="memItemLeft" align="right" valign="top">GstElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a2b4bb0ddcf06bcec486de9d0932ea3c4">mPipeline</a></td></tr>
+<tr class="separator:a2b4bb0ddcf06bcec486de9d0932ea3c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a373c13d58980e4b64b728d20d933077c"><td class="memItemLeft" align="right" valign="top">_GstAppSink *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a373c13d58980e4b64b728d20d933077c">mAppSink</a></td></tr>
+<tr class="separator:a373c13d58980e4b64b728d20d933077c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8aac851c5dfed057820cd55d8f3eced6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__threads.html#classEvent">Event</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a8aac851c5dfed057820cd55d8f3eced6">mWaitEvent</a></td></tr>
+<tr class="separator:a8aac851c5dfed057820cd55d8f3eced6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c556168206ada4fd590786368a70c1b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a1c556168206ada4fd590786368a70c1b">mLaunchStr</a></td></tr>
+<tr class="separator:a1c556168206ada4fd590786368a70c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42f40dede8b2160e0c46abf817672ddc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a42f40dede8b2160e0c46abf817672ddc">mCustomSize</a></td></tr>
+<tr class="separator:a42f40dede8b2160e0c46abf817672ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab167fae471c8406c627683ef7cd040ab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ab167fae471c8406c627683ef7cd040ab">mCustomRate</a></td></tr>
+<tr class="separator:ab167fae471c8406c627683ef7cd040ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a9c9f5486d33efe5d8435dfb1776653"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a2a9c9f5486d33efe5d8435dfb1776653">mEOS</a></td></tr>
+<tr class="separator:a2a9c9f5486d33efe5d8435dfb1776653"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bcc5a3d833e98ea5cb8e92a2f798dd5"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a7bcc5a3d833e98ea5cb8e92a2f798dd5">mLoopCount</a></td></tr>
+<tr class="separator:a7bcc5a3d833e98ea5cb8e92a2f798dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4876e9abba83342693472fd75b10b5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__codec.html#classgstBufferManager">gstBufferManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ac4876e9abba83342693472fd75b10b5f">mBufferManager</a></td></tr>
+<tr class="separator:ac4876e9abba83342693472fd75b10b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78dfbcab1e923fa292cbb58a251b9b4a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__network.html#classWebRTCServer">WebRTCServer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a78dfbcab1e923fa292cbb58a251b9b4a">mWebRTCServer</a></td></tr>
+<tr class="separator:a78dfbcab1e923fa292cbb58a251b9b4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac99f94884360b3541fa5aff5153153ab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ac99f94884360b3541fa5aff5153153ab">mWebRTCConnected</a></td></tr>
+<tr class="separator:ac99f94884360b3541fa5aff5153153ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_group__video"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_group__video')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:a0907f7140f13fa75fef5b23a1f44b55b inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0907f7140f13fa75fef5b23a1f44b55b">mStreaming</a></td></tr>
+<tr class="separator:a0907f7140f13fa75fef5b23a1f44b55b inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3c05686659fae747ff8709be2c9b445 inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__video.html#structvideoOptions">videoOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa3c05686659fae747ff8709be2c9b445">mOptions</a></td></tr>
+<tr class="separator:aa3c05686659fae747ff8709be2c9b445 inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a587c9a356b2714ba9d6ab0d3bdeeacb2 inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a587c9a356b2714ba9d6ab0d3bdeeacb2">mLastTimestamp</a></td></tr>
+<tr class="separator:a587c9a356b2714ba9d6ab0d3bdeeacb2 inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f558c27bfac5e117100f8735f09f5bc inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a5f558c27bfac5e117100f8735f09f5bc">mRawFormat</a></td></tr>
+<tr class="separator:a5f558c27bfac5e117100f8735f09f5bc inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_types_group__video')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:adf535af6425bba4700aa49a8a1c31fc8 inherit pub_types_group__video"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8">Status</a> { <a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a7b6931de9597c73a7e153c6b2f056c30">ERROR</a> = -2, 
+<a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a3dc92a1fc50b30a11368684bc393ee73">EOS</a> = -1, 
+<a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a53f14b4b251e2a20a98045206ba0dd1b">TIMEOUT</a> = 0, 
+<a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a1433e3e072db57cf888a319fec854d0a">OK</a> = 1
+ }</td></tr>
+<tr class="memdesc:adf535af6425bba4700aa49a8a1c31fc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream status codes that are optionally returned from <a class="el" href="group__video.html#a338edcb027b28a551b7f75d085ea13f8" title="Capture the next image from the video stream, using the default timeout of 1000ms.">Capture()</a>  <a href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8">More...</a><br /></td></tr>
+<tr class="separator:adf535af6425bba4700aa49a8a1c31fc8 inherit pub_types_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
+<a id="a0e13e2625f959c1e612cb90e3d5720d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e13e2625f959c1e612cb90e3d5720d0">&#9670;&nbsp;</a></span>~gstDecoder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gstDecoder::~gstDecoder </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+
+</div>
+</div>
+<a id="a50f9a48e5530a3f8e145d4607ba9126d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50f9a48e5530a3f8e145d4607ba9126d">&#9670;&nbsp;</a></span>gstDecoder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">gstDecoder::gstDecoder </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="a34aa2ba174916bf11f6a6754035be07e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34aa2ba174916bf11f6a6754035be07e">&#9670;&nbsp;</a></span>buildLaunchStr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstDecoder::buildLaunchStr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab1815fabffb63e4b84260a3f772afb7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1815fabffb63e4b84260a3f772afb7a">&#9670;&nbsp;</a></span>Capture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool gstDecoder::Capture </td>
+          <td>(</td>
+          <td class="paramtype">void **&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code><a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>status</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Capture the next decoded frame. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#a338edcb027b28a551b7f75d085ea13f8" title="Capture the next image from the video stream, using the default timeout of 1000ms.">videoSource::Capture()</a> </dd></dl>
+
+<p>Implements <a class="el" href="group__video.html#a36a40e4d196aaf31540076317d49aaf6">videoSource</a>.</p>
+
+</div>
+</div>
+<a id="a93a0f91ee9efba125384da10160b6d57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93a0f91ee9efba125384da10160b6d57">&#9670;&nbsp;</a></span>checkBuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gstDecoder::checkBuffer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3c71328dbf87e491256076f2f5dd2d05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c71328dbf87e491256076f2f5dd2d05">&#9670;&nbsp;</a></span>checkMsgBus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gstDecoder::checkMsgBus </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a88ba5cb4519d8d50aaa3e28c9bf2c8f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88ba5cb4519d8d50aaa3e28c9bf2c8f1">&#9670;&nbsp;</a></span>Close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void gstDecoder::Close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Close the stream. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#a19ed8f98e4ce28462296b498804005ae" title="Stop streaming the device.">videoSource::Close()</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="group__video.html#a19ed8f98e4ce28462296b498804005ae">videoSource</a>.</p>
+
+</div>
+</div>
+<a id="ae1a531c1b0ba49a3e11b85b4aaf266f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1a531c1b0ba49a3e11b85b4aaf266f2">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__codec.html#classgstDecoder">gstDecoder</a>* gstDecoder::Create </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structURI">URI</a> &amp;&#160;</td>
+          <td class="paramname"><em>resource</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__video.html#a99a95e988dcf46c0e9177abc7217cf8f">videoOptions::Codec</a>&#160;</td>
+          <td class="paramname"><em>codec</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a decoder instance from resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> and codec. </p>
+
+</div>
+</div>
+<a id="aa21be1ad8be0516974b4507cb49d4fbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa21be1ad8be0516974b4507cb49d4fbe">&#9670;&nbsp;</a></span>Create() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__codec.html#classgstDecoder">gstDecoder</a>* gstDecoder::Create </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a decoder from the provided video options. </p>
+
+</div>
+</div>
+<a id="a8555d993d58f8d8534807b4082a54bbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8555d993d58f8d8534807b4082a54bbc">&#9670;&nbsp;</a></span>destroyPipeline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gstDecoder::destroyPipeline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5c5f6f83bfac05602b825e1a94da5dc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c5f6f83bfac05602b825e1a94da5dc6">&#9670;&nbsp;</a></span>discover()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstDecoder::discover </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad9c4a4b64c50f8ae8712e3061e8a18df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9c4a4b64c50f8ae8712e3061e8a18df">&#9670;&nbsp;</a></span>GetType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint32_t gstDecoder::GetType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the interface type (<a class="el" href="group__codec.html#a4ae2851033f43b2e70cb8f13f4331ac3" title="Unique type identifier of gstDecoder class.">gstDecoder::Type</a>) </p>
+
+<p>Reimplemented from <a class="el" href="group__video.html#a76f6f92cf40ad72e9d7f76538d583e37">videoSource</a>.</p>
+
+</div>
+</div>
+<a id="a0f0e18a067608c327752682ec123ad16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f0e18a067608c327752682ec123ad16">&#9670;&nbsp;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstDecoder::init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1998b3f92ddf16a01c6bce6514e4830d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1998b3f92ddf16a01c6bce6514e4830d">&#9670;&nbsp;</a></span>initPipeline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstDecoder::initPipeline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4ce4a72e8d0303f15adee8d0bff2f9d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ce4a72e8d0303f15adee8d0bff2f9d2">&#9670;&nbsp;</a></span>IsEOS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstDecoder::IsEOS </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return true if End Of Stream (EOS) has been reached. </p>
+<p>In the context of <a class="el" href="group__codec.html#classgstDecoder" title="Hardware-accelerated video decoder for Jetson using GStreamer.">gstDecoder</a>, EOS means that playback has reached the end of the file, and looping is either disabled or all loops have already been run. In the case of RTP/RTSP, it means that the stream has terminated. </p>
+
+</div>
+</div>
+<a id="adbb1b42aab779fe3f5407991d914f5b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbb1b42aab779fe3f5407991d914f5b9">&#9670;&nbsp;</a></span>isLooping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstDecoder::isLooping </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af6e1fedc2e266c7a47442f206fc02a97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6e1fedc2e266c7a47442f206fc02a97">&#9670;&nbsp;</a></span>IsSupportedExtension()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool gstDecoder::IsSupportedExtension </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ext</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return true if the extension is in the list of SupportedExtensions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ext</td><td>string containing the extension to be checked (should not contain leading dot) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__codec.html#af3f60fa3ebece14ba29f4a869304e4b4" title="String array of supported video file extensions, terminated with a NULL sentinel value.">SupportedExtensions</a> for the list of supported <a class="el" href="group__video.html" title="videoSource and videoOutput APIs for input and output video streams.">Video Streaming</a> file extensions. </dd></dl>
+
+</div>
+</div>
+<a id="a475b8143fe06170402fe6d4a7d686cc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a475b8143fe06170402fe6d4a7d686cc9">&#9670;&nbsp;</a></span>onBuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static GstFlowReturn gstDecoder::onBuffer </td>
+          <td>(</td>
+          <td class="paramtype">_GstAppSink *&#160;</td>
+          <td class="paramname"><em>sink</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a300bc3d37026eba2b16bc61c41882e18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a300bc3d37026eba2b16bc61c41882e18">&#9670;&nbsp;</a></span>onEOS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gstDecoder::onEOS </td>
+          <td>(</td>
+          <td class="paramtype">_GstAppSink *&#160;</td>
+          <td class="paramname"><em>sink</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a646597459b872ae708921cd9acb96668"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a646597459b872ae708921cd9acb96668">&#9670;&nbsp;</a></span>onPreroll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static GstFlowReturn gstDecoder::onPreroll </td>
+          <td>(</td>
+          <td class="paramtype">_GstAppSink *&#160;</td>
+          <td class="paramname"><em>sink</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78a929df46b6d6e95603a765f040bdd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78a929df46b6d6e95603a765f040bdd7">&#9670;&nbsp;</a></span>onWebsocketMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gstDecoder::onWebsocketMessage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__network.html#structWebRTCPeer">WebRTCPeer</a> *&#160;</td>
+          <td class="paramname"><em>peer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>message_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aab54dc71e937ed3e8ecd6fd129e16179"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab54dc71e937ed3e8ecd6fd129e16179">&#9670;&nbsp;</a></span>Open()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool gstDecoder::Open </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Open the stream. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#aa7907ba2392b6ea5f747409d1bfbc18b" title="Begin streaming the device.">videoSource::Open()</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="group__video.html#aa7907ba2392b6ea5f747409d1bfbc18b">videoSource</a>.</p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Data Documentation</h4>
+<a id="a373c13d58980e4b64b728d20d933077c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a373c13d58980e4b64b728d20d933077c">&#9670;&nbsp;</a></span>mAppSink</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_GstAppSink* gstDecoder::mAppSink</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac4876e9abba83342693472fd75b10b5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4876e9abba83342693472fd75b10b5f">&#9670;&nbsp;</a></span>mBufferManager</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__codec.html#classgstBufferManager">gstBufferManager</a>* gstDecoder::mBufferManager</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3edb5e66d47896771bce50c2fe911649"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3edb5e66d47896771bce50c2fe911649">&#9670;&nbsp;</a></span>mBus</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GstBus* gstDecoder::mBus</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab167fae471c8406c627683ef7cd040ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab167fae471c8406c627683ef7cd040ab">&#9670;&nbsp;</a></span>mCustomRate</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstDecoder::mCustomRate</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a42f40dede8b2160e0c46abf817672ddc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42f40dede8b2160e0c46abf817672ddc">&#9670;&nbsp;</a></span>mCustomSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstDecoder::mCustomSize</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a9c9f5486d33efe5d8435dfb1776653"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a9c9f5486d33efe5d8435dfb1776653">&#9670;&nbsp;</a></span>mEOS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstDecoder::mEOS</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1c556168206ada4fd590786368a70c1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c556168206ada4fd590786368a70c1b">&#9670;&nbsp;</a></span>mLaunchStr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string gstDecoder::mLaunchStr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7bcc5a3d833e98ea5cb8e92a2f798dd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bcc5a3d833e98ea5cb8e92a2f798dd5">&#9670;&nbsp;</a></span>mLoopCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t gstDecoder::mLoopCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2b4bb0ddcf06bcec486de9d0932ea3c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b4bb0ddcf06bcec486de9d0932ea3c4">&#9670;&nbsp;</a></span>mPipeline</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GstElement* gstDecoder::mPipeline</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8aac851c5dfed057820cd55d8f3eced6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8aac851c5dfed057820cd55d8f3eced6">&#9670;&nbsp;</a></span>mWaitEvent</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__threads.html#classEvent">Event</a> gstDecoder::mWaitEvent</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac99f94884360b3541fa5aff5153153ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac99f94884360b3541fa5aff5153153ab">&#9670;&nbsp;</a></span>mWebRTCConnected</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstDecoder::mWebRTCConnected</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78dfbcab1e923fa292cbb58a251b9b4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78dfbcab1e923fa292cbb58a251b9b4a">&#9670;&nbsp;</a></span>mWebRTCServer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__network.html#classWebRTCServer">WebRTCServer</a>* gstDecoder::mWebRTCServer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3f60fa3ebece14ba29f4a869304e4b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3f60fa3ebece14ba29f4a869304e4b4">&#9670;&nbsp;</a></span>SupportedExtensions</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* gstDecoder::SupportedExtensions[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>String array of supported video file extensions, terminated with a NULL sentinel value. </p>
+<p>The supported extension are:</p>
+<ul>
+<li>MKV</li>
+<li>MP4 / QT</li>
+<li>AVI</li>
+<li>FLV</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__codec.html#af6e1fedc2e266c7a47442f206fc02a97" title="Return true if the extension is in the list of SupportedExtensions.">IsSupportedExtension()</a> to check a string against this list. </dd></dl>
+
+</div>
+</div>
+<a id="a4ae2851033f43b2e70cb8f13f4331ac3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ae2851033f43b2e70cb8f13f4331ac3">&#9670;&nbsp;</a></span>Type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint32_t gstDecoder::Type = (1 &lt;&lt; 1)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unique type identifier of <a class="el" href="group__codec.html#classgstDecoder" title="Hardware-accelerated video decoder for Jetson using GStreamer.">gstDecoder</a> class. </p>
+
+</div>
+</div>
+
+</div>
+</div>
+<a name="classgstEncoder" id="classgstEncoder"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classgstEncoder">&#9670;&nbsp;</a></span>gstEncoder</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class gstEncoder</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Hardware-accelerated video encoder for Jetson using GStreamer. </p>
+<p>The encoder can write the encoded video to disk in (MKV, MP4, AVI, FLV), or stream over the network to a remote host via RTP/RTSP using UDP/IP. The supported encoder codecs are H.264, H.265, VP8, VP9, and MJPEG.</p>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="group__codec.html#classgstEncoder" title="Hardware-accelerated video encoder for Jetson using GStreamer.">gstEncoder</a> implements the <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface and is intended to be used through that as opposed to directly. <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> implements additional command-line parsing of <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> to construct instances.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> </dd></dl>
+</div><div class="dynheader">
+Inheritance diagram for gstEncoder:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="group__codec.png" usemap="#gstEncoder_map" alt=""/>
+  <map id="gstEncoder_map" name="gstEncoder_map">
+<area href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w..." alt="videoOutput" shape="rect" coords="0,0,80,24"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
+<tr class="memitem:a5a56a6a5c4a3ea887fa71a63f9c3bcc3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a5a56a6a5c4a3ea887fa71a63f9c3bcc3">~gstEncoder</a> ()</td></tr>
+<tr class="memdesc:a5a56a6a5c4a3ea887fa71a63f9c3bcc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="group__codec.html#a5a56a6a5c4a3ea887fa71a63f9c3bcc3">More...</a><br /></td></tr>
+<tr class="separator:a5a56a6a5c4a3ea887fa71a63f9c3bcc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b05ef86ea3c5a417056db08b0a10b23"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a6b05ef86ea3c5a417056db08b0a10b23"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__codec.html#a6b05ef86ea3c5a417056db08b0a10b23">Render</a> (T *image, uint32_t width, uint32_t height)</td></tr>
+<tr class="memdesc:a6b05ef86ea3c5a417056db08b0a10b23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode the next frame.  <a href="group__codec.html#a6b05ef86ea3c5a417056db08b0a10b23">More...</a><br /></td></tr>
+<tr class="separator:a6b05ef86ea3c5a417056db08b0a10b23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84bcc87ed05ba1c02bbb1c95e430a3d3"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a84bcc87ed05ba1c02bbb1c95e430a3d3">Render</a> (void *image, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
+<tr class="memdesc:a84bcc87ed05ba1c02bbb1c95e430a3d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode the next frame.  <a href="group__codec.html#a84bcc87ed05ba1c02bbb1c95e430a3d3">More...</a><br /></td></tr>
+<tr class="separator:a84bcc87ed05ba1c02bbb1c95e430a3d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39bac88df0521b855a01aeb58953815e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a39bac88df0521b855a01aeb58953815e">Open</a> ()</td></tr>
+<tr class="memdesc:a39bac88df0521b855a01aeb58953815e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open the stream.  <a href="group__codec.html#a39bac88df0521b855a01aeb58953815e">More...</a><br /></td></tr>
+<tr class="separator:a39bac88df0521b855a01aeb58953815e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12c9bf5d87ef25783763a221bf66fa8e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a12c9bf5d87ef25783763a221bf66fa8e">Close</a> ()</td></tr>
+<tr class="memdesc:a12c9bf5d87ef25783763a221bf66fa8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the stream.  <a href="group__codec.html#a12c9bf5d87ef25783763a221bf66fa8e">More...</a><br /></td></tr>
+<tr class="separator:a12c9bf5d87ef25783763a221bf66fa8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ffe842e1d58a17eaf6b87d85894a8fe"><td class="memItemLeft" align="right" valign="top">GstPipeline *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a2ffe842e1d58a17eaf6b87d85894a8fe">GetPipeline</a> () const</td></tr>
+<tr class="memdesc:a2ffe842e1d58a17eaf6b87d85894a8fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the GStreamer pipeline object.  <a href="group__codec.html#a2ffe842e1d58a17eaf6b87d85894a8fe">More...</a><br /></td></tr>
+<tr class="separator:a2ffe842e1d58a17eaf6b87d85894a8fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e96eaab1ccb4b0b8cd63911093cf074"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__network.html#classWebRTCServer">WebRTCServer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a4e96eaab1ccb4b0b8cd63911093cf074">GetWebRTCServer</a> () const</td></tr>
+<tr class="memdesc:a4e96eaab1ccb4b0b8cd63911093cf074"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the WebRTC server (only used when the protocol is "webrtc://")  <a href="group__codec.html#a4e96eaab1ccb4b0b8cd63911093cf074">More...</a><br /></td></tr>
+<tr class="separator:a4e96eaab1ccb4b0b8cd63911093cf074"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1fd934813f47039bc30aac6238c5bc7"><td class="memItemLeft" align="right" valign="top">virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ab1fd934813f47039bc30aac6238c5bc7">GetType</a> () const</td></tr>
+<tr class="memdesc:ab1fd934813f47039bc30aac6238c5bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the interface type (<a class="el" href="group__codec.html#a0274b5b3365e440b93fd6b5c8bcf2b2e" title="Unique type identifier of gstEncoder class.">gstEncoder::Type</a>)  <a href="group__codec.html#ab1fd934813f47039bc30aac6238c5bc7">More...</a><br /></td></tr>
+<tr class="separator:ab1fd934813f47039bc30aac6238c5bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="group__video.html#classvideoOutput">videoOutput</a></td></tr>
+<tr class="memitem:a2186412156484860e31d827c10becf96 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2186412156484860e31d827c10becf96">~videoOutput</a> ()</td></tr>
+<tr class="memdesc:a2186412156484860e31d827c10becf96 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy interface and release all resources.  <a href="group__video.html#a2186412156484860e31d827c10becf96">More...</a><br /></td></tr>
+<tr class="separator:a2186412156484860e31d827c10becf96 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#ac63d627d52174400c01c28bb0de82993">Render</a> (T *image, uint32_t width, uint32_t height)</td></tr>
+<tr class="memdesc:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render and output the next frame to the stream.  <a href="group__video.html#ac63d627d52174400c01c28bb0de82993">More...</a><br /></td></tr>
+<tr class="separator:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a3cf8d6230e26e27c5d22b29a150bdc inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2a3cf8d6230e26e27c5d22b29a150bdc">IsStreaming</a> () const</td></tr>
+<tr class="memdesc:a2a3cf8d6230e26e27c5d22b29a150bdc inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the device is actively streaming or not.  <a href="group__video.html#a2a3cf8d6230e26e27c5d22b29a150bdc">More...</a><br /></td></tr>
+<tr class="separator:a2a3cf8d6230e26e27c5d22b29a150bdc inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaba8521f7ff078293ee4052a28ee71c inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#afaba8521f7ff078293ee4052a28ee71c">GetWidth</a> () const</td></tr>
+<tr class="memdesc:afaba8521f7ff078293ee4052a28ee71c inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the width of the stream, in pixels.  <a href="group__video.html#afaba8521f7ff078293ee4052a28ee71c">More...</a><br /></td></tr>
+<tr class="separator:afaba8521f7ff078293ee4052a28ee71c inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa225fb199069cf2a4b30f467e237da73 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa225fb199069cf2a4b30f467e237da73">GetHeight</a> () const</td></tr>
+<tr class="memdesc:aa225fb199069cf2a4b30f467e237da73 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the height of the stream, in pixels.  <a href="group__video.html#aa225fb199069cf2a4b30f467e237da73">More...</a><br /></td></tr>
+<tr class="separator:aa225fb199069cf2a4b30f467e237da73 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26c37f79e965f1b9741b4d9b3923bd6b inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a26c37f79e965f1b9741b4d9b3923bd6b">GetFrameRate</a> () const</td></tr>
+<tr class="memdesc:a26c37f79e965f1b9741b4d9b3923bd6b inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the framerate, in Hz or FPS.  <a href="group__video.html#a26c37f79e965f1b9741b4d9b3923bd6b">More...</a><br /></td></tr>
+<tr class="separator:a26c37f79e965f1b9741b4d9b3923bd6b inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab38d8fb1ad7855cf428d9f8cf5806bb4 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ab38d8fb1ad7855cf428d9f8cf5806bb4">GetFrameCount</a> () const</td></tr>
+<tr class="memdesc:ab38d8fb1ad7855cf428d9f8cf5806bb4 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of frames output.  <a href="group__video.html#ab38d8fb1ad7855cf428d9f8cf5806bb4">More...</a><br /></td></tr>
+<tr class="separator:ab38d8fb1ad7855cf428d9f8cf5806bb4 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47edea2ad237e50cfbd6d0a192280ee5 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__video.html#structURI">URI</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a47edea2ad237e50cfbd6d0a192280ee5">GetResource</a> () const</td></tr>
+<tr class="memdesc:a47edea2ad237e50cfbd6d0a192280ee5 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> of the stream.  <a href="group__video.html#a47edea2ad237e50cfbd6d0a192280ee5">More...</a><br /></td></tr>
+<tr class="separator:a47edea2ad237e50cfbd6d0a192280ee5 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59f21f27a0efe56541fbe15f1d5f46ce inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a59f21f27a0efe56541fbe15f1d5f46ce">GetOptions</a> () const</td></tr>
+<tr class="memdesc:a59f21f27a0efe56541fbe15f1d5f46ce inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> of the stream.  <a href="group__video.html#a59f21f27a0efe56541fbe15f1d5f46ce">More...</a><br /></td></tr>
+<tr class="separator:a59f21f27a0efe56541fbe15f1d5f46ce inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2da4bab42fbd19a851e205647443ea5 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ad2da4bab42fbd19a851e205647443ea5">AddOutput</a> (<a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *output)</td></tr>
+<tr class="memdesc:ad2da4bab42fbd19a851e205647443ea5 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an output sub-stream.  <a href="group__video.html#ad2da4bab42fbd19a851e205647443ea5">More...</a><br /></td></tr>
+<tr class="separator:ad2da4bab42fbd19a851e205647443ea5 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc630f31a8d55dc852ac1e01c1f7dc58 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#adc630f31a8d55dc852ac1e01c1f7dc58">GetNumOutputs</a> () const</td></tr>
+<tr class="memdesc:adc630f31a8d55dc852ac1e01c1f7dc58 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of sub-streams.  <a href="group__video.html#adc630f31a8d55dc852ac1e01c1f7dc58">More...</a><br /></td></tr>
+<tr class="separator:adc630f31a8d55dc852ac1e01c1f7dc58 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1a64933421c48f1af63ea12a8217421 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa1a64933421c48f1af63ea12a8217421">GetOutput</a> (uint32_t index) const</td></tr>
+<tr class="memdesc:aa1a64933421c48f1af63ea12a8217421 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a sub-stream.  <a href="group__video.html#aa1a64933421c48f1af63ea12a8217421">More...</a><br /></td></tr>
+<tr class="separator:aa1a64933421c48f1af63ea12a8217421 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7968711adc8814a9ec4e127e7b3a8bb2 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a7968711adc8814a9ec4e127e7b3a8bb2">SetStatus</a> (const char *str)</td></tr>
+<tr class="memdesc:a7968711adc8814a9ec4e127e7b3a8bb2 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a status string (i.e.  <a href="group__video.html#a7968711adc8814a9ec4e127e7b3a8bb2">More...</a><br /></td></tr>
+<tr class="separator:a7968711adc8814a9ec4e127e7b3a8bb2 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a3ed32e27da1e996dc21c0339dc5a95 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0a3ed32e27da1e996dc21c0339dc5a95">IsType</a> (uint32_t type) const</td></tr>
+<tr class="memdesc:a0a3ed32e27da1e996dc21c0339dc5a95 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this stream is of a particular type.  <a href="group__video.html#a0a3ed32e27da1e996dc21c0339dc5a95">More...</a><br /></td></tr>
+<tr class="separator:a0a3ed32e27da1e996dc21c0339dc5a95 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#aa5463fc78e3d259fa18ea2e6349e21c8">IsType</a> () const</td></tr>
+<tr class="memdesc:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a this stream is of a particular type.  <a href="group__video.html#aa5463fc78e3d259fa18ea2e6349e21c8">More...</a><br /></td></tr>
+<tr class="separator:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a6c66bde88abdfa857bc9715acb8314 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a5a6c66bde88abdfa857bc9715acb8314">TypeToStr</a> () const</td></tr>
+<tr class="memdesc:a5a6c66bde88abdfa857bc9715acb8314 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert this stream's class type to string.  <a href="group__video.html#a5a6c66bde88abdfa857bc9715acb8314">More...</a><br /></td></tr>
+<tr class="separator:a5a6c66bde88abdfa857bc9715acb8314 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:a5268beb9785a1e817171195a930cc1c0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__codec.html#classgstEncoder">gstEncoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a5268beb9785a1e817171195a930cc1c0">Create</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:a5268beb9785a1e817171195a930cc1c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an encoder from the provided video options.  <a href="group__codec.html#a5268beb9785a1e817171195a930cc1c0">More...</a><br /></td></tr>
+<tr class="separator:a5268beb9785a1e817171195a930cc1c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab964002b9cf198f952ecb65d92a18290"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__codec.html#classgstEncoder">gstEncoder</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ab964002b9cf198f952ecb65d92a18290">Create</a> (const <a class="el" href="group__video.html#structURI">URI</a> &amp;resource, <a class="el" href="group__video.html#a99a95e988dcf46c0e9177abc7217cf8f">videoOptions::Codec</a> codec)</td></tr>
+<tr class="memdesc:ab964002b9cf198f952ecb65d92a18290"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an encoder instance from resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> and codec.  <a href="group__codec.html#ab964002b9cf198f952ecb65d92a18290">More...</a><br /></td></tr>
+<tr class="separator:ab964002b9cf198f952ecb65d92a18290"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf3c5a8fd311d98df95873ddbee933f9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#abf3c5a8fd311d98df95873ddbee933f9">IsSupportedExtension</a> (const char *ext)</td></tr>
+<tr class="memdesc:abf3c5a8fd311d98df95873ddbee933f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the extension is in the list of SupportedExtensions.  <a href="group__codec.html#abf3c5a8fd311d98df95873ddbee933f9">More...</a><br /></td></tr>
+<tr class="separator:abf3c5a8fd311d98df95873ddbee933f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="group__video.html#classvideoOutput">videoOutput</a></td></tr>
+<tr class="memitem:aa2754b5d31e5466ad35db3f2832209f1 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa2754b5d31e5466ad35db3f2832209f1">Create</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:aa2754b5d31e5466ad35db3f2832209f1 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> struct that's already been filled out.  <a href="group__video.html#aa2754b5d31e5466ad35db3f2832209f1">More...</a><br /></td></tr>
+<tr class="separator:aa2754b5d31e5466ad35db3f2832209f1 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a461077573ce4c48ef632956251b64c0a inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a461077573ce4c48ef632956251b64c0a">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options=<a class="el" href="group__video.html#structvideoOptions">videoOptions</a>())</td></tr>
+<tr class="memdesc:a461077573ce4c48ef632956251b64c0a inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and optional <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a>.  <a href="group__video.html#a461077573ce4c48ef632956251b64c0a">More...</a><br /></td></tr>
+<tr class="separator:a461077573ce4c48ef632956251b64c0a inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc89d40f9294ffbd096aa2e9bcc9a4fb inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#acc89d40f9294ffbd096aa2e9bcc9a4fb">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine)</td></tr>
+<tr class="memdesc:acc89d40f9294ffbd096aa2e9bcc9a4fb inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and parsing command line arguments.  <a href="group__video.html#acc89d40f9294ffbd096aa2e9bcc9a4fb">More...</a><br /></td></tr>
+<tr class="separator:acc89d40f9294ffbd096aa2e9bcc9a4fb inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a343fb7daf02469fa5d5e604b638b81ff inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a343fb7daf02469fa5d5e604b638b81ff">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const int argc, char **argv)</td></tr>
+<tr class="memdesc:a343fb7daf02469fa5d5e604b638b81ff inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and parsing command line arguments.  <a href="group__video.html#a343fb7daf02469fa5d5e604b638b81ff">More...</a><br /></td></tr>
+<tr class="separator:a343fb7daf02469fa5d5e604b638b81ff inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a346028a278dd67f6b1d69a69cd496e inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a7a346028a278dd67f6b1d69a69cd496e">Create</a> (const int argc, char **argv, int positionArg=-1)</td></tr>
+<tr class="memdesc:a7a346028a278dd67f6b1d69a69cd496e inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface by parsing command line arguments, including the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a>.  <a href="group__video.html#a7a346028a278dd67f6b1d69a69cd496e">More...</a><br /></td></tr>
+<tr class="separator:a7a346028a278dd67f6b1d69a69cd496e inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a754e0468210780b75641e08aff6604de inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a754e0468210780b75641e08aff6604de">Create</a> (const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine, int positionArg=-1)</td></tr>
+<tr class="memdesc:a754e0468210780b75641e08aff6604de inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface by parsing command line arguments, including the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a>.  <a href="group__video.html#a754e0468210780b75641e08aff6604de">More...</a><br /></td></tr>
+<tr class="separator:a754e0468210780b75641e08aff6604de inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0122813d68dd88f0e1d1d92fbbc7edd1 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0122813d68dd88f0e1d1d92fbbc7edd1">CreateNullOutput</a> ()</td></tr>
+<tr class="memdesc:a0122813d68dd88f0e1d1d92fbbc7edd1 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface that acts as a NULL output and does nothing with incoming frames.  <a href="group__video.html#a0122813d68dd88f0e1d1d92fbbc7edd1">More...</a><br /></td></tr>
+<tr class="separator:a0122813d68dd88f0e1d1d92fbbc7edd1 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ffc51285e0dc05addf926b5f4598b88 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a4ffc51285e0dc05addf926b5f4598b88">Usage</a> ()</td></tr>
+<tr class="memdesc:a4ffc51285e0dc05addf926b5f4598b88 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="group__video.html#aa2754b5d31e5466ad35db3f2832209f1" title="Create videoOutput interface from a videoOptions struct that&#39;s already been filled out.">Create()</a>  <a href="group__video.html#a4ffc51285e0dc05addf926b5f4598b88">More...</a><br /></td></tr>
+<tr class="separator:a4ffc51285e0dc05addf926b5f4598b88 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b8d053b9564bb2ec042ef9760de23bb inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a1b8d053b9564bb2ec042ef9760de23bb">TypeToStr</a> (uint32_t type)</td></tr>
+<tr class="memdesc:a1b8d053b9564bb2ec042ef9760de23bb inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a class type to a string.  <a href="group__video.html#a1b8d053b9564bb2ec042ef9760de23bb">More...</a><br /></td></tr>
+<tr class="separator:a1b8d053b9564bb2ec042ef9760de23bb inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Attributes</h3></td></tr>
+<tr class="memitem:a0274b5b3365e440b93fd6b5c8bcf2b2e"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a0274b5b3365e440b93fd6b5c8bcf2b2e">Type</a> = (1 &lt;&lt; 2)</td></tr>
+<tr class="memdesc:a0274b5b3365e440b93fd6b5c8bcf2b2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique type identifier of <a class="el" href="group__codec.html#classgstEncoder" title="Hardware-accelerated video encoder for Jetson using GStreamer.">gstEncoder</a> class.  <a href="group__codec.html#a0274b5b3365e440b93fd6b5c8bcf2b2e">More...</a><br /></td></tr>
+<tr class="separator:a0274b5b3365e440b93fd6b5c8bcf2b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a675b50aae5ee8e07c28599f4c07aa91b"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a675b50aae5ee8e07c28599f4c07aa91b">SupportedExtensions</a> []</td></tr>
+<tr class="memdesc:a675b50aae5ee8e07c28599f4c07aa91b"><td class="mdescLeft">&#160;</td><td class="mdescRight">String array of supported video file extensions, terminated with a NULL sentinel value.  <a href="group__codec.html#a675b50aae5ee8e07c28599f4c07aa91b">More...</a><br /></td></tr>
+<tr class="separator:a675b50aae5ee8e07c28599f4c07aa91b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Member Functions</h3></td></tr>
+<tr class="memitem:a70652da4e8e3cf9cbda9df4894531497"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a70652da4e8e3cf9cbda9df4894531497">gstEncoder</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="separator:a70652da4e8e3cf9cbda9df4894531497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab43f8e274f4856dbc14f83e5311feacd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ab43f8e274f4856dbc14f83e5311feacd">init</a> ()</td></tr>
+<tr class="separator:ab43f8e274f4856dbc14f83e5311feacd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe2b510581ab3459d076a7dee91642e1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#afe2b510581ab3459d076a7dee91642e1">initPipeline</a> ()</td></tr>
+<tr class="separator:afe2b510581ab3459d076a7dee91642e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d6df1ce894b32627d429e32dfb1d171"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a7d6df1ce894b32627d429e32dfb1d171">destroyPipeline</a> ()</td></tr>
+<tr class="separator:a7d6df1ce894b32627d429e32dfb1d171"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58ad54570717788f05515e55e350082e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a58ad54570717788f05515e55e350082e">checkMsgBus</a> ()</td></tr>
+<tr class="separator:a58ad54570717788f05515e55e350082e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a967e02f227d4739ead8760bba862efa1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a967e02f227d4739ead8760bba862efa1">buildCapsStr</a> ()</td></tr>
+<tr class="separator:a967e02f227d4739ead8760bba862efa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a03a7c3f2633842618f8d9e9e21c5a0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a3a03a7c3f2633842618f8d9e9e21c5a0">buildLaunchStr</a> ()</td></tr>
+<tr class="separator:a3a03a7c3f2633842618f8d9e9e21c5a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29ebd7d82bf4a37c5e16c173b0946f21"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a29ebd7d82bf4a37c5e16c173b0946f21">encodeYUV</a> (void *buffer, size_t size)</td></tr>
+<tr class="separator:a29ebd7d82bf4a37c5e16c173b0946f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="group__video.html#classvideoOutput">videoOutput</a></td></tr>
+<tr class="memitem:a02b39780efc6480ab424764dafe082ba inherit pro_methods_group__video"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a02b39780efc6480ab424764dafe082ba">videoOutput</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="separator:a02b39780efc6480ab424764dafe082ba inherit pro_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Protected Member Functions</h3></td></tr>
+<tr class="memitem:a704b5ce17c7a87f6d27ea234307d8434"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a704b5ce17c7a87f6d27ea234307d8434">onNeedData</a> (GstElement *pipeline, uint32_t size, void *user_data)</td></tr>
+<tr class="separator:a704b5ce17c7a87f6d27ea234307d8434"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa79ec1aa4318c29bba255ff23fe54219"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#aa79ec1aa4318c29bba255ff23fe54219">onEnoughData</a> (GstElement *pipeline, void *user_data)</td></tr>
+<tr class="separator:aa79ec1aa4318c29bba255ff23fe54219"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5173e425f6454a49522c86037201d271"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a5173e425f6454a49522c86037201d271">onWebsocketMessage</a> (<a class="el" href="group__network.html#structWebRTCPeer">WebRTCPeer</a> *peer, const char *message, size_t message_size, void *user_data)</td></tr>
+<tr class="separator:a5173e425f6454a49522c86037201d271"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Attributes</h3></td></tr>
+<tr class="memitem:a5bd37d527eab1cc181811b4612856509"><td class="memItemLeft" align="right" valign="top">GstBus *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a5bd37d527eab1cc181811b4612856509">mBus</a></td></tr>
+<tr class="separator:a5bd37d527eab1cc181811b4612856509"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cca4e7ac87977eb37b4aa9f2e9cc08b"><td class="memItemLeft" align="right" valign="top">GstCaps *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a8cca4e7ac87977eb37b4aa9f2e9cc08b">mBufferCaps</a></td></tr>
+<tr class="separator:a8cca4e7ac87977eb37b4aa9f2e9cc08b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0124ffa833f00d0cbb3a4b39b4880015"><td class="memItemLeft" align="right" valign="top">GstElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a0124ffa833f00d0cbb3a4b39b4880015">mAppSrc</a></td></tr>
+<tr class="separator:a0124ffa833f00d0cbb3a4b39b4880015"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e16680a9159fd69a7a1b208168b5d46"><td class="memItemLeft" align="right" valign="top">GstElement *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a8e16680a9159fd69a7a1b208168b5d46">mPipeline</a></td></tr>
+<tr class="separator:a8e16680a9159fd69a7a1b208168b5d46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a628403dfed854cf7a2476f5cd64025fa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a628403dfed854cf7a2476f5cd64025fa">mNeedData</a></td></tr>
+<tr class="separator:a628403dfed854cf7a2476f5cd64025fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab11a3b2c977fc8e1dc1f34122223e050"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ab11a3b2c977fc8e1dc1f34122223e050">mCapsStr</a></td></tr>
+<tr class="separator:ab11a3b2c977fc8e1dc1f34122223e050"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec885b1948e7a4781e8a39d0432724ca"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#aec885b1948e7a4781e8a39d0432724ca">mLaunchStr</a></td></tr>
+<tr class="separator:aec885b1948e7a4781e8a39d0432724ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a342a2209793a5ab446395d31e485a07c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__threads.html#classRingBuffer">RingBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a342a2209793a5ab446395d31e485a07c">mBufferYUV</a></td></tr>
+<tr class="separator:a342a2209793a5ab446395d31e485a07c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24d64da08e7b8ea4139a00fcac951b04"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__network.html#classRTSPServer">RTSPServer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a24d64da08e7b8ea4139a00fcac951b04">mRTSPServer</a></td></tr>
+<tr class="separator:a24d64da08e7b8ea4139a00fcac951b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ed438c23e257735fdb88a3b8e6a858b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__network.html#classWebRTCServer">WebRTCServer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a5ed438c23e257735fdb88a3b8e6a858b">mWebRTCServer</a></td></tr>
+<tr class="separator:a5ed438c23e257735fdb88a3b8e6a858b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_group__video"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_group__video')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="group__video.html#classvideoOutput">videoOutput</a></td></tr>
+<tr class="memitem:a473772043b363d7c8dc00cddb70b0aa9 inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a473772043b363d7c8dc00cddb70b0aa9">mStreaming</a></td></tr>
+<tr class="separator:a473772043b363d7c8dc00cddb70b0aa9 inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af749bcbea4200ea33a1135f4f040879d inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__video.html#structvideoOptions">videoOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#af749bcbea4200ea33a1135f4f040879d">mOptions</a></td></tr>
+<tr class="separator:af749bcbea4200ea33a1135f4f040879d inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a583b2977fc4b9e1747f1b9199bc583ea inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a583b2977fc4b9e1747f1b9199bc583ea">mOutputs</a></td></tr>
+<tr class="separator:a583b2977fc4b9e1747f1b9199bc583ea inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
+<a id="a5a56a6a5c4a3ea887fa71a63f9c3bcc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a56a6a5c4a3ea887fa71a63f9c3bcc3">&#9670;&nbsp;</a></span>~gstEncoder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gstEncoder::~gstEncoder </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+
+</div>
+</div>
+<a id="a70652da4e8e3cf9cbda9df4894531497"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70652da4e8e3cf9cbda9df4894531497">&#9670;&nbsp;</a></span>gstEncoder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">gstEncoder::gstEncoder </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="a967e02f227d4739ead8760bba862efa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a967e02f227d4739ead8760bba862efa1">&#9670;&nbsp;</a></span>buildCapsStr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstEncoder::buildCapsStr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3a03a7c3f2633842618f8d9e9e21c5a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a03a7c3f2633842618f8d9e9e21c5a0">&#9670;&nbsp;</a></span>buildLaunchStr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstEncoder::buildLaunchStr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a58ad54570717788f05515e55e350082e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58ad54570717788f05515e55e350082e">&#9670;&nbsp;</a></span>checkMsgBus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gstEncoder::checkMsgBus </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a12c9bf5d87ef25783763a221bf66fa8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12c9bf5d87ef25783763a221bf66fa8e">&#9670;&nbsp;</a></span>Close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void gstEncoder::Close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Close the stream. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#a58d163c8d3e54f336bf2dda4a759750e" title="Begin streaming the device.">videoOutput::Open()</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="group__video.html#a552252a397249335e77755e0b911225e">videoOutput</a>.</p>
+
+</div>
+</div>
+<a id="ab964002b9cf198f952ecb65d92a18290"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab964002b9cf198f952ecb65d92a18290">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__codec.html#classgstEncoder">gstEncoder</a>* gstEncoder::Create </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structURI">URI</a> &amp;&#160;</td>
+          <td class="paramname"><em>resource</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__video.html#a99a95e988dcf46c0e9177abc7217cf8f">videoOptions::Codec</a>&#160;</td>
+          <td class="paramname"><em>codec</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create an encoder instance from resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> and codec. </p>
+
+</div>
+</div>
+<a id="a5268beb9785a1e817171195a930cc1c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5268beb9785a1e817171195a930cc1c0">&#9670;&nbsp;</a></span>Create() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__codec.html#classgstEncoder">gstEncoder</a>* gstEncoder::Create </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create an encoder from the provided video options. </p>
+
+</div>
+</div>
+<a id="a7d6df1ce894b32627d429e32dfb1d171"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d6df1ce894b32627d429e32dfb1d171">&#9670;&nbsp;</a></span>destroyPipeline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gstEncoder::destroyPipeline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a29ebd7d82bf4a37c5e16c173b0946f21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29ebd7d82bf4a37c5e16c173b0946f21">&#9670;&nbsp;</a></span>encodeYUV()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstEncoder::encodeYUV </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ffe842e1d58a17eaf6b87d85894a8fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ffe842e1d58a17eaf6b87d85894a8fe">&#9670;&nbsp;</a></span>GetPipeline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GstPipeline* gstEncoder::GetPipeline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the GStreamer pipeline object. </p>
+
+</div>
+</div>
+<a id="ab1fd934813f47039bc30aac6238c5bc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1fd934813f47039bc30aac6238c5bc7">&#9670;&nbsp;</a></span>GetType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint32_t gstEncoder::GetType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the interface type (<a class="el" href="group__codec.html#a0274b5b3365e440b93fd6b5c8bcf2b2e" title="Unique type identifier of gstEncoder class.">gstEncoder::Type</a>) </p>
+
+<p>Reimplemented from <a class="el" href="group__video.html#aaedce68dfff9bd5c3e76c32468632512">videoOutput</a>.</p>
+
+</div>
+</div>
+<a id="a4e96eaab1ccb4b0b8cd63911093cf074"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e96eaab1ccb4b0b8cd63911093cf074">&#9670;&nbsp;</a></span>GetWebRTCServer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__network.html#classWebRTCServer">WebRTCServer</a>* gstEncoder::GetWebRTCServer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the WebRTC server (only used when the protocol is "webrtc://") </p>
+
+</div>
+</div>
+<a id="ab43f8e274f4856dbc14f83e5311feacd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab43f8e274f4856dbc14f83e5311feacd">&#9670;&nbsp;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstEncoder::init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe2b510581ab3459d076a7dee91642e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe2b510581ab3459d076a7dee91642e1">&#9670;&nbsp;</a></span>initPipeline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstEncoder::initPipeline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abf3c5a8fd311d98df95873ddbee933f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf3c5a8fd311d98df95873ddbee933f9">&#9670;&nbsp;</a></span>IsSupportedExtension()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool gstEncoder::IsSupportedExtension </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ext</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return true if the extension is in the list of SupportedExtensions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ext</td><td>string containing the extension to be checked (should not contain leading dot) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__codec.html#a675b50aae5ee8e07c28599f4c07aa91b" title="String array of supported video file extensions, terminated with a NULL sentinel value.">SupportedExtensions</a> for the list of supported <a class="el" href="group__video.html" title="videoSource and videoOutput APIs for input and output video streams.">Video Streaming</a> file extensions. </dd></dl>
+
+</div>
+</div>
+<a id="aa79ec1aa4318c29bba255ff23fe54219"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa79ec1aa4318c29bba255ff23fe54219">&#9670;&nbsp;</a></span>onEnoughData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gstEncoder::onEnoughData </td>
+          <td>(</td>
+          <td class="paramtype">GstElement *&#160;</td>
+          <td class="paramname"><em>pipeline</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a704b5ce17c7a87f6d27ea234307d8434"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a704b5ce17c7a87f6d27ea234307d8434">&#9670;&nbsp;</a></span>onNeedData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gstEncoder::onNeedData </td>
+          <td>(</td>
+          <td class="paramtype">GstElement *&#160;</td>
+          <td class="paramname"><em>pipeline</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5173e425f6454a49522c86037201d271"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5173e425f6454a49522c86037201d271">&#9670;&nbsp;</a></span>onWebsocketMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gstEncoder::onWebsocketMessage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__network.html#structWebRTCPeer">WebRTCPeer</a> *&#160;</td>
+          <td class="paramname"><em>peer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>message_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a39bac88df0521b855a01aeb58953815e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39bac88df0521b855a01aeb58953815e">&#9670;&nbsp;</a></span>Open()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool gstEncoder::Open </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Open the stream. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#a58d163c8d3e54f336bf2dda4a759750e" title="Begin streaming the device.">videoOutput::Open()</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="group__video.html#a58d163c8d3e54f336bf2dda4a759750e">videoOutput</a>.</p>
+
+</div>
+</div>
+<a id="a6b05ef86ea3c5a417056db08b0a10b23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b05ef86ea3c5a417056db08b0a10b23">&#9670;&nbsp;</a></span>Render() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstEncoder::Render </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Encode the next frame. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#ac63d627d52174400c01c28bb0de82993" title="Render and output the next frame to the stream.">videoOutput::Render()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a84bcc87ed05ba1c02bbb1c95e430a3d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84bcc87ed05ba1c02bbb1c95e430a3d3">&#9670;&nbsp;</a></span>Render() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool gstEncoder::Render </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Encode the next frame. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#ac63d627d52174400c01c28bb0de82993" title="Render and output the next frame to the stream.">videoOutput::Render()</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="group__video.html#a8e53017c0e49212405391f82fbac876f">videoOutput</a>.</p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Data Documentation</h4>
+<a id="a0124ffa833f00d0cbb3a4b39b4880015"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0124ffa833f00d0cbb3a4b39b4880015">&#9670;&nbsp;</a></span>mAppSrc</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GstElement* gstEncoder::mAppSrc</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8cca4e7ac87977eb37b4aa9f2e9cc08b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cca4e7ac87977eb37b4aa9f2e9cc08b">&#9670;&nbsp;</a></span>mBufferCaps</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GstCaps* gstEncoder::mBufferCaps</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a342a2209793a5ab446395d31e485a07c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a342a2209793a5ab446395d31e485a07c">&#9670;&nbsp;</a></span>mBufferYUV</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__threads.html#classRingBuffer">RingBuffer</a> gstEncoder::mBufferYUV</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5bd37d527eab1cc181811b4612856509"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bd37d527eab1cc181811b4612856509">&#9670;&nbsp;</a></span>mBus</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GstBus* gstEncoder::mBus</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab11a3b2c977fc8e1dc1f34122223e050"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab11a3b2c977fc8e1dc1f34122223e050">&#9670;&nbsp;</a></span>mCapsStr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string gstEncoder::mCapsStr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aec885b1948e7a4781e8a39d0432724ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec885b1948e7a4781e8a39d0432724ca">&#9670;&nbsp;</a></span>mLaunchStr</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string gstEncoder::mLaunchStr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a628403dfed854cf7a2476f5cd64025fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a628403dfed854cf7a2476f5cd64025fa">&#9670;&nbsp;</a></span>mNeedData</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstEncoder::mNeedData</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e16680a9159fd69a7a1b208168b5d46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e16680a9159fd69a7a1b208168b5d46">&#9670;&nbsp;</a></span>mPipeline</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GstElement* gstEncoder::mPipeline</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a24d64da08e7b8ea4139a00fcac951b04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24d64da08e7b8ea4139a00fcac951b04">&#9670;&nbsp;</a></span>mRTSPServer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__network.html#classRTSPServer">RTSPServer</a>* gstEncoder::mRTSPServer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5ed438c23e257735fdb88a3b8e6a858b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ed438c23e257735fdb88a3b8e6a858b">&#9670;&nbsp;</a></span>mWebRTCServer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__network.html#classWebRTCServer">WebRTCServer</a>* gstEncoder::mWebRTCServer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a675b50aae5ee8e07c28599f4c07aa91b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a675b50aae5ee8e07c28599f4c07aa91b">&#9670;&nbsp;</a></span>SupportedExtensions</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* gstEncoder::SupportedExtensions[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>String array of supported video file extensions, terminated with a NULL sentinel value. </p>
+<p>The supported extension are:</p>
+<ul>
+<li>MKV</li>
+<li>MP4 / QT</li>
+<li>AVI</li>
+<li>FLV</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__codec.html#abf3c5a8fd311d98df95873ddbee933f9" title="Return true if the extension is in the list of SupportedExtensions.">IsSupportedExtension()</a> to check a string against this list. </dd></dl>
+
+</div>
+</div>
+<a id="a0274b5b3365e440b93fd6b5c8bcf2b2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0274b5b3365e440b93fd6b5c8bcf2b2e">&#9670;&nbsp;</a></span>Type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint32_t gstEncoder::Type = (1 &lt;&lt; 2)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unique type identifier of <a class="el" href="group__codec.html#classgstEncoder" title="Hardware-accelerated video encoder for Jetson using GStreamer.">gstEncoder</a> class. </p>
+
+</div>
+</div>
+
+</div>
+</div>
+<a name="classgstWebRTC" id="classgstWebRTC"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classgstWebRTC">&#9670;&nbsp;</a></span>gstWebRTC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class gstWebRTC</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Static class for common WebRTC utility functions used with GStreamer. </p>
+<p>This gets used internally by gstEncoder/gstDecoder for handling WebRTC streams. </p>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:ad0274bdc609541a95ea16865016ed37a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#ad0274bdc609541a95ea16865016ed37a">onNegotiationNeeded</a> (GstElement *webrtcbin, void *user_data)</td></tr>
+<tr class="memdesc:ad0274bdc609541a95ea16865016ed37a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for handling webrtcbin "on-negotation-needed" signal.  <a href="group__codec.html#ad0274bdc609541a95ea16865016ed37a">More...</a><br /></td></tr>
+<tr class="separator:ad0274bdc609541a95ea16865016ed37a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2490576accc969fd6172ae5804923edc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a2490576accc969fd6172ae5804923edc">onCreateOffer</a> (GstPromise *promise, void *user_data)</td></tr>
+<tr class="memdesc:a2490576accc969fd6172ae5804923edc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for handling webrtcbin "create-offer" signal.  <a href="group__codec.html#a2490576accc969fd6172ae5804923edc">More...</a><br /></td></tr>
+<tr class="separator:a2490576accc969fd6172ae5804923edc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40afef4f7e0133472a9dd02760bdc1ac"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a40afef4f7e0133472a9dd02760bdc1ac">onIceCandidate</a> (GstElement *webrtcbin, uint32_t mline_index, char *candidate, void *user_data)</td></tr>
+<tr class="memdesc:a40afef4f7e0133472a9dd02760bdc1ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for handling webrtcbin "on-ice-candidate" signal.  <a href="group__codec.html#a40afef4f7e0133472a9dd02760bdc1ac">More...</a><br /></td></tr>
+<tr class="separator:a40afef4f7e0133472a9dd02760bdc1ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a729875349e8e813298ea15ceef173a10"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__codec.html#a729875349e8e813298ea15ceef173a10">onWebsocketMessage</a> (<a class="el" href="group__network.html#structWebRTCPeer">WebRTCPeer</a> *peer, const char *message, size_t message_size, void *user_data)</td></tr>
+<tr class="memdesc:a729875349e8e813298ea15ceef173a10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle incoming websocket messages from the client.  <a href="group__codec.html#a729875349e8e813298ea15ceef173a10">More...</a><br /></td></tr>
+<tr class="separator:a729875349e8e813298ea15ceef173a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="a2490576accc969fd6172ae5804923edc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2490576accc969fd6172ae5804923edc">&#9670;&nbsp;</a></span>onCreateOffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gstWebRTC::onCreateOffer </td>
+          <td>(</td>
+          <td class="paramtype">GstPromise *&#160;</td>
+          <td class="paramname"><em>promise</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Callback for handling webrtcbin "create-offer" signal. </p>
+<p>This sends an SDP offer to the client. </p>
+
+</div>
+</div>
+<a id="a40afef4f7e0133472a9dd02760bdc1ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40afef4f7e0133472a9dd02760bdc1ac">&#9670;&nbsp;</a></span>onIceCandidate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gstWebRTC::onIceCandidate </td>
+          <td>(</td>
+          <td class="paramtype">GstElement *&#160;</td>
+          <td class="paramname"><em>webrtcbin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>mline_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>candidate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Callback for handling webrtcbin "on-ice-candidate" signal. </p>
+<p>This send an ICE candidate to the client. </p>
+
+</div>
+</div>
+<a id="ad0274bdc609541a95ea16865016ed37a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0274bdc609541a95ea16865016ed37a">&#9670;&nbsp;</a></span>onNegotiationNeeded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gstWebRTC::onNegotiationNeeded </td>
+          <td>(</td>
+          <td class="paramtype">GstElement *&#160;</td>
+          <td class="paramname"><em>webrtcbin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Callback for handling webrtcbin "on-negotation-needed" signal. </p>
+<p>It's expected that user_data is set to a <a class="el" href="group__network.html#structWebRTCPeer" title="Remote peer that has connected.">WebRTCPeer</a> instance. </p>
+
+</div>
+</div>
+<a id="a729875349e8e813298ea15ceef173a10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a729875349e8e813298ea15ceef173a10">&#9670;&nbsp;</a></span>onWebsocketMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gstWebRTC::onWebsocketMessage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__network.html#structWebRTCPeer">WebRTCPeer</a> *&#160;</td>
+          <td class="paramname"><em>peer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>message_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>user_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Handle incoming websocket messages from the client. </p>
+<p>This only handles SDP/ICE messages - it's expected that the caller will handle new peer connecting/closing messages. </p>
+
+</div>
+</div>
+
+</div>
+</div>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ga7d4bea04aad22460cc3c9c8152c6e3ed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga7d4bea04aad22460cc3c9c8152c6e3ed">&#9670;&nbsp;</a></span>LOG_GSTREAMER</h2>
@@ -139,7 +3227,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 17 2023 14:29:30 for Jetson Inference by
+    <li class="footer">Generated on Tue Mar 28 2023 14:27:58 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
   </ul>

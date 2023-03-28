@@ -289,7 +289,7 @@ SUBGROUPING            = YES
 # @ingroup) instead of on a separate page (for HTML and Man pages) or
 # section (for LaTeX and RTF).
 
-INLINE_GROUPED_CLASSES = NO
+INLINE_GROUPED_CLASSES = YES
 
 # When the INLINE_SIMPLE_STRUCTS tag is set to YES, structs, classes, and
 # unions with only public data fields will be shown inline in the documentation
@@ -680,7 +680,7 @@ RECURSIVE              = NO
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = @PROJECT_INCLUDE_DIR@/jetson-utils/json.hpp
+EXCLUDE                = @PROJECT_INCLUDE_DIR@/jetson-utils/json.hpp @PROJECT_INCLUDE_DIR@/jetson-utils/nvbuf_utils.h
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
