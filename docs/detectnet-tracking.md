@@ -89,7 +89,10 @@ These are accessible from both [C++](https://rawgit.com/dusty-nv/jetson-inferenc
 detections = net.Detect(img)
 
 for detection in detections:
-    print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has been tracked for {detection.TrackFrames} frames")
+    if detection.TrackStatus == -1:  # if tracking was lost, this object will be removed the next frame
+        print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has lost tracking")
+    else:
+        print(f"object {detection.TrackID} at ({detection.Left}, {detection.Top}) has been tracked for {detection.TrackFrames} frames")
 ```
 
 These variables get updated by the tracker each frame until the track is lost (`TrackStatus=-1`).  The frame after, that object will no longer be included in the detections array.
