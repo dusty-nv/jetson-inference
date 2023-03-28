@@ -60,7 +60,7 @@ To play around with these settings interactively, you can use the [Flask webapp]
 
 ### Tracking State
 
-When tracking is enabled, the detectNet.Detection results that are returned from detectNet.Detect() will have additional variables that are active which describe the state of each tracked object:
+When tracking is enabled, the [`detectNet.Detection`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/structdetectNet_1_1Detection.html) results that are returned from Detect() will have additional variables activated that describe the state of each tracked object - such as TrackID, TrackStatus, TrackFrames, and TrackLost:
 
 ``` cpp
 struct Detection
