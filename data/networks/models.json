@@ -105,6 +105,18 @@
             "prototxt": "deploy.prototxt",
             "labels": "networks/ilsvrc12_synset_words.txt",
             "description": "Inception-v4 trained on 1000-class ILSVRC12"
+        },
+        
+        "resnet18-tagging-voc": {
+            "alias": ["resnet18_tagging_voc", "resnet-18-tagging-voc", "resnet_18_tagging_voc", "resnet18-tagging", "resnet18_tagging", "resnet-18-tagging", "resnet_18_tagging"],
+            "url": "https://nvidia.box.com/shared/static/52wubs0ao7lzg8z5a3mu1ut133kuoth3.gz",
+            "tar": "ResNet18-Tagging-VOC.tar.gz",
+            "dir": "ResNet18-Tagging-VOC",
+            "model": "resnet18.onnx",
+            "labels": "labels.txt",
+            "input": "input_0",
+            "output": "output_0",
+            "description": "Multi-label image tagging classifier using ResNet-18 architecture trained on Pascal VOC"
         }
     },
     
