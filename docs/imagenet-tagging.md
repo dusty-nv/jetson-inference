@@ -19,9 +19,9 @@ $ imagenet --model=resnet18-tagging-voc --topK=0 --threshold=0.25 "images/object
 $ imagenet.py --model=resnet18-tagging-voc --topK=0 --threshold=0.25 "images/object_*.jpg" images/test/tagging_%i.jpg"
 ```
 
-Using `--topK=0` means that all the classes with a confidence score exceeding the threshold will be returned.
+Using `--topK=0` means that all the classes with a confidence score exceeding the threshold will be returned by the classifier.
 
-<p align="right">Next | <b><a href="detectnet-console-2.md">Object Detection</a></b>
+<p align="right">Next | <b><a href="detectnet-console-2.md">Detecting Objects from Images</a></b>
 <br/>
 Back | <b><a href="imagenet-camera-2.md">Running the Live Camera Recognition Demo</a></p>
 </b><p align="center"><sup>© 2016-2023 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

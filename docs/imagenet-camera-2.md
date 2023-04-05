@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="imagenet-example-2.md">Back</a> | <a href="detectnet-console-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="imagenet-example-2.md">Back</a> | <a href="imagenet-tagging.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Image Classification</sup></p>  
 
@@ -47,7 +47,7 @@ The application can recognize up to 1000 different types of objects, since the c
 This concludes this section of the Hello AI World tutorial on image classification.  Next, we're going to start using Object Detection networks, which provide us with the bounding box coordinates of multiple objects per frame.
 
 ##
-<p align="right">Next | <b><a href="detectnet-console-2.md">Locating Object Coordinates with DetectNet</a></b>
+<p align="right">Next | <b><a href="imagenet-tagging.md">Multi-Label Classification for Image Tagging</a></b>
 <br/>
 Back | <b><a href="imagenet-example-2.md">Coding Your Own Image Recognition Program</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
