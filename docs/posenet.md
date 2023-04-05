@@ -73,18 +73,13 @@ $ ./posenet.py --network=resnet18-hand /dev/video0
 
 ## Pre-trained Pose Estimation Models
 
-Below are the pre-trained pose estimation networks available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `posenet` used for loading the pre-trained models:
+Below are the pre-trained pose estimation networks available to use, and the associated `--network` argument to `posenet` used for loading the pre-trained models:
 
 | Model                   | CLI argument       | NetworkType enum   | Keypoints |
 | ------------------------|--------------------|--------------------|-----------|
 | Pose-ResNet18-Body      | `resnet18-body`    | `RESNET18_BODY`    | 18        |
 | Pose-ResNet18-Hand      | `resnet18-hand`    | `RESNET18_HAND`    | 21        |
 | Pose-DenseNet121-Body   | `densenet121-body` | `DENSENET121_BODY` | 18        |
-
-> **note**:  to download additional networks, run the [Model Downloader](building-repo-2.md#downloading-models) tool<br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
-
 
 You can specify which model to load by setting the `--network` flag on the command line to one of the corresponding CLI arguments from the table above.  By default, Pose-ResNet18-Body is used if the optional `--network` flag isn't specified.
 

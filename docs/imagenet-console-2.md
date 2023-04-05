@@ -57,9 +57,7 @@ In addition to loading single images, you can also load a directory or sequence 
 
 ### Downloading Other Classification Models
 
-By default, the project will download the GoogleNet and ResNet-18 networks during the build step.
-
-There are other pre-trained models that you can use as well, should you choose to [download](building-repo-2.md#downloading-models) them:
+The following pre-trained image classification models are available to use and will be automatically downloaded (the default is `googlenet`):
 
 | Network       | CLI argument   | NetworkType enum |
 | --------------|----------------|------------------|
@@ -73,10 +71,6 @@ There are other pre-trained models that you can use as well, should you choose t
 | VGG-16        | `vgg-16`       | `VGG-16`         |
 | VGG-19        | `vgg-19`       | `VGG-19`         |
 | Inception-v4  | `inception-v4` | `INCEPTION_V4`   |
-
-> **note**:  to download additional networks, run the [Model Downloader](building-repo-2.md#downloading-models) tool<br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
 
 Generally the more complex networks can have greater classification accuracy, with increased runtime.
 

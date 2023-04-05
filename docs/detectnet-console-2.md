@@ -111,7 +111,7 @@ Remember that you can use the `--threshold` setting to change the detection sens
 
 ### Pre-trained Detection Models Available
 
-Below is a table of the pre-trained object detection networks available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `detectnet` used for loading the pre-trained models:
+Below is a table of the pre-trained object detection networks available to use, and the associated `--network` argument to `detectnet` used for loading the pre-trained models:
 
 | Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
@@ -138,11 +138,6 @@ Below is a table of the pre-trained object detection networks available for [dow
 | facenet-120             | `facenet`          | `FACENET`          | faces                |
 
 </details>
-
-> **note**:  to download additional networks, run the [Model Downloader](building-repo-2.md#downloading-models) tool<br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
-
 
 ### Running Different Detection Models
 

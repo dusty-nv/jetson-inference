@@ -75,24 +75,6 @@ $ cmake ../
 > **note**: this command will launch the [`CMakePreBuild.sh`](../CMakePreBuild.sh) script which asks for sudo privileges while installing some prerequisite packages on the Jetson. The script also downloads pre-trained networks from web services.
 
 
-### Downloading Models
-
-The project comes with many pre-trained networks that can you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are initially selected for download to save disk space.  You can select the models you want, or run the tool again later to download more models another time.
-
-When initially configuring the project, `cmake` will automatically run the downloader tool for you:
-
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/docs/images/download-models.jpg" width="650">
-
-> **note**: for users that are unable to connect to Box.com to download the models, a mirror is provided here:<br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`https://github.com/dusty-nv/jetson-inference/releases`](https://github.com/dusty-nv/jetson-inference/releases)
-
-To run the Model Downloader tool again later, you can use the following commands:
-
-``` bash
-$ cd jetson-inference/tools
-$ ./download-models.sh
-```
-
 ### Installing PyTorch
 
 If you are using JetPack 4.2 or newer, another tool will now run that can optionally install PyTorch on your Jetson if you want to re-train networks with [transfer learning](pytorch-transfer-learning.md) later in the tutorial.  This step is optional, and if you don't wish to do the transfer learning steps, you don't need to install PyTorch and can skip this step.

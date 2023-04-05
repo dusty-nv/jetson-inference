@@ -21,7 +21,7 @@ $ imagenet.py --model=resnet18-tagging-voc --topK=0 --threshold=0.25 "images/obj
 
 Using `--topK=0` means that all the classes with a confidence score exceeding the threshold will be returned by the classifier.
 
-### Using Multiple Tags from Code
+### Retrieving Multiple Image Tags from Code
 
 The imageNet.Classify() function will return `(classID, confidence)` tuples when the topK argument is specified.  See [`imagenet.cpp`](../examples/imagenet/imagenet.cpp) or [`imagenet.py`](../python/examples/imagenet.py) for code examples of using multiple classification results:
 

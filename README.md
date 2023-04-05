@@ -140,7 +140,7 @@ These examples will automatically be compiled while [Building the Project from S
 
 ## Pre-Trained Models
 
-The project comes with a number of pre-trained models that are available through the [**Model Downloader**](docs/building-repo-2.md#downloading-models) tool:
+The project comes with a number of pre-trained models that are available to use and will be automatically downloaded:
 
 #### Image Recognition
 

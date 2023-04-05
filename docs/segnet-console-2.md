@@ -21,7 +21,7 @@ See [below](#pretrained-segmentation-models-available) for various pre-trained s
 
 ### Pre-Trained Segmentation Models Available
 
-Below is a table of the pre-trained semantic segmentation models available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `segnet` used for loading them.  They're based on the 21-class FCN-ResNet18 network and have been trained on various datasets and resolutions using [PyTorch](https://github.com/dusty-nv/pytorch-segmentation), and were exported to [ONNX format](https://onnx.ai/) to be loaded with TensorRT.
+Below is a table of the pre-trained semantic segmentation models available to use, and the associated `--network` argument to `segnet` used for loading them.  They're based on the 21-class FCN-ResNet18 network and have been trained on various datasets and resolutions using [PyTorch](https://github.com/dusty-nv/pytorch-segmentation), and were exported to [ONNX format](https://onnx.ai/) to be loaded with TensorRT.
 
 | Dataset      | Resolution | CLI Argument | Accuracy | Jetson Nano | Jetson Xavier |
 |:------------:|:----------:|--------------|:--------:|:-----------:|:-------------:|
@@ -40,10 +40,6 @@ Below is a table of the pre-trained semantic segmentation models available for [
 * If the resolution is omitted from the CLI argument, the lowest resolution model is loaded
 * Accuracy indicates the pixel classification accuracy across the model's validation dataset
 * Performance is measured for GPU FP16 mode with JetPack 4.2.1, `nvpmodel 0` (MAX-N)
-
-> **note**:  to download additional networks, run the [Model Downloader](building-repo-2.md#downloading-models) tool<br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
 
 ### Segmenting Images from the Command Line
 
