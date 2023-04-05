@@ -51,11 +51,10 @@ predictions = net.Classify(img, topK=args.topK)
 for n, (classID, confidence) in enumerate(predictions):
    classLabel = net.GetClassLabel(classID)
    confidence *= 100.0
-
    print(f"imagenet:  {confidence:05.2f}% class #{classID} ({classLabel})")
 ```
 
-Note that topK can also be used in ordinary single-class classification, to get the top N results, although those models weren't trained for image tagging.
+Note that topK can also be used in single-class classification to get the top N results, although those models weren't trained for image tagging.
 
 <p align="right">Next | <b><a href="detectnet-console-2.md">Detecting Objects from Images</a></b>
 <br/>
