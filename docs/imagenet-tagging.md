@@ -21,6 +21,42 @@ $ imagenet.py --model=resnet18-tagging-voc --topK=0 --threshold=0.25 "images/obj
 
 Using `--topK=0` means that all the classes with a confidence score exceeding the threshold will be returned by the classifier.
 
+### Using Multiple Tags from Code
+
+The imageNet.Classify() function will return `(classID, confidence)` tuples when the topK argument is specified.  See [`imagenet.cpp`](../examples/imagenet/imagenet.cpp) or [`imagenet.py`](../python/examples/imagenet.py) for code examples of using multiple classification results:
+
+#### C++ 
+
+``` cpp
+imageNet::Classifications classifications;	// std::vector<std::pair<uint32_t, float>>  (classID, confidence)
+
+if( net->Classify(image, input->GetWidth(), input->GetHeight(), classifications, topK) < 0 )
+	continue;
+
+for( uint32_t n=0; n < classifications.size(); n++ )
+{
+	const uint32_t classID = classifications[n].first;
+	const char* classLabel = net->GetClassLabel(classID);
+	const float confidence = classifications[n].second * 100.0f;
+	
+	printf("imagenet:  %2.5f%% class #%i (%s)\n", confidence, classID, classLabel);	
+}
+```
+
+#### Python
+
+``` python
+predictions = net.Classify(img, topK=args.topK)
+
+for n, (classID, confidence) in enumerate(predictions):
+   classLabel = net.GetClassLabel(classID)
+   confidence *= 100.0
+
+   print(f"imagenet:  {confidence:05.2f}% class #{classID} ({classLabel})")
+```
+
+Note that topK can also be used in ordinary single-class classification, to get the top N results, although those models weren't trained for image tagging.
+
 <p align="right">Next | <b><a href="detectnet-console-2.md">Detecting Objects from Images</a></b>
 <br/>
 Back | <b><a href="imagenet-camera-2.md">Running the Live Camera Recognition Demo</a></p>
