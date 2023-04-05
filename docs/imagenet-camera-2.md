@@ -1,7 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="imagenet-example-2.md">Back</a> | <a href="detectnet-console-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
-<sup>Image Recognition</sup></p>  
+<sup>Image Classification</sup></p>  
 
 # Running the Live Camera Recognition Demo
 

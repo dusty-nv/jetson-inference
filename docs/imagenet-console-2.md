@@ -1,7 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="building-repo-2.md">Back</a> | <a href="imagenet-example-python-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
-<sup>Image Recognition</sup></p>  
+<sup>Image Classification</sup></p>  
 
 # Classifying Images with ImageNet
 There are multiple types of deep learning networks available, including recognition, detection/localization, and semantic segmentation.  The first deep learning capability we're highlighting in this tutorial is **image recognition**, using classifcation networks that have been trained on large datasets to identify scenes and objects.

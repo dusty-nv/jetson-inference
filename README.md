@@ -35,7 +35,7 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 
 #### Inference
 
-* [Classification](docs/imagenet-console-2.md)
+* [Image Classification](docs/imagenet-console-2.md)
 	* [Using the ImageNet Program on Jetson](docs/imagenet-console-2.md)
 	* [Coding Your Own Image Recognition Program (Python)](docs/imagenet-example-python-2.md)
 	* [Coding Your Own Image Recognition Program (C++)](docs/imagenet-example-2.md)
