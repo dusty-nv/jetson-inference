@@ -585,6 +585,7 @@ function install_pytorch_v1120_python38_jp50()
 	install_deb_package "libopenblas-base" FOUND_OPENBLAS
 	install_deb_package "libopenmpi-dev" FOUND_OPENMPI
 	install_deb_package "libomp-dev" FOUND_OPENMP
+	install_deb_package "ninja-build" FOUND_NINJA
 	
 	# install pip packages
 	pip3 install Cython
@@ -605,7 +606,7 @@ function install_pytorch_v1120_python38_jp50()
 	move_ffmpeg
 	echo "$LOG cloning torchvision..."
 	sudo rm -r -f torchvision-38
-	git clone -bv0.12.0 https://github.com/pytorch/vision torchvision-38
+	git clone -bv0.12.0 --depth=1 https://github.com/pytorch/vision torchvision-38
 	cd torchvision-38
 	echo "$LOG building torchvision for Python 3.8..."
 	sudo python3 setup.py install
