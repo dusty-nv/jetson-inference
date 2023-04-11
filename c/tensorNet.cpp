@@ -745,9 +745,39 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		LogError(LOG_TRT "device %s, failed to configure builder\n", deviceTypeToStr(device));
 		return false;
 	}
+	
+	// attempt to load the timing cache
+	const nvinfer1::ITimingCache* timingCache = NULL;
+	
+	char timingCachePath[PATH_MAX];
+	sprintf(timingCachePath, "/usr/local/bin/networks/tensorrt.%i.timingcache", NV_TENSORRT_VERSION);
+
+	if( fileExists(timingCachePath) )
+	{
+		LogInfo(LOG_TRT "loading timing cache from %s\n", timingCachePath);
+		
+		void* timingCacheBuffer = NULL;
+		const size_t timingCacheSize = loadFile(timingCachePath, &timingCacheBuffer);
+		
+		if( timingCacheSize > 0 )
+		{
+			timingCache = builderConfig->createTimingCache(timingCacheBuffer, timingCacheSize);
+			free(timingCacheBuffer);
+		}
+	}
+	
+	if( !timingCache )
+	{
+		timingCache = builderConfig->createTimingCache(NULL, 0);  // create a new cache
+	
+		if( !timingCache )
+			LogWarning(LOG_TRT "couldn't create new timing cache\n");
+	}
+	
+	if( timingCache != NULL && !builderConfig->setTimingCache(*timingCache, false) )
+		LogWarning(LOG_TRT "failed to activate timing cache");
 #else
-	if( !ConfigureBuilder(builder, maxBatchSize, mWorkspaceSize, precision,
-					  device, allowGPUFallback, calibrator) )
+	if( !ConfigureBuilder(builder, maxBatchSize, mWorkspaceSize, precision, device, allowGPUFallback, calibrator) )
 	{
 		LogError(LOG_TRT "device %s, failed to configure builder\n", deviceTypeToStr(device));
 		return false;
@@ -774,6 +804,44 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 
 	LogSuccess(LOG_TRT "device %s, completed building CUDA engine\n", deviceTypeToStr(device));
 
+#if NV_TENSORRT_MAJOR >= 8
+	if( timingCache != NULL )
+	{
+		// save the updated timing cache
+		nvinfer1::IHostMemory* timingCacheMem = timingCache->serialize();
+		
+		if( timingCacheMem != NULL )
+		{
+			const char* timingCacheBuffer = (char*)timingCacheMem->data();
+			const size_t timingCacheSize = timingCacheMem->size();
+		
+			LogVerbose(LOG_TRT "saving timing cache to %s (%zu bytes)\n", timingCachePath, timingCacheSize);
+			
+			// write the cache file
+			FILE* timingCacheFile = NULL;
+			timingCacheFile = fopen(timingCachePath, "wb");
+
+			if( timingCacheFile != NULL )
+			{
+				if( fwrite(timingCacheBuffer,	1, timingCacheSize, timingCacheFile) != timingCacheSize )
+					LogWarning(LOG_TRT "failed to write %zu bytes to timing cache file %s\n", timingCacheSize, timingCachePath);
+			
+				fclose(timingCacheFile);
+			}
+			else
+			{
+				LogWarning(LOG_TRT "failed to open timing cache file for writing %s\n", timingCachePath);
+			}
+			
+			timingCacheMem->destroy();
+		}
+	
+		delete timingCache;
+	}
+	
+	builderConfig->destroy();
+#endif
+	
 	// we don't need the network definition any more, and we can destroy the parser
 	network->destroy();
 	//parser->destroy();
@@ -804,6 +872,8 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	
 	*engineStream = engineMemory;
 	*engineSize = serSize;
+	
+	serMem->destroy();
 #else
 	engine->serialize(modelStream);
 #endif
@@ -811,6 +881,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	// free builder resources
 	engine->destroy();
 	builder->destroy();
+	
 	return true;
 }
 
@@ -1578,54 +1649,20 @@ bool tensorNet::LoadEngine( const char* filename, char** stream, size_t* size )
 	if( !filename || !stream || !size )
 		return false;
 
-	char* engineStream = NULL;
-	size_t engineSize = 0;
-
 	LogInfo(LOG_TRT "loading network plan from engine cache... %s\n", filename);
 		
-	// determine the file size of the engine
-	engineSize = fileSize(filename);
-
+	void* engineStream = NULL;
+	const size_t engineSize = loadFile(filename, &engineStream);
+	
 	if( engineSize == 0 )
 	{
-		LogError(LOG_TRT "invalid engine cache file size (%zu bytes)  %s\n", engineSize, filename);
+		LogError(LOG_TRT "failed to load engine cache from %s\n", filename);
 		return false;
 	}
-
-	// allocate memory to hold the engine
-	engineStream = (char*)malloc(engineSize);
-
-	if( !engineStream )
-	{
-		LogError(LOG_TRT "failed to allocate %zu bytes to read engine cache %s\n", engineSize, filename);
-		return false;
-	}
-
-	// open the engine cache file from disk
-	FILE* cacheFile = NULL;
-	cacheFile = fopen(filename, "rb");
-
-	if( !cacheFile )
-	{
-		LogError(LOG_TRT "failed to open engine cache file for reading %s\n", filename);
-		return false;
-	}
-
-	// read the serialized engine into memory
-	const size_t bytesRead = fread(engineStream, 1, engineSize, cacheFile);
-
-	if( bytesRead != engineSize )
-	{
-		LogError(LOG_TRT "only read %zu of %zu bytes of engine cache file %s\n", bytesRead, engineSize, filename);
-		return false;
-	}
-
-	// close the plan cache
-	fclose(cacheFile);
-
-	*stream = engineStream;
+	
+	*stream = (char*)engineStream;
 	*size = engineSize;
-
+	
 	return true;
 }
 
