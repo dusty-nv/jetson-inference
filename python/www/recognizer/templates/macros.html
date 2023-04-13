@@ -1,0 +1,94 @@
+
+{# Jinja macro for creating a range slider that connects to a backend JSON REST API #}
+{% macro slider(id, rest_path, label, min=0.0, max=1.0, step=0.01, oninput=none) -%}
+  <div class="row">
+    <script type='text/javascript'>
+      function get_{{ id }}() {
+        return rest_get('{{ rest_path }}').then(function(value) {
+          document.getElementById('{{ id }}').value = value;   
+        {% if step < 1 %}
+          value = value.toFixed(2);
+        {% endif %}
+          document.getElementById('{{ id }}_value').innerHTML = value;
+          console.log(`get_{{ id }}(${value})`);
+          return value;
+        });
+      }
+      
+      function set_{{ id }}() {
+        var value = parseFloat(document.getElementById('{{ id }}').value);
+        document.getElementById('{{ id }}_value').innerHTML = value;
+        rest_put('{{ rest_path }}', value);
+        {% if oninput is not none %}
+          {{ oninput }};
+        {% endif %}
+        console.log(`set_{{ id }}(${value})`);
+      }
+    </script>
+    <label for="{{ id }}" class="col-4">{{ label }}</label>
+    <div class="col-6">
+      <input id="{{ id }}" type="range" class="form-range" min="{{ min }}" max="{{ max }}" step="{{ step }}" oninput="debounce(set_{{ id }})()">
+    </div>
+    <div id="{{ id }}_value" class="col-2">{{ value }}</div>
+    <script>
+      get_{{ id }}();
+    </script>
+  </div>
+{%- endmacro %}
+
+{# Jinja macro for creating a checkbox element that connects to a backend JSON REST API #}
+{% macro checkbox(id, rest_path, label, oninput=none) -%}
+  <div class="row">
+    <script type='text/javascript'>
+      function get_{{ id }}() {
+        return rest_get('{{ rest_path }}').then(function(value) {
+          document.getElementById('{{ id }}').checked = value;
+          console.log(`get_{{ id }}(${value})`);
+          return value;
+        });
+      }
+      
+      function set_{{ id }}() {
+        var value = document.getElementById('{{ id }}').checked;
+        rest_put('{{ rest_path }}', value);
+        {% if oninput is not none %}
+          {{ oninput }};
+        {% endif %}
+        console.log(`set_{{ id }}(${value})`);
+      }
+    </script>
+    <label for="{{ id }}" class="col-4">{{ label }}</label>
+    <div class="col-2">
+      <input id="{{ id }}" type="checkbox" class="form-checkbox" oninput="set_{{ id }}()">
+    </div>
+    <script>
+      get_{{ id }}();
+    </script>
+  </div>
+{%- endmacro %}
+
+{# Jinja macro for creating a card header #}
+{% macro card_header(collapse_id, title, subtitle, arrow='up') -%}
+  <div class="card-title" data-bs-toggle="collapse" href="#{{ collapse_id }}" role="button">
+    <h5 class="d-inline">{{ title }}</h5>
+  {% if subtitle|length %}
+    <p class="d-inline">({{ subtitle }})</p>
+  {% endif %}
+    <span class="float-end float-top fa fa-chevron-circle-{{ arrow }} fa-lg mt-1" id="{{ collapse_id }}_collapse_btn"></span>
+  </div>
+{%- endmacro %}
+
+{# Jinja macro for the card event handlers#}
+{% macro collapse_handler(collapse_id) -%}
+  <script type='text/javascript'>
+    $('#{{ collapse_id }}').on('hide.bs.collapse', function () {
+      document.getElementById('{{ collapse_id }}_collapse_btn').classList.remove('fa-chevron-circle-down');
+      document.getElementById('{{ collapse_id }}_collapse_btn').classList.add('fa-chevron-circle-up');
+    })
+    
+    $('#{{ collapse_id }}').on('show.bs.collapse', function () {
+      document.getElementById('{{ collapse_id }}_collapse_btn').classList.remove('fa-chevron-circle-up');
+      document.getElementById('{{ collapse_id }}_collapse_btn').classList.add('fa-chevron-circle-down');
+    })
+  </script>
+{%- endmacro %}
