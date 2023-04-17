@@ -46,9 +46,7 @@ class Stream(threading.Thread):
         self.frames = 0
         self.model = None
         self.dataset = Dataset(args)
-
-        if args.classification:
-            self.model = Model('classification', model=args.classification, labels=args.labels, colors=args.colors, input_layer=args.input_layer, output_layer=args.output_layer)
+        self.model = Model(args, self.dataset)
         
     def process(self):
         """
@@ -61,8 +59,8 @@ class Stream(threading.Thread):
             
         self.dataset.AddImage(img)
         
-        if self.model:
-            self.model.Process(img)
+        if self.model.inference_enabled:
+            self.model.Classify(img)
             self.model.Visualize(img)
 
         self.output.Render(img)
@@ -76,8 +74,6 @@ class Stream(threading.Thread):
         """
         Run the stream processing thread's main loop.
         """
-        self.dataset.start()
-        
         while True:
             try:
                 self.process()

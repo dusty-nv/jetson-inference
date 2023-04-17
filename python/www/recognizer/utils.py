@@ -23,10 +23,57 @@
 import flask
 import http
 
-def rest_property(getter, setter=None, type=str, key=None):
+import torch
+import torch.nn
+
+
+
+def rest_property(object, attribute, type=str, key=None):
     """
     Handle the boilerplate of getting/setting a REST JSON property.
     This function handles GET and PUT requests for different datatypes.
+    
+    Parameters:
+        object (object) -- the object that the attribute belongs to
+        attribute (str) -- the name of the attribute from the object
+        type (Type) -- type of the variable (int, float, str)
+        key (str) -- the key to use if this is a dict
+    """
+    if not hasattr(object, attribute):
+        raise ValueError(f"object is missing attribute '{attribute}'")
+        
+    if flask.request.method == 'GET':
+        value = getattr(object, attribute)
+        
+        if key:
+            value = value[key]
+            
+        response = flask.jsonify(value)
+        
+    elif flask.request.method == 'PUT':
+        value = type(flask.request.get_json())
+        
+        if key:
+            getattr(object, attribute)[key] = value
+        else:
+            setattr(object, attribute, value)
+
+        response = ('', http.HTTPStatus.OK)
+        
+    print(f"{flask.request.remote_addr} - - REST {flask.request.method} {flask.request.path} => {value}")
+    return response
+    
+    
+def rest_function(getter, setter=None, type=str, key=None):
+    """
+    Handle the boilerplate of getting/setting a REST JSON function.
+    This function handles GET and PUT requests for different datatypes.
+    
+    Parameters:
+        getter (function) -- function for getting the variable
+        setter (function) -- function for setting the variable (optional)
+        type (Type) -- type of the variable (int, float, str)
+        key (str) -- the key to use if this is a dict
     """
     if flask.request.method == 'GET':
         value = getter()
@@ -35,7 +82,11 @@ def rest_property(getter, setter=None, type=str, key=None):
             value = value[key]
             
         response = flask.jsonify(value)
+        
     elif flask.request.method == 'PUT':
+        if setter is None:
+            raise ValueError("missing 'set' function needed to complete PUT request")
+            
         value = type(flask.request.get_json())
         
         if key:
@@ -48,3 +99,56 @@ def rest_property(getter, setter=None, type=str, key=None):
     print(f"{flask.request.remote_addr} - - REST {flask.request.method} {flask.request.path} => {value}")
     return response
         
+  
+def reshape_model(model, arch, num_classes):
+	"""
+    Reshape a model's output layers for the given number of classes
+    """
+	if arch.startswith("resnet"):
+		model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
+		print("=> reshaped ResNet fully-connected layer with: " + str(model.fc))
+
+	elif arch.startswith("alexnet"):
+		model.classifier[6] = torch.nn.Linear(model.classifier[6].in_features, num_classes)
+		print("=> reshaped AlexNet classifier layer with: " + str(model.classifier[6]))
+
+	elif arch.startswith("vgg"):
+		model.classifier[6] = torch.nn.Linear(model.classifier[6].in_features, num_classes)
+		print("=> reshaped VGG classifier layer with: " + str(model.classifier[6]))
+
+	elif arch.startswith("squeezenet"):
+		model.classifier[1] = torch.nn.Conv2d(512, num_classes, kernel_size=(1,1), stride=(1,1))
+		model.num_classes = num_classes
+		print("=> reshaped SqueezeNet classifier layer with: " + str(model.classifier[1]))
+
+	elif arch.startswith("densenet"):
+		model.classifier = torch.nn.Linear(model.classifier.in_features, num_classes) 
+		print("=> reshaped DenseNet classifier layer with: " + str(model.classifier))
+
+	elif arch.startswith("inception"):
+		model.AuxLogits.fc = torch.nn.Linear(model.AuxLogits.fc.in_features, num_classes)
+		model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
+
+		print("=> reshaped Inception aux-logits layer with: " + str(model.AuxLogits.fc))
+		print("=> reshaped Inception fully-connected layer with: " + str(model.fc))
+	
+	elif arch.startswith("googlenet"):
+		if model.aux_logits:
+			from torchvision.models.googlenet import InceptionAux
+
+			model.aux1 = InceptionAux(512, num_classes)
+			model.aux2 = InceptionAux(528, num_classes)
+
+			print("=> reshaped GoogleNet aux-logits layers with: ")
+			print("      " + str(model.aux1))
+			print("      " + str(model.aux2))
+	
+		model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
+		print("=> reshaped GoogleNet fully-connected layer with:  " + str(model.fc))
+	
+	else:
+		print("classifier reshaping not supported for " + args.arch)
+		print("model will retain default of 1000 output classes")
+
+	model.num_classes = num_classes
+	return model

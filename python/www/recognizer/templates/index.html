@@ -168,7 +168,6 @@
     </div>
     
     <!-- Classification Controls -->
-    {% if classification|length %}
     <div class="card" style="width: 36rem;">
       <div class="card-body">
         {{ card_header('classification_controls', 'Classification', classification) }}
@@ -180,8 +179,18 @@
         {{ collapse_handler('classification_controls') }}
       </div>
     </div>
-    {% endif %}
   
+    <!-- Training Controls -->
+    <div class="card" style="width: 36rem;">
+      <div class="card-body">
+        {{ card_header('training_controls', 'Training') }}
+        <div class="collapse" id="training_controls">
+          {{ checkbox('training_enabled', '/training/enabled', 'Training Enabled') }}
+        </div>
+        {{ collapse_handler('training_controls') }}
+      </div>
+    </div>
+    
     <!-- Navigation -->
     <nav class="navbar fixed-bottom navbar-expand-lg bg-primary">
       <div class="container-fluid justify-content-center">

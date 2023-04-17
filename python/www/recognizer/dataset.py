@@ -27,10 +27,14 @@ import datetime
 import threading
 import traceback
 
+import torch
+import numpy as np
+import PIL
+
 from jetson_utils import cudaMemcpy, saveImage
 
 
-class Dataset(threading.Thread):
+class Dataset(threading.Thread, torch.utils.data.Dataset):
     """
     Class for saving multi-label image tagging datasets.
     """
@@ -41,13 +45,16 @@ class Dataset(threading.Thread):
         super().__init__()
 
         self.args = args
-        self.tags = {}          # map from image filename => tags
-        self.active_tags = []   # list of tags to be applied to new images
-        self.classes = []       # ['apple', 'banana', 'orange']
+        self.classes = []         # list of class names
+        self.tags = {}            # map from image filename => tags
+        self.active_tags = []     # list of tags to be applied to new images
+        self.multi_label = False  # true if there are multiple tags (labels) per image
         
         self.queue = queue.Queue()
         self.recording = False
-
+        self.transform = None
+        self.target_transform = None
+        
         # create directory structure
         self.root_dir = self.args.data
         self.image_dir = os.path.join(self.root_dir, 'images')
@@ -63,9 +70,49 @@ class Dataset(threading.Thread):
                 self.update_class_labels()
                 print(f"dataset -- loaded tags for {len(self.tags)} images, {len(self.classes)} from {self.tags_path}")
         
-    def process(self):
+        # create a default class if necessary
+        if len(self.classes) == 0:
+            self.classes = ['background']
+            
+        # start recorder thread
+        self.start()
+        
+    def __len__(self):
         """
-        Process the queue of incoming images.
+        Return the size of the dataset (the number of images)
+        """
+        return len(self.tags)    
+        
+    def __getitem__(self, index):
+        """
+        Return (image, labels) tensors for training
+        """
+        key = list(self.tags.keys())[index]
+        tags = self.tags[key]
+        
+        image = PIL.Image.open(os.path.join(self.image_dir, key)).convert('RGB')
+        
+        if self.multi_label:
+            labels = [0] * len(self.classes)
+            
+            for tag in tags:
+                labels[self.classes.index(tag)] = 1
+                
+            labels = torch.FloatTensor(labels)
+        else:
+            labels = torch.tensor(self.classes.index(self.tags[key][0]), dtype=torch.int64)
+            
+        if self.transform:
+            image = self.transform(image)
+            
+        if self.target_transform:
+            labels = self.target_transform(labels)
+            
+        return image, labels
+        
+    def record(self):
+        """
+        Record the queue of incoming images.
         """
         try:
             img, timestamp = self.queue.get(timeout=1)
@@ -82,11 +129,11 @@ class Dataset(threading.Thread):
              
     def run(self):
         """
-        Run the dataset thread's main loop.
+        Run the dataset thread's main loop for recording incoming data.
         """
         while True:
             try:
-                self.process()
+                self.record()
             except:
                 traceback.print_exc()
     
@@ -107,18 +154,6 @@ class Dataset(threading.Thread):
         file.save(path)
         self.ApplyTags(file.filename)
         return path
-        
-    def IsRecording(self):
-        """
-        Returns true if the stream is currently being recorded, false otherwise
-        """
-        return self.recording
-        
-    def SetRecording(self, recording):
-        """
-        Enable/disable recording of the input stream.
-        """
-        self.recording = recording
         
     def GetActiveTags(self):
         """

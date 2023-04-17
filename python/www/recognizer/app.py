@@ -28,7 +28,7 @@ import werkzeug
 import argparse
 
 from stream import Stream
-from utils import rest_property
+from utils import rest_property, rest_function
     
     
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, epilog=Stream.usage())
@@ -40,12 +40,15 @@ parser.add_argument("--ssl-cert", default=os.getenv('SSL_CERT'), type=str, help=
 parser.add_argument("--title", default='Hello AI World | Recognizer', type=str, help="the title of the webpage as shown in the browser")
 parser.add_argument("--input", default='webrtc://@:8554/input', type=str, help="input camera stream or video file")
 parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help="WebRTC output stream to serve from --input")
-parser.add_argument("--classification", default='', type=str, help="load classification model (see imageNet arguments)")
-parser.add_argument("--labels", default='', type=str, help="path to labels.txt for loading a custom model")
-parser.add_argument("--colors", default='', type=str, help="path to colors.txt for loading a custom model")
-parser.add_argument("--input-layer", default='', type=str, help="name of input layer for loading a custom model")
-parser.add_argument("--output-layer", default='', type=str, help="name of output layer(s) for loading a custom model (comma-separated if multiple)")
+
 parser.add_argument("--data", default='data', type=str, help="path to store dataset and models under")
+parser.add_argument("--network", "--net", default='resnet18', type=str, help="the type of DNN architecture to use (default: resnet18)")
+parser.add_argument('--net-resolution', default=224, type=int, metavar='N', help="the NxN input resolution of the DNN model (default: 224)")
+parser.add_argument('--batch-size', default=1, type=int, metavar='N', help="training batch size to use (default: 1)")
+parser.add_argument("--workers", default=2, type=int, metavar='N', help="number of training data loading workers (default: 2)")
+parser.add_argument("--optimizer", default='adam', type=str, choices=['adam', 'sgd'], help="training optimizer to use (default: adam)")
+parser.add_argument('--learning-rate', default=0.001, type=float, metavar='LR', help="initial training learning rate (default: 0.001)")     
+parser.add_argument('--print-freq', default=10, type=int, metavar='N', help="print training progress info every N steps")
 
 args = parser.parse_known_args()[0]
     
@@ -59,7 +62,7 @@ stream = Stream(args)
 def index():
     return flask.render_template('index.html', title=args.title, send_webrtc=args.input.startswith('webrtc'),
                                  input_stream=args.input, output_stream=args.output,
-                                 classification=os.path.basename(args.classification))
+                                 classification=os.path.basename(stream.model.onnx_path))
 
 @app.route('/dataset/classes', methods=['GET'])
 def dataset_classes():
@@ -67,11 +70,11 @@ def dataset_classes():
     
 @app.route('/dataset/active_tags', methods=['GET', 'PUT'])
 def dataset_active_tags():
-    return rest_property(stream.dataset.GetActiveTags, stream.dataset.SetActiveTags, str) 
+    return rest_function(stream.dataset.GetActiveTags, stream.dataset.SetActiveTags, str) 
    
 @app.route('/dataset/recording', methods=['GET', 'PUT'])
 def dataset_recording():
-    return rest_property(stream.dataset.IsRecording, stream.dataset.SetRecording, bool)
+    return rest_property(stream.dataset, 'recording', bool)
     
 @app.route('/dataset/upload', methods=['POST'])
 def dataset_upload():
@@ -90,18 +93,21 @@ def dataset_upload():
         
     return (saved_path, http.HTTPStatus.OK)
     
-if args.classification:
-    @app.route('/classification/enabled', methods=['GET', 'PUT'])
-    def classification_enabled():
-        return rest_property(stream.model.IsEnabled, stream.model.SetEnabled, bool)
+@app.route('/training/enabled', methods=['GET', 'PUT'])
+def training_enabled():
+    return rest_property(stream.model, 'training_enabled', bool)
+    
+@app.route('/classification/enabled', methods=['GET', 'PUT'])
+def classification_enabled():
+    return rest_property(stream.model, 'inference_enabled', bool)
         
-    @app.route('/classification/confidence_threshold', methods=['GET', 'PUT'])
-    def classification_confidence_threshold():
-        return rest_property(stream.model.net.GetThreshold, stream.model.net.SetThreshold, float)
+@app.route('/classification/confidence_threshold', methods=['GET', 'PUT'])
+def classification_confidence_threshold():
+    return rest_property(stream.model, 'classification_threshold', float)
       
-    @app.route('/classification/output_smoothing', methods=['GET', 'PUT'])
-    def classification_output_smoothing():
-        return rest_property(stream.model.net.GetSmoothing, stream.model.net.SetSmoothing, float)
+@app.route('/classification/output_smoothing', methods=['GET', 'PUT'])
+def classification_output_smoothing():
+    return rest_property(stream.model, 'classification_smoothing', float)
 
 
 # start stream thread
