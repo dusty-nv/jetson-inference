@@ -185,7 +185,38 @@
       <div class="card-body">
         {{ card_header('training_controls', 'Training') }}
         <div class="collapse" id="training_controls">
-          {{ checkbox('training_enabled', '/training/enabled', 'Training Enabled') }}
+          {{ checkbox('training_enabled', '/training/enabled', 'Training Enabled', label_columns=3, oninput='onTrainingEnabled()') }}
+          <div id="training_stats">
+            <div class="row">
+              <span class="col-3" id="training_epoch">Epoch:</span>
+              <span class="col-9" id="training_progress"></span>
+            </div>
+            <div class="row">
+              <span class="col-3">Loss:</span>
+              <span class="col-9" id="training_loss"></span>
+            </div>
+            <div class="row">
+              <span class="col-3">Accuracy:</span>
+              <span class="col-9" id="training_accuracy"></span>
+            </div>
+          </div>
+          <script type='text/javascript'>
+            function onTrainingEnabled() {
+              var enabled = document.getElementById('training_enabled').checked;  
+              document.getElementById('training_stats').style.opacity = enabled ? 1.0 : 0.5;
+            }
+            
+            function updateTrainingStats() {
+              rest_get('/training/stats', quiet=true).then(function(stats) {
+                document.getElementById('training_epoch').innerHTML = `Epoch ${stats['epoch']}`;
+                document.getElementById('training_progress').innerHTML = `${(stats['img_count'] / stats['img_total'] * 100).toFixed(0)}% (${stats['img_count']} / ${stats['img_total']} images)`;
+                document.getElementById('training_loss').innerHTML = `${stats['loss'].toExponential(4)}`;
+                document.getElementById('training_accuracy').innerHTML = `${stats['accuracy'].toFixed(1)}%`;
+              });
+            }
+            
+            setInterval(updateTrainingStats, 1000);            
+          </script>
         </div>
         {{ collapse_handler('training_controls') }}
       </div>

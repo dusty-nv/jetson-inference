@@ -97,6 +97,10 @@ def dataset_upload():
 def training_enabled():
     return rest_property(stream.model, 'training_enabled', bool)
     
+@app.route('/training/stats', methods=['GET'])
+def training_stats():
+    return stream.model.training_stats
+    
 @app.route('/classification/enabled', methods=['GET', 'PUT'])
 def classification_enabled():
     return rest_property(stream.model, 'inference_enabled', bool)

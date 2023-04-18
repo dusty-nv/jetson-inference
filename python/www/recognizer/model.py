@@ -61,6 +61,14 @@ class Model(threading.Thread):
 
         self.inference_threshold = 0.001
         self.inference_smoothing = 0.0
+ 
+        self.training_stats = {
+            'epoch': 0,
+            'img_count': 0,
+            'img_total': 0,
+            'loss': 0.0,
+            'accuracy': 0.0
+        }
         
         # setup model directory
         self.model_dir = os.path.join(self.args.data, 'models')
@@ -205,8 +213,19 @@ class Model(threading.Thread):
             accuracy = acc_sum / img_count
             loss = loss_sum / img_count 
             
+            self.training_stats = {
+                'epoch': self.epochs,
+                'img_count': img_count,
+                'img_total': len(self.dataset),
+                'loss': loss,
+                'accuracy': accuracy
+            }
+                
             if (i % self.args.print_freq == 0) or (i == len(self.dataloader)-1):
                 print(f"[torch]  epoch {self.epochs}  [{i}/{len(self.dataloader)}]  loss={loss:.4e}  accuracy={accuracy:.2f}")
+                
+            if not self.training_enabled:
+                break
                 
         return loss, accuracy
         
