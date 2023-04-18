@@ -20,30 +20,34 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-function rest_get(url) {
+function rest_get(url, quiet=false) {
   return fetch(url).then(function(response) {
     return response.json();
   }).then(function(json) {
-    console.log(`GET response from ${url}`);
-    console.log(json); 
+    if( !quiet ) {
+			console.log(`GET response from ${url}`);
+			console.log(json); 
+		}
     return json;
   });
 }
 
-function rest_put(url, data, response_handler) {
+function rest_put(url, data, response_handler=null, quiet=false) {
   fetch(url, {
     method: 'PUT',
     body: JSON.stringify(data),
     headers: {'Content-type': 'application/json; charset=UTF-8'}
   }).then(function(response) {
-    console.log(`PUT response from ${url}`);
-    console.log(response);
+		if( !quiet ) {
+			console.log(`PUT response from ${url}`);
+			console.log(response);
+		}
 		if( response_handler != undefined )
 			response_handler(response);
   });  
 }
 
-function rest_post(url, data, response_handler) {
+function rest_post(url, data, response_handler=null, quiet=false) {
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify(data),
@@ -51,8 +55,10 @@ function rest_post(url, data, response_handler) {
   }).then(function(response) {
     return response.json();
   }).then(function(json) {
-    console.log(`POST response from ${url}`);
-    console.log(json);
+		if( !quiet ) {
+			console.log(`POST response from ${url}`);
+			console.log(json);
+		}
 		if( response_handler != undefined )
 			response_handler(json);
     return json;
