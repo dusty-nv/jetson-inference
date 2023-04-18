@@ -37,13 +37,16 @@
 {%- endmacro %}
 
 {# Jinja macro for creating a checkbox element that connects to a backend JSON REST API #}
-{% macro checkbox(id, rest_path, label, oninput=none) -%}
+{% macro checkbox(id, rest_path, label, label_columns=4, oninput=none) -%}
   <div class="row">
     <script type='text/javascript'>
       function get_{{ id }}() {
         return rest_get('{{ rest_path }}').then(function(value) {
           document.getElementById('{{ id }}').checked = value;
           console.log(`get_{{ id }}(${value})`);
+          {% if oninput is not none %}
+            {{ oninput }};
+          {% endif %}
           return value;
         });
       }
@@ -57,7 +60,7 @@
         console.log(`set_{{ id }}(${value})`);
       }
     </script>
-    <label for="{{ id }}" class="col-4">{{ label }}</label>
+    <label for="{{ id }}" class="col-{{ label_columns }}">{{ label }}</label>
     <div class="col-2">
       <input id="{{ id }}" type="checkbox" class="form-checkbox" oninput="set_{{ id }}()">
     </div>
