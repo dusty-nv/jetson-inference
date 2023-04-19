@@ -60,30 +60,6 @@ class Stream(threading.Thread):
             
         if args.action and args.classification:
             self.models['action'].fontLine = 1
-            
-        """
-        # these are in the order that the overlays should be composited
-        if args.background:
-            self.models['background'] = Model('background', model=args.background)
-            
-        if args.segmentation:
-            self.models['segmentation'] = Model('segmentation', model=args.segmentation)
-            
-        if args.classification:
-            self.models['classification'] = Model('classification', model=args.classification)
-        
-        if args.detection:
-            self.models['detection'] = Model('detection', model=args.detection)
-           
-        if args.pose:
-            self.models['pose'] = Model('pose', model=args.pose)
-            
-        if args.action:
-            self.models['action'] = Model('action', model=args.action)
-            
-            if args.classification:
-                self.models['action'].fontLine = 1
-        """
         
     def process(self):
         """
