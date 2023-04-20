@@ -222,95 +222,150 @@
         {{ collapse_handler('training_controls') }}
       </div>
     </div>
-    
-    <!-- Navigation -->
-    <nav class="navbar fixed-bottom navbar-expand-lg bg-primary">
-      <div class="container-fluid justify-content-center">
-        <a class="navbar-brand" href="#">{{ title }}</a>
-        <!-- Upload button -->
-        <input id="upload-select" type="file" accept="image/*" multiple style="display:none" onchange="onUploadSelect()"/>
-        <span id="upload-tooltip" class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="Upload image(s)">
-          <button id="upload-button" class="btn btn-dark btn-circle btn-md" type="button" onclick="onUploadClick()">Upload</button>
-        </span>
-        <script type='text/javascript'>
-          function onUploadClick() {
-            document.getElementById('upload-select').click();
-            bootstrap.Tooltip.getInstance('#upload-tooltip').hide();
-          }
-          
-          function onUploadSelect() {
-            let files = document.getElementById('upload-select').files;
 
-            for( const file of files ) {
-              console.log(`${file.name} (${file.size} bytes)`);
-              let formData = new FormData();
-              formData.set('file', file);
-              fetch('/dataset/upload', {method: 'POST', body: formData}).then(function(response) {
-                console.log(`Uploaded ${file.name} (${file.size} bytes)`);
-                populateTagOptions();
+    <div class="fixed-bottom">
+      <!-- Alert Messages -->
+      <div id="alert_window" class="alert mb-0" style="background-color: rgb(48,48,48); display: none">
+        <div id="alert_messages" class="d-inline-block"></div>
+        <button type="button" class="btn-close float-end align-middle d-inline-block" onclick="onHideAlerts()"></button>
+      </div>
+      
+      <script type='text/javascript'>
+        var lastAlertCheck = Date.now();
+        
+        function alertColor(level) {
+          if( level == 'success' ) return 'limegreen';
+          else if( level == 'error' ) return 'orange';
+          else if( level == 'warning' ) return 'orange';
+          else return 'rgb(200,200,200)';
+        
+        }
+        function toTimeString(timestamp) {
+          return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', hour12: true, minute: '2-digit', second: '2-digit' }).slice(0,-3); // remove AM/PM
+        }
+          
+        function onHideAlerts() {
+          $('#alert_window').fadeOut('slow', function() {
+            $(`#alert_messages pre`).remove();
+          });
+        }
+
+        function checkAlerts() {
+          const url = `/alerts?since=${lastAlertCheck}`;
+          lastAlertCheck = Date.now();
+          
+          rest_get(url, quiet=true).then(function(alerts) {
+            for( const alert of alerts ) {
+              // add a new element containing the alert message, and show the window if needed
+              $("#alert_messages").append(`<pre id="alert-${alert['id']}" class="align-middle m-0" style="color: ${alertColor(alert['level'])}">[${toTimeString(alert['time'])}] ${alert['message']}\n</pre>`);
+              $('#alert_window:hidden').fadeIn('fast');
+            
+              // automatically remove the messages (if this is the last message, hide the window too)
+              if( alert['duration'] > 0 ) {
+                setTimeout(function() {
+                  if( $('#alert_messages pre').length > 1 ) {
+                    $(`#alert_messages #alert-${alert['id']}`).remove();
+                  }
+                  else {
+                    onHideAlerts();
+                  }
+                }, alert['duration']);
+              }
+            }
+          });
+        }
+        
+        setInterval(checkAlerts, 1000); 
+      </script>
+      
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-lg bg-primary">
+        <div class="container-fluid justify-content-center">
+          <a class="navbar-brand" href="#">{{ title }}</a>
+          <!-- Upload button -->
+          <input id="upload-select" type="file" accept="image/*" multiple style="display:none" onchange="onUploadSelect()"/>
+          <span id="upload-tooltip" class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="Upload image(s)">
+            <button id="upload-button" class="btn btn-dark btn-circle btn-md" type="button" onclick="onUploadClick()">Upload</button>
+          </span>
+          <script type='text/javascript'>
+            function onUploadClick() {
+              document.getElementById('upload-select').click();
+              bootstrap.Tooltip.getInstance('#upload-tooltip').hide();
+            }
+            
+            function onUploadSelect() {
+              let files = document.getElementById('upload-select').files;
+
+              for( const file of files ) {
+                console.log(`${file.name} (${file.size} bytes)`);
+                let formData = new FormData();
+                formData.set('file', file);
+                fetch('/dataset/upload', {method: 'POST', body: formData}).then(function(response) {
+                  console.log(`Uploaded ${file.name} (${file.size} bytes)`);
+                  populateTagOptions();
+                });
+              }
+              
+              bootstrap.Tooltip.getInstance('#upload-tooltip').hide();  // this tooltip likes to get stuck open
+            }
+          </script>
+          
+          <!-- Record button -->
+          <span id="record-tooltip" class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="Hold to capture from camera">
+            <button id="record-button" class="btn btn-dark btn-circle btn-md ms-1" type="button" onmousedown="onRecordClick()" onmouseup="onRecordRelease()">Record</button>
+          </span>
+          <script type='text/javascript'>
+            function onRecordClick() {
+              console.log('onRecordClick()');
+              rest_put('/dataset/recording', true);
+            }
+            
+            function onRecordRelease() {
+              console.log('onRecordRelease()');
+              rest_put('/dataset/recording', false, () => populateTagOptions());
+            }
+          </script>
+          
+          <!-- Tag selection -->
+          <div class="w-100 ms-3">
+            <select id="tag-select" class="form-control" multiple="multiple" onchange="onTagsChanged()"/>
+          </div>
+          <script type='text/javascript'>
+            $('#tag-select').select2({
+              tags: true,
+              tokenSeparators: [',', ' '],
+              placeholder: 'Tags'
+            });
+            
+            function onTagsChanged() {
+              let tags = $('#tag-select').val();
+              console.log(`onTagsChanged() => ${tags}`);
+              rest_put('/dataset/active_tags', tags.join(','));
+              
+              if( tags.length == 0 ) {
+                $('#record-button, #upload-button').addClass('disabled');
+                bootstrap.Tooltip.getInstance('#record-tooltip').setContent({'.tooltip-inner': 'Please add/select tags first'});
+                bootstrap.Tooltip.getInstance('#upload-tooltip').setContent({'.tooltip-inner': 'Please add/select tags first'});
+              }
+              else {
+                $('#record-button, #upload-button').removeClass('disabled');
+                bootstrap.Tooltip.getInstance('#record-tooltip').setContent({'.tooltip-inner': 'Hold to capture from camera'});
+                bootstrap.Tooltip.getInstance('#upload-tooltip').setContent({'.tooltip-inner': 'Upload image(s)'});
+              }
+            }
+                      
+            function populateTagOptions() {
+              rest_get('/dataset/classes').then(function(classes) {
+                $('#tag-select option').removeAttr("data-select2-tag");  // keep newly-added tags in the options when selection cleared
+                classes.forEach(function(class_name) {
+                  if( $('#tag-select').find("option[value='" + class_name + "']").length == 0 )  // only add new options
+                    $('#tag-select').append(new Option(class_name, class_name, true)); //.trigger('change');
+                })
               });
             }
-            
-            bootstrap.Tooltip.getInstance('#upload-tooltip').hide();  // this tooltip likes to get stuck open
-          }
-        </script>
-        
-        <!-- Record button -->
-        <span id="record-tooltip" class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="Hold to capture from camera">
-          <button id="record-button" class="btn btn-dark btn-circle btn-md ms-1" type="button" onmousedown="onRecordClick()" onmouseup="onRecordRelease()">Record</button>
-        </span>
-        <script type='text/javascript'>
-          function onRecordClick() {
-            console.log('onRecordClick()');
-            rest_put('/dataset/recording', true);
-          }
-          
-          function onRecordRelease() {
-            console.log('onRecordRelease()');
-            rest_put('/dataset/recording', false, () => populateTagOptions());
-          }
-        </script>
-        
-        <!-- Tag selection -->
-        <div class="w-100 ms-3">
-          <select id="tag-select" class="form-control" multiple="multiple" onchange="onTagsChanged()"/>
+          </script>
         </div>
-        <script type='text/javascript'>
-          $('#tag-select').select2({
-            tags: true,
-            tokenSeparators: [',', ' '],
-            placeholder: 'Tags'
-          });
-          
-          function onTagsChanged() {
-            let tags = $('#tag-select').val();
-            console.log(`onTagsChanged() => ${tags}`);
-            rest_put('/dataset/active_tags', tags.join(','));
-            
-            if( tags.length == 0 ) {
-              $('#record-button, #upload-button').addClass('disabled');
-              bootstrap.Tooltip.getInstance('#record-tooltip').setContent({'.tooltip-inner': 'Please add/select tags first'});
-              bootstrap.Tooltip.getInstance('#upload-tooltip').setContent({'.tooltip-inner': 'Please add/select tags first'});
-            }
-            else {
-              $('#record-button, #upload-button').removeClass('disabled');
-              bootstrap.Tooltip.getInstance('#record-tooltip').setContent({'.tooltip-inner': 'Hold to capture from camera'});
-              bootstrap.Tooltip.getInstance('#upload-tooltip').setContent({'.tooltip-inner': 'Upload image(s)'});
-            }
-          }
-                    
-          function populateTagOptions() {
-            rest_get('/dataset/classes').then(function(classes) {
-              $('#tag-select option').removeAttr("data-select2-tag");  // keep newly-added tags in the options when selection cleared
-              classes.forEach(function(class_name) {
-                if( $('#tag-select').find("option[value='" + class_name + "']").length == 0 )  // only add new options
-                  $('#tag-select').append(new Option(class_name, class_name, true)); //.trigger('change');
-              })
-            });
-          }
-        </script>
-      </div>
-    </nav>
-    
+      </nav>
+    </div>
   </body>
 </html>

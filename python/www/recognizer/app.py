@@ -28,7 +28,7 @@ import werkzeug
 import argparse
 
 from stream import Stream
-from utils import rest_property, rest_function
+from utils import rest_property, rest_function, alerts
     
     
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, epilog=Stream.usage())
@@ -64,6 +64,10 @@ def index():
                                  input_stream=args.input, output_stream=args.output,
                                  classification=os.path.basename(stream.model.onnx_path))
 
+@app.route('/alerts', methods=['GET'])
+def get_alerts():
+    return alerts(flask.request.args.get('since', 0, type=int))
+    
 @app.route('/dataset/classes', methods=['GET'])
 def dataset_classes():
     return stream.dataset.classes

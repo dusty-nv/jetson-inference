@@ -22,6 +22,7 @@
 #
 import flask
 import http
+import time
 
 import torch
 import torch.nn
@@ -98,7 +99,43 @@ def rest_function(getter, setter=None, type=str, key=None):
         
     print(f"{flask.request.remote_addr} - - REST {flask.request.method} {flask.request.path} => {value}")
     return response
+
+
+_alerts = []
+
+def alert(message, level='info', duration=3500):
+    """
+    Log an alert that shows up on the webpage
+    
+    Parameters:
+        message (str) -- the text string to show
+        level (str) -- 'error', 'success', or 'info'
+        duration (int) -- how long to show the alert (in milliseconds)
+    """
+    _alerts.append({
+        'id': len(_alerts),
+        'time': round(time.time()*1000), #datetime.datetime.now().strftime('%I:%M:%S'),
+        'level': level,
+        'message': message,
+        'duration': duration
+    })
         
+def alerts(since=0):
+    """
+    Retrieve the alerts since the given timestamp (in milliseconds)
+    """
+    if len(_alerts) == 0:
+        return []
+        
+    for i in range(len(_alerts)-1, -1, -1):
+        if _alerts[i]['time'] < since:
+            i += 1
+            break
+
+    if i >= len(_alerts):
+        return []
+
+    return _alerts[i:]
   
 def reshape_model(model, arch, num_classes):
 	"""
@@ -125,6 +162,14 @@ def reshape_model(model, arch, num_classes):
 		model.classifier = torch.nn.Linear(model.classifier.in_features, num_classes) 
 		print("=> reshaped DenseNet classifier layer with: " + str(model.classifier))
 
+	elif arch.startswith("efficientnet"):
+		model.classifier[1] = torch.nn.Linear(model.classifier[1].in_features, num_classes)
+		print(f"=> reshaped {arch} classifier layer with: " + str(model.classifier[1]))
+      
+	elif arch.startswith("mobilenet"):
+		model.classifier[-1] = torch.nn.Linear(model.classifier[-1].in_features, num_classes)
+		print(f"=> reshaped {arch} classifier layer with: " + str(model.classifier[-1]))
+        
 	elif arch.startswith("inception"):
 		model.AuxLogits.fc = torch.nn.Linear(model.AuxLogits.fc.in_features, num_classes)
 		model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
@@ -145,10 +190,10 @@ def reshape_model(model, arch, num_classes):
 	
 		model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
 		print("=> reshaped GoogleNet fully-connected layer with:  " + str(model.fc))
-	
+        
 	else:
-		print("classifier reshaping not supported for " + args.arch)
-		print("model will retain default of 1000 output classes")
+		raise ValueError(f"classifier reshaping not supported for {arch}")
 
 	model.num_classes = num_classes
 	return model
+    
