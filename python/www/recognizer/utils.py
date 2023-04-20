@@ -103,23 +103,29 @@ def rest_function(getter, setter=None, type=str, key=None):
 
 _alerts = []
 
-def alert(message, level='info', duration=3500):
+def alert(message, level='info', category='', duration=3500):
     """
     Log an alert that shows up on the webpage
     
     Parameters:
         message (str) -- the text string to show
         level (str) -- 'error', 'success', or 'info'
+        category (str) -- unique category for supressing repetitive messages
         duration (int) -- how long to show the alert (in milliseconds)
+        unique (bool) -- if true, 
     """
     _alerts.append({
         'id': len(_alerts),
         'time': round(time.time()*1000), #datetime.datetime.now().strftime('%I:%M:%S'),
         'level': level,
+        'category': category,
         'message': message,
         'duration': duration
     })
-        
+    
+    if len(_alerts) > 25:
+        _alerts.pop(0)
+
 def alerts(since=0):
     """
     Retrieve the alerts since the given timestamp (in milliseconds)

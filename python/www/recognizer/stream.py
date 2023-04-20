@@ -26,8 +26,9 @@ import traceback
 
 from model import Model
 from dataset import Dataset
+from utils import alert
 
-from jetson_utils import videoSource, videoOutput
+from jetson_utils import videoSource, videoOutput, Log
 
 
 class Stream(threading.Thread):
@@ -67,7 +68,7 @@ class Stream(threading.Thread):
 
         if self.frames % 25 == 0 or self.frames < 15:
             print(f"captured {self.frames} frames from {self.args.input} => {self.args.output} ({img.width} x {img.height})")
-   
+
         self.frames += 1
         
     def run(self):
@@ -78,8 +79,10 @@ class Stream(threading.Thread):
             try:
                 self.process()
             except:
-                traceback.print_exc()
-        
+                exc = traceback.format_exc()
+                alert(exc, level='error', category='exception', duration=0)
+                Log.Error(exc)
+                
     @staticmethod
     def usage():
         """

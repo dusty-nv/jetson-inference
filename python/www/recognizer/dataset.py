@@ -32,6 +32,7 @@ import numpy as np
 import PIL
 
 from jetson_utils import cudaMemcpy, saveImage
+from utils import alert
 
 
 class Dataset(threading.Thread, torch.utils.data.Dataset):
@@ -187,7 +188,9 @@ class Dataset(threading.Thread, torch.utils.data.Dataset):
         
         if flush:
             self.SaveTags()
-            
+        
+        alert(f"Dataset has {len(self.tags)} images, {len(self.classes)} classes", category='dataset')
+        
     def SaveTags(self, path=''):
         """
         Flush the image tags to the JSON annotations file on disk.
