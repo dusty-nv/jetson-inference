@@ -64,6 +64,9 @@
         {% else %}
           // auto-play other sources, since they're already running
           play();
+          
+          // hide the camera switching button (d-none is boostrap for display: none)
+          document.getElementById('switch-camera-div').classList.add('d-none');
         {% endif %}
         
         // enable bootstrap tooltips
@@ -223,8 +226,7 @@
                 
                 for( let i=0; i < stats['class_distribution'].length; i++ )
                   class_str += `${stats['classes'][i]} (${(stats['class_distribution'][i] / stats['num_tags'] * 100).toFixed(0)}%) &nbsp;&nbsp;`;
-                
-                console.log(`class_str:  ${class_str}`);
+
                 document.getElementById('training_classes').innerHTML = class_str;
               });
             }
@@ -299,6 +301,39 @@
       <nav class="navbar navbar-expand-lg bg-primary">
         <div class="container-fluid justify-content-center">
           <a class="navbar-brand" href="#">{{ title }}</a>
+          
+          <!-- Switch camera button -->
+          <span id="switch-camera-div" class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="Switch camera source">
+            <button id="switch-camera-button" class="btn btn-dark btn-circle btn-md me-1" type="button" onclick="onSwitchCamera()">Switch</button>
+          </span>
+          <script type='text/javascript'>
+            function onSwitchCamera() {
+              var camera_select = document.getElementById('send-stream');
+              
+              if( camera_select == null || camera_select.options.length == 1 /*|| !hasConnectionType('outbound')*/ )
+                return;
+
+              camera_select.selectedIndex = (camera_select.selectedIndex + 1) % 2;
+              send();
+            }
+          </script>
+          
+          <!-- Record button -->
+          <span id="record-tooltip" class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="Hold to capture from camera">
+            <button id="record-button" class="btn btn-dark btn-circle btn-md me-1" type="button" onmousedown="onRecordClick()" onmouseup="onRecordRelease()">Record</button>
+          </span>
+          <script type='text/javascript'>
+            function onRecordClick() {
+              console.log('onRecordClick()');
+              rest_put('/dataset/recording', true);
+            }
+            
+            function onRecordRelease() {
+              console.log('onRecordRelease()');
+              rest_put('/dataset/recording', false, () => populateTagOptions());
+            }
+          </script>
+          
           <!-- Upload button -->
           <input id="upload-select" type="file" accept="image/*" multiple style="display:none" onchange="onUploadSelect()"/>
           <span id="upload-tooltip" class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="Upload image(s)">
@@ -327,22 +362,6 @@
             }
           </script>
           
-          <!-- Record button -->
-          <span id="record-tooltip" class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="Hold to capture from camera">
-            <button id="record-button" class="btn btn-dark btn-circle btn-md ms-1" type="button" onmousedown="onRecordClick()" onmouseup="onRecordRelease()">Record</button>
-          </span>
-          <script type='text/javascript'>
-            function onRecordClick() {
-              console.log('onRecordClick()');
-              rest_put('/dataset/recording', true);
-            }
-            
-            function onRecordRelease() {
-              console.log('onRecordRelease()');
-              rest_put('/dataset/recording', false, () => populateTagOptions());
-            }
-          </script>
-          
           <!-- Tag selection -->
           <div class="w-100 ms-3">
             <select id="tag-select" class="form-control" multiple="multiple" onchange="onTagsChanged()"/>
@@ -355,10 +374,12 @@
             });
             
             function onTagsChanged() {
+              // change the tags that are applied to new data
               let tags = $('#tag-select').val();
               console.log(`onTagsChanged() => ${tags}`);
               rest_put('/dataset/active_tags', tags.join(','));
               
+              // toggle the use of the record & upload buttons
               if( tags.length == 0 ) {
                 $('#record-button, #upload-button').addClass('disabled');
                 bootstrap.Tooltip.getInstance('#record-tooltip').setContent({'.tooltip-inner': 'Please add/select tags first'});
@@ -380,6 +401,7 @@
                 })
               });
             }
+            
           </script>
         </div>
       </nav>

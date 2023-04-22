@@ -29,12 +29,19 @@ function getWebsocketProtocol() {
   return window.location.protocol == 'https:' ? 'wss://' : 'ws://';
 }
 
-function getWebsocketURL(name, port=8554) {
+function getWebsocketURL(name, port=8554) {  // wss://192.168.1.2:8554/name
   return `${getWebsocketProtocol()}${window.location.hostname}:${port}/${name}`;
 }
   
 function checkMediaDevices() {
   return (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !navigator.mediaDevices.enumerateDevices) ? false : true;
+}
+
+function hasConnectionType(type) {  // 'inbound' or 'outbound'
+	for( const connection in connections )
+		if( connections[connection].type == type )
+			return true;
+	return false;
 }
 
 function onIncomingSDP(url, sdp) {
