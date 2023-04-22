@@ -46,11 +46,14 @@ class Model(threading.Thread):
         
         self.args = args
         self.font = cudaFont()
-        self.epochs = 0
-        self.dataset = dataset
-        self.dataloader = None
-        self.best_accuracy = 0.0
-        self.dataset_images = 0
+        self.epoch = 0              # current training epoch
+        self.epoch_images = 0       # number of images processed this epoch
+        self.loss = 0.0             # loss so far this epoch
+        self.accuracy = 0.0         # accuracy so far this epoch
+        self.best_accuracy = 0.0    # the best epoch accuracy so far
+        
+        self.dataset = dataset      # reference to the dataset
+        self.dataloader = None      # PyTorch dataloader
         
         self.model_train = None     # PyTorch training model
         self.model_infer = None     # TensorRT inference model
@@ -64,15 +67,6 @@ class Model(threading.Thread):
         self.inference_threshold = 0.001
         self.inference_smoothing = 0.0
  
-        self.training_stats = {
-            'epoch': 0,
-            'loss': 0.0,
-            'accuracy': 0.0,
-            'img_count': 0,
-            'img_total': 0,
-            'classes': self.dataset.classes,
-        }
-        
         # setup model directory
         self.model_dir = os.path.join(self.args.data, 'models')
         self.best_path = os.path.join(self.model_dir, 'model_best.pth')
@@ -115,7 +109,7 @@ class Model(threading.Thread):
        
     def train(self):
         """
-        Training thread main loop
+        Training thread main loop (assuming dataset can change)
         """
         self.model_train = torchvision.models.__dict__[self.args.network](pretrained=True)
         self.model_train = self.reshape(len(self.dataset.classes))
@@ -157,6 +151,9 @@ class Model(threading.Thread):
         else:
             self.criterion = torch.nn.CrossEntropyLoss().cuda()
         
+        # detect if the dataset changed
+        num_images = len(self.dataset)
+        
         # training loop
         while True:
             # wait for data and for training to be enabled
@@ -164,13 +161,8 @@ class Model(threading.Thread):
                 time.sleep(1.0)
                 continue
                 
-            alert(f"Started training epoch {self.epochs} on {len(self.dataset)} images, {len(self.dataset.classes)} classes")
-
-            # reshape the model if the number of classes changed
-            if self.model_train.num_classes != len(self.dataset.classes):
-                self.model_train = self.reshape(len(self.dataset.classes))
-                self.best_accuracy = 0.0
-                
+            alert(f"Started training epoch {self.epoch} on {len(self.dataset)} images, {len(self.dataset.classes)} classes")
+ 
             # create the dataloader now that we know there's data
             if self.dataloader is None:    
                 self.dataloader = torch.utils.data.DataLoader(
@@ -178,22 +170,22 @@ class Model(threading.Thread):
                     num_workers=self.args.workers, pin_memory=True)
             
             # train the model for one epoch
-            loss, accuracy = self.train_epoch()
+            self.train_epoch()
             
             # reset the metrics if the dataset changed
-            if self.training_stats['img_total'] != self.dataset_images:
+            if num_images != len(self.dataset):
+                print(f"[torch]  dataset size changed from {self.num_images} to {len(self.dataset)}")
+                num_images = len(self.dataset)
                 self.best_accuracy = 0.0
-                self.dataset_images = self.training_stats['img_total']
-                print(f"[torch]  dataset size changed from {self.dataset_images} to {self.training_stats['img_total']}")
                 
             # save the model checkpoints
-            is_best = accuracy >= self.best_accuracy
-            self.best_accuracy = max(accuracy, self.best_accuracy)
+            is_best = self.accuracy >= self.best_accuracy
+            self.best_accuracy = max(self.accuracy, self.best_accuracy)
             
-            alert(f"Done training epoch {self.epochs}, {self.training_stats['accuracy']:.1f}% accuracy {'(new best)' if is_best else ''}")
+            alert(f"Done training epoch {self.epoch}, {self.accuracy:.1f}% accuracy {'(new best)' if is_best else ''}")
             
             self.save_checkpoint({
-                'epoch': self.epochs,
+                'epoch': self.epoch,
                 'network': self.args.network,
                 'resolution': self.args.net_resolution,
                 'classes': self.dataset.classes,
@@ -201,22 +193,11 @@ class Model(threading.Thread):
                 'multi_label': self.dataset.multi_label,
                 'state_dict': self.model_train.state_dict(),
                 'optimizer': self.optimizer.state_dict(),
-                'accuracy': accuracy,
-                'loss': loss
+                'accuracy': self.accuracy,
+                'loss': self.loss
             }, is_best)
 
-            self.epochs += 1
-            
-    def run(self):
-        """
-        Training thread main loop
-        """
-        try:
-            self.train()
-        except:
-            exc = traceback.format_exc()
-            alert(exc, level='error', category='exception', duration=0)
-            Log.Error(exc)
+            self.epoch += 1
 
     def train_epoch(self):
         """
@@ -226,12 +207,21 @@ class Model(threading.Thread):
         
         acc_sum = 0.0
         loss_sum = 0.0
-        img_count = 0
+        self.epoch_images = 0
 
         for i, (images, target) in enumerate(self.dataloader):
+            # reshape the model if the number of classes changed
+            if self.model_train.num_classes != len(self.dataset.classes):
+                self.model_train = self.reshape(len(self.dataset.classes))
+                self.best_accuracy = 0.0
+                alert("Restarting training epoch {self.epoch} (change in number of classes)")
+                return self.train_epoch()
+            
+            # move the tensors to GPU
             images = images.cuda(non_blocking=True)
             target = target.cuda(non_blocking=True)
             
+            # train the image(s)
             output = self.model_train(images)
             loss = self.criterion(output, target)
 
@@ -239,28 +229,21 @@ class Model(threading.Thread):
             loss.backward()
             self.optimizer.step()
            
+            # update metrics
             loss_sum += loss.item() * images.size(0)
             acc_sum += self.compute_accuracy(output, target) * images.size(0)
-            img_count += images.size(0)
-            accuracy = acc_sum / img_count
-            loss = loss_sum / img_count 
             
-            self.training_stats = {
-                'epoch': self.epochs,
-                'loss': loss,
-                'accuracy': accuracy,
-                'img_count': img_count,
-                'img_total': len(self.dataset),
-                'classes': self.dataset.classes
-            }
-                
+            self.epoch_images += images.size(0)
+            self.accuracy = acc_sum / self.epoch_images
+            self.loss = loss_sum / self.epoch_images
+
+            # log updates every N steps (and the last step)
             if (i % self.args.print_freq == 0) or (i == len(self.dataloader)-1):
-                print(f"[torch]  epoch {self.epochs}  [{i}/{len(self.dataloader)}]  loss={loss:.4e}  accuracy={accuracy:.2f}")
-                
+                print(f"[torch]  epoch {self.epoch}  [{i}/{len(self.dataloader)}]  loss={self.loss:.4e}  accuracy={self.accuracy:.2f}")
+              
+            # the user could disable training mid-epoch
             if not self.training_enabled:
                 break
-                
-        return loss, accuracy
         
     def reshape(self, num_classes):
         """
@@ -307,14 +290,14 @@ class Model(threading.Thread):
             self.export_onnx()
             self.load_inference()
         else:
-            print(f"[torch]  saved checkpoint {self.epochs} to {self.checkpoint_path}")
+            print(f"[torch]  saved checkpoint {self.epoch} to {self.checkpoint_path}")
 
     def export_onnx(self):
         """
         Export the PyTorch model to ONNX.
         """
         print(f"[torch]  exporting ONNX to {self.onnx_path}")
-        alert(f"Exporting trained model to {self.onnx_path} (epoch {self.epochs}, {self.training_stats['accuracy']:.1f}% accuracy)")
+        alert(f"Exporting trained model to {self.onnx_path} (epoch {self.epoch}, {self.accuracy:.1f}% accuracy)")
         
         if self.dataset.multi_label:
             model = torch.nn.Sequential(self.model_train, torch.nn.Sigmoid())
@@ -334,7 +317,7 @@ class Model(threading.Thread):
         with open(self.labels_path, 'w') as file:
             file.write('\n'.join(self.dataset.classes))
         
-        alert(f"Exported trained model to {self.onnx_path} (epoch {self.epochs}, {self.training_stats['accuracy']:.1f}% accuracy)", level='success')
+        alert(f"Exported trained model to {self.onnx_path} (epoch {self.epoch}, {self.accuracy:.1f}% accuracy)", level='success')
         
     def load_inference(self):
         """
@@ -343,15 +326,42 @@ class Model(threading.Thread):
         if not os.path.isfile(self.onnx_path):
             self.export_onnx()
             
-        alert(f"Loading updated inference model from {self.onnx_path}")    
+        alert(f"Loading inference model from {self.onnx_path}")    
         
         self.model_infer = imageNet(model=self.onnx_path, labels=self.labels_path, input_blob=self.input_layer, output_blob=self.output_layer)
                                  
         self.model_infer.SetThreshold(self.inference_threshold)
         self.model_infer.SetSmoothing(self.inference_smoothing)
 
-        alert(f"Loaded updated inference model from {self.onnx_path}", level='success')  
+        alert(f"Loaded inference model from {self.onnx_path}", level='success')  
         
+    def run(self):
+        """
+        Training thread main loop
+        """
+        try:
+            self.train()
+        except:
+            exc = traceback.format_exc()
+            alert(exc, level='error', category='exception', duration=0)
+            Log.Error(exc)
+            
+    @property
+    def training_stats(self):
+        """
+        Returns a dict containing epoch training progress, model metrics, and dataset statistics.
+        """
+        return {
+            'epoch': self.epoch,         
+            'epoch_images': self.epoch_images,  # current epoch process step (of num_images)
+            'loss': self.loss,
+            'accuracy': self.accuracy,
+            'num_images': len(self.dataset),
+            'num_tags': self.dataset.num_tags,
+            'classes': self.dataset.classes,
+            'class_distribution': self.dataset.class_distribution,
+        }
+ 
     @property
     def classification_threshold(self):
         """

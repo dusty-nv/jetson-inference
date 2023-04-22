@@ -189,11 +189,11 @@
           {{ checkbox('training_enabled', '/training/enabled', 'Training Enabled', label_columns=3, oninput='onTrainingEnabled()') }}
           <div id="training_stats">
             <div class="row">
-              <span class="col-3" id="training_epoch">Epoch:</span>
+              <span class="col-3" id="training_epoch">Epoch</span>
               <span class="col-9" id="training_progress"></span>
             </div>
             <div class="row">
-              <span class="col-3">Classes:</span>
+              <span class="col-3" id="training_class">Classes [0]</span>
               <span class="col-9" id="training_classes"></span>
             </div>
             <div class="row">
@@ -213,11 +213,19 @@
             
             function updateTrainingStats() {
               rest_get('/training/stats', quiet=true).then(function(stats) {
-                document.getElementById('training_epoch').innerHTML = `Epoch ${stats['epoch']}:`;
-                document.getElementById('training_progress').innerHTML = `${(stats['img_count'] / stats['img_total'] * 100).toFixed(0)}% (${stats['img_count']} / ${stats['img_total']} images)`;
-                document.getElementById('training_classes').innerHTML = `${stats['classes'].length} (${stats['classes'].join(', ')})`;
+                document.getElementById('training_epoch').innerHTML = `Epoch [${stats['epoch']}]`;
+                document.getElementById('training_progress').innerHTML = `${(stats['epoch_images'] / stats['num_images'] * 100).toFixed(0)}% (${stats['epoch_images']} / ${stats['num_images']} images)`;
+                document.getElementById('training_class').innerHTML = `Classes [${stats['classes'].length}]`;
                 document.getElementById('training_loss').innerHTML = `${stats['loss'].toExponential(4)}`;
                 document.getElementById('training_accuracy').innerHTML = `${stats['accuracy'].toFixed(1)}%`;
+                
+                let class_str = '';
+                
+                for( let i=0; i < stats['class_distribution'].length; i++ )
+                  class_str += `${stats['classes'][i]} (${(stats['class_distribution'][i] / stats['num_tags'] * 100).toFixed(0)}%) &nbsp;&nbsp;`;
+                
+                console.log(`class_str:  ${class_str}`);
+                document.getElementById('training_classes').innerHTML = class_str;
               });
             }
             

@@ -46,10 +46,12 @@ class Dataset(threading.Thread, torch.utils.data.Dataset):
         super().__init__()
 
         self.args = args
-        self.classes = []         # list of class names
-        self.tags = {}            # map from image filename => tags
-        self.active_tags = []     # list of tags to be applied to new images
-        self.multi_label = False  # true if there are multiple tags (labels) per image
+        self.classes = []             # list of class names
+        self.tags = {}                # dict mapping image filename => tags
+        self.num_tags = 0             # total number of labels/tags
+        self.active_tags = []         # list of tags to be applied to new images
+        self.multi_label = False      # true if there are multiple tags (labels) per image
+        self.class_distribution = []  # number of tags for each class
         
         self.queue = queue.Queue()
         self.recording = False
@@ -69,6 +71,7 @@ class Dataset(threading.Thread, torch.utils.data.Dataset):
             with open(self.tags_path, 'r') as file:
                 self.tags = json.load(file)
                 self.update_class_labels()
+                self.update_class_distribution()
                 print(f"dataset -- loaded tags for {len(self.tags)} images, {len(self.classes)} from {self.tags_path}")
         
         # create a default class if necessary
@@ -184,7 +187,9 @@ class Dataset(threading.Thread, torch.utils.data.Dataset):
             return
             
         self.tags[filename] = self.active_tags
+        
         self.update_class_labels()
+        self.update_class_distribution()
         
         if flush:
             self.SaveTags()
@@ -214,5 +219,21 @@ class Dataset(threading.Thread, torch.utils.data.Dataset):
                     
         self.classes = sorted(classes)
         print(f'dataset -- class labels:  {self.classes}')
+     
+    def update_class_distribution(self):
+        """
+        Update the class distribution and total tag count.
+        TODO add optional 'tags' param to incremently add at runtime.
+        """
+        num_tags = 0
+        class_distribution = [0] * len(self.classes)
+        
+        for tags in self.tags.values():
+            for tag in tags:
+                class_distribution[self.classes.index(tag)] += 1
+                num_tags += 1
+
+        self.num_tags = num_tags
+        self.class_distribution = class_distribution
         
         
