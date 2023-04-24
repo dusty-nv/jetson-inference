@@ -104,7 +104,7 @@ static inline bool isFp16Enabled( nvinfer1::IBuilderConfig* config )
 
 static inline bool isInt8Enabled( nvinfer1::IBuilderConfig* config )
 {
-	return config->getFlag(nvinfer1::BuilderFlag::kFP16);
+	return config->getFlag(nvinfer1::BuilderFlag::kINT8);
 }
 #else // NV_TENSORRT_MAJOR <= 7
 static inline bool isFp16Enabled( nvinfer1::IBuilder* builder )
