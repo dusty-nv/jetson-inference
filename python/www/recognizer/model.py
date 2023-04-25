@@ -89,6 +89,8 @@ class Model(threading.Thread):
             
         self.results = self.model_infer.Classify(img, topK=0 if self.dataset.multi_label else 1)
 
+        #self.model_infer.PrintProfilerTimes()
+        
         return self.results
 
     def Visualize(self, img, results=None):
@@ -138,7 +140,7 @@ class Model(threading.Thread):
             ]
             
         transforms += [
-            torchvision.transforms.Resize((self.args.net_resolution, self.args.net_resolution)),
+            torchvision.transforms.Resize((self.args.net_height, self.args.net_width)),
             torchvision.transforms.ToTensor(),
             torchvision.transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ]
@@ -187,7 +189,7 @@ class Model(threading.Thread):
             self.save_checkpoint({
                 'epoch': self.epoch,
                 'network': self.args.network,
-                'resolution': self.args.net_resolution,
+                'resolution': (self.args.net_height, self.args.net_width),
                 'classes': self.dataset.classes,
                 'num_classes': len(self.dataset.classes),
                 'multi_label': self.dataset.multi_label,
@@ -308,7 +310,7 @@ class Model(threading.Thread):
         
         torch.onnx.export(
             model,
-            torch.ones((1, 3, self.args.net_resolution, self.args.net_resolution)).cuda(),
+            torch.ones((1, 3, self.args.net_height, self.args.net_width)).cuda(),
             self.onnx_path,
             input_names=[self.input_layer],
             output_names=[self.output_layer],

@@ -44,7 +44,8 @@ parser.add_argument("--output", default='webrtc://@:8554/output', type=str, help
 
 parser.add_argument("--data", default='data', type=str, help="path to store dataset and models under")
 parser.add_argument("--network", "--net", default='resnet18', type=str, help="the type of DNN architecture to use (default: resnet18)")
-parser.add_argument('--net-resolution', default=224, type=int, metavar='N', help="the NxN input resolution of the DNN model (default: 224)")
+parser.add_argument('--net-width', default=224, type=int, metavar='N', help="the input width (in pixels) of the DNN model (default: 224)")
+parser.add_argument('--net-height', default=224, type=int, metavar='N', help="the input height (in pixels) of the DNN model (default: 224)")
 parser.add_argument('--batch-size', default=1, type=int, metavar='N', help="training batch size to use (default: 1)")
 parser.add_argument("--workers", default=2, type=int, metavar='N', help="number of training data loading workers (default: 2)")
 parser.add_argument("--optimizer", default='adam', type=str, choices=['adam', 'sgd'], help="training optimizer to use (default: adam)")
