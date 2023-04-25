@@ -174,7 +174,7 @@ class Model(threading.Thread):
             
             # reset the metrics if the dataset changed
             if num_images != len(self.dataset):
-                print(f"[torch]  dataset size changed from {self.num_images} to {len(self.dataset)}")
+                print(f"[torch]  dataset size changed from {num_images} to {len(self.dataset)}")
                 num_images = len(self.dataset)
                 self.best_accuracy = 0.0
                 
@@ -214,7 +214,7 @@ class Model(threading.Thread):
             if self.model_train.num_classes != len(self.dataset.classes):
                 self.model_train = self.reshape(len(self.dataset.classes))
                 self.best_accuracy = 0.0
-                alert("Restarting training epoch {self.epoch} (change in number of classes)")
+                alert(f"Restarting training epoch {self.epoch} (change in number of classes)")
                 return self.train_epoch()
             
             # move the tensors to GPU
@@ -239,7 +239,7 @@ class Model(threading.Thread):
 
             # log updates every N steps (and the last step)
             if (i % self.args.print_freq == 0) or (i == len(self.dataloader)-1):
-                print(f"[torch]  epoch {self.epoch}  [{i}/{len(self.dataloader)}]  loss={self.loss:.4e}  accuracy={self.accuracy:.2f}")
+                print(f"[torch]  epoch {self.epoch}  [{i}/{len(self.dataloader)}]  loss={self.loss:.4e}  accuracy={self.accuracy:.2f}  {'(multi-tag)' if self.dataset.multi_label else ''})
               
             # the user could disable training mid-epoch
             if not self.training_enabled:
