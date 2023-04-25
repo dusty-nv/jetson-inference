@@ -67,7 +67,7 @@ class Stream(threading.Thread):
         self.output.Render(img)
 
         if self.frames % 25 == 0 or self.frames < 15:
-            print(f"captured {self.frames} frames from {self.args.input} => {self.args.output} ({img.width} x {img.height})")
+            print(f"captured {self.frames} frames from {self.args.input} => {self.args.output} ({img.width}x{img.height})")
 
         self.frames += 1
         
