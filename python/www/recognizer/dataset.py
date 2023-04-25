@@ -211,13 +211,19 @@ class Dataset(threading.Thread, torch.utils.data.Dataset):
         Sync the list of class labels from the tag annotations.
         """
         classes = []
+        multi_label = False
         
         for tags in self.tags.values():
+            if len(tags) > 1:
+                multi_label = True
+                
             for tag in tags:
                 if tag not in classes:
                     classes.append(tag)
                     
         self.classes = sorted(classes)
+        self.multi_label = multi_label
+        
         print(f'dataset -- class labels:  {self.classes}')
      
     def update_class_distribution(self):

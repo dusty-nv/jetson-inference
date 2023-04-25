@@ -87,7 +87,7 @@ class Model(threading.Thread):
         if not self.inference_enabled or self.model_infer is None:
             return
             
-        self.results = self.model_infer.Classify(img)
+        self.results = self.model_infer.Classify(img, topK=0 if self.dataset.multi_label else 1)
 
         return self.results
 
@@ -100,10 +100,10 @@ class Model(threading.Thread):
             
         if results is None:
             results = self.results
-                
-        if results[0] >= 0:
-            str = f"{results[1] * 100:05.2f}% {self.model_infer.GetClassLabel(results[0])}"
-            self.font.OverlayText(img, img.width, img.height, str, 5, 5, self.font.White, self.font.Gray40)
+        
+        for i, result in enumerate(results):
+            str = f"{result[1] * 100:05.2f}% {self.model_infer.GetClassLabel(result[0])}"
+            self.font.OverlayText(img, img.width, img.height, str, 5, 5+(i*37), self.font.White, self.font.Gray40)
         
         return img
        
@@ -239,7 +239,7 @@ class Model(threading.Thread):
 
             # log updates every N steps (and the last step)
             if (i % self.args.print_freq == 0) or (i == len(self.dataloader)-1):
-                print(f"[torch]  epoch {self.epoch}  [{i}/{len(self.dataloader)}]  loss={self.loss:.4e}  accuracy={self.accuracy:.2f}  {'(multi-tag)' if self.dataset.multi_label else ''})
+                print(f"[torch]  epoch {self.epoch}  [{i}/{len(self.dataloader)}]  loss={self.loss:.4e}  accuracy={self.accuracy:.2f}  {'(multi-tag)' if self.dataset.multi_label else ''}")
               
             # the user could disable training mid-epoch
             if not self.training_enabled:
