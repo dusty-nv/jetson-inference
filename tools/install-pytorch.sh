@@ -282,8 +282,10 @@ function install_pytorch()
 		
 	elif [ $pytorch_version = "1.6.0" ]; then
 		install_pytorch_v160_python36_jp44
-	elif [ $pytorch_version = "1.12.0" ]; then
+	elif [ $pytorch_version = "1.12" ]; then
 		install_pytorch_v1120_python38_jp50
+	elif [ $pytorch_version = "2.0" ]; then
+		install_pytorch_v200_python38_jp50
 	else
 		echo "$LOG invalid PyTorch version selected:  PyTorch $pytorch_version"
 		exit_message 1
@@ -572,7 +574,6 @@ function install_pytorch_v160_python36_jp44()
 	return 0
 }
 
-
 function install_pytorch_v1120_python38_jp50()
 {
 	echo "$LOG Downloading PyTorch v1.12.0 (Python 3.8)..."
@@ -607,6 +608,49 @@ function install_pytorch_v1120_python38_jp50()
 	echo "$LOG cloning torchvision..."
 	sudo rm -r -f torchvision-38
 	git clone -bv0.12.0 --depth=1 https://github.com/pytorch/vision torchvision-38
+	cd torchvision-38
+	echo "$LOG building torchvision for Python 3.8..."
+	sudo python3 setup.py install
+	cd ../
+	restore_ffmpeg
+
+	return 0
+}
+
+function install_pytorch_v200_python38_jp50()
+{
+	echo "$LOG Downloading PyTorch v2.0 (Python 3.8)..."
+
+	# install apt packages
+	install_deb_package "python3-pip" FOUND_PIP3
+	install_deb_package "qtbase5-dev" FOUND_QT5
+	install_deb_package "libjpeg-dev" FOUND_JPEG
+	install_deb_package "zlib1g-dev" FOUND_ZLIB
+	install_deb_package "libopenblas-base" FOUND_OPENBLAS
+	install_deb_package "libopenmpi-dev" FOUND_OPENMPI
+	install_deb_package "libomp-dev" FOUND_OPENMP
+	install_deb_package "ninja-build" FOUND_NINJA
+	
+	# install pip packages
+	pip3 install Cython
+	pip3 install numpy --verbose
+	pip3 install tensorboard --verbose
+	
+	# install pytorch wheel
+	download_wheel pip3 "torch-2.0.0.nv23.05-cp38-cp38-linux_aarch64.whl" "https://nvidia.box.com/shared/static/sct3njlmea4whlf6ud9tj1853zi3vb1v.whl" "sudo"
+
+	local wheel_status=$?
+
+	if [ $wheel_status != 0 ]; then
+		echo "$LOG failed to install PyTorch v2.0 (Python 3.8)"
+		return 1
+	fi
+
+	# build torchvision
+	move_ffmpeg
+	echo "$LOG cloning torchvision..."
+	sudo rm -r -f torchvision-38
+	git clone -bv0.15.1 --depth=1 https://github.com/pytorch/vision torchvision-38
 	cd torchvision-38
 	echo "$LOG building torchvision for Python 3.8..."
 	sudo python3 setup.py install
@@ -720,9 +764,11 @@ while true; do
 		fi
 	elif [[ $JETSON_L4T_RELEASE -eq 34 || $JETSON_L4T_RELEASE -eq 35 ]]; then
 		# JetPack 5.x
-		PYTORCH_VERSION="1.12.0"
 		PYTHON3_VERSION="3.8"
+		PYTORCH_VERSION="2.0"
+		PYTORCH_VERSION_TWO="1.12"
 		HAS_PYTHON2=false
+		PYTHON_VERSION_ONE=$PYTHON3_VERSION
 	fi
 
      if [ "$HAS_PYTHON2" = true ]; then
@@ -738,9 +784,17 @@ while true; do
 						  1 "PyTorch $PYTORCH_VERSION for Python $PYTHON_VERSION_ONE" off \
 						  2 "PyTorch $PYTORCH_VERSION for Python $PYTHON_VERSION_TWO" off \
 						 )
+	elif [ -n "$PYTORCH_VERSION_TWO" ]; then
+		packages_selected=$(dialog --backtitle "$APP_TITLE" \
+						  --title "PyTorch Installer (L4T R$JETSON_L4T_VERSION)" \
+						  --cancel-label "Skip" \
+						  --colors \
+						  --checklist "If you want to train DNN models on your Jetson, this tool will download and install PyTorch.  Select the desired versions of pre-built packages below, or see \Zbhttp://eLinux.org/Jetson_Zoo\Zn for instructions to build from source. \n\nYou can skip this step and select Skip if you don't want to install PyTorch.\n\n\ZbKeys:\Zn\n  ↑↓ Navigate Menu\n  Space to Select \n  Enter to Continue\n\n\ZbPackages to Install:\Zn" 20 80 2 \
+						  --output-fd 1 \
+						  1 "PyTorch $PYTORCH_VERSION for Python $PYTHON_VERSION_ONE" off \
+						  2 "PyTorch $PYTORCH_VERSION_TWO for Python $PYTHON_VERSION_ONE" off \
+						 )
 	else
-		PYTHON_VERSION_ONE=$PYTHON3_VERSION
-		
 		packages_selected=$(dialog --backtitle "$APP_TITLE" \
 						  --title "PyTorch Installer (L4T R$JETSON_L4T_VERSION)" \
 						  --cancel-label "Skip" \
@@ -750,6 +804,10 @@ while true; do
 						  1 "PyTorch $PYTORCH_VERSION for Python $PYTHON_VERSION_ONE" off \
 						 )
 	fi
+	
+	if [ -z "$PYTORCH_VERSION_TWO" ]; then
+		PYTORCH_VERSION_TWO=$PYTORCH_VERSION
+	fi 
 	
 	package_selection_status=$?
 	clear
@@ -768,7 +826,7 @@ while true; do
 				if [ $pkg = 1 ]; then
 					install_pytorch $PYTORCH_VERSION $PYTHON_VERSION_ONE $JETSON_L4T_RELEASE $JETSON_L4T_REVISION
 				elif [ $pkg = 2 ]; then
-					install_pytorch $PYTORCH_VERSION $PYTHON_VERSION_TWO $JETSON_L4T_RELEASE $JETSON_L4T_REVISION
+					install_pytorch $PYTORCH_VERSION_TWO $PYTHON_VERSION_TWO $JETSON_L4T_RELEASE $JETSON_L4T_REVISION
 				fi
 			done
 		fi
