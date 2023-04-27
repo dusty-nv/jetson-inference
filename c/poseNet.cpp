@@ -677,6 +677,15 @@ bool poseNet::Overlay( void* input, void* output, uint32_t width, uint32_t heigh
 	if( overlay == OVERLAY_NONE )
 		return true;
 	
+	if( input != output )
+	{
+		if( CUDA_FAILED(cudaMemcpy(output, input, imageFormatSize(format, width, height), cudaMemcpyDeviceToDevice)) )
+		{
+			LogError(LOG_TRT "poseNet -- Overlay() failed to copy input image to output image\n");
+			return false;
+		}
+	}
+	
 	const uint32_t numObjects = poses.size();
 	
 	const float line_width = MAX(MAX(width,height) * mLinkScale, 1.5f);
