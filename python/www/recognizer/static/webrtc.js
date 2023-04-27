@@ -60,7 +60,16 @@ function onIncomingSDP(url, sdp) {
     connections[url].webrtcPeer.createAnswer().then(onLocalDescription).catch(reportError);
   }
   else if( connections[url].type == 'outbound' ) {
-    var constraints = {'audio': false, 'video': { deviceId: connections[url].deviceId }};
+		const constraints = {
+			audio: false,
+			video: { 
+				/*width: { max: 320 },
+				height: { max: 240 },*/
+				frameRate: { max: 15 },
+				deviceId: connections[url].deviceId,
+			}
+		};
+					
     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
       console.log('Adding local stream (deviceId=%s)', connections[url].deviceId);
       connections[url].webrtcPeer.addStream(stream);
