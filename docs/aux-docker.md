@@ -11,6 +11,7 @@ Below are the currently available container tags:
 
 | Container Tag                                                                           | L4T version |          JetPack version         |
 |-----------------------------------------------------------------------------------------|:-----------:|:--------------------------------:|
+| [`dustynv/jetson-inference:r35.3.1`](https://hub.docker.com/r/dustynv/jetson-inference/tags) | L4T R35.3.1 | JetPack 5.1.1 |
 | [`dustynv/jetson-inference:r35.2.1`](https://hub.docker.com/r/dustynv/jetson-inference/tags) | L4T R35.2.1 | JetPack 5.1 |
 | [`dustynv/jetson-inference:r35.1.0`](https://hub.docker.com/r/dustynv/jetson-inference/tags) | L4T R35.1.0 | JetPack 5.0.2 |
 | [`dustynv/jetson-inference:r34.1.1`](https://hub.docker.com/r/dustynv/jetson-inference/tags) | L4T R34.1.1 | JetPack 5.0.1 |
