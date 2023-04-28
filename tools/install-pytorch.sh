@@ -635,6 +635,7 @@ function install_pytorch_v200_python38_jp50()
 	pip3 install Cython
 	pip3 install numpy --verbose
 	pip3 install tensorboard --verbose
+	pip3 install onnx --verbose
 	
 	# install pytorch wheel
 	download_wheel pip3 "torch-2.0.0.nv23.05-cp38-cp38-linux_aarch64.whl" "https://nvidia.box.com/shared/static/sct3njlmea4whlf6ud9tj1853zi3vb1v.whl" "sudo"
