@@ -120,7 +120,7 @@ if( !cudaAllocMapped(&img, 1920, 1080) )
 
 ## Copying Images
 
-`cudaMemcpy()` can be used to copy memory between images of the same format and dimensions.  [`cudaMemcpy()`](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1gc263dbe6574220cc776b45438fc351e8) is a standard CUDA function in C++, and there is a similar version for Python in the jetson_utils library:
+[`cudaMemcpy()`](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1gc263dbe6574220cc776b45438fc351e8) can be used to copy memory between images of the same format and dimensions.  It's a standard CUDA function in C++, and there is a similar version for Python in the jetson_utils library:
 
 #### Python
 ```python
@@ -203,7 +203,7 @@ Although image subscripting is supported, individually accessing each pixel of a
 
 ### Accessing as a Numpy Array
 
-cudaImage supports the Numpy [`__array__`](https://numpy.org/doc/stable/reference/arrays.interface.html) interface protocol, so it can be used in many Numpy functions as if it were a Numpy array.  See [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-numpy.py) for a simple example:
+cudaImage supports the Numpy [`__array__`](https://numpy.org/doc/stable/reference/arrays.interface.html) interface protocol, so it can be used in many Numpy functions as if it were a Numpy array without needing to copy it back and forth.  See [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-numpy.py) for a simple example:
 
 ``` python
 import numpy as np
@@ -215,9 +215,9 @@ array = np.ones(cuda_img.shape, np.float32)
 print(np.add(cuda_img, array))
 ```
 
-Numpy operations run on the CPU, so the cudaImage should have been allocated with `mapped=True` (which is the default) so that it's memory is accessible from both the CPU and GPU.  It will be effectively mapped into Numpy so any changes will be reflected in the underlying cudaImage.  
+> **note:** Numpy operations run on the CPU, so the cudaImage should have been allocated with `mapped=True` (which is the default) so that it's memory is accessible from both the CPU and GPU.  It will be effectively mapped into Numpy so any changes to it will be reflected in the underlying cudaImage's memory.  
 
-You'll need to use the standalone numpy [routines](https://numpy.org/doc/stable/reference/routines.html) as opposed to the array methods (i.e. `numpy.mean(array) vs array.mean()`) because although cudaImage exports the `__array__` interface for accessing it's memory, it doesn't implement the numpy.ndarray class methods.  To use those class methods, see the [`cudaToNumpy()`](#converting-to-numpy-arrays) function below.
+You'll need to use the standalone [numpy routines](https://numpy.org/doc/stable/reference/routines.html) as opposed to the [ndarray class methods](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html) (i.e. `numpy.mean(array) vs array.mean()`) because although cudaImage exports the `__array__` interface for accessing it's memory, it doesn't implement the class methods that Numpy does.  To use those, see the [`cudaToNumpy()`](#converting-to-numpy-arrays) function below.
 
 #### Converting to Numpy Arrays
 
@@ -237,7 +237,7 @@ As before, the underlying memory isn't copied and Numpy will access it directly 
 
 Note that OpenCV expects images in BGR colorspace, so if you plan on using the image with OpenCV, you should call `cv2.cvtColor()` with `cv2.COLOR_RGB2BGR` before using it in OpenCV.
 
-### #Converting from Numpy Arrays
+#### Converting from Numpy Arrays
 
 Let's say you have an image in a Numpy ndarray, perhaps provided by OpenCV.  As a Numpy array, it will only be accessible from the CPU.  You can use `cudaFromNumpy()` to copy it to the GPU (into shared CPU/GPU mapped memory).  
 
