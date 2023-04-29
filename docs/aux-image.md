@@ -12,9 +12,10 @@ This page covers a number of image format, conversion, and pre/post-processing f
 * [Image Allocation](#image-allocation)
 * [Copying Images](#copying-images)
 * [Image Capsules in Python](#image-capsules-in-python)
+	* [Array Interfaces](#array-interface)
 	* [Accessing Image Data in Python](#accessing-image-data-in-python)
-	* [Converting to Numpy Arrays](#converting-to-numpy-arrays)
-	* [Converting from Numpy Arrays](#converting-from-numpy-arrays)
+	* [Accessing as a Numpy Array](#accessing-as-a-numpy-array)
+	* [CUDA Array Interface](#cuda-array-interface)
 
 **CUDA Routines**
 * [Color Conversion](#color-conversion)
@@ -184,10 +185,10 @@ So you can do things like `img.width` and `img.height` to access properties abou
 
 ### Array Interfaces
 
-There exist several interfaces for accessing the `cudaImage` memory from Python for interoperability with other libraries:
+There exist several ways to access the `cudaImage` memory from Python, for interoperability with other libraries:
 
-* [Indexing them directly from Python](#accessing-image-data-in-python)
-* [Numpy `__array__` interface](#accessing-as-a-numpy-array) / [`cudaToNumpy()`](#converting-to-numpy-arrays) / [`cudaFromNumpy()`](#converting-from-numpy-arrays)
+* [Indexing images directly from Python](#accessing-image-data-in-python)
+* [Numpy `__array__` interface](#accessing-as-a-numpy-array), `cudaToNumpy()`](#converting-to-numpy-arrays), [`cudaFromNumpy()`](#converting-from-numpy-arrays)
 * [Numba `__cuda_array_interface__`](#cuda-array-interface) (CuPy, VPI, ect)
 * [PyCUDA `gpudata` interface](#cuda-array-interface)
 * Sharing the memory pointer (i.e. with a PyTorch GPU tensor)
