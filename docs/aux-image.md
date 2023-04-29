@@ -163,7 +163,9 @@ if( CUDA_FAILED(cudaMemcpy(img_b, img_a, width * height * sizeof(uchar3), cudaMe
 
 ## Image Capsules in Python
 
-When you allocate an image in Python, or capture an image from a video feed with [`videoSource.Capture()`](aux-streaming#source-code), it will return a self-contained memory capsule object (of type `<jetson_utils.cudaImage>`) that can be passed around without having to copy the underlying memory.  The `cudaImage` object has the following members:
+When you allocate an image in Python, or capture an image from a video feed with [`videoSource.Capture()`](aux-streaming#source-code), it will return a self-contained memory capsule object (of type [`<jetson_utils.cudaImage>`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#cudaImage)) that can be passed around without having to copy the underlying memory.  
+
+The [`cudaImage`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#cudaImage)) object has the following members:
 
 ```python
 <cudaImage object>
@@ -180,9 +182,21 @@ When you allocate an image in Python, or capture an image from a video feed with
 
 So you can do things like `img.width` and `img.height` to access properties about the image.
 
+### Array Interfaces
+
+There exist several interfaces for accessing the `cudaImage` memory from Python for interoperability with other libraries:
+
+* [Indexing them directly from Python](#accessing-image-data-in-python)
+* [Numpy `__array__` interface](#accessing-as-a-numpy-array) / [`cudaToNumpy()`](#converting-to-numpy-arrays) / [`cudaFromNumpy()`](#converting-from-numpy-arrays)
+* Numba `__cuda_array_interface__` (CuPy, VPI, ect)
+* PyCUDA gpudata interface
+* Sharing the memory pointer (i.e. with a PyTorch GPU tensor)
+
+These are implemented as such that the underlying memory is mapped and shared with the other libraries as to avoid memory copies.
+
 ### Accessing Image Data in Python
 
-CUDA images are also subscriptable, meaning you can index them to directly access the pixel data from the CPU:
+CUDA images are subscriptable, meaning you can index them to directly access the pixel data from the CPU:
 
 ```python
 for y in range(img.height):
@@ -217,11 +231,11 @@ print(np.add(cuda_img, array))
 
 > **note:** Numpy operations run on the CPU, so the cudaImage should have been allocated with `mapped=True` (which is the default) so that it's memory is accessible from both the CPU and GPU.  It will be effectively mapped into Numpy so any changes to it will be reflected in the underlying cudaImage's memory.  
 
-You'll need to use the standalone [numpy routines](https://numpy.org/doc/stable/reference/routines.html) as opposed to the [ndarray class methods](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html) (i.e. `numpy.mean(array) vs array.mean()`) because although cudaImage exports the `__array__` interface for accessing it's memory, it doesn't implement the class methods that Numpy does.  To use those, see the [`cudaToNumpy()`](#converting-to-numpy-arrays) function below.
+You'll need to use the standalone [numpy routines](https://numpy.org/doc/stable/reference/routines.html) as opposed to the [ndarray class methods](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html) (e.g. use `numpy.mean(array) vs array.mean()`) because although cudaImage exports the `__array__` interface for accessing it's memory, it doesn't implement the class methods that Numpy does.  To use all of those, see the [`cudaToNumpy()`](#converting-to-numpy-arrays) function below.
 
 #### Converting to Numpy Arrays
 
-You can explicitly obtain a `numpy.ndarray` object that's mapped to a `cudaImage` by calling `cudaToNumpy()` on it:  
+You can explicitly obtain a [`numpy.ndarray`](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html) object that's mapped to a `cudaImage` by calling `cudaToNumpy()` on it:  
 
 ``` python
 import numpy as np
@@ -244,6 +258,12 @@ Let's say you have an image in a Numpy ndarray, perhaps provided by OpenCV.  As 
 For an example of using `cudaFromNumpy()`, see the [`cuda-from-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-numpy.py) sample from jetson-utils.
 
 Note that OpenCV images are in BGR colorspace, so if the image is coming from OpenCV, you should call `cv2.cvtColor()` with `cv2.COLOR_BGR2RGB` first.
+
+### CUDA Array Interface
+
+`cudaImage` also supports Numba's [`__cuda_array_interface__`](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html), which provides zero-copy interoperability among libraries that use GPU memory (including CuPy, VPI, and others [listed here](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html#interoperability)).   Similar to how `cudaImage` implements the Numpy [`__array__`](#accessing-as-a-numpy-array) interface, the `__cuda_array_interface__` is transparent to use for passing cudaImage's into Numba/CuPy/ect functions, and the memory is shared with these libraries so there aren't memory copies or extra overhead.
+
+For an example of this, see the [`cuda-array-interface.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-array-interface.py) sample.  Note that `cudaImage` also implements [PyCUDA's `gpudata` interface](https://documen.tician.de/pycuda/array.html) as well.
 
 ## Color Conversion
 
