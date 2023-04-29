@@ -264,7 +264,19 @@ Note that OpenCV images are in BGR colorspace, so if the image is coming from Op
 
 `cudaImage` also supports Numba's [`__cuda_array_interface__`](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html), which provides zero-copy interoperability among libraries that use GPU memory (including CuPy, VPI, and others [listed here](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html#interoperability)).   Similar to how `cudaImage` implements the Numpy [`__array__`](#accessing-as-a-numpy-array) interface, the `__cuda_array_interface__` is transparent to use for passing cudaImage's into Numba/CuPy/ect functions, and the memory is shared with these libraries so there aren't memory copies or extra overhead.
 
-For an example of this, see the [`cuda-array-interface.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-array-interface.py) sample.  Note that `cudaImage` also implements [PyCUDA's `gpudata` interface](https://documen.tician.de/pycuda/array.html) as well.
+For an example of this, see the [`cuda-array-interface.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-array-interface.py) sample:
+
+``` python
+import cupy
+from jetson_utils import cudaImage
+
+cuda_img = cudaImage(640, 480, 'rgb8')
+cupy_array = cupy.ones((480, 640, 3))
+
+print(cupy.add(cuda_img, cupy_array))
+```
+
+Note that `cudaImage` also implements [PyCUDA's `gpudata` interface](https://documen.tician.de/pycuda/array.html) as well.
 
 ## Color Conversion
 
