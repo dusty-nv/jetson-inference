@@ -188,8 +188,8 @@ There exist several interfaces for accessing the `cudaImage` memory from Python 
 
 * [Indexing them directly from Python](#accessing-image-data-in-python)
 * [Numpy `__array__` interface](#accessing-as-a-numpy-array) / [`cudaToNumpy()`](#converting-to-numpy-arrays) / [`cudaFromNumpy()`](#converting-from-numpy-arrays)
-* Numba `__cuda_array_interface__` (CuPy, VPI, ect)
-* PyCUDA gpudata interface
+* [Numba `__cuda_array_interface__`](#cuda-array-interface) (CuPy, VPI, ect)
+* [PyCUDA `gpudata` interface](#cuda-array-interface)
 * Sharing the memory pointer (i.e. with a PyTorch GPU tensor)
 
 These are implemented as such that the underlying memory is mapped and shared with the other libraries as to avoid memory copies.
