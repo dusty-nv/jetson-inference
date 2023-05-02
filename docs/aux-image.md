@@ -291,13 +291,13 @@ cuda_img = cudaImage(640, 480, 'rgb8')
 tensor = torch.as_tensor(cuda_img, device='cuda')
 ```
 
-This enables the GPU memory from the cudaImage to be used by PyTorch GPU tensors without copying it - any changes that PyTorch makes to contents of the tensor will be reflected in the cudaImage.  Note that `device='cuda'` should be specified in order for PyTorch to perform the zero-copy mapping - you can check this worked by confirming that the data pointers match between the cudaImage and PyTorch tensor objects.
+This enables the GPU memory from the cudaImage to be used by PyTorch GPU tensors without copying it - any changes that PyTorch makes to contents of the tensor will be reflected in the cudaImage.  Note that `device='cuda'` should be specified in order for PyTorch to perform the zero-copy mapping - you can check this by confirming that the data pointers match between the cudaImage and PyTorch tensor objects.
 
 ### Sharing the Memory Pointer
 
-For libraries that don't support one of the above interfaces for interoperability, cudaImage exposes the raw data pointer of it's memory through the `.ptr` member attribute, which can be to import it into other data structures without copying it.  Conversely, the cudaImage initializer also accepts an optional `ptr` argument that you can set to an externally-allocated buffer - in this case, cudaImage will share the memory instead allocating it's own.
+For libraries that don't support one of the above interfaces, cudaImage exposes the raw data pointer of it's memory through the `.ptr` attribute, which can be used to import it into other data structures without copying it.  Conversely, the cudaImage initializer also accepts an optional `ptr` argument that can be set to an externally-allocated buffer - in this case, cudaImage will share the memory instead allocating it's own.
 
-A good example of doing this is mapping an existing PyTorch GPU tensor to a cudaImage:
+An example of doing this is mapping an existing PyTorch GPU tensor to a cudaImage:
 
 ``` python
 import torch
@@ -313,9 +313,9 @@ tensor = tensor.to(memory_format=torch.channels_last)   # or tensor.permute(0, 3
 cuda_img = cudaImage(ptr=tensor.data_ptr(), width=tensor.shape[-1], height=tensor.shape[-2], format='rgb32f')
 ```
 
-> **note:** be aware of NCHW channel layout (strided colors) vs. NHWC layout (interleaved colors), as PyTorch typically works with [the former](https://pytorch.org/blog/tensor-memory-format-matters/#memory-formats-supported-by-pytorch-operators) while cudaImage expects the later.
+> **note:** be aware of NCHW [channel layout](https://pytorch.org/blog/tensor-memory-format-matters/#memory-formats-supported-by-pytorch-operators) (strided colors) vs. NHWC layout (interleaved colors), as cudaImage expects the later.
 
-When external pointers are mapped into a cudaImage, by default the cudaImage does not take ownership over the underlying memory and will not free it when the cudaImage is released (to change this, set `freeOnDelete=True` in the initializer).  Handling the synchronization between libraries should be provided by the user (e.g. so that PyTorch isn't accessing memory the same time that the cudaImage is being used). 
+When external pointers are mapped into a cudaImage, by default the cudaImage does not take ownership over the underlying memory and will not free it when the cudaImage is released (to change this, set `freeOnDelete=True` in the initializer).  Handling synchronization between libraries should be implemented by the user (e.g. so that PyTorch isn't accessing the memory at the same time that the cudaImage is being used). 
 
 ## Color Conversion
 
