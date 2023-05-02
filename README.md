@@ -134,7 +134,7 @@ Additional C++ and Python samples for running the networks on images and live ca
 | &nbsp;&nbsp;&nbsp;Background Removal | [`backgroundnet.cpp`](examples/backgroundnet/backgroundnet.cpp) | [`backgroundnet.py`](python/examples/backgroundnet.py) |
 | &nbsp;&nbsp;&nbsp;Monocular Depth    | [`depthnet.cpp`](examples/depthnet/segnet.cpp) | [`depthnet.py`](python/examples/depthnet.py) |
 
-> **note**:  for using memory with other Python libraries (like Numpy, PyTorch, ect) see the [Array Interfaces](docs/aux-image.md#array-interfaces) section.
+> **note**:  see the [Array Interfaces](docs/aux-image.md#array-interfaces) section for using memory with other Python libraries (like Numpy, PyTorch, ect)
 
 These examples will automatically be compiled while [Building the Project from Source](docs/building-repo-2.md), and are able to run the pre-trained models listed below in addition to custom models provided by the user.  Launch each example with `--help` for usage info.
 
