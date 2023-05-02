@@ -16,6 +16,7 @@ This page covers a number of image format, conversion, and pre/post-processing f
 	* [Accessing Image Data in Python](#accessing-image-data-in-python)
 	* [Accessing as a Numpy Array](#accessing-as-a-numpy-array)
 	* [CUDA Array Interface](#cuda-array-interface)
+	* [Sharing the Memory Pointer](#sharing-the-memory-pointer)
 
 **CUDA Routines**
 * [Color Conversion](#color-conversion)
@@ -189,9 +190,8 @@ There exist several ways to access the `cudaImage` memory from Python, for inter
 
 * [Indexing images directly from Python](#accessing-image-data-in-python)
 * [Numpy `__array__` interface](#accessing-as-a-numpy-array), [`cudaToNumpy()`](#converting-to-numpy-arrays), [`cudaFromNumpy()`](#converting-from-numpy-arrays)
-* [Numba `__cuda_array_interface__`](#cuda-array-interface) (CuPy, VPI, ect)
-* [PyCUDA `gpudata` interface](#cuda-array-interface)
-* Sharing the memory pointer (i.e. with a PyTorch GPU tensor)
+* [Numba `__cuda_array_interface__`](#cuda-array-interface) (PyTorch, CuPy, PyCUDA, VPI, ect)
+* [Sharing the Memory Pointer](#sharing-the-memory-pointer)
 
 These are implemented so that the underlying memory is mapped and shared with the other libraries as to avoid memory copies.
 
@@ -313,7 +313,9 @@ tensor = tensor.to(memory_format=torch.channels_last)   # or tensor.permute(0, 3
 cuda_img = cudaImage(ptr=tensor.data_ptr(), width=tensor.shape[-1], height=tensor.shape[-2], format='rgb32f')
 ```
 
-> **note:** be cognizant of NCHW channel layout (strided colors) vs NHWC layout (interleaved colors), as cudaImage expects the later.
+> **note:** be aware of NCHW channel layout (strided colors) vs. NHWC layout (interleaved colors), as PyTorch typically works with [the former](https://pytorch.org/blog/tensor-memory-format-matters/#memory-formats-supported-by-pytorch-operators) while cudaImage expects the later.
+
+When external pointers are mapped into a cudaImage, by default the cudaImage does not take ownership over the underlying memory and will not free it when the cudaImage is released (to change this, set `freeOnDelete=True` in the initializer).  Handling the synchronization between libraries should be provided by the user (e.g. so that PyTorch isn't accessing memory the same time that the cudaImage is being used). 
 
 ## Color Conversion
 
