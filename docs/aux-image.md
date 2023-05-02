@@ -295,9 +295,9 @@ This enables the GPU memory from the cudaImage to be used by PyTorch GPU tensors
 
 ### Sharing the Memory Pointer
 
-For libraries that don't support one of the above interfaces, cudaImage exposes the raw data pointer of it's memory through the `.ptr` attribute, which can be used to import it into other data structures without copying it.  Conversely, the cudaImage initializer also accepts an optional `ptr` argument that can be set to an externally-allocated buffer - in this case, cudaImage will share the memory instead allocating it's own.
+For libraries that don't support one of the above interfaces, cudaImage exposes the raw data pointer of it's memory through it's `.ptr` attribute, which can be used to import it into other data structures without copying it.  Conversely, the cudaImage initializer also has a `ptr` argument that can be set to an externally-allocated buffer - in this case, cudaImage will share the memory instead allocating it's own.
 
-An example of doing this is mapping an existing PyTorch GPU tensor to a cudaImage:
+See [`cuda-from-pytorch.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-pytorch.py) for an example of doing this, that maps an existing PyTorch GPU tensor to a cudaImage:
 
 ``` python
 import torch
