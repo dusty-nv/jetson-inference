@@ -297,7 +297,7 @@ This enables the GPU memory from the cudaImage to be used by PyTorch GPU tensors
 
 For libraries that don't support one of the above interfaces, cudaImage exposes the raw data pointer of it's memory through it's `.ptr` attribute, which can be used to import it into other data structures without copying it.  Conversely, the cudaImage initializer also has a `ptr` argument that can be set to an externally-allocated buffer - in this case, cudaImage will share the memory instead allocating it's own.
 
-See [`cuda-from-pytorch.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-pytorch.py) for an example of doing this, that maps an existing PyTorch GPU tensor to a cudaImage:
+See [`cuda-from-pytorch.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-pytorch.py) for an example of doing this, where an existing PyTorch GPU tensor is mapped to a cudaImage:
 
 ``` python
 import torch
@@ -315,7 +315,7 @@ cuda_img = cudaImage(ptr=tensor.data_ptr(), width=tensor.shape[-1], height=tenso
 
 > **note:** be aware of NCHW [channel layout](https://pytorch.org/blog/tensor-memory-format-matters/#memory-formats-supported-by-pytorch-operators) (strided colors) vs. NHWC layout (interleaved colors), as cudaImage expects the later.
 
-When external pointers are mapped into a cudaImage, by default the cudaImage does not take ownership over the underlying memory and will not free it when the cudaImage is released (to change this, set `freeOnDelete=True` in the initializer).  Handling synchronization between libraries should be implemented by the user (e.g. so that PyTorch isn't accessing the memory at the same time that the cudaImage is being used). 
+When external pointers are mapped into a cudaImage, by default the cudaImage does not take ownership over the underlying memory and will not free it when the cudaImage is released (to change this, set `freeOnDelete=True` in the initializer).  Handling synchronization between libraries should be implemented by the user (e.g. so that PyTorch isn't accessing the memory at the same time that the cudaImage is used). 
 
 ## Color Conversion
 
