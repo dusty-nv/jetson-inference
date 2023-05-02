@@ -262,7 +262,7 @@ Note that OpenCV images are in BGR colorspace, so if the image is coming from Op
 
 ### CUDA Array Interface
 
-`cudaImage` also supports Numba's [`__cuda_array_interface__`](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html), which provides zero-copy interoperability among libraries that use GPU memory (including CuPy, VPI, and others [listed here](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html#interoperability)).   Similar to how `cudaImage` implements the Numpy [`__array__`](#accessing-as-a-numpy-array) interface, the `__cuda_array_interface__` is transparent to use for passing cudaImage's into Numba/CuPy/ect functions, and the memory is shared with these libraries so there aren't memory copies or extra overhead.
+`cudaImage` also supports Numba's [`__cuda_array_interface__`](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html), which provides zero-copy interoperability among libraries that use GPU memory (including PyTorch, CuPy, PyCUDA, VPI, and others [listed here](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html#interoperability)).   Similar to how `cudaImage` implements the Numpy [`__array__`](#accessing-as-a-numpy-array) interface, the `__cuda_array_interface__` is transparent to use for passing cudaImage's into Numba/PyTorch/CuPy/PyCUDA functions, and the memory is shared with these libraries so there aren't memory copies or extra overhead.
 
 For an example of this, see the code from [`cuda-array-interface.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-array-interface.py):
 
@@ -276,7 +276,44 @@ cupy_array = cupy.ones((480, 640, 3))
 print(cupy.add(cuda_img, cupy_array))
 ```
 
-Note that `cudaImage` also implements [PyCUDA's `gpudata` interface](https://documen.tician.de/pycuda/array.html) as well and can be used like a PyCUDA `GPUArray`.
+> **note:** `cudaImage` also implements [PyCUDA's `gpudata` interface](https://documen.tician.de/pycuda/array.html) as well and can be used like a PyCUDA `GPUArray`.
+
+Another example can be found in [`cuda-to-pytorch.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-pytorch.py) for sharing memory with PyTorch tensors:
+
+``` python
+import torch
+from jetson_utils import cudaImage
+
+# allocate cuda memory
+cuda_img = cudaImage(640, 480, 'rgb8')
+
+# map to torch tensor using __cuda_array_interface__
+tensor = torch.as_tensor(cuda_img, device='cuda')
+```
+
+This enables the GPU memory from the cudaImage to be used by PyTorch GPU tensors without copying it - any changes that PyTorch makes to contents of the tensor will be reflected in the cudaImage.  Note that `device='cuda'` should be specified in order for PyTorch to perform the zero-copy mapping - you can check this worked by confirming that the data pointers match between the cudaImage and PyTorch tensor objects.
+
+### Sharing the Memory Pointer
+
+For libraries that don't support one of the above interfaces for interoperability, cudaImage exposes the raw data pointer of it's memory through the `.ptr` member attribute, which can be to import it into other data structures without copying it.  Conversely, the cudaImage initializer also accepts an optional `ptr` argument that you can set to an externally-allocated buffer - in this case, cudaImage will share the memory instead allocating it's own.
+
+A good example of doing this is mapping an existing PyTorch GPU tensor to a cudaImage:
+
+``` python
+import torch
+from jetson_utils import cudaImage
+
+# allocate a GPU tensor with NCHW layout (strided colors)
+tensor = torch.rand(1, 3, 480, 640, dtype=torch.float32, device='cuda')
+
+# transpose the channels to NHWC layout (interleaved colors)
+tensor = tensor.to(memory_format=torch.channels_last)   # or tensor.permute(0, 3, 2, 1)
+
+# map to cudaImage using the same underlying memory (any changes will be reflected in the PyTorch tensor)
+cuda_img = cudaImage(ptr=tensor.data_ptr(), width=tensor.shape[-1], height=tensor.shape[-2], format='rgb32f')
+```
+
+> **note:** be cognizant of NCHW channel layout (strided colors) vs NHWC layout (interleaved colors), as cudaImage expects the later.
 
 ## Color Conversion
 
