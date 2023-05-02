@@ -122,7 +122,7 @@ Introductory code walkthroughs of using the library are covered during these ste
 * [Coding Your Own Image Recognition Program (Python)](docs/imagenet-example-python-2.md)
 * [Coding Your Own Image Recognition Program (C++)](docs/imagenet-example-2.md)
 
-Additional C++ and Python samples for running the networks on static images and live camera streams can be found here:
+Additional C++ and Python samples for running the networks on images and live camera streams can be found here:
 
 |                   | C++              | Python             |
 |-------------------|---------------------|---------------------|
@@ -134,7 +134,7 @@ Additional C++ and Python samples for running the networks on static images and 
 | &nbsp;&nbsp;&nbsp;Background Removal | [`backgroundnet.cpp`](examples/backgroundnet/backgroundnet.cpp) | [`backgroundnet.py`](python/examples/backgroundnet.py) |
 | &nbsp;&nbsp;&nbsp;Monocular Depth    | [`depthnet.cpp`](examples/depthnet/segnet.cpp) | [`depthnet.py`](python/examples/depthnet.py) |
 
-> **note**:  for working with numpy arrays, see [Converting to Numpy Arrays](docs/aux-image.md#converting-to-numpy-arrays) and [Converting from Numpy Arrays](docs/aux-image.md#converting-from-numpy-arrays)
+> **note**:  for using memory with other Python libraries (like Numpy, PyTorch, ect) see the [Array Interfaces](docs/aux-image.md#array-interfaces) section.
 
 These examples will automatically be compiled while [Building the Project from Source](docs/building-repo-2.md), and are able to run the pre-trained models listed below in addition to custom models provided by the user.  Launch each example with `--help` for usage info.
 

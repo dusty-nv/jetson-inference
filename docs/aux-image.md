@@ -186,7 +186,7 @@ So you can do things like `img.width` and `img.height` to access properties abou
 
 ### Array Interfaces
 
-There exist several ways to access the `cudaImage` memory from Python, for interoperability with other libraries:
+For zero-copy interoperability with other libraries, there exist several ways to access the `cudaImage` memory from Python: 
 
 * [Indexing images directly from Python](#accessing-image-data-in-python)
 * [Numpy `__array__` interface](#accessing-as-a-numpy-array), [`cudaToNumpy()`](#converting-to-numpy-arrays), [`cudaFromNumpy()`](#converting-from-numpy-arrays)
