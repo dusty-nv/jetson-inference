@@ -748,27 +748,27 @@ check_L4T_version
 #
 while true; do
 
-	HAS_PYTHON2=true
+	HAS_PYTHON2=false
 	PYTHON3_VERSION="3.6"
-	
+	PYTHON_VERSION_ONE=$PYTHON3_VERSION
+		
 	if [ $JETSON_L4T_RELEASE -eq 32 ]; then
 		if [ $JETSON_L4T_REVISION = "4.3" ] || [ $JETSON_L4T_REVISION_MAJOR -gt 4 ]; then
 			PYTORCH_VERSION="1.6.0"  # JetPack 4.4 GA
-			HAS_PYTHON2=false
 		elif [ $JETSON_L4T_REVISION_MAJOR -eq 4 ] && [ $JETSON_L4T_REVISION_MINOR -ge 3 ]; then
 			PYTORCH_VERSION="1.6.0"
-			HAS_PYTHON2=false
 		elif [ $JETSON_L4T_REVISION = "4.2" ]; then
 			PYTORCH_VERSION="1.4.0"	# JetPack 4.4 DP
+			HAS_PYTHON2=true
 		else
 			PYTORCH_VERSION="1.4.0"	# JetPack 4.2, 4.3
+			HAS_PYTHON2=true
 		fi
 	elif [[ $JETSON_L4T_RELEASE -eq 34 || $JETSON_L4T_RELEASE -eq 35 ]]; then
 		# JetPack 5.x
 		PYTHON3_VERSION="3.8"
 		PYTORCH_VERSION="2.0"
 		PYTORCH_VERSION_TWO="1.12"
-		HAS_PYTHON2=false
 		PYTHON_VERSION_ONE=$PYTHON3_VERSION
 	fi
 
