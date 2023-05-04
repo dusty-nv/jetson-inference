@@ -80,6 +80,22 @@ sequenceDiagram
     iframe->>iframe: render mermaid
 ```
 
+```mermaid
+graph LR
+    subgraph Client Browser
+        camera[fa:fa-video-camera Camera]
+        player[fa:fa-television Video Player]
+    end
+    subgraph Jetson Server
+        dataset[(Dataset)]-->training[Training]
+        training-- Models -->inference[Inference]
+    end
+    camera-->dataset
+    camera-->inference
+    inference-->player
+    training-->training
+```
+
 <p align="right">Next | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
 <br/>
 Back | <b><a href="webrtc-dash.md">Plotly Dash</a></p>
