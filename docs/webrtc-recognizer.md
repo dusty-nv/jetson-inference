@@ -9,7 +9,7 @@ The Recognizer is a Flask-based video tagging/classification webapp with interac
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-recognizer.jpg" width="600">
 
-It also supports multi-label tagging, and in addition to recording client video over WebRTC, existing images can be uploaded from the client. The main source files for this example are as follows:
+It also supports multi-label tagging, and in addition to recording client video over WebRTC, existing images can be uploaded from the client. The main source files for this example (found under [`python/www/recognizer`](../python/www/recognizer)) are as follows:
 
   * [`app.py`](../python/www/recognizer/app.py) (webserver)
   * [`stream.py`](../python/www/recognizer/stream.py) (WebRTC streaming thread)
@@ -100,7 +100,7 @@ def Classify(self, img):
    return self.results
 ```
 
-When modifying server-side Python code, remember to restart app.py for changes to take effect.
+When modifying server-side Python code, remember to restart app.py for changes to take effect.  As with the previous Flask example, various [REST queries](https://github.com/dusty-nv/jetson-inference/blob/master/docs/webrtc-flask.md#rest-queries) are used for communicating dynamic settings and state changes between the client and server, which you can also add to and modify for your own purposes.
 
 <p align="right">Next | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
 <br/>

@@ -50,7 +50,7 @@ To list which built-in models are available, you can run `app.py --help` or view
 
 ## REST Queries
 
-This app takes the core HTML/JavaScript code for streaming WebRTC from the [previous example](webrtc-html.md), and builds on it with REST JSON queries for dynamically updating various components and parameters.  You can see the backend stubs for these in [app.py](../python/www/flask/app.py), which JavaScript queries from the client in [index.html](../python/www/flask/templates/index.html).  Templates and macros are used to reduce the amount of boilerplate code for these and makes it quick to add new settings:
+This app takes the core HTML/JavaScript code for streaming WebRTC from the [previous example](webrtc-html.md), and builds on it with REST JSON queries for dynamically updating various components and parameters.  You can see the backend stubs for these in [app.py](../python/www/flask/app.py), which JavaScript queries from the client in [index.html](../python/www/flask/templates/index.html).  Templates and macros are used to reduce the amount of boilerplate code for adding new settings:
 
 ``` python
 # backend - app.py (Python)
