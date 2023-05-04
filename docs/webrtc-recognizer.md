@@ -5,11 +5,11 @@
 
 # Recognizer - Interactive Training
 
-The Recognizer is a Flask-based video tagging/classification webapp with interactive data collection and training.  As video is incrementally tagged and recorded, an updated model is re-trained in the background with PyTorch and then used for inference with TensorRT.  Both inference and training can run simultaneously, and the re-trained models are dynamically loaded in for inference.
+The Recognizer is a Flask-based video tagging/classification webapp with interactive data collection and training.  As video is tagged and recorded, an updated model is incrementally re-trained in the background with PyTorch and then used for inference with TensorRT.  Both inference and training can run simultaneously, and the re-trained models are dynamically loaded in for inference.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-recognizer.jpg" width="600">
 
-It also supports multi-label tagging, and uploading existing images from the client in addition to recording client video over WebRTC. The main source files for this example are as follows:
+It also supports multi-label tagging, and in addition to recording client video over WebRTC, existing images can be uploaded from the client. The main source files for this example are as follows:
 
   * [`app.py`](../python/www/recognizer/app.py) (webserver)
   * [`stream.py`](../python/www/recognizer/stream.py) (WebRTC streaming thread)
@@ -29,7 +29,7 @@ $ python3 app.py --data=data/my_dataset
 
 > **note**: receiving browser webcams requires [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) to be enabled
 
-The `--data` argument sets the path where your dataset and models are stored under.  After running that, you should then be able to navigate your browser to `https://<JETSON-IP>:8050` and start the stream.  8050 is the default port used, but you can change that with the `--port=N` command-line argument.  It's also configured by default for WebRTC input and output, but if you want to use a different [video input device](aux-streaming.md#input-streams), you can set that with the `--input` argument (for example, `--input=/dev/video0` for a V4L2 camera that's directly attached to your Jetson).
+The `--data` argument sets the path where your dataset and models are stored under.  After running app.py, you should be able to navigate your browser to `https://<JETSON-IP>:8050` and start the stream.  The default port is 8050, but you can change that with the `--port=N` command-line argument.  It's also configured by default for WebRTC input and output, but if you want to use a different [video input device](aux-streaming.md#input-streams), you can set that with the `--input` argument (for example, `--input=/dev/video0` for a V4L2 camera that's directly attached to your Jetson).
 
 ### Collecting Data
 
@@ -39,11 +39,33 @@ It's recommended to keep the distribution of tags across the classes relatively 
 
 ### Training
 
-As you add and tag data, training can be enabled under the `Training` dropdown.  The training progress and accuracy will be updated on the page.  At the end of each epoch, if the model has the highest accuracy it will be exported to ONNX and loaded into TensorRT for inference.  
+As you add and tag new data, training can be enabled under the `Training` dropdown.  The training progress and accuracy will be updated on the page.  At the end of each epoch, if the model has the highest accuracy it will be exported to ONNX and loaded into TensorRT for inference.  
 
 ### Inference
 
 Inference can be enabled under the `Classification` dropdown.  When multi-label classification is being used (i.e. the dataset contains images with multiple tags), all classification results will be shown that have confidence scores above the threshold that can be controlled from the page.
+
+```mermaid
+  graph TD;
+      A-->B;
+      A-->C;
+      B-->D;
+      C-->D;
+```
+
+```mermaid
+graph LR
+	A[Deploy to production] --> B{Is it Friday?};
+```
+
+```mermaid
+pie
+    title Fruits
+    "Apples" : 50
+    "Oranges" : 20
+    "Grapes" : 9.99
+    "Passionfruits" : 12.5
+```
 
 <p align="right">Next | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
 <br/>
