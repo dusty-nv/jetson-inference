@@ -67,7 +67,7 @@ def classification_confidence_threshold():
 {{ slider('classification_confidence_threshold', '/classification/confidence_threshold', 'Confidence Threshold') }}
 ```
 
-These above implement the controls for the classification model, and there are others for the different type of DNNs.  
+These snippets above implement the controls for the classification model, and there are others for the different type of DNNs.  
 
 [`rest_property()`](../python/www/flask/utils.py) is backend utility function in Python that handles `GET` and `PUT` REST requests for getting/setting user-defined attributes.  [`checkbox()`](../python/www/flask/templates/macros.html) and [`slider()`](../python/www/flask/templates/macros.html) are Jinja macros that render the HTML components for the controls and JavaScript for executing the REST queries.  If you're wondering what the `{{ ... }}` code is in index.html, those are [Jinja](https://jinja.palletsprojects.com/en/3.1.x/templates/) template expressions that get evaluated server-side to generate the page content when Flask handles requests from the client.
 
