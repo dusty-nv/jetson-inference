@@ -1,5 +1,5 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="webrtc-dash.md">Plotly Dash</a> | <a href="aux-streaming.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="webrtc-dash.md">Back</a> | <a href="aux-streaming.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>WebApp Frameworks</sup></s></p>
 
@@ -14,7 +14,7 @@ It also supports multi-label tagging, and in addition to recording client video 
   * [`app.py`](../python/www/recognizer/app.py) (webserver)
   * [`stream.py`](../python/www/recognizer/stream.py) (WebRTC streaming thread)
   * [`model.py`](../python/www/recognizer/model.py) (DNN inferencing + training)
-  * [`dataset.py`](../python/www/recognizer/dataset.py) (Data tagging + recording)
+  * [`dataset.py`](../python/www/recognizer/dataset.py) (data tagging + recording)
   * [`index.html`](../python/www/recognizer/templates/index.html) (frontend presentation)
 
 ## Running the Example
