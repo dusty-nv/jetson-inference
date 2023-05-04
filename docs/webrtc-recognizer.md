@@ -62,7 +62,7 @@ As you add and tag new data, training can be enabled under the `Training` dropdo
 
 There are various command-line options for the training that you can set when starting app.py:
 
-| Argument            | Description                                                                                                 | Default    |
+| CLI Argument        | Description                                                                                                 | Default    |
 |---------------------|-------------------------------------------------------------------------------------------------------------|------------|
 | `--data`            | Path to where the data and models will be stored                                                            | `data/`    |
 | `--net`             | The DNN architecture (see [here](https://pytorch.org/vision/stable/models.html#classification) for options) | `resnet18` |
@@ -100,7 +100,7 @@ def Classify(self, img):
    return self.results
 ```
 
-When modifying backend server-side Python code, remember to restart app.py for changes to take effect.  As with the previous Flask example, various [REST queries](https://github.com/dusty-nv/jetson-inference/blob/master/docs/webrtc-flask.md#rest-queries) are used for communicating dynamic settings and state changes between the client and server, which you can also add to and modify for your own purposes.
+When modifying backend server-side Python code, remember to restart app.py for changes to take effect.  As with the previous Flask example, various [REST queries](https://github.com/dusty-nv/jetson-inference/blob/master/docs/webrtc-flask.md#rest-queries) are used for communicating dynamic settings and state changes between the client and server, which you can also add to.
 
 <p align="right">Next | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
 <br/>
