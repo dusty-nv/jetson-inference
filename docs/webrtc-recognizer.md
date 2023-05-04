@@ -79,7 +79,7 @@ There are various command-line options for the training that you can set when st
 
 Inference can be enabled under the `Classification` dropdown.  When multi-label classification is used (i.e. the dataset contains images with multiple tags), all classification results will be shown that have confidence scores above the threshold that can be controlled from the page.
 
-The app can be extended to trigger actions by adding your own code to the [`Model.Classify()`](https://github.com/dusty-nv/jetson-inference/blob/3476b4896051929f764f6b806378271dc82f23f1/python/www/recognizer/model.py#L83) function:
+The app can be extended to trigger actions when certain objects are detected by adding your own code to the [`Model.Classify()`](https://github.com/dusty-nv/jetson-inference/blob/3476b4896051929f764f6b806378271dc82f23f1/python/www/recognizer/model.py#L83) function:
 
 ``` bash
 def Classify(self, img):
@@ -100,7 +100,7 @@ def Classify(self, img):
    return self.results
 ```
 
-When modifying server-side code, remember to restart app.py for changes to take effect.
+When modifying server-side Python code, remember to restart app.py for changes to take effect.
 
 <p align="right">Next | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
 <br/>
