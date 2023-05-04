@@ -87,9 +87,13 @@ class Model(threading.Thread):
         if not self.inference_enabled or self.model_infer is None:
             return
             
+        # returns a list of (classID, confidence) tuples
         self.results = self.model_infer.Classify(img, topK=0 if self.dataset.multi_label else 1)
 
-        #self.model_infer.PrintProfilerTimes()
+        # to trigger custom actions/processing, add them here:
+        # for classID, confidence in self.results:
+        #    if self.model_infer.GetClassLabel(classID) == 'person':              # change for your classes
+        #        print(f"detected a person with {confidence * 100}% confidence")  # do something in response
         
         return self.results
 
@@ -103,8 +107,8 @@ class Model(threading.Thread):
         if results is None:
             results = self.results
         
-        for i, result in enumerate(results):
-            str = f"{result[1] * 100:05.2f}% {self.model_infer.GetClassLabel(result[0])}"
+        for i, (classID, confidence) in enumerate(results):
+            str = f"{confidence * 100:05.2f}% {self.model_infer.GetClassLabel(classID)}"
             self.font.OverlayText(img, img.width, img.height, str, 5, 5+(i*37), self.font.White, self.font.Gray40)
         
         return img
