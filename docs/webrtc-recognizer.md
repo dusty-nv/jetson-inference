@@ -54,7 +54,7 @@ graph LR
     inference-- WebRTC -->player
 ```
 
-It's recommended to keep the distribution of tags across the classes relatively even.  You can view the label distribution and number of images in the dataset by expanding the `Training` dropdown.
+It's recommended to keep the distribution of tags across the classes relatively balanced - otherwise the model will be more likely to be biased towards certain classes.  You can view the label distribution and number of images in the dataset by expanding the `Training` dropdown.
 
 ### Training
 
