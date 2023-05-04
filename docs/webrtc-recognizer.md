@@ -16,7 +16,7 @@ It also supports multi-label tagging, and in addition to recording client video 
   * [`model.py`](../python/www/recognizer/model.py) (DNN inferencing + PyTorch training)
   * [`dataset.py](../python/www/recognizer/dataset.py) (Data tagging + recording)
   * [`index.html`](../python/www/recognizer/templates/index.html) (frontend presentation)
-
+see  for options
 ## Running the Example
 
 Launching app.py will start a Flask webserver, a streaming thread that runs WebRTC and inferencing, and a training thread for PyTorch:
@@ -29,7 +29,7 @@ $ python3 app.py --data=data/my_dataset
 
 > **note**: receiving browser webcams requires [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) to be enabled
 
-The `--data` argument sets the path where your dataset and models are stored under.  After running app.py, you should be able to navigate your browser to `https://<JETSON-IP>:8050` and start the stream.  The default port is 8050, but you can change that with the `--port=N` command-line argument.  It's also configured by default for WebRTC input and output, but if you want to use a different [video input device](aux-streaming.md#input-streams), you can set that with the `--input` argument (for example, `--input=/dev/video0` for a V4L2 camera that's directly attached to your Jetson).
+The `--data` argument sets the path where your dataset and models are stored under.  After running app.py, you should be able to navigate your browser to `https://<JETSON-IP>:8050` and start the stream.  The default port is 8050, but you can change that with the `--port=N` command-line argument.  It's configured by default for WebRTC input and output, but if you want to use a different [video input device](aux-streaming.md#input-streams), you can set that with the `--input` argument (for example, `--input=/dev/video0` for a V4L2 camera that's directly attached to your Jetson).
 
 ### Collecting Data
 
@@ -58,11 +58,26 @@ It's recommended to keep the distribution of tags across the classes relatively 
 
 ### Training
 
-As you add and tag new data, training can be enabled under the `Training` dropdown.  The training progress and accuracy will be updated on the page.  At the end of each epoch, if the model has the highest accuracy it will be exported to ONNX and loaded into TensorRT for inference.  
+As you add and tag new data, training can be enabled under the `Training` dropdown.  The training progress and accuracy will be updated on the page.  At the end of each epoch, if the model has the highest accuracy it will be exported to ONNX and loaded into TensorRT for inference.
+
+There are various command-line options for the training that you can set when starting app.py:
+
+| Argument            | Description                                                                                                 | Default    |
+|---------------------|-------------------------------------------------------------------------------------------------------------|------------|
+| `--data`            | Path to where the data and models will be stored                                                            | `data/`    |
+| `--net`             | The DNN architecture (see [here](https://pytorch.org/vision/stable/models.html#classification) for options) | `resnet18` |
+| `--net-width`       | The width of the model (increase for higher accuracy)                                                       | 224        |
+| `--net-height`      | The height of the model (increase for higher accuracy)                                                      | 224        |
+| `--batch-size`      | Training batch size                                                                                         | 1          |
+| `--workers`         | Number of dataloader threads                                                                                | 1          |
+| `--optimizer`       | The solver (`adam` or `sgd`)                                                                                | `adam`     |
+| `--learning-rate`   | Initial optimizer learning rate                                                                             | 0.001      |
+| `--no-augmentation` | Disable color jitter / random flips on the training data                                                    | Enabled    |
+  
 
 ### Inference
 
-Inference can be enabled under the `Classification` dropdown.  When multi-label classification is being used (i.e. the dataset contains images with multiple tags), all classification results will be shown that have confidence scores above the threshold that can be controlled from the page.
+Inference can be enabled under the `Classification` dropdown.  When multi-label classification is used (i.e. the dataset contains images with multiple tags), all classification results will be shown that have confidence scores above the threshold that can be controlled from the page.
 
 <p align="right">Next | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
 <br/>
