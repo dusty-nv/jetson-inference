@@ -71,7 +71,7 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 * [WebRTC Server](docs/webrtc-server.md)
 * [HTML / JavaScript](docs/webrtc-html.md)
 * [Flask + REST](docs/webrtc-flask.md)
-* [Plotly Dash](docs/webrtc-dash.md)
+* [Plotly Dashboard](docs/webrtc-dash.md)
 * [Recognizer - Interactive Training](docs/webrtc-recognizer.md)
 
 #### Appendix
