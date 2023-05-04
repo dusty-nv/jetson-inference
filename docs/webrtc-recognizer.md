@@ -41,60 +41,30 @@ It's recommended to keep the distribution of tags across the classes relatively 
 
 As you add and tag new data, training can be enabled under the `Training` dropdown.  The training progress and accuracy will be updated on the page.  At the end of each epoch, if the model has the highest accuracy it will be exported to ONNX and loaded into TensorRT for inference.  
 
+```mermaid
+graph TD
+    camera([fa:fa-video-camera Camera])
+    player([fa:fa-television Client Browser])
+    subgraph server ["Jetson (Server)"]
+        decoder[Video Decoder]
+        dataset[("Dataset")]
+        training["Training <font size=1>(PyTorch)"]
+        inference["Inference <font size=1>(TensorRT)"]
+        encoder["Video Encoder"]
+        decoder-.->|Record|dataset
+        decoder-->inference
+        dataset-->training
+        training-->training
+        training-- Models --> inference
+        inference-->encoder
+    end
+    camera-->server
+    encoder-- WebRTC -->player
+```
+
 ### Inference
 
 Inference can be enabled under the `Classification` dropdown.  When multi-label classification is being used (i.e. the dataset contains images with multiple tags), all classification results will be shown that have confidence scores above the threshold that can be controlled from the page.
-
-```mermaid
-  graph TD;
-      A-->B;
-      A-->C;
-      B-->D;
-      C-->D;
-```
-
-```mermaid
-graph LR
-	A[Deploy to production] --> B{Is it Friday?};
-```
-
-```mermaid
-pie
-    title Fruits
-    "Apples" : 50
-    "Oranges" : 20
-    "Grapes" : 9.99
-    "Passionfruits" : 12.5
-```
-
-```mermaid
-sequenceDiagram
-    participant dotcom
-    participant iframe
-    participant viewscreen
-    dotcom->>iframe: loads html w/ iframe url
-    iframe->>viewscreen: request template
-    viewscreen->>iframe: html & javascript
-    iframe->>dotcom: iframe ready
-    dotcom->>iframe: set mermaid data on iframe
-    iframe->>iframe: render mermaid
-```
-
-```mermaid
-graph LR
-    subgraph Client Browser
-        camera[fa:fa-video-camera Camera]
-        player[fa:fa-television Video Player]
-    end
-    subgraph Jetson Server
-        dataset[(Dataset)]-->training[Training]
-        training-- Models -->inference[Inference]
-    end
-    camera-->dataset
-    camera-->inference
-    inference-->player
-    training-->training
-```
 
 <p align="right">Next | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
 <br/>
