@@ -40,7 +40,7 @@ graph LR
     camera([fa:fa-video-camera Camera])
     player([fa:fa-television Client Browser])
     subgraph server ["Jetson (Edge Server)"]
-        decoder[Video Decoder]
+        decoder[Decoder]
         dataset[("Dataset")]
         training["Training"]
         inference["Inference"]
@@ -50,7 +50,7 @@ graph LR
         training-->training
         training-- Models --> inference
     end
-    camera-->server
+    camera-->decoder
     inference-- WebRTC -->player
 ```
 
