@@ -3,9 +3,9 @@
 <br/>
 <sup>WebApp Frameworks</sup></s></p>
 
-# Plotly Dash
+# Plotly Dashboard
 
-[Plotly Dash](https://plotly.com/dash/) is a Python-based web framework for building data-driven dashboard and interactive UI's.  On the frontend it uses [React.js](https://reactjs.org/) client-side, which connects state changes to Python callbacks running on the server.  With it, you can quickly develop rich visualizations that integrate with backend processing pipelines and data analytics.  In this example (found under [`python/www/dash`](../python/www/dash)), users can dynamically create streams, load DNN models, visualize events, and setup extendable actions triggered by events:
+[Plotly Dash](https://plotly.com/dash/) is a Python-based web framework for building data-driven dashboards and interactive UI's.  On the frontend it uses [React.js](https://reactjs.org/) client-side, which connects state changes to Python callbacks running on the server.  With it, you can quickly develop rich visualizations that integrate with backend processing pipelines and data analytics.  In this example (found under [`python/www/dash`](../python/www/dash)), users can dynamically create streams, load DNN models, visualize events, and setup extendable actions triggered by events:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-dash.jpg" width="1000">
 

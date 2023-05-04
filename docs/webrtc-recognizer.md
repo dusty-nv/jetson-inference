@@ -104,5 +104,5 @@ When modifying backend server-side Python code, remember to restart app.py for c
 
 <p align="right">Next | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
 <br/>
-Back | <b><a href="webrtc-dash.md">Plotly Dash</a></p>
+Back | <b><a href="webrtc-dash.md">Plotly Dashboard</a></p>
 </b><p align="center"><sup>© 2016-2023 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
