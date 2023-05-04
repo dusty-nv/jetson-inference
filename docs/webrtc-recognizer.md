@@ -3,7 +3,7 @@
 <br/>
 <sup>WebApp Frameworks</sup></s></p>
 
-# Recognizer - Interactive Training
+# Recognizer (Interactive Training)
 
 The Recognizer is a Flask-based video tagging/classification webapp with interactive data collection and training.  As video is tagged and recorded, an updated model is incrementally re-trained in the background with PyTorch and then used for inference with TensorRT.  Both inference and training can run simultaneously, and the re-trained models are dynamically loaded at runtime for inference.
 
