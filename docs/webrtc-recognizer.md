@@ -5,7 +5,7 @@
 
 # Recognizer - Interactive Training
 
-The Recognizer is a Flask-based video tagging/classification webapp with interactive data collection and training.  As video is tagged and recorded, an updated model is incrementally re-trained in the background with PyTorch and then used for inference with TensorRT.  Both inference and training can run simultaneously, and the re-trained models are dynamically loaded in for inference.
+The Recognizer is a Flask-based video tagging/classification webapp with interactive data collection and training.  As video is tagged and recorded, an updated model is incrementally re-trained in the background with PyTorch and then used for inference with TensorRT.  Both inference and training can run simultaneously, and the re-trained models are dynamically loaded at runtime for inference.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-recognizer.jpg" width="600">
 
@@ -14,7 +14,7 @@ It also supports multi-label tagging, and in addition to recording client video 
   * [`app.py`](../python/www/recognizer/app.py) (webserver)
   * [`stream.py`](../python/www/recognizer/stream.py) (WebRTC streaming thread)
   * [`model.py`](../python/www/recognizer/model.py) (DNN inferencing + PyTorch training)
-  * [`dataset.py](../python/www/recognizer/dataset.py) (Data tagging + recording)
+  * [`dataset.py`](../python/www/recognizer/dataset.py) (Data tagging + recording)
   * [`index.html`](../python/www/recognizer/templates/index.html) (frontend presentation)
 see  for options
 ## Running the Example
@@ -33,12 +33,12 @@ The `--data` argument sets the path where your dataset and models are stored und
 
 ### Collecting Data
 
-If needed first select a client camera from the stream source dropdown on the webpage, and press the `Send` button.  When ready, enter class tag(s) of what the camera is looking at in the Tags selection box.  Once a tag is entered, you'll be able to either Record or Upload images into the dataset.  You can hold down the Record button to capture a video sequence.
+If needed first select a client camera from the stream source dropdown on the webpage, and press the `Send` button.  When ready, enter class tag(s) of what the camera is looking at in the Tags selection box.  Once a tag is entered, you'll be able to either Record or Upload images into the dataset.  You can hold down the Record button to capture a video sequence.  Below is a high-level diagram of the flow:
 
 ```mermaid
 graph LR
     camera([fa:fa-video-camera Camera])
-    player([fa:fa-television Client Browser])
+    player([fa:fa-television Browser])
     subgraph server ["Jetson (Edge Server)"]
         decoder[Decoder]
         dataset[("Dataset")]
@@ -78,6 +78,29 @@ There are various command-line options for the training that you can set when st
 ### Inference
 
 Inference can be enabled under the `Classification` dropdown.  When multi-label classification is used (i.e. the dataset contains images with multiple tags), all classification results will be shown that have confidence scores above the threshold that can be controlled from the page.
+
+The app can be extended so that actions are triggered when certain object classes are detected.  To do that, you can add code to the [`Model.Classify()`](https://github.com/dusty-nv/jetson-inference/blob/3476b4896051929f764f6b806378271dc82f23f1/python/www/recognizer/model.py#L83) function:
+
+``` bash
+def Classify(self, img):
+   """
+   Run classification inference and return the results.
+   """
+   if not self.inference_enabled:
+      return
+	  
+   # returns a list of (classID, confidence) tuples
+   self.results = self.model_infer.Classify(img, topK=0 if self.dataset.multi_label else 1)
+
+   # to trigger custom actions/processing, add them here:
+   for classID, confidence in self.results:
+      if self.model_infer.GetClassLabel(classID) == 'person':             # update for your classes
+         print(f"detected a person with {confidence * 100}% confidence")  # do something in response
+   
+   return self.results
+```
+
+When modifying the server-side code, remember to restart app.py for changes to take effect.
 
 <p align="right">Next | <b><a href="aux-streaming.md">Camera Streaming and Multimedia</a></b>
 <br/>
