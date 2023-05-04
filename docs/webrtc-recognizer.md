@@ -29,7 +29,7 @@ $ python3 app.py --data=data/my_dataset
 
 > **note**: receiving browser webcams requires [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) to be enabled
 
-The `--data` argument sets the path where your dataset and models are stored under.  If you built jetson-inference from source, you should elect to [Install PyTorch](building-repo-2.md#installing-pytorch) (or run the `install-pytorch.sh` script again). If you're using the Docker container, PyTorch is already installed.
+The `--data` argument sets the path where your dataset and models are stored under.  If you built jetson-inference from source, you should elect to [Install PyTorch](building-repo-2.md#installing-pytorch) (or run the `install-pytorch.sh` script again). If you're using the Docker container, PyTorch is already installed for you.
 
 After running app.py, you should be able to navigate your browser to `https://<JETSON-IP>:8050` and start the stream.  The default port is 8050, but you can change that with the `--port=N` command-line argument.  It's configured by default for WebRTC input and output, but if you want to use a different [video input device](aux-streaming.md#input-streams), you can set that with the `--input` argument (for example, `--input=/dev/video0` for a V4L2 camera that's directly attached to your Jetson).
 
