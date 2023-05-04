@@ -35,32 +35,30 @@ The `--data` argument sets the path where your dataset and models are stored und
 
 If needed first select a client camera from the stream source dropdown on the webpage, and press the `Send` button.  When ready, enter class tag(s) of what the camera is looking at in the Tags selection box.  Once a tag is entered, you'll be able to either Record or Upload images into the dataset.  You can hold down the Record button to capture a video sequence.
 
-It's recommended to keep the distribution of tags across the classes relatively even.  You can view the label distribution and number of images in the dataset by expanding the `Training` dropdown.
-
-### Training
-
-As you add and tag new data, training can be enabled under the `Training` dropdown.  The training progress and accuracy will be updated on the page.  At the end of each epoch, if the model has the highest accuracy it will be exported to ONNX and loaded into TensorRT for inference.  
-
 ```mermaid
-graph TD
+graph LR
     camera([fa:fa-video-camera Camera])
     player([fa:fa-television Client Browser])
-    subgraph server ["Jetson (Server)"]
+    subgraph server ["Jetson (Edge Server)"]
         decoder[Video Decoder]
         dataset[("Dataset")]
-        training["Training <font size=1>(PyTorch)"]
-        inference["Inference <font size=1>(TensorRT)"]
-        encoder["Video Encoder"]
+        training["Training"]
+        inference["Inference"]
         decoder-.->|Record|dataset
         decoder-->inference
         dataset-->training
         training-->training
         training-- Models --> inference
-        inference-->encoder
     end
     camera-->server
-    encoder-- WebRTC -->player
+    inference-- WebRTC -->player
 ```
+
+It's recommended to keep the distribution of tags across the classes relatively even.  You can view the label distribution and number of images in the dataset by expanding the `Training` dropdown.
+
+### Training
+
+As you add and tag new data, training can be enabled under the `Training` dropdown.  The training progress and accuracy will be updated on the page.  At the end of each epoch, if the model has the highest accuracy it will be exported to ONNX and loaded into TensorRT for inference.  
 
 ### Inference
 
