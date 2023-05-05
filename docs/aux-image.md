@@ -260,7 +260,7 @@ Let's say you have an image in a Numpy ndarray, perhaps provided by OpenCV - as 
 import numpy as np
 from jetson_utils import cudaFromNumpy
 
-array = np.zeros((3, 240, 320), dtype=np.float32)
+array = np.zeros((240, 320, 3), dtype=np.float32)
 cuda_img = cudaFromNumpy(array)
 ```
 

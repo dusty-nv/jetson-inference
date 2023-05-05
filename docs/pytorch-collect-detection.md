@@ -97,28 +97,8 @@ detectnet --model=$NET/ssd-mobilenet.onnx --labels=$NET/labels.txt \
 
 If you need to, go back and collect more training data and re-train your model again.  You can restart again and pick up where you left off using the `--resume` argument (run `python3 train_ssd.py --help` for more info).  Remember to re-export the model to ONNX after re-training.
 
-## What's Next
-
-This is the last step of the *Hello AI World* tutorial, which covers inferencing and transfer learning on Jetson with TensorRT and PyTorch.  
-
-To recap, together we've covered:
-
-* Using image recognition networks to classify images and video
-* Coding your own inferencing programs in Python and C++
-* Performing object detection to locate object coordinates
-* Segmenting images and video with fully-convolutional networks
-* Re-training models with PyTorch using transfer learning
-* Collecting your own datasets and training your own models
-
-Next we encourage you to experiment and apply what you've learned to other projects, perhaps taking advantage of Jetson's embedded form-factor - for example an autonomous robot or intelligent camera-based system.  Here are some example ideas that you could play around with:
-
-* use GPIO to trigger external actuators or LEDs when an object is detected
-* an autonomous robot that can find or follow an object
-* a handheld battery-powered camera + Jetson + mini-display 
-* an interactive toy or treat dispenser for your pet
-* a smart doorbell camera that greets your guests
-
-For more examples to inspire your creativity, see the **[Jetson Projects](https://developer.nvidia.com/embedded/community/jetson-projects)** page.  Good luck and have fun!
-
+<p align="right">Next | <b><a href="../README.md#webapp-frameworks">WebApp Frameworks</a></b>
+<br/>
+Back | <b><a href="pytorch-ssd.md">Re-training SSD-Mobilenet</a></p>
 <p align="right">Back | <b><a href="pytorch-ssd.md">Re-training SSD-Mobilenet</a></p>
 </b><p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
