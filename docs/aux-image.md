@@ -250,7 +250,7 @@ print(array.mean())
 
 As before, the underlying memory isn't copied and Numpy will access it directly - so if you change the data in-place through Numpy, it will be changed in the underlying `cudaImage` as well.  For an example of using `cudaToNumpy()`, see the [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-numpy.py) sample from jetson-utils.
 
-Note that if you plan on using the image with OpenCV, OpenCV expects images in BGR colorspace, so you should call [`cudaConvertColor()`](#color-conversion) first to convert it from RGB to BGR - see [`cuda-to-cv.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-cv.py) for an example of this.
+Note that if you plan on using the image with OpenCV, OpenCV expects images in BGR colorspace, so you should call [`cudaConvertColor()`](#color-conversion) first to convert it from RGB to BGR (see [`cuda-to-cv.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-cv.py) for an example of this).
 
 #### Converting from Numpy Arrays
 
@@ -264,7 +264,7 @@ array = np.zeros((3, 240, 320), dtype=np.float32)
 cuda_img = cudaFromNumpy(array)
 ```
 
-Like before if you're using OpenCV, OpenCV images are in BGR colorspace, and you should call [`cudaConvertColor()`](#color-conversion) after to convert it from BGR to RGB - see [`cuda-from-cv.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-cv.py) for an example of this.
+Like before if you're using OpenCV, OpenCV images are in BGR colorspace, and you should call [`cudaConvertColor()`](#color-conversion) after to convert it from BGR to RGB (see [`cuda-from-cv.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-cv.py) for an example of this).
 
 ### CUDA Array Interface
 
