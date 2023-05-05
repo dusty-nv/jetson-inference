@@ -167,7 +167,7 @@ if( CUDA_FAILED(cudaMemcpy(img_b, img_a, width * height * sizeof(uchar3), cudaMe
 
 When you allocate an image in Python, or capture an image from a video feed with [`videoSource.Capture()`](aux-streaming#source-code), it will return a self-contained memory capsule object (of type [`<jetson_utils.cudaImage>`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#cudaImage)) that can be passed around without having to copy the underlying memory.  
 
-The [`cudaImage`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#cudaImage)) object has the following members:
+The [`cudaImage`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#cudaImage) object has the following members:
 
 ```python
 <cudaImage object>
@@ -201,12 +201,12 @@ CUDA images are subscriptable, meaning you can index them to directly access the
 
 ```python
 for y in range(img.height):
-	for x in range(img.width):
-		pixel = img[y,x]    # returns a tuple, i.e. (r,g,b) for RGB formats or (r,g,b,a) for RGBA formats
-		img[y,x] = pixel    # set a pixel from a tuple (tuple length must match the number of channels)
+    for x in range(img.width):
+        pixel = img[y,x]    # returns a tuple, i.e. (r,g,b) for RGB formats or (r,g,b,a) for RGBA formats
+        img[y,x] = pixel    # set a pixel from a tuple (tuple length must match the number of channels)
 ```
 
-> **note:** the Python subscripting index operator is only available if the image was allocated in mapped ZeroCopy memory (i.e. by [`cudaAllocMapped()`](#image-allocation)).  Otherwise, the data is not accessible from the CPU, and an exception will be thrown. 
+> **note:** the Python subscripting index operator is only available if the image was allocated in mapped ZeroCopy memory (i.e. if `img.mapped == True` - which is the default).  Otherwise, the data is not accessible from the CPU, and an exception will be thrown. 
 
 The indexing tuple used to access an image may take the following forms:
 
