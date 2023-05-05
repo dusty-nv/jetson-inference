@@ -188,7 +188,7 @@ $ v4l2-ctl --device=/dev/video0 --list-formats-ext
   
 ## WebRTC
 
-This projects includes a built-in WebRTC server for input/output streaming of video to/from client web browsers, including Chrome/Chromium, mobile Android, and mobile iOS (Safari).  You can use this for conveniently viewing video streams when your Jetson is headless and doesn't have a display attached, or for easily building interactive webapps that use Jetson and edge AI on the backend.
+This projects includes a built-in WebRTC server (input/output) for streaming video to/from client web browsers.  You can use this for conveniently viewing video streams when your Jetson is headless and doesn't have a display attached, or for easily building interactive webapps that use Jetson and edge AI on the backend.  Test browsers include Chrome/Chromium, mobile Android, and mobile iOS (Safari). 
 
 ``` bash
 $ video-viewer /dev/video0 webrtc://@:8554/my_output               # send V4L2 webcam to browser
