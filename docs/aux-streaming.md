@@ -198,7 +198,7 @@ $ video-viewer webrtc://@:8554/my_input webrtc://@:8554/my_output  # receieve + 
 
 > **note**: receiving browser webcams requires [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) to be enabled
 
-You should then be able to navigate your browser to `https://<JETSON-IP>:8554` to view the stream.  There's an entire section of the Hello AI World tutorial dedicated to using WebRTC and building applications with various webapp frameworks - please see here:
+You should then be able to navigate your browser to `https://<JETSON-IP>:8554` to view the stream.  There's an entire section of the Hello AI World tutorial dedicated to using WebRTC and building applications with various webapp frameworks:
 
 * [WebRTC Server](webrtc-server.md)
 * [WebAPP Frameworks](../README.md#webapp-frameworks)
