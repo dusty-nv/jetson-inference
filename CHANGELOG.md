@@ -11,14 +11,14 @@ Major updates and new features to this project will be listed in this document.
 * Added [`actionNet`](docs/actionnet.md) (action/activity recognition)
 * Added [`backgroundNet`](docs/backgroundnet.md) (foreground/background segmentation/removal)
 * Added [`objectTracker`](c/tracking) - [IoU object tracking](docs/detectnet-tracking.md) for detectNet
-* [Image Tagging and Multi-Label Classification](docs/imagenet-tagging.md) ([`topK`](https://github.com/dusty-nv/jetson-inference/blob/b50bf1d5eefed73acda5c963513e0d8c79d18be3/c/imageNet.h#L201) support in imageNet)
-* [Temporal smoothing](https://github.com/dusty-nv/jetson-inference/blob/b50bf1d5eefed73acda5c963513e0d8c79d18be3/c/imageNet.h#L271) of classification results in imageNet
+* [Image Tagging and Multi-Label Classification](docs/imagenet-tagging.md) (support for [`topK`](https://github.com/dusty-nv/jetson-inference/blob/b50bf1d5eefed73acda5c963513e0d8c79d18be3/c/imageNet.h#L201) in imageNet)
+* [Temporal smoothing of classification results](https://github.com/dusty-nv/jetson-inference/blob/b50bf1d5eefed73acda5c963513e0d8c79d18be3/c/imageNet.h#L271) in imageNet
 * Automatic model downloader => [`data/networks/models.json`](data/networks/models.json)
 * Build TensorRT timing cache for quick loading of updated models (or models that share layer configurations)
 * Zero-copy interoperability of Python [cudaImage](https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-image.md#image-capsules-in-python) with other libraries:
    * [`__array__`](docs/aux-image.md#accessing-as-a-numpy-array) interface ([Numpy](https://numpy.org/doc/stable/reference/arrays.interface.html))
    * [`__cuda_array_interface__`](docs/aux-image.md#cuda-array-interface) (Numba, PyTorch, CuPy, PyCUDA, VPI, and [others](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html#interoperability))
-* Training higher-resolution detection models with [`train_ssd.py --resolution=N`](https://github.com/dusty-nv/pytorch-ssd/blob/86155c0c410e0959df0184b24af6a8f59f49fbe5/train_ssd.py#L49)
+* Train higher-resolution detection models with [`train_ssd.py --resolution=N`](https://github.com/dusty-nv/pytorch-ssd/blob/86155c0c410e0959df0184b24af6a8f59f49fbe5/train_ssd.py#L49)
 * Compute per-class Mean Average Precision (mAP) with [`train_ssd.py --validate-mean-ap`](https://github.com/dusty-nv/pytorch-ssd/blob/86155c0c410e0959df0184b24af6a8f59f49fbe5/train_ssd.py#L98)
 * Tensorboard logging in [`train.py`](https://github.com/dusty-nv/pytorch-classification/blob/819b105087c397c23cd81fd9446b5f0a0213db94/train.py#L95) / [`train_ssd.py`](https://github.com/dusty-nv/pytorch-ssd/blob/86155c0c410e0959df0184b24af6a8f59f49fbe5/train_ssd.py#L114)
 * Added optional timeout status code to [`videoSource.Capture()`](https://github.com/dusty-nv/jetson-utils/blob/0bcb19b498326eb866a80d7d13388b2e59bc9dfd/video/videoSource.h#L235)
