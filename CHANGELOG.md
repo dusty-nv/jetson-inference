@@ -7,6 +7,11 @@ Major updates and new features to this project will be listed in this document.
 ## May 5, 2023
 
 * [WebRTC](docs/aux-streaming.md#webrtc) support and [WebApp Framework](README.md#webapp-frameworks) tutorials
+   * [WebRTC Server](docs/webrtc-server.md)
+   * [HTML / JavaScript](docs/webrtc-html.md)
+   * [Flask + REST](docs/webrtc-flask.md)
+   * [Plotly Dashboard](docs/webrtc-dash.md)
+   * [Recognizer (Interactive Training)](docs/webrtc-recognizer.md)
 * Support for [TAO detection models](docs/detectnet-tao.md) in `detectNet`
 * Added [`actionNet`](docs/actionnet.md) (action/activity recognition)
 * Added [`backgroundNet`](docs/backgroundnet.md) (foreground/background segmentation/removal)
