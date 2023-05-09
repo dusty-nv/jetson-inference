@@ -5,13 +5,33 @@
 
 # WebRTC Server
 
-jetson-inference includes an integrated WebRTC server for streaming low-latency live video to/from web browsers that can be used for building dynamic web applications and remote data visualization tools powered by Jetson and edge AI on the backend.  WebRTC works seamlessly with DNN inferencing pipelines via the [videoSource/videoOutput](aux-streaming.md#source-code) interfaces from jetson-utils, which uses hardware-accelerated video encoding and decoding underneath through GStreamer.  It supports sending and receiving multiple streams to/from multiple clients simultaneously, and includes a built-in webserver for viewing video streams remotely without needing to build your own frontend:
+jetson-inference includes an integrated WebRTC server for streaming low-latency live video to/from web browsers that can be used for building dynamic web applications and data visualization tools powered by Jetson and edge AI on the backend.  WebRTC works seamlessly with DNN inferencing pipelines via the [`videoSource/videoOutput`](aux-streaming.md#source-code) interfaces from jetson-utils, which utilizes hardware-accelerated video encoding and decoding through GStreamer.  It supports sending and receiving multiple streams to/from multiple clients simultaneously, and includes a built-in webserver for viewing video streams remotely without needing to build your own frontend:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-builtin.jpg" width="600">
 
 In this screenshot of full-duplex mode, the webcam from a laptop is being streamed to a Jetson over WebRTC, where the Jetson decodes it and performs object detection using detectNet, before re-encoding the output and sending it back to the browser again via WebRTC for playback.  The round-trip latency goes largely unnoticed from an interactivity standpoint over local wireless networks.  On the client side, it's been tested with multiple browsers including Chrome/Chromium, mobile Android, and mobile iOS (Safari) using H.264 compression.
 
-Any application using videoSource/videoOutput (including the C++ & Python examples from this repo like imagenet/imagenet.py, detectnet/detectnet.py, ect) can easily enable this WebRTC server by launching them with a stream URL of `webrtc://@:8554/my_stream` or similar.  Further examples are provided that build on these components and implement customizable frontends with more complex processing pipeines and web UI's with interactive controls.
+``` mermaid
+graph LR
+    camera([fa:fa-video-camera Camera])
+    player([fa:fa-television Browser])
+    subgraph server ["Jetson (Edge Server)"]
+        decoder["Decoder"]
+        inference["Inference"]
+        encoder["Encoder"]
+        settings[("Settings")]
+        webserver["Webserver"]
+        decoder-->inference
+        inference-->encoder
+        settings-.->inference
+        settings-. REST Queries .-webserver
+    end
+    camera-- WebRTC -->decoder
+    encoder-- WebRTC -->player
+    webserver-- HTTPS -->player
+```
+
+Any application using videoSource/videoOutput (including the [C++/Python examples](../README.md#code-examples) from this repo like imagenet/imagenet.py, detectnet/detectnet.py, ect) can easily enable this WebRTC server by launching them with a stream URL of `webrtc://@:8554/my_stream` or similar.  Further examples are provided that build on these components and implement customizable frontends with more complex processing pipeines and web UI's with interactive controls.
 
 ## Enabling HTTPS / SSL
 
