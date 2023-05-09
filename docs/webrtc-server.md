@@ -31,7 +31,7 @@ graph LR
     webserver-- HTTPS -->player
 ```
 
-Any application using videoSource/videoOutput (including the [C++/Python examples](../README.md#code-examples) from this repo like imagenet/imagenet.py, detectnet/detectnet.py, ect) can easily enable this WebRTC server by launching them with a stream URL of `webrtc://@:8554/my_stream` or similar.  Further examples are provided that build on these components and implement customizable frontends with more complex processing pipeines and web UI's with interactive controls.
+Any application using videoSource/videoOutput (including the [C++/Python examples](../README.md#code-examples) from this repo) can easily enable this WebRTC server by launching them with a stream URL of `webrtc://@:8554/my_stream` or similar.  Further examples are provided that build on these components and implement customizable frontends with more complex processing pipeines and web UI's with interactive controls.
 
 ## Enabling HTTPS / SSL
 

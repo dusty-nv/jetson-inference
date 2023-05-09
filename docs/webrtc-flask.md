@@ -5,7 +5,7 @@
 
 # Flask + REST
 
-[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a popular Python web micro-framework that routes HTTP/HTTPS requests to user-implemented Python functions and uses the [Jinja](https://jinja.palletsprojects.com/en/3.1.x/templates/) templating engine to generate HTML content parameterized by Python variables.  You can also easily handle backend REST requests (typically JSON), which can be used by the client to dynamically control properties and trigger content from the frontend based on user inputs.  This interactive example (found under [`python/www/flask`](../python/www/flask)) has multiple DNNs that you can toggle simultaneously from the webapp and control their various settings with the UI in realtime:
+[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a popular Python web micro-framework that routes HTTP/HTTPS requests to user-implemented Python functions.  You can also easily handle backend REST requests (typically JSON), which can be used by the client to dynamically control properties and trigger content from the frontend based on user inputs.  This interactive example (found under [`python/www/flask`](../python/www/flask)) has multiple DNNs that you can toggle simultaneously from the webapp and control their various settings with the UI in realtime:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-flask.jpg" width="600">
 
@@ -69,7 +69,7 @@ def classification_confidence_threshold():
 
 These snippets above implement the controls for the classification model, and there are others for the different type of DNNs.  
 
-[`rest_property()`](../python/www/flask/utils.py) is backend utility function in Python that handles `GET` and `PUT` REST requests for getting/setting user-defined attributes.  [`checkbox()`](../python/www/flask/templates/macros.html) and [`slider()`](../python/www/flask/templates/macros.html) are Jinja macros that render the HTML components for the controls and JavaScript for executing the REST queries.  If you're wondering what the `{{ ... }}` code is in index.html, those are [Jinja](https://jinja.palletsprojects.com/en/3.1.x/templates/) template expressions that get evaluated server-side to generate the page content when Flask handles requests from the client.
+[`rest_property()`](../python/www/flask/utils.py) is backend utility function in Python that handles `GET` and `PUT` REST requests for getting/setting user-defined attributes.  [`checkbox()`](../python/www/flask/templates/macros.html) and [`slider()`](../python/www/flask/templates/macros.html) are Jinja macros that render the HTML components for the controls and JavaScript for executing the REST queries.  If you're wondering what the `{{ ... }}` code is in index.html, those are dynamic [Jinja](https://jinja.palletsprojects.com/en/3.1.x/templates/) template expressions that get evaluated server-side to generate the page content when Flask handles requests from the client.
 
 <p align="right">Next | <b><a href="webrtc-dash.md">Plotly Dashboard</a></b>
 <br/>
