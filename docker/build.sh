@@ -45,7 +45,7 @@ if [ -z $BASE_IMAGE ]; then
 			exit 1
 		fi
 	elif [ $ARCH = "x86_64" ]; then
-		BASE_IMAGE="nvcr.io/nvidia/pytorch:22.04-py3"
+		BASE_IMAGE="nvcr.io/nvidia/pytorch:$CONTAINER_VERSION-py3"
 	fi
 fi
 
