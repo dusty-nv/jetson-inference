@@ -30,7 +30,7 @@ Major updates and new features to this project will be listed in this document.
 * Added optional timeout status code to [`videoSource.Capture()`](https://github.com/dusty-nv/jetson-utils/blob/0bcb19b498326eb866a80d7d13388b2e59bc9dfd/video/videoSource.h#L235)
 * Added [`--input-save`](docs/aux-streaming.md#input-options) and [`--output-save`](docs/aux-streaming.md#output-options) for dumping video to disk in addition to the primary I/O stream
 * Added [`ros_deep_learning`](https://github.com/dusty-nv/ros_deep_learning) package as a submodule and to container builds
-* Added x86_64 + dGPU support for [Docker container](docs/aux_docker.md)
+* Added x86_64 + dGPU support and WSL2 for [Docker container](docs/aux_docker.md#x86)
 * Automated testing with [`test-models.py`](tools/test-models.py) and [`test-cuda.sh`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/test-cuda.sh)
 
 
