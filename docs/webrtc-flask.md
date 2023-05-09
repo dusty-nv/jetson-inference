@@ -5,7 +5,7 @@
 
 # Flask + REST
 
-[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a popular Python web micro-framework that routes HTTP/HTTPS requests to user-implemented Python functions.  You can also easily handle backend REST requests (typically JSON), which can be used by the client to dynamically control properties and trigger content from the frontend based on user inputs.  This interactive example (found under [`python/www/flask`](../python/www/flask)) has multiple DNNs that you can toggle simultaneously from the webapp and control their various settings with the UI in realtime:
+[Flask](https://flask.palletsprojects.com/en/2.2.x/) is a popular Python web micro-framework that routes HTTP/HTTPS requests to user-implemented Python functions.  You can also easily handle backend REST requests with it, which can be used by the client to dynamically control properties and trigger content from the frontend based on user inputs.  This interactive example (found under [`python/www/flask`](../python/www/flask)) has multiple DNNs that you can toggle simultaneously from the webapp and control their various settings with the UI in realtime:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-flask.jpg" width="600">
 
