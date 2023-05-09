@@ -5,3 +5,5 @@ __pycache__
 **.pyc
 **.pyo
 **.pyd
+data/
+python/www/recognizer/data
