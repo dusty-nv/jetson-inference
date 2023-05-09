@@ -46,7 +46,7 @@ In addition to being supported on the Jetson ARM-based architectures, the jetson
 
 To run the latest pre-built jetson-inference x86 container, use the same commands as above (`docker/run.sh`).  If you want to use a newer/older version of the [`nvcr.io/nvidia/pytorch`](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch) base container, edit [this line](https://github.com/dusty-nv/jetson-inference/blob/master/docker/tag.sh#L40) with the desired tag and then run [`docker/build.sh`](#build-the-container)
 
-Although the jetson-inference container is built for Linux, it can be run on Windows under WSL 2 by following the [CUDA on WSL User Guide](https://docs.nvidia.com/cuda/wsl-user-guide/index.html#ch02-sub03-installing-wsl2), followed by installing Docker and the NVIDIA Container Runtime as above.  If you need to use USB webcams and V4L2 under WSL 2, you'll also need to recompile your WSL kernel with these [config changes](https://github.com/PINTO0309/wsl2_linux_kernel_usbcam_enable_conf)
+Although the jetson-inference container is built for Linux, it can be run on Windows under WSL 2 by following the [CUDA on WSL User Guide](https://docs.nvidia.com/cuda/wsl-user-guide/index.html#ch02-sub03-installing-wsl2), followed by installing Docker and the NVIDIA Container Runtime as above.  If you need to use USB webcams and V4L2 under WSL 2, you'll also need to recompile your WSL kernel with these [config changes](https://github.com/PINTO0309/wsl2_linux_kernel_usbcam_enable_conf).
 
 ### Mounted Data Volumes
 
