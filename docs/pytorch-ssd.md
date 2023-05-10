@@ -13,11 +13,11 @@ In the example below, we'll train a custom detection model that locates 8 differ
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-fruit.jpg">
 
-To get started, first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) (or newer) and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python3** on your Jetson.  JetPack 4.4 includes TensorRT 7.1, which is the minimum TensorRT version that supports loading SSD-Mobilenet via ONNX.  Newer versions of TensorRT are fine too.
+To get started, first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) (or newer) and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3** on your Jetson.  JetPack 4.4 includes TensorRT 7.1, which is the minimum TensorRT version that supports loading SSD-Mobilenet via ONNX.  Newer versions of TensorRT are fine too.
 
 ## Setup
 
-> **note:** first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer on your Jetson and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python3**
+> **note:** first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer on your Jetson and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3**
 
 The PyTorch code for training SSD-Mobilenet is found in the repo under [`jetson-inference/python/training/detection/ssd`](https://github.com/dusty-nv/pytorch-ssd).  If you aren't [Running the Docker Container](aux-docker.md), there are a couple steps required before using it:
 
