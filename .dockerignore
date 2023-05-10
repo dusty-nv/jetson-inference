@@ -6,4 +6,8 @@ __pycache__
 **.pyo
 **.pyd
 data/
-python/www/recognizer/data
+python/training/classification/data/*
+python/training/classification/models/*
+python/training/detection/ssd/data/*
+python/training/detection/ssd/models/*
+python/www/recognizer/data/*
