@@ -56,28 +56,6 @@ RECOGNIZER_DIR="python/www/recognizer"
 
 DOCKER_ROOT="/jetson-inference"	# where the project resides inside docker
 
-# check if we need to download models
-#SIZE_MODELS=$(du -sb $NETWORKS_DIR | cut -f 1)  
-
-#echo "size of $NETWORKS_DIR:  $SIZE_MODELS bytes"
-  
-#if [[ $SIZE_MODELS -lt 204800 ]]; then  # some text files come with the repo (~78KB), so check for a bit more than that
-#	sudo apt-get update
-#	sudo apt-get install dialog
-#	echo "Models have not yet been downloaded, running model downloader tool now..."
-#	cd tools
-#	./download-models.sh
-#	cd ../
-#fi
-
-# check for pytorch-ssd base model
-SSD_BASE_MODEL="$DETECTION_DIR/models/mobilenet-v1-ssd-mp-0_675.pth"
-
-if [ ! -f "$SSD_BASE_MODEL" ]; then
-	echo "Downloading pytorch-ssd base model..."
-	wget --quiet --show-progress --progress=bar:force:noscroll --no-check-certificate https://nvidia.box.com/shared/static/djf5w54rjvpqocsiztzaandq1m3avr7c.pth -O $SSD_BASE_MODEL
-fi
-
 # generate mount commands
 DATA_VOLUME="\
 --volume $PWD/data:$DOCKER_ROOT/data \

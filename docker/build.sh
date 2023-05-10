@@ -52,19 +52,9 @@ fi
 echo "BASE_IMAGE=$BASE_IMAGE"
 echo "TAG=$TAG"
 
-
-# sanitize workspace (so extra files aren't added to the container)
-rm -rf python/training/classification/data/*
-rm -rf python/training/classification/models/*
-
-rm -rf python/training/detection/ssd/data/*
-rm -rf python/training/detection/ssd/models/*
-
-	
 # distro release-dependent build options 
 source docker/containers/scripts/opencv_version.sh
-	
-	
+		
 # build the container
 sudo docker build -t $TAG -f Dockerfile \
           --build-arg BASE_IMAGE=$BASE_IMAGE \
