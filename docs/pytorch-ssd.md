@@ -26,7 +26,7 @@ $ wget https://nvidia.box.com/shared/static/djf5w54rjvpqocsiztzaandq1m3avr7c.pth
 $ pip3 install -v -r requirements.txt
 ```
 
-> **note:** first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer on your Jetson and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3**.
+> **note:** first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer on your Jetson and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3**
 
 This will download the [base model](https://nvidia.box.com/shared/static/djf5w54rjvpqocsiztzaandq1m3avr7c.pth) to `ssd/models` and install some required Python packages (these were already installed into the container).  The base model was already pre-trained on a different dataset (PASCAL VOC) so that we don't need to train SSD-Mobilenet from scratch, which would take much longer.  Instead we'll use transfer learning to fine-tune it to detect new object classes of our choosing.
 
