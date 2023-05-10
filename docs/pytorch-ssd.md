@@ -151,7 +151,7 @@ Over time, you should see the loss decreasing:
 2020-07-10 13:19:26 - Saved model models/fruit/mb1-ssd-Epoch-0-Loss-5.672993580500285.pth
 ```
 
-If you want to test your model before the full number of epochs have completed training, you can press `Ctrl+C` to kill the training script, and resume it again later with the `--resume=<CHECKPOINT>` argument.  You can download the fruit model that was already trained for 100 epochs [here](https://nvidia.box.com/shared/static/gq0zlf0g2r258g3ldabl9o7vch18cxmi.gz).
+To test your model before the full number of epochs have completed training, you can press `Ctrl+C` to kill the training script, and resume it again later with the `--resume=<CHECKPOINT>` argument.  You can download the fruit model that was already trained for 100 epochs [here](https://nvidia.box.com/shared/static/gq0zlf0g2r258g3ldabl9o7vch18cxmi.gz).
 
 ## Converting the Model to ONNX
 
