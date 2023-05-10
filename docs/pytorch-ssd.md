@@ -52,7 +52,7 @@ $ python3 open_images_downloader.py --class-names "Apple,Orange,Banana,Strawberr
 2020-07-09 16:32:12 - Task Done.
 ```
 
-By default, the dataset will be downloaded to the `data/` directory under `jetson-inference/python/training/detection/ssd` (which is automatically [mounted into the container](aux-docker.md#mounted-data-volumes)), but you can change that by specifying the `--data=<PATH>` option.  Depending on the size of your dataset, it may be necessary to use external storage.  And if you download multiple datasets, you should store each dataset in their own subdirectory.
+By default, the dataset will be downloaded to the `data/` directory under `jetson-inference/python/training/detection/ssd` (which is automatically [mounted into the container](aux-docker.md#mounted-data-volumes)), but you can change that by specifying the `--data=<PATH>` option.  Depending on the size of your dataset, it may be necessary to use external storage.  And if you download multiple datasets, you should store each in their own subdirectory.
 
 ### Limiting the Amount of Data
 
