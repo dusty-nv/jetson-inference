@@ -5,25 +5,30 @@
 
 # Coding Your Own Object Detection Program
 
-In this step of the tutorial, we'll walk through the creation of the previous example for realtime object detection on a live camera feed in only 10 lines of Python code.  The program will load the detection network with the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet) object, capture video frames and process them, and then render the detected objects to the display.
+In this step of the tutorial, we'll walk through the creation of the previous example for realtime object detection on a live camera feed in only 10-15 lines of Python code.  The program will load the detection network with the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet) object, capture video frames and process them, and then render the detected objects to the display.
 
 For your convenience and reference, the completed source is available in the [`python/examples/my-detection.py`](../python/examples/my-detection.py) file of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing.  
 
 Here's a quick preview of the Python code we'll be walking through:
 
 ``` python
-import jetson.inference
-import jetson.utils
+from jetson_inference import detectNet
+from jetson_utils import videoSource, videoOutput
 
-net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
-camera = jetson.utils.videoSource("csi://0")      # '/dev/video0' for V4L2
-display = jetson.utils.videoOutput("display://0") # 'my_video.mp4' for file
+net = detectNet("ssd-mobilenet-v2", threshold=0.5)
+camera = videoSource("csi://0")      # '/dev/video0' for V4L2
+display = videoOutput("display://0") # 'my_video.mp4' for file
 
 while display.IsStreaming():
-	img = camera.Capture()
-	detections = net.Detect(img)
-	display.Render(img)
-	display.SetStatus("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
+    img = camera.Capture()
+
+    if img is None: # capture timeout
+        continue
+
+    detections = net.Detect(img)
+    
+    display.Render(img)
+    display.SetStatus("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
 ```
 
 There's also a video screencast of this coding tutorial available on YouTube:
@@ -35,11 +40,11 @@ First, open up your text editor of choice and create a new file.  Below we'll as
 
 #### Importing Modules
 
-At the top of the source file, we'll import the Python modules that we're going to use in the script.  Add `import` statements to load the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html) modules used for object detection and camera capture.
+At the top of the source file, we'll import the Python modules that we're going to use in the script.  Add `import` statements to load the [`jetson_inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson_inference.html) and [`jetson_utils`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson_utils.html) modules used for object detection and camera capture.
 
 ``` python
-import jetson.inference
-import jetson.utils
+from jetson_inference import detectNet
+from jetson_utils import videoSource, videoOutput
 ```
 
 > **note**:  these Jetson modules are installed during the `sudo make install` step of [building the repo](building-repo-2.md#compiling-the-project).  
@@ -51,7 +56,7 @@ Next use the following line to create a [`detectNet`](https://rawgit.com/dusty-n
 
 ``` python
 # load the object detection model
-net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
+net = detectNet("ssd-mobilenet-v2", threshold=0.5)
 ```
 
 Note that you can change the model string to one of the values from [this table](detectnet-console-2.md#pre-trained-detection-models-available) to load a different detection model.  We also set the detection threshold here to the default of `0.5` for illustrative purposes - you can tweak it later if needed.
@@ -61,7 +66,7 @@ Note that you can change the model string to one of the values from [this table]
 To connect to the camera device for streaming, we'll create an instance of the [`videoSource`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#videoSource) object:
 
 ``` python
-camera = jetson.utils.videoSource("csi://0")      # '/dev/video0' for V4L2
+camera = videoSource("csi://0")      # '/dev/video0' for V4L2
 ```
 
 The string passed to `videoSource()` can actually be any valid resource URI, whether it be a camera, video file, or network stream.  For more information about video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
@@ -76,7 +81,7 @@ The string passed to `videoSource()` can actually be any valid resource URI, whe
 Next, we'll create a video output interface with the [`videoOutput`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#videoOutput) object and create a main loop that will run until the user exits:
 
 ``` python
-display = jetson.utils.videoOutput("display://0") # 'my_video.mp4' for file
+display = videoOutput("display://0") # 'my_video.mp4' for file
 
 while display.IsStreaming():
 	# main loop will go here
@@ -90,9 +95,12 @@ The first thing that happens in the main loop is to capture the next video frame
 
 ``` python
 	img = camera.Capture()
+	
+	if img is None: # capture timeout
+		continue
 ```
 
-The returned image will be a [`jetson.utils.cudaImage`](aux-image.md#image-capsules-in-python) object that contains attributes like width, height, and pixel format:
+The returned image will be a [`jetson_utils.cudaImage`](aux-image.md#image-capsules-in-python) object that contains attributes like width, height, and pixel format:
 
 ```python
 <jetson.utils.cudaImage>
@@ -136,18 +144,23 @@ The `Render()` function will automatically flip the backbuffer and present the i
 That's it!  For completness, here's the full source of the Python script that we just created:
 
 ``` python
-import jetson.inference
-import jetson.utils
+from jetson_inference import detectNet
+from jetson_utils import videoSource, videoOutput
 
-net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
-camera = jetson.utils.videoSource("csi://0")      # '/dev/video0' for V4L2
-display = jetson.utils.videoOutput("display://0") # 'my_video.mp4' for file
+net = detectNet("ssd-mobilenet-v2", threshold=0.5)
+camera = videoSource("csi://0")      # '/dev/video0' for V4L2
+display = videoOutput("display://0") # 'my_video.mp4' for file
 
 while display.IsStreaming():
-	img = camera.Capture()
-	detections = net.Detect(img)
-	display.Render(img)
-	display.SetStatus("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
+    img = camera.Capture()
+
+    if img is None: # capture timeout
+        continue
+
+    detections = net.Detect(img)
+    
+    display.Render(img)
+    display.SetStatus("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
 ```
 
 Note that this version assumes you are using a MIPI CSI camera.  See the [`Opening the Camera Stream`](#opening-the-camera-stream) section above for info about changing it to use a different kind of input.
