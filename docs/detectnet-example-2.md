@@ -5,7 +5,7 @@
 
 # Coding Your Own Object Detection Program
 
-In this step of the tutorial, we'll walk through the creation of the previous example for realtime object detection on a live camera feed in only 10-15 lines of Python code.  The program will load the detection network with the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet) object, capture video frames and process them, and then render the detected objects to the display.
+In this step of the tutorial, we'll walk through the creation of your own Python script for realtime object detection on a live camera feed in only 10-15 lines of code.  The program will capture video frames and process them with detection DNN's using the [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet) object.
 
 The completed source is available in the [`python/examples/my-detection.py`](../python/examples/my-detection.py) file of the repo, but the guide below will act like they reside in the user's home directory or in an arbitrary directory of your choosing.  Here's a quick preview of the Python code we'll be walking through:
 
