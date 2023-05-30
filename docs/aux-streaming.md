@@ -439,7 +439,7 @@ input = videoSource("/dev/video0", options={'width': 1280, 'height': 720, 'frame
 output = videoOutput("my_video.mp4", options={'codec': 'h264', 'bitrate': 4000000})
 ```
 
-The input settings will match the closest resolution/framerate available, but it's recommend to check your camera's [supported formats](#v4l2-formats) first.
+The input settings will use the closest resolution/framerate available, but it's recommend to check your camera's [supported formats](#v4l2-formats) first.
 
 ### C++
 ```c++
@@ -497,7 +497,7 @@ options.flipMethod = videoOptions::FLIP_ROTATE_180;
 videoSource* input = videoSource::Create("/dev/video0", options);
 ```
 
-The input settings will match the closest resolution/framerate available, but it's recommend to check your camera's [supported formats](#v4l2-formats) first.
+The input settings will use the closest resolution/framerate available, but it's recommend to check your camera's [supported formats](#v4l2-formats) first.
 
 <p align="right">Next | <b><a href="aux-image.md">Image Manipulation with CUDA</a></b>
 <p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
