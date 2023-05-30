@@ -337,7 +337,7 @@ $ video-viewer --loop=-1 my_video.mp4    # loop the video forever (until user qu
 
 #### Secondary Destination
 
-Sometimes you may wish to save the unprocessed camera feed (or the post-processed video) to disk in addition to the primary output stream.  For incoming inputs that are already compressed (for example, an H264-encoded camera or network stream), the `--input-save=<FILE>` option can be used to dump the encoded video to disk before it's decoded and processed.  
+Sometimes you may wish to save the unprocessed camera feed (or the post-processed video) to disk in addition to the primary output stream.  For incoming inputs that are already compressed (for example, an H264-encoded camera or network stream), the `--input-save=<FILE>` option can be used to dump the encoded video to disk before it's decoded and processed.  It supports MP4, MKV, AVI, and FLV formats.
 
 For output streams that are to be compressed (i.e. network streams like WebRTC/RTP/RTSP) then the `--output-save=<FILE>` option will record the processed video to disk in addition to it's primary output.  To save an output video file while also displaying it on a screen attached to your Jetson (which is an uncompressed stream), just use the method above for [recording video](#video-files).
 
