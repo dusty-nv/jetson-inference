@@ -438,9 +438,9 @@ To hardcode video configuration settings in Python, you can pass an optional `op
 input = videoSource("/dev/video0", 
                     options={
                         'width': 1280,
-		              'height': 720,
-		              'framerate': 30,
-		              'flipMethod': 'rotate-180',
+                        'height': 720,
+                        'framerate': 30,
+                        'flipMethod': 'rotate-180',
 				})
 
 output = videoOutput("my_video.mp4",
