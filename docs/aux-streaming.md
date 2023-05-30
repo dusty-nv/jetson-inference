@@ -335,21 +335,21 @@ $ video-viewer --loop=10 my_video.mp4    # loop the video 10 times
 $ video-viewer --loop=-1 my_video.mp4    # loop the video forever (until user quits)
 ```
 
-#### Secondary Recording
+#### Secondary Destination
 
-Sometimes you may wish to save the unprocessed camera feed (or the post-processed video) to disk in addition to the primary output mechanism.  For incoming input streams that are already compressed (for example, an H264-encoded camera or network stream), the `--input-save=<FILE>` option can be used to dump the encoded video to disk before it's decoded and processed.  
+Sometimes you may wish to record the unprocessed camera feed (or the post-processed video) to disk in addition to the primary output stream.  For incoming inputs that are already compressed (for example, an H264-encoded camera or network stream), the `--input-save=<FILE>` option can be used to dump the encoded video to disk before it's decoded and processed.  
 
-For output streams that are to be compressed (i.e. network streams like WebRTC/RTP/RTSP) then the `--output-save=<FILE>` option will record the processed video to disk in addition to it's primary output.  To save an output video file in addition to displaying it on-screen, just use the method above for [recording video](#video-files).
+For output streams that are to be compressed (i.e. network streams like WebRTC/RTP/RTSP) then the `--output-save=<FILE>` option will save the processed video to disk in addition to it's primary output.  To save an output video file in addition to displaying it on-screen (which is uncompressed), just use the method above for [recording video](#video-files).
 
 
 ``` bash
-$ detectnet --input-codec=h264 --input-save=camera_dump.mp4 /dev/video0
-$ detectnet --output-save=post_dump.mp4 /dev/video0 rtsp://@:1234/my_stream
+$ detectnet --input-codec=h264 --input-save=camera_dump.mp4 /dev/video0       # save incoming/unprocessed video
+$ detectnet --output-save=post_dump.mp4 /dev/video0 rtsp://@:1234/my_stream   # save outgoing/processed video
 ```
 
-> **note:** `--input-save` and `--output-save` can only be used in conjunction with streams that are encoded.
+> **note:** `--input-save` and `--output-save` can only be used in conjunction with streams that are compressed/encoded.
 
-The first command will dump the original incoming camera video prior to processing, and the second will dump it after processing (e.g. including bounding boxes, ect)
+The first command will dump the original camera video, and the second will dump it after processing (e.g. including bounding boxes, ect)
 
 ## Image Files
 
