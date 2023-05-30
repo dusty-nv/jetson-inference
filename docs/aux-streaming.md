@@ -287,7 +287,7 @@ You should then be able to open and view the stream from an RTSP client (like VL
 
 ## Video Files
 
-You can playback and record video files in MP4, MKV, AVI, and FLV formats.
+You can playback and record compressed video files in MP4, MKV, AVI, and FLV formats (in addition to uncontainerized H264/H265).
 
 ```bash
 # playback
@@ -310,8 +310,8 @@ $ video-viewer --output-codec=h265 input.mp4 output.mp4  # transcode video to H.
 
 The following codecs are supported:
 
-* Decode - h264, h265, vp8, vp9, mpeg2, mpeg4, mjpeg
-* Encode - h264, h265, vp8, vp9, mjpeg
+* Decode - `h264, h265, vp8, vp9, mpeg2, mpeg4, mjpeg`
+* Encode - `h264, h265, vp8, vp9, mjpeg`
 
 
 #### Resizing Inputs
@@ -339,7 +339,7 @@ $ video-viewer --loop=-1 my_video.mp4    # loop the video forever (until user qu
 
 Sometimes you may wish to save the unprocessed camera feed (or the post-processed video) to disk in addition to the primary output stream.  For incoming inputs that are already compressed (for example, an H264-encoded camera or network stream), the `--input-save=<FILE>` option can be used to dump the encoded video to disk before it's decoded and processed.  
 
-For output streams that are to be compressed (i.e. network streams like WebRTC/RTP/RTSP) then the `--output-save=<FILE>` option will record the processed video to disk in addition to it's primary output.  To save an output video file in addition to displaying it on a screen attached to your Jetson (which is an uncompressed stream), just use the method above for [recording video](#video-files).
+For output streams that are to be compressed (i.e. network streams like WebRTC/RTP/RTSP) then the `--output-save=<FILE>` option will record the processed video to disk in addition to it's primary output.  To save an output video file while also displaying it on a screen attached to your Jetson (which is an uncompressed stream), just use the method above for [recording video](#video-files).
 
 
 ``` bash
