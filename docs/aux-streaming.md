@@ -443,6 +443,11 @@ input = videoSource("/dev/video0",
                         'flipMethod': 'rotate-180',
                     })
 
+input = videoSource("/dev/video0", options={ 'width': 1280, 'height': 720, 'framerate': 30, 'flipMethod': 'rotate-180' })
+
+				
+output = videoOutput("my_video.mp4", options={'codec': 'h264', 'bitrate': 4000000})
+				 
 output = videoOutput("my_video.mp4",
                      options={
                          'codec': 'h264',
