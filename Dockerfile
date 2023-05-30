@@ -123,6 +123,12 @@ RUN mkdir docs && \
     rm -rf /var/lib/apt/lists/* \
     && apt-get clean
     
-
+# build out-of-tree samples
+RUN cd examples/my-recognition && \
+    mkdir build && \
+    cd build && \
+    cmake ../ && \
+    make
+    
 # workaround for "cannot allocate memory in static TLS block"
 ENV LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
