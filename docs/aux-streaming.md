@@ -310,8 +310,8 @@ $ video-viewer --output-codec=h265 input.mp4 output.mp4  # transcode video to H.
 
 The following codecs are supported:
 
-* Decode - H.264, H.265, VP8, VP9, MPEG-2, MPEG-4, MJPEG
-* Encode - H.264, H.265, VP8, VP9, MJPEG
+* Decode - h264, h265, vp8, vp9, mpeg2, mpeg4, mjpeg
+* Encode - h264, h265, vp8, vp9, mjpeg
 
 
 #### Resizing Inputs
@@ -334,6 +334,22 @@ By default, the video will terminate once the end of stream (EOS) is reached.  H
 $ video-viewer --loop=10 my_video.mp4    # loop the video 10 times
 $ video-viewer --loop=-1 my_video.mp4    # loop the video forever (until user quits)
 ```
+
+#### Secondary Recording
+
+Sometimes you may wish to save the unprocessed camera feed (or the post-processed video) to disk in addition to the primary output mechanism.  For incoming input streams that are already compressed (for example, an H264-encoded camera or network stream), the `--input-save=<FILE>` option can be used to dump the encoded video to disk before it's decoded and processed.  
+
+For output streams that are to be compressed (i.e. network streams like WebRTC/RTP/RTSP) then the `--output-save=<FILE>` option will record the processed video to disk in addition to it's primary output.  To save an output video file in addition to displaying it on-screen, just use the method above for [recording video](#video-files).
+
+
+``` bash
+$ detectnet --input-codec=h264 --input-save=camera_dump.mp4 /dev/video0
+$ detectnet --output-save=post_dump.mp4 /dev/video0 rtsp://@:1234/my_stream
+```
+
+> **note:** `--input-save` and `--output-save` can only be used in conjunction with streams that are encoded.
+
+The first command will dump the original incoming camera video prior to processing, and the second will dump it after processing (e.g. including bounding boxes, ect)
 
 ## Image Files
 
@@ -398,15 +414,15 @@ args = parser.parse_known_args()[0]
 
 # create video sources & outputs
 input = videoSource(args.input, argv=sys.argv)    # OPTIONAL:  options={'width': 1280, 'height': 720, 'framerate': 30}
-output = videoOutput(args.output, argv=sys.argv)  # OPTIONAL:  options={'codec': 'h264', 'bitrate': 2500000}
+output = videoOutput(args.output, argv=sys.argv)  # OPTIONAL:  options={'codec': 'h264', 'bitrate': 4000000}
 
+# capture frames until end-of-stream (or the user exits)
 while True:
-    # capture frames until end-of-stream (or the user exits)
     # format can be:  rgb8, rgba8, rgb32f, rgba32f  (rgb8 is the default)
     # timeout can be:  -1 for infinite timeout (blocking), 0 to return immediately, >0 in milliseconds (default is 1000ms)
     image = input.Capture(format='rgb8', timeout=1000)  
 	
-    if image is None:  # capture timeout
+    if image is None:  # if a timeout occurred
         continue
 		
     output.Render(image)
@@ -414,6 +430,24 @@ while True:
     # exit on input/output EOS
     if not input.IsStreaming() or not output.IsStreaming():
         break
+```
+
+To hardcode video configuration settings in Python, you can pass an optional `options` dictionary to the videoSource/videoOutput initializer which roughly corresponds to the [`videoOptions`](https://github.com/dusty-nv/jetson-utils/blob/master/video/videoOptions.h) structure in C++:
+
+``` python
+input = videoSource("/dev/video0", 
+                    options={
+                        'width': 1280,
+		              'height': 720,
+		              'framerate': 30,
+		              'flipMethod': 'rotate-180',
+				})
+
+output = videoOutput("my_video.mp4",
+                     options={
+				     'codec': 'h264',
+					'bitrate': 4000000
+			      })
 ```
 
 ### C++
@@ -457,6 +491,19 @@ int main( int argc, char** argv )
     SAFE_DELETE(input);
     SAFE_DELETE(output);
 }
+```
+
+The [`videoOptions`](https://github.com/dusty-nv/jetson-utils/blob/master/video/videoOptions.h) struct can also be populated to create the interfaces from coded settings like this:
+
+```c++
+videoOptions options;
+
+options.width = 1280;
+options.height = 720;
+options.frameRate = 30;
+options.flipMethod = videoOptions::FLIP_ROTATE_180;
+
+videoSource* input = videoSource::Create("/dev/video0", options);
 ```
 
 <p align="right">Next | <b><a href="aux-image.md">Image Manipulation with CUDA</a></b>
