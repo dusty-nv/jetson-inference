@@ -413,8 +413,8 @@ parser.add_argument("output", type=str, default="", nargs='?', help="URI of the 
 args = parser.parse_known_args()[0]
 
 # create video sources & outputs
-input = videoSource(args.input, argv=sys.argv)    # OPTIONAL:  options={'width': 1280, 'height': 720, 'framerate': 30}
-output = videoOutput(args.output, argv=sys.argv)  # OPTIONAL:  options={'codec': 'h264', 'bitrate': 4000000}
+input = videoSource(args.input, argv=sys.argv)    # default:  options={'width': 1280, 'height': 720, 'framerate': 30}
+output = videoOutput(args.output, argv=sys.argv)  # default:  options={'codec': 'h264', 'bitrate': 4000000}
 
 # capture frames until end-of-stream (or the user exits)
 while True:
