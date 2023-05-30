@@ -5,7 +5,7 @@
 
 # Camera Streaming and Multimedia
 
-This project supports streaming video feeds and images via a variety of interfaces and protocols, including:
+This project supports capturing and streaming video feeds & static images via a variety of interfaces and protocols, including:
 
 * [MIPI CSI cameras](#mipi-csi-cameras)
 * [V4L2 cameras](#v4l2-cameras)
@@ -15,7 +15,7 @@ This project supports streaming video feeds and images via a variety of interfac
 * [Image sequences](#image-files)
 * [OpenGL windows](#output-streams)
 
-Streams are identified via a resource URI and accessed through the [`videoSource`](#source-code) and [`videoOutput`](#source-code) APIs.  These settings can be configured via command-line arguments or in your application's [source code](#source-code).  The tables below show the supported input/output protocols and example URIs for each type of stream:
+Streams are identified via a resource URI and are acquired through the [`videoSource`](#source-code) and [`videoOutput`](#source-code) APIs.  These settings can be configured via command-line arguments or in your application's [source code](#source-code).  The tables below show the supported input/output protocols and URI formats:
 
 ### Input Streams
 
@@ -54,7 +54,7 @@ Streams are identified via a resource URI and accessed through the [`videoSource
 Each example C++ and Python program from jetson-inference accepts the same set of command-line arguments for specifying stream URIs and additional options. So these options can be used on any of the examples (e.g. [`imagenet`](../examples/imagenet/imagenet.cpp)/[`imagenet.py`](../examples/python/imagenet.py), [`detectnet`](../examples/detectnet/detectnet.cpp)/[`detectnet.py`](../examples/python/detectnet.py), [`segnet`](../examples/segnet/segnet.cpp)/[`segnet.py`](../examples/python/segnet.py), [`video-viewer`](https://github.com/dusty-nv/jetson-utils/tree/master/video/video-viewer/video-viewer.cpp)/[`video-viewer.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/video-viewer.py), ect).  These command-line arguments generally take the form:
 
 ```bash
-$ imagenet [options] input_URI [output_URI]  # output URI is optional
+$ imagenet [options] input_URI [output_URI]  # output URI is optional (default is display://0)
 ```
 
 where the input and output URIs are specified by two positional arguments.  For example:
@@ -190,7 +190,7 @@ $ v4l2-ctl --device=/dev/video0 --list-formats-ext
 
 This projects includes a built-in WebRTC server (input/output) for streaming video to/from client web browsers.  You can use this for conveniently viewing video streams when your Jetson is headless and doesn't have a display attached, or for easily building interactive webapps that use Jetson and edge AI on the backend.  Tested browsers include Chrome/Chromium, mobile Android, and mobile iOS (Safari). 
 
-``` bash
+```bash
 $ video-viewer /dev/video0 webrtc://@:8554/my_output               # send V4L2 webcam to browser
 $ video-viewer webrtc://@:8554/my_input output.mp4                 # receive browser webcam (requires HTTPS/SSL) and save to MP4
 $ video-viewer webrtc://@:8554/my_input webrtc://@:8554/my_output  # receieve + send (full-duplex loopback)
@@ -397,7 +397,7 @@ Streams are accessed using the [`videoSource`](https://github.com/dusty-nv/jetso
 
 To convert images to/from different formats, see the [Image Manipulation with CUDA](aux-image.md) page for more info.
 
-Below is the source code to `video-viewer.py` and `video-viewer.cpp`, slightly abbreviated to improve readability:
+Below is the source code to [`video-viewer.py`](https://github.com/dusty-nv/jetson-utils/tree/master/python/examples/video-viewer.py) and [`video-viewer`](https://github.com/dusty-nv/jetson-utils/tree/master/video/video-viewer/video-viewer.cpp), slightly abbreviated to improve readability:
 
 ### Python
 ```python
