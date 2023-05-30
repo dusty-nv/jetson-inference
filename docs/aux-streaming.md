@@ -397,12 +397,12 @@ parser.add_argument("output", type=str, default="", nargs='?', help="URI of the 
 args = parser.parse_known_args()[0]
 
 # create video sources & outputs
-input = jetson.utils.videoSource(args.input, argv=sys.argv)    # OPTIONAL:  options={'width': 1280, 'height': 720, 'framerate': 30}
-output = jetson.utils.videoOutput(args.output, argv=sys.argv)  # OPTIONAL:  options={'codec': 'h264', 'bitrate': 2500000}
+input = videoSource(args.input, argv=sys.argv)    # OPTIONAL:  options={'width': 1280, 'height': 720, 'framerate': 30}
+output = videoOutput(args.output, argv=sys.argv)  # OPTIONAL:  options={'codec': 'h264', 'bitrate': 2500000}
 
-# capture frames until user exits
 while True:
-    # format can be:  'rgb8', 'rgba8', 'rgb32f', 'rgba32f'  (rgb8 is the default)
+    # capture frames until end-of-stream (or the user exits)
+    # format can be:  rgb8, rgba8, rgb32f, rgba32f  (rgb8 is the default)
     # timeout can be:  -1 for infinite timeout (blocking), 0 to return immediately, >0 in milliseconds (default is 1000ms)
     image = input.Capture(format='rgb8', timeout=1000)  
 	
