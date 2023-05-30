@@ -435,24 +435,8 @@ while True:
 To hardcode video configuration settings in Python, you can pass an optional `options` dictionary to the videoSource/videoOutput initializer, which roughly corresponds to the [`videoOptions`](https://github.com/dusty-nv/jetson-utils/blob/master/video/videoOptions.h) structure in C++:
 
 ```python
-input = videoSource("/dev/video0", 
-                    options={
-                        'width': 1280,
-                        'height': 720,
-                        'framerate': 30,
-                        'flipMethod': 'rotate-180',
-                    })
-
-input = videoSource("/dev/video0", options={ 'width': 1280, 'height': 720, 'framerate': 30, 'flipMethod': 'rotate-180' })
-
-				
+input = videoSource("/dev/video0", options={'width': 1280, 'height': 720, 'framerate': 30, 'flipMethod': 'rotate-180'})
 output = videoOutput("my_video.mp4", options={'codec': 'h264', 'bitrate': 4000000})
-				 
-output = videoOutput("my_video.mp4",
-                     options={
-                         'codec': 'h264',
-                         'bitrate': 4000000
-                     })
 ```
 
 ### C++
