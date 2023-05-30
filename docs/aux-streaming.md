@@ -337,9 +337,9 @@ $ video-viewer --loop=-1 my_video.mp4    # loop the video forever (until user qu
 
 #### Secondary Destination
 
-Sometimes you may wish to save the unprocessed camera feed (or the post-processed video) to disk in addition to the primary output stream.  For incoming inputs that are already compressed (for example, an H264-encoded camera or network stream), the `--input-save=<FILE>` option can be used to dump the encoded video to disk before it's decoded and processed.  It supports MP4, MKV, AVI, FLV, and uncontainerized H264/H265.
+Sometimes you may wish to save the unprocessed camera feed (or the post-processed video) to disk in addition to the primary output stream.  For incoming inputs that are already compressed (for example, an H264-encoded camera or network stream), the `--input-save=<FILE>` option can be used to dump the encoded video to disk before it's decoded and processed.  It supports MP4, MKV, AVI, FLV, and raw H264/H265.
 
-For output streams that are to be compressed (i.e. network streams like WebRTC/RTP/RTSP) then the `--output-save=<FILE>` option will record the processed video to disk in addition to it's primary output.  To save an output video file while also displaying it on a screen attached to your Jetson (which is an uncompressed stream), just use the method above for [recording video](#video-files).
+For output streams that are to be compressed (i.e. network streams like WebRTC/RTP/RTSP) then the `--output-save=<FILE>` option will record the processed video to disk in addition to it's primary output.  To save an output video file while also displaying it on a screen attached to your Jetson (which doesn't undergo compression), just use the method above for [recording video](#video-files) and an OpenGL GUI window will automatically open.
 
 
 ``` bash
@@ -347,7 +347,7 @@ $ detectnet --input-codec=h264 --input-save=camera_dump.mp4 /dev/video0       # 
 $ detectnet --output-save=post_dump.mp4 /dev/video0 rtsp://@:1234/my_stream   # save outgoing/processed video
 ```
 
-> **note:** `--input-save` and `--output-save` can only be used in conjunction with streams that are compressed/encoded.
+> **note:** `--input-save` and `--output-save` can only be used in conjunction with streams that are already compressed/encoded.
 
 The first command will dump the original camera video, and the second will dump it after processing (e.g. including bounding boxes, ect)
 
@@ -418,7 +418,7 @@ output = videoOutput(args.output, argv=sys.argv)  # OPTIONAL:  options={'codec':
 
 # capture frames until end-of-stream (or the user exits)
 while True:
-    # format can be:  rgb8, rgba8, rgb32f, rgba32f  (rgb8 is the default)
+    # format can be:   rgb8, rgba8, rgb32f, rgba32f (rgb8 is the default)
     # timeout can be:  -1 for infinite timeout (blocking), 0 to return immediately, >0 in milliseconds (default is 1000ms)
     image = input.Capture(format='rgb8', timeout=1000)  
 	
@@ -432,9 +432,9 @@ while True:
         break
 ```
 
-To hardcode video configuration settings in Python, you can pass an optional `options` dictionary to the videoSource/videoOutput initializer which roughly corresponds to the [`videoOptions`](https://github.com/dusty-nv/jetson-utils/blob/master/video/videoOptions.h) structure in C++:
+To hardcode video configuration settings in Python, you can pass an optional `options` dictionary to the videoSource/videoOutput initializer, which roughly corresponds to the [`videoOptions`](https://github.com/dusty-nv/jetson-utils/blob/master/video/videoOptions.h) structure in C++:
 
-``` python
+```python
 input = videoSource("/dev/video0", 
                     options={
                         'width': 1280,
@@ -493,7 +493,7 @@ int main( int argc, char** argv )
 }
 ```
 
-The [`videoOptions`](https://github.com/dusty-nv/jetson-utils/blob/master/video/videoOptions.h) struct can also be populated to create the interfaces from coded settings like this:
+To create the interfaces programatically from coded settings, the [`videoOptions`](https://github.com/dusty-nv/jetson-utils/blob/master/video/videoOptions.h) struct can also be populated like this:
 
 ```c++
 videoOptions options;
