@@ -441,13 +441,13 @@ input = videoSource("/dev/video0",
                         'height': 720,
                         'framerate': 30,
                         'flipMethod': 'rotate-180',
-				})
+                    })
 
 output = videoOutput("my_video.mp4",
                      options={
-				     'codec': 'h264',
-					'bitrate': 4000000
-			      })
+                         'codec': 'h264',
+                         'bitrate': 4000000
+                     })
 ```
 
 ### C++
