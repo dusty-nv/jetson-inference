@@ -15,7 +15,7 @@ This project supports streaming video feeds and images via a variety of interfac
 * [Image sequences](#image-files)
 * [OpenGL windows](#output-streams)
 
-Streams are identified via a resource URI and accessed through the [`videoSource`](#source-code) and [`videoOutput`](#source-code) APIs.  The tables below show the supported input/output protocols and example URIs for each type of stream:
+Streams are identified via a resource URI and accessed through the [`videoSource`](#source-code) and [`videoOutput`](#source-code) APIs.  These settings can be configured via command-line arguments or in your application's [source code](#source-code).  The tables below show the supported input/output protocols and example URIs for each type of stream:
 
 ### Input Streams
 
@@ -397,21 +397,23 @@ parser.add_argument("output", type=str, default="", nargs='?', help="URI of the 
 args = parser.parse_known_args()[0]
 
 # create video sources & outputs
-input = jetson.utils.videoSource(args.input, argv=sys.argv)
-output = jetson.utils.videoOutput(args.output, argv=sys.argv)
+input = jetson.utils.videoSource(args.input, argv=sys.argv)    # OPTIONAL:  options={'width': 1280, 'height': 720, 'framerate': 30}
+output = jetson.utils.videoOutput(args.output, argv=sys.argv)  # OPTIONAL:  options={'codec': 'h264', 'bitrate': 2500000}
 
 # capture frames until user exits
 while True:
-	image = input.Capture(format='rgb8')  # can also be format='rgba8', 'rgb32f', 'rgba32f'
+    # format can be:  'rgb8', 'rgba8', 'rgb32f', 'rgba32f'  (rgb8 is the default)
+    # timeout can be:  -1 for infinite timeout (blocking), 0 to return immediately, >0 in milliseconds (default is 1000ms)
+    image = input.Capture(format='rgb8', timeout=1000)  
 	
-	if image is None:  # capture timeout
-		continue
+    if image is None:  # capture timeout
+        continue
 		
-	output.Render(image)
+    output.Render(image)
 
-	# exit on input/output EOS
-	if not input.IsStreaming() or not output.IsStreaming():
-		break
+    # exit on input/output EOS
+    if not input.IsStreaming() or not output.IsStreaming():
+        break
 ```
 
 ### C++
@@ -421,39 +423,39 @@ while True:
 
 int main( int argc, char** argv )
 {
-	// create input/output streams
-	videoSource* input = videoSource::Create(argc, argv, ARG_POSITION(0));
-	videoOutput* output = videoOutput::Create(argc, argv, ARG_POSITION(1));
+    // create input/output streams
+    videoSource* input = videoSource::Create(argc, argv, ARG_POSITION(0));
+    videoOutput* output = videoOutput::Create(argc, argv, ARG_POSITION(1));
 	
-	if( !input )
-		return 0;
+    if( !input )
+        return 0;
 
-	// capture/display loop
-	while( true )
-	{
-		uchar3* image = NULL;  // can be uchar3, uchar4, float3, float4
-		int status = 0;        // see videoSource::Status (OK, TIMEOUT, EOS, ERROR)
+    // capture/display loop
+    while( true )
+    {
+        uchar3* image = NULL;  // can be uchar3, uchar4, float3, float4
+        int status = 0;        // see videoSource::Status (OK, TIMEOUT, EOS, ERROR)
 		
-		if( !input->Capture(&image, 1000, &status) )  // 1000ms timeout
-		{
-			if( status == videoSource::TIMEOUT )
-				continue;
+        if( !input->Capture(&image, 1000, &status) )  // 1000ms timeout (default)
+        {
+            if( status == videoSource::TIMEOUT )
+                continue;
 				
-			break; // EOS
-		}
+            break; // EOS
+        }
 
-		if( output != NULL )
-		{
-			output->Render(image, inputStream->GetWidth(), inputStream->GetHeight());
+        if( output != NULL )
+        {
+            output->Render(image, inputStream->GetWidth(), inputStream->GetHeight());
 
-			if( !output->IsStreaming() )  // check if the user quit
-				break;
-		}
-	}
+            if( !output->IsStreaming() )  // check if the user quit
+                break;
+        }
+    }
 
-	// destroy resources
-	SAFE_DELETE(input);
-	SAFE_DELETE(output);
+    // destroy resources
+    SAFE_DELETE(input);
+    SAFE_DELETE(output);
 }
 ```
 
