@@ -38,8 +38,6 @@ parser.add_argument("--network", type=str, default="ssd-mobilenet-v2", help="pre
 parser.add_argument("--overlay", type=str, default="box,labels,conf", help="detection overlay flags (e.g. --overlay=box,labels,conf)\nvalid combinations are:  'box', 'labels', 'conf', 'none'")
 parser.add_argument("--threshold", type=float, default=0.5, help="minimum detection threshold to use") 
 
-is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
-
 try:
 	args = parser.parse_known_args()[0]
 except:
@@ -49,7 +47,7 @@ except:
 
 # create video sources and outputs
 input = videoSource(args.input, argv=sys.argv)
-output = videoOutput(args.output, argv=sys.argv+is_headless)
+output = videoOutput(args.output, argv=sys.argv)
 	
 # load the object detection network
 net = detectNet(args.network, sys.argv, args.threshold)

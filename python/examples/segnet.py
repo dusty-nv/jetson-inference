@@ -43,8 +43,6 @@ parser.add_argument("--ignore-class", type=str, default="void", help="optional n
 parser.add_argument("--alpha", type=float, default=150.0, help="alpha blending value to use during overlay, between 0.0 and 255.0 (default: 150.0)")
 parser.add_argument("--stats", action="store_true", help="compute statistics about segmentation mask class output")
 
-is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
-
 try:
     args = parser.parse_known_args()[0]
 except:
@@ -64,7 +62,7 @@ net = segNet(args.network, sys.argv)
 net.SetOverlayAlpha(args.alpha)
 
 # create video output
-output = videoOutput(args.output, argv=sys.argv+is_headless)
+output = videoOutput(args.output, argv=sys.argv)
 
 # create buffer manager
 buffers = segmentationBuffers(net, args)
