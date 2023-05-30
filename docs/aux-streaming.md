@@ -434,12 +434,12 @@ while True:
 
 To hardcode video configuration settings in Python, you can pass an optional `options` dictionary to the videoSource/videoOutput initializer, which roughly corresponds to the [`videoOptions`](https://github.com/dusty-nv/jetson-utils/blob/master/video/videoOptions.h) structure in C++:
 
-```python
+``` python
 input = videoSource("/dev/video0", options={'width': 1280, 'height': 720, 'framerate': 30, 'flipMethod': 'rotate-180'})
 output = videoOutput("my_video.mp4", options={'codec': 'h264', 'bitrate': 4000000})
 ```
 
-These settings will try to match the closest resolution/framerate available, but it's recommend to check your [camera formats](#v4l2-formats) first.
+The input source settings will try to match the closest resolution/framerate available, but it's recommend to check your [camera formats](#v4l2-formats) first.
 
 ### C++
 ```c++
@@ -497,7 +497,7 @@ options.flipMethod = videoOptions::FLIP_ROTATE_180;
 videoSource* input = videoSource::Create("/dev/video0", options);
 ```
 
-These settings will try to match the closest resolution/framerate available, but it's recommend to check your [camera formats](#v4l2-formats) first.
+The input source settings will try to match the closest resolution/framerate available, but it's recommend to check your [camera formats](#v4l2-formats) first.
 
 <p align="right">Next | <b><a href="aux-image.md">Image Manipulation with CUDA</a></b>
 <p align="center"><sup>© 2016-2020 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
