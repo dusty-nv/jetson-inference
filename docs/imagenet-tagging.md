@@ -13,10 +13,10 @@ To enable image tagging, you'll want to run imagenet/imagenet.py with `--topK=0`
 
 ``` bash
 # C++
-$ imagenet --model=resnet18-tagging-voc --topK=0 --threshold=0.25 "images/object_*.jpg" images/test/tagging_%i.jpg"
+$ imagenet --model=resnet18-tagging-voc --topK=0 --threshold=0.25 "images/object_*.jpg" images/test/tagging_%i.jpg
 
 # Python
-$ imagenet.py --model=resnet18-tagging-voc --topK=0 --threshold=0.25 "images/object_*.jpg" images/test/tagging_%i.jpg"
+$ imagenet.py --model=resnet18-tagging-voc --topK=0 --threshold=0.25 "images/object_*.jpg" images/test/tagging_%i.jpg
 ```
 
 Using `--topK=0` means that all the classes with a confidence score exceeding the threshold will be returned by the classifier.
