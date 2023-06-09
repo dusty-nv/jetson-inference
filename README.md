@@ -20,7 +20,7 @@ Follow the **[Hello AI World](#hello-ai-world)** tutorial for running inference 
 * [Change Log](CHANGELOG.md)
 
 > &gt; &nbsp; JetPack 5 is now supported, along with [Jetson Orin Nano](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/). <br/>
-> &gt; &nbsp; Try the new [WebApp Frameworks](#webapp-frameworks) and [WebRTC](docs/webrtc-server.md) tutorials! <br/>
+> &gt; &nbsp; Recent post:  [Deploying Edge AI Web Apps](https://medium.com/@hello-ai-world/hello-ai-world-deploying-edge-ai-web-apps-on-jetson-orin-nano-88096cda3aad) (see [WebRTC](#webapp-frameworks) support) <br/>
 > &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 
 ## Hello AI World
