@@ -107,7 +107,7 @@ Note that the models are saved under `jetson-inference/python/training/classific
 
 ## Converting the Model to ONNX
 
-To run our re-trained ResNet-18 model with TensorRT for testing and realtime inference, first we need to convert the PyTorch model into <a href="https://onnx.ai/">ONNX format</a> format so that TensorRT can load it.  ONNX is an open model format that supports many of the popular ML frameworks, including PyTorch, TensorFlow, TensorRT, and others, so it simplifies transferring models between tools.
+To run our re-trained ResNet-18 model with TensorRT for testing and realtime inference, first we need to convert the PyTorch model into <a href="https://onnx.ai/">ONNX format</a> so that TensorRT can load it.  ONNX is an open model format that supports many of the popular ML frameworks, including PyTorch, TensorFlow, TensorRT, and others, so it simplifies transferring models between tools.
 
 PyTorch comes with built-in support for exporting PyTorch models to ONNX, so run the following command to convert our Cat/Dog model with the provided `onnx_export.py` script:
 
