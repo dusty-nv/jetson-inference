@@ -37,24 +37,7 @@ After running app.py, you should be able to navigate your browser to `https://<J
 
 If needed first select a client camera from the stream source dropdown on the webpage, and press the `Send` button.  When ready, enter class tag(s) of what the camera is looking at in the Tags selection box.  Once a tag is entered, you'll be able to either Record or Upload images into the dataset.  You can hold down the Record button to capture a video sequence.  Below is a high-level diagram of the data flow:
 
-```mermaid
-graph LR
-    camera([fa:fa-video-camera Camera])
-    player([fa:fa-television Browser])
-    subgraph server ["Jetson (Edge Server)"]
-        decoder[Decoder]
-        dataset[("Dataset")]
-        training["Training"]
-        inference["Inference"]
-        decoder-.->|Record|dataset
-        decoder-->inference
-        dataset-->training
-        training-->training
-        training-- Models --> inference
-    end
-    camera-->decoder
-    inference-- WebRTC -->player
-```
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-recognizer-diagram.jpg">
 
 It's recommended to keep the distribution of tags across the classes relatively balanced - otherwise the model will be more likely to be biased towards certain classes.  You can view the label distribution and number of images in the dataset by expanding the `Training` dropdown.
 
