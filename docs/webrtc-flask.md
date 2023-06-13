@@ -3,7 +3,7 @@
 <br/>
 <sup>WebApp Frameworks</sup></s></p>
 
-# Flask + REST (DNN Playground)
+# Flask + REST
 
 [Flask](https://flask.palletsprojects.com/en/2.2.x/) is a popular Python web micro-framework that routes HTTP/HTTPS requests to user-implemented Python functions.  You can also easily handle backend REST requests with it, which can be used by the client to dynamically control properties and trigger content from the frontend based on user inputs.  This interactive DNN playground (found under [`python/www/flask`](../python/www/flask)) has multiple vision models that you can toggle simultaneously from the webapp and control their various settings with the UI in realtime:
 
