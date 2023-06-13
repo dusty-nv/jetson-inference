@@ -5,7 +5,7 @@
 
 # WebRTC Server
 
-jetson-inference includes an integrated WebRTC server for streaming low-latency live video to/from web browsers that can be used for building dynamic web applications and data visualization tools powered by Jetson and edge AI on the backend.  WebRTC works seamlessly with DNN inferencing pipelines via the [`videoSource/videoOutput`](aux-streaming.md#source-code) interfaces from jetson-utils, which utilizes hardware-accelerated video encoding and decoding through GStreamer.  It supports sending and receiving multiple streams to/from multiple clients simultaneously (without needing to re-encode the video for each independent client), and includes a built-in webserver for viewing video streams remotely:
+jetson-inference includes an integrated WebRTC server for streaming low-latency live video to/from web browsers that can be used for building dynamic web applications and data visualization tools powered by Jetson and edge AI on the backend.  WebRTC works seamlessly with DNN inferencing pipelines via the [`videoSource/videoOutput`](aux-streaming.md#source-code) interfaces from jetson-utils, which utilizes hardware-accelerated video encoding and decoding through GStreamer.  It supports sending and receiving multiple streams to/from multiple clients simultaneously (without needing to re-encode the video for each independent client), and includes a built-in webserver frontend for viewing video streams remotely:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-builtin.jpg" width="600">
 
@@ -117,7 +117,7 @@ $ video-viewer webrtc://@:8554/input webrtc://@:8554/output  # browser->Jetson->
 $ posenet.py webrtc://@:8554/input webrtc://@:8554/output    # loopback with pose estimation
 ```
 
-Then when you navigate to the page, it will both send the video from your browser's webcam and playback the results.  Subsequent examples will show how to make your own backend server applications and frontends with different web frameworks.
+Then when you navigate to the page, it will both send the video from your browser's webcam and playback the results.  Subsequent examples will show how to make your own backend AI server applications coupled with frontends built with different web frameworks.
  
 <p align="right">Next | <b><a href="webrtc-html.md">HTML / JavaScript</a></b></p>
 </b><p align="center"><sup>© 2016-2023 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>
