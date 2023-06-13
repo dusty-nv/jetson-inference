@@ -5,7 +5,7 @@
 
 # WebRTC Server
 
-jetson-inference includes an integrated WebRTC server for streaming low-latency live video to/from web browsers that can be used for building dynamic web applications and data visualization tools powered by Jetson and edge AI on the backend.  WebRTC works seamlessly with DNN inferencing pipelines via the [`videoSource/videoOutput`](aux-streaming.md#source-code) interfaces from jetson-utils, which utilizes hardware-accelerated video encoding and decoding through GStreamer.  It supports sending and receiving multiple streams to/from multiple clients simultaneously, and includes a built-in webserver for viewing video streams remotely without needing to build your own frontend:
+jetson-inference includes an integrated WebRTC server for streaming low-latency live video to/from web browsers that can be used for building dynamic web applications and data visualization tools powered by Jetson and edge AI on the backend.  WebRTC works seamlessly with DNN inferencing pipelines via the [`videoSource/videoOutput`](aux-streaming.md#source-code) interfaces from jetson-utils, which utilizes hardware-accelerated H.264/H.265 video encoding and decoding through GStreamer.  It supports sending and receiving multiple streams to/from multiple clients simultaneously (without needing to re-encode the video for each client), and includes a built-in webserver for viewing video streams remotely without needing to build your own frontend:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-builtin.jpg" width="600">
 
