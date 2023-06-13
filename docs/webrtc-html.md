@@ -10,9 +10,10 @@ Included in this repo are various example webapps using WebRTC that are found un
 ```
 + python/
   + www/
-    - html   # core HTML/JavaScript
-    - flask  # Flask + HTML/JavaScript
-    - dash   # Plotly Dash
+    - dash       # Plotly Dashboard
+    - html       # core HTML/JavaScript
+    - flask      # Flask + REST
+    - recognizer # interactive training
 ```
 
 Each of these demonstrate WebRTC integration with different Python-based webserver frameworks for building out your own AI-powered interactive webapps.  These generally have similar components like the following:
@@ -78,9 +79,8 @@ This should go in the page `<body>` to create the video player element:
 3.  Start Playback
 
 ``` javascript
-// playStream(url, videoElement) is a helper function from webrtc.js that connects the specified WebRTC stream to the video player
+// playStream() is a helper function from webrtc.js that connects the specified WebRTC stream to the video player
 // getWebSocketURL() is a helper function that makes a URL path of the form:  wss://<SERVER-IP>:8554/output
-// document.getElementById('video-player') retreives the page's video player element
 playStream(getWebsocketURL('output'), document.getElementById('video-player'));
 ```
 
