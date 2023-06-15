@@ -5,7 +5,7 @@
 
 # Running the Docker Container
 
-Pre-built Docker container images for this project are hosted on [DockerHub](https://hub.docker.com/r/dustynv/jetson-inference/tags).  Alternatively, you can [Build the Project from Source](building-repo-2.md).   
+Pre-built Docker container images for this project are hosted on [DockerHub](https://hub.docker.com/r/dustynv/jetson-inference/tags).  Alternatively, you can [Build the Project ](building-repo-2.md) from source.   
 
 Below are the currently available container tags:
 
@@ -31,9 +31,9 @@ These containers use the [`l4t-pytorch`](https://ngc.nvidia.com/catalog/containe
 Due to various mounts and devices needed to run the container, it's recommended to use the [`docker/run.sh`](../docker/run.sh) script to run the container:
 
 ```bash
-git clone --recursive --depth=1 https://github.com/dusty-nv/jetson-inference
-cd jetson-inference
-docker/run.sh
+$ git clone --recursive --depth=1 https://github.com/dusty-nv/jetson-inference
+$ cd jetson-inference
+$ docker/run.sh
 ```
 
 > **note:**  because of the Docker scripts used and the data directory structure that gets mounted into the container, you should still clone the project on your host device (i.e. even if not intending to build/install the project natively)
@@ -42,13 +42,13 @@ docker/run.sh
 
 ### ROS Support
 
-This project has the [ros_deep_learning](https://github.com/dusty-nv/ros_deep_learning) package available for ROS/ROS2, and by specifying the `--ros=ROS_DISTRO` option you can start the version of container built with ROS.  Supported ROS distros include Noetic, Foxy, Galactic, Humble, and Iron:
+This project also has the [ros_deep_learning](https://github.com/dusty-nv/ros_deep_learning) package available for ROS/ROS2, and by specifying the `--ros=ROS_DISTRO` option you can start the version of container built with ROS.  Supported ROS distros include Noetic, Foxy, Galactic, Humble, and Iron:
 
 ``` bash
-docker/run.sh --ros=humble   # noetic, foxy, galactic, humble, iron
+$ docker/run.sh --ros=humble   # noetic, foxy, galactic, humble, iron
 ```
 
-The container will automatically source the ROS environment and ros_deep_learning package when started.  For more information, see the [ros_deep_learning](https://github.com/dusty-nv/ros_deep_learning) documentation.
+The container will source the ROS environment and packages when started.  For more information, see the [ros_deep_learning](https://github.com/dusty-nv/ros_deep_learning) documentation.
 
 ### x86 Support
 
@@ -83,10 +83,10 @@ You can specify `--volume` multiple times to mount multiple directories.  For mo
 Once the container is up and running, you can then run example programs from the tutorial like normal inside the container:
 
 ```bash
-# cd build/aarch64/bin
-# ./video-viewer /dev/video0
-# ./imagenet images/jellyfish.jpg images/test/jellyfish.jpg
-# ./detectnet images/peds_0.jpg images/test/peds_0.jpg
+$ cd build/aarch64/bin
+$ ./video-viewer /dev/video0
+$ ./imagenet images/jellyfish.jpg images/test/jellyfish.jpg
+$ ./detectnet images/peds_0.jpg images/test/peds_0.jpg
 # (press Ctrl+D to exit the container)
 ```
 

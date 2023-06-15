@@ -73,7 +73,7 @@ $ cmake ../
 > **note**: this command will launch the [`CMakePreBuild.sh`](../CMakePreBuild.sh) script which asks for sudo privileges while installing some prerequisite packages on the Jetson. The script also downloads pre-trained networks from web services.
 
 
-### Installing PyTorch
+## Installing PyTorch
 
 If you are using JetPack 4.2 or newer, another tool will now run that can optionally install PyTorch on your Jetson if you want to re-train networks with [transfer learning](pytorch-transfer-learning.md) later in the tutorial.  This step is optional, and if you don't wish to do the transfer learning steps, you don't need to install PyTorch and can skip this step.
 
@@ -93,7 +93,7 @@ $ ./install-pytorch.sh
 
 Running these commands will prompt you with the same dialog as seen above.
 
-### Compiling the Project
+## Compiling the Project
 
 Make sure you are still in the `jetson-inference/build` directory, created above in step #3.
 
@@ -123,7 +123,7 @@ In the build tree, you can find the binaries residing in `build/aarch64/bin/`, h
 The Python bindings for the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html) modules also get installed during the `sudo make install` step under `/usr/lib/python*/dist-packages/`.  If you update the code, remember to run it again.
  
 
-### Digging Into the Code
+## Digging Into the Code
 
 See the **[API Reference](../README.md#api-reference)** documentation for the vision primitives available in `libjetson-inference`, including `imageNet` for image recognition, `detectNet` for object localization, and `segNet` for semantic segmentation.  Familiarize yourself with the C++ or Python versions of these objects, depending on which language you prefer to use.
 
