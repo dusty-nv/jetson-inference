@@ -21,13 +21,12 @@ Before attempting to use the Docker container or build the repo, make sure that 
 
 ### Jetson Nano, Orin Nano, and Xavier NX
 
-The recommended install method for the Jetson developer kits with removable microSD storage is to use the **[SD card images](https://developer.nvidia.com/embedded/downloads)**.  
-
+The recommended install method for the Jetson developer kits with removable microSD storage is to flash the latest **[SD card image](https://developer.nvidia.com/embedded/downloads)**.  
 It comes pre-populated with the JetPack components already installed and can be flashed from a Windows, Mac, or Linux PC.  If you haven't already, follow the Getting Started guide for your respective Jetson to flash the SD card image and setup your device:
 
 * [Getting Started with Jetson Nano Developer Kit](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit)
 * [Getting Started with Jetson Nano 2GB Developer Kit](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-2gb-devkit)
-* [Jetson Xavier NX User Guide](https://developer.nvidia.com/embedded/downloads#?search=Jetson%20Xavier%20NX%20Developer%20Kit%20User%20Guide) 
+* [Jetson Xavier NX Developer Kit User Guide](https://developer.nvidia.com/embedded/downloads#?search=Jetson%20Xavier%20NX%20Developer%20Kit%20User%20Guide) 
 * [Jetson Orin Nano Developer Kit Getting Started Guide](https://developer.nvidia.com/embedded/learn/get-started-jetson-orin-nano-devkit)
 
 ### Jetson TX1/TX2, AGX Xavier, and AGX Orin
