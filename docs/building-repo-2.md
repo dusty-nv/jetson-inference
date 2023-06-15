@@ -5,7 +5,7 @@
 
 # Building the Project from Source
 
-Once your Jetson has has been [flashed with JetPack](jetpack-setup-2.md) or setup with the pre-populated [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write), you should be able to either run the pre-built [Docker container](aux-docker.md), or compile jetson-inference from source.  
+Once your Jetson has has been [flashed with JetPack](jetpack-setup-2.md) or setup with the latest [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write), you should be able to either run the pre-built [Docker container](aux-docker.md), or compile jetson-inference from source.  Either option is also able to install PyTorch for you.
 
 ## Quick Reference
 
@@ -25,7 +25,7 @@ sudo ldconfig
 ```
 Below we will go through each step and discuss various build options along the way.
  
-### Cloning the Repo
+## Cloning the Repo
 
 To download the code, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed:
 
