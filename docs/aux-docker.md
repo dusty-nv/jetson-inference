@@ -22,7 +22,7 @@ Below are the currently available container tags:
 | [`dustynv/jetson-inference:r32.4.3`](https://hub.docker.com/r/dustynv/jetson-inference/tags) | L4T R32.4.3 | JetPack 4.4 |
 
 
-> **note:** the version of JetPack-L4T that you have installed on your Jetson needs to match the tag above.  If you have a different version of JetPack-L4T installed, either upgrade to the latest JetPack or [Build the Project from Source](docs/building-repo-2.md) to compile the project directly. 
+> **note:** the version of JetPack-L4T that you have installed on your Jetson needs to be compatible with one of the tags above.  If you have a different version of JetPack installed, either upgrade to the latest JetPack or [Build the Project from Source](docs/building-repo-2.md) to compile the project directly. 
 
 These containers use the [`l4t-pytorch`](https://ngc.nvidia.com/catalog/containers/nvidia:l4t-pytorch) base container, so support for transfer learning / re-training is already included.
 
