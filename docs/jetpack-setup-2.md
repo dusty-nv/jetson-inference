@@ -7,21 +7,14 @@
 
 > **note**:  if your Jetson has already been flashed with the JetPack [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) or [SDK Manager](https://developer.nvidia.com/embedded/dlc/nv-sdk-manager), you can skip this step and continue to [`Running the Docker Container`](aux-docker.md) or [`Building the Project`](building-repo-2.md)
 
-NVIDIA **[JetPack](https://developer.nvidia.com/embedded/jetpack)** is a comprehensive SDK for Jetson for both developing and deploying AI and computer vision applications.  JetPack simplifies installation of the OS and drivers and contains the following components:
-
-- L4T Kernel / BSP
-- CUDA Toolkit
-- cuDNN
-- TensorRT
-- OpenCV
-- VPI
-- Multimedia API's
+NVIDIA **[JetPack](https://developer.nvidia.com/embedded/jetpack)** is a comprehensive SDK for Jetson for both developing and deploying AI and computer vision applications.  JetPack simplifies installation of the OS and drivers and includes the L4T Linux kernel, CUDA Toolkit, cuDNN, TensorRT, and more.
 
 Before attempting to use the Docker container or build the repo, make sure that your Jetson has been setup with the latest version of JetPack.
 
 ### Jetson Nano, Orin Nano, and Xavier NX
 
 The recommended install method for the Jetson developer kits with removable microSD storage is to flash the latest **[SD card image](https://developer.nvidia.com/embedded/downloads)**.  
+
 It comes pre-populated with the JetPack components already installed and can be flashed from a Windows, Mac, or Linux PC.  If you haven't already, follow the Getting Started guide for your respective Jetson to flash the SD card image and setup your device:
 
 * [Getting Started with Jetson Nano Developer Kit](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit)
