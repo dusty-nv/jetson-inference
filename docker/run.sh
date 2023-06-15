@@ -154,6 +154,8 @@ done
 # select container tag (unless specified by user)
 if [ -z "$CONTAINER_IMAGE" ]; then
 	source docker/tag.sh
+else
+	source docker/containers/scripts/l4t_version.sh
 fi
 
 # check for V4L2 devices
