@@ -14,24 +14,25 @@ NVIDIA **[JetPack](https://developer.nvidia.com/embedded/jetpack)** is a compreh
 - cuDNN
 - TensorRT
 - OpenCV
-- VisionWorks
+- VPI
 - Multimedia API's
 
 Before attempting to use the Docker container or build the repo, make sure that your Jetson has been setup with the latest version of JetPack.
 
-### Jetson Nano and Jetson Xavier NX
+### Jetson Nano, Orin Nano, and Xavier NX
 
-The recommended install method for the Jetson Nano Developer Kit and Jetson Xavier NX Developer Kit is to use the **[SD card images](https://developer.nvidia.com/embedded/downloads)**.  
+The recommended install method for the Jetson developer kits with removable microSD storage is to use the **[SD card images](https://developer.nvidia.com/embedded/downloads)**.  
 
 It comes pre-populated with the JetPack components already installed and can be flashed from a Windows, Mac, or Linux PC.  If you haven't already, follow the Getting Started guide for your respective Jetson to flash the SD card image and setup your device:
 
 * [Getting Started with Jetson Nano Developer Kit](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit)
 * [Getting Started with Jetson Nano 2GB Developer Kit](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-2gb-devkit)
 * [Jetson Xavier NX User Guide](https://developer.nvidia.com/embedded/downloads#?search=Jetson%20Xavier%20NX%20Developer%20Kit%20User%20Guide) 
+* []Jetson Orin Nano Developer Kit Getting Started Guide(https://developer.nvidia.com/embedded/learn/get-started-jetson-orin-nano-devkit)
 
-### Jetson TX1/TX2 and AGX Xavier
+### Jetson TX1/TX2, AGX Xavier, and AGX Orin
 
-Other Jetson's should be flashed by downloading the [NVIDIA SDK Manager](https://developer.nvidia.com/embedded/dlc/nv-sdk-manager) to a host PC running Ubuntu 16.04 x86_64 or Ubuntu 18.04 x86_64.  Connect the Micro-USB or USB-C port to your host PC and enter the device into Recovery Mode.
+Other Jetson's should be flashed by downloading the [NVIDIA SDK Manager](https://developer.nvidia.com/embedded/dlc/nv-sdk-manager) to a host PC running Ubuntu x86_64.  Connect the Micro-USB or USB-C port to your host PC and enter the device into Recovery Mode.
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/nvsdkm.png" width="800">
 

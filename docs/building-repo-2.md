@@ -5,11 +5,9 @@
 
 # Building the Project from Source
 
-Provided with the repo is a library of TensorRT-accelerated deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  This inferencing library (`libjetson-inference`) is intended to be run on the Jetson, and includes support for both C++ and Python.  Various pre-trained DNN models are automatically downloaded to get you up and running quickly.
+Once your Jetson has has been [flashed with JetPack](jetpack-setup-2.md) or setup with the pre-populated [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write), you should be able to either run the pre-built [Docker container](aux-docker.md), or compile jetson-inference from source.  
 
-The latest source code or [Docker container](aux-docker.md) can be used onboard your Jetson once your device has been [flashed with JetPack](jetpack-setup-2.md) or setup with the pre-populated [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write).  You can run the pre-built [Docker container](aux-docker.md) without needing to compile the project or install PyTorch yourself.
-
-### Quick Reference
+## Quick Reference
 
 If you aren't using the [Docker container](aux-docker.md), here's a condensed form of the commands to build/install the project directly on your Jetson:
 
@@ -50,7 +48,7 @@ Remember to run the `git submodule update --init` step (or clone with the `--rec
 
 The Python functionality of this project is implemented through Python extension modules that provide bindings to the native C++ code using the Python C API.  While configuring the project, the repo searches for versions of Python that have development packages installed on the system, and will then build the bindings for each version of Python that's present (e.g. Python 2.7, 3.6, and 3.7).  It will also build numpy bindings for versions of numpy that are installed.
 
-By default, Ubuntu comes with the `libpython-dev` and `python-numpy` packages pre-installed (which are for Python 2.7).  Although the Python 3.6 interpreter is pre-installed by Ubuntu, the Python 3.6 development packages (`libpython3-dev`) and `python3-numpy` are not.  These development packages are required for the bindings to build using the Python C API.  
+By default, Ubuntu comes with the `libpython-dev` and `python-numpy` packages pre-installed (which are for Python 2.7).  Although the Python3 interpreter is pre-installed by Ubuntu, the Python3 development packages (`libpython3-dev`) and `python3-numpy` are not.  These development packages are required for the bindings to build using the Python C API.  
 
 So if you want the project to create bindings for Python 3.6, install these packages before proceeding:
 
@@ -79,7 +77,7 @@ $ cmake ../
 
 If you are using JetPack 4.2 or newer, another tool will now run that can optionally install PyTorch on your Jetson if you want to re-train networks with [transfer learning](pytorch-transfer-learning.md) later in the tutorial.  This step is optional, and if you don't wish to do the transfer learning steps, you don't need to install PyTorch and can skip this step.
 
-If desired, select the PyTorch package versions for Python 2.7 and/or Python 3.6 that you want installed and hit `Enter` to continue.  Otherwise, leave the options un-selected, and it will skip the installation of PyTorch. 
+If desired, select the PyTorch package versions for Python 2.7 and/or Python3 that you want installed and hit `Enter` to continue.  Otherwise, leave the options un-selected, and it will skip the installation of PyTorch. 
 
 <img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/docs/images/pytorch-installer.jpg" width="650">
 

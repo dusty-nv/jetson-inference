@@ -25,7 +25,7 @@ Follow the **[Hello AI World](#hello-ai-world)** tutorial for running inference 
 
 ## Hello AI World
 
-Hello AI World can be run completely onboard your Jetson, including inferencing with TensorRT and transfer learning with PyTorch.  The inference portion of Hello AI World - which includes coding your own image classification and object detection applications for Python or C++, and live camera demos - can be run on your Jetson in roughly two hours or less, while transfer learning is best left to leave running overnight.
+Hello AI World can be run completely onboard your Jetson, including live inferencing with TensorRT and transfer learning with PyTorch.  For installation instructions, see [System Setup](#system-setup).  It's then recommended to start with the [Inference](#inference) portion of the tutorial to familiarize yourself with the concepts before diving into [Training](#training) your own models.
 
 #### System Setup
 

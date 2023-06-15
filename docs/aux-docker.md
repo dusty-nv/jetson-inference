@@ -31,14 +31,24 @@ These containers use the [`l4t-pytorch`](https://ngc.nvidia.com/catalog/containe
 Due to various mounts and devices needed to run the container, it's recommended to use the [`docker/run.sh`](../docker/run.sh) script to run the container:
 
 ```bash
-$ git clone --recursive https://github.com/dusty-nv/jetson-inference
-$ cd jetson-inference
-$ docker/run.sh
+git clone --recursive --depth=1 https://github.com/dusty-nv/jetson-inference
+cd jetson-inference
+docker/run.sh
 ```
 
 > **note:**  because of the Docker scripts used and the data directory structure that gets mounted into the container, you should still clone the project on your host device (i.e. even if not intending to build/install the project natively)
 
 [`docker/run.sh`](../docker/run.sh) will automatically pull the correct container tag from DockerHub based on your currently-installed version of JetPack-L4T, and mount the appropriate data directories and devices so that you can use cameras/display/ect from within the container.
+
+### ROS Support
+
+This project has the [ros_deep_learning](https://github.com/dusty-nv/ros_deep_learning) package available for ROS/ROS2, and by specifying the `--ros=ROS_DISTRO` option you can start the version of container built with ROS.  Supported ROS distros include Noetic, Foxy, Galactic, Humble, and Iron:
+
+``` bash
+docker/run.sh --ros=humble   # noetic, foxy, galactic, humble, iron
+```
+
+The container will automatically source the ROS environment and ros_deep_learning package when started.  For more information, see the [ros_deep_learning](https://github.com/dusty-nv/ros_deep_learning) documentation.
 
 ### x86 Support
 
@@ -66,7 +76,7 @@ If you wish to mount your own directory into the container, you can use the `--v
 $ docker/run.sh --volume /my/host/path:/my/container/path    # these should be absolute paths
 ```
 
-For more info, run `docker/run.sh --help` or see the help text inside [`docker/run.sh`](../docker/run.sh)
+You can specify `--volume` multiple times to mount multiple directories.  For more info, run `docker/run.sh --help` or see the help text inside [`docker/run.sh`](../docker/run.sh)
 
 ## Running Applications
 
@@ -92,7 +102,7 @@ $ docker/build.sh
 
 >  **note:** you should first set your default `docker-runtime` to nvidia, see [here](https://github.com/dusty-nv/jetson-containers#docker-default-runtime) for the details.
 
-You can also base your own container on this one by using the line `FROM dustynv/jetson-inference:r32.4.3` in your own Dockerfile.
+You can also base your own container on this one by using the line `FROM dustynv/jetson-inference:rXX.X.X` in your own Dockerfile.
 
 ## Getting Started
 
