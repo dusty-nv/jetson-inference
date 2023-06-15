@@ -5,7 +5,7 @@
 
 # Setting up Jetson with JetPack
 
-> **note**:  if your Jetson Nano or Xavier NX has already been setup with the [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) (which includes JetPack), or your Jetson has already been setup with JetPack, you can skip this step and continue to [`Running the Docker Container`](aux-docker.md) or [`Building the Project`](building-repo-2.md)
+> **note**:  if your Jetson has already been flashed with the JetPack [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write) or [SDK Manager](https://developer.nvidia.com/embedded/dlc/nv-sdk-manager), you can skip this step and continue to [`Running the Docker Container`](aux-docker.md) or [`Building the Project`](building-repo-2.md)
 
 NVIDIA **[JetPack](https://developer.nvidia.com/embedded/jetpack)** is a comprehensive SDK for Jetson for both developing and deploying AI and computer vision applications.  JetPack simplifies installation of the OS and drivers and contains the following components:
 
@@ -28,15 +28,15 @@ It comes pre-populated with the JetPack components already installed and can be 
 * [Getting Started with Jetson Nano Developer Kit](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit)
 * [Getting Started with Jetson Nano 2GB Developer Kit](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-2gb-devkit)
 * [Jetson Xavier NX User Guide](https://developer.nvidia.com/embedded/downloads#?search=Jetson%20Xavier%20NX%20Developer%20Kit%20User%20Guide) 
-* []Jetson Orin Nano Developer Kit Getting Started Guide(https://developer.nvidia.com/embedded/learn/get-started-jetson-orin-nano-devkit)
+* [Jetson Orin Nano Developer Kit Getting Started Guide](https://developer.nvidia.com/embedded/learn/get-started-jetson-orin-nano-devkit)
 
 ### Jetson TX1/TX2, AGX Xavier, and AGX Orin
 
-Other Jetson's should be flashed by downloading the [NVIDIA SDK Manager](https://developer.nvidia.com/embedded/dlc/nv-sdk-manager) to a host PC running Ubuntu x86_64.  Connect the Micro-USB or USB-C port to your host PC and enter the device into Recovery Mode.
+Other Jetson's should be flashed by downloading the [NVIDIA SDK Manager](https://developer.nvidia.com/embedded/dlc/nv-sdk-manager) to a host PC running Ubuntu x86_64.  Connect the Micro-USB or USB-C port to your host PC and enter the device into Recovery Mode before proceeding:
 
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/nvsdkm.png" width="800">
 
-For more details, please refer to the **[NVIDIA SDK Manager Documentation](https://docs.nvidia.com/sdk-manager/index.html)**.
+For more details, please refer to the **[NVIDIA SDK Manager Documentation](https://docs.nvidia.com/sdk-manager/index.html)** and **[Install Jetson Software](https://docs.nvidia.com/sdk-manager/install-with-sdkm-jetson/index.html)** page.
 
 ### Getting the Project
 
