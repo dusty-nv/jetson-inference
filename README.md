@@ -1,7 +1,7 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 
 # Deploying Deep Learning
-Welcome to our instructional guide for inference and realtime vision [DNN library](#api-reference) for **[NVIDIA Jetson](https://developer.nvidia.com/embedded-computing)** devices.  This project uses **[TensorRT](https://developer.nvidia.com/tensorrt)** to run optimized models on GPUs from C++ or Python, and PyTorch for training.
+Welcome to our instructional guide for inference and realtime vision [DNN library](#api-reference) for **[NVIDIA Jetson](https://developer.nvidia.com/embedded-computing)** devices.  This project uses **[TensorRT](https://developer.nvidia.com/tensorrt)** to run optimized networks on GPUs from C++ or Python, and PyTorch for training models.
 
 Supported DNN vision primitives include [`imageNet`](docs/imagenet-console-2.md) for image classification, [`detectNet`](docs/detectnet-console-2.md) for object detection, [`segNet`](docs/segnet-console-2.md) for semantic segmentation, [`poseNet`](docs/posenet.md) for pose estimation, and [`actionNet`](docs/actionnet.md) for action recognition.  Examples are provided for streaming from live camera feeds, making webapps with WebRTC, and support for ROS/ROS2.
 
