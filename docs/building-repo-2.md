@@ -48,14 +48,11 @@ Remember to run the `git submodule update --init` step (or clone with the `--rec
 
 The Python functionality of this project is implemented through Python extension modules that provide bindings to the native C++ code using the Python C API.  While configuring the project, the repo searches for versions of Python that have development packages installed on the system, and will then build the bindings for each version of Python that's present (e.g. Python 2.7, 3.6, 3.8).
 
-Assuming that you want to use Python3, make sure that those dev packages are installed first:
-
 ``` bash
 $ sudo apt-get install libpython3-dev python3-numpy
 ``` 
 
-Then after the `sudo make install` step, the [`jetson_inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) and [`jetson_utils`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html) modules should be available to use within your Python environments.
-
+Then after the `sudo make install` step, the [`jetson_inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) and [`jetson_utils`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html) modules should be able to be imported.
 
 ### Configuring with CMake
 
