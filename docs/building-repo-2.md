@@ -52,7 +52,7 @@ The Python functionality of this project is implemented through Python extension
 $ sudo apt-get install libpython3-dev python3-numpy
 ``` 
 
-Then after the `sudo make install` step, the [`jetson_inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) and [`jetson_utils`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html) modules should be able to be imported.
+Then after the `sudo make install` step, the [`jetson_inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) and [`jetson_utils`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html) modules should be able to be imported in Python.
 
 ### Configuring with CMake
 
