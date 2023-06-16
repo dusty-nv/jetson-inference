@@ -76,7 +76,7 @@ If you wish to mount your own directory into the container, you can use the `--v
 $ docker/run.sh --volume /my/host/path:/my/container/path    # these should be absolute paths
 ```
 
-You can specify `--volume` multiple times to mount multiple directories.  For more info, run `docker/run.sh --help` or see the help text inside [`docker/run.sh`](../docker/run.sh)
+You can specify `--volume` multiple times to mount multiple directories.  For more info, run or see [`docker/run.sh --help`](../docker/run.sh)
 
 ## Running Applications
 
