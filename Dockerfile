@@ -101,6 +101,7 @@ COPY examples examples
 COPY python python
 COPY tools tools
 COPY utils utils
+COPY data/networks/models.json data/networks/models.json
 
 COPY CMakeLists.txt CMakeLists.txt
 COPY CMakePreBuild.sh CMakePreBuild.sh
