@@ -130,6 +130,6 @@ RUN cd examples/my-recognition && \
     cd build && \
     cmake ../ && \
     make
-    
+
 # workaround for "cannot allocate memory in static TLS block"
-ENV LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
+ENV LD_PRELOAD=${LD_PRELOAD}:/usr/lib/aarch64-linux-gnu/libgomp.so.1:/lib/aarch64-linux-gnu/libGLdispatch.so.0
