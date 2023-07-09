@@ -38,7 +38,7 @@ Any application using videoSource/videoOutput (including the [C++/Python example
 It's recommended to use secure HTTPS and SSL/TLS for transporting WebRTC streams and serving webpages so that they are encrypted.  Also, browsers require HTTPS to use a client's webcam from a PC.  To enable HTTPS, first you need to generate a self-signed SSL certificate and key:
 
 ``` bash
-$ cd /jetson-inference/data
+$ cd ~/jetson-inference/data
 $ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365 -nodes -subj '/CN=localhost'
 $ export SSL_KEY=/jetson-inference/data/key.pem
 $ export SSL_CERT=/jetson-inference/data/cert.pem
