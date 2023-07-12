@@ -1,12 +1,12 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 <p align="right"><sup><a href="imagenet-console-2.md">Back</a> | <a href="imagenet-example-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
-<sup>Image Recognition</sup></p>  
+<sup>Image Classification</sup></p>  
 
 # Coding Your Own Image Recognition Program (Python)
 In the previous step, we ran a sample application that came with the `jetson-inference` repo.  
 
-Now, we're going to walk through creating a new program from scratch in Python for image recognition called [`my-recognition.py`](../python/examples/my-recognition.py).  This script will load an arbitrary image from disk and classify it using the [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) object.  The completed source at [`python/examples/my-recognition.py`](../python/examples/my-recognition.py)
+Now, we're going to walk through creating a new program from scratch in Python for image recognition called [`my-recognition.py`](../python/examples/my-recognition.py).  This script will load an arbitrary image from disk and classify it using the [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#imageNet) object.  The completed source at [`python/examples/my-recognition.py`](../python/examples/my-recognition.py)
 
 ``` python
 #!/usr/bin/python3
@@ -78,7 +78,7 @@ Next, we'll import the Python modules that we're going to use in the script.
 
 #### Importing Modules
 
-Add `import` statements to load the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) modules used for recognizing images and image loading.  We'll also load the standard `argparse` package for parsing the command line.
+Add `import` statements to load the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html) modules used for recognizing images and image loading.  We'll also load the standard `argparse` package for parsing the command line.
 
 ``` python
 import jetson.inference
@@ -146,7 +146,7 @@ For more information about accessing images from Python, see the [Image Manipula
 
 #### Loading the Image Recognition Network
 
-Using the [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) object, the following code will load the desired classification model with TensorRT.  Unless you specified a different network using the `--network` flag, by default it will load GoogleNet, which was already downloaded when you initially [built the `jetson-inference` repo](building-repo-2.md#downloading-models) (the `ResNet-18` model was also selected by default to be downloaded).
+Using the [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#imageNet) object, the following code will load the desired classification model with TensorRT.  Unless you specified a different network using the `--network` flag, by default it will load GoogleNet, which was already downloaded when you initially [built the `jetson-inference` repo](building-repo-2.md#downloading-models) (the `ResNet-18` model was also selected by default to be downloaded).
 
 All of the available classification models are pre-trained on the ImageNet ILSVRC dataset, which can recognize up to [1000 different classes](../data/networks/ilsvrc12_synset_words.txt) of objects, like different kinds of fruits and vegetables, many different species of animals, along with everyday man-made objects like vehicles, office furniture, sporting equipment, ect.   
 

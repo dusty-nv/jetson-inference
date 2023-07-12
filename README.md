@@ -1,15 +1,13 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
 
 # Deploying Deep Learning
-Welcome to our instructional guide for inference and realtime [DNN vision](#api-reference) library for NVIDIA **[Jetson Nano/TX1/TX2/Xavier NX/AGX Xavier/AGX Orin](http://www.nvidia.com/object/embedded-systems.html)**.
+Welcome to our instructional guide for inference and realtime vision [DNN library](#api-reference) for **[NVIDIA Jetson](https://developer.nvidia.com/embedded-computing)** devices.  This project uses **[TensorRT](https://developer.nvidia.com/tensorrt)** to run optimized networks on GPUs from C++ or Python, and PyTorch for training models.
 
-This repo uses NVIDIA **[TensorRT](https://developer.nvidia.com/tensorrt)** for efficiently deploying neural networks onto the embedded Jetson platform, improving performance and power efficiency using graph optimizations, kernel fusion, and FP16/INT8 precision.
+Supported DNN vision primitives include [`imageNet`](docs/imagenet-console-2.md) for image classification, [`detectNet`](docs/detectnet-console-2.md) for object detection, [`segNet`](docs/segnet-console-2.md) for semantic segmentation, [`poseNet`](docs/posenet.md) for pose estimation, and [`actionNet`](docs/actionnet.md) for action recognition.  Examples are provided for streaming from live camera feeds, making webapps with WebRTC, and support for ROS/ROS2.
 
-Vision primitives, such as [`imageNet`](docs/imagenet-console-2.md) for image recognition, [`detectNet`](docs/detectnet-console-2.md) for object detection, [`segNet`](docs/segnet-console-2.md) for semantic segmentation, and [`poseNet`](docs/posenet.md) for pose estimation inherit from the shared [`tensorNet`](c/tensorNet.h) object.  Examples are provided for streaming from live camera feed and processing images.  See the **[API Reference](#api-reference)** section for detailed reference documentation of the C++ and Python libraries. 
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-primitives.jpg">
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/deep-vision-primitives.jpg">
-
-Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and transfer learning onboard your Jetson, including collecting your own datasets and training your own models.  It covers image classification, object detection, semantic segmentation, pose estimation, and mono depth.
+Follow the **[Hello AI World](#hello-ai-world)** tutorial for running inference and transfer learning onboard your Jetson, including collecting your own datasets, training your own models with PyTorch, and deploying them with TensorRT.
 
 ### Table of Contents
 
@@ -21,13 +19,13 @@ Follow the [Hello AI World](#hello-ai-world) tutorial for running inference and 
 * [System Requirements](#recommended-system-requirements)
 * [Change Log](CHANGELOG.md)
 
-> &gt; &nbsp; JetPack 5.0 is now supported, along with [Jetson AGX Orin](https://developer.nvidia.com/embedded/jetson-agx-orin-developer-kit). <br/>
-> &gt; &nbsp; Try the new [Pose Estimation](docs/posenet.md) and [Mono Depth](docs/depthnet.md) tutorials! <br/>
+> &gt; &nbsp; JetPack 5 is now supported, along with [Jetson Orin Nano](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/). <br/>
+> &gt; &nbsp; Recent post:  [Deploying Edge AI Web Apps](https://medium.com/@hello-ai-world/hello-ai-world-deploying-edge-ai-web-apps-on-jetson-orin-nano-88096cda3aad) (see [WebRTC](#webapp-frameworks) support) <br/>
 > &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 
 ## Hello AI World
 
-Hello AI World can be run completely onboard your Jetson, including inferencing with TensorRT and transfer learning with PyTorch.  The inference portion of Hello AI World - which includes coding your own image classification and object detection applications for Python or C++, and live camera demos - can be run on your Jetson in roughly two hours or less, while transfer learning is best left to leave running overnight.
+Hello AI World can be run completely onboard your Jetson, including live inferencing with TensorRT and transfer learning with PyTorch.  For installation instructions, see [System Setup](#system-setup).  It's then recommended to start with the [Inference](#inference) section to familiarize yourself with the concepts, before diving into [Training](#training) your own models.
 
 #### System Setup
 
@@ -37,20 +35,25 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 
 #### Inference
 
-* [Classifying Images with ImageNet](docs/imagenet-console-2.md)
+* [Image Classification](docs/imagenet-console-2.md)
 	* [Using the ImageNet Program on Jetson](docs/imagenet-console-2.md)
 	* [Coding Your Own Image Recognition Program (Python)](docs/imagenet-example-python-2.md)
 	* [Coding Your Own Image Recognition Program (C++)](docs/imagenet-example-2.md)
 	* [Running the Live Camera Recognition Demo](docs/imagenet-camera-2.md)
-* [Locating Objects with DetectNet](docs/detectnet-console-2.md)
+	* [Multi-Label Classification for Image Tagging](docs/imagenet-tagging.md)
+* [Object Detection](docs/detectnet-console-2.md)
 	* [Detecting Objects from Images](docs/detectnet-console-2.md#detecting-objects-from-the-command-line)
 	* [Running the Live Camera Detection Demo](docs/detectnet-camera-2.md)
 	* [Coding Your Own Object Detection Program](docs/detectnet-example-2.md)
-* [Semantic Segmentation with SegNet](docs/segnet-console-2.md)
+	* [Using TAO Detection Models](docs/detectnet-tao.md)
+	* [Object Tracking on Video](docs/detectnet-tracking.md)
+* [Semantic Segmentation](docs/segnet-console-2.md)
 	* [Segmenting Images from the Command Line](docs/segnet-console-2.md#segmenting-images-from-the-command-line)
 	* [Running the Live Camera Segmentation Demo](docs/segnet-camera-2.md)
-* [Pose Estimation with PoseNet](docs/posenet.md)
-* [Monocular Depth with DepthNet](docs/depthnet.md)
+* [Pose Estimation](docs/posenet.md)
+* [Action Recognition](docs/actionnet.md)
+* [Background Removal](docs/backgroundnet.md)
+* [Monocular Depth](docs/depthnet.md)
 
 #### Training
 
@@ -68,13 +71,14 @@ Hello AI World can be run completely onboard your Jetson, including inferencing 
 * [WebRTC Server](docs/webrtc-server.md)
 * [HTML / JavaScript](docs/webrtc-html.md)
 * [Flask + REST](docs/webrtc-flask.md)
-* [Plotly Dash](docs/webrtc-dash.md)
+* [Plotly Dashboard](docs/webrtc-dash.md)
+* [Recognizer (Interactive Training)](docs/webrtc-recognizer.md)
 
 #### Appendix
 
 * [Camera Streaming and Multimedia](docs/aux-streaming.md)
 * [Image Manipulation with CUDA](docs/aux-image.md)
-* [Deep Learning Nodes for ROS/ROS2](https://github.com/dusty-nv/ros_deep_learning)
+* [DNN Inference Nodes for ROS/ROS2](https://github.com/dusty-nv/ros_deep_learning)
 
 ## Video Walkthroughs
 
@@ -91,22 +95,24 @@ Below are screencasts of Hello AI World that were recorded for the [Jetson AI Ce
 
 ## API Reference
 
-Below are links to reference documentation for the [C++](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/index.html) and [Python](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.html) libraries from the repo:
+Below are links to reference documentation for the [C++](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/index.html) and [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.html) libraries from the repo:
 
 #### jetson-inference
 
-|                   | [C++](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html) |
-|-------------------|--------------|--------------|
-| Image Recognition | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classimageNet.html) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#imageNet) |
-| Object Detection  | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classdetectNet.html) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#detectNet)
-| Segmentation      | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classsegNet.html) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/pytorch/docs/html/python/jetson.inference.html#segNet) |
-| Pose Estimation   | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classposeNet.html) | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#poseNet) |
-| Monocular Depth   | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/classdepthNet.html) | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#depthNet) |
+|                    | [C++](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__deepVision.html) | [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) |
+|--------------------|--------------|--------------|
+| Image Recognition  | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__imageNet.html#classimageNet) | [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#imageNet) |
+| Object Detection   | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__detectNet.html#classdetectNet) | [`detectNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet)
+| Segmentation       | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__segNet.html#classsegNet) | [`segNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#segNet) |
+| Pose Estimation    | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__poseNet.html#classposeNet) | [`poseNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#poseNet) |
+| Action Recognition | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__actionNet.html#classactionNet) | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#actionNet) |
+| Background Removal | [`backgroundNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__backgroundNet.html#classbackgroundNet) | [`actionNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#backgroundNet) |
+| Monocular Depth    | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__depthNet.html#classdepthNet) | [`depthNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#depthNet) |
 
 #### jetson-utils
 
-* [C++](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__util.html)
-* [Python](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.utils.html)
+* [C++](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__util.html)
+* [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html)
 
 These libraries are able to be used in external projects by linking to `libjetson-inference` and `libjetson-utils`.
 
@@ -117,23 +123,25 @@ Introductory code walkthroughs of using the library are covered during these ste
 * [Coding Your Own Image Recognition Program (Python)](docs/imagenet-example-python-2.md)
 * [Coding Your Own Image Recognition Program (C++)](docs/imagenet-example-2.md)
 
-Additional C++ and Python samples for running the networks on static images and live camera streams can be found here:
+Additional C++ and Python samples for running the networks on images and live camera streams can be found here:
 
-|                   | C++             | Python             |
+|                   | C++              | Python             |
 |-------------------|---------------------|---------------------|
-| &nbsp;&nbsp;&nbsp;Image Recognition | [`imagenet.cpp`](examples/imagenet/imagenet.cpp) | [`imagenet.py`](python/examples/imagenet.py) |
-| &nbsp;&nbsp;&nbsp;Object Detection  | [`detectnet.cpp`](examples/detectnet/detectnet.cpp) | [`detectnet.py`](python/examples/detectnet.py) |
-| &nbsp;&nbsp;&nbsp;Segmentation      | [`segnet.cpp`](examples/segnet/segnet.cpp) | [`segnet.py`](python/examples/segnet.py) |
-| &nbsp;&nbsp;&nbsp;Pose Estimation   | [`posenet.cpp`](examples/posenet/posenet.cpp) | [`posenet.py`](python/examples/posenet.py) |
-| &nbsp;&nbsp;&nbsp;Monocular Depth   | [`depthnet.cpp`](examples/depthnet/segnet.cpp) | [`depthnet.py`](python/examples/depthnet.py) |
+| &nbsp;&nbsp;&nbsp;Image Recognition  | [`imagenet.cpp`](examples/imagenet/imagenet.cpp) | [`imagenet.py`](python/examples/imagenet.py) |
+| &nbsp;&nbsp;&nbsp;Object Detection   | [`detectnet.cpp`](examples/detectnet/detectnet.cpp) | [`detectnet.py`](python/examples/detectnet.py) |
+| &nbsp;&nbsp;&nbsp;Segmentation       | [`segnet.cpp`](examples/segnet/segnet.cpp) | [`segnet.py`](python/examples/segnet.py) |
+| &nbsp;&nbsp;&nbsp;Pose Estimation    | [`posenet.cpp`](examples/posenet/posenet.cpp) | [`posenet.py`](python/examples/posenet.py) |
+| &nbsp;&nbsp;&nbsp;Action Recognition | [`actionnet.cpp`](examples/actionnet/actionnet.cpp) | [`actionnet.py`](python/examples/actionnet.py) |
+| &nbsp;&nbsp;&nbsp;Background Removal | [`backgroundnet.cpp`](examples/backgroundnet/backgroundnet.cpp) | [`backgroundnet.py`](python/examples/backgroundnet.py) |
+| &nbsp;&nbsp;&nbsp;Monocular Depth    | [`depthnet.cpp`](examples/depthnet/segnet.cpp) | [`depthnet.py`](python/examples/depthnet.py) |
 
-> **note**:  for working with numpy arrays, see [Converting to Numpy Arrays](docs/aux-image.md#converting-to-numpy-arrays) and [Converting from Numpy Arrays](docs/aux-image.md#converting-from-numpy-arrays)
+> **note**:  see the [Array Interfaces](docs/aux-image.md#array-interfaces) section for using memory with other Python libraries (like Numpy, PyTorch, ect)
 
 These examples will automatically be compiled while [Building the Project from Source](docs/building-repo-2.md), and are able to run the pre-trained models listed below in addition to custom models provided by the user.  Launch each example with `--help` for usage info.
 
 ## Pre-Trained Models
 
-The project comes with a number of pre-trained models that are available through the [**Model Downloader**](docs/building-repo-2.md#downloading-models) tool:
+The project comes with a number of pre-trained models that are available to use and will be automatically downloaded:
 
 #### Image Recognition
 
@@ -152,11 +160,22 @@ The project comes with a number of pre-trained models that are available through
 
 #### Object Detection
 
-| Network                 | CLI argument       | NetworkType enum   | Object classes       |
+| Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
-| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](data/networks/ssd_coco_labels.txt)) |
-| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](data/networks/ssd_coco_labels.txt)) |
-| SSD-Inception-v2        | `ssd-inception-v2` | `SSD_INCEPTION_V2` | 91 ([COCO classes](data/networks/ssd_coco_labels.txt)) |
+| SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
+| SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
+| SSD-Inception-v2        | `ssd-inception-v2` | `SSD_INCEPTION_V2` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
+| TAO PeopleNet           | `peoplenet`        | `PEOPLENET`        | person, bag, face    |
+| TAO PeopleNet (pruned)  | `peoplenet-pruned` | `PEOPLENET_PRUNED` | person, bag, face    |
+| TAO DashCamNet          | `dashcamnet`       | `DASHCAMNET`       | person, car, bike, sign |
+| TAO TrafficCamNet       | `trafficcamnet`    | `TRAFFICCAMNET`    | person, car, bike, sign | 
+| TAO FaceDetect          | `facedetect`       | `FACEDETECT`       | face                 |
+
+<details>
+<summary>Legacy Detection Models</summary>
+
+| Model                   | CLI argument       | NetworkType enum   | Object classes       |
+| ------------------------|--------------------|--------------------|----------------------|
 | DetectNet-COCO-Dog      | `coco-dog`         | `COCO_DOG`         | dogs                 |
 | DetectNet-COCO-Bottle   | `coco-bottle`      | `COCO_BOTTLE`      | bottles              |
 | DetectNet-COCO-Chair    | `coco-chair`       | `COCO_CHAIR`       | chairs               |
@@ -164,6 +183,8 @@ The project comes with a number of pre-trained models that are available through
 | ped-100                 | `pednet`           | `PEDNET`           | pedestrians          |
 | multiped-500            | `multiped`         | `PEDNET_MULTI`     | pedestrians, luggage |
 | facenet-120             | `facenet`          | `FACENET`          | faces                |
+
+</details>
 
 #### Semantic Segmentation
 
@@ -208,12 +229,20 @@ The project comes with a number of pre-trained models that are available through
 | Pose-ResNet18-Hand      | `resnet18-hand`    | `RESNET18_HAND`    | 21        |
 | Pose-DenseNet121-Body   | `densenet121-body` | `DENSENET121_BODY` | 18        |
 
+#### Action Recognition
+
+| Model                    | CLI argument | Classes |
+| -------------------------|--------------|---------|
+| Action-ResNet18-Kinetics | `resnet18`   |  1040   |
+| Action-ResNet34-Kinetics | `resnet34`   |  1040   |
+
 ## Recommended System Requirements
 
 * Jetson Nano Developer Kit with JetPack 4.2 or newer (Ubuntu 18.04 aarch64).  
 * Jetson Nano 2GB Developer Kit with JetPack 4.4.1 or newer (Ubuntu 18.04 aarch64).
 * Jetson Xavier NX Developer Kit with JetPack 4.4 or newer (Ubuntu 18.04 aarch64).  
 * Jetson AGX Xavier Developer Kit with JetPack 4.0 or newer (Ubuntu 18.04 aarch64).  
+* Jetson AGX Orin Developer Kit with JetPack 5.0 or newer (Ubuntu 20.04 aarch64).
 * Jetson TX2 Developer Kit with JetPack 3.0 or newer (Ubuntu 16.04 aarch64).  
 * Jetson TX1 Developer Kit with JetPack 2.3 or newer (Ubuntu 16.04 aarch64).  
 

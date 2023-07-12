@@ -5,13 +5,33 @@
 
 # WebRTC Server
 
-jetson-inference includes an integrated WebRTC server for streaming low-latency live video to/from web browsers that can be used for building dynamic web applications and remote data visualization tools powered by Jetson and edge AI on the backend.  WebRTC works seamlessly with DNN inferencing pipelines via the [videoSource/videoOutput](aux-streaming.md#source-code) interfaces from jetson-utils, which uses hardware-accelerated video encoding and decoding underneath through GStreamer.  It supports sending and receiving multiple streams to/from multiple clients simultaneously, and includes a built-in webserver for viewing video streams remotely without needing to build your own frontend:
+jetson-inference includes an integrated WebRTC server for streaming low-latency live video to/from web browsers that can be used for building dynamic web applications and data visualization tools powered by Jetson and edge AI on the backend.  WebRTC works seamlessly with DNN inferencing pipelines via the [`videoSource/videoOutput`](aux-streaming.md#source-code) interfaces from jetson-utils, which utilizes hardware-accelerated video encoding and decoding through GStreamer.  It supports sending and receiving multiple streams to/from multiple clients simultaneously (without needing to re-encode the video for each independent client), and includes a built-in webserver frontend for viewing video streams remotely:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-builtin.jpg" width="600">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-builtin.jpg" width="600">
 
 In this screenshot of full-duplex mode, the webcam from a laptop is being streamed to a Jetson over WebRTC, where the Jetson decodes it and performs object detection using detectNet, before re-encoding the output and sending it back to the browser again via WebRTC for playback.  The round-trip latency goes largely unnoticed from an interactivity standpoint over local wireless networks.  On the client side, it's been tested with multiple browsers including Chrome/Chromium, mobile Android, and mobile iOS (Safari) using H.264 compression.
 
-Any application using videoSource/videoOutput (including the C++ & Python examples from this repo like imagenet/imagenet.py, detectnet/detectnet.py, ect) can easily enable this WebRTC server by launching them with a stream URL of `webrtc://@:8554/my_stream` or similar.  Further examples are provided that build on these components and implement customizable frontends with more complex processing pipeines and web UI's with interactive controls.
+``` mermaid
+graph LR
+    camera([fa:fa-video-camera Camera])
+    player([fa:fa-television Browser])
+    subgraph server ["Jetson (Edge Server)"]
+        decoder["Decoder"]
+        inference["Inference"]
+        encoder["Encoder"]
+        settings[("Settings")]
+        webserver["Webserver"]
+        decoder-->inference
+        inference-->encoder
+        settings-.->inference
+        settings-. REST Queries .-webserver
+    end
+    camera-- WebRTC -->decoder
+    encoder-- WebRTC -->player
+    webserver-- HTTPS -->player
+```
+
+Any application using videoSource/videoOutput (including the [C++/Python examples](../README.md#code-examples) from this repo) can easily enable this WebRTC server by launching them with a stream URL of `webrtc://@:8554/my_stream` or similar.  Further examples are provided that build on these components and implement customizable frontends with more complex processing pipeines and web UI's with interactive controls.
 
 ## Enabling HTTPS / SSL
 
@@ -30,7 +50,7 @@ You can also store these certs anywhere you want in leui of `/jetson-inference/d
 
 When you first navigate your browser to a page that uses these self-signed certificates, it will issue you a warning since they don't originate from a trusted authority:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-ssl-warning.jpg" width="400">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-ssl-warning.jpg" width="400">
 
 You can choose to override this, and it won't re-appear again until you change certificates or your device's hostname/IP changes.
 
@@ -70,7 +90,7 @@ $ video-viewer webrtc://@:8554/input my_video.mp4  # save browser webcam to MP4 
 $ imagenet.py webrtc://@:8554/input my_video.mp4   # save browser webcam to MP4 file (applying classification)
 ```
 
-> **note**: using browser webcams requires [HTTPS/SSL](#enabling-https--ssl) to be enabled
+> **note**: receiving browser webcams requires [HTTPS/SSL](#enabling-https--ssl) to be enabled
 
 Then navigate your browser again to `https://<JETSON-IP>:8554`, and you'll be prompted to enable access to the camera device and streaming will begin.  Until then, there will be warning messages printed in the Jetson's terminal about video capture timeouts occurring - these are normal and can be ignored, as the client providing the stream has not yet connected.
 
@@ -97,7 +117,7 @@ $ video-viewer webrtc://@:8554/input webrtc://@:8554/output  # browser->Jetson->
 $ posenet.py webrtc://@:8554/input webrtc://@:8554/output    # loopback with pose estimation
 ```
 
-Then when you navigate to the page, it will both send the video from your browser's webcam and playback the results.  Subsequent examples will show how to make your own backend server applications and frontends with different web frameworks.
+Then when you navigate to the page, it will both send the video from your browser's webcam and playback the results.  Subsequent examples will show how to make your own backend AI server applications coupled with frontends built with different web frameworks.
  
 <p align="right">Next | <b><a href="webrtc-html.md">HTML / JavaScript</a></b></p>
 </b><p align="center"><sup>© 2016-2023 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

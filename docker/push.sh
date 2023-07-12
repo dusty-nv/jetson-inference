@@ -14,4 +14,4 @@ push()
 	echo "done pushing image $CONTAINER_REMOTE_IMAGE"
 }
 
-push $TAG
+push $CONTAINER_LOCAL_IMAGE

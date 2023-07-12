@@ -145,44 +145,70 @@ bool FindModel( const char* type, const char* name )
 // DownloadModel
 bool DownloadModel( nlohmann::json& model, uint32_t retries )
 {
-	const std::string dir = model["dir"].get<std::string>();
-	const std::string url = model["url"].get<std::string>();
-	const std::string tar = model["tar"].get<std::string>();
+	const std::string dir = JSON_STR(model["dir"]);
+	const std::string url = JSON_STR(model["url"]);
+	const std::string tar = JSON_STR(model["tar"]);
+	const std::string cmd = JSON_STR(model["cmd"]);
 	
 	if( locateFile("networks/" + dir).length() > 0 )
 		return true;
 
-	for( uint32_t retry=0; retry < retries; retry++ )
+	if( url.length() > 0 )
 	{
-		std::ostringstream cmd;
-		
-		cmd << "cd " << locateFile("networks") << " ; ";
-		cmd << "wget ";
-		
-		if( retry > 0 )
-			cmd << "--verbose ";
-		else
-			cmd << "--quiet ";
-		
-		cmd << "--show-progress --progress=bar:force:noscroll --no-check-certificate ";
-		cmd << url << " -O " << tar << " ; ";
-		cmd << "tar -xzvf " << tar << " ; ";
-		cmd << "rm " << tar;
-		
-		const std::string cmd_str = cmd.str();
-		
-		LogVerbose(LOG_TRT "downloading model %s...\n", tar.c_str());
-		LogVerbose("%s\n", cmd_str.c_str());
-		
-		const int result = system(cmd_str.c_str());
-		
+		for( uint32_t retry=0; retry < retries; retry++ )
+		{
+			std::ostringstream cmd;
+			
+			cmd << "cd " << locateFile("networks") << " ; ";
+			cmd << "wget ";
+			
+			if( retry > 0 )
+				cmd << "--verbose ";
+			else
+				cmd << "--quiet ";
+			
+			cmd << "--show-progress --progress=bar:force:noscroll --no-check-certificate ";
+			cmd << url;
+
+			if( tar.length() > 0 )
+			{
+				cmd << " -O " << tar << " ; ";
+				cmd << "tar -xzvf " << tar << " ; ";
+				cmd << "rm " << tar;
+			}
+			else
+			{
+				cmd << " ; ";
+			}
+			
+			const std::string cmd_str = cmd.str();
+			
+			LogVerbose(LOG_TRT "downloading model %s...\n", tar.c_str());
+			LogVerbose("%s\n", cmd_str.c_str());
+			
+			const int result = system(cmd_str.c_str());
+			
+			if( result == 0 )
+			{
+				LogSuccess(LOG_TRT "downloaded model %s\n", tar.c_str());
+				return true;
+			}
+			
+			LogError(LOG_TRT "model download failed on retry %u with error %i\n", retry, result);
+		}
+	}
+	
+	if( cmd.length() > 0 )
+	{
+		LogVerbose(LOG_TRT "running model command:  %s\n", cmd.c_str());
+
+		const int result = system(cmd.c_str());
+			
 		if( result == 0 )
 		{
-			LogSuccess(LOG_TRT "downloaded model %s\n", tar.c_str());
+			LogSuccess(LOG_TRT "downloaded model to %s\n", dir.c_str());
 			return true;
 		}
-		
-		LogError(LOG_TRT "model download failed on retry %u with error %i\n", retry, result);
 	}
 	
 	LogError(LOG_TRT "failed to download model after %u retries\n", retries);

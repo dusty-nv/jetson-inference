@@ -39,11 +39,3 @@ function(copy_install file_in file_out)
     install(FILES "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${file_out}" DESTINATION bin PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 endfunction()
 
-copy_install("examples/imagenet.py" "imagenet-console.py")
-copy_install("examples/imagenet.py" "imagenet-camera.py")
-
-copy_install("examples/detectnet.py" "detectnet-console.py")
-copy_install("examples/detectnet.py" "detectnet-camera.py")
-
-copy_install("examples/segnet.py" "segnet-console.py")
-copy_install("examples/segnet.py" "segnet-camera.py")

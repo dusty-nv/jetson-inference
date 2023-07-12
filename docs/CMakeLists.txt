@@ -19,10 +19,11 @@ if( DOXYGEN_FOUND )
 				    COMMAND pydoc3 -w jetson_inference
 				    COMMAND pydoc3 -w jetson_utils
 				    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/jetson*.html ${PROJECT_OUTPUT_DIR}/docs/html/python
-				    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/navtree.js ${PROJECT_OUTPUT_DIR}/docs/html
 				    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_OUTPUT_DIR}/docs/html/group__deepVision.html ${PROJECT_OUTPUT_DIR}/docs/html/index.html 
 				    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_OUTPUT_DIR}/docs/html ${CMAKE_CURRENT_SOURCE_DIR}/html )
 
+	#COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/navtree.js ${PROJECT_OUTPUT_DIR}/docs/html
+	
 	file(MAKE_DIRECTORY ${PROJECT_OUTPUT_DIR}/docs)
 	file(MAKE_DIRECTORY ${PROJECT_OUTPUT_DIR}/docs/html)
 	file(MAKE_DIRECTORY ${PROJECT_OUTPUT_DIR}/docs/html/python)

@@ -4,6 +4,36 @@
 
 Major updates and new features to this project will be listed in this document.
 
+## May 5, 2023
+
+* [WebRTC](docs/aux-streaming.md#webrtc) support and [WebApp Framework](README.md#webapp-frameworks) tutorials:
+   * [WebRTC Server](docs/webrtc-server.md)
+   * [HTML / JavaScript](docs/webrtc-html.md)
+   * [Flask + REST](docs/webrtc-flask.md)
+   * [Plotly Dashboard](docs/webrtc-dash.md)
+   * [Recognizer (Interactive Training)](docs/webrtc-recognizer.md)
+* Support for [TAO detection models](docs/detectnet-tao.md) in `detectNet`
+* Added [`actionNet`](docs/actionnet.md) (action/activity recognition)
+* Added [`backgroundNet`](docs/backgroundnet.md) (foreground/background segmentation/removal)
+* Added [`objectTracker`](c/tracking) - [IoU object tracking](docs/detectnet-tracking.md) for detectNet
+* [Image Tagging and Multi-Label Classification](docs/imagenet-tagging.md) (support for [`topK`](https://github.com/dusty-nv/jetson-inference/blob/b50bf1d5eefed73acda5c963513e0d8c79d18be3/c/imageNet.h#L201) in imageNet)
+* [Temporal smoothing of classification results](https://github.com/dusty-nv/jetson-inference/blob/b50bf1d5eefed73acda5c963513e0d8c79d18be3/c/imageNet.h#L271) in imageNet
+* Automatic model downloader => [`data/networks/models.json`](data/networks/models.json)
+* Build TensorRT timing cache for quick loading of updated models (or models that share layer configurations)
+* Zero-copy interoperability of Python [cudaImage](https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-image.md#image-capsules-in-python) with other libraries:
+   * [`__cuda_array_interface__`](docs/aux-image.md#cuda-array-interface) (Numba, PyTorch, CuPy, PyCUDA, VPI, and [others](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html#interoperability))
+   * [`__array__`](docs/aux-image.md#accessing-as-a-numpy-array) interface ([Numpy](https://numpy.org/doc/stable/reference/arrays.interface.html)) 
+* Train higher-resolution detection models with [`train_ssd.py --resolution=N`](https://github.com/dusty-nv/pytorch-ssd/blob/86155c0c410e0959df0184b24af6a8f59f49fbe5/train_ssd.py#L49)
+* Compute per-class Mean Average Precision (mAP) with [`train_ssd.py --validate-mean-ap`](https://github.com/dusty-nv/pytorch-ssd/blob/86155c0c410e0959df0184b24af6a8f59f49fbe5/train_ssd.py#L98)
+* Tensorboard logging in [`train.py`](https://github.com/dusty-nv/pytorch-classification/blob/819b105087c397c23cd81fd9446b5f0a0213db94/train.py#L95) / [`train_ssd.py`](https://github.com/dusty-nv/pytorch-ssd/blob/86155c0c410e0959df0184b24af6a8f59f49fbe5/train_ssd.py#L114)
+* Added [RTSP server](docs/aux-streaming.md#rtsp) video output
+* Added optional timeout status code to [`videoSource.Capture()`](https://github.com/dusty-nv/jetson-utils/blob/0bcb19b498326eb866a80d7d13388b2e59bc9dfd/video/videoSource.h#L235)
+* Added [`--input-save`](docs/aux-streaming.md#input-options) and [`--output-save`](docs/aux-streaming.md#output-options) for dumping video to disk in addition to the primary I/O stream
+* Added [`ros_deep_learning`](https://github.com/dusty-nv/ros_deep_learning) package as a submodule and to container builds
+* Added x86_64 + dGPU support and WSL2 for [Docker container](docs/aux-docker.md#x86-support)
+* Automated testing with [`test-models.py`](tools/test-models.py) and [`test-cuda.sh`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/test-cuda.sh)
+
+
 ## April 8, 2022
 
 * Added support for JetPack 5.0 and [Jetson AGX Orin](https://developer.nvidia.com/embedded/jetson-agx-orin-developer-kit)

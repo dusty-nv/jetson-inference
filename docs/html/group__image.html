@@ -96,12 +96,12 @@ $(document).ready(function(){initNavTree('group__image.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageLoader.html">imageLoader</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an image or set of images from disk into GPU memory.  <a href="classimageLoader.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimageWriter.html">imageWriter</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save an image or set of images to disk.  <a href="classimageWriter.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classimageLoader"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#classimageLoader">imageLoader</a></td></tr>
+<tr class="memdesc:classimageLoader"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an image or set of images from disk into GPU memory.  <a href="group__image.html#classimageLoader">More...</a><br /></td></tr>
+<tr class="separator:classimageLoader"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classimageWriter"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#classimageWriter">imageWriter</a></td></tr>
+<tr class="memdesc:classimageWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save an image or set of images to disk.  <a href="group__image.html#classimageWriter">More...</a><br /></td></tr>
+<tr class="separator:classimageWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -131,6 +131,1265 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Loading and saving image files from disk. </p>
+<hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="classimageLoader" id="classimageLoader"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classimageLoader">&#9670;&nbsp;</a></span>imageLoader</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class imageLoader</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Load an image or set of images from disk into GPU memory. </p>
+<p>Supported image formats for loading are JPG, PNG, TGA, BMP, GIF, PSD, HDR, PIC, and PNM (PPM/PGM binary). Internally, <a class="el" href="group__image.html#classimageLoader" title="Load an image or set of images from disk into GPU memory.">imageLoader</a> uses the <a class="el" href="group__image.html#ga27eecc15662ad22366515de5cc054342" title="Load a color image from disk into CUDA memory, in uchar3/uchar4/float3/float4 formats with pixel valu...">loadImage()</a> function to load the images, so the supported formats are the same.</p>
+<p><a class="el" href="group__image.html#classimageLoader" title="Load an image or set of images from disk into GPU memory.">imageLoader</a> has the ability to load an sequence of images from a directory, including wildcard characters (e.g. <code>images/*.jpg</code>), or just a single image. When given just the path to a directory, it will load all valid images from that directory.</p>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="group__image.html#classimageLoader" title="Load an image or set of images from disk into GPU memory.">imageLoader</a> implements the <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface and is intended to be used through that as opposed to directly. <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> implements additional command-line parsing of <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> to construct instances.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> </dd></dl>
+</div><div class="dynheader">
+Inheritance diagram for imageLoader:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="group__image.png" usemap="#imageLoader_map" alt=""/>
+  <map id="imageLoader_map" name="imageLoader_map">
+<area href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,..." alt="videoSource" shape="rect" coords="0,0,85,24"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
+<tr class="memitem:afb1939d2bbd24f54c419a33e1b1171d8"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#afb1939d2bbd24f54c419a33e1b1171d8">~imageLoader</a> ()</td></tr>
+<tr class="memdesc:afb1939d2bbd24f54c419a33e1b1171d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="group__image.html#afb1939d2bbd24f54c419a33e1b1171d8">More...</a><br /></td></tr>
+<tr class="separator:afb1939d2bbd24f54c419a33e1b1171d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b71a373faf66fb0c6e287acb8d5684c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a8b71a373faf66fb0c6e287acb8d5684c">Capture</a> (void **image, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, uint64_t timeout=<a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a>, int *status=NULL)</td></tr>
+<tr class="memdesc:a8b71a373faf66fb0c6e287acb8d5684c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the next frame.  <a href="group__image.html#a8b71a373faf66fb0c6e287acb8d5684c">More...</a><br /></td></tr>
+<tr class="separator:a8b71a373faf66fb0c6e287acb8d5684c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1af7d6e4e3ad6232c67dcc1307509677"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a1af7d6e4e3ad6232c67dcc1307509677">Open</a> ()</td></tr>
+<tr class="memdesc:a1af7d6e4e3ad6232c67dcc1307509677"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open the stream.  <a href="group__image.html#a1af7d6e4e3ad6232c67dcc1307509677">More...</a><br /></td></tr>
+<tr class="separator:a1af7d6e4e3ad6232c67dcc1307509677"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac06b32600a172fc0107ffe8240a13cb4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#ac06b32600a172fc0107ffe8240a13cb4">Close</a> ()</td></tr>
+<tr class="memdesc:ac06b32600a172fc0107ffe8240a13cb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the stream.  <a href="group__image.html#ac06b32600a172fc0107ffe8240a13cb4">More...</a><br /></td></tr>
+<tr class="separator:ac06b32600a172fc0107ffe8240a13cb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76136fd767f46d4e413bc1d7a279a75e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a76136fd767f46d4e413bc1d7a279a75e">IsEOS</a> () const</td></tr>
+<tr class="memdesc:a76136fd767f46d4e413bc1d7a279a75e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if End Of Stream (EOS) has been reached.  <a href="group__image.html#a76136fd767f46d4e413bc1d7a279a75e">More...</a><br /></td></tr>
+<tr class="separator:a76136fd767f46d4e413bc1d7a279a75e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b196ca1c23d9322d5b9bba6e05e0bdf"><td class="memItemLeft" align="right" valign="top">virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a4b196ca1c23d9322d5b9bba6e05e0bdf">GetType</a> () const</td></tr>
+<tr class="memdesc:a4b196ca1c23d9322d5b9bba6e05e0bdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the interface type (<a class="el" href="group__image.html#a7ce41945601da456d9ea85324a4b90c0" title="Unique type identifier of imageLoader class.">imageLoader::Type</a>)  <a href="group__image.html#a4b196ca1c23d9322d5b9bba6e05e0bdf">More...</a><br /></td></tr>
+<tr class="separator:a4b196ca1c23d9322d5b9bba6e05e0bdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:a2cae1095df64b7c61de77935b77032bb inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2cae1095df64b7c61de77935b77032bb">~videoSource</a> ()</td></tr>
+<tr class="memdesc:a2cae1095df64b7c61de77935b77032bb inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy interface and release all resources.  <a href="group__video.html#a2cae1095df64b7c61de77935b77032bb">More...</a><br /></td></tr>
+<tr class="separator:a2cae1095df64b7c61de77935b77032bb inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#a338edcb027b28a551b7f75d085ea13f8">Capture</a> (T **image, int *status)</td></tr>
+<tr class="memdesc:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture the next image from the video stream, using the default timeout of 1000ms.  <a href="group__video.html#a338edcb027b28a551b7f75d085ea13f8">More...</a><br /></td></tr>
+<tr class="separator:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#a1a838840d3d10996033a566d7e968331">Capture</a> (T **image, uint64_t timeout=<a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a>, int *status=NULL)</td></tr>
+<tr class="memdesc:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture the next image from the video stream.  <a href="group__video.html#a1a838840d3d10996033a566d7e968331">More...</a><br /></td></tr>
+<tr class="separator:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ce18fd4c3a8f934e7ec000f0d36b7e9 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0ce18fd4c3a8f934e7ec000f0d36b7e9">IsStreaming</a> () const</td></tr>
+<tr class="memdesc:a0ce18fd4c3a8f934e7ec000f0d36b7e9 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the device is actively streaming or not.  <a href="group__video.html#a0ce18fd4c3a8f934e7ec000f0d36b7e9">More...</a><br /></td></tr>
+<tr class="separator:a0ce18fd4c3a8f934e7ec000f0d36b7e9 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17f0c43e832d4de85a014b3aa4265732 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a17f0c43e832d4de85a014b3aa4265732">GetWidth</a> () const</td></tr>
+<tr class="memdesc:a17f0c43e832d4de85a014b3aa4265732 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the width of the stream, in pixels.  <a href="group__video.html#a17f0c43e832d4de85a014b3aa4265732">More...</a><br /></td></tr>
+<tr class="separator:a17f0c43e832d4de85a014b3aa4265732 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ca24054da683cae18b0bfad01dbf1d0 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a6ca24054da683cae18b0bfad01dbf1d0">GetHeight</a> () const</td></tr>
+<tr class="memdesc:a6ca24054da683cae18b0bfad01dbf1d0 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the height of the stream, in pixels.  <a href="group__video.html#a6ca24054da683cae18b0bfad01dbf1d0">More...</a><br /></td></tr>
+<tr class="separator:a6ca24054da683cae18b0bfad01dbf1d0 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e6ac667bd17a49cc94a6b16173a06ba inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a4e6ac667bd17a49cc94a6b16173a06ba">GetFrameRate</a> () const</td></tr>
+<tr class="memdesc:a4e6ac667bd17a49cc94a6b16173a06ba inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the framerate, in Hz or FPS.  <a href="group__video.html#a4e6ac667bd17a49cc94a6b16173a06ba">More...</a><br /></td></tr>
+<tr class="separator:a4e6ac667bd17a49cc94a6b16173a06ba inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f1adda850349479bb3b4c4e90b3c429 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2f1adda850349479bb3b4c4e90b3c429">GetFrameCount</a> () const</td></tr>
+<tr class="memdesc:a2f1adda850349479bb3b4c4e90b3c429 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of frames captured.  <a href="group__video.html#a2f1adda850349479bb3b4c4e90b3c429">More...</a><br /></td></tr>
+<tr class="separator:a2f1adda850349479bb3b4c4e90b3c429 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36ef21c0eb8cc9a7ce181cebf3d88e06 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a36ef21c0eb8cc9a7ce181cebf3d88e06">GetLastTimestamp</a> () const</td></tr>
+<tr class="memdesc:a36ef21c0eb8cc9a7ce181cebf3d88e06 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get timestamp of the last captured frame, in nanoseconds.  <a href="group__video.html#a36ef21c0eb8cc9a7ce181cebf3d88e06">More...</a><br /></td></tr>
+<tr class="separator:a36ef21c0eb8cc9a7ce181cebf3d88e06 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af170b23f004c98754479f84351ef4c51 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#af170b23f004c98754479f84351ef4c51">GetRawFormat</a> () const</td></tr>
+<tr class="memdesc:af170b23f004c98754479f84351ef4c51 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get raw image format.  <a href="group__video.html#af170b23f004c98754479f84351ef4c51">More...</a><br /></td></tr>
+<tr class="separator:af170b23f004c98754479f84351ef4c51 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2052b0b41222c17e3d14964f10c3ffa6 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__video.html#structURI">URI</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2052b0b41222c17e3d14964f10c3ffa6">GetResource</a> () const</td></tr>
+<tr class="memdesc:a2052b0b41222c17e3d14964f10c3ffa6 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> of the stream.  <a href="group__video.html#a2052b0b41222c17e3d14964f10c3ffa6">More...</a><br /></td></tr>
+<tr class="separator:a2052b0b41222c17e3d14964f10c3ffa6 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d423829515c5c91d132f476213e22bd inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a7d423829515c5c91d132f476213e22bd">GetOptions</a> () const</td></tr>
+<tr class="memdesc:a7d423829515c5c91d132f476213e22bd inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> of the stream.  <a href="group__video.html#a7d423829515c5c91d132f476213e22bd">More...</a><br /></td></tr>
+<tr class="separator:a7d423829515c5c91d132f476213e22bd inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0883cf58cd0d8d0c05fb192a01250b7a inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0883cf58cd0d8d0c05fb192a01250b7a">IsType</a> (uint32_t type) const</td></tr>
+<tr class="memdesc:a0883cf58cd0d8d0c05fb192a01250b7a inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this stream is of a particular type.  <a href="group__video.html#a0883cf58cd0d8d0c05fb192a01250b7a">More...</a><br /></td></tr>
+<tr class="separator:a0883cf58cd0d8d0c05fb192a01250b7a inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#ad3c1689db5baf2786099d2c0be075010">IsType</a> () const</td></tr>
+<tr class="memdesc:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a this stream is of a particular type.  <a href="group__video.html#ad3c1689db5baf2786099d2c0be075010">More...</a><br /></td></tr>
+<tr class="separator:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38909f4451ecdf3a2777aea3a088677e inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a38909f4451ecdf3a2777aea3a088677e">TypeToStr</a> () const</td></tr>
+<tr class="memdesc:a38909f4451ecdf3a2777aea3a088677e inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert this stream's class type to string.  <a href="group__video.html#a38909f4451ecdf3a2777aea3a088677e">More...</a><br /></td></tr>
+<tr class="separator:a38909f4451ecdf3a2777aea3a088677e inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:ae4c27a6cbfc414e50193debdea1fd09c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__image.html#classimageLoader">imageLoader</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#ae4c27a6cbfc414e50193debdea1fd09c">Create</a> (const char *path, const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options=<a class="el" href="group__video.html#structvideoOptions">videoOptions</a>())</td></tr>
+<tr class="memdesc:ae4c27a6cbfc414e50193debdea1fd09c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="group__image.html#classimageLoader" title="Load an image or set of images from disk into GPU memory.">imageLoader</a> instance from a path and optional <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a>.  <a href="group__image.html#ae4c27a6cbfc414e50193debdea1fd09c">More...</a><br /></td></tr>
+<tr class="separator:ae4c27a6cbfc414e50193debdea1fd09c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a973b77f4bf91a4eafb8c243a6201df79"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__image.html#classimageLoader">imageLoader</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a973b77f4bf91a4eafb8c243a6201df79">Create</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:a973b77f4bf91a4eafb8c243a6201df79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="group__image.html#classimageLoader" title="Load an image or set of images from disk into GPU memory.">imageLoader</a> instance from the provided video options.  <a href="group__image.html#a973b77f4bf91a4eafb8c243a6201df79">More...</a><br /></td></tr>
+<tr class="separator:a973b77f4bf91a4eafb8c243a6201df79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a521c2bbdb880d36025b696068013def9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a521c2bbdb880d36025b696068013def9">IsSupportedExtension</a> (const char *ext)</td></tr>
+<tr class="memdesc:a521c2bbdb880d36025b696068013def9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the extension is in the list of SupportedExtensions.  <a href="group__image.html#a521c2bbdb880d36025b696068013def9">More...</a><br /></td></tr>
+<tr class="separator:a521c2bbdb880d36025b696068013def9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:aadf5947b119db934f02fefcd8ffe23ee inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aadf5947b119db934f02fefcd8ffe23ee">Create</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:aadf5947b119db934f02fefcd8ffe23ee inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> struct that's already been filled out.  <a href="group__video.html#aadf5947b119db934f02fefcd8ffe23ee">More...</a><br /></td></tr>
+<tr class="separator:aadf5947b119db934f02fefcd8ffe23ee inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac84b9d20c628c19e0463aca50ed2cdf9 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac84b9d20c628c19e0463aca50ed2cdf9">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options=<a class="el" href="group__video.html#structvideoOptions">videoOptions</a>())</td></tr>
+<tr class="memdesc:ac84b9d20c628c19e0463aca50ed2cdf9 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and optional <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a>.  <a href="group__video.html#ac84b9d20c628c19e0463aca50ed2cdf9">More...</a><br /></td></tr>
+<tr class="separator:ac84b9d20c628c19e0463aca50ed2cdf9 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17577a0ed75a86cea8e579f4405a2942 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a17577a0ed75a86cea8e579f4405a2942">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine)</td></tr>
+<tr class="memdesc:a17577a0ed75a86cea8e579f4405a2942 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and parsing command line arguments.  <a href="group__video.html#a17577a0ed75a86cea8e579f4405a2942">More...</a><br /></td></tr>
+<tr class="separator:a17577a0ed75a86cea8e579f4405a2942 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6306cfc0359265983842b56b5cf09212 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a6306cfc0359265983842b56b5cf09212">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const int argc, char **argv)</td></tr>
+<tr class="memdesc:a6306cfc0359265983842b56b5cf09212 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and parsing command line arguments.  <a href="group__video.html#a6306cfc0359265983842b56b5cf09212">More...</a><br /></td></tr>
+<tr class="separator:a6306cfc0359265983842b56b5cf09212 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa796136bec7acf354e3e81e5b7c0172a inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa796136bec7acf354e3e81e5b7c0172a">Create</a> (const int argc, char **argv, int positionArg=-1)</td></tr>
+<tr class="memdesc:aa796136bec7acf354e3e81e5b7c0172a inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface by parsing command line arguments, including the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a>.  <a href="group__video.html#aa796136bec7acf354e3e81e5b7c0172a">More...</a><br /></td></tr>
+<tr class="separator:aa796136bec7acf354e3e81e5b7c0172a inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac529c5b81c74eb71436e2031a6c1f214 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac529c5b81c74eb71436e2031a6c1f214">Create</a> (const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine, int positionArg=-1)</td></tr>
+<tr class="memdesc:ac529c5b81c74eb71436e2031a6c1f214 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface by parsing command line arguments, including the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a>.  <a href="group__video.html#ac529c5b81c74eb71436e2031a6c1f214">More...</a><br /></td></tr>
+<tr class="separator:ac529c5b81c74eb71436e2031a6c1f214 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac254b0c9d38c76c62e6c5f8ad20ef447 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac254b0c9d38c76c62e6c5f8ad20ef447">Usage</a> ()</td></tr>
+<tr class="memdesc:ac254b0c9d38c76c62e6c5f8ad20ef447 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="group__video.html#aadf5947b119db934f02fefcd8ffe23ee" title="Create videoSource interface from a videoOptions struct that&#39;s already been filled out.">Create()</a>  <a href="group__video.html#ac254b0c9d38c76c62e6c5f8ad20ef447">More...</a><br /></td></tr>
+<tr class="separator:ac254b0c9d38c76c62e6c5f8ad20ef447 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac080abc0de51300f838596d11b5544a8 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac080abc0de51300f838596d11b5544a8">TypeToStr</a> (uint32_t type)</td></tr>
+<tr class="memdesc:ac080abc0de51300f838596d11b5544a8 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a class type to a string.  <a href="group__video.html#ac080abc0de51300f838596d11b5544a8">More...</a><br /></td></tr>
+<tr class="separator:ac080abc0de51300f838596d11b5544a8 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Attributes</h3></td></tr>
+<tr class="memitem:a7ce41945601da456d9ea85324a4b90c0"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a7ce41945601da456d9ea85324a4b90c0">Type</a> = (1 &lt;&lt; 4)</td></tr>
+<tr class="memdesc:a7ce41945601da456d9ea85324a4b90c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique type identifier of <a class="el" href="group__image.html#classimageLoader" title="Load an image or set of images from disk into GPU memory.">imageLoader</a> class.  <a href="group__image.html#a7ce41945601da456d9ea85324a4b90c0">More...</a><br /></td></tr>
+<tr class="separator:a7ce41945601da456d9ea85324a4b90c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46d3705032f0d45efab1ae07788a6e1a"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a46d3705032f0d45efab1ae07788a6e1a">SupportedExtensions</a> []</td></tr>
+<tr class="memdesc:a46d3705032f0d45efab1ae07788a6e1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">String array of supported image file extensions, terminated with a NULL sentinel value.  <a href="group__image.html#a46d3705032f0d45efab1ae07788a6e1a">More...</a><br /></td></tr>
+<tr class="separator:a46d3705032f0d45efab1ae07788a6e1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_attribs_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_group__video')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:a8bc5b1b9a8bc15292890fef1028adbee inherit pub_static_attribs_group__video"><td class="memItemLeft" align="right" valign="top">static const uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a> =1000</td></tr>
+<tr class="memdesc:a8bc5b1b9a8bc15292890fef1028adbee inherit pub_static_attribs_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default Capture timeout (1000ms)  <a href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">More...</a><br /></td></tr>
+<tr class="separator:a8bc5b1b9a8bc15292890fef1028adbee inherit pub_static_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Member Functions</h3></td></tr>
+<tr class="memitem:a5e8b816f3ebe2042b2d6cdd9ee70ed47"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a5e8b816f3ebe2042b2d6cdd9ee70ed47">imageLoader</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="separator:a5e8b816f3ebe2042b2d6cdd9ee70ed47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac24e527a753037e877e325d5b83f90d1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#ac24e527a753037e877e325d5b83f90d1">isLooping</a> () const</td></tr>
+<tr class="separator:ac24e527a753037e877e325d5b83f90d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:aaee65d53e3dfb3f4644608c0eebcf833 inherit pro_methods_group__video"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aaee65d53e3dfb3f4644608c0eebcf833">videoSource</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="separator:aaee65d53e3dfb3f4644608c0eebcf833 inherit pro_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Attributes</h3></td></tr>
+<tr class="memitem:a5f64ea00d39cde4aaeeea3e2931eee97"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a5f64ea00d39cde4aaeeea3e2931eee97">mEOS</a></td></tr>
+<tr class="separator:a5f64ea00d39cde4aaeeea3e2931eee97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaae547119ca8f3b0d50d9de22669d6eb"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#aaae547119ca8f3b0d50d9de22669d6eb">mLoopCount</a></td></tr>
+<tr class="separator:aaae547119ca8f3b0d50d9de22669d6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefd0b79a822e896631231a7361e5f795"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#aefd0b79a822e896631231a7361e5f795">mNextFile</a></td></tr>
+<tr class="separator:aefd0b79a822e896631231a7361e5f795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a685a48790e244b1bd83f6059412b0087"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a685a48790e244b1bd83f6059412b0087">mFiles</a></td></tr>
+<tr class="separator:a685a48790e244b1bd83f6059412b0087"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5084e74d313b3cc1f732082dd51d0281"><td class="memItemLeft" align="right" valign="top">std::vector&lt; void * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a5084e74d313b3cc1f732082dd51d0281">mBuffers</a></td></tr>
+<tr class="separator:a5084e74d313b3cc1f732082dd51d0281"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_group__video"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_group__video')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:a0907f7140f13fa75fef5b23a1f44b55b inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0907f7140f13fa75fef5b23a1f44b55b">mStreaming</a></td></tr>
+<tr class="separator:a0907f7140f13fa75fef5b23a1f44b55b inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3c05686659fae747ff8709be2c9b445 inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__video.html#structvideoOptions">videoOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa3c05686659fae747ff8709be2c9b445">mOptions</a></td></tr>
+<tr class="separator:aa3c05686659fae747ff8709be2c9b445 inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a587c9a356b2714ba9d6ab0d3bdeeacb2 inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a587c9a356b2714ba9d6ab0d3bdeeacb2">mLastTimestamp</a></td></tr>
+<tr class="separator:a587c9a356b2714ba9d6ab0d3bdeeacb2 inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f558c27bfac5e117100f8735f09f5bc inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a5f558c27bfac5e117100f8735f09f5bc">mRawFormat</a></td></tr>
+<tr class="separator:a5f558c27bfac5e117100f8735f09f5bc inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_types_group__video')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:adf535af6425bba4700aa49a8a1c31fc8 inherit pub_types_group__video"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8">Status</a> { <a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a7b6931de9597c73a7e153c6b2f056c30">ERROR</a> = -2, 
+<a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a3dc92a1fc50b30a11368684bc393ee73">EOS</a> = -1, 
+<a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a53f14b4b251e2a20a98045206ba0dd1b">TIMEOUT</a> = 0, 
+<a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a1433e3e072db57cf888a319fec854d0a">OK</a> = 1
+ }</td></tr>
+<tr class="memdesc:adf535af6425bba4700aa49a8a1c31fc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream status codes that are optionally returned from <a class="el" href="group__video.html#a338edcb027b28a551b7f75d085ea13f8" title="Capture the next image from the video stream, using the default timeout of 1000ms.">Capture()</a>  <a href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8">More...</a><br /></td></tr>
+<tr class="separator:adf535af6425bba4700aa49a8a1c31fc8 inherit pub_types_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
+<a id="afb1939d2bbd24f54c419a33e1b1171d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb1939d2bbd24f54c419a33e1b1171d8">&#9670;&nbsp;</a></span>~imageLoader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual imageLoader::~imageLoader </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+
+</div>
+</div>
+<a id="a5e8b816f3ebe2042b2d6cdd9ee70ed47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e8b816f3ebe2042b2d6cdd9ee70ed47">&#9670;&nbsp;</a></span>imageLoader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">imageLoader::imageLoader </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="a8b71a373faf66fb0c6e287acb8d5684c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b71a373faf66fb0c6e287acb8d5684c">&#9670;&nbsp;</a></span>Capture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool imageLoader::Capture </td>
+          <td>(</td>
+          <td class="paramtype">void **&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code><a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>status</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load the next frame. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#a338edcb027b28a551b7f75d085ea13f8" title="Capture the next image from the video stream, using the default timeout of 1000ms.">videoSource::Capture()</a> </dd></dl>
+
+<p>Implements <a class="el" href="group__video.html#a36a40e4d196aaf31540076317d49aaf6">videoSource</a>.</p>
+
+</div>
+</div>
+<a id="ac06b32600a172fc0107ffe8240a13cb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac06b32600a172fc0107ffe8240a13cb4">&#9670;&nbsp;</a></span>Close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void imageLoader::Close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Close the stream. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#a19ed8f98e4ce28462296b498804005ae" title="Stop streaming the device.">videoSource::Close()</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="group__video.html#a19ed8f98e4ce28462296b498804005ae">videoSource</a>.</p>
+
+</div>
+</div>
+<a id="ae4c27a6cbfc414e50193debdea1fd09c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4c27a6cbfc414e50193debdea1fd09c">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__image.html#classimageLoader">imageLoader</a>* imageLoader::Create </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em> = <code><a class="el" href="group__video.html#structvideoOptions">videoOptions</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create an <a class="el" href="group__image.html#classimageLoader" title="Load an image or set of images from disk into GPU memory.">imageLoader</a> instance from a path and optional <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a>. </p>
+
+</div>
+</div>
+<a id="a973b77f4bf91a4eafb8c243a6201df79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a973b77f4bf91a4eafb8c243a6201df79">&#9670;&nbsp;</a></span>Create() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__image.html#classimageLoader">imageLoader</a>* imageLoader::Create </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create an <a class="el" href="group__image.html#classimageLoader" title="Load an image or set of images from disk into GPU memory.">imageLoader</a> instance from the provided video options. </p>
+
+</div>
+</div>
+<a id="a4b196ca1c23d9322d5b9bba6e05e0bdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b196ca1c23d9322d5b9bba6e05e0bdf">&#9670;&nbsp;</a></span>GetType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint32_t imageLoader::GetType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the interface type (<a class="el" href="group__image.html#a7ce41945601da456d9ea85324a4b90c0" title="Unique type identifier of imageLoader class.">imageLoader::Type</a>) </p>
+
+<p>Reimplemented from <a class="el" href="group__video.html#a76f6f92cf40ad72e9d7f76538d583e37">videoSource</a>.</p>
+
+</div>
+</div>
+<a id="a76136fd767f46d4e413bc1d7a279a75e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76136fd767f46d4e413bc1d7a279a75e">&#9670;&nbsp;</a></span>IsEOS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool imageLoader::IsEOS </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return true if End Of Stream (EOS) has been reached. </p>
+<p>In the context of <a class="el" href="group__image.html#classimageLoader" title="Load an image or set of images from disk into GPU memory.">imageLoader</a>, EOS means that all images in the sequence have been loaded, and looping is either disabled or all loops have already been run. </p>
+
+</div>
+</div>
+<a id="ac24e527a753037e877e325d5b83f90d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac24e527a753037e877e325d5b83f90d1">&#9670;&nbsp;</a></span>isLooping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool imageLoader::isLooping </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a521c2bbdb880d36025b696068013def9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a521c2bbdb880d36025b696068013def9">&#9670;&nbsp;</a></span>IsSupportedExtension()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool imageLoader::IsSupportedExtension </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ext</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return true if the extension is in the list of SupportedExtensions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ext</td><td>string containing the extension to be checked (should not contain leading dot) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__image.html#a46d3705032f0d45efab1ae07788a6e1a" title="String array of supported image file extensions, terminated with a NULL sentinel value.">SupportedExtensions</a> for the list of supported <a class="el" href="group__video.html" title="videoSource and videoOutput APIs for input and output video streams.">Video Streaming</a> file extensions. </dd></dl>
+
+</div>
+</div>
+<a id="a1af7d6e4e3ad6232c67dcc1307509677"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1af7d6e4e3ad6232c67dcc1307509677">&#9670;&nbsp;</a></span>Open()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool imageLoader::Open </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Open the stream. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#aa7907ba2392b6ea5f747409d1bfbc18b" title="Begin streaming the device.">videoSource::Open()</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="group__video.html#aa7907ba2392b6ea5f747409d1bfbc18b">videoSource</a>.</p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Data Documentation</h4>
+<a id="a5084e74d313b3cc1f732082dd51d0281"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5084e74d313b3cc1f732082dd51d0281">&#9670;&nbsp;</a></span>mBuffers</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;void*&gt; imageLoader::mBuffers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f64ea00d39cde4aaeeea3e2931eee97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f64ea00d39cde4aaeeea3e2931eee97">&#9670;&nbsp;</a></span>mEOS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool imageLoader::mEOS</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a685a48790e244b1bd83f6059412b0087"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a685a48790e244b1bd83f6059412b0087">&#9670;&nbsp;</a></span>mFiles</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; imageLoader::mFiles</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaae547119ca8f3b0d50d9de22669d6eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaae547119ca8f3b0d50d9de22669d6eb">&#9670;&nbsp;</a></span>mLoopCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t imageLoader::mLoopCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aefd0b79a822e896631231a7361e5f795"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefd0b79a822e896631231a7361e5f795">&#9670;&nbsp;</a></span>mNextFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t imageLoader::mNextFile</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a46d3705032f0d45efab1ae07788a6e1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46d3705032f0d45efab1ae07788a6e1a">&#9670;&nbsp;</a></span>SupportedExtensions</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* imageLoader::SupportedExtensions[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>String array of supported image file extensions, terminated with a NULL sentinel value. </p>
+<p>The supported extension are:</p>
+<ul>
+<li>JPG / JPEG</li>
+<li>PNG</li>
+<li>TGA / TARGA</li>
+<li>BMP</li>
+<li>GIF<ul>
+<li>PSD</li>
+</ul>
+</li>
+<li>HDR</li>
+<li>PIC</li>
+<li>PNM / PBM / PPM / PGM</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__image.html#a521c2bbdb880d36025b696068013def9" title="Return true if the extension is in the list of SupportedExtensions.">IsSupportedExtension()</a> to check a string against this list. </dd></dl>
+
+</div>
+</div>
+<a id="a7ce41945601da456d9ea85324a4b90c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ce41945601da456d9ea85324a4b90c0">&#9670;&nbsp;</a></span>Type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint32_t imageLoader::Type = (1 &lt;&lt; 4)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unique type identifier of <a class="el" href="group__image.html#classimageLoader" title="Load an image or set of images from disk into GPU memory.">imageLoader</a> class. </p>
+
+</div>
+</div>
+
+</div>
+</div>
+<a name="classimageWriter" id="classimageWriter"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classimageWriter">&#9670;&nbsp;</a></span>imageWriter</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class imageWriter</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Save an image or set of images to disk. </p>
+<p>Supported image formats for saving are JPG, PNG, TGA, and BMP. Internally, <a class="el" href="group__image.html#classimageLoader" title="Load an image or set of images from disk into GPU memory.">imageLoader</a> uses the <a class="el" href="group__image.html#gaaf663c71c391842c1aadcadbdfb6f70d" title="Save an image in CPU/GPU shared memory to disk.">saveImage()</a> function to save the images, so the supported formats are the same.</p>
+<p><a class="el" href="group__image.html#classimageWriter" title="Save an image or set of images to disk.">imageWriter</a> has the ability to write a sequence of images to a directory, for example <code>images/i.jpg</code> (where <code>i</code> becomes the image number), or just a single image with a static filename (e.g. <code>images/my_image.jpg</code>). When given just the path of a directory as output, it will default to incremental <code>i.jpg</code> sequencing and save in JPG format.</p>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="group__image.html#classimageWriter" title="Save an image or set of images to disk.">imageWriter</a> implements the <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface and is intended to be used through that as opposed to directly. <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> implements additional command-line parsing of <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> to construct instances.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> </dd></dl>
+</div><div class="dynheader">
+Inheritance diagram for imageWriter:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="group__image.png" usemap="#imageWriter_map" alt=""/>
+  <map id="imageWriter_map" name="imageWriter_map">
+<area href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w..." alt="videoOutput" shape="rect" coords="0,0,80,24"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
+<tr class="memitem:a0038555473cca96319845f4e67c92882"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a0038555473cca96319845f4e67c92882">~imageWriter</a> ()</td></tr>
+<tr class="memdesc:a0038555473cca96319845f4e67c92882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="group__image.html#a0038555473cca96319845f4e67c92882">More...</a><br /></td></tr>
+<tr class="separator:a0038555473cca96319845f4e67c92882"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63ca941281c3fff61025a5d0c5bf824e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a63ca941281c3fff61025a5d0c5bf824e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__image.html#a63ca941281c3fff61025a5d0c5bf824e">Render</a> (T *image, uint32_t width, uint32_t height)</td></tr>
+<tr class="memdesc:a63ca941281c3fff61025a5d0c5bf824e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the next frame.  <a href="group__image.html#a63ca941281c3fff61025a5d0c5bf824e">More...</a><br /></td></tr>
+<tr class="separator:a63ca941281c3fff61025a5d0c5bf824e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6867f5326a09025d9a21bf3932314635"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a6867f5326a09025d9a21bf3932314635">Render</a> (void *image, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format)</td></tr>
+<tr class="memdesc:a6867f5326a09025d9a21bf3932314635"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the next frame.  <a href="group__image.html#a6867f5326a09025d9a21bf3932314635">More...</a><br /></td></tr>
+<tr class="separator:a6867f5326a09025d9a21bf3932314635"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5d8c048302526edb9e6a84edbc4cb97"><td class="memItemLeft" align="right" valign="top">virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#ae5d8c048302526edb9e6a84edbc4cb97">GetType</a> () const</td></tr>
+<tr class="memdesc:ae5d8c048302526edb9e6a84edbc4cb97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the interface type (<a class="el" href="group__image.html#af767ee4c3dfbedd450b5e3c7f86b326a" title="Unique type identifier of imageWriter class.">imageWriter::Type</a>)  <a href="group__image.html#ae5d8c048302526edb9e6a84edbc4cb97">More...</a><br /></td></tr>
+<tr class="separator:ae5d8c048302526edb9e6a84edbc4cb97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="group__video.html#classvideoOutput">videoOutput</a></td></tr>
+<tr class="memitem:a2186412156484860e31d827c10becf96 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2186412156484860e31d827c10becf96">~videoOutput</a> ()</td></tr>
+<tr class="memdesc:a2186412156484860e31d827c10becf96 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy interface and release all resources.  <a href="group__video.html#a2186412156484860e31d827c10becf96">More...</a><br /></td></tr>
+<tr class="separator:a2186412156484860e31d827c10becf96 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#ac63d627d52174400c01c28bb0de82993">Render</a> (T *image, uint32_t width, uint32_t height)</td></tr>
+<tr class="memdesc:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render and output the next frame to the stream.  <a href="group__video.html#ac63d627d52174400c01c28bb0de82993">More...</a><br /></td></tr>
+<tr class="separator:ac63d627d52174400c01c28bb0de82993 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58d163c8d3e54f336bf2dda4a759750e inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a58d163c8d3e54f336bf2dda4a759750e">Open</a> ()</td></tr>
+<tr class="memdesc:a58d163c8d3e54f336bf2dda4a759750e inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin streaming the device.  <a href="group__video.html#a58d163c8d3e54f336bf2dda4a759750e">More...</a><br /></td></tr>
+<tr class="separator:a58d163c8d3e54f336bf2dda4a759750e inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a552252a397249335e77755e0b911225e inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a552252a397249335e77755e0b911225e">Close</a> ()</td></tr>
+<tr class="memdesc:a552252a397249335e77755e0b911225e inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop streaming the device.  <a href="group__video.html#a552252a397249335e77755e0b911225e">More...</a><br /></td></tr>
+<tr class="separator:a552252a397249335e77755e0b911225e inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a3cf8d6230e26e27c5d22b29a150bdc inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2a3cf8d6230e26e27c5d22b29a150bdc">IsStreaming</a> () const</td></tr>
+<tr class="memdesc:a2a3cf8d6230e26e27c5d22b29a150bdc inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the device is actively streaming or not.  <a href="group__video.html#a2a3cf8d6230e26e27c5d22b29a150bdc">More...</a><br /></td></tr>
+<tr class="separator:a2a3cf8d6230e26e27c5d22b29a150bdc inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaba8521f7ff078293ee4052a28ee71c inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#afaba8521f7ff078293ee4052a28ee71c">GetWidth</a> () const</td></tr>
+<tr class="memdesc:afaba8521f7ff078293ee4052a28ee71c inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the width of the stream, in pixels.  <a href="group__video.html#afaba8521f7ff078293ee4052a28ee71c">More...</a><br /></td></tr>
+<tr class="separator:afaba8521f7ff078293ee4052a28ee71c inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa225fb199069cf2a4b30f467e237da73 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa225fb199069cf2a4b30f467e237da73">GetHeight</a> () const</td></tr>
+<tr class="memdesc:aa225fb199069cf2a4b30f467e237da73 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the height of the stream, in pixels.  <a href="group__video.html#aa225fb199069cf2a4b30f467e237da73">More...</a><br /></td></tr>
+<tr class="separator:aa225fb199069cf2a4b30f467e237da73 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26c37f79e965f1b9741b4d9b3923bd6b inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a26c37f79e965f1b9741b4d9b3923bd6b">GetFrameRate</a> () const</td></tr>
+<tr class="memdesc:a26c37f79e965f1b9741b4d9b3923bd6b inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the framerate, in Hz or FPS.  <a href="group__video.html#a26c37f79e965f1b9741b4d9b3923bd6b">More...</a><br /></td></tr>
+<tr class="separator:a26c37f79e965f1b9741b4d9b3923bd6b inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab38d8fb1ad7855cf428d9f8cf5806bb4 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ab38d8fb1ad7855cf428d9f8cf5806bb4">GetFrameCount</a> () const</td></tr>
+<tr class="memdesc:ab38d8fb1ad7855cf428d9f8cf5806bb4 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of frames output.  <a href="group__video.html#ab38d8fb1ad7855cf428d9f8cf5806bb4">More...</a><br /></td></tr>
+<tr class="separator:ab38d8fb1ad7855cf428d9f8cf5806bb4 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47edea2ad237e50cfbd6d0a192280ee5 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__video.html#structURI">URI</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a47edea2ad237e50cfbd6d0a192280ee5">GetResource</a> () const</td></tr>
+<tr class="memdesc:a47edea2ad237e50cfbd6d0a192280ee5 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> of the stream.  <a href="group__video.html#a47edea2ad237e50cfbd6d0a192280ee5">More...</a><br /></td></tr>
+<tr class="separator:a47edea2ad237e50cfbd6d0a192280ee5 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59f21f27a0efe56541fbe15f1d5f46ce inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a59f21f27a0efe56541fbe15f1d5f46ce">GetOptions</a> () const</td></tr>
+<tr class="memdesc:a59f21f27a0efe56541fbe15f1d5f46ce inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> of the stream.  <a href="group__video.html#a59f21f27a0efe56541fbe15f1d5f46ce">More...</a><br /></td></tr>
+<tr class="separator:a59f21f27a0efe56541fbe15f1d5f46ce inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2da4bab42fbd19a851e205647443ea5 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ad2da4bab42fbd19a851e205647443ea5">AddOutput</a> (<a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *output)</td></tr>
+<tr class="memdesc:ad2da4bab42fbd19a851e205647443ea5 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an output sub-stream.  <a href="group__video.html#ad2da4bab42fbd19a851e205647443ea5">More...</a><br /></td></tr>
+<tr class="separator:ad2da4bab42fbd19a851e205647443ea5 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc630f31a8d55dc852ac1e01c1f7dc58 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#adc630f31a8d55dc852ac1e01c1f7dc58">GetNumOutputs</a> () const</td></tr>
+<tr class="memdesc:adc630f31a8d55dc852ac1e01c1f7dc58 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of sub-streams.  <a href="group__video.html#adc630f31a8d55dc852ac1e01c1f7dc58">More...</a><br /></td></tr>
+<tr class="separator:adc630f31a8d55dc852ac1e01c1f7dc58 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1a64933421c48f1af63ea12a8217421 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa1a64933421c48f1af63ea12a8217421">GetOutput</a> (uint32_t index) const</td></tr>
+<tr class="memdesc:aa1a64933421c48f1af63ea12a8217421 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a sub-stream.  <a href="group__video.html#aa1a64933421c48f1af63ea12a8217421">More...</a><br /></td></tr>
+<tr class="separator:aa1a64933421c48f1af63ea12a8217421 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7968711adc8814a9ec4e127e7b3a8bb2 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a7968711adc8814a9ec4e127e7b3a8bb2">SetStatus</a> (const char *str)</td></tr>
+<tr class="memdesc:a7968711adc8814a9ec4e127e7b3a8bb2 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a status string (i.e.  <a href="group__video.html#a7968711adc8814a9ec4e127e7b3a8bb2">More...</a><br /></td></tr>
+<tr class="separator:a7968711adc8814a9ec4e127e7b3a8bb2 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a3ed32e27da1e996dc21c0339dc5a95 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0a3ed32e27da1e996dc21c0339dc5a95">IsType</a> (uint32_t type) const</td></tr>
+<tr class="memdesc:a0a3ed32e27da1e996dc21c0339dc5a95 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this stream is of a particular type.  <a href="group__video.html#a0a3ed32e27da1e996dc21c0339dc5a95">More...</a><br /></td></tr>
+<tr class="separator:a0a3ed32e27da1e996dc21c0339dc5a95 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#aa5463fc78e3d259fa18ea2e6349e21c8">IsType</a> () const</td></tr>
+<tr class="memdesc:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a this stream is of a particular type.  <a href="group__video.html#aa5463fc78e3d259fa18ea2e6349e21c8">More...</a><br /></td></tr>
+<tr class="separator:aa5463fc78e3d259fa18ea2e6349e21c8 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a6c66bde88abdfa857bc9715acb8314 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a5a6c66bde88abdfa857bc9715acb8314">TypeToStr</a> () const</td></tr>
+<tr class="memdesc:a5a6c66bde88abdfa857bc9715acb8314 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert this stream's class type to string.  <a href="group__video.html#a5a6c66bde88abdfa857bc9715acb8314">More...</a><br /></td></tr>
+<tr class="separator:a5a6c66bde88abdfa857bc9715acb8314 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:a4729467d9c95d3e4d92cac3a98a6e96c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__image.html#classimageWriter">imageWriter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a4729467d9c95d3e4d92cac3a98a6e96c">Create</a> (const char *path, const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options=<a class="el" href="group__video.html#structvideoOptions">videoOptions</a>())</td></tr>
+<tr class="memdesc:a4729467d9c95d3e4d92cac3a98a6e96c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="group__image.html#classimageWriter" title="Save an image or set of images to disk.">imageWriter</a> instance from a path and optional <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a>.  <a href="group__image.html#a4729467d9c95d3e4d92cac3a98a6e96c">More...</a><br /></td></tr>
+<tr class="separator:a4729467d9c95d3e4d92cac3a98a6e96c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad057d8191dbaad70f8a6fdb27d690197"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__image.html#classimageWriter">imageWriter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#ad057d8191dbaad70f8a6fdb27d690197">Create</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:ad057d8191dbaad70f8a6fdb27d690197"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="group__image.html#classimageWriter" title="Save an image or set of images to disk.">imageWriter</a> instance from the provided video options.  <a href="group__image.html#ad057d8191dbaad70f8a6fdb27d690197">More...</a><br /></td></tr>
+<tr class="separator:ad057d8191dbaad70f8a6fdb27d690197"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3f60a3765942132ffdfb27c72153359"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#ae3f60a3765942132ffdfb27c72153359">IsSupportedExtension</a> (const char *ext)</td></tr>
+<tr class="memdesc:ae3f60a3765942132ffdfb27c72153359"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the extension is in the list of SupportedExtensions.  <a href="group__image.html#ae3f60a3765942132ffdfb27c72153359">More...</a><br /></td></tr>
+<tr class="separator:ae3f60a3765942132ffdfb27c72153359"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="group__video.html#classvideoOutput">videoOutput</a></td></tr>
+<tr class="memitem:aa2754b5d31e5466ad35db3f2832209f1 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa2754b5d31e5466ad35db3f2832209f1">Create</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:aa2754b5d31e5466ad35db3f2832209f1 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> struct that's already been filled out.  <a href="group__video.html#aa2754b5d31e5466ad35db3f2832209f1">More...</a><br /></td></tr>
+<tr class="separator:aa2754b5d31e5466ad35db3f2832209f1 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a461077573ce4c48ef632956251b64c0a inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a461077573ce4c48ef632956251b64c0a">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options=<a class="el" href="group__video.html#structvideoOptions">videoOptions</a>())</td></tr>
+<tr class="memdesc:a461077573ce4c48ef632956251b64c0a inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and optional <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a>.  <a href="group__video.html#a461077573ce4c48ef632956251b64c0a">More...</a><br /></td></tr>
+<tr class="separator:a461077573ce4c48ef632956251b64c0a inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc89d40f9294ffbd096aa2e9bcc9a4fb inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#acc89d40f9294ffbd096aa2e9bcc9a4fb">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine)</td></tr>
+<tr class="memdesc:acc89d40f9294ffbd096aa2e9bcc9a4fb inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and parsing command line arguments.  <a href="group__video.html#acc89d40f9294ffbd096aa2e9bcc9a4fb">More...</a><br /></td></tr>
+<tr class="separator:acc89d40f9294ffbd096aa2e9bcc9a4fb inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a343fb7daf02469fa5d5e604b638b81ff inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a343fb7daf02469fa5d5e604b638b81ff">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const int argc, char **argv)</td></tr>
+<tr class="memdesc:a343fb7daf02469fa5d5e604b638b81ff inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and parsing command line arguments.  <a href="group__video.html#a343fb7daf02469fa5d5e604b638b81ff">More...</a><br /></td></tr>
+<tr class="separator:a343fb7daf02469fa5d5e604b638b81ff inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a346028a278dd67f6b1d69a69cd496e inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a7a346028a278dd67f6b1d69a69cd496e">Create</a> (const int argc, char **argv, int positionArg=-1)</td></tr>
+<tr class="memdesc:a7a346028a278dd67f6b1d69a69cd496e inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface by parsing command line arguments, including the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a>.  <a href="group__video.html#a7a346028a278dd67f6b1d69a69cd496e">More...</a><br /></td></tr>
+<tr class="separator:a7a346028a278dd67f6b1d69a69cd496e inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a754e0468210780b75641e08aff6604de inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a754e0468210780b75641e08aff6604de">Create</a> (const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine, int positionArg=-1)</td></tr>
+<tr class="memdesc:a754e0468210780b75641e08aff6604de inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface by parsing command line arguments, including the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a>.  <a href="group__video.html#a754e0468210780b75641e08aff6604de">More...</a><br /></td></tr>
+<tr class="separator:a754e0468210780b75641e08aff6604de inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0122813d68dd88f0e1d1d92fbbc7edd1 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0122813d68dd88f0e1d1d92fbbc7edd1">CreateNullOutput</a> ()</td></tr>
+<tr class="memdesc:a0122813d68dd88f0e1d1d92fbbc7edd1 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoOutput" title="The videoOutput API is for rendering and transmitting frames to video input devices such as display w...">videoOutput</a> interface that acts as a NULL output and does nothing with incoming frames.  <a href="group__video.html#a0122813d68dd88f0e1d1d92fbbc7edd1">More...</a><br /></td></tr>
+<tr class="separator:a0122813d68dd88f0e1d1d92fbbc7edd1 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ffc51285e0dc05addf926b5f4598b88 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a4ffc51285e0dc05addf926b5f4598b88">Usage</a> ()</td></tr>
+<tr class="memdesc:a4ffc51285e0dc05addf926b5f4598b88 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="group__video.html#aa2754b5d31e5466ad35db3f2832209f1" title="Create videoOutput interface from a videoOptions struct that&#39;s already been filled out.">Create()</a>  <a href="group__video.html#a4ffc51285e0dc05addf926b5f4598b88">More...</a><br /></td></tr>
+<tr class="separator:a4ffc51285e0dc05addf926b5f4598b88 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b8d053b9564bb2ec042ef9760de23bb inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a1b8d053b9564bb2ec042ef9760de23bb">TypeToStr</a> (uint32_t type)</td></tr>
+<tr class="memdesc:a1b8d053b9564bb2ec042ef9760de23bb inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a class type to a string.  <a href="group__video.html#a1b8d053b9564bb2ec042ef9760de23bb">More...</a><br /></td></tr>
+<tr class="separator:a1b8d053b9564bb2ec042ef9760de23bb inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Attributes</h3></td></tr>
+<tr class="memitem:af767ee4c3dfbedd450b5e3c7f86b326a"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#af767ee4c3dfbedd450b5e3c7f86b326a">Type</a> = (1 &lt;&lt; 5)</td></tr>
+<tr class="memdesc:af767ee4c3dfbedd450b5e3c7f86b326a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique type identifier of <a class="el" href="group__image.html#classimageWriter" title="Save an image or set of images to disk.">imageWriter</a> class.  <a href="group__image.html#af767ee4c3dfbedd450b5e3c7f86b326a">More...</a><br /></td></tr>
+<tr class="separator:af767ee4c3dfbedd450b5e3c7f86b326a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d0b61d9546c58044cfa200b4126edda"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a3d0b61d9546c58044cfa200b4126edda">SupportedExtensions</a> []</td></tr>
+<tr class="memdesc:a3d0b61d9546c58044cfa200b4126edda"><td class="mdescLeft">&#160;</td><td class="mdescRight">String array of supported image file extensions, terminated with a NULL sentinel value.  <a href="group__image.html#a3d0b61d9546c58044cfa200b4126edda">More...</a><br /></td></tr>
+<tr class="separator:a3d0b61d9546c58044cfa200b4126edda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Member Functions</h3></td></tr>
+<tr class="memitem:ac6668cfccd5a5d9b93249cfc4f97fe96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#ac6668cfccd5a5d9b93249cfc4f97fe96">imageWriter</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="separator:ac6668cfccd5a5d9b93249cfc4f97fe96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="group__video.html#classvideoOutput">videoOutput</a></td></tr>
+<tr class="memitem:a02b39780efc6480ab424764dafe082ba inherit pro_methods_group__video"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a02b39780efc6480ab424764dafe082ba">videoOutput</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="separator:a02b39780efc6480ab424764dafe082ba inherit pro_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Attributes</h3></td></tr>
+<tr class="memitem:a54cb8c71e88cd68fc9738486679fd304"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#a54cb8c71e88cd68fc9738486679fd304">mFileCount</a></td></tr>
+<tr class="separator:a54cb8c71e88cd68fc9738486679fd304"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc478c1ac925683ca2709668775bbc7d"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__image.html#afc478c1ac925683ca2709668775bbc7d">mFileOut</a> [1024]</td></tr>
+<tr class="separator:afc478c1ac925683ca2709668775bbc7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_group__video"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_group__video')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="group__video.html#classvideoOutput">videoOutput</a></td></tr>
+<tr class="memitem:a473772043b363d7c8dc00cddb70b0aa9 inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a473772043b363d7c8dc00cddb70b0aa9">mStreaming</a></td></tr>
+<tr class="separator:a473772043b363d7c8dc00cddb70b0aa9 inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af749bcbea4200ea33a1135f4f040879d inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__video.html#structvideoOptions">videoOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#af749bcbea4200ea33a1135f4f040879d">mOptions</a></td></tr>
+<tr class="separator:af749bcbea4200ea33a1135f4f040879d inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a583b2977fc4b9e1747f1b9199bc583ea inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="group__video.html#classvideoOutput">videoOutput</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a583b2977fc4b9e1747f1b9199bc583ea">mOutputs</a></td></tr>
+<tr class="separator:a583b2977fc4b9e1747f1b9199bc583ea inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
+<a id="a0038555473cca96319845f4e67c92882"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0038555473cca96319845f4e67c92882">&#9670;&nbsp;</a></span>~imageWriter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual imageWriter::~imageWriter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+
+</div>
+</div>
+<a id="ac6668cfccd5a5d9b93249cfc4f97fe96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6668cfccd5a5d9b93249cfc4f97fe96">&#9670;&nbsp;</a></span>imageWriter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">imageWriter::imageWriter </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="a4729467d9c95d3e4d92cac3a98a6e96c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4729467d9c95d3e4d92cac3a98a6e96c">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__image.html#classimageWriter">imageWriter</a>* imageWriter::Create </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em> = <code><a class="el" href="group__video.html#structvideoOptions">videoOptions</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create an <a class="el" href="group__image.html#classimageWriter" title="Save an image or set of images to disk.">imageWriter</a> instance from a path and optional <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a>. </p>
+
+</div>
+</div>
+<a id="ad057d8191dbaad70f8a6fdb27d690197"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad057d8191dbaad70f8a6fdb27d690197">&#9670;&nbsp;</a></span>Create() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__image.html#classimageWriter">imageWriter</a>* imageWriter::Create </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create an <a class="el" href="group__image.html#classimageWriter" title="Save an image or set of images to disk.">imageWriter</a> instance from the provided video options. </p>
+
+</div>
+</div>
+<a id="ae5d8c048302526edb9e6a84edbc4cb97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5d8c048302526edb9e6a84edbc4cb97">&#9670;&nbsp;</a></span>GetType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint32_t imageWriter::GetType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the interface type (<a class="el" href="group__image.html#af767ee4c3dfbedd450b5e3c7f86b326a" title="Unique type identifier of imageWriter class.">imageWriter::Type</a>) </p>
+
+<p>Reimplemented from <a class="el" href="group__video.html#aaedce68dfff9bd5c3e76c32468632512">videoOutput</a>.</p>
+
+</div>
+</div>
+<a id="ae3f60a3765942132ffdfb27c72153359"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3f60a3765942132ffdfb27c72153359">&#9670;&nbsp;</a></span>IsSupportedExtension()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool imageWriter::IsSupportedExtension </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ext</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return true if the extension is in the list of SupportedExtensions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ext</td><td>string containing the extension to be checked (should not contain leading dot) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__image.html#a3d0b61d9546c58044cfa200b4126edda" title="String array of supported image file extensions, terminated with a NULL sentinel value.">SupportedExtensions</a> for the list of supported <a class="el" href="group__video.html" title="videoSource and videoOutput APIs for input and output video streams.">Video Streaming</a> file extensions. </dd></dl>
+
+</div>
+</div>
+<a id="a63ca941281c3fff61025a5d0c5bf824e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63ca941281c3fff61025a5d0c5bf824e">&#9670;&nbsp;</a></span>Render() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool imageWriter::Render </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Save the next frame. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#ac63d627d52174400c01c28bb0de82993" title="Render and output the next frame to the stream.">videoOutput::Render()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a6867f5326a09025d9a21bf3932314635"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6867f5326a09025d9a21bf3932314635">&#9670;&nbsp;</a></span>Render() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool imageWriter::Render </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Save the next frame. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#ac63d627d52174400c01c28bb0de82993" title="Render and output the next frame to the stream.">videoOutput::Render()</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="group__video.html#a8e53017c0e49212405391f82fbac876f">videoOutput</a>.</p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Data Documentation</h4>
+<a id="a54cb8c71e88cd68fc9738486679fd304"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54cb8c71e88cd68fc9738486679fd304">&#9670;&nbsp;</a></span>mFileCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t imageWriter::mFileCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afc478c1ac925683ca2709668775bbc7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc478c1ac925683ca2709668775bbc7d">&#9670;&nbsp;</a></span>mFileOut</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char imageWriter::mFileOut[1024]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3d0b61d9546c58044cfa200b4126edda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d0b61d9546c58044cfa200b4126edda">&#9670;&nbsp;</a></span>SupportedExtensions</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* imageWriter::SupportedExtensions[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>String array of supported image file extensions, terminated with a NULL sentinel value. </p>
+<p>The supported extension are:</p>
+<ul>
+<li>JPG / JPEG</li>
+<li>PNG</li>
+<li>TGA / TARGA</li>
+<li>BMP</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__image.html#ae3f60a3765942132ffdfb27c72153359" title="Return true if the extension is in the list of SupportedExtensions.">IsSupportedExtension()</a> to check a string against this list. </dd></dl>
+
+</div>
+</div>
+<a id="af767ee4c3dfbedd450b5e3c7f86b326a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af767ee4c3dfbedd450b5e3c7f86b326a">&#9670;&nbsp;</a></span>Type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint32_t imageWriter::Type = (1 &lt;&lt; 5)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unique type identifier of <a class="el" href="group__image.html#classimageWriter" title="Save an image or set of images to disk.">imageWriter</a> class. </p>
+
+</div>
+</div>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga27eecc15662ad22366515de5cc054342"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga27eecc15662ad22366515de5cc054342">&#9670;&nbsp;</a></span>loadImage() <span class="overload">[1/2]</span></h2>
@@ -591,7 +1850,7 @@ template&lt;typename T &gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Mar 16 2023 18:21:29 for Jetson Inference by
+    <li class="footer">Generated on Tue Mar 28 2023 14:27:58 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
   </ul>

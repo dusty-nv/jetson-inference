@@ -11,6 +11,9 @@ project(my-recognition)
 find_package(jetson-utils)
 find_package(jetson-inference)
 
+# find VPI package (optional)
+find_package(VPI 2.0)
+
 # CUDA is required
 find_package(CUDA)
 

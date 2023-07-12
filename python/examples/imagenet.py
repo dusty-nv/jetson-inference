@@ -37,8 +37,6 @@ parser.add_argument("output", type=str, default="", nargs='?', help="URI of the 
 parser.add_argument("--network", type=str, default="googlenet", help="pre-trained model to load (see below for options)")
 parser.add_argument("--topK", type=int, default=1, help="show the topK number of class predictions (default: 1)")
 
-is_headless = ["--headless"] if sys.argv[0].find('console.py') != -1 else [""]
-
 try:
 	args = parser.parse_known_args()[0]
 except:
@@ -57,7 +55,7 @@ net = imageNet(args.network, sys.argv)
 
 # create video sources & outputs
 input = videoSource(args.input, argv=sys.argv)
-output = videoOutput(args.output, argv=sys.argv+is_headless)
+output = videoOutput(args.output, argv=sys.argv)
 font = cudaFont()
 
 # process frames until EOS or the user exits

@@ -39,25 +39,15 @@
 	#define PYTHON_3
 	#endif
 
-	#ifndef PYLONG_AS_LONG
-	#define PYLONG_AS_LONG(x)			PyLong_AsLong(x)
-	#endif
+	#define PYLONG_AS_LONG(x)				PyLong_AsLong(x)
+	#define PYLONG_FROM_LONG(x)				PyLong_FromLong(x)
+	#define PYLONG_FROM_UNSIGNED_LONG(x)		PyLong_FromUnsignedLong(x)
+	#define PYLONG_FROM_UNSIGNED_LONG_LONG(x) 	PyLong_FromUnsignedLongLong(x)
 
-	#ifndef PYLONG_FROM_LONG
-	#define PYLONG_FROM_LONG(x)			PyLong_FromLong(x)
-	#endif
-
-	#ifndef PYLONG_FROM_UNSIGNED_LONG
-	#define PYLONG_FROM_UNSIGNED_LONG(x)	PyLong_FromUnsignedLong(x)
-	#endif
-
-	#ifndef PYSTRING_FROM_STRING
-	#define PYSTRING_FROM_STRING			PyUnicode_FromString
-	#endif
-
-	#ifndef PYSTRING_FROM_FORMAT
-	#define PYSTRING_FROM_FORMAT			PyUnicode_FromFormat
-	#endif
+	#define PYSTRING_CHECK					PyUnicode_Check
+	#define PYSTRING_AS_STRING				PyUnicode_AsUTF8
+	#define PYSTRING_FROM_STRING				PyUnicode_FromString
+	#define PYSTRING_FROM_FORMAT				PyUnicode_FromFormat
 
 #elif PY_MAJOR_VERSION >= 2
 
@@ -66,26 +56,16 @@
 	#define PYTHON_2
 	#endif
 
-	#ifndef PYLONG_AS_LONG
-	#define PYLONG_AS_LONG(x)			PyInt_AsLong(x)
-	#endif
+	#define PYLONG_AS_LONG(x)				PyInt_AsLong(x)
+	#define PYLONG_FROM_LONG(x)				PyInt_FromLong(x)
+	#define PYLONG_FROM_UNSIGNED_LONG(x)		PyInt_FromLong(x)
+	#define PYLONG_FROM_UNSIGNED_LONG_LONG(x)	PyInt_FromLong((long)x)
 
-	#ifndef PYLONG_FROM_LONG
-	#define PYLONG_FROM_LONG(x)			PyInt_FromLong(x)
-	#endif
-
-	#ifndef PYLONG_FROM_UNSIGNED_LONG
-	#define PYLONG_FROM_UNSIGNED_LONG(x)	PyInt_FromLong(x)
-	#endif
-
-	#ifndef PYSTRING_FROM_STRING
-	#define PYSTRING_FROM_STRING			PyString_FromString
-	#endif
-
-	#ifndef PYSTRING_FROM_FORMAT
-	#define PYSTRING_FROM_FORMAT			PyString_FromFormat
-	#endif
-
+	#define PYSTRING_CHECK					PyString_Check
+	#define PYSTRING_AS_STRING				PyString_AsString
+	#define PYSTRING_FROM_STRING				PyString_FromString
+	#define PYSTRING_FROM_FORMAT				PyString_FromFormat
+	
 #endif
 
 #ifndef PY_RETURN_BOOL
@@ -124,6 +104,58 @@
 #define PYDICT_SET_INT(dict, key, val)		PYDICT_SET_ITEM(dict, key, PYLONG_FROM_LONG(val))
 #define PYDICT_SET_UINT(dict, key, val)		PYDICT_SET_ITEM(dict, key, PYLONG_FROM_UNSIGNED_LONG(val))
 #define PYDICT_SET_FLOAT(dict, key, val)	PYDICT_SET_ITEM(dict, key, PyFloat_FromDouble(val))
+
+#define PYDICT_GET_INT(dict, key, output) { \
+	PyObject* obj = PyDict_GetItemString(dict, key); \
+	if( obj != NULL ) { \
+		const int value = PYLONG_AS_LONG(obj); \
+		if( !PyErr_Occurred() ) \
+			output = value; \
+	} \
+}
+
+#define PYDICT_GET_UINT(dict, key, output) { \
+	PyObject* obj = PyDict_GetItemString(dict, key); \
+	if( obj != NULL ) { \
+		const int value = PYLONG_AS_LONG(obj); \
+		if( !PyErr_Occurred() && value >= 0 ) \
+			output = value; \
+	} \
+}
+
+#define PYDICT_GET_FLOAT(dict, key, output) { \
+	PyObject* obj = PyDict_GetItemString(dict, key); \
+	if( obj != NULL ) { \
+		const float value = PyFloat_AsDouble(obj); \
+		if( !PyErr_Occurred() ) \
+			output = value; \
+	} \
+}
+
+#define PYDICT_GET_BOOL(dict, key, output) { \
+	PyObject* obj = PyDict_GetItemString(dict, key); \
+	if( obj != NULL && PyBool_Check(obj) ) { \
+		output = (obj == Py_True) ? true : false; \
+	} \
+}
+
+#define PYDICT_GET_STRING(dict, key, output) { \
+	PyObject* obj = PyDict_GetItemString(dict, key); \
+	if( obj != NULL && PYSTRING_CHECK(obj) ) { \
+		const char* value = PYSTRING_AS_STRING(obj); \
+		if( value != NULL ) \
+			output = value; \
+	} \
+}
+
+#define PYDICT_GET_ENUM(dict, key, output, parser) { \
+	PyObject* obj = PyDict_GetItemString(dict, key); \
+	if( obj != NULL && PYSTRING_CHECK(obj) ) { \
+		const char* value = PYSTRING_AS_STRING(obj); \
+		if( value != NULL ) \
+			output = parser(value); \
+	} \
+}
 
 #endif
 

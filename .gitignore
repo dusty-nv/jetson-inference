@@ -5,3 +5,4 @@ data/images/qa/results
 logs/
 *.pyc
 *.tar.gz
+*.pem

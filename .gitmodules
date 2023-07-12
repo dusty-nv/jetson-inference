@@ -25,3 +25,6 @@
 	path = docker/containers
 	url = https://github.com/dusty-nv/jetson-containers
 	branch = master
+[submodule "ros"]
+	path = ros
+	url = https://github.com/dusty-nv/ros_deep_learning

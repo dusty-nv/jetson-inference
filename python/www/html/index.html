@@ -12,8 +12,8 @@
       };
       
       send = function() {
-        sendStream(getWebsocketURL('input'), document.getElementById('send-stream').value);
-        play(); // autoplay browser stream
+        if( sendStream(getWebsocketURL('input'), document.getElementById('send-stream').value) )
+          play(); // autoplay browser stream
       }
       
       window.onload = function() {

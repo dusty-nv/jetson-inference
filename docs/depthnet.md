@@ -1,14 +1,14 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="posenet.md">Back</a> | <a href="pytorch-transfer-learning.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="backgroundnet.md">Back</a> | <a href="pytorch-transfer-learning.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Mono Depth</sup></s></p>
 
 # Monocular Depth with DepthNet
 Depth sensing is useful for tasks such as mapping, navigation and obstacle detection, however it historically required a stereo camera or RGB-D camera.  There are now DNNs that are able to infer relative depth from a single monocular image (aka mono depth).  See the [MIT FastDepth](https://arxiv.org/abs/1903.03273) paper for one such approach to accomplishing this using Fully-Convolutional Networks (FCNs).
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-0.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/depthnet-0.jpg">
 
-The [`depthNet`](../c/depthNet.h) object accepts a single color image as input, and outputs the depth map.  The depth map is colorized for visualization, but the raw [depth field](#getting-the-raw-depth-field) is also accessible for directly accessing the depths. [`depthNet`](../c/depthNet.h) is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/python/jetson.inference.html#depthNet) and [C++](../c/depthNet.h).
+The [`depthNet`](../c/depthNet.h) object accepts a single color image as input, and outputs the depth map.  The depth map is colorized for visualization, but the raw [depth field](#getting-the-raw-depth-field) is also accessible for directly accessing the depths. [`depthNet`](../c/depthNet.h) is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#depthNet) and [C++](../c/depthNet.h).
 
 As examples of using the `depthNet` class, we provide sample programs for C++ and Python:
 
@@ -41,7 +41,7 @@ $ ./depthnet "images/room_*.jpg" images/test/depth_room_%i.jpg
 $ ./depthnet.py "images/room_*.jpg" images/test/depth_room_%i.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-room-0.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/depthnet-room-0.jpg">
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
@@ -56,7 +56,7 @@ $ ./depthnet "images/trail_*.jpg" images/test/depth_trail_%i.jpg
 $ ./depthnet.py "images/trail_*.jpg" images/test/depth_trail_%i.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-trail-0.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/depthnet-trail-0.jpg">
 
 ## Mono Depth from Video 
 
@@ -70,7 +70,7 @@ $ ./depthnet /dev/video0     # csi://0 if using MIPI CSI camera
 $ ./depthnet.py /dev/video0  # csi://0 if using MIPI CSI camera
 ```
 
-<a href="https://www.youtube.com/watch?v=3_bU6Eqb4hE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/depthnet-video-0.jpg width="750"></a>
+<a href="https://www.youtube.com/watch?v=3_bU6Eqb4hE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/depthnet-video-0.jpg width="750"></a>
 
 > **note**:  if the screen is too small to fit the output, you can use `--depth-scale=0.5` to reduce the size <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of the depth image, or reduce the size of the camera with `--input-width=X --input-height=Y`
@@ -150,5 +150,5 @@ Next, we're going to introduce the concepts of [Transfer Learning](pytorch-trans
 ##
 <p align="right">Next | <b><a href="pytorch-transfer-learning.md">Transfer Learning with PyTorch</a></b>
 <br/>
-Back | <b><a href="posenet.md">Pose Estimation with PoseNet</a></p>
+Back | <b><a href="backgroundnet.md">Background Removal</a></p>
 </b><p align="center"><sup>© 2016-2021 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

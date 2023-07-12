@@ -29,13 +29,6 @@
 #include <signal.h>
 
 
-#ifdef HEADLESS
-	#define IS_HEADLESS() "headless"	// run without display
-#else
-	#define IS_HEADLESS() (const char*)NULL
-#endif
-
-
 bool signal_recieved = false;
 
 void sig_handler(int signo)
@@ -72,7 +65,7 @@ int main( int argc, char** argv )
 	/*
 	 * parse command line
 	 */
-	commandLine cmdLine(argc, argv, IS_HEADLESS());
+	commandLine cmdLine(argc, argv);
 
 	if( cmdLine.GetFlag("help") )
 		return usage();

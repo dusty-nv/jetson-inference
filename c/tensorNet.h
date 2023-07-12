@@ -353,6 +353,11 @@ public:
 	bool LoadEngine( const char* filename, char** stream, size_t* size );
 
 	/**
+	 * Load a binary file into memory.
+	 */
+	bool LoadBinary( const char* filename, char** stream, size_t* size );
+	
+	/**
 	 * Load class descriptions from a label file.  
 	 * Each line of the text file should include one class label (and optionally a synset).
 	 * If the number of expected labels aren't parsed, they will be automatically generated.

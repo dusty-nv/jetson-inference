@@ -131,8 +131,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_OUTPUT_DIR}/lib)
 include_directories(${PROJECT_INCLUDE_DIR} ${PROJECT_INCLUDE_DIR}/jetson-inference ${PROJECT_INCLUDE_DIR}/jetson-utils)
 include_directories(/usr/include/gstreamer-1.0 /usr/lib/${CMAKE_SYSTEM_PROCESSOR}/gstreamer-1.0/include /usr/include/glib-2.0 /usr/include/libxml2 /usr/lib/${CMAKE_SYSTEM_PROCESSOR}/glib-2.0/include/)
 
-file(GLOB inferenceSources c/*.cpp c/*.cu c/calibration/*.cpp c/trackers/*.cpp)
-file(GLOB inferenceIncludes c/*.h c/*.cuh c/calibration/*.h c/trackers/*.h)
+file(GLOB inferenceSources c/*.cpp c/*.cu c/calibration/*.cpp c/tracking/*.cpp)
+file(GLOB inferenceIncludes c/*.h c/*.cuh c/calibration/*.h c/tracking/*.h)
 
 if(BUILD_EXPERIMENTAL)
 	message("-- BUILD_EXPERIMENTAL enabled")

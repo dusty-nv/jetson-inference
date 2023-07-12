@@ -12,19 +12,20 @@
     <link rel="stylesheet" href="/static/bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
-    <script type='text/javascript' src="/static/jquery-3.6.3.min.js"></script>
-    <script type='text/javascript' src='/static/bootstrap.bundle.min.js'></script>
+    <script type='text/javascript' src='https://webrtc.github.io/adapter/adapter-latest.js'></script>
     <script type='text/javascript' src='/static/webrtc.js'></script>
     <script type='text/javascript' src='/static/rest.js'></script>
     <script type='text/javascript' src='/static/debounce.js'></script>
+    <script type='text/javascript' src="/static/jquery-3.6.3.min.js"></script>
+    <script type='text/javascript' src='/static/bootstrap.bundle.min.js'></script>
     <script type='text/javascript'>
       play = function() {
         playStream(document.getElementById('play-stream').value, document.getElementById('video-player'));
       };
       
       send = function() {
-        sendStream(getWebsocketURL('input'), document.getElementById('send-stream').value);
-        play(); // autoplay browser stream
+        if( sendStream(getWebsocketURL('input'), document.getElementById('send-stream').value) )
+          play(); // autoplay browser stream
       }
       
       window.onload = function() {
@@ -103,6 +104,13 @@
             </div>
             <div class="col-4">
               <button id="send-button" onclick="send()">Send</button>
+            </div>
+          </div>
+        {% else %}
+          <div class="row">
+            <label for="input-stream" class="col-2">Input:</label>
+            <div id="input-stream" class="col-10">
+              {{ input_stream }}
             </div>
           </div>
         {% endif %}

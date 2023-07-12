@@ -95,22 +95,902 @@ $(document).ready(function(){initNavTree('group__camera.html',''); initResizable
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgstCamera.html">gstCamera</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">MIPI CSI and V4L2 camera capture using GStreamer and <code>nvarguscamerasrc</code> or <code>v4l2src</code> elements.  <a href="classgstCamera.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classv4l2Camera.html">v4l2Camera</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Video4Linux2 (V4L2) camera capture streaming.  <a href="classv4l2Camera.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classgstCamera"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#classgstCamera">gstCamera</a></td></tr>
+<tr class="memdesc:classgstCamera"><td class="mdescLeft">&#160;</td><td class="mdescRight">MIPI CSI and V4L2 camera capture using GStreamer and <code>nvarguscamerasrc</code> or <code>v4l2src</code> elements.  <a href="group__camera.html#classgstCamera">More...</a><br /></td></tr>
+<tr class="separator:classgstCamera"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classv4l2Camera"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#classv4l2Camera">v4l2Camera</a></td></tr>
+<tr class="memdesc:classv4l2Camera"><td class="mdescLeft">&#160;</td><td class="mdescRight">Video4Linux2 (V4L2) camera capture streaming.  <a href="group__camera.html#classv4l2Camera">More...</a><br /></td></tr>
+<tr class="separator:classv4l2Camera"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Camera capture and streaming for MIPI CSI and V4L2 devices (deprecated). </p>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>See the updated <a class="el" href="group__video.html">Video Streaming</a> APIs. </dd></dl>
+<hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="classgstCamera" id="classgstCamera"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classgstCamera">&#9670;&nbsp;</a></span>gstCamera</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class gstCamera</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>MIPI CSI and V4L2 camera capture using GStreamer and <code>nvarguscamerasrc</code> or <code>v4l2src</code> elements. </p>
+<p><a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> supports both MIPI CSI cameras and V4L2-compliant devices like USB webcams.</p>
+<p>Examples of MIPI CSI cameras that work out of the box are the OV5693 module from the Jetson TX1/TX2 devkits, and the IMX219 sensor from the Raspberry Pi Camera Module v2.</p>
+<p>For MIPI CSI cameras, the GStreamer element <code>nvarguscamerasrc</code> will be used for capture. For V4L2 devices, the GStreamer element <code>v4l2src</code> will be used for camera capture.</p>
+<p><a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> uses CUDA underneath for any necessary colorspace conversion, and provides the captured image frames in CUDA device memory, or zero-copy shared CPU/GPU memory.</p>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> now implements the <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface and is intended to be used through that as opposed to directly. <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> implements additional command-line parsing of <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> to construct instances. Some legacy APIs of <a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> are now marked deprecated.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> </dd></dl>
+</div><div class="dynheader">
+Inheritance diagram for gstCamera:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="group__camera.png" usemap="#gstCamera_map" alt=""/>
+  <map id="gstCamera_map" name="gstCamera_map">
+<area href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,..." alt="videoSource" shape="rect" coords="0,0,84,24"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
+<tr class="memitem:a1df842937128e70d8f140c65e88e783c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a1df842937128e70d8f140c65e88e783c">~gstCamera</a> ()</td></tr>
+<tr class="memdesc:a1df842937128e70d8f140c65e88e783c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release the camera interface and resources.  <a href="group__camera.html#a1df842937128e70d8f140c65e88e783c">More...</a><br /></td></tr>
+<tr class="separator:a1df842937128e70d8f140c65e88e783c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28f4842c5648a253a1acee5276ac8486"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a28f4842c5648a253a1acee5276ac8486">Open</a> ()</td></tr>
+<tr class="memdesc:a28f4842c5648a253a1acee5276ac8486"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin streaming the camera.  <a href="group__camera.html#a28f4842c5648a253a1acee5276ac8486">More...</a><br /></td></tr>
+<tr class="separator:a28f4842c5648a253a1acee5276ac8486"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8798df5c10fff5ecbaf2598816c94f55"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a8798df5c10fff5ecbaf2598816c94f55">Close</a> ()</td></tr>
+<tr class="memdesc:a8798df5c10fff5ecbaf2598816c94f55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop streaming the camera.  <a href="group__camera.html#a8798df5c10fff5ecbaf2598816c94f55">More...</a><br /></td></tr>
+<tr class="separator:a8798df5c10fff5ecbaf2598816c94f55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58201c92cd49636dd26e09b79099857f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a58201c92cd49636dd26e09b79099857f">Capture</a> (void **image, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, uint64_t timeout=<a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a>, int *status=NULL)</td></tr>
+<tr class="memdesc:a58201c92cd49636dd26e09b79099857f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture the next image frame from the camera.  <a href="group__camera.html#a58201c92cd49636dd26e09b79099857f">More...</a><br /></td></tr>
+<tr class="separator:a58201c92cd49636dd26e09b79099857f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a958b61d55ce410cbf219a4c7dde721db"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a958b61d55ce410cbf219a4c7dde721db">CaptureRGBA</a> (float **image, uint64_t timeout=<a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a>, bool zeroCopy=false)</td></tr>
+<tr class="memdesc:a958b61d55ce410cbf219a4c7dde721db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0.  <a href="group__camera.html#a958b61d55ce410cbf219a4c7dde721db">More...</a><br /></td></tr>
+<tr class="separator:a958b61d55ce410cbf219a4c7dde721db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad30c9e11ceda99507816e0715f34dd8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#ad30c9e11ceda99507816e0715f34dd8a">SetZeroCopy</a> (bool zeroCopy)</td></tr>
+<tr class="memdesc:ad30c9e11ceda99507816e0715f34dd8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set whether converted RGB(A) images should use ZeroCopy buffer allocation.  <a href="group__camera.html#ad30c9e11ceda99507816e0715f34dd8a">More...</a><br /></td></tr>
+<tr class="separator:ad30c9e11ceda99507816e0715f34dd8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40bdf4c4b7675e33bf670df07918e9c6"><td class="memItemLeft" align="right" valign="top">virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a40bdf4c4b7675e33bf670df07918e9c6">GetType</a> () const</td></tr>
+<tr class="memdesc:a40bdf4c4b7675e33bf670df07918e9c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the interface type (<a class="el" href="group__camera.html#a9e83835ff04fb08ecef14a67efb5c3d5" title="Unique type identifier of gstCamera class.">gstCamera::Type</a>)  <a href="group__camera.html#a40bdf4c4b7675e33bf670df07918e9c6">More...</a><br /></td></tr>
+<tr class="separator:a40bdf4c4b7675e33bf670df07918e9c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:a2cae1095df64b7c61de77935b77032bb inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2cae1095df64b7c61de77935b77032bb">~videoSource</a> ()</td></tr>
+<tr class="memdesc:a2cae1095df64b7c61de77935b77032bb inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy interface and release all resources.  <a href="group__video.html#a2cae1095df64b7c61de77935b77032bb">More...</a><br /></td></tr>
+<tr class="separator:a2cae1095df64b7c61de77935b77032bb inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#a338edcb027b28a551b7f75d085ea13f8">Capture</a> (T **image, int *status)</td></tr>
+<tr class="memdesc:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture the next image from the video stream, using the default timeout of 1000ms.  <a href="group__video.html#a338edcb027b28a551b7f75d085ea13f8">More...</a><br /></td></tr>
+<tr class="separator:a338edcb027b28a551b7f75d085ea13f8 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#a1a838840d3d10996033a566d7e968331">Capture</a> (T **image, uint64_t timeout=<a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a>, int *status=NULL)</td></tr>
+<tr class="memdesc:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture the next image from the video stream.  <a href="group__video.html#a1a838840d3d10996033a566d7e968331">More...</a><br /></td></tr>
+<tr class="separator:a1a838840d3d10996033a566d7e968331 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ce18fd4c3a8f934e7ec000f0d36b7e9 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0ce18fd4c3a8f934e7ec000f0d36b7e9">IsStreaming</a> () const</td></tr>
+<tr class="memdesc:a0ce18fd4c3a8f934e7ec000f0d36b7e9 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the device is actively streaming or not.  <a href="group__video.html#a0ce18fd4c3a8f934e7ec000f0d36b7e9">More...</a><br /></td></tr>
+<tr class="separator:a0ce18fd4c3a8f934e7ec000f0d36b7e9 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17f0c43e832d4de85a014b3aa4265732 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a17f0c43e832d4de85a014b3aa4265732">GetWidth</a> () const</td></tr>
+<tr class="memdesc:a17f0c43e832d4de85a014b3aa4265732 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the width of the stream, in pixels.  <a href="group__video.html#a17f0c43e832d4de85a014b3aa4265732">More...</a><br /></td></tr>
+<tr class="separator:a17f0c43e832d4de85a014b3aa4265732 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ca24054da683cae18b0bfad01dbf1d0 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a6ca24054da683cae18b0bfad01dbf1d0">GetHeight</a> () const</td></tr>
+<tr class="memdesc:a6ca24054da683cae18b0bfad01dbf1d0 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the height of the stream, in pixels.  <a href="group__video.html#a6ca24054da683cae18b0bfad01dbf1d0">More...</a><br /></td></tr>
+<tr class="separator:a6ca24054da683cae18b0bfad01dbf1d0 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e6ac667bd17a49cc94a6b16173a06ba inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a4e6ac667bd17a49cc94a6b16173a06ba">GetFrameRate</a> () const</td></tr>
+<tr class="memdesc:a4e6ac667bd17a49cc94a6b16173a06ba inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the framerate, in Hz or FPS.  <a href="group__video.html#a4e6ac667bd17a49cc94a6b16173a06ba">More...</a><br /></td></tr>
+<tr class="separator:a4e6ac667bd17a49cc94a6b16173a06ba inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f1adda850349479bb3b4c4e90b3c429 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2f1adda850349479bb3b4c4e90b3c429">GetFrameCount</a> () const</td></tr>
+<tr class="memdesc:a2f1adda850349479bb3b4c4e90b3c429 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of frames captured.  <a href="group__video.html#a2f1adda850349479bb3b4c4e90b3c429">More...</a><br /></td></tr>
+<tr class="separator:a2f1adda850349479bb3b4c4e90b3c429 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36ef21c0eb8cc9a7ce181cebf3d88e06 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a36ef21c0eb8cc9a7ce181cebf3d88e06">GetLastTimestamp</a> () const</td></tr>
+<tr class="memdesc:a36ef21c0eb8cc9a7ce181cebf3d88e06 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get timestamp of the last captured frame, in nanoseconds.  <a href="group__video.html#a36ef21c0eb8cc9a7ce181cebf3d88e06">More...</a><br /></td></tr>
+<tr class="separator:a36ef21c0eb8cc9a7ce181cebf3d88e06 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af170b23f004c98754479f84351ef4c51 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#af170b23f004c98754479f84351ef4c51">GetRawFormat</a> () const</td></tr>
+<tr class="memdesc:af170b23f004c98754479f84351ef4c51 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get raw image format.  <a href="group__video.html#af170b23f004c98754479f84351ef4c51">More...</a><br /></td></tr>
+<tr class="separator:af170b23f004c98754479f84351ef4c51 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2052b0b41222c17e3d14964f10c3ffa6 inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__video.html#structURI">URI</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a2052b0b41222c17e3d14964f10c3ffa6">GetResource</a> () const</td></tr>
+<tr class="memdesc:a2052b0b41222c17e3d14964f10c3ffa6 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> of the stream.  <a href="group__video.html#a2052b0b41222c17e3d14964f10c3ffa6">More...</a><br /></td></tr>
+<tr class="separator:a2052b0b41222c17e3d14964f10c3ffa6 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d423829515c5c91d132f476213e22bd inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a7d423829515c5c91d132f476213e22bd">GetOptions</a> () const</td></tr>
+<tr class="memdesc:a7d423829515c5c91d132f476213e22bd inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> of the stream.  <a href="group__video.html#a7d423829515c5c91d132f476213e22bd">More...</a><br /></td></tr>
+<tr class="separator:a7d423829515c5c91d132f476213e22bd inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0883cf58cd0d8d0c05fb192a01250b7a inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0883cf58cd0d8d0c05fb192a01250b7a">IsType</a> (uint32_t type) const</td></tr>
+<tr class="memdesc:a0883cf58cd0d8d0c05fb192a01250b7a inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if this stream is of a particular type.  <a href="group__video.html#a0883cf58cd0d8d0c05fb192a01250b7a">More...</a><br /></td></tr>
+<tr class="separator:a0883cf58cd0d8d0c05fb192a01250b7a inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__video.html#ad3c1689db5baf2786099d2c0be075010">IsType</a> () const</td></tr>
+<tr class="memdesc:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a this stream is of a particular type.  <a href="group__video.html#ad3c1689db5baf2786099d2c0be075010">More...</a><br /></td></tr>
+<tr class="separator:ad3c1689db5baf2786099d2c0be075010 inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38909f4451ecdf3a2777aea3a088677e inherit pub_methods_group__video"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a38909f4451ecdf3a2777aea3a088677e">TypeToStr</a> () const</td></tr>
+<tr class="memdesc:a38909f4451ecdf3a2777aea3a088677e inherit pub_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert this stream's class type to string.  <a href="group__video.html#a38909f4451ecdf3a2777aea3a088677e">More...</a><br /></td></tr>
+<tr class="separator:a38909f4451ecdf3a2777aea3a088677e inherit pub_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:acdad73a19658174d179845611f4e8b3f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__camera.html#classgstCamera">gstCamera</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#acdad73a19658174d179845611f4e8b3f">Create</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:acdad73a19658174d179845611f4e8b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a MIPI CSI or V4L2 camera device.  <a href="group__camera.html#acdad73a19658174d179845611f4e8b3f">More...</a><br /></td></tr>
+<tr class="separator:acdad73a19658174d179845611f4e8b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1747140a15dd83dbd3593c375bbc85d0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__camera.html#classgstCamera">gstCamera</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a1747140a15dd83dbd3593c375bbc85d0">Create</a> (const char *camera=NULL)</td></tr>
+<tr class="memdesc:a1747140a15dd83dbd3593c375bbc85d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a MIPI CSI or V4L2 camera device.  <a href="group__camera.html#a1747140a15dd83dbd3593c375bbc85d0">More...</a><br /></td></tr>
+<tr class="separator:a1747140a15dd83dbd3593c375bbc85d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e35c53ac1d65ba5c0319278ca097766"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__camera.html#classgstCamera">gstCamera</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a4e35c53ac1d65ba5c0319278ca097766">Create</a> (uint32_t width, uint32_t height, const char *camera=NULL)</td></tr>
+<tr class="memdesc:a4e35c53ac1d65ba5c0319278ca097766"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a MIPI CSI or V4L2 camera device.  <a href="group__camera.html#a4e35c53ac1d65ba5c0319278ca097766">More...</a><br /></td></tr>
+<tr class="separator:a4e35c53ac1d65ba5c0319278ca097766"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:aadf5947b119db934f02fefcd8ffe23ee inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aadf5947b119db934f02fefcd8ffe23ee">Create</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:aadf5947b119db934f02fefcd8ffe23ee inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a> struct that's already been filled out.  <a href="group__video.html#aadf5947b119db934f02fefcd8ffe23ee">More...</a><br /></td></tr>
+<tr class="separator:aadf5947b119db934f02fefcd8ffe23ee inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac84b9d20c628c19e0463aca50ed2cdf9 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac84b9d20c628c19e0463aca50ed2cdf9">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options=<a class="el" href="group__video.html#structvideoOptions">videoOptions</a>())</td></tr>
+<tr class="memdesc:ac84b9d20c628c19e0463aca50ed2cdf9 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and optional <a class="el" href="group__video.html#structvideoOptions" title="The videoOptions struct contains common settings that are used to configure and query videoSource and...">videoOptions</a>.  <a href="group__video.html#ac84b9d20c628c19e0463aca50ed2cdf9">More...</a><br /></td></tr>
+<tr class="separator:ac84b9d20c628c19e0463aca50ed2cdf9 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17577a0ed75a86cea8e579f4405a2942 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a17577a0ed75a86cea8e579f4405a2942">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine)</td></tr>
+<tr class="memdesc:a17577a0ed75a86cea8e579f4405a2942 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and parsing command line arguments.  <a href="group__video.html#a17577a0ed75a86cea8e579f4405a2942">More...</a><br /></td></tr>
+<tr class="separator:a17577a0ed75a86cea8e579f4405a2942 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6306cfc0359265983842b56b5cf09212 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a6306cfc0359265983842b56b5cf09212">Create</a> (const char *<a class="el" href="group__video.html#structURI">URI</a>, const int argc, char **argv)</td></tr>
+<tr class="memdesc:a6306cfc0359265983842b56b5cf09212 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface from a resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a> string and parsing command line arguments.  <a href="group__video.html#a6306cfc0359265983842b56b5cf09212">More...</a><br /></td></tr>
+<tr class="separator:a6306cfc0359265983842b56b5cf09212 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa796136bec7acf354e3e81e5b7c0172a inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa796136bec7acf354e3e81e5b7c0172a">Create</a> (const int argc, char **argv, int positionArg=-1)</td></tr>
+<tr class="memdesc:aa796136bec7acf354e3e81e5b7c0172a inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface by parsing command line arguments, including the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a>.  <a href="group__video.html#aa796136bec7acf354e3e81e5b7c0172a">More...</a><br /></td></tr>
+<tr class="separator:aa796136bec7acf354e3e81e5b7c0172a inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac529c5b81c74eb71436e2031a6c1f214 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__video.html#classvideoSource">videoSource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac529c5b81c74eb71436e2031a6c1f214">Create</a> (const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine, int positionArg=-1)</td></tr>
+<tr class="memdesc:ac529c5b81c74eb71436e2031a6c1f214 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="group__video.html#classvideoSource" title="The videoSource API is for capturing frames from video input devices such as MIPI CSI cameras,...">videoSource</a> interface by parsing command line arguments, including the resource <a class="el" href="group__video.html#structURI" title="Resource URI of a video device, IP stream, or file/directory.">URI</a>.  <a href="group__video.html#ac529c5b81c74eb71436e2031a6c1f214">More...</a><br /></td></tr>
+<tr class="separator:ac529c5b81c74eb71436e2031a6c1f214 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac254b0c9d38c76c62e6c5f8ad20ef447 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac254b0c9d38c76c62e6c5f8ad20ef447">Usage</a> ()</td></tr>
+<tr class="memdesc:ac254b0c9d38c76c62e6c5f8ad20ef447 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="group__video.html#aadf5947b119db934f02fefcd8ffe23ee" title="Create videoSource interface from a videoOptions struct that&#39;s already been filled out.">Create()</a>  <a href="group__video.html#ac254b0c9d38c76c62e6c5f8ad20ef447">More...</a><br /></td></tr>
+<tr class="separator:ac254b0c9d38c76c62e6c5f8ad20ef447 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac080abc0de51300f838596d11b5544a8 inherit pub_static_methods_group__video"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#ac080abc0de51300f838596d11b5544a8">TypeToStr</a> (uint32_t type)</td></tr>
+<tr class="memdesc:ac080abc0de51300f838596d11b5544a8 inherit pub_static_methods_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a class type to a string.  <a href="group__video.html#ac080abc0de51300f838596d11b5544a8">More...</a><br /></td></tr>
+<tr class="separator:ac080abc0de51300f838596d11b5544a8 inherit pub_static_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Attributes</h3></td></tr>
+<tr class="memitem:a9e83835ff04fb08ecef14a67efb5c3d5"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a9e83835ff04fb08ecef14a67efb5c3d5">Type</a> = (1 &lt;&lt; 0)</td></tr>
+<tr class="memdesc:a9e83835ff04fb08ecef14a67efb5c3d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique type identifier of <a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> class.  <a href="group__camera.html#a9e83835ff04fb08ecef14a67efb5c3d5">More...</a><br /></td></tr>
+<tr class="separator:a9e83835ff04fb08ecef14a67efb5c3d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a211a6c9359a2f43054771f15e7628a5e"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a211a6c9359a2f43054771f15e7628a5e">DefaultWidth</a> = 1280</td></tr>
+<tr class="memdesc:a211a6c9359a2f43054771f15e7628a5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default camera width, unless otherwise specified during <a class="el" href="group__camera.html#acdad73a19658174d179845611f4e8b3f" title="Create a MIPI CSI or V4L2 camera device.">Create()</a>  <a href="group__camera.html#a211a6c9359a2f43054771f15e7628a5e">More...</a><br /></td></tr>
+<tr class="separator:a211a6c9359a2f43054771f15e7628a5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42ab558b8ff9a0bf47b768c5122825b7"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a42ab558b8ff9a0bf47b768c5122825b7">DefaultHeight</a> = 720</td></tr>
+<tr class="memdesc:a42ab558b8ff9a0bf47b768c5122825b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default camera height, unless otherwise specified during <a class="el" href="group__camera.html#acdad73a19658174d179845611f4e8b3f" title="Create a MIPI CSI or V4L2 camera device.">Create()</a>  <a href="group__camera.html#a42ab558b8ff9a0bf47b768c5122825b7">More...</a><br /></td></tr>
+<tr class="separator:a42ab558b8ff9a0bf47b768c5122825b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_attribs_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_group__video')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:a8bc5b1b9a8bc15292890fef1028adbee inherit pub_static_attribs_group__video"><td class="memItemLeft" align="right" valign="top">static const uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a> =1000</td></tr>
+<tr class="memdesc:a8bc5b1b9a8bc15292890fef1028adbee inherit pub_static_attribs_group__video"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default Capture timeout (1000ms)  <a href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">More...</a><br /></td></tr>
+<tr class="separator:a8bc5b1b9a8bc15292890fef1028adbee inherit pub_static_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_group__video"><td colspan="2" onclick="javascript:toggleInherit('pub_types_group__video')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:adf535af6425bba4700aa49a8a1c31fc8 inherit pub_types_group__video"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8">Status</a> { <a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a7b6931de9597c73a7e153c6b2f056c30">ERROR</a> = -2, 
+<a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a3dc92a1fc50b30a11368684bc393ee73">EOS</a> = -1, 
+<a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a53f14b4b251e2a20a98045206ba0dd1b">TIMEOUT</a> = 0, 
+<a class="el" href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8a1433e3e072db57cf888a319fec854d0a">OK</a> = 1
+ }</td></tr>
+<tr class="memdesc:adf535af6425bba4700aa49a8a1c31fc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream status codes that are optionally returned from <a class="el" href="group__video.html#a338edcb027b28a551b7f75d085ea13f8" title="Capture the next image from the video stream, using the default timeout of 1000ms.">Capture()</a>  <a href="group__video.html#adf535af6425bba4700aa49a8a1c31fc8">More...</a><br /></td></tr>
+<tr class="separator:adf535af6425bba4700aa49a8a1c31fc8 inherit pub_types_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_group__video"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_group__video')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:aaee65d53e3dfb3f4644608c0eebcf833 inherit pro_methods_group__video"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aaee65d53e3dfb3f4644608c0eebcf833">videoSource</a> (const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;options)</td></tr>
+<tr class="separator:aaee65d53e3dfb3f4644608c0eebcf833 inherit pro_methods_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_group__video"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_group__video')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="group__video.html#classvideoSource">videoSource</a></td></tr>
+<tr class="memitem:a0907f7140f13fa75fef5b23a1f44b55b inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a0907f7140f13fa75fef5b23a1f44b55b">mStreaming</a></td></tr>
+<tr class="separator:a0907f7140f13fa75fef5b23a1f44b55b inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3c05686659fae747ff8709be2c9b445 inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__video.html#structvideoOptions">videoOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#aa3c05686659fae747ff8709be2c9b445">mOptions</a></td></tr>
+<tr class="separator:aa3c05686659fae747ff8709be2c9b445 inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a587c9a356b2714ba9d6ab0d3bdeeacb2 inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a587c9a356b2714ba9d6ab0d3bdeeacb2">mLastTimestamp</a></td></tr>
+<tr class="separator:a587c9a356b2714ba9d6ab0d3bdeeacb2 inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f558c27bfac5e117100f8735f09f5bc inherit pro_attribs_group__video"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__video.html#a5f558c27bfac5e117100f8735f09f5bc">mRawFormat</a></td></tr>
+<tr class="separator:a5f558c27bfac5e117100f8735f09f5bc inherit pro_attribs_group__video"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
+<a id="a1df842937128e70d8f140c65e88e783c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1df842937128e70d8f140c65e88e783c">&#9670;&nbsp;</a></span>~gstCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gstCamera::~gstCamera </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Release the camera interface and resources. </p>
+<p>Destroying the camera will also <a class="el" href="group__camera.html#a8798df5c10fff5ecbaf2598816c94f55" title="Stop streaming the camera.">Close()</a> the stream if it is still open. </p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="a58201c92cd49636dd26e09b79099857f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58201c92cd49636dd26e09b79099857f">&#9670;&nbsp;</a></span>Capture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool gstCamera::Capture </td>
+          <td>(</td>
+          <td class="paramtype">void **&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code><a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>status</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Capture the next image frame from the camera. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__video.html#a338edcb027b28a551b7f75d085ea13f8" title="Capture the next image from the video stream, using the default timeout of 1000ms.">videoSource::Capture</a> </dd></dl>
+
+<p>Implements <a class="el" href="group__video.html#a36a40e4d196aaf31540076317d49aaf6">videoSource</a>.</p>
+
+</div>
+</div>
+<a id="a958b61d55ce410cbf219a4c7dde721db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a958b61d55ce410cbf219a4c7dde721db">&#9670;&nbsp;</a></span>CaptureRGBA()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gstCamera::CaptureRGBA </td>
+          <td>(</td>
+          <td class="paramtype">float **&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code><a class="el" href="group__video.html#a8bc5b1b9a8bc15292890fef1028adbee">DEFAULT_TIMEOUT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>zeroCopy</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Capture the next image frame from the camera and convert it to float4 RGBA format, with pixel intensities ranging between 0.0 and 255.0. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000016">Deprecated:</a></b></dt><dd><a class="el" href="group__camera.html#a958b61d55ce410cbf219a4c7dde721db" title="Capture the next image frame from the camera and convert it to float4 RGBA format,...">CaptureRGBA()</a> has been deprecated and is only provided for legacy compatibility. Please use the updated <a class="el" href="group__camera.html#a58201c92cd49636dd26e09b79099857f" title="Capture the next image frame from the camera.">Capture()</a> function instead.</dd></dl>
+<p>Internally, <a class="el" href="group__camera.html#a958b61d55ce410cbf219a4c7dde721db" title="Capture the next image frame from the camera and convert it to float4 RGBA format,...">CaptureRGBA()</a> first calls <a class="el" href="group__camera.html#a58201c92cd49636dd26e09b79099857f" title="Capture the next image frame from the camera.">Capture()</a> and then ConvertRGBA(). The ConvertRGBA() function uses CUDA, so if you want to capture from a different thread than your CUDA device, use the <a class="el" href="group__camera.html#a58201c92cd49636dd26e09b79099857f" title="Capture the next image frame from the camera.">Capture()</a> and ConvertRGBA() functions.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">image</td><td>Pointer that gets returned to the image in GPU address space, or if the zeroCopy parameter is true, then the pointer is valid in both CPU and GPU address spaces. Do not manually free the image memory, it is managed internally. The image is in float4 RGBA format. The size of the image is: <code><a class="el" href="group__video.html#a17f0c43e832d4de85a014b3aa4265732" title="Return the width of the stream, in pixels.">GetWidth()</a> * <a class="el" href="group__video.html#a6ca24054da683cae18b0bfad01dbf1d0" title="Return the height of the stream, in pixels.">GetHeight()</a> * sizeof(float) * 4</code></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeout</td><td>The time in milliseconds for the calling thread to wait to return if a new camera frame isn't recieved by that time. If timeout is 0, the calling thread will return immediately if a new frame isn't already available. If timeout is UINT64_MAX, the calling thread will wait indefinetly for a new frame to arrive.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">zeroCopy</td><td>If <code>true</code>, the image will reside in shared CPU/GPU memory. If <code>false</code>, the image will only be accessible from the GPU. You would need to set zeroCopy to <code>true</code> if you wanted to access the image pixels from the CPU. Since this isn't generally the case, the default is <code>false</code> (GPU only).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if a frame was successfully captured, otherwise <code>false</code> if a timeout or error occurred, or if timeout was 0 and a frame wasn't ready. </dd></dl>
+
+</div>
+</div>
+<a id="a8798df5c10fff5ecbaf2598816c94f55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8798df5c10fff5ecbaf2598816c94f55">&#9670;&nbsp;</a></span>Close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void gstCamera::Close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Stop streaming the camera. </p>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="group__camera.html#a8798df5c10fff5ecbaf2598816c94f55" title="Stop streaming the camera.">Close()</a> is automatically called by the camera's destructor when it gets deleted, so you do not explicitly need to call <a class="el" href="group__camera.html#a8798df5c10fff5ecbaf2598816c94f55" title="Stop streaming the camera.">Close()</a> before exiting the program if you delete your camera object. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="group__video.html#a19ed8f98e4ce28462296b498804005ae">videoSource</a>.</p>
+
+</div>
+</div>
+<a id="a1747140a15dd83dbd3593c375bbc85d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1747140a15dd83dbd3593c375bbc85d0">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__camera.html#classgstCamera">gstCamera</a>* gstCamera::Create </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>camera</em> = <code>NULL</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a MIPI CSI or V4L2 camera device. </p>
+<p><a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> will use the <code>nvarguscamerasrc</code> GStreamer element for MIPI CSI cameras, and the <code>v4l2src</code> GStreamer element for capturing V4L2 cameras, like USB webcams.</p>
+<p>The camera will be created with a resolution indicated by <a class="el" href="group__camera.html#a211a6c9359a2f43054771f15e7628a5e" title="Default camera width, unless otherwise specified during Create()">gstCamera::DefaultWidth</a> and <a class="el" href="group__camera.html#a42ab558b8ff9a0bf47b768c5122825b7" title="Default camera height, unless otherwise specified during Create()">gstCamera::DefaultHeight</a> (1280x720 by default).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">camera</td><td>Camera device to use. If using MIPI CSI, this string can be <code>NULL</code> to default to CSI camera 0, otherwise the string should contain the device index of the CSI camera (e.g. <code>"0"</code> for CSI camera 0 or <code>"1"</code> for CSI camera 1, ect). If using V4L2, the string should contain the <code>/dev/video</code> node to use (e.g. <code>"/dev/video0"</code> for V4L2 camera 0). By default, <code>camera</code> parameter is NULL and MIPI CSI camera 0 is used.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the created <a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> device, or NULL if there was an error. </dd></dl>
+
+</div>
+</div>
+<a id="acdad73a19658174d179845611f4e8b3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdad73a19658174d179845611f4e8b3f">&#9670;&nbsp;</a></span>Create() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__camera.html#classgstCamera">gstCamera</a>* gstCamera::Create </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__video.html#structvideoOptions">videoOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a MIPI CSI or V4L2 camera device. </p>
+
+</div>
+</div>
+<a id="a4e35c53ac1d65ba5c0319278ca097766"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e35c53ac1d65ba5c0319278ca097766">&#9670;&nbsp;</a></span>Create() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__camera.html#classgstCamera">gstCamera</a>* gstCamera::Create </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>camera</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a MIPI CSI or V4L2 camera device. </p>
+<p><a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> will use the <code>nvarguscamerasrc</code> GStreamer element for MIPI CSI cameras, and the <code>v4l2src</code> GStreamer element for capturing V4L2 cameras, like USB webcams.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>desired width (in pixels) of the camera resolution. <br  />
+ This should be from a format that the camera supports.</td></tr>
+    <tr><td class="paramname">height</td><td>desired height (in pixels) of the camera resolution. <br  />
+ This should be from a format that the camera supports.</td></tr>
+    <tr><td class="paramname">camera</td><td>Camera device to use. If using MIPI CSI, this string can be <code>NULL</code> to default to CSI camera 0, otherwise the string should contain the device index of the CSI camera (e.g. <code>"0"</code> for CSI camera 0 or <code>"1"</code> for CSI camera 1, ect). If using V4L2, the string should contain the <code>/dev/video</code> node to use (e.g. <code>"/dev/video0"</code> for V4L2 camera 0). By default, <code>camera</code> parameter is NULL and MIPI CSI camera 0 is used.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the created <a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> device, or NULL if there was an error. </dd></dl>
+
+</div>
+</div>
+<a id="a40bdf4c4b7675e33bf670df07918e9c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40bdf4c4b7675e33bf670df07918e9c6">&#9670;&nbsp;</a></span>GetType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual uint32_t gstCamera::GetType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the interface type (<a class="el" href="group__camera.html#a9e83835ff04fb08ecef14a67efb5c3d5" title="Unique type identifier of gstCamera class.">gstCamera::Type</a>) </p>
+
+<p>Reimplemented from <a class="el" href="group__video.html#a76f6f92cf40ad72e9d7f76538d583e37">videoSource</a>.</p>
+
+</div>
+</div>
+<a id="a28f4842c5648a253a1acee5276ac8486"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28f4842c5648a253a1acee5276ac8486">&#9670;&nbsp;</a></span>Open()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool gstCamera::Open </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Begin streaming the camera. </p>
+<p>After <a class="el" href="group__camera.html#a28f4842c5648a253a1acee5276ac8486" title="Begin streaming the camera.">Open()</a> is called, frames from the camera will begin to be captured.</p>
+<p><a class="el" href="group__camera.html#a28f4842c5648a253a1acee5276ac8486" title="Begin streaming the camera.">Open()</a> is not stricly necessary to call, if you call one of the <a class="el" href="group__camera.html#a58201c92cd49636dd26e09b79099857f" title="Capture the next image frame from the camera.">Capture()</a> functions they will first check to make sure that the stream is opened, and if not they will open it automatically for you.</p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> if an error occurred opening the stream. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="group__video.html#aa7907ba2392b6ea5f747409d1bfbc18b">videoSource</a>.</p>
+
+</div>
+</div>
+<a id="ad30c9e11ceda99507816e0715f34dd8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad30c9e11ceda99507816e0715f34dd8a">&#9670;&nbsp;</a></span>SetZeroCopy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gstCamera::SetZeroCopy </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>zeroCopy</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set whether converted RGB(A) images should use ZeroCopy buffer allocation. </p>
+<p>Has no effect after the first image (in RGB(A) format) was captured. </p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Data Documentation</h4>
+<a id="a42ab558b8ff9a0bf47b768c5122825b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42ab558b8ff9a0bf47b768c5122825b7">&#9670;&nbsp;</a></span>DefaultHeight</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint32_t gstCamera::DefaultHeight = 720</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default camera height, unless otherwise specified during <a class="el" href="group__camera.html#acdad73a19658174d179845611f4e8b3f" title="Create a MIPI CSI or V4L2 camera device.">Create()</a> </p>
+
+</div>
+</div>
+<a id="a211a6c9359a2f43054771f15e7628a5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a211a6c9359a2f43054771f15e7628a5e">&#9670;&nbsp;</a></span>DefaultWidth</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint32_t gstCamera::DefaultWidth = 1280</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default camera width, unless otherwise specified during <a class="el" href="group__camera.html#acdad73a19658174d179845611f4e8b3f" title="Create a MIPI CSI or V4L2 camera device.">Create()</a> </p>
+
+</div>
+</div>
+<a id="a9e83835ff04fb08ecef14a67efb5c3d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e83835ff04fb08ecef14a67efb5c3d5">&#9670;&nbsp;</a></span>Type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint32_t gstCamera::Type = (1 &lt;&lt; 0)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unique type identifier of <a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a> class. </p>
+
+</div>
+</div>
+
+</div>
+</div>
+<a name="classv4l2Camera" id="classv4l2Camera"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classv4l2Camera">&#9670;&nbsp;</a></span>v4l2Camera</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class v4l2Camera</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Video4Linux2 (V4L2) camera capture streaming. </p>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="group__camera.html#classgstCamera" title="MIPI CSI and V4L2 camera capture using GStreamer and nvarguscamerasrc or v4l2src elements.">gstCamera</a>, which convieniently handles both V4L2 and MIPI CSI cameras, is used mostly in lieu of <a class="el" href="group__camera.html#classv4l2Camera" title="Video4Linux2 (V4L2) camera capture streaming.">v4l2Camera</a>. <a class="el" href="group__camera.html#classv4l2Camera" title="Video4Linux2 (V4L2) camera capture streaming.">v4l2Camera</a> is provided in the event that you would rather interface with V4L2 directly, rather than go through GStreamer. </dd></dl>
+</div><table class="memberdecls">
+<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
+<tr class="memitem:adc4c7175473362fbd763fc6bcd4589df"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#adc4c7175473362fbd763fc6bcd4589df">~v4l2Camera</a> ()</td></tr>
+<tr class="memdesc:adc4c7175473362fbd763fc6bcd4589df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="group__camera.html#adc4c7175473362fbd763fc6bcd4589df">More...</a><br /></td></tr>
+<tr class="separator:adc4c7175473362fbd763fc6bcd4589df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a206ecceaf8cbcc6c4bf7b7c93f16d069"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a206ecceaf8cbcc6c4bf7b7c93f16d069">Open</a> ()</td></tr>
+<tr class="memdesc:a206ecceaf8cbcc6c4bf7b7c93f16d069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start streaming.  <a href="group__camera.html#a206ecceaf8cbcc6c4bf7b7c93f16d069">More...</a><br /></td></tr>
+<tr class="separator:a206ecceaf8cbcc6c4bf7b7c93f16d069"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca49ec2b7d7d60af6422da91b5bc0272"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#aca49ec2b7d7d60af6422da91b5bc0272">Close</a> ()</td></tr>
+<tr class="memdesc:aca49ec2b7d7d60af6422da91b5bc0272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop streaming.  <a href="group__camera.html#aca49ec2b7d7d60af6422da91b5bc0272">More...</a><br /></td></tr>
+<tr class="separator:aca49ec2b7d7d60af6422da91b5bc0272"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addd045d6f50e92cc4b0c96f156eebcd6"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#addd045d6f50e92cc4b0c96f156eebcd6">Capture</a> (size_t timeout=0)</td></tr>
+<tr class="memdesc:addd045d6f50e92cc4b0c96f156eebcd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the next image.  <a href="group__camera.html#addd045d6f50e92cc4b0c96f156eebcd6">More...</a><br /></td></tr>
+<tr class="separator:addd045d6f50e92cc4b0c96f156eebcd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3ce83a56b2e54115b18a502f384d6de"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#aa3ce83a56b2e54115b18a502f384d6de">GetWidth</a> () const</td></tr>
+<tr class="memdesc:aa3ce83a56b2e54115b18a502f384d6de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get width, in pixels, of camera image.  <a href="group__camera.html#aa3ce83a56b2e54115b18a502f384d6de">More...</a><br /></td></tr>
+<tr class="separator:aa3ce83a56b2e54115b18a502f384d6de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c972f38c4217cff7830ac798b58b2b4"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a9c972f38c4217cff7830ac798b58b2b4">GetHeight</a> () const</td></tr>
+<tr class="memdesc:a9c972f38c4217cff7830ac798b58b2b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve height, in pixels, of camera image.  <a href="group__camera.html#a9c972f38c4217cff7830ac798b58b2b4">More...</a><br /></td></tr>
+<tr class="separator:a9c972f38c4217cff7830ac798b58b2b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a615fb394627a68c35fee8dcf84897eef"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a615fb394627a68c35fee8dcf84897eef">GetPitch</a> () const</td></tr>
+<tr class="memdesc:a615fb394627a68c35fee8dcf84897eef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the size in bytes of one line of the image.  <a href="group__camera.html#a615fb394627a68c35fee8dcf84897eef">More...</a><br /></td></tr>
+<tr class="separator:a615fb394627a68c35fee8dcf84897eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a844f31302f43806e6e19c15d31bdacc8"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#a844f31302f43806e6e19c15d31bdacc8">GetPixelDepth</a> () const</td></tr>
+<tr class="memdesc:a844f31302f43806e6e19c15d31bdacc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the bit depth per pixel.  <a href="group__camera.html#a844f31302f43806e6e19c15d31bdacc8">More...</a><br /></td></tr>
+<tr class="separator:a844f31302f43806e6e19c15d31bdacc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:aeed02b9889fd51c79f18aabb05c9c5a3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__camera.html#classv4l2Camera">v4l2Camera</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__camera.html#aeed02b9889fd51c79f18aabb05c9c5a3">Create</a> (const char *device_path)</td></tr>
+<tr class="memdesc:aeed02b9889fd51c79f18aabb05c9c5a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create V4L2 interface.  <a href="group__camera.html#aeed02b9889fd51c79f18aabb05c9c5a3">More...</a><br /></td></tr>
+<tr class="separator:aeed02b9889fd51c79f18aabb05c9c5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
+<a id="adc4c7175473362fbd763fc6bcd4589df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc4c7175473362fbd763fc6bcd4589df">&#9670;&nbsp;</a></span>~v4l2Camera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">v4l2Camera::~v4l2Camera </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="addd045d6f50e92cc4b0c96f156eebcd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addd045d6f50e92cc4b0c96f156eebcd6">&#9670;&nbsp;</a></span>Capture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* v4l2Camera::Capture </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the next image. </p>
+
+</div>
+</div>
+<a id="aca49ec2b7d7d60af6422da91b5bc0272"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca49ec2b7d7d60af6422da91b5bc0272">&#9670;&nbsp;</a></span>Close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool v4l2Camera::Close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Stop streaming. </p>
+
+</div>
+</div>
+<a id="aeed02b9889fd51c79f18aabb05c9c5a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeed02b9889fd51c79f18aabb05c9c5a3">&#9670;&nbsp;</a></span>Create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__camera.html#classv4l2Camera">v4l2Camera</a>* v4l2Camera::Create </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>device_path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create V4L2 interface. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Filename of the video device (e.g. /dev/video0) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9c972f38c4217cff7830ac798b58b2b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c972f38c4217cff7830ac798b58b2b4">&#9670;&nbsp;</a></span>GetHeight()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t v4l2Camera::GetHeight </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieve height, in pixels, of camera image. </p>
+
+</div>
+</div>
+<a id="a615fb394627a68c35fee8dcf84897eef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a615fb394627a68c35fee8dcf84897eef">&#9670;&nbsp;</a></span>GetPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t v4l2Camera::GetPitch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the size in bytes of one line of the image. </p>
+
+</div>
+</div>
+<a id="a844f31302f43806e6e19c15d31bdacc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a844f31302f43806e6e19c15d31bdacc8">&#9670;&nbsp;</a></span>GetPixelDepth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t v4l2Camera::GetPixelDepth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the bit depth per pixel. </p>
+
+</div>
+</div>
+<a id="aa3ce83a56b2e54115b18a502f384d6de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3ce83a56b2e54115b18a502f384d6de">&#9670;&nbsp;</a></span>GetWidth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t v4l2Camera::GetWidth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get width, in pixels, of camera image. </p>
+
+</div>
+</div>
+<a id="a206ecceaf8cbcc6c4bf7b7c93f16d069"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a206ecceaf8cbcc6c4bf7b7c93f16d069">&#9670;&nbsp;</a></span>Open()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool v4l2Camera::Open </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Start streaming. </p>
+
+</div>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Mar 16 2023 18:21:29 for Jetson Inference by
+    <li class="footer">Generated on Tue Mar 28 2023 14:27:58 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
   </ul>

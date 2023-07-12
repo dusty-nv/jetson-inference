@@ -35,7 +35,7 @@
 		  "  --tracking               flag to enable default tracker (IOU)\n"									\
 		  "  --tracker=TRACKER        enable tracking with 'IOU' or 'KLT'\n"									\
 		  "  --tracker-min-frames=N   the number of re-identified frames for a track to be considered valid (default: 3)\n" \
-		  "  --tracker-lost-frames=N  number of consecutive lost frames before a track is removed (default: 15)\n"  \
+		  "  --tracker-drop-frames=N  number of consecutive lost frames before a track is dropped (default: 15)\n"  \
 		  "  --tracker-overlap=N      how much IOU overlap is required for a bounding box to be matched (default: 0.5)\n\n" \
 	
 /**

@@ -55,9 +55,9 @@ $ ./imagenet-camera.py --width=640 --height=480 # using GoogleNet, default MIPI 
 
 Displayed in the OpenGL window are the live camera stream, the classified object name, and the confidence of the classified object, along with the framerate of the network.  On Jetson Nano you should see up to around ~75 FPS for GoogleNet and ResNet-18 (faster on other Jetson's).
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/imagenet_camera_bear.jpg" width="800">
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/imagenet_camera_camel.jpg" width="800">
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/imagenet_camera_triceratops.jpg" width="800">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet_camera_bear.jpg" width="800">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet_camera_camel.jpg" width="800">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/imagenet_camera_triceratops.jpg" width="800">
 
 The application can recognize up to 1000 different types of objects, since the classification models are trained on the ILSVRC ImageNet dataset which contains 1000 classes of objects.  The mapping of names for the 1000 types of objects, you can find in the repo under [`data/networks/ilsvrc12_synset_words.txt`](http://github.com/dusty-nv/jetson-inference/blob/master/data/networks/ilsvrc12_synset_words.txt)
 

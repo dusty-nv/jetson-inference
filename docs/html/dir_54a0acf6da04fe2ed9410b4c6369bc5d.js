@@ -59,7 +59,6 @@ var dir_54a0acf6da04fe2ed9410b4c6369bc5d =
     [ "mat33.h", "mat33_8h.html", "mat33_8h" ],
     [ "Mutex.h", "Mutex_8h.html", null ],
     [ "Networking.h", "Networking_8h.html", "Networking_8h" ],
-    [ "nvbuf_utils.h", "nvbuf__utils_8h.html", "nvbuf__utils_8h" ],
     [ "pi.h", "pi_8h.html", "pi_8h" ],
     [ "Process.h", "Process_8h.html", null ],
     [ "rand.h", "rand_8h.html", "rand_8h" ],

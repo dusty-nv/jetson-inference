@@ -96,27 +96,974 @@ $(document).ready(function(){initNavTree('group__backgroundNet.html',''); initRe
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbackgroundNet.html">backgroundNet</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Background subtraction/removal with DNNs, using TensorRT.  <a href="classbackgroundNet.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classbackgroundNet"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#classbackgroundNet">backgroundNet</a></td></tr>
+<tr class="memdesc:classbackgroundNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Background subtraction/removal with DNNs, using TensorRT.  <a href="group__backgroundNet.html#classbackgroundNet">More...</a><br /></td></tr>
+<tr class="separator:classbackgroundNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:gaedcfc9671390875215c85dcddd3cff09"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#gaedcfc9671390875215c85dcddd3cff09">BACKGROUNDNET_DEFAULT_INPUT</a>&#160;&#160;&#160;&quot;input_0&quot;</td></tr>
-<tr class="memdesc:gaedcfc9671390875215c85dcddd3cff09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default input layer for <a class="el" href="classbackgroundNet.html" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> model.  <a href="group__backgroundNet.html#gaedcfc9671390875215c85dcddd3cff09">More...</a><br /></td></tr>
+<tr class="memdesc:gaedcfc9671390875215c85dcddd3cff09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default input layer for <a class="el" href="group__backgroundNet.html#classbackgroundNet" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> model.  <a href="group__backgroundNet.html#gaedcfc9671390875215c85dcddd3cff09">More...</a><br /></td></tr>
 <tr class="separator:gaedcfc9671390875215c85dcddd3cff09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3ebbfc2bb8d09adb2e1505704ebedde6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#ga3ebbfc2bb8d09adb2e1505704ebedde6">BACKGROUNDNET_DEFAULT_OUTPUT</a>&#160;&#160;&#160;&quot;output_0&quot;</td></tr>
-<tr class="memdesc:ga3ebbfc2bb8d09adb2e1505704ebedde6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default output layer for <a class="el" href="classbackgroundNet.html" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> model.  <a href="group__backgroundNet.html#ga3ebbfc2bb8d09adb2e1505704ebedde6">More...</a><br /></td></tr>
+<tr class="memdesc:ga3ebbfc2bb8d09adb2e1505704ebedde6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of default output layer for <a class="el" href="group__backgroundNet.html#classbackgroundNet" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> model.  <a href="group__backgroundNet.html#ga3ebbfc2bb8d09adb2e1505704ebedde6">More...</a><br /></td></tr>
 <tr class="separator:ga3ebbfc2bb8d09adb2e1505704ebedde6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4ead266677aa864b484cae25a3c6062f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#ga4ead266677aa864b484cae25a3c6062f">BACKGROUNDNET_MODEL_TYPE</a>&#160;&#160;&#160;&quot;background&quot;</td></tr>
-<tr class="memdesc:ga4ead266677aa864b484cae25a3c6062f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The model type for <a class="el" href="classbackgroundNet.html" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> in data/networks/models.json.  <a href="group__backgroundNet.html#ga4ead266677aa864b484cae25a3c6062f">More...</a><br /></td></tr>
+<tr class="memdesc:ga4ead266677aa864b484cae25a3c6062f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The model type for <a class="el" href="group__backgroundNet.html#classbackgroundNet" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> in data/networks/models.json.  <a href="group__backgroundNet.html#ga4ead266677aa864b484cae25a3c6062f">More...</a><br /></td></tr>
 <tr class="separator:ga4ead266677aa864b484cae25a3c6062f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga554b40e53cb2ec9b6768adaf32087f57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#ga554b40e53cb2ec9b6768adaf32087f57">BACKGROUNDNET_USAGE_STRING</a></td></tr>
-<tr class="memdesc:ga554b40e53cb2ec9b6768adaf32087f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard command-line options able to be passed to <a class="el" href="classbackgroundNet.html#a95b3bab94c1a8a7142f72b470a85d22a" title="Load a pre-trained model.">backgroundNet::Create()</a>  <a href="group__backgroundNet.html#ga554b40e53cb2ec9b6768adaf32087f57">More...</a><br /></td></tr>
+<tr class="memdesc:ga554b40e53cb2ec9b6768adaf32087f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard command-line options able to be passed to <a class="el" href="group__backgroundNet.html#a95b3bab94c1a8a7142f72b470a85d22a" title="Load a pre-trained model.">backgroundNet::Create()</a>  <a href="group__backgroundNet.html#ga554b40e53cb2ec9b6768adaf32087f57">More...</a><br /></td></tr>
 <tr class="separator:ga554b40e53cb2ec9b6768adaf32087f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Foreground/background segmentation and removal DNN. </p>
+<hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="classbackgroundNet" id="classbackgroundNet"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#classbackgroundNet">&#9670;&nbsp;</a></span>backgroundNet</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">class backgroundNet</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Background subtraction/removal with DNNs, using TensorRT. </p>
+</div><div class="dynheader">
+Inheritance diagram for backgroundNet:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="group__backgroundNet.png" usemap="#backgroundNet_map" alt=""/>
+  <map id="backgroundNet_map" name="backgroundNet_map">
+<area href="group__tensorNet.html#classtensorNet" title="Abstract class for loading a tensor network with TensorRT." alt="tensorNet" shape="rect" coords="0,0,98,24"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
+<tr class="memitem:a6b474d88a5447623257e0f473352b465"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#a6b474d88a5447623257e0f473352b465">~backgroundNet</a> ()</td></tr>
+<tr class="memdesc:a6b474d88a5447623257e0f473352b465"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy.  <a href="group__backgroundNet.html#a6b474d88a5447623257e0f473352b465">More...</a><br /></td></tr>
+<tr class="separator:a6b474d88a5447623257e0f473352b465"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf58aca64daa5f7b6267df690bc00c92"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:adf58aca64daa5f7b6267df690bc00c92"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#adf58aca64daa5f7b6267df690bc00c92">Process</a> (T *image, uint32_t width, uint32_t height, <a class="el" href="group__cudaFilter.html#ga25d4283643163befe99948d24cc53311">cudaFilterMode</a> filter=<a class="el" href="group__cudaFilter.html#gga25d4283643163befe99948d24cc53311ad8e5de74ec16a7e07145b7c18c885094">FILTER_LINEAR</a>, bool maskAlpha=true)</td></tr>
+<tr class="memdesc:adf58aca64daa5f7b6267df690bc00c92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform background subtraction/removal on the image (in-place).  <a href="group__backgroundNet.html#adf58aca64daa5f7b6267df690bc00c92">More...</a><br /></td></tr>
+<tr class="separator:adf58aca64daa5f7b6267df690bc00c92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21a10a6dbc5d74d9f6723cfc95d64b55"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a21a10a6dbc5d74d9f6723cfc95d64b55"><td class="memTemplItemLeft" align="right" valign="top">int&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#a21a10a6dbc5d74d9f6723cfc95d64b55">Process</a> (T *input, T *output, uint32_t width, uint32_t height, <a class="el" href="group__cudaFilter.html#ga25d4283643163befe99948d24cc53311">cudaFilterMode</a> filter=<a class="el" href="group__cudaFilter.html#gga25d4283643163befe99948d24cc53311ad8e5de74ec16a7e07145b7c18c885094">FILTER_LINEAR</a>, bool maskAlpha=true)</td></tr>
+<tr class="memdesc:a21a10a6dbc5d74d9f6723cfc95d64b55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform background subtraction/removal on the image.  <a href="group__backgroundNet.html#a21a10a6dbc5d74d9f6723cfc95d64b55">More...</a><br /></td></tr>
+<tr class="separator:a21a10a6dbc5d74d9f6723cfc95d64b55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c90e4c05c2bfb87b4c87ad7c746609d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#a4c90e4c05c2bfb87b4c87ad7c746609d">Process</a> (void *image, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, <a class="el" href="group__cudaFilter.html#ga25d4283643163befe99948d24cc53311">cudaFilterMode</a> filter=<a class="el" href="group__cudaFilter.html#gga25d4283643163befe99948d24cc53311ad8e5de74ec16a7e07145b7c18c885094">FILTER_LINEAR</a>, bool maskAlpha=true)</td></tr>
+<tr class="memdesc:a4c90e4c05c2bfb87b4c87ad7c746609d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform background subtraction/removal on the image (in-place).  <a href="group__backgroundNet.html#a4c90e4c05c2bfb87b4c87ad7c746609d">More...</a><br /></td></tr>
+<tr class="separator:a4c90e4c05c2bfb87b4c87ad7c746609d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a101e44eee311188da5db39a812295a75"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#a101e44eee311188da5db39a812295a75">Process</a> (void *input, void *output, uint32_t width, uint32_t height, <a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a> format, <a class="el" href="group__cudaFilter.html#ga25d4283643163befe99948d24cc53311">cudaFilterMode</a> filter=<a class="el" href="group__cudaFilter.html#gga25d4283643163befe99948d24cc53311ad8e5de74ec16a7e07145b7c18c885094">FILTER_LINEAR</a>, bool maskAlpha=true)</td></tr>
+<tr class="memdesc:a101e44eee311188da5db39a812295a75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform background subtraction/removal on the image.  <a href="group__backgroundNet.html#a101e44eee311188da5db39a812295a75">More...</a><br /></td></tr>
+<tr class="separator:a101e44eee311188da5db39a812295a75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_group__tensorNet"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_group__tensorNet')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="group__tensorNet.html#classtensorNet">tensorNet</a></td></tr>
+<tr class="memitem:ad19aafbfa262f9b8ffb0bff561f4d7f7 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ad19aafbfa262f9b8ffb0bff561f4d7f7">~tensorNet</a> ()</td></tr>
+<tr class="memdesc:ad19aafbfa262f9b8ffb0bff561f4d7f7 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destory.  <a href="group__tensorNet.html#ad19aafbfa262f9b8ffb0bff561f4d7f7">More...</a><br /></td></tr>
+<tr class="separator:ad19aafbfa262f9b8ffb0bff561f4d7f7 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e63d4670461814bd863ee0d9bd41526 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a2e63d4670461814bd863ee0d9bd41526">LoadNetwork</a> (const char *prototxt, const char *model, const char *mean=NULL, const char *input_blob=&quot;data&quot;, const char *output_blob=&quot;prob&quot;, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true, nvinfer1::IInt8Calibrator *calibrator=NULL, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:a2e63d4670461814bd863ee0d9bd41526 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="group__tensorNet.html#a2e63d4670461814bd863ee0d9bd41526">More...</a><br /></td></tr>
+<tr class="separator:a2e63d4670461814bd863ee0d9bd41526 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a06ffd12b465f39160f4a6925cccd9f inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a0a06ffd12b465f39160f4a6925cccd9f">LoadNetwork</a> (const char *prototxt, const char *model, const char *mean, const char *input_blob, const std::vector&lt; std::string &gt; &amp;output_blobs, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true, nvinfer1::IInt8Calibrator *calibrator=NULL, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:a0a06ffd12b465f39160f4a6925cccd9f inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance with multiple output layers.  <a href="group__tensorNet.html#a0a06ffd12b465f39160f4a6925cccd9f">More...</a><br /></td></tr>
+<tr class="separator:a0a06ffd12b465f39160f4a6925cccd9f inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68a6f21680ae91bc51bea376221d1c48 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a68a6f21680ae91bc51bea376221d1c48">LoadNetwork</a> (const char *prototxt, const char *model, const char *mean, const std::vector&lt; std::string &gt; &amp;input_blobs, const std::vector&lt; std::string &gt; &amp;output_blobs, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true, nvinfer1::IInt8Calibrator *calibrator=NULL, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:a68a6f21680ae91bc51bea376221d1c48 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance with multiple input layers.  <a href="group__tensorNet.html#a68a6f21680ae91bc51bea376221d1c48">More...</a><br /></td></tr>
+<tr class="separator:a68a6f21680ae91bc51bea376221d1c48 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a168c7f75c9fd6d264afd016e144f3878 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a168c7f75c9fd6d264afd016e144f3878">LoadNetwork</a> (const char *prototxt, const char *model, const char *mean, const char *input_blob, const <a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a> &amp;input_dims, const std::vector&lt; std::string &gt; &amp;output_blobs, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true, nvinfer1::IInt8Calibrator *calibrator=NULL, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:a168c7f75c9fd6d264afd016e144f3878 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance (this variant is used for UFF models)  <a href="group__tensorNet.html#a168c7f75c9fd6d264afd016e144f3878">More...</a><br /></td></tr>
+<tr class="separator:a168c7f75c9fd6d264afd016e144f3878 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f34a6001c2da01662b85670de9246e4 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a8f34a6001c2da01662b85670de9246e4">LoadNetwork</a> (const char *prototxt, const char *model, const char *mean, const std::vector&lt; std::string &gt; &amp;input_blobs, const std::vector&lt; <a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a> &gt; &amp;input_dims, const std::vector&lt; std::string &gt; &amp;output_blobs, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true, nvinfer1::IInt8Calibrator *calibrator=NULL, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:a8f34a6001c2da01662b85670de9246e4 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance with multiple input layers (used for UFF models)  <a href="group__tensorNet.html#a8f34a6001c2da01662b85670de9246e4">More...</a><br /></td></tr>
+<tr class="separator:a8f34a6001c2da01662b85670de9246e4 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb8076f6ab8d13b6507140826cf438d8 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#acb8076f6ab8d13b6507140826cf438d8">LoadEngine</a> (const char *engine_filename, const std::vector&lt; std::string &gt; &amp;input_blobs, const std::vector&lt; std::string &gt; &amp;output_blobs, nvinfer1::IPluginFactory *pluginFactory=NULL, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:acb8076f6ab8d13b6507140826cf438d8 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a network instance from a serialized engine plan file.  <a href="group__tensorNet.html#acb8076f6ab8d13b6507140826cf438d8">More...</a><br /></td></tr>
+<tr class="separator:acb8076f6ab8d13b6507140826cf438d8 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa4efe2b8d91fe914a22c87b725ac063 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#aaa4efe2b8d91fe914a22c87b725ac063">LoadEngine</a> (char *engine_stream, size_t engine_size, const std::vector&lt; std::string &gt; &amp;input_blobs, const std::vector&lt; std::string &gt; &amp;output_blobs, nvinfer1::IPluginFactory *pluginFactory=NULL, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:aaa4efe2b8d91fe914a22c87b725ac063 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a network instance from a serialized engine plan file.  <a href="group__tensorNet.html#aaa4efe2b8d91fe914a22c87b725ac063">More...</a><br /></td></tr>
+<tr class="separator:aaa4efe2b8d91fe914a22c87b725ac063 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d6fe13696a49d61e9abfa9729153e65 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a2d6fe13696a49d61e9abfa9729153e65">LoadEngine</a> (nvinfer1::ICudaEngine *engine, const std::vector&lt; std::string &gt; &amp;input_blobs, const std::vector&lt; std::string &gt; &amp;output_blobs, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, cudaStream_t stream=NULL)</td></tr>
+<tr class="memdesc:a2d6fe13696a49d61e9abfa9729153e65 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load network resources from an existing TensorRT engine instance.  <a href="group__tensorNet.html#a2d6fe13696a49d61e9abfa9729153e65">More...</a><br /></td></tr>
+<tr class="separator:a2d6fe13696a49d61e9abfa9729153e65 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89755f8e4b72ead7460deed394967386 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a89755f8e4b72ead7460deed394967386">LoadEngine</a> (const char *filename, char **stream, size_t *size)</td></tr>
+<tr class="memdesc:a89755f8e4b72ead7460deed394967386 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a serialized engine plan file into memory.  <a href="group__tensorNet.html#a89755f8e4b72ead7460deed394967386">More...</a><br /></td></tr>
+<tr class="separator:a89755f8e4b72ead7460deed394967386 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3413eb0ad4f240f457f192f39e2e03e8 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a3413eb0ad4f240f457f192f39e2e03e8">EnableLayerProfiler</a> ()</td></tr>
+<tr class="memdesc:a3413eb0ad4f240f457f192f39e2e03e8 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manually enable layer profiling times.  <a href="group__tensorNet.html#a3413eb0ad4f240f457f192f39e2e03e8">More...</a><br /></td></tr>
+<tr class="separator:a3413eb0ad4f240f457f192f39e2e03e8 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae49f74ff83e46112a30318fa0576cace inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ae49f74ff83e46112a30318fa0576cace">EnableDebug</a> ()</td></tr>
+<tr class="memdesc:ae49f74ff83e46112a30318fa0576cace inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manually enable debug messages and synchronization.  <a href="group__tensorNet.html#ae49f74ff83e46112a30318fa0576cace">More...</a><br /></td></tr>
+<tr class="separator:ae49f74ff83e46112a30318fa0576cace inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d0ec0d8504ac8b26c5ab4a6136599ca inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a7d0ec0d8504ac8b26c5ab4a6136599ca">AllowGPUFallback</a> () const</td></tr>
+<tr class="memdesc:a7d0ec0d8504ac8b26c5ab4a6136599ca inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if GPU fallback is enabled.  <a href="group__tensorNet.html#a7d0ec0d8504ac8b26c5ab4a6136599ca">More...</a><br /></td></tr>
+<tr class="separator:a7d0ec0d8504ac8b26c5ab4a6136599ca inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92bb737172d26bda5f67d15346a02514 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a92bb737172d26bda5f67d15346a02514">GetDevice</a> () const</td></tr>
+<tr class="memdesc:a92bb737172d26bda5f67d15346a02514 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the device being used for execution.  <a href="group__tensorNet.html#a92bb737172d26bda5f67d15346a02514">More...</a><br /></td></tr>
+<tr class="separator:a92bb737172d26bda5f67d15346a02514 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb38b5f171025e987a00214cc4379ca9 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#afb38b5f171025e987a00214cc4379ca9">GetPrecision</a> () const</td></tr>
+<tr class="memdesc:afb38b5f171025e987a00214cc4379ca9 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the type of precision being used.  <a href="group__tensorNet.html#afb38b5f171025e987a00214cc4379ca9">More...</a><br /></td></tr>
+<tr class="separator:afb38b5f171025e987a00214cc4379ca9 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b8e8dba05bc5c677027913d8c64f259 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a6b8e8dba05bc5c677027913d8c64f259">IsPrecision</a> (<a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> type) const</td></tr>
+<tr class="memdesc:a6b8e8dba05bc5c677027913d8c64f259 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a particular precision is being used.  <a href="group__tensorNet.html#a6b8e8dba05bc5c677027913d8c64f259">More...</a><br /></td></tr>
+<tr class="separator:a6b8e8dba05bc5c677027913d8c64f259 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34e350ec6185277ac09ae55a79403e62 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">cudaStream_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a34e350ec6185277ac09ae55a79403e62">GetStream</a> () const</td></tr>
+<tr class="memdesc:a34e350ec6185277ac09ae55a79403e62 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the stream that the device is operating on.  <a href="group__tensorNet.html#a34e350ec6185277ac09ae55a79403e62">More...</a><br /></td></tr>
+<tr class="separator:a34e350ec6185277ac09ae55a79403e62 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78cecfb7505be0ea59d29041abc85cbb inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">cudaStream_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a78cecfb7505be0ea59d29041abc85cbb">CreateStream</a> (bool nonBlocking=true)</td></tr>
+<tr class="memdesc:a78cecfb7505be0ea59d29041abc85cbb inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and use a new stream for execution.  <a href="group__tensorNet.html#a78cecfb7505be0ea59d29041abc85cbb">More...</a><br /></td></tr>
+<tr class="separator:a78cecfb7505be0ea59d29041abc85cbb inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a679b177784c85bfdba63dcd1008ff633 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a679b177784c85bfdba63dcd1008ff633">SetStream</a> (cudaStream_t stream)</td></tr>
+<tr class="memdesc:a679b177784c85bfdba63dcd1008ff633 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the stream that the device is operating on.  <a href="group__tensorNet.html#a679b177784c85bfdba63dcd1008ff633">More...</a><br /></td></tr>
+<tr class="separator:a679b177784c85bfdba63dcd1008ff633 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a624881afe27acd2b2fff0f0f75308ea2 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a624881afe27acd2b2fff0f0f75308ea2">GetPrototxtPath</a> () const</td></tr>
+<tr class="memdesc:a624881afe27acd2b2fff0f0f75308ea2 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the path to the network prototxt file.  <a href="group__tensorNet.html#a624881afe27acd2b2fff0f0f75308ea2">More...</a><br /></td></tr>
+<tr class="separator:a624881afe27acd2b2fff0f0f75308ea2 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac74d7f0571b7782b945ff85fd6894044 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ac74d7f0571b7782b945ff85fd6894044">GetModelPath</a> () const</td></tr>
+<tr class="memdesc:ac74d7f0571b7782b945ff85fd6894044 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the full path to model file, including the filename.  <a href="group__tensorNet.html#ac74d7f0571b7782b945ff85fd6894044">More...</a><br /></td></tr>
+<tr class="separator:ac74d7f0571b7782b945ff85fd6894044 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03252bed041613fc1afb9d3cbb99663d inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a03252bed041613fc1afb9d3cbb99663d">GetModelFilename</a> () const</td></tr>
+<tr class="memdesc:a03252bed041613fc1afb9d3cbb99663d inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the filename of the file, excluding the directory.  <a href="group__tensorNet.html#a03252bed041613fc1afb9d3cbb99663d">More...</a><br /></td></tr>
+<tr class="separator:a03252bed041613fc1afb9d3cbb99663d inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfa7f1f01b46f658ffc96f8a002e8d48 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">modelType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#acfa7f1f01b46f658ffc96f8a002e8d48">GetModelType</a> () const</td></tr>
+<tr class="memdesc:acfa7f1f01b46f658ffc96f8a002e8d48 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the format of the network model.  <a href="group__tensorNet.html#acfa7f1f01b46f658ffc96f8a002e8d48">More...</a><br /></td></tr>
+<tr class="separator:acfa7f1f01b46f658ffc96f8a002e8d48 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a09d691ea080bd9734c5782c8fff6fd inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a0a09d691ea080bd9734c5782c8fff6fd">IsModelType</a> (<a class="el" href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">modelType</a> type) const</td></tr>
+<tr class="memdesc:a0a09d691ea080bd9734c5782c8fff6fd inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if the model is of the specified format.  <a href="group__tensorNet.html#a0a09d691ea080bd9734c5782c8fff6fd">More...</a><br /></td></tr>
+<tr class="separator:a0a09d691ea080bd9734c5782c8fff6fd inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac583b8de1dd64b47338b4a3eb42ac166 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ac583b8de1dd64b47338b4a3eb42ac166">GetInputLayers</a> () const</td></tr>
+<tr class="memdesc:ac583b8de1dd64b47338b4a3eb42ac166 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of input layers to the network.  <a href="group__tensorNet.html#ac583b8de1dd64b47338b4a3eb42ac166">More...</a><br /></td></tr>
+<tr class="separator:ac583b8de1dd64b47338b4a3eb42ac166 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dcc770a7215e2e76a8d520a36689e16 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a2dcc770a7215e2e76a8d520a36689e16">GetOutputLayers</a> () const</td></tr>
+<tr class="memdesc:a2dcc770a7215e2e76a8d520a36689e16 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of output layers to the network.  <a href="group__tensorNet.html#a2dcc770a7215e2e76a8d520a36689e16">More...</a><br /></td></tr>
+<tr class="separator:a2dcc770a7215e2e76a8d520a36689e16 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcfe61596f291e75a87d36c3771f25df inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#adcfe61596f291e75a87d36c3771f25df">GetInputDims</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:adcfe61596f291e75a87d36c3771f25df inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the dimensions of network input layer.  <a href="group__tensorNet.html#adcfe61596f291e75a87d36c3771f25df">More...</a><br /></td></tr>
+<tr class="separator:adcfe61596f291e75a87d36c3771f25df inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d75ef6f579d1a71ff472bfafd0b7795 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a2d75ef6f579d1a71ff472bfafd0b7795">GetInputWidth</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a2d75ef6f579d1a71ff472bfafd0b7795 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the width of network input layer.  <a href="group__tensorNet.html#a2d75ef6f579d1a71ff472bfafd0b7795">More...</a><br /></td></tr>
+<tr class="separator:a2d75ef6f579d1a71ff472bfafd0b7795 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a214a92c41dcdcb58b3cd8496aac0857a inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a214a92c41dcdcb58b3cd8496aac0857a">GetInputHeight</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a214a92c41dcdcb58b3cd8496aac0857a inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the height of network input layer.  <a href="group__tensorNet.html#a214a92c41dcdcb58b3cd8496aac0857a">More...</a><br /></td></tr>
+<tr class="separator:a214a92c41dcdcb58b3cd8496aac0857a inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c80d46f8a01335e77e41023544102c9 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a2c80d46f8a01335e77e41023544102c9">GetInputSize</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a2c80d46f8a01335e77e41023544102c9 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the size (in bytes) of network input layer.  <a href="group__tensorNet.html#a2c80d46f8a01335e77e41023544102c9">More...</a><br /></td></tr>
+<tr class="separator:a2c80d46f8a01335e77e41023544102c9 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a8851513971d11746231d217f57b69f inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a3a8851513971d11746231d217f57b69f">GetInputPtr</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a3a8851513971d11746231d217f57b69f inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the CUDA pointer to the input layer's memory.  <a href="group__tensorNet.html#a3a8851513971d11746231d217f57b69f">More...</a><br /></td></tr>
+<tr class="separator:a3a8851513971d11746231d217f57b69f inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77703f2a7b59f836c93ae28811e22cb0 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a77703f2a7b59f836c93ae28811e22cb0">GetOutputDims</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a77703f2a7b59f836c93ae28811e22cb0 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the dimensions of network output layer.  <a href="group__tensorNet.html#a77703f2a7b59f836c93ae28811e22cb0">More...</a><br /></td></tr>
+<tr class="separator:a77703f2a7b59f836c93ae28811e22cb0 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09d63a8fd906c99f8158bf9460a83c02 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a09d63a8fd906c99f8158bf9460a83c02">GetOutputWidth</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a09d63a8fd906c99f8158bf9460a83c02 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the width of network output layer.  <a href="group__tensorNet.html#a09d63a8fd906c99f8158bf9460a83c02">More...</a><br /></td></tr>
+<tr class="separator:a09d63a8fd906c99f8158bf9460a83c02 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a613679e8ee5315f3b5b16a39011ba76e inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a613679e8ee5315f3b5b16a39011ba76e">GetOutputHeight</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a613679e8ee5315f3b5b16a39011ba76e inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the height of network output layer.  <a href="group__tensorNet.html#a613679e8ee5315f3b5b16a39011ba76e">More...</a><br /></td></tr>
+<tr class="separator:a613679e8ee5315f3b5b16a39011ba76e inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1486438dcdbe0d7f5e88e5336a42efa inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ae1486438dcdbe0d7f5e88e5336a42efa">GetOutputSize</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:ae1486438dcdbe0d7f5e88e5336a42efa inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the size (in bytes) of network output layer.  <a href="group__tensorNet.html#ae1486438dcdbe0d7f5e88e5336a42efa">More...</a><br /></td></tr>
+<tr class="separator:ae1486438dcdbe0d7f5e88e5336a42efa inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e5a4207d90828c31255846b11a431ea inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a2e5a4207d90828c31255846b11a431ea">GetOutputPtr</a> (uint32_t layer=0) const</td></tr>
+<tr class="memdesc:a2e5a4207d90828c31255846b11a431ea inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the CUDA pointer to the output memory.  <a href="group__tensorNet.html#a2e5a4207d90828c31255846b11a431ea">More...</a><br /></td></tr>
+<tr class="separator:a2e5a4207d90828c31255846b11a431ea inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dd2db089176ae6878e9ea7dd8fd80c3 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a9dd2db089176ae6878e9ea7dd8fd80c3">GetNetworkFPS</a> ()</td></tr>
+<tr class="memdesc:a9dd2db089176ae6878e9ea7dd8fd80c3 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the network frames per second (FPS).  <a href="group__tensorNet.html#a9dd2db089176ae6878e9ea7dd8fd80c3">More...</a><br /></td></tr>
+<tr class="separator:a9dd2db089176ae6878e9ea7dd8fd80c3 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49faef5920860345e503023b7c84423c inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a49faef5920860345e503023b7c84423c">GetNetworkTime</a> ()</td></tr>
+<tr class="memdesc:a49faef5920860345e503023b7c84423c inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the network runtime (in milliseconds).  <a href="group__tensorNet.html#a49faef5920860345e503023b7c84423c">More...</a><br /></td></tr>
+<tr class="separator:a49faef5920860345e503023b7c84423c inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade7badd98d5790b5a58863d56e61e041 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ade7badd98d5790b5a58863d56e61e041">GetNetworkName</a> () const</td></tr>
+<tr class="memdesc:ade7badd98d5790b5a58863d56e61e041 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the network name (it's filename).  <a href="group__tensorNet.html#ade7badd98d5790b5a58863d56e61e041">More...</a><br /></td></tr>
+<tr class="separator:ade7badd98d5790b5a58863d56e61e041 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad266f93035a80dca80cd84d971e4f69b inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">float2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ad266f93035a80dca80cd84d971e4f69b">GetProfilerTime</a> (<a class="el" href="group__tensorNet.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> query)</td></tr>
+<tr class="memdesc:ad266f93035a80dca80cd84d971e4f69b inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the profiler runtime (in milliseconds).  <a href="group__tensorNet.html#ad266f93035a80dca80cd84d971e4f69b">More...</a><br /></td></tr>
+<tr class="separator:ad266f93035a80dca80cd84d971e4f69b inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27cf81b3fecf93d2e63a61220a54b393 inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a27cf81b3fecf93d2e63a61220a54b393">GetProfilerTime</a> (<a class="el" href="group__tensorNet.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> query, <a class="el" href="group__tensorNet.html#gaaa4127ed22c7165a32d0474ebf97975e">profilerDevice</a> device)</td></tr>
+<tr class="memdesc:a27cf81b3fecf93d2e63a61220a54b393 inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the profiler runtime (in milliseconds).  <a href="group__tensorNet.html#a27cf81b3fecf93d2e63a61220a54b393">More...</a><br /></td></tr>
+<tr class="separator:a27cf81b3fecf93d2e63a61220a54b393 inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc0f50abcf6ac71e96d51eba3ed53d4b inherit pub_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#afc0f50abcf6ac71e96d51eba3ed53d4b">PrintProfilerTimes</a> ()</td></tr>
+<tr class="memdesc:afc0f50abcf6ac71e96d51eba3ed53d4b inherit pub_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the profiler times (in millseconds).  <a href="group__tensorNet.html#afc0f50abcf6ac71e96d51eba3ed53d4b">More...</a><br /></td></tr>
+<tr class="separator:afc0f50abcf6ac71e96d51eba3ed53d4b inherit pub_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Static Public Member Functions</h3></td></tr>
+<tr class="memitem:a95b3bab94c1a8a7142f72b470a85d22a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__backgroundNet.html#classbackgroundNet">backgroundNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#a95b3bab94c1a8a7142f72b470a85d22a">Create</a> (const char *network=&quot;u2net&quot;, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true)</td></tr>
+<tr class="memdesc:a95b3bab94c1a8a7142f72b470a85d22a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a pre-trained model.  <a href="group__backgroundNet.html#a95b3bab94c1a8a7142f72b470a85d22a">More...</a><br /></td></tr>
+<tr class="separator:a95b3bab94c1a8a7142f72b470a85d22a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ad2349f71e98f6647350d20c697f8d0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__backgroundNet.html#classbackgroundNet">backgroundNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#a3ad2349f71e98f6647350d20c697f8d0">Create</a> (const char *model_path, const char *input=<a class="el" href="group__backgroundNet.html#gaedcfc9671390875215c85dcddd3cff09">BACKGROUNDNET_DEFAULT_INPUT</a>, const char *output=<a class="el" href="group__backgroundNet.html#ga3ebbfc2bb8d09adb2e1505704ebedde6">BACKGROUNDNET_DEFAULT_OUTPUT</a>, uint32_t maxBatchSize=<a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a>, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision=<a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a>, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowGPUFallback=true)</td></tr>
+<tr class="memdesc:a3ad2349f71e98f6647350d20c697f8d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance.  <a href="group__backgroundNet.html#a3ad2349f71e98f6647350d20c697f8d0">More...</a><br /></td></tr>
+<tr class="separator:a3ad2349f71e98f6647350d20c697f8d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdc5c454b005c7be13d1b26870efe28c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__backgroundNet.html#classbackgroundNet">backgroundNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#abdc5c454b005c7be13d1b26870efe28c">Create</a> (int argc, char **argv)</td></tr>
+<tr class="memdesc:abdc5c454b005c7be13d1b26870efe28c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance by parsing the command line.  <a href="group__backgroundNet.html#abdc5c454b005c7be13d1b26870efe28c">More...</a><br /></td></tr>
+<tr class="separator:abdc5c454b005c7be13d1b26870efe28c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d930e20967b0f2ca6911fb8a7de6b92"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__backgroundNet.html#classbackgroundNet">backgroundNet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#a1d930e20967b0f2ca6911fb8a7de6b92">Create</a> (const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;cmdLine)</td></tr>
+<tr class="memdesc:a1d930e20967b0f2ca6911fb8a7de6b92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new network instance by parsing the command line.  <a href="group__backgroundNet.html#a1d930e20967b0f2ca6911fb8a7de6b92">More...</a><br /></td></tr>
+<tr class="separator:a1d930e20967b0f2ca6911fb8a7de6b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f195cca41ffdb36e82bbd5aeca1c86b"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#a0f195cca41ffdb36e82bbd5aeca1c86b">Usage</a> ()</td></tr>
+<tr class="memdesc:a0f195cca41ffdb36e82bbd5aeca1c86b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Usage string for command line arguments to <a class="el" href="group__backgroundNet.html#a95b3bab94c1a8a7142f72b470a85d22a" title="Load a pre-trained model.">Create()</a>  <a href="group__backgroundNet.html#a0f195cca41ffdb36e82bbd5aeca1c86b">More...</a><br /></td></tr>
+<tr class="separator:a0f195cca41ffdb36e82bbd5aeca1c86b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_group__tensorNet"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_group__tensorNet')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="group__tensorNet.html#classtensorNet">tensorNet</a></td></tr>
+<tr class="memitem:a57cacfea82e9329c2cf776837dd00aef inherit pub_static_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a57cacfea82e9329c2cf776837dd00aef">LoadClassLabels</a> (const char *filename, std::vector&lt; std::string &gt; &amp;descriptions, int expectedClasses=-1)</td></tr>
+<tr class="memdesc:a57cacfea82e9329c2cf776837dd00aef inherit pub_static_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load class descriptions from a label file.  <a href="group__tensorNet.html#a57cacfea82e9329c2cf776837dd00aef">More...</a><br /></td></tr>
+<tr class="separator:a57cacfea82e9329c2cf776837dd00aef inherit pub_static_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa92022958d3a46655a5e2f2ed416e6b5 inherit pub_static_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#aa92022958d3a46655a5e2f2ed416e6b5">LoadClassLabels</a> (const char *filename, std::vector&lt; std::string &gt; &amp;descriptions, std::vector&lt; std::string &gt; &amp;synsets, int expectedClasses=-1)</td></tr>
+<tr class="memdesc:aa92022958d3a46655a5e2f2ed416e6b5 inherit pub_static_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load class descriptions and synset strings from a label file.  <a href="group__tensorNet.html#aa92022958d3a46655a5e2f2ed416e6b5">More...</a><br /></td></tr>
+<tr class="separator:aa92022958d3a46655a5e2f2ed416e6b5 inherit pub_static_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b87410f9133aea37b46979d543219b9 inherit pub_static_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a7b87410f9133aea37b46979d543219b9">LoadClassColors</a> (const char *filename, float4 *colors, int expectedClasses, float defaultAlpha=255.0f)</td></tr>
+<tr class="memdesc:a7b87410f9133aea37b46979d543219b9 inherit pub_static_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load class colors from a text file.  <a href="group__tensorNet.html#a7b87410f9133aea37b46979d543219b9">More...</a><br /></td></tr>
+<tr class="separator:a7b87410f9133aea37b46979d543219b9 inherit pub_static_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5dd58e2481f6c703abb9abbcfce805e inherit pub_static_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ae5dd58e2481f6c703abb9abbcfce805e">LoadClassColors</a> (const char *filename, float4 **colors, int expectedClasses, float defaultAlpha=255.0f)</td></tr>
+<tr class="memdesc:ae5dd58e2481f6c703abb9abbcfce805e inherit pub_static_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load class colors from a text file.  <a href="group__tensorNet.html#ae5dd58e2481f6c703abb9abbcfce805e">More...</a><br /></td></tr>
+<tr class="separator:ae5dd58e2481f6c703abb9abbcfce805e inherit pub_static_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fe18908c74efda1708029ca3b04f0e8 inherit pub_static_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">static float4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a4fe18908c74efda1708029ca3b04f0e8">GenerateColor</a> (uint32_t <a class="el" href="cudaPointCloud_8h.html#ad9bd89745d72dbc52651f62814eed36d">classID</a>, float <a class="el" href="cudaVector_8h.html#ac0d98a665e25ffa6d701a2ce2f6efd12">alpha</a>=255.0f)</td></tr>
+<tr class="memdesc:a4fe18908c74efda1708029ca3b04f0e8 inherit pub_static_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Procedurally generate a color for a given class index with the specified alpha value.  <a href="group__tensorNet.html#a4fe18908c74efda1708029ca3b04f0e8">More...</a><br /></td></tr>
+<tr class="separator:a4fe18908c74efda1708029ca3b04f0e8 inherit pub_static_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c0509631176be6f9e25673cb0aa12dc inherit pub_static_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a3c0509631176be6f9e25673cb0aa12dc">SelectPrecision</a> (<a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowInt8=true)</td></tr>
+<tr class="memdesc:a3c0509631176be6f9e25673cb0aa12dc inherit pub_static_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve a desired precision to a specific one that's available.  <a href="group__tensorNet.html#a3c0509631176be6f9e25673cb0aa12dc">More...</a><br /></td></tr>
+<tr class="separator:a3c0509631176be6f9e25673cb0aa12dc inherit pub_static_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe33fae5332296e2d917cb4ce435e255 inherit pub_static_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#abe33fae5332296e2d917cb4ce435e255">FindFastestPrecision</a> (<a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>, bool allowInt8=true)</td></tr>
+<tr class="memdesc:abe33fae5332296e2d917cb4ce435e255 inherit pub_static_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the fastest native precision on a device.  <a href="group__tensorNet.html#abe33fae5332296e2d917cb4ce435e255">More...</a><br /></td></tr>
+<tr class="separator:abe33fae5332296e2d917cb4ce435e255 inherit pub_static_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae88436e652afdd7bceef7cb7c5fde7a6 inherit pub_static_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ae88436e652afdd7bceef7cb7c5fde7a6">DetectNativePrecisions</a> (<a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>)</td></tr>
+<tr class="memdesc:ae88436e652afdd7bceef7cb7c5fde7a6 inherit pub_static_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect the precisions supported natively on a device.  <a href="group__tensorNet.html#ae88436e652afdd7bceef7cb7c5fde7a6">More...</a><br /></td></tr>
+<tr class="separator:ae88436e652afdd7bceef7cb7c5fde7a6 inherit pub_static_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3bf1a3bf1fca38b39a200b4d8f727b2 inherit pub_static_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#aa3bf1a3bf1fca38b39a200b4d8f727b2">DetectNativePrecision</a> (const std::vector&lt; <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> &gt; &amp;nativeTypes, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> type)</td></tr>
+<tr class="memdesc:aa3bf1a3bf1fca38b39a200b4d8f727b2 inherit pub_static_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect if a particular precision is supported natively.  <a href="group__tensorNet.html#aa3bf1a3bf1fca38b39a200b4d8f727b2">More...</a><br /></td></tr>
+<tr class="separator:aa3bf1a3bf1fca38b39a200b4d8f727b2 inherit pub_static_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d72ec8bbaf61278ce533afd60d5391c inherit pub_static_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a7d72ec8bbaf61278ce533afd60d5391c">DetectNativePrecision</a> (<a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device=<a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a>)</td></tr>
+<tr class="memdesc:a7d72ec8bbaf61278ce533afd60d5391c inherit pub_static_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect if a particular precision is supported natively.  <a href="group__tensorNet.html#a7d72ec8bbaf61278ce533afd60d5391c">More...</a><br /></td></tr>
+<tr class="separator:a7d72ec8bbaf61278ce533afd60d5391c inherit pub_static_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><h3>Protected Member Functions</h3></td></tr>
+<tr class="memitem:a4a5cb05216bf994f05887d44b249f6b4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#a4a5cb05216bf994f05887d44b249f6b4">backgroundNet</a> ()</td></tr>
+<tr class="separator:a4a5cb05216bf994f05887d44b249f6b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3d21c4f9d5982c1e317ce7b01d3dea4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__backgroundNet.html#ac3d21c4f9d5982c1e317ce7b01d3dea4">init</a> (const char *model_path, const char *input, const char *output, uint32_t maxBatchSize, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device, bool allowGPUFallback)</td></tr>
+<tr class="separator:ac3d21c4f9d5982c1e317ce7b01d3dea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_group__tensorNet"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_group__tensorNet')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="group__tensorNet.html#classtensorNet">tensorNet</a></td></tr>
+<tr class="memitem:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ab6e617d96e5542bef023ee9d4c96388a">tensorNet</a> ()</td></tr>
+<tr class="memdesc:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="group__tensorNet.html#ab6e617d96e5542bef023ee9d4c96388a">More...</a><br /></td></tr>
+<tr class="separator:ab6e617d96e5542bef023ee9d4c96388a inherit pro_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e8dd909e797dfcfbb058dc6b351c586 inherit pro_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a2e8dd909e797dfcfbb058dc6b351c586">ProcessNetwork</a> (bool sync=true)</td></tr>
+<tr class="memdesc:a2e8dd909e797dfcfbb058dc6b351c586 inherit pro_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute processing of the network.  <a href="group__tensorNet.html#a2e8dd909e797dfcfbb058dc6b351c586">More...</a><br /></td></tr>
+<tr class="separator:a2e8dd909e797dfcfbb058dc6b351c586 inherit pro_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fbc013f70b52f885867302446e0dca1 inherit pro_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a2fbc013f70b52f885867302446e0dca1">ProfileModel</a> (const std::string &amp;deployFile, const std::string &amp;modelFile, const std::vector&lt; std::string &gt; &amp;inputs, const std::vector&lt; <a class="el" href="tensorNet_8h.html#a64c8f3dfeacfa962ff9e23c586aedd1b">Dims3</a> &gt; &amp;inputDims, const std::vector&lt; std::string &gt; &amp;outputs, uint32_t maxBatchSize, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device, bool allowGPUFallback, nvinfer1::IInt8Calibrator *calibrator, char **engineStream, size_t *engineSize)</td></tr>
+<tr class="memdesc:a2fbc013f70b52f885867302446e0dca1 inherit pro_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and output an optimized network model.  <a href="group__tensorNet.html#a2fbc013f70b52f885867302446e0dca1">More...</a><br /></td></tr>
+<tr class="separator:a2fbc013f70b52f885867302446e0dca1 inherit pro_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a898dfb2553869cdc318ecb03e153f1 inherit pro_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a7a898dfb2553869cdc318ecb03e153f1">ConfigureBuilder</a> (nvinfer1::IBuilder *builder, uint32_t maxBatchSize, uint32_t workspaceSize, <a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a> precision, <a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a> device, bool allowGPUFallback, nvinfer1::IInt8Calibrator *calibrator)</td></tr>
+<tr class="memdesc:a7a898dfb2553869cdc318ecb03e153f1 inherit pro_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure builder options.  <a href="group__tensorNet.html#a7a898dfb2553869cdc318ecb03e153f1">More...</a><br /></td></tr>
+<tr class="separator:a7a898dfb2553869cdc318ecb03e153f1 inherit pro_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e2fe0a467929d76b20940771b8f96c3 inherit pro_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a6e2fe0a467929d76b20940771b8f96c3">ValidateEngine</a> (const char *model_path, const char *cache_path, const char *checksum_path)</td></tr>
+<tr class="memdesc:a6e2fe0a467929d76b20940771b8f96c3 inherit pro_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate that the model already has a built TensorRT engine that exists and doesn't need updating.  <a href="group__tensorNet.html#a6e2fe0a467929d76b20940771b8f96c3">More...</a><br /></td></tr>
+<tr class="separator:a6e2fe0a467929d76b20940771b8f96c3 inherit pro_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a088c3bf591e45e52ec227491f6f299ad inherit pro_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a088c3bf591e45e52ec227491f6f299ad">PROFILER_BEGIN</a> (<a class="el" href="group__tensorNet.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> query)</td></tr>
+<tr class="memdesc:a088c3bf591e45e52ec227491f6f299ad inherit pro_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin a profiling query, before network is run.  <a href="group__tensorNet.html#a088c3bf591e45e52ec227491f6f299ad">More...</a><br /></td></tr>
+<tr class="separator:a088c3bf591e45e52ec227491f6f299ad inherit pro_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8582b9a6099e3265da4c3f9fdf804ea inherit pro_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ac8582b9a6099e3265da4c3f9fdf804ea">PROFILER_END</a> (<a class="el" href="group__tensorNet.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> query)</td></tr>
+<tr class="memdesc:ac8582b9a6099e3265da4c3f9fdf804ea inherit pro_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">End a profiling query, after the network is run.  <a href="group__tensorNet.html#ac8582b9a6099e3265da4c3f9fdf804ea">More...</a><br /></td></tr>
+<tr class="separator:ac8582b9a6099e3265da4c3f9fdf804ea inherit pro_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2e0ae17baf6e1975aaad7a7f5c60ce9 inherit pro_methods_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ae2e0ae17baf6e1975aaad7a7f5c60ce9">PROFILER_QUERY</a> (<a class="el" href="group__tensorNet.html#gae34d45c0faa674ef4cc0fbfc8fae5809">profilerQuery</a> query)</td></tr>
+<tr class="memdesc:ae2e0ae17baf6e1975aaad7a7f5c60ce9 inherit pro_methods_group__tensorNet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the CUDA part of a profiler query.  <a href="group__tensorNet.html#ae2e0ae17baf6e1975aaad7a7f5c60ce9">More...</a><br /></td></tr>
+<tr class="separator:ae2e0ae17baf6e1975aaad7a7f5c60ce9 inherit pro_methods_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_group__tensorNet"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_group__tensorNet')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="group__tensorNet.html#classtensorNet">tensorNet</a></td></tr>
+<tr class="memitem:a0c6f7cc68ce87e0701029d40b46d1b81 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtensorNet_1_1Logger.html">tensorNet::Logger</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a0c6f7cc68ce87e0701029d40b46d1b81">gLogger</a></td></tr>
+<tr class="separator:a0c6f7cc68ce87e0701029d40b46d1b81 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70f38033952477e55e2ecdc54f908968 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtensorNet_1_1Profiler.html">tensorNet::Profiler</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a70f38033952477e55e2ecdc54f908968">gProfiler</a></td></tr>
+<tr class="separator:a70f38033952477e55e2ecdc54f908968 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54005b86b851fa71aeb7a83d4ad32362 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a54005b86b851fa71aeb7a83d4ad32362">mPrototxtPath</a></td></tr>
+<tr class="separator:a54005b86b851fa71aeb7a83d4ad32362 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cb91e06b296431680d20e7e9fb0187d inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a7cb91e06b296431680d20e7e9fb0187d">mModelPath</a></td></tr>
+<tr class="separator:a7cb91e06b296431680d20e7e9fb0187d inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a338246dc13b84166ee5ea917d84379aa inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a338246dc13b84166ee5ea917d84379aa">mModelFile</a></td></tr>
+<tr class="separator:a338246dc13b84166ee5ea917d84379aa inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11eeaa1e454a97a5634c7fb5ea1bc23d inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a11eeaa1e454a97a5634c7fb5ea1bc23d">mMeanPath</a></td></tr>
+<tr class="separator:a11eeaa1e454a97a5634c7fb5ea1bc23d inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa9ac0fae88a426f1a5325886da3b009 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#aaa9ac0fae88a426f1a5325886da3b009">mCacheEnginePath</a></td></tr>
+<tr class="separator:aaa9ac0fae88a426f1a5325886da3b009 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64fccb1894b0926e54a18fa47a271c70 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a64fccb1894b0926e54a18fa47a271c70">mCacheCalibrationPath</a></td></tr>
+<tr class="separator:a64fccb1894b0926e54a18fa47a271c70 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc88c21d81ca66f8c10d22910c995765 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#abc88c21d81ca66f8c10d22910c995765">mChecksumPath</a></td></tr>
+<tr class="separator:abc88c21d81ca66f8c10d22910c995765 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f14a2f4a4dfbb51b80f80a2e47a695c inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a2f14a2f4a4dfbb51b80f80a2e47a695c">mDevice</a></td></tr>
+<tr class="separator:a2f14a2f4a4dfbb51b80f80a2e47a695c inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a164c1dcf9dcbc085c1b421855eda665f inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a164c1dcf9dcbc085c1b421855eda665f">mPrecision</a></td></tr>
+<tr class="separator:a164c1dcf9dcbc085c1b421855eda665f inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5c88cf4590b53804ebedaa292d1402c inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__tensorNet.html#ga5d4597e0e7beae7133d542e220528725">modelType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ab5c88cf4590b53804ebedaa292d1402c">mModelType</a></td></tr>
+<tr class="separator:ab5c88cf4590b53804ebedaa292d1402c inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ed6e418a135650c7cf91498379727ae inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">cudaStream_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a1ed6e418a135650c7cf91498379727ae">mStream</a></td></tr>
+<tr class="separator:a1ed6e418a135650c7cf91498379727ae inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac52fdcc0579c0426e21141636349dea inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">cudaEvent_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#aac52fdcc0579c0426e21141636349dea">mEventsGPU</a> [<a class="el" href="group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809af9132edd0371e716aed4d46e3da5e9ea">PROFILER_TOTAL</a> *2]</td></tr>
+<tr class="separator:aac52fdcc0579c0426e21141636349dea inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4cb4b37a74806164257e9529cb8ed70 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">timespec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#af4cb4b37a74806164257e9529cb8ed70">mEventsCPU</a> [<a class="el" href="group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809af9132edd0371e716aed4d46e3da5e9ea">PROFILER_TOTAL</a> *2]</td></tr>
+<tr class="separator:af4cb4b37a74806164257e9529cb8ed70 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a275ce2318a63dcaafc1e0120a53fe606 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">nvinfer1::IRuntime *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a275ce2318a63dcaafc1e0120a53fe606">mInfer</a></td></tr>
+<tr class="separator:a275ce2318a63dcaafc1e0120a53fe606 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6d2272a2560bec119fa570438e3eb19 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">nvinfer1::ICudaEngine *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#ad6d2272a2560bec119fa570438e3eb19">mEngine</a></td></tr>
+<tr class="separator:ad6d2272a2560bec119fa570438e3eb19 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c745474e60145ee826b53e294e7f478 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">nvinfer1::IExecutionContext *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a2c745474e60145ee826b53e294e7f478">mContext</a></td></tr>
+<tr class="separator:a2c745474e60145ee826b53e294e7f478 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32dbfb5b3d2cb82002ec288c237a0c9c inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">float2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a32dbfb5b3d2cb82002ec288c237a0c9c">mProfilerTimes</a> [<a class="el" href="group__tensorNet.html#ggae34d45c0faa674ef4cc0fbfc8fae5809af9132edd0371e716aed4d46e3da5e9ea">PROFILER_TOTAL</a>+1]</td></tr>
+<tr class="separator:a32dbfb5b3d2cb82002ec288c237a0c9c inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a545348243b65ce04047fd10d47e1716c inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a545348243b65ce04047fd10d47e1716c">mProfilerQueriesUsed</a></td></tr>
+<tr class="separator:a545348243b65ce04047fd10d47e1716c inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b5be95254ce71931305f4086f23f18a inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a3b5be95254ce71931305f4086f23f18a">mProfilerQueriesDone</a></td></tr>
+<tr class="separator:a3b5be95254ce71931305f4086f23f18a inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abadb712a0b45e8dc28481db3e79d1d7e inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#abadb712a0b45e8dc28481db3e79d1d7e">mWorkspaceSize</a></td></tr>
+<tr class="separator:abadb712a0b45e8dc28481db3e79d1d7e inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0027d8b3617cfc905465925dd6d84b0f inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a0027d8b3617cfc905465925dd6d84b0f">mMaxBatchSize</a></td></tr>
+<tr class="separator:a0027d8b3617cfc905465925dd6d84b0f inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8bbf97d979c62018f42cc44b5cb81e8 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#aa8bbf97d979c62018f42cc44b5cb81e8">mEnableProfiler</a></td></tr>
+<tr class="separator:aa8bbf97d979c62018f42cc44b5cb81e8 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84ad901a2a0dc4aaf740d40307437b2b inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a84ad901a2a0dc4aaf740d40307437b2b">mEnableDebug</a></td></tr>
+<tr class="separator:a84ad901a2a0dc4aaf740d40307437b2b inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e7b5913f3f54d4bb0e6aa8e6071a74a inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a8e7b5913f3f54d4bb0e6aa8e6071a74a">mAllowGPUFallback</a></td></tr>
+<tr class="separator:a8e7b5913f3f54d4bb0e6aa8e6071a74a inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75dba887061d29022b07e648770e8fb0 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">void **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a75dba887061d29022b07e648770e8fb0">mBindings</a></td></tr>
+<tr class="separator:a75dba887061d29022b07e648770e8fb0 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a939a5123396b35a0dbee8d094d881d62 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structtensorNet_1_1layerInfo.html">layerInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#a939a5123396b35a0dbee8d094d881d62">mInputs</a></td></tr>
+<tr class="separator:a939a5123396b35a0dbee8d094d881d62 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcdbdb26dc6e5117f867c83e635a0250 inherit pro_attribs_group__tensorNet"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structtensorNet_1_1layerInfo.html">layerInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__tensorNet.html#afcdbdb26dc6e5117f867c83e635a0250">mOutputs</a></td></tr>
+<tr class="separator:afcdbdb26dc6e5117f867c83e635a0250 inherit pro_attribs_group__tensorNet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
+<a id="a6b474d88a5447623257e0f473352b465"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b474d88a5447623257e0f473352b465">&#9670;&nbsp;</a></span>~backgroundNet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual backgroundNet::~backgroundNet </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destroy. </p>
+
+</div>
+</div>
+<a id="a4a5cb05216bf994f05887d44b249f6b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a5cb05216bf994f05887d44b249f6b4">&#9670;&nbsp;</a></span>backgroundNet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">backgroundNet::backgroundNet </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h4 class="groupheader">Member Function Documentation</h4>
+<a id="a3ad2349f71e98f6647350d20c697f8d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ad2349f71e98f6647350d20c697f8d0">&#9670;&nbsp;</a></span>Create() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__backgroundNet.html#classbackgroundNet">backgroundNet</a>* backgroundNet::Create </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>model_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>input</em> = <code><a class="el" href="group__backgroundNet.html#gaedcfc9671390875215c85dcddd3cff09">BACKGROUNDNET_DEFAULT_INPUT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>output</em> = <code><a class="el" href="group__backgroundNet.html#ga3ebbfc2bb8d09adb2e1505704ebedde6">BACKGROUNDNET_DEFAULT_OUTPUT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>maxBatchSize</em> = <code><a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td>
+          <td class="paramname"><em>precision</em> = <code><a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a>&#160;</td>
+          <td class="paramname"><em>device</em> = <code><a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>allowGPUFallback</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load a new network instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">model_path</td><td>File path to the caffemodel </td></tr>
+    <tr><td class="paramname">input</td><td>Name of the input layer blob. </td></tr>
+    <tr><td class="paramname">output</td><td>Name of the output layer blob. </td></tr>
+    <tr><td class="paramname">maxBatchSize</td><td>The maximum batch size that the network will support and be optimized for. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a95b3bab94c1a8a7142f72b470a85d22a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95b3bab94c1a8a7142f72b470a85d22a">&#9670;&nbsp;</a></span>Create() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__backgroundNet.html#classbackgroundNet">backgroundNet</a>* backgroundNet::Create </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>network</em> = <code>&quot;u2net&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>maxBatchSize</em> = <code><a class="el" href="group__tensorNet.html#ga5a46a965749d6118e01307fd4d4865c9">DEFAULT_MAX_BATCH_SIZE</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td>
+          <td class="paramname"><em>precision</em> = <code><a class="el" href="group__tensorNet.html#ggaac6604fd52c6e5db82877390e0378623a1d325738f49e8e4c424ff671624e66f9">TYPE_FASTEST</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a>&#160;</td>
+          <td class="paramname"><em>device</em> = <code><a class="el" href="group__tensorNet.html#ggaa5d3f9981cdbd91516c1474006a80fe4adc7f3f88455afa81458863e5b3092e4b">DEVICE_GPU</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>allowGPUFallback</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load a pre-trained model. </p>
+
+</div>
+</div>
+<a id="a1d930e20967b0f2ca6911fb8a7de6b92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d930e20967b0f2ca6911fb8a7de6b92">&#9670;&nbsp;</a></span>Create() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__backgroundNet.html#classbackgroundNet">backgroundNet</a>* backgroundNet::Create </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="group__commandLine.html#classcommandLine">commandLine</a> &amp;&#160;</td>
+          <td class="paramname"><em>cmdLine</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load a new network instance by parsing the command line. </p>
+
+</div>
+</div>
+<a id="abdc5c454b005c7be13d1b26870efe28c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdc5c454b005c7be13d1b26870efe28c">&#9670;&nbsp;</a></span>Create() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__backgroundNet.html#classbackgroundNet">backgroundNet</a>* backgroundNet::Create </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>argv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load a new network instance by parsing the command line. </p>
+
+</div>
+</div>
+<a id="ac3d21c4f9d5982c1e317ce7b01d3dea4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3d21c4f9d5982c1e317ce7b01d3dea4">&#9670;&nbsp;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool backgroundNet::init </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>model_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>maxBatchSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__tensorNet.html#gaac6604fd52c6e5db82877390e0378623">precisionType</a>&#160;</td>
+          <td class="paramname"><em>precision</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__tensorNet.html#gaa5d3f9981cdbd91516c1474006a80fe4">deviceType</a>&#160;</td>
+          <td class="paramname"><em>device</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>allowGPUFallback</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adf58aca64daa5f7b6267df690bc00c92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf58aca64daa5f7b6267df690bc00c92">&#9670;&nbsp;</a></span>Process() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int backgroundNet::Process </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__cudaFilter.html#ga25d4283643163befe99948d24cc53311">cudaFilterMode</a>&#160;</td>
+          <td class="paramname"><em>filter</em> = <code><a class="el" href="group__cudaFilter.html#gga25d4283643163befe99948d24cc53311ad8e5de74ec16a7e07145b7c18c885094">FILTER_LINEAR</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>maskAlpha</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Perform background subtraction/removal on the image (in-place). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">image</td><td>input/output image in CUDA device memory. </td></tr>
+    <tr><td class="paramname">width</td><td>width of the image in pixels. </td></tr>
+    <tr><td class="paramname">height</td><td>height of the output image in pixels. </td></tr>
+    <tr><td class="paramname">filter</td><td>the upsampling mode used to resize the DNN mask (FILTER_LINEAR or FILTER_POINT) </td></tr>
+    <tr><td class="paramname">maskAlpha</td><td>if true (default), the mask will be applied to the alpha channel in addition to the color channels. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success and false if an error occurred. </dd></dl>
+
+</div>
+</div>
+<a id="a21a10a6dbc5d74d9f6723cfc95d64b55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21a10a6dbc5d74d9f6723cfc95d64b55">&#9670;&nbsp;</a></span>Process() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int backgroundNet::Process </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__cudaFilter.html#ga25d4283643163befe99948d24cc53311">cudaFilterMode</a>&#160;</td>
+          <td class="paramname"><em>filter</em> = <code><a class="el" href="group__cudaFilter.html#gga25d4283643163befe99948d24cc53311ad8e5de74ec16a7e07145b7c18c885094">FILTER_LINEAR</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>maskAlpha</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Perform background subtraction/removal on the image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td>input image in CUDA device memory. </td></tr>
+    <tr><td class="paramname">output</td><td>output image in CUDA device memory. </td></tr>
+    <tr><td class="paramname">width</td><td>width of the image in pixels. </td></tr>
+    <tr><td class="paramname">height</td><td>height of the output image in pixels. </td></tr>
+    <tr><td class="paramname">filter</td><td>the upsampling mode used to resize the DNN mask (FILTER_LINEAR or FILTER_POINT) </td></tr>
+    <tr><td class="paramname">maskAlpha</td><td>if true (default), the mask will be applied to the alpha channel in addition to the color channels. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success and false if an error occurred. </dd></dl>
+
+</div>
+</div>
+<a id="a4c90e4c05c2bfb87b4c87ad7c746609d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c90e4c05c2bfb87b4c87ad7c746609d">&#9670;&nbsp;</a></span>Process() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool backgroundNet::Process </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__cudaFilter.html#ga25d4283643163befe99948d24cc53311">cudaFilterMode</a>&#160;</td>
+          <td class="paramname"><em>filter</em> = <code><a class="el" href="group__cudaFilter.html#gga25d4283643163befe99948d24cc53311ad8e5de74ec16a7e07145b7c18c885094">FILTER_LINEAR</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>maskAlpha</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Perform background subtraction/removal on the image (in-place). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">image</td><td>input/output image in CUDA device memory. </td></tr>
+    <tr><td class="paramname">width</td><td>width of the image in pixels. </td></tr>
+    <tr><td class="paramname">height</td><td>height of the output image in pixels. </td></tr>
+    <tr><td class="paramname">filter</td><td>the upsampling mode used to resize the DNN mask (FILTER_LINEAR or FILTER_POINT) </td></tr>
+    <tr><td class="paramname">maskAlpha</td><td>if true (default), the mask will be applied to the alpha channel as well. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success and false if an error occurred. </dd></dl>
+
+</div>
+</div>
+<a id="a101e44eee311188da5db39a812295a75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a101e44eee311188da5db39a812295a75">&#9670;&nbsp;</a></span>Process() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool backgroundNet::Process </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__imageFormat.html#ga931c48e08f361637d093355d64583406">imageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__cudaFilter.html#ga25d4283643163befe99948d24cc53311">cudaFilterMode</a>&#160;</td>
+          <td class="paramname"><em>filter</em> = <code><a class="el" href="group__cudaFilter.html#gga25d4283643163befe99948d24cc53311ad8e5de74ec16a7e07145b7c18c885094">FILTER_LINEAR</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>maskAlpha</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform background subtraction/removal on the image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td>input image in CUDA device memory. </td></tr>
+    <tr><td class="paramname">output</td><td>output image in CUDA device memory. </td></tr>
+    <tr><td class="paramname">width</td><td>width of the image in pixels. </td></tr>
+    <tr><td class="paramname">height</td><td>height of the output image in pixels. </td></tr>
+    <tr><td class="paramname">filter</td><td>the upsampling mode used to resize the DNN mask (FILTER_LINEAR or FILTER_POINT) </td></tr>
+    <tr><td class="paramname">maskAlpha</td><td>if true (default), the mask will be applied to the alpha channel as well. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success and false if an error occurred. </dd></dl>
+
+</div>
+</div>
+<a id="a0f195cca41ffdb36e82bbd5aeca1c86b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f195cca41ffdb36e82bbd5aeca1c86b">&#9670;&nbsp;</a></span>Usage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const char* backgroundNet::Usage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Usage string for command line arguments to <a class="el" href="group__backgroundNet.html#a95b3bab94c1a8a7142f72b470a85d22a" title="Load a pre-trained model.">Create()</a> </p>
+
+</div>
+</div>
+
+</div>
+</div>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="gaedcfc9671390875215c85dcddd3cff09"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaedcfc9671390875215c85dcddd3cff09">&#9670;&nbsp;</a></span>BACKGROUNDNET_DEFAULT_INPUT</h2>
@@ -130,7 +1077,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Name of default input layer for <a class="el" href="classbackgroundNet.html" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> model. </p>
+<p>Name of default input layer for <a class="el" href="group__backgroundNet.html#classbackgroundNet" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> model. </p>
 
 </div>
 </div>
@@ -146,7 +1093,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Name of default output layer for <a class="el" href="classbackgroundNet.html" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> model. </p>
+<p>Name of default output layer for <a class="el" href="group__backgroundNet.html#classbackgroundNet" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> model. </p>
 
 </div>
 </div>
@@ -162,7 +1109,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The model type for <a class="el" href="classbackgroundNet.html" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> in data/networks/models.json. </p>
+<p>The model type for <a class="el" href="group__backgroundNet.html#classbackgroundNet" title="Background subtraction/removal with DNNs, using TensorRT.">backgroundNet</a> in data/networks/models.json. </p>
 
 </div>
 </div>
@@ -185,7 +1132,7 @@ Macros</h2></td></tr>
 <div class="line">                  <span class="stringliteral">&quot;  --output-blob=OUTPUT name of the output layer (default is &#39;&quot;</span> <a class="code" href="group__backgroundNet.html#ga3ebbfc2bb8d09adb2e1505704ebedde6">BACKGROUNDNET_DEFAULT_OUTPUT</a> <span class="stringliteral">&quot;&#39;)\n&quot;</span>   \</div>
 <div class="line">                  <span class="stringliteral">&quot;  --profile            enable layer profiling in TensorRT\n\n&quot;</span></div>
 </div><!-- fragment -->
-<p>Standard command-line options able to be passed to <a class="el" href="classbackgroundNet.html#a95b3bab94c1a8a7142f72b470a85d22a" title="Load a pre-trained model.">backgroundNet::Create()</a> </p>
+<p>Standard command-line options able to be passed to <a class="el" href="group__backgroundNet.html#a95b3bab94c1a8a7142f72b470a85d22a" title="Load a pre-trained model.">backgroundNet::Create()</a> </p>
 
 </div>
 </div>
@@ -196,7 +1143,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Mar 16 2023 18:21:29 for Jetson Inference by
+    <li class="footer">Generated on Tue Mar 28 2023 14:27:58 for Jetson Inference by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
   </ul>

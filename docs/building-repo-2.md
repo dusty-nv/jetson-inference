@@ -5,29 +5,27 @@
 
 # Building the Project from Source
 
-Provided with the repo is a library of TensorRT-accelerated deep learning networks for image recognition, object detection with localization (i.e. bounding boxes), and semantic segmentation.  This inferencing library (`libjetson-inference`) is intended to be run on the Jetson, and includes support for both C++ and Python.  Various pre-trained DNN models are automatically downloaded to get you up and running quickly.
+Once your Jetson has has been [flashed with JetPack](jetpack-setup-2.md) or setup with the latest [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write), you should be able to either run the pre-built [Docker container](aux-docker.md), or compile jetson-inference from source.  Either option is also able to install PyTorch for you.
 
-The latest source code or [Docker container](aux-docker.md) can be used onboard your Jetson once your device has been [flashed with JetPack](jetpack-setup-2.md) or setup with the pre-populated [SD card image](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write).  You can run the pre-built [Docker container](aux-docker.md) without needing to compile the project or install PyTorch yourself.
-
-### Quick Reference
+## Quick Reference
 
 If you aren't using the [Docker container](aux-docker.md), here's a condensed form of the commands to build/install the project directly on your Jetson:
 
 ``` bash
-$ sudo apt-get update
-$ sudo apt-get install git cmake libpython3-dev python3-numpy
-$ git clone --recursive https://github.com/dusty-nv/jetson-inference
-$ cd jetson-inference
-$ mkdir build
-$ cd build
-$ cmake ../
-$ make -j$(nproc)
-$ sudo make install
-$ sudo ldconfig
+sudo apt-get update
+sudo apt-get install git cmake libpython3-dev python3-numpy
+git clone --recursive --depth=1 https://github.com/dusty-nv/jetson-inference
+cd jetson-inference
+mkdir build
+cd build
+cmake ../
+make -j$(nproc)
+sudo make install
+sudo ldconfig
 ```
 Below we will go through each step and discuss various build options along the way.
  
-### Cloning the Repo
+## Cloning the Repo
 
 To download the code, navigate to a folder of your choosing on the Jetson.  First, make sure git and cmake are installed:
 
@@ -48,18 +46,13 @@ Remember to run the `git submodule update --init` step (or clone with the `--rec
 
 ### Python Development Packages
 
-The Python functionality of this project is implemented through Python extension modules that provide bindings to the native C++ code using the Python C API.  While configuring the project, the repo searches for versions of Python that have development packages installed on the system, and will then build the bindings for each version of Python that's present (e.g. Python 2.7, 3.6, and 3.7).  It will also build numpy bindings for versions of numpy that are installed.
-
-By default, Ubuntu comes with the `libpython-dev` and `python-numpy` packages pre-installed (which are for Python 2.7).  Although the Python 3.6 interpreter is pre-installed by Ubuntu, the Python 3.6 development packages (`libpython3-dev`) and `python3-numpy` are not.  These development packages are required for the bindings to build using the Python C API.  
-
-So if you want the project to create bindings for Python 3.6, install these packages before proceeding:
+The Python functionality of this project is implemented through Python extension modules that provide bindings to the native C++ code using the Python C API.  While configuring the project, the repo searches for versions of Python that have development packages installed on the system, and will then build the bindings for each version of Python that's present (e.g. Python 2.7, 3.6, 3.8).
 
 ``` bash
 $ sudo apt-get install libpython3-dev python3-numpy
 ``` 
 
-Installing these additional packages will enable the repo to build the extension bindings for Python 3.6, in addition to Python 2.7 (which is already pre-installed).  Then after the build process, the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) packages will be available to use within your Python environments.
-
+Then after the `sudo make install` step, the [`jetson_inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) and [`jetson_utils`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html) modules should be able to be imported in Python.
 
 ### Configuring with CMake
 
@@ -75,31 +68,13 @@ $ cmake ../
 > **note**: this command will launch the [`CMakePreBuild.sh`](../CMakePreBuild.sh) script which asks for sudo privileges while installing some prerequisite packages on the Jetson. The script also downloads pre-trained networks from web services.
 
 
-### Downloading Models
-
-The project comes with many pre-trained networks that can you can choose to have downloaded and installed through the **Model Downloader** tool ([`download-models.sh`](../tools/download-models.sh)).  By default, not all of the models are initially selected for download to save disk space.  You can select the models you want, or run the tool again later to download more models another time.
-
-When initially configuring the project, `cmake` will automatically run the downloader tool for you:
-
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/download-models.jpg" width="650">
-
-> **note**: for users that are unable to connect to Box.com to download the models, a mirror is provided here:<br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[`https://github.com/dusty-nv/jetson-inference/releases`](https://github.com/dusty-nv/jetson-inference/releases)
-
-To run the Model Downloader tool again later, you can use the following commands:
-
-``` bash
-$ cd jetson-inference/tools
-$ ./download-models.sh
-```
-
-### Installing PyTorch
+## Installing PyTorch
 
 If you are using JetPack 4.2 or newer, another tool will now run that can optionally install PyTorch on your Jetson if you want to re-train networks with [transfer learning](pytorch-transfer-learning.md) later in the tutorial.  This step is optional, and if you don't wish to do the transfer learning steps, you don't need to install PyTorch and can skip this step.
 
-If desired, select the PyTorch package versions for Python 2.7 and/or Python 3.6 that you want installed and hit `Enter` to continue.  Otherwise, leave the options un-selected, and it will skip the installation of PyTorch. 
+If desired, select the PyTorch package versions for Python 2.7 and/or Python3 that you want installed and hit `Enter` to continue.  Otherwise, leave the options un-selected, and it will skip the installation of PyTorch. 
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/pytorch-installer.jpg" width="650">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/docs/images/pytorch-installer.jpg" width="650">
 
 > **note**: the automated PyTorch installation tool requires JetPack 4.2 (or newer)<br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for other versions, see [`http://eLinux.org/Jetson_Zoo`](https://elinux.org/Jetson_Zoo#PyTorch_.28Caffe2.29) to build from source.
@@ -113,7 +88,7 @@ $ ./install-pytorch.sh
 
 Running these commands will prompt you with the same dialog as seen above.
 
-### Compiling the Project
+## Compiling the Project
 
 Make sure you are still in the `jetson-inference/build` directory, created above in step #3.
 
@@ -140,10 +115,10 @@ The project will be built to `jetson-inference/build/aarch64`, with the followin
 
 In the build tree, you can find the binaries residing in `build/aarch64/bin/`, headers in `build/aarch64/include/`, and libraries in `build/aarch64/lib/`.  These also get installed under `/usr/local/` during the `sudo make install` step.
 
-The Python bindings for the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.utils.html) modules also get installed during the `sudo make install` step under `/usr/lib/python*/dist-packages/`.  If you update the code, remember to run it again.
+The Python bindings for the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) and [`jetson.utils`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html) modules also get installed during the `sudo make install` step under `/usr/lib/python*/dist-packages/`.  If you update the code, remember to run it again.
  
 
-### Digging Into the Code
+## Digging Into the Code
 
 See the **[API Reference](../README.md#api-reference)** documentation for the vision primitives available in `libjetson-inference`, including `imageNet` for image recognition, `detectNet` for object localization, and `segNet` for semantic segmentation.  Familiarize yourself with the C++ or Python versions of these objects, depending on which language you prefer to use.
 
@@ -225,7 +200,7 @@ All of the DNN objects in the repo inherit from the shared [`tensorNet`](../c/te
 
 #### Python
 
-Below is the abbreviated pydoc output of the Python [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#imageNet) object from the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html) package:
+Below is the abbreviated pydoc output of the Python [`imageNet`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#imageNet) object from the [`jetson.inference`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html) package:
 
 ```
 jetson.inference.imageNet = class imageNet(tensorNet)

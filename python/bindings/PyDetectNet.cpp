@@ -40,18 +40,20 @@ typedef struct {
 #define DOC_DETECTION "Object Detection Result\n\n" \
 				  "----------------------------------------------------------------------\n" \
 				  "Data descriptors defined here:\n\n" \
-				  "Area\n" \
-				  "    Area of bounding box\n\n" \
-				  "Bottom\n" \
-				  "    Bottom bounding box coordinate\n\n" \
-				  "Center\n" \
-				  "    Center (x,y) coordinate of bounding box\n\n" \
+				  "Confidence\n" \
+				  "    Confidence value of the detected object\n\n" \
 				  "ClassID\n" \
 				  "    Class index of the detected object\n\n" \
 				  "TrackID\n" \
 				  "    Unique tracking ID (or -1 if untracked)\n\n" \
-				  "Confidence\n" \
-				  "    Confidence value of the detected object\n\n" \
+				  "TrackStatus\n" \
+				  "    -1 for dropped, 0 for initializing, 1 for active/valid\n\n" \
+				  "TrackFrames\n" \
+				  "    The number of frames the object has been re-identified for\n\n" \
+				  "TrackLost\n" \
+				  "    The number of consecutive frames tracking has been lost for\n\n" \
+				  "Width\n" \
+				  "     Width of bounding box\n\n" \
 				  "Height\n" \
 				  "    Height of bounding box\n\n" \
 				  "Left\n" \
@@ -60,8 +62,14 @@ typedef struct {
 				  "    Right bounding box coordinate\n\n" \
 				  "Top\n" \
 				  "    Top bounding box coordinate\n\n" \
-				  "Width\n" \
-				  "     Width of bounding box\n\n"
+				  "Bottom\n" \
+				  "    Bottom bounding box coordinate\n\n" \
+				  "ROI\n" \
+				  "    (Left, Top, Right, Bottom) tuple\n\n" \
+				  "Center\n" \
+				  "    Center (x,y) coordinate tuple\n\n" \
+				  "Area\n" \
+				  "    Area of bounding box\n\n"
 
 // New
 static PyObject* PyDetection_New( PyTypeObject* type, PyObject* args, PyObject* kwds )
@@ -80,7 +88,6 @@ static PyObject* PyDetection_New( PyTypeObject* type, PyObject* args, PyObject* 
 	self->det.Reset();
 	return (PyObject*)self;
 }
-
 
 // Init
 static int PyDetection_Init( PyDetection_Object* self, PyObject* args, PyObject* kwds )
@@ -115,7 +122,6 @@ static int PyDetection_Init( PyDetection_Object* self, PyObject* args, PyObject*
 	return 0;
 }
 
-
 // Deallocate
 static void PyDetection_Dealloc( PyDetection_Object* self )
 {
@@ -124,7 +130,6 @@ static void PyDetection_Dealloc( PyDetection_Object* self )
 	// free the container
 	Py_TYPE(self)->tp_free((PyObject*)self);
 }
-
 
 // ToString
 static PyObject* PyDetection_ToString( PyDetection_Object* self )
@@ -183,7 +188,6 @@ static PyObject* PyDetection_ToString( PyDetection_Object* self )
 	return PYSTRING_FROM_STRING(str);
 }
 
-
 // Contains
 static PyObject* PyDetection_Contains( PyDetection_Object* self, PyObject *args, PyObject *kwds )
 {
@@ -205,31 +209,29 @@ static PyObject* PyDetection_Contains( PyDetection_Object* self, PyObject *args,
 	PY_RETURN_BOOL(self->det.Contains(x,y));
 }
 
-
-// GetTrackID
-static PyObject* PyDetection_GetTrackID( PyDetection_Object* self, void* closure )
+// GetConfidence
+static PyObject* PyDetection_GetConfidence( PyDetection_Object* self, void* closure )
 {
-	return PYLONG_FROM_LONG(self->det.TrackID);
+	return PyFloat_FromDouble(self->det.Confidence);
 }
 
-// SetTrackID
-static int PyDetection_SetTrackID( PyDetection_Object* self, PyObject* value, void* closure )
+// SetConfidence
+static int PyDetection_SetConfidence( PyDetection_Object* self, PyObject* value, void* closure )
 {
 	if( !value )
 	{
-		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.TrackID attribute");
+		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.Confidence attribute");
 		return -1;
 	}
 
-	int arg = PYLONG_AS_LONG(value);
+	const double arg = PyFloat_AsDouble(value);
 
 	if( PyErr_Occurred() != NULL )
 		return -1;
 
-	self->det.TrackID = arg;
+	self->det.Confidence = arg;
 	return 0;
 }
-
 
 // GetClassID
 static PyObject* PyDetection_GetClassID( PyDetection_Object* self, void* closure )
@@ -258,33 +260,101 @@ static int PyDetection_SetClassID( PyDetection_Object* self, PyObject* value, vo
 	return 0;
 }
 
-
-
-// GetConfidence
-static PyObject* PyDetection_GetConfidence( PyDetection_Object* self, void* closure )
+// GetTrackID
+static PyObject* PyDetection_GetTrackID( PyDetection_Object* self, void* closure )
 {
-	return PyFloat_FromDouble(self->det.Confidence);
+	return PYLONG_FROM_LONG(self->det.TrackID);
 }
 
-// SetLeft
-static int PyDetection_SetConfidence( PyDetection_Object* self, PyObject* value, void* closure )
+// SetTrackID
+static int PyDetection_SetTrackID( PyDetection_Object* self, PyObject* value, void* closure )
 {
 	if( !value )
 	{
-		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.Confidence attribute");
+		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.TrackID attribute");
 		return -1;
 	}
 
-	const double arg = PyFloat_AsDouble(value);
+	int arg = PYLONG_AS_LONG(value);
 
 	if( PyErr_Occurred() != NULL )
 		return -1;
 
-	self->det.Confidence = arg;
+	self->det.TrackID = arg;
 	return 0;
 }
 
+// GetTrackStatus
+static PyObject* PyDetection_GetTrackStatus( PyDetection_Object* self, void* closure )
+{
+	return PYLONG_FROM_LONG(self->det.TrackStatus);
+}
 
+// SetTrackStatus
+static int PyDetection_SetTrackStatus( PyDetection_Object* self, PyObject* value, void* closure )
+{
+	if( !value )
+	{
+		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.TrackStatus attribute");
+		return -1;
+	}
+
+	int arg = PYLONG_AS_LONG(value);
+
+	if( PyErr_Occurred() != NULL )
+		return -1;
+
+	self->det.TrackStatus = arg;
+	return 0;
+}
+
+// GetTrackFrames
+static PyObject* PyDetection_GetTrackFrames( PyDetection_Object* self, void* closure )
+{
+	return PYLONG_FROM_LONG(self->det.TrackFrames);
+}
+
+// SetTrackFrames
+static int PyDetection_SetTrackFrames( PyDetection_Object* self, PyObject* value, void* closure )
+{
+	if( !value )
+	{
+		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.TrackFrames attribute");
+		return -1;
+	}
+
+	int arg = PYLONG_AS_LONG(value);
+
+	if( PyErr_Occurred() != NULL )
+		return -1;
+
+	self->det.TrackFrames = arg;
+	return 0;
+}
+
+// GetTrackLost
+static PyObject* PyDetection_GetTrackLost( PyDetection_Object* self, void* closure )
+{
+	return PYLONG_FROM_LONG(self->det.TrackLost);
+}
+
+// SetTrackLost
+static int PyDetection_SetTrackLost( PyDetection_Object* self, PyObject* value, void* closure )
+{
+	if( !value )
+	{
+		PyErr_SetString(PyExc_TypeError, LOG_PY_INFERENCE "Not permitted to delete detectNet.Detection.TrackLost attribute");
+		return -1;
+	}
+
+	int arg = PYLONG_AS_LONG(value);
+
+	if( PyErr_Occurred() != NULL )
+		return -1;
+
+	self->det.TrackLost = arg;
+	return 0;
+}
 
 // GetLeft
 static PyObject* PyDetection_GetLeft( PyDetection_Object* self, void* closure )
@@ -310,7 +380,6 @@ static int PyDetection_SetLeft( PyDetection_Object* self, PyObject* value, void*
 	return 0;
 }
 
-
 // GetRight
 static PyObject* PyDetection_GetRight( PyDetection_Object* self, void* closure )
 {
@@ -334,7 +403,6 @@ static int PyDetection_SetRight( PyDetection_Object* self, PyObject* value, void
 	self->det.Right = arg;
 	return 0;
 }
-
 
 // GetTop
 static PyObject* PyDetection_GetTop( PyDetection_Object* self, void* closure )
@@ -360,14 +428,13 @@ static int PyDetection_SetTop( PyDetection_Object* self, PyObject* value, void* 
 	return 0;
 }
 
-
 // GetBottom
 static PyObject* PyDetection_GetBottom( PyDetection_Object* self, void* closure )
 {
 	return PyFloat_FromDouble(self->det.Bottom);
 }
 
-// SetTop
+// SetBottom
 static int PyDetection_SetBottom( PyDetection_Object* self, PyObject* value, void* closure )
 {
 	if( !value )
@@ -384,7 +451,6 @@ static int PyDetection_SetBottom( PyDetection_Object* self, PyObject* value, voi
 	self->det.Bottom = arg;
 	return 0;
 }
-
 
 // GetWidth
 static PyObject* PyDetection_GetWidth( PyDetection_Object* self, void* closure )
@@ -446,6 +512,9 @@ static PyGetSetDef pyDetection_GetSet[] =
 {
 	{ "ClassID", (getter)PyDetection_GetClassID, (setter)PyDetection_SetClassID, "Class index of the detected object", NULL},
 	{ "TrackID", (getter)PyDetection_GetTrackID, (setter)PyDetection_SetTrackID, "Unique tracking ID (-1 if untracked)", NULL},
+	{ "TrackStatus", (getter)PyDetection_GetTrackStatus, (setter)PyDetection_SetTrackStatus, "-1 for dropped, 0 for initializing, 1 for active/valid", NULL},
+	{ "TrackFrames", (getter)PyDetection_GetTrackFrames, (setter)PyDetection_SetTrackFrames, "The number of frames the object has been re-identified for", NULL},
+	{ "TrackLost", (getter)PyDetection_GetTrackLost, (setter)PyDetection_SetTrackLost, "The number of consecutive frames tracking has been lost for", NULL},
 	{ "Instance", (getter)PyDetection_GetTrackID, (setter)PyDetection_SetTrackID, "Unique tracking ID (-1 if untracked)", NULL}, // legacy
 	{ "Confidence", (getter)PyDetection_GetConfidence, (setter)PyDetection_SetConfidence, "Confidence value of the detected object", NULL},
 	{ "Left", (getter)PyDetection_GetLeft, (setter)PyDetection_SetLeft, "Left bounding box coordinate", NULL},

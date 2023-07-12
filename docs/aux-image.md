@@ -12,9 +12,11 @@ This page covers a number of image format, conversion, and pre/post-processing f
 * [Image Allocation](#image-allocation)
 * [Copying Images](#copying-images)
 * [Image Capsules in Python](#image-capsules-in-python)
+	* [Array Interfaces](#array-interfaces)
 	* [Accessing Image Data in Python](#accessing-image-data-in-python)
-	* [Converting to Numpy Arrays](#converting-to-numpy-arrays)
-	* [Converting from Numpy Arrays](#converting-from-numpy-arrays)
+	* [Accessing as a Numpy Array](#accessing-as-a-numpy-array)
+	* [CUDA Array Interface](#cuda-array-interface)
+	* [Sharing the Memory Pointer](#sharing-the-memory-pointer)
 
 **CUDA Routines**
 * [Color Conversion](#color-conversion)
@@ -30,7 +32,7 @@ For examples of using these functions, see [`cuda-examples.py`](https://github.c
 
 Although the [video streaming](aux-streaming#source-code) APIs and DNN objects (such [`imageNet`](c/imageNet.h), [`detectNet`](c/detectNet.h), and [`segNet`](c/segNet.h)) expect images in RGB/RGBA format, a variety of other formats are defined for sensor acquisition and low-level I/O:  
 
-|                 | Format string | [`imageFormat` enum](https://rawgit.com/dusty-nv/jetson-inference/dev/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406)   | Data Type | Bit Depth |
+|                 | Format string | [`imageFormat` enum](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/group__imageFormat.html#ga931c48e08f361637d093355d64583406)   | Data Type | Bit Depth |
 |-----------------|---------------|--------------------|-----------|-----------|
 | **RGB/RGBA**    | `rgb8`        | `IMAGE_RGB8`       | `uchar3`  | 24        |
 |                 | `rgba8`       | `IMAGE_RGBA8`      | `uchar4`  | 32        |
@@ -62,7 +64,7 @@ To convert images between data formats and/or colorspaces, see the [Color Conver
 
 ## Image Allocation
 
-To allocate empty GPU memory for storing intermediate/output images (i.e. working memory during processing), use one of the [`cudaAllocMapped()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaMappedMemory.h) functions from C++ or Python.  Note that the [`videoSource`](aux-streaming#source-code) input streams automatically allocate their own GPU memory, and return to you the latest image, so you needn't allocate your own memory for those.  
+To allocate empty GPU memory for storing intermediate/output images (i.e. working memory during processing), use one [`cudaAllocMapped()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaMappedMemory.h) from C++ or the [`cudaImage`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#cudaImage) object from Python.  Note that the [`videoSource`](aux-streaming#source-code) input streams automatically allocate their own GPU memory, and return to you the latest image, so you needn't allocate your own memory for those.  
 
 Memory allocated by [`cudaAllocMapped()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/cudaMappedMemory.h) resides in a shared CPU/GPU memory space, so it is accessible from both the CPU and GPU without needing to perform a memory copy between them (hence it is also referred to as ZeroCopy memory).  
 
@@ -72,16 +74,16 @@ Below is Python and C++ psuedocode for allocating/synchronizing/freeing the Zero
 
 #### Python
 ```python
-import jetson.utils
+from jetson_utils import cudaImage, cudaDeviceSynchronize
 
 # allocate a 1920x1080 image in rgb8 format
-img = jetson.utils.cudaAllocMapped(width=1920, height=1080, format='rgb8')
+img = cudaImage(width=1920, height=1080, format='rgb8')
 
 # do some processing on the GPU here
 ...
 
 # wait for the GPU to finish processing
-jetson.utils.cudaDeviceSynchronize()
+cudaDeviceSynchronize()
 
 # Python will automatically free the memory, but you can explicitly do it with 'del'
 del img
@@ -120,21 +122,21 @@ if( !cudaAllocMapped(&img, 1920, 1080) )
 
 ## Copying Images
 
-`cudaMemcpy()` can be used to copy memory between images of the same format and dimensions.  [`cudaMemcpy()`](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1gc263dbe6574220cc776b45438fc351e8) is a standard CUDA function in C++, and there is a similar version for Python in the jetson.utils library:
+[`cudaMemcpy()`](https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html#group__CUDART__MEMORY_1gc263dbe6574220cc776b45438fc351e8) can be used to copy memory between images of the same format and dimensions.  It's a standard CUDA function in C++, and there is a similar version for Python in the jetson_utils library:
 
 #### Python
 ```python
-import jetson.utils
+from jetson_utils import cudaMemcpy, cudaImage, loadImage
 
 # load an image and allocate memory to copy it to
-img_a = jetson.utils.loadImage("my_image.jpg")
-img_b = jetson.utils.cudaAllocMapped(width=img_a.width, height=img_a.height, format=img_a.format)
+img_a = loadImage("my_image.jpg")
+img_b = cudaImage(like=img_a)  # short for specifying width, height, format
 
 # copy the image (dst, src)
-jetson.utils.cudaMemcpy(img_b, img_a)
+cudaMemcpy(img_b, img_a)
 
-# or you can use this shortcut, which will make a duplicate
-img_c = jetson.utils.cudaMemcpy(img_a)
+# or you can use this shortcut, which will return a duplicate
+img_c = cudaMemcpy(img_a)
 ```
 
 #### C++
@@ -163,10 +165,12 @@ if( CUDA_FAILED(cudaMemcpy(img_b, img_a, width * height * sizeof(uchar3), cudaMe
 
 ## Image Capsules in Python
 
-When you allocate an image in Python, or capture an image from a video feed with [`videoSource.Capture()`](aux-streaming#source-code), it will return a self-contained memory capsule object (of type `<jetson.utils.cudaImage>`) that can be passed around without having to copy the underlying memory.  The `cudaImage` object has the following members:
+When you allocate an image in Python, or capture an image from a video feed with [`videoSource.Capture()`](aux-streaming#source-code), it will return a self-contained memory capsule object (of type [`<jetson_utils.cudaImage>`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#cudaImage)) that can be passed around without having to copy the underlying memory.  
+
+The [`cudaImage`](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.utils.html#cudaImage) object has the following members:
 
 ```python
-<jetson.utils.cudaImage>
+<cudaImage object>
   .ptr       # memory address (not typically used)
   .size      # size in bytes
   .shape     # (height,width,channels) tuple
@@ -180,18 +184,29 @@ When you allocate an image in Python, or capture an image from a video feed with
 
 So you can do things like `img.width` and `img.height` to access properties about the image.
 
+### Array Interfaces
+
+For zero-copy interoperability with other libraries, there exist several ways to access the `cudaImage` memory from Python: 
+
+* [Indexing images directly from Python](#accessing-image-data-in-python)
+* [Numpy `__array__` interface](#accessing-as-a-numpy-array), [`cudaToNumpy()`](#converting-to-numpy-arrays), [`cudaFromNumpy()`](#converting-from-numpy-arrays)
+* [Numba `__cuda_array_interface__`](#cuda-array-interface) (PyTorch, CuPy, PyCUDA, VPI, ect)
+* [Sharing the Memory Pointer](#sharing-the-memory-pointer)
+
+These are implemented so that the underlying memory is mapped and shared with the other libraries as to avoid memory copies.
+
 ### Accessing Image Data in Python
 
-CUDA images are also subscriptable, meaning you can index them to directly access the pixel data from the CPU:
+CUDA images are subscriptable, meaning you can index them to directly access the pixel data from the CPU:
 
 ```python
 for y in range(img.height):
-	for x in range(img.width):
-		pixel = img[y,x]    # returns a tuple, i.e. (r,g,b) for RGB formats or (r,g,b,a) for RGBA formats
-		img[y,x] = pixel    # set a pixel from a tuple (tuple length must match the number of channels)
+    for x in range(img.width):
+        pixel = img[y,x]    # returns a tuple, i.e. (r,g,b) for RGB formats or (r,g,b,a) for RGBA formats
+        img[y,x] = pixel    # set a pixel from a tuple (tuple length must match the number of channels)
 ```
 
-> **note:** the Python subscripting index operator is only available if the image was allocated in mapped ZeroCopy memory (i.e. by [`cudaAllocMapped()`](#image-allocation)).  Otherwise, the data is not accessible from the CPU, and an exception will be thrown. 
+> **note:** the Python subscripting index operator is only available if the cudaImage was allocated with `mapped=True` (which is the default).  Otherwise, the data is not accessible from the CPU, and an exception will be thrown. 
 
 The indexing tuple used to access an image may take the following forms:
 
@@ -201,21 +216,112 @@ The indexing tuple used to access an image may take the following forms:
 
 Although image subscripting is supported, individually accessing each pixel of a large image isn't recommended to do from Python, as it will significantly slow down the application.  Assuming that a GPU implementation isn't available, a better alternative is to use Numpy.
 
-### Converting to Numpy Arrays
+### Accessing as a Numpy Array
 
-You can access a `cudaImage` memory capsule from Numpy by calling `jetson.utils.cudaToNumpy()` on it first.  The underlying memory isn't copied and Numpy will access it directly - so be aware if you change the data in-place through Numpy, it will be changed in the `cudaImage` capsule as well.
+cudaImage supports the Numpy [`__array__`](https://numpy.org/doc/stable/reference/arrays.interface.html) interface protocol, so it can be used in many Numpy functions as if it were a Numpy array without needing to copy it back and forth.  See [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-numpy.py) for a simple example:
 
-For an example of using `cudaToNumpy()`, see the [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-numpy.py) sample from jetson-utils.
+``` python
+import numpy as np
+from jetson_utils import cudaImage
 
-Note that OpenCV expects images in BGR colorspace, so if you plan on using the image with OpenCV, you should call `cv2.cvtColor()` with `cv2.COLOR_RGB2BGR` before using it in OpenCV.
+cuda_img = cudaImage(320, 240, 'rgb32f')
+array = np.ones(cuda_img.shape, np.float32)
 
-### Converting from Numpy Arrays
+print(np.add(cuda_img, array))
+```
 
-Let's say you have an image in a Numpy ndarray, perhaps provided by OpenCV.  As a Numpy array, it will only be accessible from the CPU.  You can use `jetson.utils.cudaFromNumpy()` to copy it to the GPU (into shared CPU/GPU ZeroCopy memory).  
+> **note:** Numpy runs on the CPU, so the cudaImage should have been allocated with `mapped=True` (the default) so that it's memory is accessible from both the CPU and GPU.  Any changes to it from Numpy will be reflected in the underlying cudaImage's memory.  
 
-For an example of using `cudaFromNumpy()`, see the [`cuda-from-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-numpy.py) sample from jetson-utils.
+You'll need to use the standalone [numpy routines](https://numpy.org/doc/stable/reference/routines.html) as opposed to the [ndarray class methods](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html) (e.g. use `numpy.mean(array) vs array.mean()`) because although cudaImage exports the `__array__` interface for accessing it's memory, it doesn't implement the class methods that Numpy does.  To use all of those, see the [`cudaToNumpy()`](#converting-to-numpy-arrays) function below.
 
-Note that OpenCV images are in BGR colorspace, so if the image is coming from OpenCV, you should call `cv2.cvtColor()` with `cv2.COLOR_BGR2RGB` first.
+#### Converting to Numpy Arrays
+
+You can explicitly obtain a [`numpy.ndarray`](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html) object that's mapped to a `cudaImage` by calling `cudaToNumpy()` on it:  
+
+``` python
+import numpy as np
+from jetson_utils import cudaImage, cudaToNumpy
+
+cuda_img = cudaImage(320, 240, 'rgb32f')
+array = cudaToNumpy(cuda_img)
+
+print(array.mean())
+```
+
+As before, the underlying memory isn't copied and Numpy will access it directly - so if you change the data in-place through Numpy, it will be changed in the underlying `cudaImage` as well.  For an example of using `cudaToNumpy()`, see the [`cuda-to-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-numpy.py) sample from jetson-utils.
+
+Note that if you plan on using the image with OpenCV, OpenCV expects images in BGR colorspace, so you should call [`cudaConvertColor()`](#color-conversion) first to convert it from RGB to BGR (see [`cuda-to-cv.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-cv.py) for an example of this).
+
+#### Converting from Numpy Arrays
+
+Let's say you have an image in a Numpy ndarray, perhaps provided by OpenCV - as a Numpy array, it will only be accessible from the CPU.  You can use `cudaFromNumpy()` to copy it to the GPU (into shared CPU/GPU mapped memory).  For an example, see the [`cuda-from-numpy.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-numpy.py) sample:
+
+``` python
+import numpy as np
+from jetson_utils import cudaFromNumpy
+
+array = np.zeros((240, 320, 3), dtype=np.float32)
+cuda_img = cudaFromNumpy(array)
+```
+
+Like before if you're using OpenCV, OpenCV images are in BGR colorspace, and you should call [`cudaConvertColor()`](#color-conversion) after to convert it from BGR to RGB (see [`cuda-from-cv.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-cv.py) for an example of this).
+
+### CUDA Array Interface
+
+`cudaImage` also supports Numba's [`__cuda_array_interface__`](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html), which provides zero-copy interoperability among libraries that use GPU memory (including PyTorch, CuPy, PyCUDA, VPI, and others [listed here](https://numba.readthedocs.io/en/stable/cuda/cuda_array_interface.html#interoperability)).   Similar to how `cudaImage` implements the Numpy [`__array__`](#accessing-as-a-numpy-array) interface, the `__cuda_array_interface__` is transparent to use for passing cudaImage's into Numba/PyTorch/CuPy/PyCUDA functions, and the memory is shared with these libraries so there aren't memory copies or extra overhead.
+
+For an example of this, see the code from [`cuda-array-interface.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-array-interface.py):
+
+``` python
+import cupy
+from jetson_utils import cudaImage
+
+cuda_img = cudaImage(640, 480, 'rgb8')
+cupy_array = cupy.ones((480, 640, 3))
+
+print(cupy.add(cuda_img, cupy_array))
+```
+
+> **note:** `cudaImage` also implements [PyCUDA's `gpudata` interface](https://documen.tician.de/pycuda/array.html) as well and can be used like a PyCUDA `GPUArray`.
+
+Another example can be found in [`cuda-to-pytorch.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-to-pytorch.py) for sharing memory with PyTorch tensors:
+
+``` python
+import torch
+from jetson_utils import cudaImage
+
+# allocate cuda memory
+cuda_img = cudaImage(640, 480, 'rgb8')
+
+# map to torch tensor using __cuda_array_interface__
+tensor = torch.as_tensor(cuda_img, device='cuda')
+```
+
+This enables the GPU memory from the cudaImage to be used by PyTorch GPU tensors without copying it - any changes that PyTorch makes to contents of the tensor will be reflected in the cudaImage.  Note that `device='cuda'` should be specified in order for PyTorch to perform the zero-copy mapping - you can check this by confirming that the data pointers match between the cudaImage and PyTorch tensor objects.
+
+### Sharing the Memory Pointer
+
+For libraries that don't support one of the above interfaces, cudaImage exposes the raw data pointer of it's memory through it's `.ptr` attribute, which can be used to import it into other data structures without copying it.  Conversely, the cudaImage initializer also has a `ptr` argument that can be set to an externally-allocated buffer - in this case, cudaImage will share the memory instead allocating it's own.
+
+See [`cuda-from-pytorch.py`](https://github.com/dusty-nv/jetson-utils/blob/master/python/examples/cuda-from-pytorch.py) for an example of doing this, where an existing PyTorch GPU tensor is mapped to a cudaImage:
+
+``` python
+import torch
+from jetson_utils import cudaImage
+
+# allocate a GPU tensor with NCHW layout (strided colors)
+tensor = torch.rand(1, 3, 480, 640, dtype=torch.float32, device='cuda')
+
+# transpose the channels to NHWC layout (interleaved colors)
+tensor = tensor.to(memory_format=torch.channels_last)   # or tensor.permute(0, 3, 2, 1)
+
+# map to cudaImage using the same underlying memory (any changes will be reflected in the PyTorch tensor)
+cuda_img = cudaImage(ptr=tensor.data_ptr(), width=tensor.shape[-1], height=tensor.shape[-2], format='rgb32f')
+```
+
+> **note:** be aware of NCHW [channel layout](https://pytorch.org/blog/tensor-memory-format-matters/#memory-formats-supported-by-pytorch-operators) (strided colors) vs. NHWC layout (interleaved colors), as cudaImage expects the later.
+
+When external pointers are mapped into a cudaImage, by default the cudaImage does not take ownership over the underlying memory and will not free it when the cudaImage is released (to change this, set `freeOnDelete=True` in the initializer).  Handling synchronization between libraries should be implemented by the user (e.g. so that PyTorch isn't accessing the memory at the same time that the cudaImage is used). 
 
 ## Color Conversion
 
@@ -231,16 +337,16 @@ The following Python/C++ psuedocode loads an image in RGB8, and convert it to RG
 #### Python
 
 ```python
-import jetson.utils
+import jetson_utils
 
 # load the input image (default format is rgb8)
-imgInput = jetson.utils.loadImage('my_image.jpg', format='rgb8') # default format is 'rgb8', but can also be 'rgba8', 'rgb32f', 'rgba32f'
+imgInput = jetson_utils.loadImage('my_image.jpg', format='rgb8') # default format is 'rgb8', but can also be 'rgba8', 'rgb32f', 'rgba32f'
 
 # allocate the output as rgba32f, with the same width/height as the input
-imgOutput = jetson.utils.cudaAllocMapped(width=imgInput.width, height=imgInput.height, format='rgba32f')
+imgOutput = jetson_utils.cudaAllocMapped(width=imgInput.width, height=imgInput.height, format='rgba32f')
 
 # convert from rgb8 to rgba32f (the formats used for the conversion are taken from the image capsules)
-jetson.utils.cudaConvertColor(imgInput, imgOutput)
+jetson_utils.cudaConvertColor(imgInput, imgOutput)
 ```
 
 #### C++
@@ -276,18 +382,18 @@ The [`cudaResize()`](https://github.com/dusty-nv/jetson-utils/tree/master/cuda/c
 #### Python
 
 ```python
-import jetson.utils
+import jetson_utils
 
 # load the input image
-imgInput = jetson.utils.loadImage('my_image.jpg')
+imgInput = jetson_utils.loadImage('my_image.jpg')
 
 # allocate the output, with half the size of the input
-imgOutput = jetson.utils.cudaAllocMapped(width=imgInput.width * 0.5, 
+imgOutput = jetson_utils.cudaAllocMapped(width=imgInput.width * 0.5, 
                                          height=imgInput.height * 0.5, 
                                          format=imgInput.format)
 
 # rescale the image (the dimensions are taken from the image capsules)
-jetson.utils.cudaResize(imgInput, imgOutput)
+jetson_utils.cudaResize(imgInput, imgOutput)
 ```
 
 #### C++
@@ -329,10 +435,10 @@ Note that the ROI rectangles are provided as `(left, top, right, bottom)` coordi
 #### Python
 
 ```python
-import jetson.utils
+import jetson_utils
 
 # load the input image
-imgInput = jetson.utils.loadImage('my_image.jpg')
+imgInput = jetson_utils.loadImage('my_image.jpg')
 
 # determine the amount of border pixels (cropping around the center by half)
 crop_factor = 0.5
@@ -343,12 +449,12 @@ crop_border = ((1.0 - crop_factor) * 0.5 * imgInput.width,
 crop_roi = (crop_border[0], crop_border[1], imgInput.width - crop_border[0], imgInput.height - crop_border[1])
 
 # allocate the output image, with the cropped size
-imgOutput = jetson.utils.cudaAllocMapped(width=imgInput.width * crop_factor,
+imgOutput = jetson_utils.cudaAllocMapped(width=imgInput.width * crop_factor,
                                          height=imgInput.height * crop_factor,
                                          format=imgInput.format)
 
 # crop the image to the ROI
-jetson.utils.cudaCrop(imgInput, imgOutput, crop_roi)
+jetson_utils.cudaCrop(imgInput, imgOutput, crop_roi)
 ```
 
 #### C++
@@ -397,16 +503,16 @@ The following Python/C++ psuedocode loads an image, and normalizes it from `[0,2
 #### Python
 
 ```python
-import jetson.utils
+import jetson_utils
 
 # load the input image (its pixels will be in the range of 0-255)
-imgInput = jetson.utils.loadImage('my_image.jpg')
+imgInput = jetson_utils.loadImage('my_image.jpg')
 
 # allocate the output image, with the same dimensions as input
-imgOutput = jetson.utils.cudaAllocMapped(width=imgInput.width, height=imgInput.height, format=imgInput.format)
+imgOutput = jetson_utils.cudaAllocMapped(width=imgInput.width, height=imgInput.height, format=imgInput.format)
 
 # normalize the image from [0,255] to [0,1]
-jetson.utils.cudaNormalize(imgInput, (0,255), imgOutput, (0,1))
+jetson_utils.cudaNormalize(imgInput, (0,255), imgOutput, (0,1))
 ```
 
 #### C++
@@ -445,20 +551,20 @@ The following Python/C++ psuedocode loads two images, and composts them together
 #### Python
 
 ```python
-import jetson.utils
+import jetson_utils
 
 # load the input images
-imgInputA = jetson.utils.loadImage('my_image_a.jpg')
-imgInputB = jetson.utils.loadImage('my_image_b.jpg')
+imgInputA = jetson_utils.loadImage('my_image_a.jpg')
+imgInputB = jetson_utils.loadImage('my_image_b.jpg')
 
 # allocate the output image, with dimensions to fit both inputs side-by-side
-imgOutput = jetson.utils.cudaAllocMapped(width=imgInputA.width + imgInputB.width, 
+imgOutput = jetson_utils.cudaAllocMapped(width=imgInputA.width + imgInputB.width, 
                                          height=max(imgInputA.height, imgInputB.height),
                                          format=imgInputA.format)
 
 # compost the two images (the last two arguments are x,y coordinates in the output image)
-jetson.utils.cudaOverlay(imgInputA, imgOutput, 0, 0)
-jetson.utils.cudaOverlay(imgInputB, imgOutput, imgInputA.width, 0)
+jetson_utils.cudaOverlay(imgInputA, imgOutput, 0, 0)
+jetson_utils.cudaOverlay(imgInputB, imgOutput, imgInputA.width, 0)
 ```
 
 #### C++
@@ -505,16 +611,16 @@ Below are simple Python and C++ psuedocode for using them - see [`cuda-examples.
 
 ``` python
 # load the input image
-input = jetson.utils.loadImage("my_image.jpg")
+input = jetson_utils.loadImage("my_image.jpg")
 
 # cudaDrawCircle(input, (cx,cy), radius, (r,g,b,a), output=None)
-jetson.utils.cudaDrawCircle(input, (50,50), 25, (0,255,127,200))
+jetson_utils.cudaDrawCircle(input, (50,50), 25, (0,255,127,200))
 
 # cudaDrawRect(input, (left,top,right,bottom), (r,g,b,a), output=None)
-jetson.utils.cudaDrawRect(input, (200,25,350,250), (255,127,0,200))
+jetson_utils.cudaDrawRect(input, (200,25,350,250), (255,127,0,200))
 
 # cudaDrawLine(input, (x1,y1), (x2,y2), (r,g,b,a), line_width, output=None)
-jetson.utils.cudaDrawLine(input, (25,150), (325,15), (255,0,200,200), 10)
+jetson_utils.cudaDrawLine(input, (25,150), (325,15), (255,0,200,200), 10)
 ```
 
 > **note:** if the optional `output` image isn't specified, the operation will be performed in-place on the `input` image.

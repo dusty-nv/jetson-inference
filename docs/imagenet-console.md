@@ -108,7 +108,7 @@ $ ./imagenet-console --network=resnet-18 jellyfish.jpg output_jellyfish.jpg
 $ ./imagenet-console.py --network=resnet-18 jellyfish.jpg output_jellyfish.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_jellyfish.jpg" width="650">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/docs/images/imagenet_jellyfish.jpg" width="650">
 
 ``` bash
 # C++
@@ -118,7 +118,7 @@ $ ./imagenet-console --network=resnet-18 stingray.jpg output_stingray.jpg
 $ ./imagenet-console.py --network=resnet-18 stingray.jpg output_stingray.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_stingray.jpg" width="650">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/docs/images/imagenet_stingray.jpg" width="650">
 
 ``` bash
 # C++
@@ -128,7 +128,7 @@ $ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
 $ ./imagenet-console.py --network=resnet-18 coral.jpg output_coral.jpg
 ```
 
-<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/python/docs/images/imagenet_coral.jpg" width="650">
+<img src="https://raw.githubusercontent.com/dusty-nv/jetson-inference/master/docs/images/imagenet_coral.jpg" width="650">
 
 Feel free to experiment with using the different models and see how their accuracies and performance differ.
 

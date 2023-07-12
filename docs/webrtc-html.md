@@ -10,9 +10,10 @@ Included in this repo are various example webapps using WebRTC that are found un
 ```
 + python/
   + www/
-    - html   # core HTML/JavaScript
-    - flask  # Flask + HTML/JavaScript
-    - dash   # Plotly Dash
+    - dash       # Plotly Dashboard
+    - html       # core HTML/JavaScript
+    - flask      # Flask + REST
+    - recognizer # interactive training
 ```
 
 Each of these demonstrate WebRTC integration with different Python-based webserver frameworks for building out your own AI-powered interactive webapps.  These generally have similar components like the following:
@@ -28,7 +29,7 @@ This first example is the simplest and highlights the core HTML/JavaScript code 
 
 ## Running the Example
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/webrtc-html.jpg" width="600">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/webrtc-html.jpg" width="600">
 
 Launching app.py will start a built-in Python webserver (which is easy to use, but isn't intended for production and can be easily changed out) along with an independent streaming thread that runs the WebRTC capture/transport and inferencing code:
 
@@ -37,7 +38,7 @@ $ cd jetson-inference/python/www/html
 $ python3 app.py --classification  # see below for other DNN options
 ```
 
-> **note**: using browser webcams requires [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) to be enabled
+> **note**: receiving browser webcams requires [HTTPS/SSL](webrtc-server.md#enabling-https--ssl) to be enabled
 
 You should then be able to navigate your browser to `https://<JETSON-IP>:8050` and start the stream.  8050 is the default port used by these webapp examples, but you can change that with the `--port=N` command-line argument.  It's also configured by default for WebRTC input and output, but if you want to use a different [video input device](aux-streaming.md#input-streams), you can set that with the `--input` argument (for example, `--input=/dev/video0` for a V4L2 camera that's directly attached to your Jetson).
 
@@ -78,9 +79,8 @@ This should go in the page `<body>` to create the video player element:
 3.  Start Playback
 
 ``` javascript
-// playStream(url, videoElement) is a helper function from webrtc.js that connects the specified WebRTC stream to the video player
+// playStream() is a helper function from webrtc.js that connects the specified WebRTC stream to the video player
 // getWebSocketURL() is a helper function that makes a URL path of the form:  wss://<SERVER-IP>:8554/output
-// document.getElementById('video-player') retreives the page's video player element
 playStream(getWebsocketURL('output'), document.getElementById('video-player'));
 ```
 

@@ -196,12 +196,38 @@ function playStream(url, videoElement) {
 function sendStream(url, deviceId) {
   console.log(`sending stream ${url}  (deviceId=${deviceId})`);
 
-  connections[url] = {};
+	if( url in connections && connections[url].type == 'outbound' ) {
+		// replace the outbound stream in the existing connection
+		replaceStream(url, deviceId);
+		return false;
+	}
+	else {
+		// create a new outbound connection
+		connections[url] = {};
 
-  connections[url].type = 'outbound';
-  connections[url].deviceId = deviceId;
-  connections[url].webrtcConfig = { 'iceServers': [{ 'urls': 'stun:stun.l.google.com:19302' }] };
+		connections[url].type = 'outbound';
+		connections[url].deviceId = deviceId;
+		connections[url].webrtcConfig = { 'iceServers': [{ 'urls': 'stun:stun.l.google.com:19302' }] };
 
-  connections[url].websocket = new WebSocket(url);
-  connections[url].websocket.addEventListener('message', onServerMessage);
+		connections[url].websocket = new WebSocket(url);
+		connections[url].websocket.addEventListener('message', onServerMessage);
+		
+		return true;
+	}
+}
+
+function replaceStream(url, deviceId) {
+	console.log(`replacing stream for outbound WebRTC connection to ${url}`);
+	console.log(`old device ID:  ${connections[url].deviceId}`);
+	console.log(`new device ID:  ${deviceId}`);
+	
+	var constraints = {'audio': false, 'video': { deviceId: deviceId }};
+	
+	navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+		const [videoTrack] = stream.getVideoTracks();
+		const sender = connections[url].webrtcPeer.getSenders().find((s) => s.track.kind === videoTrack.kind);
+		console.log('found sender:', sender);
+		sender.replaceTrack(videoTrack);
+		connections[url].deviceId = deviceId;
+	}).catch(reportError);
 }

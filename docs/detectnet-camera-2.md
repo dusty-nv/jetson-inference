@@ -10,6 +10,7 @@ The [`detectnet.cpp`](../examples/detectnet/detectnet.cpp) / [`detectnet.py`](..
 - MIPI CSI cameras (`csi://0`)
 - V4L2 cameras (`/dev/video0`)
 - RTP/RTSP streams (`rtsp://username:password@ip:port`)
+- WebRTC streams (`webrtc://@:port/stream_name`)
 
 For more information about video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
@@ -48,11 +49,11 @@ $ ./detectnet.py /dev/video0 output.mp4  # save to video file
 
 Displayed in the OpenGL window are the live camera stream overlayed with the bounding boxes of the detected objects.  Note that the SSD-based models currently have the highest performance.  Here is one using the `coco-dog` model:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-animals.jpg" width="800">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-ssd-animals.jpg" width="800">
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-kitchen.jpg" width="800">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-ssd-kitchen.jpg" width="800">
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-laptops.jpg" width="800">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-ssd-laptops.jpg" width="800">
 
 If the desired objects aren't being detected in the video feed or you're getting spurious detections, try decreasing or increasing the detection threshold with the `--threshold` parameter (the default is `0.5`).
 

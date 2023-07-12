@@ -1,0 +1,420 @@
+<!doctype html>
+
+<html>
+  <head>
+    {% from 'macros.html' import checkbox, slider, card_header, collapse_handler %}
+    
+    <meta charset="utf-8">
+    <title>{{ title }}</title>
+        
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    
+    <link rel="stylesheet" href="/static/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/select2.min.css">
+    
+    <script type='text/javascript' src='https://webrtc.github.io/adapter/adapter-latest.js'></script>
+    <script type='text/javascript' src='/static/webrtc.js'></script>
+    <script type='text/javascript' src='/static/rest.js'></script>
+    <script type='text/javascript' src='/static/debounce.js'></script>
+    <script type='text/javascript' src='/static/mobile.js'></script>
+    <script type='text/javascript' src="/static/jquery-3.6.3.min.js"></script>
+    <script type='text/javascript' src='/static/bootstrap.bundle.min.js'></script>
+    <script type='text/javascript' src="/static/select2.min.js"></script>
+    <script type='text/javascript'>
+      play = function() {
+        playStream(document.getElementById('play-stream').value, document.getElementById('video-player'));
+      };
+      
+      send = function() {
+        if( sendStream(getWebsocketURL('input'), document.getElementById('send-stream').value) )
+          play(); // autoplay browser stream
+      }
+      
+      window.onload = function() {
+        var playStream = document.getElementById('play-stream');
+        var sendStream = document.getElementById('send-stream');
+        var sendButton = document.getElementById('send-button');
+
+        playStream.value = getWebsocketURL('output');
+    
+        {% if send_webrtc %}
+        // populate the list of browser video devices (requires HTTPS)
+        if( checkMediaDevices() ) {
+          navigator.mediaDevices.getUserMedia({audio: false, video: true}).then((stream) => { // get permission from user
+            navigator.mediaDevices.enumerateDevices().then((devices) => {
+              stream.getTracks().forEach(track => track.stop()); // close the device opened to get permissions
+              devices.forEach((device) => {
+                if( device.kind == 'videoinput' ) {
+                  console.log(`Browser media device:  ${device.kind}  label=${device.label}  id=${device.deviceId}`);
+                  sendStream.add(new Option(device.label, device.deviceId));
+                }
+              });
+              if( sendStream.options.length == 0 ) {
+                sendStream.add(new Option('browser has no webcams available'));
+                sendButton.disabled = true;
+              }
+            });
+          }).catch(reportError);
+        }
+        else
+        {
+          sendStream.add(new Option('use HTTPS to enable browser webcam'));
+          sendButton.disabled = true;
+        }
+        {% else %}
+          // auto-play other sources, since they're already running
+          play();
+          
+          // hide the camera switching button (d-none is boostrap for display: none)
+          document.getElementById('switch-camera-div').classList.add('d-none');
+        {% endif %}
+        
+        // enable bootstrap tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        
+        // add the initial tag options
+        populateTagOptions();
+        onTagsChanged();
+        
+        // move the navbar to the bottom on mobile
+        console.log(`Browser:  ${navigator.userAgent}`);
+        console.log(`Vendor:   ${navigator.vendor}`);
+        
+        if( isMobileBrowser() ) {
+          document.getElementById('bottom-div').appendChild(document.getElementById('navbar-div'));
+        }
+      }
+    </script>
+    
+    <style type="text/css">
+      .btn-circle.btn-sm {
+        width: 30px;
+        height: 30px;
+        padding: 6px 0px;
+        border-radius: 15px;
+        font-size: 20px;
+        text-align: center;
+      }
+      .btn-circle.btn-md {
+        width: 50px;
+        height: 50px;
+        padding: 7px 10px;
+        border-radius: 25px;
+        font-size: 24px;
+        text-align: center;
+      }
+      .btn-circle.btn-xl {
+        width: 70px;
+        height: 70px;
+        padding: 10px 16px;
+        border-radius: 35px;
+        font-size: 28px;
+        text-align: center;
+      }
+    </style>
+    <style type="text/css">      
+      .select2-container--default .select2-selection--multiple, .select2-results
+      {
+        color: #222222;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div id="navbar-div">
+      <nav class="navbar navbar-expand-lg bg-primary">
+        <div class="container-fluid justify-content-center">
+          <a class="navbar-brand" href="#">{{ title }}</a>
+          
+          <!-- Switch camera button -->
+          <span id="switch-camera-div" class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="Switch camera source">
+            <button id="switch-camera-button" class="btn btn-dark btn-circle btn-md me-1 bi bi-phone-flip" type="button" onclick="onSwitchCamera()"></button>
+          </span>
+          <script type='text/javascript'>
+            function onSwitchCamera() {
+              var camera_select = document.getElementById('send-stream');
+              
+              if( camera_select == null || camera_select.options.length == 1 /*|| !hasConnectionType('outbound')*/ )
+                return;
+
+              camera_select.selectedIndex = (camera_select.selectedIndex + 1) % 2;
+              send();
+            }
+          </script>
+          
+          <!-- Record button -->
+          <span id="record-tooltip" class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="Hold to capture from camera">
+            <button id="record-button" class="btn btn-dark btn-circle btn-md me-1 bi bi-record-circle" type="button" onmousedown="onRecordClick()" onmouseup="onRecordRelease()"></button>
+          </span>
+          <script type='text/javascript'>
+            function onRecordClick() {
+              console.log('onRecordClick()');
+              rest_put('/dataset/recording', true);
+            }
+            
+            function onRecordRelease() {
+              console.log('onRecordRelease()');
+              rest_put('/dataset/recording', false, () => populateTagOptions());
+            }
+          </script>
+          
+          <!-- Upload button -->
+          <input id="upload-select" type="file" accept="image/*" multiple style="display:none" onchange="onUploadSelect()"/>
+          <span id="upload-tooltip" class="d-inline-block" data-bs-toggle="tooltip" data-bs-title="Upload image(s)">
+            <button id="upload-button" class="btn btn-dark btn-circle btn-md bi bi-upload" type="button" onclick="onUploadClick()"></button>
+          </span>
+          <script type='text/javascript'>
+            function onUploadClick() {
+              document.getElementById('upload-select').click();
+              bootstrap.Tooltip.getInstance('#upload-tooltip').hide();
+            }
+            
+            function onUploadSelect() {
+              let files = document.getElementById('upload-select').files;
+
+              for( const file of files ) {
+                console.log(`${file.name} (${file.size} bytes)`);
+                let formData = new FormData();
+                formData.set('file', file);
+                fetch('/dataset/upload', {method: 'POST', body: formData}).then(function(response) {
+                  console.log(`Uploaded ${file.name} (${file.size} bytes)`);
+                  populateTagOptions();
+                });
+              }
+              
+              bootstrap.Tooltip.getInstance('#upload-tooltip').hide();  // this tooltip likes to get stuck open
+            }
+          </script>
+          
+          <!-- Tag selection -->
+          <div class="w-25 mw-50 ms-3">
+            <select id="tag-select" class="form-control" multiple="multiple" onchange="onTagsChanged()"></select>
+          </div>
+          <script type='text/javascript'>
+            $('#tag-select').select2({
+              tags: true,
+              tokenSeparators: [',', ' '],
+              placeholder: 'Tags'
+            });
+            
+            function onTagsChanged() {
+              // change the tags that are applied to new data
+              let tags = $('#tag-select').val();
+              console.log(`onTagsChanged() => ${tags}`);
+              rest_put('/dataset/active_tags', tags.join(','));
+              
+              // toggle the use of the record & upload buttons
+              if( tags.length == 0 ) {
+                $('#record-button, #upload-button').addClass('disabled');
+                bootstrap.Tooltip.getInstance('#record-tooltip').setContent({'.tooltip-inner': 'Add/select tags first'});
+                bootstrap.Tooltip.getInstance('#upload-tooltip').setContent({'.tooltip-inner': 'Add/select tags first'});
+              }
+              else {
+                $('#record-button, #upload-button').removeClass('disabled');
+                bootstrap.Tooltip.getInstance('#record-tooltip').setContent({'.tooltip-inner': 'Hold to capture from camera'});
+                bootstrap.Tooltip.getInstance('#upload-tooltip').setContent({'.tooltip-inner': 'Upload image(s)'});
+              }
+            }
+                      
+            function populateTagOptions() {
+              rest_get('/dataset/classes').then(function(classes) {
+                $('#tag-select option').removeAttr("data-select2-tag");  // keep newly-added tags in the options when selection cleared
+                classes.forEach(function(class_name) {
+                  if( $('#tag-select').find("option[value='" + class_name + "']").length == 0 )  // only add new options
+                    $('#tag-select').append(new Option(class_name, class_name, true)); //.trigger('change');
+                })
+              });
+            }
+          </script>
+        </div>
+      </nav>
+    </div>
+    
+    <!-- Video Player -->
+    <div style="position: sticky; top: 0px; z-index: 999;">
+      <video id="video-player" autoplay controls playsinline muted>Your browser does not support video</video>
+    </div>
+    
+    <!-- Stream Controls -->
+    <div class="card" style="width: 36rem;">
+      <div class="card-body">
+        {{ card_header('stream_controls', 'Streaming', arrow='down') }}
+        <div class="collapse show" id="stream_controls">
+        {% if send_webrtc %}
+          <div class="row">
+            <label for="send-stream" class="col-2">Webcam:</label>
+            <div class="col-6">
+              <select id="send-stream" name="send-stream"></select>
+            </div>
+            <div class="col-4">
+              <button id="send-button" onclick="send()">Send</button>
+            </div>
+          </div>
+        {% else %}
+          <div class="row">
+            <label for="input-stream" class="col-2">Input:</label>
+            <div id="input-stream" class="col-10">
+              {{ input_stream }}
+            </div>
+          </div>
+        {% endif %}
+          <div class="row">
+            <label for="play-stream" class="col-2">Playback:</label>
+            <div class="col-6">
+              <input id="play-stream" name="play-stream" type="text" size="32">
+            </div>
+            <div class="col-4">
+              <button id="play-button" onclick="play()">Play</button>
+            </div>
+          </div>
+          <div class="row">
+            <label for="connection-stats-show" class="col-2">Statistics:</label>
+            <div class="col-2">
+              <input id="connection-stats-show" type="checkbox" class="form-checkbox" oninput="onConnectionStats()">
+            </div>
+            <script type='text/javascript'>
+              function onConnectionStats() {
+                var show = document.getElementById('connection-stats-show').checked;
+                document.getElementById('connection-stats').style.display = show ? null : 'none';
+              }
+            </script>
+          </div>
+          <div class="row" id="connection-stats" style="display: none">
+            <pre class="col-6" id='connection-stats-play'></pre>
+            <pre class="col-6" id='connection-stats-send'></pre>
+          </div>
+        </div>
+        {{ collapse_handler('stream_controls') }}
+      </div>
+    </div>
+    
+    <!-- Classification Controls -->
+    <div class="card" style="width: 36rem;">
+      <div class="card-body">
+        {{ card_header('classification_controls', 'Classification', classification) }}
+        <div class="collapse" id="classification_controls">
+          {{ checkbox('classification_enabled', '/classification/enabled', 'Classification Enabled') }}
+          {{ slider('classification_confidence_threshold', '/classification/confidence_threshold', 'Confidence Threshold') }}
+          {{ slider('classification_output_smoothing', '/classification/output_smoothing', 'Output Smoothing') }}
+        </div>
+        {{ collapse_handler('classification_controls') }}
+      </div>
+    </div>
+  
+    <!-- Training Controls -->
+    <div class="card" style="width: 36rem;">
+      <div class="card-body">
+        {{ card_header('training_controls', 'Training') }}
+        <div class="collapse" id="training_controls">
+          {{ checkbox('training_enabled', '/training/enabled', 'Training Enabled', label_columns=3, oninput='onTrainingEnabled()') }}
+          <div id="training_stats">
+            <div class="row">
+              <span class="col-3" id="training_epoch">Epoch</span>
+              <span class="col-9" id="training_progress"></span>
+            </div>
+            <div class="row">
+              <span class="col-3" id="training_class">Classes [0]</span>
+              <span class="col-9" id="training_classes"></span>
+            </div>
+            <div class="row">
+              <span class="col-3">Loss:</span>
+              <span class="col-9" id="training_loss"></span>
+            </div>
+            <div class="row">
+              <span class="col-3">Accuracy:</span>
+              <span class="col-9" id="training_accuracy"></span>
+            </div>
+          </div>
+          <script type='text/javascript'>
+            function onTrainingEnabled() {
+              var enabled = document.getElementById('training_enabled').checked;  
+              document.getElementById('training_stats').style.opacity = enabled ? 1.0 : 0.5;
+            }
+            
+            function updateTrainingStats() {
+              rest_get('/training/stats', quiet=true).then(function(stats) {
+                document.getElementById('training_epoch').innerHTML = `Epoch [${stats['epoch']}]`;
+                document.getElementById('training_progress').innerHTML = `${(stats['epoch_images'] / stats['num_images'] * 100).toFixed(0)}% (${stats['epoch_images']} / ${stats['num_images']} images)`;
+                document.getElementById('training_class').innerHTML = `Classes [${stats['classes'].length}]`;
+                document.getElementById('training_loss').innerHTML = `${stats['loss'].toExponential(4)}`;
+                document.getElementById('training_accuracy').innerHTML = `${stats['accuracy'].toFixed(1)}%`;
+                
+                let class_str = '';
+                
+                for( let i=0; i < stats['class_distribution'].length; i++ )
+                  class_str += `${stats['classes'][i]} (${(stats['class_distribution'][i] / stats['num_tags'] * 100).toFixed(0)}%) &nbsp;&nbsp;`;
+
+                document.getElementById('training_classes').innerHTML = class_str;
+              });
+            }
+            
+            setInterval(updateTrainingStats, 1000);            
+          </script>
+        </div>
+        {{ collapse_handler('training_controls') }}
+      </div>
+      
+      <!-- Alert Messages -->
+      <div id="bottom-div" class="fixed-bottom">
+        <div id="alert_window" class="alert mb-0" style="background-color: rgb(48,48,48); display: none">
+          <div id="alert_messages" class="d-inline-block"></div>
+          <button type="button" class="btn-close float-end align-middle d-inline-block" onclick="onHideAlerts()"></button>
+        </div>
+        
+        <script type='text/javascript'>
+          var lastAlertCheck = Date.now();
+          
+          function alertColor(level) {
+            if( level == 'success' ) return 'limegreen';
+            else if( level == 'error' ) return 'orange';
+            else if( level == 'warning' ) return 'orange';
+            else return 'rgb(200,200,200)';
+          
+          }
+          function toTimeString(timestamp) {
+            return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', hour12: true, minute: '2-digit', second: '2-digit' }).slice(0,-3); // remove AM/PM
+          }
+            
+          function onHideAlerts() {
+            $('#alert_window').fadeOut('slow', function() {
+              $(`#alert_messages pre`).remove();
+            });
+          }
+
+          function checkAlerts() {
+            const url = `/alerts?since=${lastAlertCheck}`;
+            lastAlertCheck = Date.now();
+            
+            rest_get(url, quiet=true).then(function(alerts) {
+              for( const alert of alerts ) {
+                // supress other messages from the same category that may still be showing
+                if( alert['category'].length > 0 )
+                  $(`#alert_messages .alert-category-${alert['category']}`).remove();
+                  
+                // add a new element containing the alert message, and show the window if needed
+                $('#alert_messages').append(`<pre id="alert-${alert['id']}" class="align-middle m-0 alert-category-${alert['category']}" style="color: ${alertColor(alert['level'])}">[${toTimeString(alert['time'])}] ${alert['message']}\n</pre>`);
+                $('#alert_window:hidden').fadeIn('fast');
+              
+                // automatically remove the messages (if this is the last message, hide the window too)
+                if( alert['duration'] > 0 ) {
+                  setTimeout(function() {
+                    if( $('#alert_messages pre').length > 1 ) {
+                      $(`#alert_messages #alert-${alert['id']}`).remove();
+                    }
+                    else {
+                      onHideAlerts();
+                    }
+                  }, alert['duration']);
+                }
+              }
+            });
+          }
+          
+          setInterval(checkAlerts, 1000); 
+        </script>
+      </div>
+  </body>
+</html>

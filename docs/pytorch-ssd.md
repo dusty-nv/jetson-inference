@@ -7,17 +7,15 @@
 
 Next, we'll train our own SSD-Mobilenet object detection model using PyTorch and the [Open Images](https://storage.googleapis.com/openimages/web/visualizer/index.html?set=train&type=detection&c=%2Fm%2F06l9r) dataset.  SSD-Mobilenet is a popular network architecture for realtime object detection on mobile and embedded devices that combines the [SSD-300](https://arxiv.org/abs/1512.02325) Single-Shot MultiBox Detector with a [Mobilenet](https://arxiv.org/abs/1704.04861) backbone.  
 
-<a href="https://arxiv.org/abs/1512.02325"><img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-ssd-mobilenet.jpg"></a>
+<a href="https://arxiv.org/abs/1512.02325"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-ssd-mobilenet.jpg"></a>
 
 In the example below, we'll train a custom detection model that locates 8 different varieties of fruit, although you are welcome to pick from any of the [600 classes](https://github.com/dusty-nv/pytorch-ssd/blob/master/open_images_classes.txt) in the Open Images dataset to train your model on.  You can visually browse the dataset [here](https://storage.googleapis.com/openimages/web/visualizer/index.html?set=train&type=detection).
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-fruit.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-fruit.jpg">
 
-To get started, first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6** on your Jetson.  JetPack 4.4 includes TensorRT 7.1, which is the minimum TensorRT version that supports loading SSD-Mobilenet via ONNX.  And the PyTorch training scripts used for training SSD-Mobilenet are for Python3, so PyTorch should be installed for Python 3.6.
+To get started, first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) (or newer) and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3** on your Jetson.  JetPack 4.4 includes TensorRT 7.1, which is the minimum TensorRT version that supports loading SSD-Mobilenet via ONNX.  Newer versions of TensorRT are fine too.
 
 ## Setup
-
-> **note:** first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer on your Jetson and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3.6**
 
 The PyTorch code for training SSD-Mobilenet is found in the repo under [`jetson-inference/python/training/detection/ssd`](https://github.com/dusty-nv/pytorch-ssd).  If you aren't [Running the Docker Container](aux-docker.md), there are a couple steps required before using it:
 
@@ -27,6 +25,8 @@ $ cd jetson-inference/python/training/detection/ssd
 $ wget https://nvidia.box.com/shared/static/djf5w54rjvpqocsiztzaandq1m3avr7c.pth -O models/mobilenet-v1-ssd-mp-0_675.pth
 $ pip3 install -v -r requirements.txt
 ```
+
+> **note:** first make sure that you have [JetPack 4.4](https://developer.nvidia.com/embedded/jetpack) or newer on your Jetson and [PyTorch installed](pytorch-transfer-learning.md#installing-pytorch) for **Python 3**
 
 This will download the [base model](https://nvidia.box.com/shared/static/djf5w54rjvpqocsiztzaandq1m3avr7c.pth) to `ssd/models` and install some required Python packages (these were already installed into the container).  The base model was already pre-trained on a different dataset (PASCAL VOC) so that we don't need to train SSD-Mobilenet from scratch, which would take much longer.  Instead we'll use transfer learning to fine-tune it to detect new object classes of our choosing.
 
@@ -52,7 +52,7 @@ $ python3 open_images_downloader.py --class-names "Apple,Orange,Banana,Strawberr
 2020-07-09 16:32:12 - Task Done.
 ```
 
-By default, the dataset will be downloaded to the `data/` directory under `jetson-inference/python/training/detection/ssd` (which is automatically [mounted into the container](aux-docker.md#mounted-data-volumes)), but you can change that by specifying the `--data=<PATH>` option.  Depending on the size of your dataset, it may be necessary to use external storage.  And if you download multiple datasets, you should store each dataset in their own subdirectory.
+By default, the dataset will be downloaded to the `data/` directory under `jetson-inference/python/training/detection/ssd` (which is automatically [mounted into the container](aux-docker.md#mounted-data-volumes)), but you can change that by specifying the `--data=<PATH>` option.  Depending on the size of your dataset, it may be necessary to use external storage.  And if you download multiple datasets, you should store each in their own subdirectory.
 
 ### Limiting the Amount of Data
 
@@ -151,7 +151,7 @@ Over time, you should see the loss decreasing:
 2020-07-10 13:19:26 - Saved model models/fruit/mb1-ssd-Epoch-0-Loss-5.672993580500285.pth
 ```
 
-If you want to test your model before the full number of epochs have completed training, you can press `Ctrl+C` to kill the training script, and resume it again later with the `--resume=<CHECKPOINT>` argument.  You can download the fruit model that was already trained for 100 epochs [here](https://nvidia.box.com/shared/static/gq0zlf0g2r258g3ldabl9o7vch18cxmi.gz).
+To test your model before the full number of epochs have completed training, you can press `Ctrl+C` to kill the training script, and resume it again later with the `--resume=<CHECKPOINT>` argument.  You can download the fruit model that was already trained for 100 epochs [here](https://nvidia.box.com/shared/static/gq0zlf0g2r258g3ldabl9o7vch18cxmi.gz).
 
 ## Converting the Model to ONNX
 
@@ -179,7 +179,7 @@ detectnet --model=models/fruit/ssd-mobilenet.onnx --labels=models/fruit/labels.t
 
 Below are some of the images output to the `$IMAGES/test` directory:
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/pytorch-fruit-2.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-fruit-2.jpg">
 
 ## Running the Live Camera Program
 

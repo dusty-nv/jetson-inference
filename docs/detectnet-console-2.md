@@ -1,14 +1,14 @@
 <img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/deep-vision-header.jpg" width="100%">
-<p align="right"><sup><a href="imagenet-camera-2.md">Back</a> | <a href="detectnet-camera-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
+<p align="right"><sup><a href="imagenet-tagging.md">Back</a> | <a href="detectnet-camera-2.md">Next</a> | </sup><a href="../README.md#hello-ai-world"><sup>Contents</sup></a>
 <br/>
 <sup>Object Detection</sup></s></p>
 
 # Locating Objects with DetectNet
 The previous recognition examples output class probabilities representing the entire input image.  Next we're going to focus on **object detection**, and finding where in the frame various objects are located by extracting their bounding boxes.  Unlike image classification, object detection networks are capable of detecting many different objects per frame.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet.jpg" >
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet.jpg" >
 
-The [`detectNet`](../c/detectNet.h) object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  [`detectNet`](../c/detectNet.h) is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/python/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See below for various [pre-trained detection models](#pre-trained-detection-models-available)  available for download.  The default model used is a [91-class](../data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
+The [`detectNet`](../c/detectNet.h) object accepts an image as input, and outputs a list of coordinates of the detected bounding boxes along with their classes and confidence values.  [`detectNet`](../c/detectNet.h) is available to use from [Python](https://rawgit.com/dusty-nv/jetson-inference/master/docs/html/python/jetson.inference.html#detectNet) and [C++](../c/detectNet.h).  See below for various [pre-trained detection models](#pre-trained-detection-models-available)  available for download.  The default model used is a [91-class](../data/networks/ssd_coco_labels.txt) SSD-Mobilenet-v2 model trained on the MS COCO dataset, which achieves realtime inferencing performance on Jetson with TensorRT. 
 
 As examples of using the `detectNet` class, we provide sample programs for C++ and Python:
 
@@ -40,7 +40,7 @@ $ ./detectnet --network=ssd-mobilenet-v2 images/peds_0.jpg images/test/output.jp
 $ ./detectnet.py --network=ssd-mobilenet-v2 images/peds_0.jpg images/test/output.jpg  # --network flag is optional
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-0.jpg" >
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-ssd-peds-0.jpg" >
 
 ``` bash
 # C++
@@ -50,14 +50,14 @@ $ ./detectnet images/peds_1.jpg images/test/output.jpg
 $ ./detectnet.py images/peds_1.jpg images/test/output.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-peds-1.jpg" >
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-ssd-peds-1.jpg" >
 
 > **note**:  the first time you run each model, TensorRT will take a few minutes to optimize the network. <br/>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this optimized network file is then cached to disk, so future runs using the model will load faster.
 
 Below are more detection examples output from the console programs.  The [91-class](../data/networks/ssd_coco_labels.txt) MS COCO dataset that the SSD-based models were trained on include people, vehicles, animals, and assorted types of household objects to detect.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-animals.jpg" >
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-animals.jpg" >
 
 Various images are found under `images/` for testing, such as `cat_*.jpg`, `dog_*.jpg`, `horse_*.jpg`, `peds_*.jpg`, ect. 
 
@@ -92,7 +92,7 @@ wget https://nvidia.box.com/shared/static/veuuimq6pwvd62p9fresqhrrmfqz0e2f.mp4 -
 ./detectnet.py pedestrians.mp4 images/test/pedestrians_ssd.mp4
 ```
 
-<a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
+<a href="https://www.youtube.com/watch?v=EbTyTJS9jOQ" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-ssd-pedestrians-video.jpg width="750"></a>
 
 ``` bash
 # Download test video
@@ -105,19 +105,30 @@ wget https://nvidia.box.com/shared/static/i5i81mkd9wdh4j7wx04th961zks0lfh9.avi -
 ./detectnet.py parking.avi images/test/parking_ssd.avi
 ```
 
-<a href="https://www.youtube.com/watch?v=iB86W-kloPE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/dev/docs/images/detectnet-ssd-parking-video.jpg width="585"></a>
+<a href="https://www.youtube.com/watch?v=iB86W-kloPE" target="_blank"><img src=https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/detectnet-ssd-parking-video.jpg width="585"></a>
 
 Remember that you can use the `--threshold` setting to change the detection sensitivity up or down (the default is 0.5).
 
 ### Pre-trained Detection Models Available
 
-Below is a table of the pre-trained object detection networks available for [download](building-repo-2.md#downloading-models), and the associated `--network` argument to `detectnet` used for loading the pre-trained models:
+Below is a table of the pre-trained object detection networks available to use, and the associated `--network` argument to `detectnet` used for loading the pre-trained models:
 
 | Model                   | CLI argument       | NetworkType enum   | Object classes       |
 | ------------------------|--------------------|--------------------|----------------------|
 | SSD-Mobilenet-v1        | `ssd-mobilenet-v1` | `SSD_MOBILENET_V1` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
 | SSD-Mobilenet-v2        | `ssd-mobilenet-v2` | `SSD_MOBILENET_V2` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
 | SSD-Inception-v2        | `ssd-inception-v2` | `SSD_INCEPTION_V2` | 91 ([COCO classes](../data/networks/ssd_coco_labels.txt))     |
+| TAO PeopleNet           | `peoplenet`        | `PEOPLENET`        | person, bag, face    |
+| TAO PeopleNet (pruned)  | `peoplenet-pruned` | `PEOPLENET_PRUNED` | person, bag, face    |
+| TAO DashCamNet          | `dashcamnet`       | `DASHCAMNET`       | person, car, bike, sign |
+| TAO TrafficCamNet       | `trafficcamnet`    | `TRAFFICCAMNET`    | person, car, bike, sign | 
+| TAO FaceDetect          | `facedetect`       | `FACEDETECT`       | face                 |
+
+<details>
+<summary>Legacy Detection Models</summary>
+
+| Model                   | CLI argument       | NetworkType enum   | Object classes       |
+| ------------------------|--------------------|--------------------|----------------------|
 | DetectNet-COCO-Dog      | `coco-dog`         | `COCO_DOG`         | dogs                 |
 | DetectNet-COCO-Bottle   | `coco-bottle`      | `COCO_BOTTLE`      | bottles              |
 | DetectNet-COCO-Chair    | `coco-chair`       | `COCO_CHAIR`       | chairs               |
@@ -126,10 +137,7 @@ Below is a table of the pre-trained object detection networks available for [dow
 | multiped-500            | `multiped`         | `PEDNET_MULTI`     | pedestrians, luggage |
 | facenet-120             | `facenet`          | `FACENET`          | faces                |
 
-> **note**:  to download additional networks, run the [Model Downloader](building-repo-2.md#downloading-models) tool<br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ cd jetson-inference/tools` <br/>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`$ ./download-models.sh` <br/>
-
+</details>
 
 ### Running Different Detection Models
 
@@ -212,5 +220,5 @@ Next, we'll run object detection on a live camera stream.
 ##
 <p align="right">Next | <b><a href="detectnet-camera-2.md">Running the Live Camera Detection Demo</a></b>
 <br/>
-Back | <b><a href="imagenet-camera-2.md">Running the Live Camera Recognition Demo</a></p>
+Back | <b><a href="imagenet-tagging.md">Multi-Label Classification for Image Tagging</a></p>
 </b><p align="center"><sup>© 2016-2019 NVIDIA | </sup><a href="../README.md#hello-ai-world"><sup>Table of Contents</sup></a></p>

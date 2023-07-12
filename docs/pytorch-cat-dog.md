@@ -7,7 +7,7 @@
 
 The first model that we'll be re-training is a simple model that recognizes two classes:  cat or dog.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat-dog.jpg" width="700">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-cat-dog.jpg" width="700">
 
 Provided below is an 800MB dataset that includes 5000 training images, 1000 validation images, and 200 test images, each evenly split between the cat and dog classes.  The set of training images is used for transfer learning, while the validation set is used to evaluate classification accuracy during training, and the test images are to be used by us after training completes.  The network is never directly trained on the validation and test sets, only the training set.
 
@@ -95,7 +95,7 @@ You can keep an eye on these statistics during training to gauge how well the mo
 
 On this dataset of 5000 images, training ResNet-18 takes approximately ~7-8 minutes per epoch on Jetson Nano, or around 4 hours to train the model to 35 epochs and 80% classification accuracy.  Below is a graph for analyzing the training progression of epochs versus model accuracy:
 
-<p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat-dog-training.jpg" width="700"></p>
+<p align="center"><img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-cat-dog-training.jpg" width="700"></p>
 
 At around epoch 30, the ResNet-18 model reaches 80% accuracy, and at epoch 65 it converges on 82.5% accuracy.  With additional training time, you could further improve the accuracy by increasing the size of the dataset (see the [Generating More Data](#generating-more-data-optional) section below) or by trying more complex models.
 
@@ -107,7 +107,7 @@ Note that the models are saved under `jetson-inference/python/training/classific
 
 ## Converting the Model to ONNX
 
-To run our re-trained ResNet-18 model with TensorRT for testing and realtime inference, first we need to convert the PyTorch model into <a href="https://onnx.ai/">ONNX format</a> format so that TensorRT can load it.  ONNX is an open model format that supports many of the popular ML frameworks, including PyTorch, TensorFlow, TensorRT, and others, so it simplifies transferring models between tools.
+To run our re-trained ResNet-18 model with TensorRT for testing and realtime inference, first we need to convert the PyTorch model into <a href="https://onnx.ai/">ONNX format</a> so that TensorRT can load it.  ONNX is an open model format that supports many of the popular ML frameworks, including PyTorch, TensorFlow, TensorRT, and others, so it simplifies transferring models between tools.
 
 PyTorch comes with built-in support for exporting PyTorch models to ONNX, so run the following command to convert our Cat/Dog model with the provided `onnx_export.py` script:
 
@@ -132,7 +132,7 @@ imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 
 imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/cat/01.jpg cat.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-cat.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-cat.jpg">
 
 ```bash
 # C++
@@ -142,7 +142,7 @@ imagenet --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 
 imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt $DATASET/test/dog/01.jpg dog.jpg
 ```
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-dog.jpg">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-dog.jpg">
 
 ### Processing all the Test Images
 
@@ -177,7 +177,7 @@ imagenet.py --model=$NET/resnet18.onnx --input_blob=input_0 --output_blob=output
 ```
 > **note:** for information about supported video streams and protocols, please see the [Camera Streaming and Multimedia](aux-streaming.md) page.
 
-<img src="https://github.com/dusty-nv/jetson-inference/raw/python/docs/images/pytorch-otto.jpg" width="500">
+<img src="https://github.com/dusty-nv/jetson-inference/raw/master/docs/images/pytorch-otto.jpg" width="500">
 
 ## Generating More Data (Optional)
 
