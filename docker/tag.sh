@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+ROOT="$( dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd ) )"
 
 # find L4T_VERSION
-source docker/containers/scripts/l4t_version.sh
+source $ROOT/docker/containers/jetson_containers/l4t_version.sh
 
 if [ $ARCH = "aarch64" ]; then
 	# local container tag
