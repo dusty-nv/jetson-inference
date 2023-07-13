@@ -40,17 +40,19 @@ fi
 	
 # check if ROS is to be used
 if [ -n "$ROS_DISTRO" ]; then
-	CONTAINER_IMAGE="ros:$ROS_DISTRO-pytorch-l4t-$CONTAINER_TAG"
+	IMAGE="ros:$ROS_DISTRO-pytorch-l4t-$CONTAINER_TAG"
 else
-	CONTAINER_IMAGE="jetson-inference:$CONTAINER_TAG"
+	IMAGE="jetson-inference:$CONTAINER_TAG"
 fi
 
 # CONTAINER_LOCAL_IMAGE is always the local container name
 # CONTAINER_REMOTE_IMAGE is always the container name in NGC/dockerhub
 # CONTAINER_IMAGE is either local container name (if it exists on the system) or the remote image name
-CONTAINER_LOCAL_IMAGE="$CONTAINER_IMAGE"
-CONTAINER_REMOTE_IMAGE="dustynv/$CONTAINER_LOCAL_IMAGE"
+LOCAL_IMAGE="$IMAGE"
+REMOTE_IMAGE="dustynv/$LOCAL_IMAGE"
 
 if [[ "$(sudo docker images -q $CONTAINER_LOCAL_IMAGE 2> /dev/null)" == "" ]]; then
-	CONTAINER_IMAGE=$CONTAINER_REMOTE_IMAGE
+	IMAGE=$CONTAINER_REMOTE_IMAGE
 fi
+
+echo $IMAGE

@@ -1,15 +1,28 @@
 #!/usr/bin/env bash
 #
-# Start the jetson-inference container:
+# To start the container, for example from the project root:
 #
-#   docker/run.sh [COMMAND] [ARG...]
+#   docker/run.sh
 #
-# To run it with ROS, set $ROS_DISTRO environment variable:
+# To run container with ROS included, set $ROS_DISTRO environment variable:
 #
 #   ROS_DISTRO=humble docker/run.sh
 #
-# Command-line arguments are passed through to 'docker run'
-#   https://docs.docker.com/engine/reference/commandline/run/
+# When no command-line arguments are given, the container image to run 
+# will automatically be selected by docker/tag.sh (in its $IMAGE var),
+# including pulling it from DockerHub if it hasn't been built locally.
+#
+# To specify arguments to pass through to 'docker run', you must also 
+# specify the container image (and can use docker/tag.sh if desired)
+# 
+#   source docker/tag.sh
+#   docker/run.sh --name xyz --volume my_dir:/mount $IMAGE /bin/bash
+#
+# -or-
+#
+#   IMAGE=$(docker/tag.sh) docker/run.sh --name xyz $IMAGE /bin/bash
+#
+# Args:  https://docs.docker.com/engine/reference/commandline/run/ 
 #
 ROOT="$( dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd ) )"
 
@@ -30,8 +43,10 @@ DATA_VOLUME=" \
 --volume $ROOT/$DETECTION_DIR/models:$DOCKER_ROOT/$DETECTION_DIR/models \
 --volume $ROOT/$RECOGNIZER_DIR/data:$DOCKER_ROOT/$RECOGNIZER_DIR/data "
 
-# select $CONTAINER_IMAGE
-source $ROOT/docker/tag.sh
+# select image if no container was specified 
+if [ $# -eq 0 ]; then
+	source $ROOT/docker/tag.sh
+fi
 
 # run the container
-bash $ROOT/docker/containers/run.sh $DATA_VOLUME $CONTAINER_IMAGE "$@"
+bash $ROOT/docker/containers/run.sh $DATA_VOLUME $IMAGE "$@" 
