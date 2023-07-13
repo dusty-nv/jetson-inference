@@ -13,4 +13,8 @@
 #
 ROOT="$( dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd ) )"
 
-bash $ROOT/docker/containers/build.sh $ROOT/../
+if [ $# -gt 0 ]; then
+	bash $ROOT/docker/containers/build.sh --package-dirs=$ROOT "$@"
+else
+	bash $ROOT/docker/containers/build.sh --package-dirs=$ROOT --skip-tests=intermediate jetson-inference
+fi
