@@ -28,8 +28,8 @@ if [ $ARCH = "aarch64" ]; then
 			CONTAINER_TAG="r32.7.1"
 		fi
 	elif [ $L4T_RELEASE -eq 35 ]; then
-		if [ $L4T_REVISION_MAJOR -gt 3 ]; then
-			CONTAINER_TAG="r35.3.1"
+		if [ $L4T_REVISION_MAJOR -gt 4 ]; then
+			CONTAINER_TAG="r35.4.1"
 		fi
 	fi
 
