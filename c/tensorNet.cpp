@@ -1740,6 +1740,7 @@ bool tensorNet::ProcessNetwork( bool sync )
 {
 	if( TENSORRT_VERSION_CHECK(8,4,1) && mModelType == MODEL_ONNX )
 	{
+	#if TENSORRT_VERSION_CHECK(8,4,1)
 		// on TensorRT 8.4.1 (JetPack 5.0.2 / L4T R35.1.0) and newer, this warning appears:
 		// the execute() method has been deprecated when used with engines built from a network created with NetworkDefinitionCreationFlag::kEXPLICIT_BATCH flag. Please use executeV2() instead.
 		// also, the batchSize argument passed into this function has no effect on changing the input shapes. Please use setBindingDimensions() function to change input shapes instead.
@@ -1759,6 +1760,7 @@ bool tensorNet::ProcessNetwork( bool sync )
 				return false;
 			}
 		}
+	#endif
 	}
 	else
 	{
