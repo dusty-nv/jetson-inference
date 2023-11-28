@@ -148,10 +148,12 @@ int main( int argc, char** argv )
 		float confidence = 0.0f;
 		const int class_id = net->Classify(image, input->GetWidth(), input->GetHeight(), &confidence);
 
-		if( class_id >= 0 )
+		if( class_id >= 0 ) {
 			LogVerbose("actionnet:  %2.5f%% class #%i (%s)\n", confidence * 100.0f, class_id, net->GetClassDesc(class_id));	
-		else
+    }
+		else {
 			LogError("actionnet:  failed to classify frame\n");
+    }
 
 		// overlay the results
 		if( class_id >= 0 )
@@ -194,4 +196,3 @@ int main( int argc, char** argv )
 	LogVerbose("actionnet:  shutdown complete.\n");
 	return 0;
 }
-
