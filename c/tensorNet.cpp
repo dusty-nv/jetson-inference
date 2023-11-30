@@ -612,7 +612,9 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 			nvinfer1::ITensor* tensor = blobNameToTensor->find(outputs[n].c_str());
 		
 			if( !tensor )
+			{
 				LogError(LOG_TRT "failed to retrieve tensor for Output \"%s\"\n", outputs[n].c_str());
+			}
 			else
 			{
 			#if NV_TENSORRT_MAJOR >= 4
@@ -1136,9 +1138,13 @@ bool tensorNet::LoadNetwork( const char* prototxt_path_, const char* model_path_
 		loadedPlugins = initLibNvInferPlugins(&gLogger, "");
 
 		if( !loadedPlugins )
+		{
 			LogError(LOG_TRT "failed to load NVIDIA plugins\n");
+		}
 		else
+		{
 			LogVerbose(LOG_TRT "completed loading NVIDIA plugins.\n");
+		}
 	}
 #endif
 
