@@ -286,6 +286,8 @@ function install_pytorch()
 		install_pytorch_v1120_python38_jp50
 	elif [ $pytorch_version = "2.0" ]; then
 		install_pytorch_v200_python38_jp50
+	elif [ $pytorch_version = "2.1" ]; then
+		install_pytorch_v210_python310_jp60
 	else
 		echo "$LOG invalid PyTorch version selected:  PyTorch $pytorch_version"
 		exit_message 1
@@ -661,6 +663,50 @@ function install_pytorch_v200_python38_jp50()
 	return 0
 }
 
+function install_pytorch_v210_python310_jp60()
+{
+	echo "$LOG Downloading PyTorch v2.1 (Python 3.10)..."
+
+	# install apt packages
+	install_deb_package "python3-pip" FOUND_PIP3
+	install_deb_package "qtbase5-dev" FOUND_QT5
+	install_deb_package "libjpeg-dev" FOUND_JPEG
+	install_deb_package "zlib1g-dev" FOUND_ZLIB
+	install_deb_package "libopenblas-base" FOUND_OPENBLAS
+	install_deb_package "libopenmpi-dev" FOUND_OPENMPI
+	install_deb_package "libomp-dev" FOUND_OPENMP
+	install_deb_package "ninja-build" FOUND_NINJA
+	
+	# install pip packages
+	pip3 install Cython
+	pip3 install numpy --verbose
+	pip3 install tensorboard --verbose
+	pip3 install onnx --verbose
+	
+	# install pytorch wheel
+	download_wheel pip3 "torch-2.1.0-cp310-cp310-linux_aarch64.whl" "https://nvidia.box.com/shared/static/0h6tk4msrl9xz3evft9t0mpwwwkw7a32.whl" "sudo"
+
+	local wheel_status=$?
+
+	if [ $wheel_status != 0 ]; then
+		echo "$LOG failed to install PyTorch v2.1 (Python 3.10)"
+		return 1
+	fi
+
+	# build torchvision
+	move_ffmpeg
+	echo "$LOG cloning torchvision..."
+	sudo rm -r -f torchvision-310
+	git clone -bv0.16.1 --depth=1 https://github.com/pytorch/vision torchvision-310
+	cd torchvision-310
+	echo "$LOG building torchvision for Python 3.10..."
+	sudo python3 setup.py install
+	cd ../
+	restore_ffmpeg
+
+	return 0
+}
+
 #
 # check L4T version
 #
@@ -770,8 +816,13 @@ while true; do
 		PYTORCH_VERSION="2.0"
 		PYTORCH_VERSION_TWO="1.12"
 		PYTHON_VERSION_ONE=$PYTHON3_VERSION
+	elif [[ $JETSON_L4T_RELEASE -eq 36 ]]; then
+		# JetPack 6.x
+		PYTHON3_VERSION="3.10"
+		PYTORCH_VERSION="2.1"
+		PYTHON_VERSION_ONE=$PYTHON3_VERSION
 	fi
-
+	
      if [ "$HAS_PYTHON2" = true ]; then
 		PYTHON_VERSION_ONE="2.7"
 		PYTHON_VERSION_TWO=$PYTHON3_VERSION
