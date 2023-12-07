@@ -5,7 +5,9 @@
 #
 # If you want to support another version of Python, add it here.
 #
-if(LSB_RELEASE_CODENAME MATCHES "focal")
+if(LSB_RELEASE_CODENAME MATCHES "jammy")
+	set(PYTHON_BINDING_VERSIONS 3.10)
+elseif(LSB_RELEASE_CODENAME MATCHES "focal")
 	set(PYTHON_BINDING_VERSIONS 3.8)
 else()
 	set(PYTHON_BINDING_VERSIONS 2.7 3.6 3.7)
