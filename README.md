@@ -19,8 +19,8 @@ Follow the **[Hello AI World](#hello-ai-world)** tutorial for running inference 
 * [System Requirements](#recommended-system-requirements)
 * [Change Log](CHANGELOG.md)
 
-> &gt; &nbsp; JetPack 5 is now supported, along with [Jetson Orin Nano](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/). <br/>
-> &gt; &nbsp; Recent post:  [Deploying Edge AI Web Apps](https://medium.com/@hello-ai-world/hello-ai-world-deploying-edge-ai-web-apps-on-jetson-orin-nano-88096cda3aad) (see [WebRTC](#webapp-frameworks) support) <br/>
+> &gt; &nbsp; JetPack 6 is now supported on Orin devices ([developer.nvidia.com/jetpack](https://developer.nvidia.com/embedded/jetpack)) <br/>
+> &gt; &nbsp; Check out the Generative AI and LLM tutorials on [Jetson AI Lab](https://www.jetson-ai-lab.com/)! <br/>
 > &gt; &nbsp; See the [Change Log](CHANGELOG.md) for the latest updates and new features. <br/>
 
 ## Hello AI World
@@ -240,6 +240,7 @@ The project comes with a number of pre-trained models that are available to use 
 
 * Jetson Nano Developer Kit with JetPack 4.2 or newer (Ubuntu 18.04 aarch64).  
 * Jetson Nano 2GB Developer Kit with JetPack 4.4.1 or newer (Ubuntu 18.04 aarch64).
+* Jetson Orin Nano Developer Kit with JetPack 5.0 or newer (Ubuntu 20.04 aarch64).
 * Jetson Xavier NX Developer Kit with JetPack 4.4 or newer (Ubuntu 18.04 aarch64).  
 * Jetson AGX Xavier Developer Kit with JetPack 4.0 or newer (Ubuntu 18.04 aarch64).  
 * Jetson AGX Orin Developer Kit with JetPack 5.0 or newer (Ubuntu 20.04 aarch64).
