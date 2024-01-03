@@ -17,7 +17,7 @@ For more information about video streams and protocols, please see the [Camera S
 Run the program with `--help` to see a full list of options - some of them specific to detectNet include:
 
 - `--network` flag which changes the [detection model](detectnet-console-2.md#pre-trained-detection-models-available) being used (the default is SSD-Mobilenet-v2).
-- `--overlay` flag which can be comma-separated combinations of `box`, `labels`, `conf`, and `none`
+- `--overlay` flag which can be comma-separated combinations of `box`, `labels`, `conf`, `track` and `none`
 	- The default is `--overlay=box,labels,conf` which displays boxes, labels, and confidence values
 - `--alpha` value which sets the alpha blending value used during overlay (the default is `120`).
 - `--threshold` value which sets the minimum threshold for detection (the default is `0.5`).
