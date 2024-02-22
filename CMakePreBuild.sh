@@ -44,7 +44,8 @@ $SUDO apt-get install -y --no-install-recommends \
 		libjson-glib-dev \
 		python3-pip \
 		python3-packaging \
-		qtbase5-dev
+		qtbase5-dev \
+		avahi-utils
 
 if [ $BUILD_CONTAINER = "NO" ]; then
 	# these are installed in a different step in the Dockerfile
