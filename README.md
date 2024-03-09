@@ -12,6 +12,7 @@ Follow the **[Hello AI World](#hello-ai-world)** tutorial for running inference 
 ### Table of Contents
 
 * [Hello AI World](#hello-ai-world)
+* [Jetson AI Lab](#jetson-ai-lab)
 * [Video Walkthroughs](#video-walkthroughs)
 * [API Reference](#api-reference)
 * [Code Examples](#code-examples)
