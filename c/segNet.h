@@ -196,6 +196,16 @@ public:
 	bool Process( float* input, uint32_t width, uint32_t height, const char* ignore_class="void" );
 
 	/**
+	 * Return per-pixel class probabilities, as well as number of classes and size of the output layer.
+	 * Does not perform a memory copy.
+	 * @param class_scores float pointer to destination array
+	 * @param width pointer to the variable that will hold the output layer width
+	 * @param height pointer to the variable that will hold the output layer height
+	 * @param num_classes pointer to the variable that will hold the number of classes
+	 */
+	 bool GetClassScores( float** class_scores, uint32_t* width, uint32_t* height, uint32_t* num_classes );
+  
+  /**
 	 * Produce a colorized segmentation mask.
 	 */
 	template<typename T> bool Mask( T* output, uint32_t width, uint32_t height, FilterMode filter=FILTER_LINEAR )				{ return Mask((void*)output, width, height, imageFormatFromType<T>(), filter); }
