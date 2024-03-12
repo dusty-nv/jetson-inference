@@ -471,7 +471,7 @@ int main( int argc, char** argv )
 
         if( output != NULL )
         {
-            output->Render(image, inputStream->GetWidth(), inputStream->GetHeight());
+            output->Render(image, input->GetWidth(), input->GetHeight());
 
             if( !output->IsStreaming() )  // check if the user quit
                 break;
