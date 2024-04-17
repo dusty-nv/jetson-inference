@@ -930,6 +930,12 @@ bool tensorNet::ConfigureBuilder( nvinfer1::IBuilder* builder, nvinfer1::IBuilde
 	
 	// set the default device type
 	config->setDefaultDeviceType(deviceTypeToTRT(device));
+	switch(device)
+	{
+		case deviceType::DEVICE_DLA: config->setDLACore(0); break;
+		case deviceType::DEVICE_DLA_1: config->setDLACore(1); break;
+		default: break;
+	}
 
 	if( allowGPUFallback )
 		config->setFlag(nvinfer1::BuilderFlag::kGPU_FALLBACK);
