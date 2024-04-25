@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -Wno-deprecated -Wno-deprecated-declarations -shared -Wl,-soname,libyololayer.so -o libyololayer.so CMakeFiles/yololayer.dir/yololayer_generated_yololayer.cu.o   -L/usr/local/cuda/lib64  -L/usr/lib/aarch64-linux-gnu/tegra  -Wl,-rpath,/usr/local/cuda/lib64:/usr/lib/aarch64-linux-gnu/tegra /usr/local/cuda/lib64/libcudart_static.a -ldl -lrt -lpthread 
