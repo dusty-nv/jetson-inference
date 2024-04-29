@@ -350,25 +350,19 @@ int main(int argc, char **argv)
 		// det.process(imgInput, 1920, 1080); // 22 ms
 
 		// det.getRgb(imgInput, imgOutput, 1920, 1080, 540, 540);
-		start = std::chrono::high_resolution_clock::now();
-		net.process(imgInput, 1920, 1080);				// 22 ms
-		stop = std::chrono::high_resolution_clock::now();
-		duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-		cout<<"Time taken: "<<duration.count()<<endl;
-		generateClassMap((float *)net.mOutputs[0].CUDA, net.mClassMap); // 50ms
-		CUDA(cudaDeviceSynchronize());
+		net.process(imgInput, 1920, 1080);		// 60ms 62ms(Paddle)
 
 		// nms(res, (float *)det.mBindings[1]); // 3us
 
 		// if(toggleParking==false){//30 ms
-		lane_center = net.getLaneCenter(1);
+		lane_center = net.getLaneCenter(1); //57ms
 		// cout<<"Lane center: "<<lane_center<<endl;
 		//}else if(toggleParking==true)
 		//{
 		// lane_center = net.getParkingDirection(0);
 		//}
 
-		net.getRGB(imgOutput, lane_center); // 47 ms
+		net.getRGB(imgOutput, lane_center); // 54 ms
 
 		if (output != NULL)
 		{
@@ -400,7 +394,7 @@ int main(int argc, char **argv)
 		// if(getParkingDoneCommand(fd)==true){
 		//	toggleParking = false;
 		// }
-		
+		net.PrintProfilerTimes();
 	}
 	/*
 	 * destroy resources

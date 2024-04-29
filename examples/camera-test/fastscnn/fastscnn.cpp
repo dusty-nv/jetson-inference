@@ -22,27 +22,27 @@ static inline void copyDims(Dims3 *dest, const nvinfer1::Dims *src)
 	dest->nbDims = src->nbDims;
 }
 
-static inline nvinfer1::Dims shiftDims( const nvinfer1::Dims& dims )
+static inline nvinfer1::Dims shiftDims(const nvinfer1::Dims &dims)
 {
 	// TensorRT 7.0 requires EXPLICIT_BATCH flag for ONNX models,
 	// which adds a batch dimension (4D NCHW), whereas historically
 	// 3D CHW was expected.  Remove the batch dim (it is typically 1)
 	nvinfer1::Dims out = dims;
-	
+
 	/*out.d[0] = dims.d[1];
 	out.d[1] = dims.d[2];
 	out.d[2] = dims.d[3];
 	out.d[3] = 1;*/
-	
-	if( dims.nbDims == 1 )
+
+	if (dims.nbDims == 1)
 		return out;
-	
-	for( int n=0; n < dims.nbDims; n++ )
-		out.d[n] = dims.d[n+1];
-	
-	for( int n=dims.nbDims; n < nvinfer1::Dims::MAX_DIMS; n++ )
+
+	for (int n = 0; n < dims.nbDims; n++)
+		out.d[n] = dims.d[n + 1];
+
+	for (int n = dims.nbDims; n < nvinfer1::Dims::MAX_DIMS; n++)
 		out.d[n] = 1;
-	
+
 	out.nbDims -= 1;
 	return out;
 }
@@ -54,6 +54,20 @@ FastScnn::FastScnn(const std::string &engineFilename)
 	mContext = NULL;
 	mStream = NULL;
 	mClassMap = NULL;
+
+	mProfilerQueriesUsed = 0;
+	mProfilerQueriesDone = 0;
+
+	memset(mEventsCPU, 0, sizeof(mEventsCPU));
+	memset(mEventsGPU, 0, sizeof(mEventsGPU));
+	memset(mProfilerTimes, 0, sizeof(mProfilerTimes));
+
+	/*
+	 * create events for timing
+	 */
+	for( int n=0; n < PROFILER_TOTAL * 2; n++ )
+		CUDA(cudaEventCreate(&mEventsGPU[n]));
+	
 	// De-serialize engine from file
 	std::ifstream engineFile(engineFilename, std::ios::binary);
 	if (engineFile.fail())
@@ -76,6 +90,38 @@ FastScnn::FastScnn(const std::string &engineFilename)
 	uGrid = nullptr;
 	vGrid = nullptr;
 }
+FastScnn::~FastScnn()
+{
+		if (mEngine)
+		{
+			mEngine->destroy();
+		}
+		if (mInfer)
+		{
+			mInfer->destroy();
+		}
+		if (mContext)
+		{
+			mContext->destroy();
+		}
+		if (mClassMap)
+		{
+			CUDA_FREE_HOST(mClassMap);
+		}
+
+		for( size_t n=0; n < mInputs.size(); n++ )
+		{
+			CUDA_FREE(mInputs[n].CUDA);
+		}
+		
+		for( size_t n=0; n < mOutputs.size(); n++ )
+			CUDA_FREE_HOST(mOutputs[n].CPU);
+		
+		free(mBindings);
+
+		cudaStreamDestroy(mStream);
+	}
+
 int FastScnn::initEngine()
 {
 	// Context
@@ -88,76 +134,6 @@ int FastScnn::initEngine()
 		sample::gLogger.log(nvinfer1::ILogger::Severity::kERROR, "Failed to create execution context");
 		return 0;
 	}
-	/*auto input_idx = mEngine->getBindingIndex("x");
-
-	if (input_idx == -1)
-	{
-		return false;
-	}
-	assert(mEngine->getBindingDataType(input_idx) == nvinfer1::DataType::kFLOAT);
-	auto input_dims = mContext->getBindingDimensions(input_idx);
-	mContext->setBindingDimensions(input_idx, input_dims);
-	auto input_size = sizeDims(input_dims, 1) * sizeof(float);
-
-	auto output_idx = mEngine->getBindingIndex("save_infer_model/scale_0.tmp_0");
-	if (output_idx == -1)
-	{
-		return false;
-	}
-	assert(mEngine->getBindingDataType(output_idx) == nvinfer1::DataType::kFLOAT);
-	auto output_dims = mContext->getBindingDimensions(output_idx);
-	const size_t output_size = sizeDims(output_dims, 1) * sizeof(float);
-
-	//second output
-	auto output_idx1 = mEngine->getBindingIndex("save_infer_model/scale_1.tmp_0");
-	if (output_idx1 == -1)
-	{
-		return false;
-	}
-	assert(mEngine->getBindingDataType(output_idx1) == nvinfer1::DataType::kFLOAT);
-	auto output_dims1 = mContext->getBindingDimensions(output_idx1);
-	const size_t output_size1 = sizeDims(output_dims1, 1) * sizeof(float);
-
-	if (!cudaAllocMapped((void **)&outputBindCPU1, (void **)&outputBindGPU1, output_size1))
-	{
-		LogError("Could not allocate output1 CUDA\n");
-		return false;
-	}
-	//end second output
-	void *outputCUDA = NULL;
-	void *outputCPU = NULL;
-	if (!cudaAllocMapped((void **)&outputCPU, (void **)&outputCUDA, output_size))
-	{
-		LogError("Could not allocate output CUDA\n");
-		return false;
-	}
-
-	void *inputCUDA = NULL;
-	void *inputCPU = NULL;
-	if (!cudaAllocMapped((void **)&inputCPU, (void **)&inputCUDA, input_size))
-	{
-		LogError("Could not allocate input CUDA\n");
-		return false;
-	}
-	// CUDA(cudaMemset(inputCUDA, 0, input_size));
-
-	// CUDA(cudaMemset(outputCUDA, 0, output_size));
-	if (!cudaAllocMapped((void **)&mClassMap, 1024 * 512 * sizeof(uint8_t)))
-		return false;
-
-	if (cudaStreamCreate(&mStream) != cudaSuccess)
-	{
-		gLogError << "ERROR: cuda stream creation failed." << std::endl;
-		return false;
-	}
-
-	const int bindingSize = 2 * sizeof(void *);
-	mBindings = (void **)malloc(bindingSize);
-	mBindings[0] = (float *)inputCUDA;
-	mBindings[1] = (float *)outputCUDA;
-	outputBind = (float *)outputCPU;
-	inputBind = (float *)inputCPU;
-	*/
 
 	const int numBindings = mEngine->getNbBindings();
 
@@ -166,8 +142,8 @@ int FastScnn::initEngine()
 	output_blobs.push_back("save_infer_model/scale_0.tmp_0");
 	output_blobs.push_back("save_infer_model/scale_1.tmp_0");
 	input_blobs.push_back("x");
-	//output_blobs.push_back("output");
-	//input_blobs.push_back("input");
+	// output_blobs.push_back("output");
+	// input_blobs.push_back("input");
 
 	const int numInputs = input_blobs.size();
 	int mMaxBatchSize = 1;
@@ -227,7 +203,7 @@ int FastScnn::initEngine()
 		LogVerbose("binding to output %i %s  binding index:  %i\n", n, output_blobs[n].c_str(), outputIndex);
 
 		nvinfer1::Dims outputDims = validateDims(mEngine->getBindingDimensions(outputIndex));
-		outputDims = shiftDims(outputDims);  // change NCHW to CHW if EXPLICIT_BATCH set
+		outputDims = shiftDims(outputDims); // change NCHW to CHW if EXPLICIT_BATCH set
 		const size_t outputSize = mMaxBatchSize * sizeDims(outputDims, 1) * sizeof(float);
 		LogVerbose("binding to output %i %s  dims (b=%u c=%u h=%u w=%u) size=%zu\n", n, output_blobs[n].c_str(), mMaxBatchSize, DIMS_C(outputDims), DIMS_H(outputDims), DIMS_W(outputDims), outputSize);
 
@@ -276,13 +252,13 @@ int FastScnn::initEngine()
 		mBindings[mOutputs[n].binding] = mOutputs[n].CUDA;
 
 	// find unassigned bindings and allocate them
-	printf("numBindings: %d",numBindings);
+	printf("numBindings: %d", numBindings);
 	for (uint32_t n = 0; n < numBindings; n++)
 	{
 		if (mBindings[n] != NULL)
 			continue;
 
-		const size_t bindingSize = sizeDims(validateDims(mEngine->getBindingDimensions(n)),1) * mMaxBatchSize * sizeof(float);
+		const size_t bindingSize = sizeDims(validateDims(mEngine->getBindingDimensions(n)), 1) * mMaxBatchSize * sizeof(float);
 
 		if (CUDA_FAILED(cudaMalloc(&mBindings[n], bindingSize)))
 		{
@@ -367,44 +343,23 @@ bool FastScnn::infer()
 	}
 	return true;
 }
+//cudaEvent_t start, stop;
 bool FastScnn::process(uchar3 *image, uint32_t width, uint32_t height)
 {
-	warpImageK(image, (float *)mInputs[0].CUDA, uGrid, vGrid, width, height);
-	// cudaDeviceSynchronize();
+	PROFILER_BEGIN(PROFILER_PREPROCESS);
+	warpImageK(image, (float *)mInputs[0].CUDA, uGrid, vGrid, width, height); // 3ms
+	PROFILER_END(PROFILER_PREPROCESS);
+	PROFILER_BEGIN(PROFILER_NETWORK);
 	if (!infer())
 		return false;
+	PROFILER_END(PROFILER_NETWORK);
+
+	PROFILER_BEGIN(PROFILER_POSTPROCESS);
+	generateClassMap((float *)mOutputs[0].CUDA, mClassMap); // 1ms
+	PROFILER_END(PROFILER_POSTPROCESS);
+	CUDA(cudaDeviceSynchronize());
+
 	return true;
-}
-void FastScnn::toInputBinding(float3 *image_data)
-{
-	int width = 1024;
-	int height = 512;
-	int num_pixels = width * height;
-	float *flat_array = new float[num_pixels * 3];
-
-	int channel_size = num_pixels;
-
-	// Normalize the image and arrange in NCHW format
-	for (int i = 0; i < num_pixels; ++i)
-	{
-		// flat_array[i] = image_data[i].x;					   // R channel
-		// flat_array[i + channel_size] = image_data[i].y;	   // G channel
-		// flat_array[i + 2 * channel_size] = image_data[i].z; // B channel
-	}
-
-	// Copy data to the TensorRT engine's input binding
-	cudaMemcpyAsync(mBindings[0], flat_array, num_pixels * 3 * sizeof(float), cudaMemcpyHostToDevice, mStream);
-
-	// Cleanup
-	delete[] flat_array;
-
-	cudaStreamSynchronize(mStream);
-}
-void FastScnn::toInput(float *arr)
-{
-	cudaMemcpyAsync(mBindings[0], arr, 1024 * 512 * 3 * sizeof(float), cudaMemcpyHostToDevice, mStream);
-
-	cudaStreamSynchronize(mStream);
 }
 
 bool FastScnn::classify()
@@ -446,6 +401,7 @@ bool FastScnn::classify()
 }
 bool FastScnn::getRGB(pixelType *img, int middle_lane_x)
 {
+	PROFILER_BEGIN(PROFILER_VISUALIZE);
 	for (uint32_t y = 0; y < OUT_IMG_H; y++)
 	{
 		for (uint32_t x = 0; x < OUT_IMG_W; x++)
@@ -495,6 +451,7 @@ bool FastScnn::getRGB(pixelType *img, int middle_lane_x)
 			}
 		}
 	}
+	PROFILER_END(PROFILER_VISUALIZE);
 }
 
 void FastScnn::loopThroughClassmap(std::vector<int> &y_vals_lane, std::vector<int> &x_vals_lane, int classidx)

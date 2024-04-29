@@ -417,6 +417,7 @@ CMakeFiles/camera-test.dir/camera-test.cpp.o: \
  /usr/local/include/jetson-utils/cudaMappedMemory.h \
  /home/jeet/ideas/jetson-inference/examples/camera-test/yolo/kernel.h \
  /home/jeet/ideas/jetson-inference/examples/camera-test/fastscnn/fastscnn.h \
+ /usr/local/include/jetson-utils/timespec.h \
  /home/jeet/ideas/jetson-inference/examples/camera-test/fastscnn/../util/logger.h \
  /home/jeet/ideas/jetson-inference/examples/camera-test/fastscnn/../util/utils.h \
  /home/jeet/ideas/jetson-inference/examples/camera-test/fastscnn/../ipm.h \
