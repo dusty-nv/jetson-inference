@@ -16,9 +16,6 @@ endif()
 find_package(jetson-utils)
 find_package(jetson-inference)
 
-# find VPI package (optional)
-#find_package(VPI 2.0)
-
 # CUDA is required
 find_package(CUDA)
 find_package( OpenCV REQUIRED )
@@ -26,12 +23,20 @@ include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 # add directory for libnvbuf-utils to program
 link_directories(/usr/lib/aarch64-linux-gnu/tegra)
-include_directories(util yolo fastscnn)
+include_directories(util modules/perception modules/perception/yolo modules/perception/fastscnn)
 
-cuda_add_library(yololayer SHARED ${PROJECT_SOURCE_DIR}/yololayer.cu)
+cuda_add_library(yololayer SHARED ${PROJECT_SOURCE_DIR}/modules/perception/yolo/yololayer.cu)
 
 # compile the my-recognition program
-cuda_add_executable(camera-test camera-test.cpp util/logger.cpp ipm.cu argmax.cu yolo/yolov3.cpp util/utils.cpp yololayer.cu yolo/kernel.cu fastscnn/fastscnn.cpp)
+cuda_add_executable(camera-test camera-test.cpp 
+                                util/logger.cpp
+                                util/utils.cpp 
+                                modules/perception/ipm.cu 
+                                modules/perception/fastscnn/argmax.cu 
+                                modules/perception/yolo/yolov3.cpp 
+                                modules/perception/yolo/yololayer.cu 
+                                modules/perception/yolo/kernel.cu 
+                                modules/perception/fastscnn/fastscnn.cpp)
 
 # link my-recognition to jetson-inference library
 target_link_libraries(camera-test jetson-inference ${OpenCV_LIBS} yololayer nvinfer cudart)

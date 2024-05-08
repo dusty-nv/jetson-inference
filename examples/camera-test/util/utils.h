@@ -8,12 +8,9 @@
 #include <termios.h> // Terminal control
 #include <unistd.h>  // UNIX standard
 #include <cstring>   // For string functions
-#include "../yololayer.h"
+#include "yololayer.h"
 
 using namespace cv;
-
-size_t sizeDims(const nvinfer1::Dims &dims, const size_t elementSize);
-Mat floatToMat(float* inputImg, int width, int height);
 
 int open_uart(const char* port, int baud_rate);
 bool write_uart(int fd, const char* data);

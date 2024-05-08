@@ -58,18 +58,18 @@ endif()
 
 # Set these up as variables to make reading the generated file easier
 set(CMAKE_COMMAND "/usr/local/bin/cmake") # path
-set(source_file "/home/jeet/ideas/jetson-inference/examples/camera-test/ipm.cu") # path
-set(NVCC_generated_dependency_file "/home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir//camera-test_generated_ipm.cu.o.NVCC-depend") # path
-set(cmake_dependency_file "/home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir//camera-test_generated_ipm.cu.o.depend") # path
+set(source_file "/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/ipm.cu") # path
+set(NVCC_generated_dependency_file "/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir//camera-test_generated_ipm.cu.o.NVCC-depend") # path
+set(cmake_dependency_file "/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir//camera-test_generated_ipm.cu.o.depend") # path
 set(CUDA_make2cmake "/usr/local/share/cmake-3.27/Modules/FindCUDA/make2cmake.cmake") # path
 set(CUDA_parse_cubin "/usr/local/share/cmake-3.27/Modules/FindCUDA/parse_cubin.cmake") # path
 set(build_cubin OFF) # bool
 set(CUDA_HOST_COMPILER "/usr/bin/cc") # path
 # We won't actually use these variables for now, but we need to set this, in
 # order to force this file to be run again if it changes.
-set(generated_file_path "/home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir//.") # path
-set(generated_file_internal "/home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir//./camera-test_generated_ipm.cu.o") # path
-set(generated_cubin_file_internal "/home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir//./camera-test_generated_ipm.cu.o.cubin.txt") # path
+set(generated_file_path "/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir//.") # path
+set(generated_file_internal "/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir//./camera-test_generated_ipm.cu.o") # path
+set(generated_cubin_file_internal "/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir//./camera-test_generated_ipm.cu.o.cubin.txt") # path
 
 set(CUDA_NVCC_EXECUTABLE "/usr/local/cuda/bin/nvcc") # path
 set(CUDA_NVCC_FLAGS  ;; ) # list
@@ -79,7 +79,7 @@ set(CUDA_NVCC_FLAGS_MINSIZEREL  ; )
 set(CUDA_NVCC_FLAGS_RELEASE  ; )
 set(CUDA_NVCC_FLAGS_RELWITHDEBINFO  ; )
 set(nvcc_flags -m64) # list
-set(CUDA_NVCC_INCLUDE_DIRS [==[/usr/local/cuda/include;/usr/include/opencv4;/home/jeet/ideas/jetson-inference/examples/camera-test/util;/home/jeet/ideas/jetson-inference/examples/camera-test/yolo;/home/jeet/ideas/jetson-inference/examples/camera-test/fastscnn;/usr/local/cuda/include;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4]==]) # list (needs to be in lua quotes to address backslashes)
+set(CUDA_NVCC_INCLUDE_DIRS [==[/usr/local/cuda/include;/usr/include/opencv4;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn;/usr/local/cuda/include;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4;/usr/include/opencv4]==]) # list (needs to be in lua quotes to address backslashes)
 string(REPLACE "\\" "/" CUDA_NVCC_INCLUDE_DIRS "${CUDA_NVCC_INCLUDE_DIRS}")
 set(CUDA_NVCC_COMPILE_DEFINITIONS [==[]==]) # list (needs to be in lua quotes see #16510 ).
 set(format_flag "-c") # string

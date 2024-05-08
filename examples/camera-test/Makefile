@@ -57,10 +57,10 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jeet/ideas/jetson-inference/examples/camera-test
+CMAKE_SOURCE_DIR = /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jeet/ideas/jetson-inference/examples/camera-test
+CMAKE_BINARY_DIR = /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles /home/jeet/ideas/jetson-inference/examples/camera-test//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -166,29 +166,53 @@ camera-test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/camera-test.cpp.s
 .PHONY : camera-test.cpp.s
 
-fastscnn/fastscnn.o: fastscnn/fastscnn.cpp.o
-.PHONY : fastscnn/fastscnn.o
+modules/perception/fastscnn/fastscnn.o: modules/perception/fastscnn/fastscnn.cpp.o
+.PHONY : modules/perception/fastscnn/fastscnn.o
 
 # target to build an object file
-fastscnn/fastscnn.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/fastscnn/fastscnn.cpp.o
-.PHONY : fastscnn/fastscnn.cpp.o
+modules/perception/fastscnn/fastscnn.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.o
+.PHONY : modules/perception/fastscnn/fastscnn.cpp.o
 
-fastscnn/fastscnn.i: fastscnn/fastscnn.cpp.i
-.PHONY : fastscnn/fastscnn.i
+modules/perception/fastscnn/fastscnn.i: modules/perception/fastscnn/fastscnn.cpp.i
+.PHONY : modules/perception/fastscnn/fastscnn.i
 
 # target to preprocess a source file
-fastscnn/fastscnn.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/fastscnn/fastscnn.cpp.i
-.PHONY : fastscnn/fastscnn.cpp.i
+modules/perception/fastscnn/fastscnn.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.i
+.PHONY : modules/perception/fastscnn/fastscnn.cpp.i
 
-fastscnn/fastscnn.s: fastscnn/fastscnn.cpp.s
-.PHONY : fastscnn/fastscnn.s
+modules/perception/fastscnn/fastscnn.s: modules/perception/fastscnn/fastscnn.cpp.s
+.PHONY : modules/perception/fastscnn/fastscnn.s
 
 # target to generate assembly for a file
-fastscnn/fastscnn.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/fastscnn/fastscnn.cpp.s
-.PHONY : fastscnn/fastscnn.cpp.s
+modules/perception/fastscnn/fastscnn.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.s
+.PHONY : modules/perception/fastscnn/fastscnn.cpp.s
+
+modules/perception/yolo/yolov3.o: modules/perception/yolo/yolov3.cpp.o
+.PHONY : modules/perception/yolo/yolov3.o
+
+# target to build an object file
+modules/perception/yolo/yolov3.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.o
+.PHONY : modules/perception/yolo/yolov3.cpp.o
+
+modules/perception/yolo/yolov3.i: modules/perception/yolo/yolov3.cpp.i
+.PHONY : modules/perception/yolo/yolov3.i
+
+# target to preprocess a source file
+modules/perception/yolo/yolov3.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.i
+.PHONY : modules/perception/yolo/yolov3.cpp.i
+
+modules/perception/yolo/yolov3.s: modules/perception/yolo/yolov3.cpp.s
+.PHONY : modules/perception/yolo/yolov3.s
+
+# target to generate assembly for a file
+modules/perception/yolo/yolov3.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.s
+.PHONY : modules/perception/yolo/yolov3.cpp.s
 
 util/logger.o: util/logger.cpp.o
 .PHONY : util/logger.o
@@ -238,30 +262,6 @@ util/utils.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/util/utils.cpp.s
 .PHONY : util/utils.cpp.s
 
-yolo/yolov3.o: yolo/yolov3.cpp.o
-.PHONY : yolo/yolov3.o
-
-# target to build an object file
-yolo/yolov3.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/yolo/yolov3.cpp.o
-.PHONY : yolo/yolov3.cpp.o
-
-yolo/yolov3.i: yolo/yolov3.cpp.i
-.PHONY : yolo/yolov3.i
-
-# target to preprocess a source file
-yolo/yolov3.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/yolo/yolov3.cpp.i
-.PHONY : yolo/yolov3.cpp.i
-
-yolo/yolov3.s: yolo/yolov3.cpp.s
-.PHONY : yolo/yolov3.s
-
-# target to generate assembly for a file
-yolo/yolov3.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/yolo/yolov3.cpp.s
-.PHONY : yolo/yolov3.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -275,18 +275,18 @@ help:
 	@echo "... camera-test.o"
 	@echo "... camera-test.i"
 	@echo "... camera-test.s"
-	@echo "... fastscnn/fastscnn.o"
-	@echo "... fastscnn/fastscnn.i"
-	@echo "... fastscnn/fastscnn.s"
+	@echo "... modules/perception/fastscnn/fastscnn.o"
+	@echo "... modules/perception/fastscnn/fastscnn.i"
+	@echo "... modules/perception/fastscnn/fastscnn.s"
+	@echo "... modules/perception/yolo/yolov3.o"
+	@echo "... modules/perception/yolo/yolov3.i"
+	@echo "... modules/perception/yolo/yolov3.s"
 	@echo "... util/logger.o"
 	@echo "... util/logger.i"
 	@echo "... util/logger.s"
 	@echo "... util/utils.o"
 	@echo "... util/utils.i"
 	@echo "... util/utils.s"
-	@echo "... yolo/yolov3.o"
-	@echo "... yolo/yolov3.i"
-	@echo "... yolo/yolov3.s"
 .PHONY : help
 
 

@@ -54,10 +54,10 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jeet/ideas/jetson-inference/examples/camera-test
+CMAKE_SOURCE_DIR = /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jeet/ideas/jetson-inference/examples/camera-test
+CMAKE_BINARY_DIR = /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -83,14 +83,14 @@ clean: CMakeFiles/camera-test.dir/clean
 CMakeFiles/yololayer.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/yololayer.dir/build.make CMakeFiles/yololayer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/yololayer.dir/build.make CMakeFiles/yololayer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles --progress-num=12,13 "Built target yololayer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles --progress-num=12,13 "Built target yololayer"
 .PHONY : CMakeFiles/yololayer.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/yololayer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/yololayer.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles 0
 .PHONY : CMakeFiles/yololayer.dir/rule
 
 # Convenience name for target.
@@ -109,14 +109,14 @@ CMakeFiles/yololayer.dir/clean:
 CMakeFiles/camera-test.dir/all: CMakeFiles/yololayer.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera-test.dir/build.make CMakeFiles/camera-test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11 "Built target camera-test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11 "Built target camera-test"
 .PHONY : CMakeFiles/camera-test.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/camera-test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles 13
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/camera-test.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles 0
 .PHONY : CMakeFiles/camera-test.dir/rule
 
 # Convenience name for target.

@@ -1,4 +1,4 @@
-/home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles/yololayer.dir
-/home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir
-/home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles/edit_cache.dir
-/home/jeet/ideas/jetson-inference/examples/camera-test/CMakeFiles/rebuild_cache.dir
+/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles/yololayer.dir
+/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles/camera-test.dir
+/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles/edit_cache.dir
+/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles/rebuild_cache.dir

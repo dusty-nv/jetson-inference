@@ -1,8 +1,8 @@
 CMakeFiles/camera-test.dir/util/logger.cpp.o: \
- /home/jeet/ideas/jetson-inference/examples/camera-test/util/logger.cpp \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/logger.cpp \
  /usr/include/stdc-predef.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/util/logger.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/util/logging.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/logger.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/logging.h \
  /usr/include/aarch64-linux-gnu/NvInferRuntimeCommon.h \
  /usr/include/aarch64-linux-gnu/NvInferVersion.h \
  /usr/include/c++/7/cstddef \

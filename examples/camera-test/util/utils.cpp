@@ -1,26 +1,5 @@
 #include "utils.h"
 
-size_t sizeDims(const nvinfer1::Dims &dims, const size_t elementSize=1)
-{
-    size_t sz = dims.d[0];
-
-    for (int n = 1; n < dims.nbDims; n++)
-        sz *= dims.d[n];
-
-    return sz * elementSize;
-}
-Mat floatToMat(float *inputImg, int width, int height)
-{
-    Mat out(height, width, CV_8UC3, cv::Scalar(0, 0, 0));
-    for (int i = 0; i < width * height; i++)
-    {
-        out.at<cv::Vec3b>(i)[0] = inputImg[i] * 255;
-        out.at<cv::Vec3b>(i)[1] = inputImg[i + width * height] * 255;
-        out.at<cv::Vec3b>(i)[2] = inputImg[i + 2 * width * height] * 255;
-    }
-    return out;
-}
-
 int open_uart(const char *port, int baud_rate)
 {
     int fd = open(port, O_RDWR | O_NOCTTY | O_NDELAY);

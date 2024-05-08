@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/yololayer.dir/yololayer_generated_yololayer.cu.o"
+  "CMakeFiles/yololayer.dir/modules/perception/yolo/yololayer_generated_yololayer.cu.o"
   "libyololayer.pdb"
   "libyololayer.so"
 )

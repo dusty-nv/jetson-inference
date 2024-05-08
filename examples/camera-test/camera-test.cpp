@@ -32,8 +32,8 @@
 
 #include "util/utils.h"
 
-#include "yolo/yolov3.h"
-#include "fastscnn/fastscnn.h"
+#include "yolov3.h"
+#include "fastscnn.h"
 
 #define IMG_OUT_W 1024
 #define IMG_OUT_H 512
@@ -127,92 +127,6 @@ cv::Rect get_rect(cv::Mat &img, float bbox[4])
 		b = b / r_h;
 	}
 	return cv::Rect(l, t, r - l, b - t);
-}
-bool saveArray(uint8_t *arr, const char *filename)
-{
-	std::ofstream outfile(filename, std::ios::binary | std::ios::out);
-
-	if (!outfile.is_open())
-	{
-		std::cout << "Could not open file for writing." << std::endl;
-		return false;
-	}
-
-	outfile.write(reinterpret_cast<char *>(arr), 1 * 512 * 1024 * sizeof(uint8_t));
-	outfile.close();
-	return true;
-}
-
-bool readArray(float *arr, const char *filename)
-{
-	ifstream infile(filename, ios::binary);
-	if (!infile || arr == nullptr)
-	{
-		cout << "Cant open file\n";
-		return false;
-	}
-	float temp;
-	for (int j = 0; j < 3 * 512 * 1024; j++)
-	{
-		infile.read((char *)&temp, sizeof(float));
-		arr[j] = temp;
-	}
-	infile.close();
-	return false;
-}
-
-bool matToUchar3(Mat img, uchar3 *out, int width, int height)
-{
-	if (out == NULL)
-	{
-		return false;
-	}
-	for (int i = 0; i < height; i++)
-	{
-		Vec3b *row_ptr = img.ptr<Vec3b>(i);
-		for (int j = 0; j < width; j++)
-		{
-			out[i * width + j].x = (unsigned char)row_ptr[j][0];
-			out[i * width + j].y = (unsigned char)row_ptr[j][1];
-			out[i * width + j].z = (unsigned char)row_ptr[j][2];
-		}
-	}
-}
-bool ucharToMat(uchar3 *img, Mat out, int width, int height)
-{
-	if (img == NULL)
-	{
-		return false;
-	}
-	for (int i = 0; i < height; i++)
-	{
-		for (int j = 0; j < width; j++)
-		{
-			out.at<Vec3b>(i, j)[0] = img[i * width + j].x;
-			out.at<Vec3b>(i, j)[1] = img[i * width + j].y;
-			out.at<Vec3b>(i, j)[2] = img[i * width + j].z;
-		}
-	}
-}
-void saveClassMap(uint8_t *classMap, int rows, int cols, const char *filename)
-{
-	std::ofstream outfile(filename, std::ios::binary);
-
-	if (!outfile)
-	{
-		std::cerr << "Cannot open file.\n";
-		return;
-	}
-
-	for (int i = 0; i < rows; ++i)
-	{
-		for (int j = 0; j < cols; ++j)
-		{
-			outfile.write((char *)&classMap[i * cols + j], sizeof(uint8_t));
-		}
-	}
-
-	outfile.close();
 }
 
 void sig_handler(int signo)
@@ -326,16 +240,10 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	// Init performance metrics
-
-	auto start = std::chrono::high_resolution_clock::now();
-	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-
 	int lane_center = -1;
 	while (!signal_recieved)
 	{
-		
+
 		std::vector<Yolo::Detection> res;
 		pixelType *imgInput = NULL;
 		int status = 0;
@@ -350,12 +258,12 @@ int main(int argc, char **argv)
 		// det.process(imgInput, 1920, 1080); // 22 ms
 
 		// det.getRgb(imgInput, imgOutput, 1920, 1080, 540, 540);
-		net.process(imgInput, 1920, 1080);		// 60ms 62ms(Paddle)
+		net.process(imgInput, 1920, 1080); // 60ms 62ms(Paddle)
 
 		// nms(res, (float *)det.mBindings[1]); // 3us
 
-		// if(toggleParking==false){//30 ms
-		lane_center = net.getLaneCenter(1); //57ms
+		// if(toggleParking==false){
+		lane_center = net.getLaneCenter(1); // 57ms
 		// cout<<"Lane center: "<<lane_center<<endl;
 		//}else if(toggleParking==true)
 		//{
@@ -376,24 +284,18 @@ int main(int argc, char **argv)
 			if (!output->IsStreaming())
 				break;
 		}
-		// lane_center = 560;
-		#if UNITY_ENVIRONMENT==1
-			const char* message = std::__cxx11::to_string(lane_center).c_str();
-			send(clientSocket, message, strlen(message), 0);
-		#elif UNITY_ENVIRONMENT==2
+
+#if UNITY_ENVIRONMENT == 1
+		const char *message = std::__cxx11::to_string(lane_center).c_str();
+		send(clientSocket, message, strlen(message), 0);
+#elif UNITY_ENVIRONMENT == 2
 		bool uartStatus = sendMetaData(fd, lane_center, res);
 
 		if (uartStatus == false)
 		{
 			LogError("Ideas: uart failed to send\n");
 		}
-		#endif
-		// if(getParkCommand(fd)==true){
-		//	toggleParking = true;
-		// }
-		// if(getParkingDoneCommand(fd)==true){
-		//	toggleParking = false;
-		// }
+#endif
 		net.PrintProfilerTimes();
 	}
 	/*
@@ -405,7 +307,6 @@ int main(int argc, char **argv)
 #elif UNITY_ENVIRONMENT == 2
 	close(fd);
 #endif
-	// reader_thread.join();
 	SAFE_DELETE(input);
 	SAFE_DELETE(output);
 

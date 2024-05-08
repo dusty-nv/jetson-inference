@@ -1,7 +1,7 @@
 CMakeFiles/camera-test.dir/util/utils.cpp.o: \
- /home/jeet/ideas/jetson-inference/examples/camera-test/util/utils.cpp \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/utils.cpp \
  /usr/include/stdc-predef.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/util/utils.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/utils.h \
  /usr/include/aarch64-linux-gnu/NvInfer.h \
  /usr/include/aarch64-linux-gnu/NvInferLegacyDims.h \
  /usr/include/aarch64-linux-gnu/NvInferRuntimeCommon.h \
@@ -341,5 +341,5 @@ CMakeFiles/camera-test.dir/util/utils.cpp.o: \
  /usr/include/aarch64-linux-gnu/bits/confname.h \
  /usr/include/aarch64-linux-gnu/bits/getopt_posix.h \
  /usr/include/aarch64-linux-gnu/bits/getopt_core.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/util/../yololayer.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/util/../macros.h
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/yololayer.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/macros.h

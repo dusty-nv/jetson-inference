@@ -1,5 +1,5 @@
 CMakeFiles/camera-test.dir/camera-test.cpp.o: \
- /home/jeet/ideas/jetson-inference/examples/camera-test/camera-test.cpp \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/camera-test.cpp \
  /usr/include/stdc-predef.h /usr/include/signal.h /usr/include/features.h \
  /usr/include/aarch64-linux-gnu/sys/cdefs.h \
  /usr/include/aarch64-linux-gnu/bits/wordsize.h \
@@ -215,7 +215,7 @@ CMakeFiles/camera-test.dir/camera-test.cpp.o: \
  /usr/include/c++/7/bits/stl_uninitialized.h \
  /usr/include/c++/7/bits/stl_vector.h \
  /usr/include/c++/7/bits/stl_bvector.h /usr/include/c++/7/bits/vector.tcc \
- /home/jeet/ideas/jetson-inference/examples/camera-test/util/utils.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/utils.h \
  /usr/include/aarch64-linux-gnu/NvInfer.h \
  /usr/include/aarch64-linux-gnu/NvInferLegacyDims.h \
  /usr/include/aarch64-linux-gnu/NvInferRuntimeCommon.h \
@@ -402,23 +402,21 @@ CMakeFiles/camera-test.dir/camera-test.cpp.o: \
  /usr/include/aarch64-linux-gnu/bits/confname.h \
  /usr/include/aarch64-linux-gnu/bits/getopt_posix.h \
  /usr/include/aarch64-linux-gnu/bits/getopt_core.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/util/../yololayer.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/util/../macros.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/yolo/yolov3.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/yololayer.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/macros.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/yolov3.h \
  /usr/include/aarch64-linux-gnu/NvInferPlugin.h \
  /usr/include/aarch64-linux-gnu/NvInfer.h \
  /usr/include/aarch64-linux-gnu/NvInferPluginUtils.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/yolo/../util/logger.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/yolo/../util/logging.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/../util/logger.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/../util/logging.h \
  /usr/include/aarch64-linux-gnu/NvInferRuntimeCommon.h \
  /usr/include/c++/7/cassert /usr/local/include/jetson-utils/logging.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/yolo/../util/utils.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/yolo/../yololayer.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/yololayer.h \
  /usr/local/include/jetson-utils/cudaMappedMemory.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/yolo/kernel.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/fastscnn/fastscnn.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/kernel.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn/fastscnn.h \
  /usr/local/include/jetson-utils/timespec.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/fastscnn/../util/logger.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/fastscnn/../util/utils.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/fastscnn/../ipm.h \
- /home/jeet/ideas/jetson-inference/examples/camera-test/fastscnn/../argmax.h
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/../util/utils.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/ipm.h \
+ /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn/argmax.h
