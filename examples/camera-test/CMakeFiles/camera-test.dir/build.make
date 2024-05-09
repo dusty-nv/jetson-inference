@@ -1313,55 +1313,70 @@ CMakeFiles/camera-test.dir/util/logger.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/camera-test.dir/util/logger.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/logger.cpp -o CMakeFiles/camera-test.dir/util/logger.cpp.s
 
-CMakeFiles/camera-test.dir/util/utils.cpp.o: CMakeFiles/camera-test.dir/flags.make
-CMakeFiles/camera-test.dir/util/utils.cpp.o: util/utils.cpp
-CMakeFiles/camera-test.dir/util/utils.cpp.o: CMakeFiles/camera-test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/camera-test.dir/util/utils.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/camera-test.dir/util/utils.cpp.o -MF CMakeFiles/camera-test.dir/util/utils.cpp.o.d -o CMakeFiles/camera-test.dir/util/utils.cpp.o -c /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/utils.cpp
+CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.o: CMakeFiles/camera-test.dir/flags.make
+CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.o: modules/perception/yolo/YoloV3.cpp
+CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.o: CMakeFiles/camera-test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.o -MF CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.o.d -o CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.o -c /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/YoloV3.cpp
 
-CMakeFiles/camera-test.dir/util/utils.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/camera-test.dir/util/utils.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/utils.cpp > CMakeFiles/camera-test.dir/util/utils.cpp.i
+CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/YoloV3.cpp > CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.i
 
-CMakeFiles/camera-test.dir/util/utils.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/camera-test.dir/util/utils.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util/utils.cpp -o CMakeFiles/camera-test.dir/util/utils.cpp.s
+CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/YoloV3.cpp -o CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.s
 
-CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.o: CMakeFiles/camera-test.dir/flags.make
-CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.o: modules/perception/yolo/yolov3.cpp
-CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.o: CMakeFiles/camera-test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.o -MF CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.o.d -o CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.o -c /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/yolov3.cpp
+CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.o: CMakeFiles/camera-test.dir/flags.make
+CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.o: modules/perception/fastscnn/Fastscnn.cpp
+CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.o: CMakeFiles/camera-test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.o -MF CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.o.d -o CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.o -c /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn/Fastscnn.cpp
 
-CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/yolov3.cpp > CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.i
+CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn/Fastscnn.cpp > CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.i
 
-CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo/yolov3.cpp -o CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.s
+CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn/Fastscnn.cpp -o CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.s
 
-CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.o: CMakeFiles/camera-test.dir/flags.make
-CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.o: modules/perception/fastscnn/fastscnn.cpp
-CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.o: CMakeFiles/camera-test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.o -MF CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.o.d -o CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.o -c /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn/fastscnn.cpp
+CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.o: CMakeFiles/camera-test.dir/flags.make
+CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.o: modules/perception/Perception.cpp
+CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.o: CMakeFiles/camera-test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.o -MF CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.o.d -o CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.o -c /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/Perception.cpp
 
-CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn/fastscnn.cpp > CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.i
+CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/Perception.cpp > CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.i
 
-CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn/fastscnn.cpp -o CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.s
+CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/Perception.cpp -o CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.s
+
+CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.o: CMakeFiles/camera-test.dir/flags.make
+CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.o: modules/communication/Comm.cpp
+CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.o: CMakeFiles/camera-test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.o -MF CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.o.d -o CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.o -c /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/communication/Comm.cpp
+
+CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/communication/Comm.cpp > CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.i
+
+CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/communication/Comm.cpp -o CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.s
 
 # Object files for target camera-test
 camera__test_OBJECTS = \
 "CMakeFiles/camera-test.dir/camera-test.cpp.o" \
 "CMakeFiles/camera-test.dir/util/logger.cpp.o" \
-"CMakeFiles/camera-test.dir/util/utils.cpp.o" \
-"CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.o" \
-"CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.o"
+"CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.o" \
+"CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.o" \
+"CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.o" \
+"CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.o"
 
 # External object files for target camera-test
 camera__test_EXTERNAL_OBJECTS = \
@@ -1372,9 +1387,10 @@ camera__test_EXTERNAL_OBJECTS = \
 
 camera-test: CMakeFiles/camera-test.dir/camera-test.cpp.o
 camera-test: CMakeFiles/camera-test.dir/util/logger.cpp.o
-camera-test: CMakeFiles/camera-test.dir/util/utils.cpp.o
-camera-test: CMakeFiles/camera-test.dir/modules/perception/yolo/yolov3.cpp.o
-camera-test: CMakeFiles/camera-test.dir/modules/perception/fastscnn/fastscnn.cpp.o
+camera-test: CMakeFiles/camera-test.dir/modules/perception/yolo/YoloV3.cpp.o
+camera-test: CMakeFiles/camera-test.dir/modules/perception/fastscnn/Fastscnn.cpp.o
+camera-test: CMakeFiles/camera-test.dir/modules/perception/Perception.cpp.o
+camera-test: CMakeFiles/camera-test.dir/modules/communication/Comm.cpp.o
 camera-test: CMakeFiles/camera-test.dir/modules/perception/camera-test_generated_ipm.cu.o
 camera-test: CMakeFiles/camera-test.dir/modules/perception/fastscnn/camera-test_generated_argmax.cu.o
 camera-test: CMakeFiles/camera-test.dir/modules/perception/yolo/camera-test_generated_yololayer.cu.o
@@ -1456,7 +1472,7 @@ camera-test: /usr/lib/aarch64-linux-gnu/libopencv_cudev.so.4.8.0
 camera-test: /usr/local/cuda/lib64/libcudart_static.a
 camera-test: /usr/lib/aarch64-linux-gnu/librt.so
 camera-test: CMakeFiles/camera-test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable camera-test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable camera-test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/camera-test.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util -I/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception -I/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo -I/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn -I/usr/local/cuda/include -isystem /usr/include/opencv4
+CXX_INCLUDES = -I/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util -I/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception -I/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo -I/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn -I/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/communication -I/usr/local/cuda/include -isystem /usr/include/opencv4
 
 CXX_FLAGS =  -Wno-deprecated -Wno-deprecated-declarations
 

@@ -79,7 +79,7 @@ set(CUDA_NVCC_FLAGS_MINSIZEREL  ; )
 set(CUDA_NVCC_FLAGS_RELEASE  ; )
 set(CUDA_NVCC_FLAGS_RELWITHDEBINFO  ; )
 set(nvcc_flags -m64;-Dyololayer_EXPORTS) # list
-set(CUDA_NVCC_INCLUDE_DIRS [==[/usr/local/cuda/include;/usr/include/opencv4;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn;/usr/local/cuda/include]==]) # list (needs to be in lua quotes to address backslashes)
+set(CUDA_NVCC_INCLUDE_DIRS [==[/usr/local/cuda/include;/usr/include/opencv4;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/util;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/yolo;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/fastscnn;/home/jeet/ideas/myjetsonrepo/jetson-inference/examples/camera-test/modules/perception/communication;/usr/local/cuda/include]==]) # list (needs to be in lua quotes to address backslashes)
 string(REPLACE "\\" "/" CUDA_NVCC_INCLUDE_DIRS "${CUDA_NVCC_INCLUDE_DIRS}")
 set(CUDA_NVCC_COMPILE_DEFINITIONS [==[]==]) # list (needs to be in lua quotes see #16510 ).
 set(format_flag "-c") # string

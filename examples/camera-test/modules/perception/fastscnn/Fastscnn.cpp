@@ -1,4 +1,4 @@
-#include "fastscnn.h"
+#include "Fastscnn.hpp"
 
 static inline size_t sizeDims(const nvinfer1::Dims &dims, const size_t elementSize=1)
 {
@@ -96,7 +96,7 @@ FastScnn::FastScnn(const std::string &engineFilename)
 	mInfer = nvinfer1::createInferRuntime(sample::gLogger.getTRTLogger());
 	// mInfer = CREATE_INFER_RUNTIME(gLogger);
 	mEngine = mInfer->deserializeCudaEngine(engineData.data(), fsize, nullptr);
-
+	std::cout<<mEngine<<std::endl;
 	uGrid = nullptr;
 	vGrid = nullptr;
 }
@@ -137,14 +137,13 @@ int FastScnn::initEngine()
 	// Context
 	if (!mEngine)
 		return false;
-
 	mContext = mEngine->createExecutionContext();
 	if (!mContext)
 	{
 		sample::gLogger.log(nvinfer1::ILogger::Severity::kERROR, "Failed to create execution context");
 		return 0;
 	}
-
+	
 	const int numBindings = mEngine->getNbBindings();
 
 	std::vector<std::string> output_blobs;
@@ -194,7 +193,6 @@ int FastScnn::initEngine()
 		copyDims(&l.dims, &inputDims);
 		mInputs.push_back(l);
 	}
-
 	/*
 	 * setup network output buffers
 	 */
@@ -297,6 +295,13 @@ int FastScnn::initEngine()
 		LogError("Could not allocate uGrid or vGrid\n");
 		return false;
 	}
+	
+	int status = loadGrid();
+	if (!status)
+	{
+		LogError("FastScnn: Failed to load grid\n");
+		return 1;
+	}
 	return true;
 }
 bool FastScnn::loadGrid()
@@ -372,43 +377,6 @@ bool FastScnn::process(uchar3 *image, uint32_t width, uint32_t height)
 	return true;
 }
 
-bool FastScnn::classify()
-{
-	// retrieve scores
-	float *scores = (float *)mBindings[1];
-
-	const int s_w = OUT_IMG_W;
-	const int s_h = OUT_IMG_H;
-	const int s_c = 6;
-
-	// find the argmax-classified class of each tile
-	uint8_t *classMap = mClassMap;
-
-	for (uint32_t y = 0; y < s_h; y++)
-	{
-		for (uint32_t x = 0; x < s_w; x++)
-		{
-			float p_max = -100000.0f;
-			int c_max = 0;
-
-			for (int c = 0; c < s_c; c++)
-			{
-				// check if this class score is higher
-				const float p = scores[c * s_w * s_h + y * s_w + x];
-
-				if (p > p_max)
-				{
-					p_max = p;
-					c_max = c;
-				}
-			}
-
-			classMap[y * s_w + x] = c_max;
-		}
-	}
-
-	return true;
-}
 bool FastScnn::getRGB(pixelType *img, int middle_lane_x)
 {
 	PROFILER_BEGIN(PROFILER_VISUALIZE);

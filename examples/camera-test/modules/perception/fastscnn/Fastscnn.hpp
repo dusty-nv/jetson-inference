@@ -1,18 +1,18 @@
 #ifndef _FASTSCNN_
 #define _FASTSCNN_
 
-#include "jetson-utils/cudaMappedMemory.h"
+#include <jetson-utils/cudaMappedMemory.h>
 #include <jetson-utils/timespec.h>
 
-#include "../util/logger.h"
-#include "../util/utils.h"
+#include "logger.h"
 #include "ipm.h"
 #include "argmax.h"
-// #include "../../../c/tensorNet.h"
 
 #include <cuda_runtime_api.h>
 #include <NvInfer.h>
+
 #include <vector>
+#include <algorithm>
 
 #define OUT_IMG_W 1024
 #define OUT_IMG_H 512
@@ -73,13 +73,13 @@ public:
 	int initEngine();
 	bool process(uchar3 *image, uint32_t width, uint32_t height);
 	bool infer();
-	bool classify();
 	bool getRGB(pixelType *img, int middle_x);
-	bool loadGrid();
 	int getLaneCenter(int laneIdx);
 	int getParkingDirection(int offset);
 	bool isObstacleOnLane(int dev);
 
+
+	/*****************Performance profiling functions*****************/
 	/**
 	 * Begin a profiling query, before network is run
 	 */
@@ -107,86 +107,8 @@ public:
 		timespec cpuTime;
 		timeDiff(mEventsCPU[evt - 1], mEventsCPU[evt], &cpuTime);
 		mProfilerTimes[query].x = timeFloat(cpuTime);
-
-		/*if( mEnableProfiler && query == PROFILER_NETWORK )
-		{
-			LogVerbose(LOG_TRT "layer network time - %f ms\n", gProfiler.timingAccumulator);
-			gProfiler.timingAccumulator = 0.0f;
-			LogWarning(LOG_TRT "note -- when processing a single image, run 'sudo jetson_clocks' before\n"
-					  "                to disable DVFS for more accurate profiling/timing measurements\n");
-		}*/
 	}
 
-	const char *profilerQueryToStr(profilerQuery query)
-	{
-		switch (query)
-		{
-		case PROFILER_PREPROCESS:
-			return "Pre-Process";
-		case PROFILER_NETWORK:
-			return "Network";
-		case PROFILER_POSTPROCESS:
-			return "Post-Process";
-		case PROFILER_VISUALIZE:
-			return "Visualize";
-		case PROFILER_TOTAL:
-			return "Total";
-		}
-		return nullptr;
-	}
-
-	/**
-	 * Retrieve the number of input layers to the network.
-	 */
-	inline uint32_t GetInputLayers() const { return mInputs.size(); }
-
-	/**
-	 * Retrieve the number of output layers to the network.
-	 */
-	inline uint32_t GetOutputLayers() const { return mOutputs.size(); }
-
-	// float *outputBind;
-	// float *outputBindCPU1;
-	// float *outputBindGPU1;
-	// float *inputBind;
-	uint8_t *mClassMap;
-	int *uGrid;
-	int *vGrid;
-	void **mBindings;
-
-	struct layerInfo
-	{
-		std::string name;
-		Dims3 dims;
-		uint32_t size;
-		uint32_t binding;
-		float *CPU;
-		float *CUDA;
-	};
-
-	std::vector<layerInfo> mInputs;
-	std::vector<layerInfo> mOutputs;
-
-	/**
-	 * Print the profiler times (in millseconds).
-	 */
-	inline void PrintProfilerTimes()
-	{
-		LogInfo("\n");
-		LogInfo("------------------------------------------------\n");
-		LogInfo("Timing Report\n");
-		LogInfo("------------------------------------------------\n");
-
-		for (uint32_t n = 0; n <= PROFILER_TOTAL; n++)
-		{
-			const profilerQuery query = (profilerQuery)n;
-
-			if (PROFILER_QUERY(query))
-				LogInfo("%-12s  CPU %9.5fms  CUDA %9.5fms\n", profilerQueryToStr(query), mProfilerTimes[n].x, mProfilerTimes[n].y);
-		}
-
-		LogInfo("------------------------------------------------\n\n");
-	}
 	/**
 	 * Query the CUDA part of a profiler query.
 	 */
@@ -217,9 +139,10 @@ public:
 				const uint32_t evt = query * 2;
 				float cuda_time = 0.0f;
 				CUDA(cudaEventElapsedTime(&cuda_time, mEventsGPU[evt], mEventsGPU[evt + 1]));
+				cudaThreadSynchronize();
 				mProfilerTimes[query].y = cuda_time;
 				mProfilerQueriesDone |= flag;
-				// mProfilerQueriesUsed &= ~flag;
+				mProfilerQueriesUsed &= ~flag;
 			}
 
 			return true;
@@ -228,8 +151,75 @@ public:
 		return false;
 	}
 
+	const char *profilerQueryToStr(profilerQuery query)
+	{
+		switch (query)
+		{
+		case PROFILER_PREPROCESS:
+			return "Pre-Process";
+		case PROFILER_NETWORK:
+			return "Network";
+		case PROFILER_POSTPROCESS:
+			return "Post-Process";
+		case PROFILER_VISUALIZE:
+			return "Visualize";
+		case PROFILER_TOTAL:
+			return "Total";
+		}
+		return nullptr;
+	}
+
+	/**
+	 * Print the profiler times (in millseconds).
+	 */
+	inline void PrintProfilerTimes()
+	{
+		LogInfo("\n");
+		LogInfo("------------------------------------------------\n");
+		LogInfo("Timing Report\n");
+		LogInfo("------------------------------------------------\n");
+
+		for (uint32_t n = 0; n <= PROFILER_TOTAL; n++)
+		{
+			const profilerQuery query = (profilerQuery)n;
+
+			if (PROFILER_QUERY(query))
+				LogInfo("%-12s  CPU %9.5fms  CUDA %9.5fms\n", profilerQueryToStr(query), mProfilerTimes[n].x, mProfilerTimes[n].y);
+		}
+
+		LogInfo("------------------------------------------------\n\n");
+	}
+
+	/**
+	 * Retrieve the number of input layers to the network.
+	 */
+	inline uint32_t GetInputLayers() const { return mInputs.size(); }
+
+	/**
+	 * Retrieve the number of output layers to the network.
+	 */
+	inline uint32_t GetOutputLayers() const { return mOutputs.size(); }
+
+	uint8_t *mClassMap;
+	int *uGrid;
+	int *vGrid;
+	void **mBindings;
+
+	struct layerInfo
+	{
+		std::string name;
+		Dims3 dims;
+		uint32_t size;
+		uint32_t binding;
+		float *CPU;
+		float *CUDA;
+	};
+
+	std::vector<layerInfo> mInputs;
+	std::vector<layerInfo> mOutputs;
 protected:
 	void loopThroughClassmap(std::vector<int> &y_vals_lane, std::vector<int> &x_vals_lane, int classidx);
+	bool loadGrid();
 	nvinfer1::ICudaEngine *mEngine;
 	nvinfer1::IRuntime *mInfer;
 	nvinfer1::IExecutionContext *mContext;
