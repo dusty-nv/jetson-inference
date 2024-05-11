@@ -29,9 +29,6 @@
 
 #include "Perception.hpp"
 
-#define IMG_OUT_W 1024
-#define IMG_OUT_H 512
-
 using namespace std;
 
 bool signal_recieved = false;
@@ -50,10 +47,8 @@ void sig_handler(int signo)
 // segmentation buffers
 //
 
-pixelType *imgOutDet = NULL;
 pixelType *imgOutput = NULL; // reference to one of the above three
 
-int2 outputSize;
 int status;
 int main(int argc, char **argv)
 {
@@ -62,15 +57,16 @@ int main(int argc, char **argv)
 	 */
 	commandLine cmdLine(argc, argv);
 
+#if VISUALIZATION_ENABLED
 	/*
-	 * alloc space for seg visualization image
+	 * alloc space for visualization image
 	 */
-	if (!cudaAllocMapped(&imgOutput, make_int2(IMG_OUT_W, IMG_OUT_H)))
+	if (!cudaAllocMapped(&imgOutput, make_int2(VIS_WINDOW_W, VIS_WINDOW_H)))
 	{
 		LogError("Ideas: Failed to allocate CUDA memory for out image\n");
 		return 1;
 	}
-
+#endif
 	/*
 	 * attach signal handler
 	 */
@@ -88,6 +84,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+#if VISUALIZATION_ENABLED
 	/*
 	 * create output stream
 	 */
@@ -98,13 +95,14 @@ int main(int argc, char **argv)
 		LogError("Ideas: Failed to create output stream\n");
 		return 1;
 	}
-
+#endif
 	/*
-	 * Init the perception module 
+	 * Init the perception module
 	 */
 	Perception PerceptionModule;
-	int status = PerceptionModule.initModule();
-	if(status){
+	int status = PerceptionModule.InitModule();
+	if (status)
+	{
 		LogError("Ideas: Failed to init perception module\n");
 		return 1;
 	}
@@ -120,11 +118,12 @@ int main(int argc, char **argv)
 			break; // EOS
 		}
 
-		PerceptionModule.runPerception(imgInput, &imgOutput);
+		PerceptionModule.RunPerception(imgInput, &imgOutput);
 
+#if VISUALIZATION_ENABLED
 		if (output != NULL)
 		{
-			output->Render(imgOutput, 1024, 512);
+			output->Render(imgOutput, VIS_WINDOW_W, VIS_WINDOW_H);
 			//  update status bar
 			char str[256];
 			// sprintf(str, "Latency(ms): %li, FPS: %f", duration.count(), 1000.0f / (duration.count()));
@@ -134,6 +133,7 @@ int main(int argc, char **argv)
 			if (!output->IsStreaming())
 				break;
 		}
+#endif
 	}
 	/*
 	 * destroy resources
@@ -141,9 +141,10 @@ int main(int argc, char **argv)
 	LogVerbose("Ideas: Shutting down...\n");
 
 	SAFE_DELETE(input);
+#if VISUALIZATION_ENABLED
 	SAFE_DELETE(output);
-
 	CUDA_FREE_HOST(imgOutput);
+#endif
 	LogVerbose("Ideas: Shutdown complete.\n");
 	return 0;
 }

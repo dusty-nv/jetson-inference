@@ -64,11 +64,8 @@ __global__ void resizeAndCenterKernel(uchar3 *input, float *output, int width, i
     }
 }
 
-void preprocessROIImgK(uchar3 *input_data, float *output_data)
+void preprocessROIImgK(uchar3 *input_data, int region_size, float *output_data)
 {
-    // Define the size of the region you want to crop (n x n)
-    int region_size = 540; // Replace with the size you want
-
     // Calculate the scaling factors
     float scale_x = (float)region_size / 320.0f;
     float scale_y = (float)region_size / 320.0f;
@@ -78,4 +75,36 @@ void preprocessROIImgK(uchar3 *input_data, float *output_data)
 
     resizeAndCenterKernel<<<blocks, threadsPerBlock>>>(input_data, output_data, 1920, 1080,
                                                        region_size, scale_x, scale_y);
+}
+
+/*
+ * roi_pos_x,y - position of the left down point of the roi 
+ */
+__global__ void drawBoundingBoxKernelROI(uchar3** image, int roi_width, int roi_height, int roi_pos_x, int roi_pos_y, int box_x, int box_y, int box_width, int box_height, uchar3 color)
+{
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int stride = blockDim.x * gridDim.x;
+
+    for (int i = idx; i < roi_width * roi_height; i += stride) {
+        int row = i / roi_width;
+        int col = i % roi_width;
+
+        // Check if the current pixel is within the ROI and the bounding box
+        if (col >= roi_pos_x && col < roi_pos_x + roi_width && row >= roi_pos_y && row < roi_pos_y + roi_height &&
+            col >= box_x && col < box_x + box_width && row >= box_y && row < box_y + box_height) {
+            // Check if the current pixel is on the border of the bounding box
+            if (col == box_x || col == box_x + box_width - 1 || row == box_y || row == box_y + box_height - 1) {
+                *image[i] = color;
+            }
+        }
+    }
+}
+
+void drawBoundingBox(uchar3** image, int roi_width, int roi_height, int roi_pos_x, int roi_pos_y, int box_x, int box_y, int box_width, int box_height, uchar3 color)
+{
+    dim3 threadsPerBlock(16, 16);
+    dim3 blocks(320 / threadsPerBlock.x, 320 / threadsPerBlock.y);
+
+    drawBoundingBoxKernelROI<<<blocks, threadsPerBlock>>>(image, roi_width, roi_height, roi_pos_x, roi_pos_y, box_x,
+                                                       box_y, box_width, box_height, color);
 }

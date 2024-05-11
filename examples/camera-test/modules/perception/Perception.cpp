@@ -1,52 +1,54 @@
 #include "Perception.hpp"
 
-
 /*Perception::Perception(){
-    //FastScnn *segNetwork = new FastScnn(segModelPath);
+	//FastScnn *segNetwork = new FastScnn(segModelPath);
 	LogInfo("After serialization\n");
 }*/
 
-Perception::~Perception(){
-    //delete segNetwork;
+Perception::~Perception()
+{
+	// delete segNetwork;
 }
 
-int Perception::initModule(){
-    /*
+int Perception::InitModule()
+{
+	/*
 	 * initialize segmentation network
 	 */
-	/*int status = segNetwork.initEngine();
-	if (!status)
+	/*int status_seg = seg_network.initEngine();
+	if (!status_seg)
 	{
 		LogError("Perception: Failed to init fast scnn model\n");
 		return 1;
-	}
-	*/
-	
-    /*
+	}*/
+
+	/*
 	 * create detection network
 	 */
-	int status = detNetwork.initEngine();
-	if (!status)
+	int status_det = det_network.InitEngine();
+	if (!status_det)
 	{
 		LogError("Perception: Failed to init yolo model\n");
 		return 1;
 	}
 	return 0;
 }
-int Perception::runPerception(pixelType *imgInput, pixelType **imgOutput){
-    //segNetwork.process(imgInput, 1920, 1080); // 60ms 62ms(Paddle)
+int Perception::RunPerception(pixelType *imgInput, pixelType **imgOutput)
+{
+	/*seg_network.process(imgInput, 1920, 1080); // 60ms 62ms(Paddle)
 
-    //int lane_center = segNetwork.getLaneCenter(1); // 57ms
+	int lane_center = seg_network.getLaneCenter(1); // 57ms
 
-    //segNetwork.getRGB(*imgOutput, lane_center); // 54 ms
+	seg_network.getRGB(*imgOutput, lane_center); // 54 ms
+	*/
+	// seg_network.PrintProfilerTimes();
 
-    //segNetwork.PrintProfilerTimes();
+	det_network.PreProcess(imgInput);
+	det_network.Process();	   // run inference (22 ms)
+	det_network.PostProcess(); // nms (very fast)
 
-    // std::vector<Yolo::Detection> res;
-
-    // det.process(imgInput, 1920, 1080); // 22 ms
-
-	// det.getRgb(imgInput, imgOutput, 1920, 1080, 540, 540);
-		
-	// nms(res, (float *)det.mBindings[1]); // 3us
+#if VISUALIZATION_ENABLED
+	det_network.OverlayROI(imgInput, *imgOutput, 1920, 1080, VIS_WINDOW_W, VIS_WINDOW_H);
+	det_network.OverlayBBoxesOnROI(*imgOutput,0,0,0,0);
+#endif
 }

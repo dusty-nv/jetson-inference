@@ -19,6 +19,8 @@
 #define IN_IMG_W 1280
 #define IN_IMH_H 720
 #define UV_GRID_COLS 524288
+#define SEG_MAP_W 1024
+#define SEG_MAP_H 512
 
 #define VOID 0
 #define RIGHT_LANE 1

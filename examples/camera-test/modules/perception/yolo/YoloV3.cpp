@@ -59,7 +59,7 @@ YoloV3::~YoloV3()
 	}
 	cudaStreamDestroy(mStream);
 }
-bool YoloV3::initEngine()
+bool YoloV3::InitEngine()
 {
 	// Context
 	if (!mEngine)
@@ -123,44 +123,54 @@ bool YoloV3::initEngine()
 	LogVerbose("Successfully initialized yolo network\n");
 	return true;
 }
-bool YoloV3::infer()
+
+void YoloV3::PreProcess(uchar3 *input_img)
 {
+	preprocessROIImgK(input_img, DETECTION_ROI_W, (float *)mBindings[0]);
+}
+
+void YoloV3::Process(){
 	if (!mContext->enqueue(1,mBindings, mStream, NULL))
 	{
 		LogError("failed to enqueue TensorRT context on device\n");
-		return false;
 	}
 	cudaStreamSynchronize(mStream);
-	return true;
 }
-void YoloV3::doInference(float* input, float* output, int batchSize) {
-    // DMA input batch data to device, infer on the batch asynchronously, and DMA output back to host
-    CHECK(cudaMemcpyAsync(mBindings[0], input, batchSize * 3 * INPUT_H * INPUT_W * sizeof(float), cudaMemcpyHostToDevice, mStream));
-    mContext->enqueue(batchSize, mBindings, mStream, nullptr);
-    CHECK(cudaMemcpyAsync(output, mBindings[1], batchSize * OUTPUT_SIZE * sizeof(float), cudaMemcpyDeviceToHost, mStream));
-    cudaStreamSynchronize(mStream);
+
+void YoloV3::PostProcess()
+{
+	nms(detected_objects, (float *)mBindings[1]); // 3us
 }
-void YoloV3::process(uchar3* input_img, int width, int height){
-	preprocessROIImgK(input_img, (float *)mBindings[0]);
-	//preprocessImgK(input_img, (float *)mBindings[0], width, height, 320, 320, 0, 70);
-	infer();
-	//CUDA(cudaDeviceSynchronize());
-}
-void YoloV3::getRgb(uchar3* input_img,uchar3* out_img,int srcWidth, int srcHeight, int dstWidth, int dstHeight){
-	// Assume dstWidth and dstHeight are 540
+
+void YoloV3::OverlayROI(uchar3 *input_img, uchar3 *out_img, int input_width, int input_height, int out_width, int out_height)
+{
+    // Assume dstWidth and dstHeight are 540
     // Assume srcWidth and srcHeight are 1920 and 1080 respectively
 
-    int offsetX = srcWidth - dstWidth;  // 1920 - 540 = 1380
+    int offsetX = input_width - DETECTION_ROI_W;  // 1920 - 540 = 1380
     int offsetY = 0;  // Top corner
 
-    for (int y = 0; y < dstHeight; ++y) {
-        for (int x = 0; x < dstWidth; ++x) {
+    for (int y = 0; y < DETECTION_ROI_H; ++y) {
+        for (int x = 0; x < DETECTION_ROI_W; ++x) {
             // Calculate position in source and destination arrays
-            int srcPos = (y + offsetY) * srcWidth + (x + offsetX);
-            int dstPos = y * dstWidth + x;
+            int srcPos = (y + offsetY) * input_width + (x + offsetX);
+            int dstPos = (y + 512) * out_width + x;
 
             // Copy pixel
             out_img[dstPos] = input_img[srcPos];
         }
     }
+}
+
+void YoloV3::OverlayBBoxesOnROI(uchar3 *out_image, int width, int height, int roi_pos_x, int roi_pos_y)
+{
+	uchar3 color = {0,255,0};
+	for(int i = 0; i < detected_objects.size(); i++){
+		int bbox_x = detected_objects.at(i).bbox[0];
+		int bbox_y = detected_objects.at(i).bbox[1];
+		int bbox_w = detected_objects.at(i).bbox[2];
+		int bbox_h = detected_objects.at(i).bbox[3];
+
+		drawBoundingBox(&out_image, DETECTION_ROI_W, DETECTION_ROI_H, 540+512, 0, bbox_x, bbox_y, bbox_w, bbox_h, color);
+	}
 }
