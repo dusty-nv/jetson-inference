@@ -15,16 +15,15 @@
 #include "jetson-utils/cudaMappedMemory.h"
 #include "jetson-utils/logging.h"
 
-
 using sample::gLogError;
 using sample::gLogInfo;
 
 #define NMS_THRESH 0.4f
 #define BBOX_CONF_THRESH 0.5f
 
-#define INPUT_H 320//Yolo::INPUT_H;
-#define INPUT_W 320//Yolo::INPUT_W;
-#define OUTPUT_SIZE 1000 * 7 + 1  // we assume the yololayer outputs no more than 1000 boxes that conf >= 0.1
+#define INPUT_H 320				 // Yolo::INPUT_H;
+#define INPUT_W 320				 // Yolo::INPUT_W;
+#define OUTPUT_SIZE 1000 * 7 + 1 // we assume the yololayer outputs no more than 1000 boxes that conf >= 0.1
 #define INPUT_BLOB_NAME "data"
 #define OUTPUT_BLOB_NAME "prob"
 
@@ -86,16 +85,18 @@ static void nms(std::vector<Yolo::Detection> &res, float *output, float nms_thre
 	}
 }
 
-class YoloV3{
-    public:
+class YoloV3
+{
+public:
 	YoloV3(const std::string &engineFilename);
 	~YoloV3();
 	bool InitEngine();
 	bool infer();
 	void PreProcess(uchar3 *input_img);
 	void Process();
-	void PostProcess();
+	void PostProcess(std::vector<Yolo::Detection>* out_detections);
 	void OverlayBBoxesOnVisImage(uchar3 *out_image, int img_width, int img_height);
+
 private:
 	nvinfer1::ICudaEngine *mEngine;
 	nvinfer1::IRuntime *mInfer;

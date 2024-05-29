@@ -10,6 +10,11 @@ static size_t sizeDims(const nvinfer1::Dims &dims, const size_t elementSize=1)
     return sz * elementSize;
 }
 
+static float map_value(float x, float in_min, float in_max, long out_min, long out_max){
+	float retval = (x-in_min)*(out_max-out_min)/(in_max-in_min) + out_min;
+	return retval;
+}
+
 YoloV3::YoloV3(const std::string &engineFilename)
 {
 	mEngine = NULL;
@@ -137,23 +142,29 @@ void YoloV3::Process(){
 	cudaStreamSynchronize(mStream);
 }
 
-void YoloV3::PostProcess()
+void YoloV3::PostProcess(std::vector<Yolo::Detection>* out_detections)
 {
 	detected_objects.clear();
 	nms(detected_objects, (float *)mBindings[1]); // 3us
+	*out_detections = detected_objects;
 }
 
 void YoloV3::OverlayBBoxesOnVisImage(uchar3 *out_image, int img_width, int img_height)
 {
 	uchar3 color = {0,255,0};
+	int offset_x = 50;
+	int offset_y = 75;
 	for(int i = 0; i < detected_objects.size(); i++){
-		int bbox_x = (detected_objects.at(i).bbox[0] * INPUT_W) / img_width;
-		int bbox_y = (detected_objects.at(i).bbox[1] * INPUT_H) / img_height;
+		int bbox_x = (detected_objects.at(i).bbox[0] * img_width) / INPUT_W - offset_x;
+		if(bbox_x<0) bbox_x = 0;
+		int bbox_y = (detected_objects.at(i).bbox[1] * img_height) / INPUT_H - offset_y;
+		if(bbox_y<0) bbox_y = 0;
 		int bbox_w = (detected_objects.at(i).bbox[2] * img_width) / INPUT_W;
 		int bbox_h = (detected_objects.at(i).bbox[3] * img_height) / INPUT_H;
 
 		drawBoundingBox(out_image, img_width, img_height, bbox_x, bbox_y, bbox_w, bbox_h, color);
 
-		LogInfo("Detected: class: %f, x: %d,y: %d, w: %d,h: %d\n",detected_objects.at(i).class_id, bbox_x, bbox_y, bbox_w, bbox_h);
+		//LogInfo("Detected: class: %f, x: %d,y: %d, w: %d,h: %d\n",detected_objects.at(i).class_id, bbox_x, bbox_y, bbox_w, bbox_h);
+		//LogInfo("Detected true: class: %f, x: %f,y: %f, w: %f,h: %f\n",detected_objects.at(i).class_id, detected_objects.at(i).bbox[0], detected_objects.at(i).bbox[1], detected_objects.at(i).bbox[2], detected_objects.at(i).bbox[3]);
 	}
 }
