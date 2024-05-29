@@ -19,8 +19,8 @@
 using sample::gLogError;
 using sample::gLogInfo;
 
-#define NMS_THRESH 0.1f
-#define BBOX_CONF_THRESH 0.1f
+#define NMS_THRESH 0.4f
+#define BBOX_CONF_THRESH 0.5f
 
 #define INPUT_H 320//Yolo::INPUT_H;
 #define INPUT_W 320//Yolo::INPUT_W;
@@ -95,8 +95,7 @@ class YoloV3{
 	void PreProcess(uchar3 *input_img);
 	void Process();
 	void PostProcess();
-	void OverlayROI(uchar3 *input_img, uchar3 *out_img, int input_width, int input_height, int out_width, int out_height);
-	void OverlayBBoxesOnROI(uchar3 *out_image, int width, int height, int roi_pos_x, int roi_pos_y);
+	void OverlayBBoxesOnVisImage(uchar3 *out_image, int img_width, int img_height);
 private:
 	nvinfer1::ICudaEngine *mEngine;
 	nvinfer1::IRuntime *mInfer;

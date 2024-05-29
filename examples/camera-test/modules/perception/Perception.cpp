@@ -33,7 +33,7 @@ int Perception::InitModule()
 	}
 	return 0;
 }
-int Perception::RunPerception(pixelType *imgInput, pixelType **imgOutput)
+int Perception::RunPerception(pixelType *imgInput, pixelType *imgOutput)
 {
 	/*seg_network.process(imgInput, 1920, 1080); // 60ms 62ms(Paddle)
 
@@ -48,7 +48,27 @@ int Perception::RunPerception(pixelType *imgInput, pixelType **imgOutput)
 	det_network.PostProcess(); // nms (very fast)
 
 #if VISUALIZATION_ENABLED
-	det_network.OverlayROI(imgInput, *imgOutput, 1920, 1080, VIS_WINDOW_W, VIS_WINDOW_H);
-	det_network.OverlayBBoxesOnROI(*imgOutput,0,0,0,0);
+	GetVisImage(imgInput);
+	det_network.OverlayBBoxesOnVisImage(det_vis_image, DETECTION_ROI_W, DETECTION_ROI_H);
+	OverlayVisImage(imgOutput);
 #endif
+}
+
+void Perception::GetVisImage(pixelType *img_input)
+{
+	getROIOfImage(img_input, det_vis_image, CAMERA_INPUT_W, CAMERA_INPUT_H, DETECTION_ROI_W, DETECTION_ROI_H);
+}
+
+void Perception::OverlayVisImage(pixelType *img_output)
+{
+    for (int y = 0; y < DETECTION_ROI_H; ++y) {
+        for (int x = 0; x < DETECTION_ROI_W; ++x) {
+            // Calculate position in source and destination arrays
+            int srcPos = y * DETECTION_ROI_W + x;
+            int dstPos = (y + 512) * 1024 + x;
+
+            // Copy pixel
+            img_output[dstPos] = det_vis_image[srcPos];
+        }
+    }
 }

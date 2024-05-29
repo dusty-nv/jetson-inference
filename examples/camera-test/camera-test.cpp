@@ -118,7 +118,7 @@ int main(int argc, char **argv)
 			break; // EOS
 		}
 
-		PerceptionModule.RunPerception(imgInput, &imgOutput);
+		PerceptionModule.RunPerception(imgInput, imgOutput);
 
 #if VISUALIZATION_ENABLED
 		if (output != NULL)

@@ -139,38 +139,21 @@ void YoloV3::Process(){
 
 void YoloV3::PostProcess()
 {
+	detected_objects.clear();
 	nms(detected_objects, (float *)mBindings[1]); // 3us
 }
 
-void YoloV3::OverlayROI(uchar3 *input_img, uchar3 *out_img, int input_width, int input_height, int out_width, int out_height)
-{
-    // Assume dstWidth and dstHeight are 540
-    // Assume srcWidth and srcHeight are 1920 and 1080 respectively
-
-    int offsetX = input_width - DETECTION_ROI_W;  // 1920 - 540 = 1380
-    int offsetY = 0;  // Top corner
-
-    for (int y = 0; y < DETECTION_ROI_H; ++y) {
-        for (int x = 0; x < DETECTION_ROI_W; ++x) {
-            // Calculate position in source and destination arrays
-            int srcPos = (y + offsetY) * input_width + (x + offsetX);
-            int dstPos = (y + 512) * out_width + x;
-
-            // Copy pixel
-            out_img[dstPos] = input_img[srcPos];
-        }
-    }
-}
-
-void YoloV3::OverlayBBoxesOnROI(uchar3 *out_image, int width, int height, int roi_pos_x, int roi_pos_y)
+void YoloV3::OverlayBBoxesOnVisImage(uchar3 *out_image, int img_width, int img_height)
 {
 	uchar3 color = {0,255,0};
 	for(int i = 0; i < detected_objects.size(); i++){
-		int bbox_x = detected_objects.at(i).bbox[0];
-		int bbox_y = detected_objects.at(i).bbox[1];
-		int bbox_w = detected_objects.at(i).bbox[2];
-		int bbox_h = detected_objects.at(i).bbox[3];
+		int bbox_x = (detected_objects.at(i).bbox[0] * INPUT_W) / img_width;
+		int bbox_y = (detected_objects.at(i).bbox[1] * INPUT_H) / img_height;
+		int bbox_w = (detected_objects.at(i).bbox[2] * img_width) / INPUT_W;
+		int bbox_h = (detected_objects.at(i).bbox[3] * img_height) / INPUT_H;
 
-		drawBoundingBox(&out_image, DETECTION_ROI_W, DETECTION_ROI_H, 540+512, 0, bbox_x, bbox_y, bbox_w, bbox_h, color);
+		drawBoundingBox(out_image, img_width, img_height, bbox_x, bbox_y, bbox_w, bbox_h, color);
+
+		LogInfo("Detected: class: %f, x: %d,y: %d, w: %d,h: %d\n",detected_objects.at(i).class_id, bbox_x, bbox_y, bbox_w, bbox_h);
 	}
 }

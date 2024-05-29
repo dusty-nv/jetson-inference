@@ -1,45 +1,3 @@
-__global__ void preprocess_img_kernel_to_float_NCHW(uchar3 *input, float *output, int width, int height, int newWidth, int newHeight, int x_offset, int y_offset)
-{
-    int x = blockIdx.x * blockDim.x + threadIdx.x;
-    int y = blockIdx.y * blockDim.y + threadIdx.y;
-
-    if (x >= newWidth || y >= newHeight)
-        return;
-
-    // Calculate the index for output tensor in NCHW format
-    int channelSize = newWidth * newHeight;
-    int red_channel_idx = y * newWidth + x;
-    int green_channel_idx = channelSize + y * newWidth + x;
-    int blue_channel_idx = 2 * channelSize + y * newWidth + x;
-
-    // If the calculated position falls outside the resized image, set it to gray
-    if (x < x_offset || x >= (newWidth - x_offset) || y < y_offset || y >= (newHeight - y_offset))
-    {
-        output[red_channel_idx] = 0.501960784f;
-        output[green_channel_idx] = 0.501960784f;
-        output[blue_channel_idx] = 0.501960784f;
-        return;
-    }
-
-    // Map the positions back to the original image coordinates
-    int orig_x = (x - x_offset) * width / (newWidth - 2 * x_offset);
-    int orig_y = (y - y_offset) * height / (newHeight - 2 * y_offset);
-
-    uchar3 pixel = input[orig_y * width + orig_x];
-
-    // Perform the copy and normalization to [0,1]
-    output[red_channel_idx] = pixel.x * 0.003921569f;
-    output[green_channel_idx] = pixel.y * 0.003921569f;
-    output[blue_channel_idx] = pixel.z * 0.003921569f;
-}
-void preprocessImgK(uchar3 *input, float *output, int width, int height, int newWidth, int newHeight, int x_offset, int y_offset)
-{
-    dim3 blockSize(16, 16);
-    dim3 gridSize((newWidth + blockSize.x - 1) / blockSize.x, (newHeight + blockSize.y - 1) / blockSize.y);
-
-    preprocess_img_kernel_to_float_NCHW<<<gridSize, blockSize>>>(input, output, width, height, newWidth, newHeight, x_offset, y_offset);
-}
-
 __global__ void resizeAndCenterKernel(uchar3 *input, float *output, int width, int height,
                                       int region_size, float scale_x, float scale_y)
 {
@@ -77,34 +35,59 @@ void preprocessROIImgK(uchar3 *input_data, int region_size, float *output_data)
                                                        region_size, scale_x, scale_y);
 }
 
-/*
- * roi_pos_x,y - position of the left down point of the roi 
- */
-__global__ void drawBoundingBoxKernelROI(uchar3** image, int roi_width, int roi_height, int roi_pos_x, int roi_pos_y, int box_x, int box_y, int box_width, int box_height, uchar3 color)
+__global__ void drawBoundingBoxKernel(uchar3* image, int image_width, int image_height, int box_x, int box_y, int box_width, int box_height, uchar3 color)
 {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    int stride = blockDim.x * gridDim.x;
-
-    for (int i = idx; i < roi_width * roi_height; i += stride) {
-        int row = i / roi_width;
-        int col = i % roi_width;
-
-        // Check if the current pixel is within the ROI and the bounding box
-        if (col >= roi_pos_x && col < roi_pos_x + roi_width && row >= roi_pos_y && row < roi_pos_y + roi_height &&
-            col >= box_x && col < box_x + box_width && row >= box_y && row < box_y + box_height) {
-            // Check if the current pixel is on the border of the bounding box
-            if (col == box_x || col == box_x + box_width - 1 || row == box_y || row == box_y + box_height - 1) {
-                *image[i] = color;
-            }
+    int col = blockIdx.x * blockDim.x + threadIdx.x;
+    int row = blockIdx.y * blockDim.y + threadIdx.y;
+    float alpha = 0.5;
+    if (col < image_width && row < image_height)
+    {
+        // Check if the current pixel is on the border of the bounding box
+        if ((col > box_x && col < box_x + box_width)&&
+            (row > box_y && row < box_y + box_height))
+        {
+            int index = row * image_width + col;
+            image[index].x = (1-alpha) * image[index].x + alpha * color.x;
+            image[index].y = (1-alpha) * image[index].y + alpha * color.y;
+            image[index].z = (1-alpha) * image[index].z + alpha * color.z;
         }
     }
 }
 
-void drawBoundingBox(uchar3** image, int roi_width, int roi_height, int roi_pos_x, int roi_pos_y, int box_x, int box_y, int box_width, int box_height, uchar3 color)
+void drawBoundingBox(uchar3* image, int image_width, int image_height, int box_x, int box_y, int box_width, int box_height, uchar3 color)
 {
+    // Define the dimensions of the thread block and the grid
     dim3 threadsPerBlock(16, 16);
-    dim3 blocks(320 / threadsPerBlock.x, 320 / threadsPerBlock.y);
+    //dim3 numBlocks((image_width + threadsPerBlock.x - 1) / threadsPerBlock.x, (image_height + threadsPerBlock.y - 1) / threadsPerBlock.y);
+    dim3 numBlocks(540 / threadsPerBlock.x, 540 / threadsPerBlock.y);
+    // Launch the kernel to draw the bounding box
+    drawBoundingBoxKernel<<<numBlocks, threadsPerBlock>>>(image, image_width, image_height, box_x, box_y, box_width, box_height, color);
+}
 
-    drawBoundingBoxKernelROI<<<blocks, threadsPerBlock>>>(image, roi_width, roi_height, roi_pos_x, roi_pos_y, box_x,
-                                                       box_y, box_width, box_height, color);
+__global__ void getROIOfImageKernel(uchar3* image, uchar3* roi, int image_width, int image_height, int roi_width, int roi_height)
+{
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if (x < roi_width && y < roi_height)
+    {
+        int in_x = __float2int_rd(x + image_width - roi_width); // Start from top-right corner
+        int in_y = __float2int_rd(y);                         // Top part
+
+        // Ensure coordinates are within the defined region
+        in_x = min(max(0, in_x), image_width - 1);
+        in_y = min(max(0, in_y), roi_width - 1); // Make sure it does not go beyond region_size
+
+        uchar3 pixel = image[in_y * image_width + in_x];
+
+        roi[y * roi_width + x] = pixel;                          
+    }
+}
+
+void getROIOfImage(uchar3* image, uchar3* roi, int image_width, int image_height, int roi_width, int roi_height){
+    dim3 threadsPerBlock(16, 16);
+    dim3 blocks(roi_width / threadsPerBlock.x, roi_height / threadsPerBlock.y);
+
+    getROIOfImageKernel<<<blocks, threadsPerBlock>>>(image, roi, image_width, image_height,
+                                                       roi_width, roi_height);
 }
