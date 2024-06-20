@@ -570,6 +570,19 @@ bool segNet::Process( void* image, uint32_t width, uint32_t height, imageFormat 
 	return true;
 }
 
+bool segNet::GetClassScores( float** class_scores, uint32_t* width, uint32_t* height, uint32_t* num_classes )
+{
+	if ( mOutputs[0].CPU == NULL )
+	{
+		return false;
+	}
+	*class_scores = (float*) mOutputs[0].CPU;
+	*width = DIMS_W(mOutputs[0].dims);
+	*height = DIMS_H(mOutputs[0].dims);
+	*num_classes = DIMS_C(mOutputs[0].dims);
+	return true;
+}
+		
 
 // argmax classification
 bool segNet::classify( const char* ignore_class )
