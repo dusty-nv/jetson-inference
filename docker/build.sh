@@ -44,8 +44,13 @@ if [ -z $BASE_IMAGE ]; then
 		elif [ $L4T_VERSION = "32.4.2" ]; then
 			BASE_IMAGE="nvcr.io/nvidia/l4t-pytorch:r32.4.2-pth1.5-py3"
 		else
-			echo "cannot automatically select l4t-pytorch base container for L4T R$L4T_VERSION"
-			echo "please specify it manually as:  docker/build.sh nvcr.io/nvidia/l4t-pytorch:<TAG>"
+		    echo ""
+			echo "On L4T R$L4T_VERSION, please use jetson-containers to build the docker image with these commands:"
+			echo ""
+			echo "  git clone https://github.com/dusty-nv/jetson-containers"
+			echo "  bash jetson-containers/install.sh"
+			echo "  jetson-containers build jetson-inference"
+			echo ""
 			exit 1
 		fi
 	elif [ $ARCH = "x86_64" ]; then
