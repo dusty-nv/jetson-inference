@@ -177,7 +177,7 @@ Using the [`imageNet::Create()`](../c/imageNet.h#L108) function, the following c
 ``` cpp
 	// load the GoogleNet image recognition network with TensorRT
 	// you can use imageNet::RESNET_18 to load ResNet-18 instead
-	imageNet* net = imageNet::Create(imageNet::GOOGLENET);
+	imageNet* net = imageNet::Create("googlenet");
 
 	// check to make sure that the network model loaded properly
 	if( !net )
