@@ -109,8 +109,9 @@ if( NOT VPI_FOUND )
 	message("-- didn't find VPI on system, disabling VPI")
 else()
 	message("-- VPI version:  " ${VPI_VERSION})
-	set(HAS_VPI 1)
-	add_definitions(-DHAS_VPI)
+	# TODO: FIXME for some devices, VPI2 will be found but not work, disable for now
+	set(HAS_VPI 0)
+	# add_definitions(-DHAS_VPI)
 endif()
 
 # setup project output paths
