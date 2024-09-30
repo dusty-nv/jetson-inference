@@ -39,13 +39,14 @@
 	#define PYTHON_3
 	#endif
 
-	#define PYLONG_AS_LONG(x)				PyLong_AsLong(x)
-	#define PYLONG_FROM_LONG(x)				PyLong_FromLong(x)
+	#define PYLONG_AS_LONG(x)				    PyLong_AsLong(x)
+	#define PYLONG_FROM_LONG(x)				    PyLong_FromLong(x)
 	#define PYLONG_FROM_UNSIGNED_LONG(x)		PyLong_FromUnsignedLong(x)
 	#define PYLONG_FROM_UNSIGNED_LONG_LONG(x) 	PyLong_FromUnsignedLongLong(x)
-
-	#define PYSTRING_CHECK					PyUnicode_Check
-	#define PYSTRING_AS_STRING				PyUnicode_AsUTF8
+    #define PYLONG_FROM_PTR(x)                  PyLong_FromUnsignedLongLong((uint64_t)x)
+    
+	#define PYSTRING_CHECK					    PyUnicode_Check
+	#define PYSTRING_AS_STRING				    PyUnicode_AsUTF8
 	#define PYSTRING_FROM_STRING				PyUnicode_FromString
 	#define PYSTRING_FROM_FORMAT				PyUnicode_FromFormat
 
@@ -56,13 +57,14 @@
 	#define PYTHON_2
 	#endif
 
-	#define PYLONG_AS_LONG(x)				PyInt_AsLong(x)
-	#define PYLONG_FROM_LONG(x)				PyInt_FromLong(x)
-	#define PYLONG_FROM_UNSIGNED_LONG(x)		PyInt_FromLong(x)
-	#define PYLONG_FROM_UNSIGNED_LONG_LONG(x)	PyInt_FromLong((long)x)
-
-	#define PYSTRING_CHECK					PyString_Check
-	#define PYSTRING_AS_STRING				PyString_AsString
+	#define PYLONG_AS_LONG(x)				    PyInt_AsLong(x)
+	#define PYLONG_FROM_LONG(x)				    PyInt_FromLong(x)
+	#define PYLONG_FROM_UNSIGNED_LONG(x)		PyLong_FromUnsignedLong(x)
+	#define PYLONG_FROM_UNSIGNED_LONG_LONG(x)	PyLong_FromUnsignedLongLong((long)x)
+    #define PYLONG_FROM_PTR(x)                  PyLong_FromUnsignedLongLong((uint64_t)x)
+    
+	#define PYSTRING_CHECK					    PyString_Check
+	#define PYSTRING_AS_STRING				    PyString_AsString
 	#define PYSTRING_FROM_STRING				PyString_FromString
 	#define PYSTRING_FROM_FORMAT				PyString_FromFormat
 	

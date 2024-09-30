@@ -208,6 +208,7 @@ if [ $ARCH = "aarch64" ]; then
 		-v /tmp/nv_jetson_model:/tmp/nv_jetson_model \
 		-v /var/run/dbus:/var/run/dbus \
 		-v /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket \
+		-w $DOCKER_ROOT \
 		$DISPLAY_DEVICE $V4L2_DEVICES \
 		$DATA_VOLUME $USER_VOLUME $DEV_VOLUME \
 		$CONTAINER_IMAGE $USER_COMMAND
@@ -220,6 +221,7 @@ elif [ $ARCH = "x86_64" ]; then
 		--ulimit memlock=-1 \
 		--ulimit stack=67108864 \
 		-e NVIDIA_DRIVER_CAPABILITIES=all \
+		-w $DOCKER_ROOT \
 		$DISPLAY_DEVICE $V4L2_DEVICES \
 		$DATA_VOLUME $USER_VOLUME $DEV_VOLUME \
 		$CONTAINER_IMAGE $USER_COMMAND
