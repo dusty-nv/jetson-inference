@@ -191,10 +191,16 @@ add_subdirectory(python)
 
 
 # set linker options
-target_link_libraries(jetson-inference jetson-utils nvinfer nvinfer_plugin nvcaffe_parser)
+target_link_libraries(jetson-inference jetson-utils nvinfer nvinfer_plugin)
 
 if(CUDA_VERSION_MAJOR GREATER 9)
 	target_link_libraries(jetson-inference nvonnxparser)
+endif()
+
+if(CUDA_VERSION VERSION_LESS "12.6")
+	target_link_libraries(jetson-inference nvcaffe_parser)
+else()
+    CUDA_ADD_CUBLAS_TO_TARGET(jetson-inference)
 endif()
 
 if(HAS_OPENCV) 

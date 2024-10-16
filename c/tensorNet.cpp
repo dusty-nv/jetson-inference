@@ -26,11 +26,13 @@
 #include "cudaResize.h"
 #include "filesystem.h"
 
+#if NV_TENSORRT_MAJOR < 10
 #include "NvCaffeParser.h"
+#include "NvUffParser.h"
+#endif
 
 #if NV_TENSORRT_MAJOR >= 5
 #include "NvOnnxParser.h"
-#include "NvUffParser.h"
 #include "NvInferPlugin.h"
 #endif
 
@@ -45,6 +47,12 @@
 #else
 	#define CREATE_INFER_BUILDER createInferBuilder
 	#define CREATE_INFER_RUNTIME createInferRuntime
+#endif
+
+#if NV_TENSORRT_MAJOR < 10
+    #define TRT_DESTROY(x) x->destroy()
+#else
+    #define TRT_DESTROY(x) delete x
 #endif
 
 #define LOG_DOWNLOADER_TOOL "        if loading a built-in model, maybe it wasn't downloaded before.\n\n"    \
@@ -384,19 +392,19 @@ tensorNet::~tensorNet()
 {
 	if( mContext != NULL )
 	{
-		mContext->destroy();
+		TRT_DESTROY(mContext);
 		mContext = NULL;
 	}
 	
 	if( mEngine != NULL )
 	{
-		mEngine->destroy();
+		TRT_DESTROY(mEngine);
 		mEngine = NULL;
 	}
 		
 	if( mInfer != NULL )
 	{
-		mInfer->destroy();
+		TRT_DESTROY(mInfer);
 		mInfer = NULL;
 	}
 	
@@ -482,7 +490,7 @@ std::vector<precisionType> tensorNet::DetectNativePrecisions( deviceType device 
 	}
 
 	LogVerbose("\n");
-	builder->destroy();
+	TRT_DESTROY(builder);
 	return types;
 }
 
@@ -588,6 +596,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	// parse the different types of model formats
 	if( mModelType == MODEL_CAFFE )
 	{
+	#if NV_TENSORRT_MAJOR < 10
 		// parse the caffe model to populate the network, then set the outputs
 		nvcaffeparser1::ICaffeParser* parser = nvcaffeparser1::createCaffeParser();
 
@@ -627,12 +636,16 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		}
 
 		//parser->destroy();
+    #else
+        LogError(LOG_TRT "TensorRT %i.%i does not support legacy caffe models\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+        return false;
+    #endif
 	}
 #if NV_TENSORRT_MAJOR >= 5
 	else if( mModelType == MODEL_ONNX )
 	{
 	#if NV_TENSORRT_MAJOR >= 7
-		network->destroy();
+		TRT_DESTROY(network);
 		network = builder->createNetworkV2(1U << (uint32_t)nvinfer1::NetworkDefinitionCreationFlag::kEXPLICIT_BATCH);
 
 		if( !network )
@@ -666,6 +679,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	}
 	else if( mModelType == MODEL_UFF )
 	{
+	#if NV_TENSORRT_MAJOR < 10
 		// create parser instance
 		nvuffparser::IUffParser* parser = nvuffparser::createUffParser();
 		
@@ -708,6 +722,10 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 		}
 		
 		//parser->destroy();
+    #else
+        LogError(LOG_TRT "TensorRT %i.%i does not support legacy caffe models\n", NV_TENSORRT_MAJOR, NV_TENSORRT_MINOR);
+        return false;
+    #endif
 	}
 #endif
 
@@ -792,6 +810,9 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	if( Log::GetLevel() < Log::VERBOSE )
 		LogInfo(LOG_TRT "info: to see status updates during engine building, enable verbose logging with --verbose\n");
 
+#if NV_TENSORRT_MAJOR >= 10
+    nvinfer1::IHostMemory* serMem = builder->buildSerializedNetwork(*network, *builderConfig);
+#else
 #if NV_TENSORRT_MAJOR >= 8
 	nvinfer1::ICudaEngine* engine = builder->buildEngineWithConfig(*network, *builderConfig);
 #else
@@ -805,6 +826,7 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	}
 
 	LogSuccess(LOG_TRT "device %s, completed building CUDA engine\n", deviceTypeToStr(device));
+#endif
 
 #if NV_TENSORRT_MAJOR >= 8
 	if( timingCache != NULL )
@@ -835,22 +857,23 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 				LogWarning(LOG_TRT "failed to open timing cache file for writing %s\n", timingCachePath);
 			}
 			
-			timingCacheMem->destroy();
+			TRT_DESTROY(timingCacheMem);
 		}
 	
 		delete timingCache;
 	}
 	
-	builderConfig->destroy();
+	TRT_DESTROY(builderConfig);
 #endif
 	
 	// we don't need the network definition any more, and we can destroy the parser
-	network->destroy();
+	TRT_DESTROY(network);
 	//parser->destroy();
 	
 #if NV_TENSORRT_MAJOR >= 2
-	// serialize the engine
-	nvinfer1::IHostMemory* serMem = engine->serialize();
+#if NV_TENSORRT_MAJOR < 10
+	nvinfer1::IHostMemory* serMem = engine->serialize();  // serialize the engine
+#endif
 
 	if( !serMem )
 	{
@@ -875,14 +898,16 @@ bool tensorNet::ProfileModel(const std::string& deployFile,			   // name for caf
 	*engineStream = engineMemory;
 	*engineSize = serSize;
 	
-	serMem->destroy();
+	TRT_DESTROY(serMem);
 #else
 	engine->serialize(modelStream);
 #endif
 
-	// free builder resources
-	engine->destroy();
-	builder->destroy();
+#if NV_TENSORRT_MAJOR < 10
+	TRT_DESTROY(engine);
+#endif
+
+	TRT_DESTROY(builder);
 	
 	return true;
 }
@@ -900,10 +925,12 @@ bool tensorNet::ConfigureBuilder( nvinfer1::IBuilder* builder, nvinfer1::IBuilde
 
 	LogVerbose(LOG_TRT "device %s, configuring network builder\n", deviceTypeToStr(device));
 		
+#if NV_TENSORRT_MAJOR < 10
 	builder->setMaxBatchSize(maxBatchSize);
-	config->setMaxWorkspaceSize(workspaceSize);
+	config->setMaxWorkspaceSize(workspaceSize); // config->setMemoryPoolLimit(MemoryPoolType::kWORKSPACE) in TRT10 - but now already defaults to the max
+	config->setMinTimingIterations(3);          // allow time for GPU to spin up
+#endif
 
-	config->setMinTimingIterations(3); // allow time for GPU to spin up
 	config->setAvgTimingIterations(2);
 
 	if( mEnableDebug )
@@ -1354,7 +1381,9 @@ bool tensorNet::LoadEngine( char* engine_stream, size_t engine_size,
 #endif
 #endif
 
-#if NV_TENSORRT_MAJOR > 1
+#if NV_TENSORRT_MAJOR >= 10
+	nvinfer1::ICudaEngine* engine = infer->deserializeCudaEngine(engine_stream, engine_size);
+#elif NV_TENSORRT_MAJOR > 1
 	nvinfer1::ICudaEngine* engine = infer->deserializeCudaEngine(engine_stream, engine_size, pluginFactory);
 #else
 	nvinfer1::ICudaEngine* engine = infer->deserializeCudaEngine(engine_stream, engine_size); //infer->deserializeCudaEngine(modelStream);
@@ -1375,6 +1404,24 @@ bool tensorNet::LoadEngine( char* engine_stream, size_t engine_size,
 	mInfer = infer;
 	return true;
 }
+
+
+#if NV_TENSORRT_MAJOR >= 10
+static int trtTensorIndex( nvinfer1::ICudaEngine* engine, const char* name )
+{
+    const int numBindings = engine->getNbIOTensors();
+	
+	for( int n=0; n < numBindings; n++ )
+	{
+		const char* bind_name = engine->getIOTensorName(n);
+
+        if( strcmp(name, bind_name) == 0 )
+            return n;
+    }
+    
+    return -1;
+}         
+#endif
 
 
 // LoadEngine
@@ -1403,7 +1450,11 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 	if( mEnableProfiler )
 		context->setProfiler(&gProfiler);
 
+#if NV_TENSORRT_MAJOR < 10
 	mMaxBatchSize = engine->getMaxBatchSize();
+#else
+    mMaxBatchSize = 1;
+#endif
 
 	LogInfo(LOG_TRT "\n");
 	LogInfo(LOG_TRT "CUDA engine context initialized on device %s:\n", deviceTypeToStr(device));
@@ -1414,13 +1465,43 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 	LogInfo(LOG_TRT "   -- workspace    %zu\n", engine->getWorkspaceSize());
 #endif
 
-#if NV_TENSORRT_MAJOR >= 4
+#if NV_TENSORRT_MAJOR >= 10
+    LogInfo(LOG_TRT "   -- deviceMemory %zu\n", engine->getDeviceMemorySize());
+    LogInfo(LOG_TRT "   -- bindings     %i\n", engine->getNbIOTensors());
+    
+    const int numBindings = engine->getNbIOTensors();
+	
+	for( int n=0; n < numBindings; n++ )
+	{
+		LogInfo(LOG_TRT "   binding %i\n", n);
+
+		const char* bind_name = engine->getIOTensorName(n);
+        const bool bind_input = (engine->getTensorIOMode(bind_name) == nvinfer1::TensorIOMode::kINPUT);
+        const bool bind_host = (engine->getTensorLocation(bind_name) == nvinfer1::TensorLocation::kHOST);
+        
+		LogInfo("                -- index   %i\n", n);
+		LogInfo("                -- name    '%s'\n", bind_name);
+		LogInfo("                -- type    %s\n", engine->getTensorFormatDesc(bind_name)); //dataTypeToStr(engine->getBindingDataType(n)));
+		LogInfo("                -- in/out  %s\n", bind_input ? "INPUT" : "OUTPUT");
+        LogInfo("                -- device  %s\n", bind_host ? "HOST" : "DEVICE");
+
+		const nvinfer1::Dims bind_dims = engine->getTensorShape(bind_name);
+
+		LogInfo("                -- # dims  %i\n", bind_dims.nbDims);
+		
+		for( int i=0; i < bind_dims.nbDims; i++ )
+		#if NV_TENSORRT_MAJOR >= 8
+			LogInfo("                -- dim #%i  %i\n", i, bind_dims.d[i]);	
+		#else
+			LogInfo("                -- dim #%i  %i (%s)\n", i, bind_dims.d[i], dimensionTypeToStr(bind_dims.type[i]));	
+		#endif
+	}
+
+	LogInfo(LOG_TRT "\n");
+#elif NV_TENSORRT_MAJOR >= 4
 	LogInfo(LOG_TRT "   -- deviceMemory %zu\n", engine->getDeviceMemorySize());
 	LogInfo(LOG_TRT "   -- bindings     %i\n", engine->getNbBindings());
 
-	/*
-	 * print out binding info
-	 */
 	const int numBindings = engine->getNbBindings();
 	
 	for( int n=0; n < numBindings; n++ )
@@ -1433,7 +1514,7 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 		LogInfo("                -- name    '%s'\n", bind_name);
 		LogInfo("                -- type    %s\n", dataTypeToStr(engine->getBindingDataType(n)));
 		LogInfo("                -- in/out  %s\n", engine->bindingIsInput(n) ? "INPUT" : "OUTPUT");
-
+        
 		const nvinfer1::Dims bind_dims = engine->getBindingDimensions(n);
 
 		LogInfo("                -- # dims  %i\n", bind_dims.nbDims);
@@ -1456,7 +1537,11 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 	
 	for( int n=0; n < numInputs; n++ )
 	{
+	#if NV_TENSORRT_MAJOR >= 10
+	    const int inputIndex = trtTensorIndex(engine, input_blobs[n].c_str());
+	#else
 		const int inputIndex = engine->getBindingIndex(input_blobs[n].c_str());	
+	#endif
 		
 		if( inputIndex < 0 )
 		{
@@ -1466,9 +1551,19 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 
 		LogVerbose(LOG_TRT "binding to input %i %s  binding index:  %i\n", n, input_blobs[n].c_str(), inputIndex);
 
-	#if NV_TENSORRT_MAJOR > 1
-		nvinfer1::Dims inputDims = validateDims(engine->getBindingDimensions(inputIndex));
 
+        /*inputDims.nbDims = engine->getTensorComponentsPerElement(bind_name);
+    
+        for( int m=0; m < inputDims.nbDims; m++ )
+            inputDims.d[m] = engine->getTensorBytesPerComponent(bind_name);*/
+            
+	#if NV_TENSORRT_MAJOR > 1
+    #if NV_TENSORRT_MAJOR >= 10
+        //mContext->setInputShape(input_blobs[n].c_str(), nvinfer1::Dims4{1, 3, 224, 224});
+        nvinfer1::Dims inputDims = engine->getTensorShape(input_blobs[n].c_str());
+    #else  
+		nvinfer1::Dims inputDims = validateDims(engine->getBindingDimensions(inputIndex));
+    #endif
 	#if NV_TENSORRT_MAJOR >= 7
 	    if( mModelType == MODEL_ONNX )
 		   inputDims = shiftDims(inputDims);   // change NCHW to CHW if EXPLICIT_BATCH set
@@ -1500,6 +1595,14 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 		}
 	#endif
 	
+    #if 0 && NV_TENSORRT_MAJOR >= 10
+        if( !mContext->setInputTensorAddress(input_blobs[n].c_str(), inputCUDA) )
+        {
+            LogError(LOG_TRT "failed to set input tensor address for %s (%zu bytes)\n", inputSize, input_blobs[n].c_str());
+			return false;
+        }
+    #endif
+	 
 		layerInfo l;
 		
 		l.CPU  = (float*)inputCPU;
@@ -1520,7 +1623,11 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 	
 	for( int n=0; n < numOutputs; n++ )
 	{
-		const int outputIndex = engine->getBindingIndex(output_blobs[n].c_str());
+    #if NV_TENSORRT_MAJOR >= 10
+	    const int outputIndex = trtTensorIndex(engine, output_blobs[n].c_str());
+	#else
+		const int outputIndex = engine->getBindingIndex(output_blobs[n].c_str());	
+	#endif
 
 		if( outputIndex < 0 )
 		{
@@ -1530,7 +1637,9 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 
 		LogVerbose(LOG_TRT "binding to output %i %s  binding index:  %i\n", n, output_blobs[n].c_str(), outputIndex);
 
-	#if NV_TENSORRT_MAJOR > 1
+    #if NV_TENSORRT_MAJOR >= 10
+        nvinfer1::Dims outputDims = engine->getTensorShape(output_blobs[n].c_str());
+	#elif NV_TENSORRT_MAJOR > 1
 		nvinfer1::Dims outputDims = validateDims(engine->getBindingDimensions(outputIndex));
 
 	#if NV_TENSORRT_MAJOR >= 7
@@ -1555,6 +1664,14 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 			return false;
 		}
 	
+    #if NV_TENSORRT_MAJOR >= 10
+        if( !mContext->setTensorAddress(output_blobs[n].c_str(), outputCUDA) )
+        {
+            LogError(LOG_TRT "failed to set input tensor address for %s (%zu bytes)\n", outputSize, output_blobs[n].c_str());
+			return false;
+        }  
+    #endif
+    
 		layerInfo l;
 		
 		l.CPU  = (float*)outputCPU;
@@ -1594,8 +1711,12 @@ bool tensorNet::LoadEngine( nvinfer1::ICudaEngine* engine,
 		if( mBindings[n] != NULL )
 			continue;
 		
+    #if NV_TENSORRT_MAJOR >= 10
+        const size_t bindingSize = sizeDims(validateDims(engine->getTensorShape(output_blobs[n].c_str()))) * mMaxBatchSize * sizeof(float);
+    #else
 		const size_t bindingSize = sizeDims(validateDims(engine->getBindingDimensions(n))) * mMaxBatchSize * sizeof(float);
-		
+    #endif
+    
 		if( CUDA_FAILED(cudaMalloc(&mBindings[n], bindingSize)) )
 		{
 			LogError(LOG_TRT "failed to allocate %zu bytes for unused binding %u\n", bindingSize, n);
@@ -1760,14 +1881,23 @@ bool tensorNet::ProcessNetwork( bool sync )
 		}
 		else
 		{
+		#if TENSORRT_VERSION_CHECK(10,0,0)
+		    if( !mContext->enqueueV3(mStream) )
+			{
+				LogError(LOG_TRT "failed to enqueue TensorRT context on device %s\n", deviceTypeToStr(mDevice));
+				return false;
+			}
+		#else
 			if( !mContext->enqueueV2(mBindings, mStream, NULL) )
 			{
 				LogError(LOG_TRT "failed to enqueue TensorRT context on device %s\n", deviceTypeToStr(mDevice));
 				return false;
 			}
+	    #endif
 		}
 	#endif
 	}
+	#if NV_TENSORRT_MAJOR < 10
 	else
 	{
 		if( sync )
@@ -1787,6 +1917,7 @@ bool tensorNet::ProcessNetwork( bool sync )
 			}
 		}
 	}
+	#endif
 	
 	return true;
 }
