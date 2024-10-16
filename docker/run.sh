@@ -176,6 +176,16 @@ if [ -n "$DISPLAY" ]; then
 	DISPLAY_DEVICE=" -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix "
 fi
 
+# check for event based devices
+EVENT_DEVICES=""
+
+for i in {0..9}
+do
+	if [ -a "/dev/input/event$i" ]; then
+		EVENT_DEVICES="$EVENT_DEVICES --device /dev/input/event$i "
+	fi
+done
+
 # print configuration
 print_var() 
 {
@@ -193,6 +203,7 @@ print_var "USER_VOLUME"
 print_var "USER_COMMAND"
 print_var "V4L2_DEVICES"
 print_var "DISPLAY_DEVICE"
+print_var "EVENT_DEVICES"
 
 # run the container
 if [ $ARCH = "aarch64" ]; then
@@ -211,7 +222,7 @@ if [ $ARCH = "aarch64" ]; then
 		-w $DOCKER_ROOT \
 		$DISPLAY_DEVICE $V4L2_DEVICES \
 		$DATA_VOLUME $USER_VOLUME $DEV_VOLUME \
-		$CONTAINER_IMAGE $USER_COMMAND
+		$EVENT_DEVICES $CONTAINER_IMAGE $USER_COMMAND
 
 elif [ $ARCH = "x86_64" ]; then
 
@@ -224,7 +235,7 @@ elif [ $ARCH = "x86_64" ]; then
 		-w $DOCKER_ROOT \
 		$DISPLAY_DEVICE $V4L2_DEVICES \
 		$DATA_VOLUME $USER_VOLUME $DEV_VOLUME \
-		$CONTAINER_IMAGE $USER_COMMAND
+		$EVENT_DEVICES $CONTAINER_IMAGE $USER_COMMAND 
 		
 fi
 
