@@ -1,0 +1,1 @@
+sudo -E ./docker/docker-compose up -d
