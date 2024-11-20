@@ -44,7 +44,7 @@ layer {
 
 And on line 24 of `deploy.prototxt`, change `pad: 100` to `pad: 0`.  
 
-Finally, copy the `fpv-labels.txt` and `fpv-deploy-colors.txt` from the aerial dataset to your model snapshot folder on Jetson.  Your FCN-Alexnet model snapshot is now compatible with TensorRT.  Now we can run it on Jetson and perform inference on images.
+Finally, copy the `fpv-labels.txt` and `fpv-training-colors.txt` from the aerial dataset to your model snapshot folder on Jetson.  Your FCN-Alexnet model snapshot is now compatible with TensorRT.  Now we can run it on Jetson and perform inference on images.
 
 ##
 <p align="right">Next | <b><a href="segnet-console.md">Running Segmentation Models on Jetson</a></b>

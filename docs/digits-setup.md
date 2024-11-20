@@ -88,11 +88,11 @@ Add the Docker Engine Utility (nvidia-docker2) repository, install nvidia-docker
 ``` bash
 $ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
   sudo apt-key add -
-$ ccurl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list | \
+$ curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list | \
   sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-$ csudo apt-get update
-$ csudo apt-get install -y nvidia-docker2
-$ csudo usermod -aG docker $USER
+$ sudo apt-get update
+$ sudo apt-get install -y nvidia-docker2
+$ sudo usermod -aG docker $USER
 $ sudo reboot
 ```
 
@@ -140,7 +140,7 @@ $ mkdir /home/username/digits-jobs
 
 ``` bash
 $ nvidia-docker run --name digits -d -p 8888:5000 \
- -v /home/username/data:/data:ro
+ -v /home/username/data:/data:ro \
  -v /home/username/digits-jobs:/workspace/jobs nvcr.io/nvidia/digits:18.05
 ```
 
