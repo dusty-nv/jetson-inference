@@ -60,6 +60,11 @@ target_link_libraries(jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VE
 
 if(${NUMPY_FOUND})
 	target_link_libraries(jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR} npymath)
+        if(DEFINED NUMPY_VERSION AND NUMPY_VERSION VERSION_GREATER_EQUAL "2.0")
+                message("-- NumPy version ${NUMPY_VERSION} detected (>= 2.0) - skipping npymath linkage")
+        else()
+                target_link_libraries(jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR} npymath)
+        endif()
 endif()
 
 set_target_properties(jetson-inference-python-${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}
