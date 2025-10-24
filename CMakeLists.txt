@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 project(jetson-inference)
 
 # submodule warning
@@ -70,17 +70,30 @@ message("-- CUDA version: ${CUDA_VERSION}")
 set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -O3)
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
-	message("-- CUDA ${CUDA_VERSION} detected (${CMAKE_SYSTEM_PROCESSOR}), enabling SM_53 SM_62")
-	set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_53,code=sm_53 -gencode arch=compute_62,code=sm_62)
+	if(CUDA_VERSION_MAJOR LESS 13)
+		message("-- CUDA ${CUDA_VERSION} detected (${CMAKE_SYSTEM_PROCESSOR}), enabling SM_53 SM_62")
+		set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};
+			-gencode arch=compute_53,code=sm_53
+			-gencode arch=compute_62,code=sm_62)
 
-	if(CUDA_VERSION_MAJOR GREATER 9)
-		message("-- CUDA ${CUDA_VERSION} detected (${CMAKE_SYSTEM_PROCESSOR}), enabling SM_72")
-		set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_72,code=sm_72)
-	endif()
+		if(CUDA_VERSION_MAJOR GREATER 9)
+			message("-- CUDA ${CUDA_VERSION} detected (${CMAKE_SYSTEM_PROCESSOR}), enabling SM_72")
+			set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};
+				-gencode arch=compute_72,code=sm_72)
+		endif()
 
-	if(CUDA_VERSION_MAJOR GREATER 10)
-		message("-- CUDA ${CUDA_VERSION} detected (${CMAKE_SYSTEM_PROCESSOR}), enabling SM_87")
-		set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -gencode arch=compute_87,code=sm_87)
+		if(CUDA_VERSION_MAJOR GREATER 10)
+			message("-- CUDA ${CUDA_VERSION} detected (${CMAKE_SYSTEM_PROCESSOR}), enabling SM_87")
+			set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};
+				-gencode arch=compute_87,code=sm_87)
+		endif()
+
+	else()
+		message("-- CUDA ${CUDA_VERSION} detected (${CMAKE_SYSTEM_PROCESSOR}), enabling SM_87 SM_110 SM_121")
+		set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};
+			-gencode arch=compute_87,code=sm_87
+			-gencode arch=compute_110,code=sm_110
+			-gencode arch=compute_121,code=sm_121)
 	endif()
 endif()
 
