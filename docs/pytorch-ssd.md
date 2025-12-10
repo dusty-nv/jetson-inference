@@ -135,8 +135,8 @@ Here are some common options that you can run the training script with:
 | `--model-dir`  | `models/` | directory to output the trained model checkpoints          |
 | `--resume`     |    None   | path to an existing checkpoint to resume training from     |
 | `--batch-size` |     4     | try increasing depending on available memory               |
-| `--epochs`     |     30    | up to 100 is desirable, but will increase training time    |
-| `--workers`    |     2     | number of data loader threads (0 = disable multithreading) |
+| `--num-epochs` |     30    | up to 100 is desirable, but will increase training time    |
+| `--num-workers`|     2     | number of data loader threads (0 = disable multithreading) |
 
 Over time, you should see the loss decreasing:
 
