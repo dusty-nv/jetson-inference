@@ -683,15 +683,26 @@ function install_pytorch_v210_python310_jp60()
 	pip3 install tensorboard --verbose
 	pip3 install onnx --verbose
 	
-	# install pytorch wheel
-	download_wheel pip3 "torch-2.1.0-cp310-cp310-linux_aarch64.whl" "https://nvidia.box.com/shared/static/0h6tk4msrl9xz3evft9t0mpwwwkw7a32.whl" "sudo"
+	## install pytorch wheel
+	#download_wheel pip3 "torch-2.1.0-cp310-cp310-linux_aarch64.whl" "https://nvidia.box.com/shared/static/0h6tk4msrl9xz3evft9t0mpwwwkw7a32.whl" "sudo"
 
-	local wheel_status=$?
+	#local wheel_status=$?
 
-	if [ $wheel_status != 0 ]; then
-		echo "$LOG failed to install PyTorch v2.1 (Python 3.10)"
-		return 1
-	fi
+	#if [ $wheel_status != 0 ]; then
+	#	echo "$LOG failed to install PyTorch v2.1 (Python 3.10)"
+	#	return 1
+	#fi
+
+	sudo pip3 install -U "pillow<7"
+	sudo pip3 install -U gast==0.3.0
+	echo "$LOG cloning pytorch..."
+	sudo rm -r -f torch-310
+	git clone -bv2.3.0 --depth=1 https://github.com/pytorch/pytorch torch-310
+	cd torch-310
+	patch -p1 < ../../tools/torch_setup_cmake.patch
+	echo "$LOG building pytorch for Python 3.10..."
+	sudo python3 setup.py install
+	cd ../
 
 	# build torchvision
 	move_ffmpeg

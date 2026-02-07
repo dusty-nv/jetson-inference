@@ -1,0 +1,27 @@
+diff --git a/tools/setup_helpers/cmake.py b/tools/setup_helpers/cmake.py
+index fb19b66..af5f0bd 100644
+--- a/tools/setup_helpers/cmake.py
++++ b/tools/setup_helpers/cmake.py
+@@ -91,10 +91,10 @@ class CMake:
+     def run(self, args: List[str], env: Dict[str, str]) -> None:
+         "Executes cmake with arguments and an environment."
+ 
+-        command = [self._cmake_command] + args
++        command = ["CUDACXX=/usr/local/cuda/bin/nvcc ", self._cmake_command] + args
+         print(" ".join(command))
+         try:
+-            check_call(command, cwd=self.build_dir, env=env)
++            check_call(" ".join(command), cwd=self.build_dir, env=env, shell=True)
+         except (CalledProcessError, KeyboardInterrupt) as e:
+             # This error indicates that there was a problem with cmake, the
+             # Python backtrace adds no signal here so skip over it by catching
+@@ -366,7 +366,8 @@ class CMake:
+ 
+         # Allow the user to set parallelism explicitly. If unset,
+         # we'll try to figure it out.
+-        max_jobs = os.getenv("MAX_JOBS")
++        max_jobs = "3" 
++        #os.getenv("MAX_JOBS")
+ 
+         if max_jobs is not None or not USE_NINJA:
+             # Ninja is capable of figuring out the parallelism on its
