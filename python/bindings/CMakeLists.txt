@@ -102,7 +102,7 @@ if(NUMPY_FOUND)
 
   # Only for NumPy < 2.0: attempt to link npymath if it exists
   if(DEFINED NUMPY_VERSION AND NUMPY_VERSION VERSION_LESS "2.0")
-    find_library(NPYMATH_LIB NAMES npymath)
+    find_library(NPYMATH_LIB NAMES npymath  HINTS "${NUMPY_INCLUDE_DIR}/../lib")
     if(NPYMATH_LIB)
       target_link_libraries(${_PYMOD} PRIVATE ${NPYMATH_LIB})
       message(STATUS "NumPy ${NUMPY_VERSION} (< 2.0): linking npymath -> ${NPYMATH_LIB}")
